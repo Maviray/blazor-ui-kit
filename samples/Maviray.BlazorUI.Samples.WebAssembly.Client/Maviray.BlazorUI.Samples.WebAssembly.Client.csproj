@@ -13,4 +13,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Maviray.BlazorUI.TailwindMaterial\Maviray.BlazorUI.TailwindMaterial.csproj" />
+  </ItemGroup>
+
 </Project>
