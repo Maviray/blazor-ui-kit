@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="samples/Maviray.BlazorUI.Samples.WebAssembly.Client/Maviray.BlazorUI.Samples.WebAssembly.Client.csproj" />
+  <Project Path="samples/Maviray.BlazorUI.Samples.WebAssembly/Maviray.BlazorUI.Samples.WebAssembly.csproj" />
+</Solution>
