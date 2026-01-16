@@ -50,7 +50,7 @@ Contributions are welcome! Please feel free to submit issues or pull requests.
 
 ## License
 
-*(Specify your license here)*
+MIT License
 
 ## Status
 
