@@ -1,0 +1,6 @@
+﻿@import "tailwindcss";
+
+/* Put custom components in @layer components */
+@layer components {
+    
+}
