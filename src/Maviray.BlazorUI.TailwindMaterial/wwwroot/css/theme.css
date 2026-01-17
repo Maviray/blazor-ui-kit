@@ -1,32 +1,5 @@
 ﻿@import "tailwindcss";
 
-@layer base {
-    html ul, html ol {
-        list-style: revert;
-        margin-left: 20px;
-        padding-left: 20px;
-    }
-}
-
-@layer components {
-    [type='text'],
-    input:where(:not([type])),
-    [type='email'],
-    [type='url'],
-    [type='password'],
-    [type='number'],
-    [type='date'],
-    [type='datetime-local'],
-    [type='month'],
-    [type='search'],
-    [type='tel'],
-    [type='time'],
-    [type='week'],
-    [multiple] {
-        @apply bg-gray-100 border-none rounded-md p-2 text-gray-800 focus:ring-blue-500 focus:border-blue-500;
-    }
-}
-
 /* Tailwind v4 @theme section maps CSS vars to Tailwind tokens */
 @theme {
     /* Colors use CSS vars so runtime overrides work */
