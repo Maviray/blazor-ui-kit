@@ -1,6 +1,5 @@
 ﻿@import "tailwindcss";
 
-/* Tailwind v4 @theme section maps CSS vars to Tailwind tokens */
 @theme {
     /* Colors use CSS vars so runtime overrides work */
     --header-height: 0px;

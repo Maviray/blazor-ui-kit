@@ -1,6 +1,9 @@
 ﻿@import "./theme.css";
 @import "./components.css";
 
+@plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/typography";
+
 @layer base {
     html ul, html ol {
         list-style: revert;
