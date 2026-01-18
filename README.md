@@ -22,6 +22,61 @@ blazorui/
 
 Each project can be installed independently based on your requirements.
 
+## Tentative Intended Content
+
+- Inputs & Controls
+  - Button (variants: filled, tonal, outlined, text, icon-only; states & loading)
+  - IconButton
+  - FAB (small/regular/large)
+  - ToggleButton / ToggleButtonGroup
+  - Checkbox
+  - Radio
+  - Switch
+  - Slider (single/range, tick marks)
+  - TextField (filled/outlined; with leading/trailing icons; validation, helper, counter)
+  - TextArea
+  - Select (native & custom popover)
+  - Autocomplete / Combobox
+  - DatePicker / DateRangePicker
+  - TimePicker
+  - Chip (assist/filter/input/suggestion) + ChipSet
+  - SegmentedButton
+  - Stepper (horizontal/vertical)
+- Data Display
+  - Badge
+  - Avatar
+  - Icon (Material Symbols)
+  - List / ListItem (one-line/two-line/three-line, leading/trailing actions)
+  - Table (sortable, pageable, density, sticky header/cols, row selection)
+  - DataGrid-lite (virtualized rows, selection, multi-sort if feasible)
+  - Tooltip
+  - Divider
+- Feedback & Surfaces
+  - Snackbar / Toast (stacking, action button, dismiss, durations)
+  - Dialog (modal, full-screen on small screens)
+  - Drawer (modal, dismissible, permanent)
+  - AppBar / TopAppBar (small/centered/large)
+  - Card (elevated, filled, outlined)
+  - Banner
+- Navigation
+  - Tabs (primary/secondary, fixed/scrollable)
+  - NavigationRail
+  - NavigationDrawer
+  - BottomNavigation
+  - Breadcrumbs
+  - Pagination
+- Layout
+  - Grid helpers (CSS Grid utilities, responsive)
+  - Stack/Spacer helpers
+  - Responsive container (breakpoints aligned to Material 3)
+  - Surface container tokens for elevation overlays
+- Utility Behaviors
+  - FocusTrap
+  - ScrollLock
+  - Ripple (JS interop or CSS-only approximation)
+  - Elevation & state layers (hover/pressed/disabled)
+  - Motion helpers (CSS transitions aligned to Material durations/easings)
+
 ## Installation
 
 *(Coming soon)*
