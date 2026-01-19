@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Maviray.Blazor.Components.Material.Constants;
+﻿namespace Maviray.Blazor.Components.Material.Constants;
 
 public static class Tailwind
 {

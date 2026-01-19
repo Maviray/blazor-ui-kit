@@ -15,4 +15,8 @@
     <ProjectReference Include="..\Maviray.Blazor.Components.Samples.Showcase.Client\Maviray.Blazor.Components.Samples.Showcase.Client.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 </Project>
