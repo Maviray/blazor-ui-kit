@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="samples/Maviray.Blazor.Components.Samples.Showcase.Client/Maviray.Blazor.Components.Samples.Showcase.Client.csproj" />
+  <Project Path="samples/Maviray.Blazor.Components.Samples.Showcase/Maviray.Blazor.Components.Samples.Showcase.csproj" />
+  <Project Path="src/Maviray.Blazor.Components.Material/Maviray.Blazor.Components.Material.csproj" />
+</Solution>
