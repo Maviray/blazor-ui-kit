@@ -1,18 +1,24 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="npm install @tailwindcss/forms" />
+		<Exec Command="npm run buildcss" />
+	</Target>
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+
 	  <!-- NuGet Package Properties -->
-	  <PackageId>Maviray.Balzor.Components.Material</PackageId>
+	  <PackageId>Maviray.Blazor.Components.Material</PackageId>
 	  <Version>1.0.0</Version>
 	  <Authors>Maviray</Authors>
 	  <Company>Maviray</Company>
 	  <Copyright>Copyright @2026 Maviray</Copyright>
-	  <Description>Blazor Material UI library</Description>
-	  <PackageTags>blazor;components;ui;maviray</PackageTags>
+	  <Description>Blazor UI Material library</Description>
+	  <PackageTags>blazor;components;ui;material;maviray</PackageTags>
 	  <PackageProjectUrl>https://github.com/maviraydev/Maviray.SDK</PackageProjectUrl>
 	  <RepositoryUrl>https://github.com/maviraydev/Maviray.SDK</RepositoryUrl>
 	  <RepositoryType>git</RepositoryType>
@@ -28,9 +34,4 @@
     <Folder Include="Areas\" />
   </ItemGroup>
 
-	<ItemGroup>
-		<None Include="..\..\icon.png" Pack="true" PackagePath="\" />
-		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
-		<None Include="..\..\LICENSE.txt" Pack="true" PackagePath="\" />
-	</ItemGroup>
 </Project>

@@ -1,0 +1,132 @@
+﻿@import "tailwindcss";
+
+@theme {
+    /* Colors use CSS vars so runtime overrides work */
+    --header-height: 0px;
+    --footer-height: 0px;
+    --font-lato: "Lato", "sans-serif";
+    --font-montserrat: "Montserrat", "sans-serif";
+    --font-oswald: "Oswald", "sans-serif";
+    --font-roboto-serif: "Roboto Serif", "sans-serif";
+    /* Primary - Blue (Material Blue) */
+    --theme-primary-one: #E3F2FD;
+    --theme-primary-two: #BBDEFB;
+    --theme-primary-three: #90CAF9;
+    --theme-primary-four: #64B5F6;
+    --theme-primary-five: #42A5F5;
+    --theme-primary-six: #2196F3;
+    --theme-primary-seven: #1E88E5;
+    --theme-primary-eight: #1976D2;
+    --theme-primary-nine: #1565C0;
+    --theme-primary-ten: #0D47A1;
+    /* Secondary - Teal (Complementary to Primary) */
+    --theme-secondary-one: #E0F2F1;
+    --theme-secondary-two: #B2DFDB;
+    --theme-secondary-three: #80CBC4;
+    --theme-secondary-four: #4DB6AC;
+    --theme-secondary-five: #26A69A;
+    --theme-secondary-six: #009688;
+    --theme-secondary-seven: #00897B;
+    --theme-secondary-eight: #00796B;
+    --theme-secondary-nine: #00695C;
+    --theme-secondary-ten: #004D40;
+    /* Tertiary - Deep Purple (Triadic harmony) */
+    --theme-tertiary-one: #EDE7F6;
+    --theme-tertiary-two: #D1C4E9;
+    --theme-tertiary-three: #B39DDB;
+    --theme-tertiary-four: #9575CD;
+    --theme-tertiary-five: #7E57C2;
+    --theme-tertiary-six: #673AB7;
+    --theme-tertiary-seven: #5E35B1;
+    --theme-tertiary-eight: #512DA8;
+    --theme-tertiary-nine: #4527A0;
+    --theme-tertiary-ten: #311B92;
+    /* Accent - Amber (High contrast, energetic) */
+    --theme-accent-one: #FFF8E1;
+    --theme-accent-two: #FFECB3;
+    --theme-accent-three: #FFE082;
+    --theme-accent-four: #FFD54F;
+    --theme-accent-five: #FFCA28;
+    --theme-accent-six: #FFC107;
+    --theme-accent-seven: #FFB300;
+    --theme-accent-eight: #FFA000;
+    --theme-accent-nine: #FF8F00;
+    --theme-accent-ten: #FF6F00;
+    /* Highlight - Pink (Attention-grabbing) */
+    --theme-highlight-one: #FCE4EC;
+    --theme-highlight-two: #F8BBD0;
+    --theme-highlight-three: #F48FB1;
+    --theme-highlight-four: #F06292;
+    --theme-highlight-five: #EC407A;
+    --theme-highlight-six: #E91E63;
+    --theme-highlight-seven: #D81B60;
+    --theme-highlight-eight: #C2185B;
+    --theme-highlight-nine: #AD1457;
+    --theme-highlight-ten: #880E4F;
+    /* Alert */
+    --theme-alert-one: #FBEAE9;
+    --theme-alert-two: #F8D5D4;
+    --theme-alert-three: #F5C0BF;
+    --theme-alert-four: #F2ABA9;
+    --theme-alert-five: #EF9694;
+    --theme-alert-six: #EC817F;
+    --theme-alert-seven: #E96C69;
+    --theme-alert-eight: #E65754;
+    --theme-alert-nine: #E3423F;
+    --theme-alert-ten: #E02E2A;
+    /* Warning */
+    --theme-warning-one: #FDF0E5;
+    --theme-warning-two: #FBE1CC;
+    --theme-warning-three: #FAD2B2;
+    --theme-warning-four: #F8C499;
+    --theme-warning-five: #F7B57F;
+    --theme-warning-six: #F5A666;
+    --theme-warning-seven: #F3984C;
+    --theme-warning-eight: #F28932;
+    --theme-warning-nine: #F07A19;
+    --theme-warning-ten: #EF6C00;
+    /* Info */
+    --theme-info-one: #E5F3FA;
+    --theme-info-two: #CCE7F5;
+    --theme-info-three: #B2DBF1;
+    --theme-info-four: #99CFEC;
+    --theme-info-five: #7FC3E8;
+    --theme-info-six: #66B7E3;
+    --theme-info-seven: #4CABDE;
+    --theme-info-eight: #329FDA;
+    --theme-info-nine: #1993D5;
+    --theme-info-ten: #0088D1;
+    /* Success */
+    --theme-success-one: #EAF2EA;
+    --theme-success-two: #D5E5D5;
+    --theme-success-three: #C0D8C1;
+    --theme-success-four: #ABCBAC;
+    --theme-success-five: #97BE98;
+    --theme-success-six: #82B183;
+    --theme-success-seven: #6DA46E;
+    --theme-success-eight: #58975A;
+    --theme-success-nine: #438A45;
+    --theme-success-ten: #2F7D31;
+    /* Light */
+    --theme-light-one: #FCFCFC;
+    --theme-light-two: #F3F3F3;
+    --theme-light-three: #E9E9E9;
+    --theme-light-four: #E0E0E0;
+    --theme-light-five: #CACACA;
+    --theme-light-six: #B3B3B3;
+    --theme-light-seven: #9D9D9D;
+    --theme-light-eight: #868686;
+    --theme-light-nine: #707070;
+    --theme-light-ten: #5A5A5A;
+    /* Dark */
+    --theme-dark-one: #E5E5E5;
+    --theme-dark-two: #CCCCCC;
+    --theme-dark-three: #B2B2B2;
+    --theme-dark-four: #999999;
+    --theme-dark-five: #808080;
+    --theme-dark-six: #666666;
+    --theme-dark-seven: #4D4D4D;
+    --theme-dark-eight: #333333;
+    --theme-dark-nine: #1A1A1A;
+    --theme-dark-ten: #000000;
+}
