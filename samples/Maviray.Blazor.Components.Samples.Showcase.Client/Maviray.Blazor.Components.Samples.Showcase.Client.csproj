@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 		<Exec Command="npm install @tailwindcss/forms" />
@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Maviray.BlazorUI.TailwindMaterial\Maviray.BlazorUI.TailwindMaterial.csproj" />
+    <ProjectReference Include="..\..\src\Maviray.Blazor.Components.Material\Maviray.Blazor.Components.Material.csproj" />
   </ItemGroup>
 
 </Project>

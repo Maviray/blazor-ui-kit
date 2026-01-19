@@ -1,5 +1,0 @@
-<Solution>
-  <Project Path="samples/Maviray.BlazorUI.Samples.WebAssembly.Client/Maviray.BlazorUI.Samples.WebAssembly.Client.csproj" />
-  <Project Path="samples/Maviray.BlazorUI.Samples.WebAssembly/Maviray.BlazorUI.Samples.WebAssembly.csproj" />
-  <Project Path="src/Maviray.BlazorUI.TailwindMaterial/Maviray.BlazorUI.TailwindMaterial.csproj" Id="70f56ee0-6bc4-46f5-b81e-f57087d8a5e6" />
-</Solution>

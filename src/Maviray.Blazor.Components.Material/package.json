@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "buildcss": "npx @tailwindcss/cli -i ./wwwroot/css/index.css -o ./wwwroot/css/maviray.blazorui.tailwindmaterial.css --minify"
+    "buildcss": "npx @tailwindcss/cli -i ./wwwroot/css/maviray.material.index.css -o ./wwwroot/css/maviray.material.min.css --minify"
   },
   "dependencies": {
     "@tailwindcss/cli": "^4.1.18",

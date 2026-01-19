@@ -1,4 +1,4 @@
-﻿namespace Maviray.BlazorUI.TailwindMaterial.Constants;
+﻿namespace Maviray.Blazor.Components.Material.Constants;
 
 public static class Tailwind
 {

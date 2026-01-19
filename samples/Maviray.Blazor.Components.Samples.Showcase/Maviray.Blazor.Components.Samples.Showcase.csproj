@@ -12,7 +12,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Maviray.BlazorUI.Samples.WebAssembly.Client\Maviray.BlazorUI.Samples.WebAssembly.Client.csproj" />
+    <ProjectReference Include="..\Maviray.Blazor.Components.Samples.Showcase.Client\Maviray.Blazor.Components.Samples.Showcase.Client.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
 </Project>

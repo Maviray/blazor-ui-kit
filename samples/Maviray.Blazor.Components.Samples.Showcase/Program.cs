@@ -1,4 +1,4 @@
-using Maviray.BlazorUI.Samples.WebAssembly.Components;
+using Maviray.Blazor.Components.Samples.Showcase.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +27,6 @@ app.UseAntiforgery();
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
-    .AddAdditionalAssemblies(typeof(Maviray.BlazorUI.Samples.WebAssembly.Client._Imports).Assembly);
+    .AddAdditionalAssemblies(typeof(Maviray.Blazor.Components.Samples.Showcase.Client._Imports).Assembly);
 
 app.Run();
