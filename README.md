@@ -3,20 +3,20 @@
 Collection of re-usable Blazor UI components.
 
 ## Overview
-The idea is to compile simple collection of re-usable Blazor UI components.
+This is an attempt to centralize lots of previously relatively sparadic efforts to manage and maintain Blazor UI. Hopefully someone might find this useful.
 
 ## Purpose
 
-- Provide **simple and straightforward** Blazor UI components
+- Provide **simple and straightforward** library of Blazor UI components. Mostly for lazy folks who dont want to re-invent a wheel and just need something simple, working and relatively good looking.
 
 ## Structure
 
 The repository is organized into separate projects, each representing an independent NuGet package:
 
 ```
-blazorui/
-├── Project1/          # Component library project 1
-├── Project2/          # Component library project 2
+blazor-ui-kit/
+├── Maviray.Blazor.Components.Material/          # Component library following Material UI specs
+├── Maviray.Blazor.Components.Tailwind/          # Component library implementing Tailwind native UI
 └── ... 
 ```
 
