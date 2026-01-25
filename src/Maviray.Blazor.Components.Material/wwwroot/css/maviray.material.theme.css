@@ -4,10 +4,10 @@
     /* Colors use CSS vars so runtime overrides work */
     --header-height: 0px;
     --footer-height: 0px;
-    --font-lato: "Lato", "sans-serif";
-    --font-montserrat: "Montserrat", "sans-serif";
-    --font-oswald: "Oswald", "sans-serif";
-    --font-roboto-serif: "Roboto Serif", "sans-serif";
+    --font-ui: var(--font-ui);
+    --font-heading: var(--font-heading);
+    --font-display: var(--font-display);
+    --font-serif: var(--font-serif);
     /* Primary - Blue (Material Blue) */
     --theme-primary-one: #E3F2FD;
     --theme-primary-two: #BBDEFB;

@@ -1,0 +1,135 @@
+﻿@page "/PageTypography"
+
+<div class="mx-auto max-w-5xl px-6 py-10 space-y-12">
+
+    <!-- PAGE HEADER -->
+    <header class="space-y-3">
+        <h1 class="@Tailwind.Theme.Typography.DISPLAY_SMALL text-slate-900">
+            Typography
+        </h1>
+        <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-slate-600">
+            Material-style typography scale implemented with Tailwind CSS and design tokens.
+        </p>
+    </header>
+
+    <!-- DISPLAY -->
+    <section class="space-y-6">
+        <div>
+            <h2 class="@Tailwind.Theme.Typography.HEADLINE_LARGE text-slate-900">Display</h2>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-slate-600">
+                Big, expressive type for hero areas.
+            </p>
+        </div>
+
+        <div class="space-y-6">
+            <div>
+                <div class="@Tailwind.Theme.Typography.DISPLAY_LARGE text-slate-900">
+                    Display Large
+                </div>
+                <code class="block mt-2 text-xs text-slate-500">
+                    @Tailwind.Theme.Typography.DISPLAY_LARGE
+                </code>
+            </div>
+
+            <div>
+                <div class="@Tailwind.Theme.Typography.DISPLAY_MEDIUM text-slate-900">
+                    Display Medium
+                </div>
+                <code class="block mt-2 text-xs text-slate-500">
+                    @Tailwind.Theme.Typography.DISPLAY_MEDIUM
+                </code>
+            </div>
+
+            <div>
+                <div class="@Tailwind.Theme.Typography.DISPLAY_SMALL text-slate-900">
+                    Display Small
+                </div>
+                <code class="block mt-2 text-xs text-slate-500">
+                    @Tailwind.Theme.Typography.DISPLAY_SMALL
+                </code>
+            </div>
+        </div>
+    </section>
+
+    <!-- HEADLINE -->
+    <section class="space-y-6">
+        <div>
+            <h2 class="@Tailwind.Theme.Typography.HEADLINE_LARGE text-slate-900">Headline</h2>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-slate-600">
+                Page and section headings.
+            </p>
+        </div>
+
+        <div class="space-y-4">
+            <div class="@Tailwind.Theme.Typography.HEADLINE_LARGE text-slate-900">Headline Large</div>
+            <div class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM text-slate-900">Headline Medium</div>
+            <div class="@Tailwind.Theme.Typography.HEADLINE_SMALL text-slate-900">Headline Small</div>
+        </div>
+    </section>
+
+    <!-- TITLE -->
+    <section class="space-y-6">
+        <div>
+            <h2 class="@Tailwind.Theme.Typography.HEADLINE_LARGE text-slate-900">Title</h2>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-slate-600">
+                Cards, dialogs, lists.
+            </p>
+        </div>
+
+        <div class="space-y-3">
+            <div class="@Tailwind.Theme.Typography.TITLE_LARGE text-slate-900">Title Large</div>
+            <div class="@Tailwind.Theme.Typography.TITLE_MEDIUM text-slate-900">Title Medium</div>
+            <div class="@Tailwind.Theme.Typography.TITLE_SMALL text-slate-900">Title Small</div>
+        </div>
+    </section>
+
+    <!-- BODY -->
+    <section class="space-y-6">
+        <div>
+            <h2 class="@Tailwind.Theme.Typography.HEADLINE_LARGE text-slate-900">Body</h2>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-slate-600">
+                @LOREM_IPSUM
+            </p>
+        </div>
+
+        <div class="space-y-4 max-w-3xl">
+            <p class="@Tailwind.Theme.Typography.BODY_LARGE text-slate-700">
+                Body Large — @LOREM_IPSUM
+            </p>
+            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-slate-700">
+                Body Medium — @LOREM_IPSUM
+            </p>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-slate-700">
+                Body Small — @LOREM_IPSUM
+            </p>
+        </div>
+    </section>
+
+    <!-- LABEL -->
+    <section class="space-y-6">
+        <div>
+            <h2 class="@Tailwind.Theme.Typography.HEADLINE_LARGE text-slate-900">Label</h2>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-slate-600">
+                Buttons, chips, UI labels.
+            </p>
+        </div>
+
+        <div class="flex flex-wrap gap-4">
+            <span class="rounded-md border px-3 py-2 @Tailwind.Theme.Typography.LABEL_LARGE">
+                Label Large
+            </span>
+            <span class="rounded-md border px-3 py-2 @Tailwind.Theme.Typography.LABEL_MEDIUM">
+                Label Medium
+            </span>
+            <span class="rounded-md border px-3 py-2 @Tailwind.Theme.Typography.LABEL_SMALL">
+                Label Small
+            </span>
+        </div>
+    </section>
+
+</div>
+
+@code
+{
+    private const string LOREM_IPSUM = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.";
+}
