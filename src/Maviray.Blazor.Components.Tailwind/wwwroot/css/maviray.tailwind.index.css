@@ -1,0 +1,13 @@
+﻿@import "./maviray.tailwind.theme.css";
+@import "./maviray.tailwind.components.css";
+
+@plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/typography";
+
+@layer base {
+    html ul, html ol {
+        list-style: revert;
+        margin-left: 20px;
+        padding-left: 20px;
+    }
+}

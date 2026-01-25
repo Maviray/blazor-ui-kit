@@ -1,0 +1,56 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="@ViewBox" fill="@IconColorCss" class="@EffectiveCss" @onclick="HandleClick">
+    @foreach (var path in IconPaths)
+    {
+        @((MarkupString)path)
+    }
+    <title>@Title</title>
+</svg>
+
+@code {
+
+    [Parameter]
+    public MaviIconMiniType MaviIconMiniType { get; set; }
+
+    [Parameter]
+    public string? CssClass { get; set; }
+
+    [Parameter]
+    public IconColor IconColor { get; set; }
+
+    public string IconColorCss => IconColor.ToString();
+
+    [Parameter]
+    public IconSize IconSize { get; set; }
+
+    [Parameter]
+    public string? Title { get; set; }
+
+    private string EffectiveCss
+    {
+        get
+        {
+            return IconSize switch
+            {
+                IconSize.Giant => CssClass + " " + "w-16 h-16 cursor-pointer",
+                IconSize.ExtraLarge => CssClass + " " + "w-14 h-14 cursor-pointer",
+                IconSize.Medium => CssClass + " " + "w-8 h-8 cursor-pointer",
+                IconSize.Large => CssClass + " " + "w-12 h-12 cursor-pointer",
+                IconSize.Small => CssClass + " " + "w-6 h-6 cursor-pointer",
+                IconSize.ExtraSmall => CssClass + " " + "w-4 h-4 cursor-pointer",
+                _ => CssClass + " " + "w-10 h-10 cursor-pointer"
+            };
+        }
+    }
+
+    private string ViewBox => MaviIconMiniType == MaviIconMiniType.SaveMini ? "0 0 30 30" : "0 0 20 20";
+
+    [Parameter]
+    public EventCallback OnClick { get; set; }
+
+    private IEnumerable<string> IconPaths => MaviIconMiniPaths.GetIconPaths(MaviIconMiniType);
+
+    private async Task HandleClick()
+    {
+        if (OnClick.HasDelegate) await OnClick.InvokeAsync();
+    }
+}

@@ -12,13 +12,13 @@
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 
 	  <!-- NuGet Package Properties -->
-	  <PackageId>Maviray.Blazor.Components.Material</PackageId>
+	  <PackageId>Maviray.Blazor.Components.Tailwind</PackageId>
 	  <Version>1.0.0</Version>
 	  <Authors>Maviray</Authors>
 	  <Company>Maviray</Company>
 	  <Copyright>Copyright @2026 Maviray</Copyright>
-	  <Description>Blazor UI Material library</Description>
-	  <PackageTags>blazor;components;ui;material;maviray</PackageTags>
+	  <Description>Blazor UI Tailwind library</Description>
+	  <PackageTags>blazor;components;ui;tailwind;maviray</PackageTags>
 	  <PackageProjectUrl>https://github.com/maviraydev/Maviray.SDK</PackageProjectUrl>
 	  <RepositoryUrl>https://github.com/maviraydev/Maviray.SDK</RepositoryUrl>
 	  <RepositoryType>git</RepositoryType>
@@ -29,9 +29,10 @@
 	  <IsPackable>true</IsPackable>
 	  <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
   </PropertyGroup>
-
+ 
   <ItemGroup>
     <Folder Include="Areas\" />
+    <Folder Include="wwwroot\css\" />
   </ItemGroup>
 
 	<ItemGroup>
