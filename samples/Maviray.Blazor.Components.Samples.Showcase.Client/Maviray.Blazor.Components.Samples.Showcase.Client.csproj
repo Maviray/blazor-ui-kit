@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Maviray.Blazor.Components.Material\Maviray.Blazor.Components.Material.csproj" />
+    <ProjectReference Include="..\..\src\Maviray.Blazor.Components.Tailwind\Maviray.Blazor.Components.Tailwind.csproj" />
   </ItemGroup>
 
 </Project>
