@@ -2,67 +2,16 @@
 
 <PageTitle>Icons Online</PageTitle>
 
-
-@while (_stackHasItems)
-{
-    <div class="container flex justify-between">
-        @foreach (var icon in GetSixPack())
+<div class="container mx-auto p-6">
+    <h1 class="text-3xl font-bold mb-6">Icons Online</h1>
+    
+    <div class="grid gap-4" style="grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));">
+        @foreach (var icon in Enum.GetValues<MaviIconOnlineType>())
         {
-            <div class="flex flex-col items-center p-4">
+            <div class="flex flex-col justify-center items-center p-4 border rounded-lg hover:shadow-lg transition-shadow bg-white min-h-[140px]">
                 <MaviIconOnline MaviIconOnlineType="@icon" IconColor="IconColor.DimGrey" IconSize="IconSize.Medium"></MaviIconOnline>
-                <span>@icon</span>
+                <span class="mt-2 text-sm text-center text-gray-700 w-full px-1">@icon</span>
             </div>
         }
     </div>
-}
-
-@code {
-    private readonly Stack<MaviIconOnlineType> _iconStack = new();
-
-    private bool _stackHasItems;
-
-    private void PopulateStack()
-    {
-        foreach (var iconType in (MaviIconOnlineType[])Enum.GetValues(typeof(MaviIconOnlineType)))
-        {
-            _iconStack.Push(iconType);
-            _stackHasItems = true;
-        }
-    }
-
-    private IEnumerable<MaviIconOnlineType> GetSixPack()
-    {
-        List<MaviIconOnlineType> sixPackList = [];
-
-        for (var i = 0; i < 6; i++)
-        {
-            if (_iconStack.Any())
-            {
-                sixPackList.Add(_iconStack.Pop());
-            }
-            else
-            {
-                _stackHasItems = false;
-            }
-        }
-
-        return sixPackList;
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-        PopulateStack();
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        PopulateStack();
-
-        if (firstRender)
-        {
-        }
-
-        await base.OnAfterRenderAsync(firstRender);
-    }
-}
+</div>
