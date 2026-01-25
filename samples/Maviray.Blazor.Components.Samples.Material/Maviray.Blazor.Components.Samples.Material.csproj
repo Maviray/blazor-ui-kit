@@ -1,5 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="npm install @tailwindcss/forms" />
+		<Exec Command="npm run buildcss" />
+	</Target>
+
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
@@ -8,11 +13,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Maviray.Blazor.Components.Samples.Material.Client\Maviray.Blazor.Components.Samples.Material.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\" />
   </ItemGroup>
 
 </Project>

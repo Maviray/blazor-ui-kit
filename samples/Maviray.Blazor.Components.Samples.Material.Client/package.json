@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "buildcss": "npx @tailwindcss/cli -i ./wwwroot/css/maviray.showcase.client.source.css -o ./wwwroot/css/maviray.showcase.client.min.css --minify"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.18",
+    "@tailwindcss/forms": "^0.5.11",
+    "@tailwindcss/typography": "^0.5.16",
+    "tailwindcss": "^4.1.18"
+  }
+}
