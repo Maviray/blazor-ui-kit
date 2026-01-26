@@ -28,5 +28,7 @@ namespace Maviray.Blazor.Components.Material.Components.Inputs
 
         [Parameter]
         public string? EndIcon { get; set; }
+
+        protected string Role => ButtonRole.ToString().ToLower();
     }
 }
