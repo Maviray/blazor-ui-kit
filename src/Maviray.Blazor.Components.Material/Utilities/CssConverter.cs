@@ -1,7 +1,4 @@
 ﻿using Maviray.Blazor.Components.Core.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Maviray.Blazor.Components.Material.Utilities
 {
@@ -21,6 +18,29 @@ namespace Maviray.Blazor.Components.Material.Utilities
                 ButtonType.Dark => "mavi-button-filled mavi-button-filled-dark",
                 ButtonType.Light => "mavi-button-filled mavi-button-filled-light",
                 _ => "mavi-button-filled mavi-button-filled-default"
+            };
+        }
+
+        public static string GetTextTransformClass(TextTransform textTransform)
+        {
+            return textTransform switch
+            {
+                TextTransform.Normal => "normal-case",
+                TextTransform.UpperCase => "uppercase",
+                TextTransform.LowerCase => "lowercase",
+                TextTransform.Capitalize => "capitalize",
+                _ => "uppercase" // Default to uppercase for Material Design
+            };
+        }
+
+        public static string GetButtonSizeClass(ElementSize size)
+        {
+            return size switch
+            {
+                ElementSize.Small => "mavi-button-filled-small",
+                ElementSize.Regular => "mavi-button-filled-regular",
+                ElementSize.Large => "mavi-button-filled-large",
+                _ => "mavi-button-filled-regular"
             };
         }
     }

@@ -20,7 +20,7 @@
 
     /* Base Filled Button Styles - Material Design 3 + MUI */
     .mavi-button-filled {
-        @apply inline-flex items-center justify-center relative box-border cursor-pointer select-none align-middle appearance-none font-medium text-sm leading-[1.75] tracking-[0.02857em] uppercase min-w-16 outline-none m-0 no-underline px-4 py-1.5 border-0 rounded transition-all duration-200 ease-in-out [-webkit-tap-highlight-color:transparent] shadow-[var(--mui-shadows-2)] hover:shadow-[var(--mui-shadows-4)] active:shadow-[var(--mui-shadows-8)] disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none font-[var(--font-ui)];
+        @apply inline-flex items-center justify-center relative box-border cursor-pointer select-none align-middle appearance-none font-medium tracking-[0.02857em] outline-none m-0 no-underline border-0 rounded transition-all duration-200 ease-in-out [-webkit-tap-highlight-color:transparent] shadow-[var(--mui-shadows-2)] hover:shadow-[var(--mui-shadows-4)] active:shadow-[var(--mui-shadows-8)] disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none font-[var(--font-ui)];
     }
 
     /* Default Button */
@@ -66,5 +66,21 @@
     /* Light Button */
     .mavi-button-filled-light {
         @apply bg-(--theme-light-two) text-(--theme-dark-eight) hover:bg-(--theme-light-three) hover:shadow-lg focus:ring-(--theme-light-four) active:bg-(--theme-light-four);
+    }
+
+    /* Size Variants */
+    /* Small - 30px height (h-[30px] = 30px, closest is h-8 = 32px but we'll use exact) */
+    .mavi-button-filled-small {
+        @apply h-[30px] px-2.5 py-1 text-xs leading-[1.75] min-w-14 gap-1;
+    }
+
+    /* Regular - 36px height (h-9 = 36px) */
+    .mavi-button-filled-regular {
+        @apply h-9 px-4 py-1.5 text-sm leading-[1.75] min-w-16 gap-2;
+    }
+
+    /* Large - 42px height (closest is h-11 = 44px, but we'll use exact h-[42px]) */
+    .mavi-button-filled-large {
+        @apply h-[42px] px-5 py-2 text-base leading-[1.75] min-w-20 gap-2;
     }
 }

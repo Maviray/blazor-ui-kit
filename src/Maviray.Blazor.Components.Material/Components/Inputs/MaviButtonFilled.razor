@@ -16,9 +16,16 @@
 </button>
 
 @code {
+
+    [Parameter] public string Width { get; set; } = "min-w-16";
+
     private string GetButtonClasses()
     {
         var baseClasses = CssConverter.GetFilledButtonClass(ButtonType);
-        return string.IsNullOrEmpty(Class) ? baseClasses : $"{baseClasses} {Class}";
+        var transformClass = CssConverter.GetTextTransformClass(TextTransform);
+        var sizeClass = CssConverter.GetButtonSizeClass(ElementSize);
+        var allClasses = $"{baseClasses} {transformClass} {sizeClass} {Width}";
+
+        return string.IsNullOrEmpty(Class) ? allClasses : $"{allClasses} {Class}";
     }
 }

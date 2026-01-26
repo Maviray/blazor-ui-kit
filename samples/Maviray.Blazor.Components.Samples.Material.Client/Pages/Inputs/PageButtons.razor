@@ -4,15 +4,159 @@
 <PageTitle>Buttons</PageTitle>
 
 <div class="p-4 flex flex-col gap-2">
-    @foreach (var buttonType in Enum.GetValues<ButtonType>())
-    {
-        foreach (var elementSize in Enum.GetValues<ElementSize>())
+    <div class="flex gap-2">
+        <MaviButtonFilled ButtonType="ButtonType.Primary"
+                          ElementSize="ElementSize.Large"
+                          Title="Primary Large"
+                          TextTransform="TextTransform.Capitalize"
+                          StartIcon="lni lni-chevron-left"
+                          EndIcon="lni lni-check-circle-1">
+
+        </MaviButtonFilled>
+
+        <MaviButtonFilled ButtonType="ButtonType.Primary"
+                          ElementSize="ElementSize.Regular"
+                          Title="Primary Regular"
+                          StartIcon="lni lni-check"
+                          TextTransform="TextTransform.LowerCase">
+
+        </MaviButtonFilled>
+
+        <MaviButtonFilled ButtonType="ButtonType.Primary"
+                          ElementSize="ElementSize.Small"
+                          Title="Primary Small"
+                          Endicon="lni lni-shield-2-check"
+                          TextTransform="TextTransform.UpperCase">
+
+        </MaviButtonFilled>
+    </div>
+    <div class="flex gap-2">
+        <MaviButtonFilled ButtonType="ButtonType.Default"
+                          ElementSize="ElementSize.Large"
+                          Title="Primary Disabled"
+                          TextTransform="TextTransform.Capitalize"
+                          StartIcon="lni lni-chevron-left"
+                          EndIcon="lni lni-check-circle-1"
+                          Disabled="true">
+
+        </MaviButtonFilled>
+        <MaviButtonFilled ButtonType="ButtonType.Primary"
+                          ElementSize="ElementSize.Large"
+                          Title="Primary Disabled"
+                          TextTransform="TextTransform.Capitalize"
+                          StartIcon="lni lni-chevron-left"
+                          EndIcon="lni lni-check-circle-1"
+                          Disabled="true">
+
+        </MaviButtonFilled>
+        <MaviButtonFilled ButtonType="ButtonType.Secondary"
+                          ElementSize="ElementSize.Large"
+                          Title="Secondary Disabled"
+                          TextTransform="TextTransform.Capitalize"
+                          StartIcon="lni lni-chevron-left"
+                          EndIcon="lni lni-check-circle-1"
+                          Disabled="true">
+
+        </MaviButtonFilled>
+        <MaviButtonFilled ButtonType="ButtonType.Success"
+                          ElementSize="ElementSize.Large"
+                          Title="Success Disabled"
+                          TextTransform="TextTransform.Capitalize"
+                          StartIcon="lni lni-chevron-left"
+                          EndIcon="lni lni-check-circle-1"
+                          Disabled="true">
+
+        </MaviButtonFilled>
+        <MaviButtonFilled ButtonType="ButtonType.Danger"
+                          ElementSize="ElementSize.Large"
+                          Title="Danger Disabled"
+                          TextTransform="TextTransform.Capitalize"
+                          StartIcon="lni lni-chevron-left"
+                          EndIcon="lni lni-check-circle-1"
+                          Disabled="true">
+
+        </MaviButtonFilled>
+        <MaviButtonFilled ButtonType="ButtonType.Warning"
+                          ElementSize="ElementSize.Large"
+                          Title="Warning Disabled"
+                          TextTransform="TextTransform.Capitalize"
+                          StartIcon="lni lni-chevron-left"
+                          EndIcon="lni lni-check-circle-1"
+                          Disabled="true">
+
+        </MaviButtonFilled>
+        <MaviButtonFilled ButtonType="ButtonType.Info"
+                          ElementSize="ElementSize.Large"
+                          Title="Info Disabled"
+                          TextTransform="TextTransform.Capitalize"
+                          StartIcon="lni lni-chevron-left"
+                          EndIcon="lni lni-check-circle-1"
+                          Disabled="true">
+
+        </MaviButtonFilled>
+        <MaviButtonFilled ButtonType="ButtonType.Dark"
+                          ElementSize="ElementSize.Large"
+                          Title="Dark Disabled"
+                          TextTransform="TextTransform.Capitalize"
+                          StartIcon="lni lni-chevron-left"
+                          EndIcon="lni lni-check-circle-1"
+                          Disabled="true">
+
+        </MaviButtonFilled>
+        <MaviButtonFilled ButtonType="ButtonType.Light"
+                          ElementSize="ElementSize.Large"
+                          Title="Light Disabled"
+                          TextTransform="TextTransform.Capitalize"
+                          StartIcon="lni lni-chevron-left"
+                          EndIcon="lni lni-check-circle-1"
+                          Disabled="true">
+
+        </MaviButtonFilled>
+      
+    </div>
+    <div class="flex flex-col gap-2">
+        <MaviButtonFilled ButtonType="ButtonType.Primary"
+                          ElementSize="ElementSize.Large"
+                          Title="Click"
+                          Width="w-64"
+                          TextTransform="TextTransform.Capitalize">
+
+        </MaviButtonFilled>
+        <MaviButtonFilled ButtonType="ButtonType.Primary"
+                          ElementSize="ElementSize.Large"
+                          Title="Click"
+                          Width="w-48"
+                          TextTransform="TextTransform.Capitalize">
+
+        </MaviButtonFilled>
+        <MaviButtonFilled ButtonType="ButtonType.Primary"
+                          ElementSize="ElementSize.Large"
+                          Title="Click"
+                          Width="w-40"
+                          TextTransform="TextTransform.Capitalize">
+
+        </MaviButtonFilled>
+        <MaviButtonFilled ButtonType="ButtonType.Primary"
+                          ElementSize="ElementSize.Large"
+                          Title="Click"
+                          Width="w-32"
+                          TextTransform="TextTransform.Capitalize">
+
+        </MaviButtonFilled>
+    </div>
+    <div class="flex flex-col gap-2">
+        @foreach (var buttonType in Enum.GetValues<ButtonType>())
         {
-            <MaviButtonFilled ButtonType="buttonType" ElementSize="elementSize" Title="@GetButtonTitle(buttonType, elementSize)"></MaviButtonFilled>
+            foreach (var elementSize in Enum.GetValues<ElementSize>())
+            {
+                <MaviButtonFilled ButtonType="buttonType" ElementSize="elementSize" Title="@GetButtonTitle(buttonType, elementSize)"></MaviButtonFilled>
+            }
         }
-    }
     
+    </div>
 </div>
+
+
 
 @code
 {
