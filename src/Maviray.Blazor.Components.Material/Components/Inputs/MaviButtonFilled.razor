@@ -1,7 +1,24 @@
 ﻿@inherits MaviButtonBase
 
-<button id="@Id" class="@Class" style="@Style" @onclick="@OnClick" disabled="@Disabled" type="@Role" role="@Role" title="@Title" @attributes="AdditionalAttributes">
-    <div><i class="@IconCss"></i></div>
-    <div aria-label="@Title">@Title</div>
-    <div><i class="@IconCss"></i></div>
+<button id="@Id" class="@GetButtonClasses()" style="@Style" @onclick="@OnClick" disabled="@Disabled" type="@Role" role="@Role" title="@Title" @attributes="AdditionalAttributes">
+    @if (!string.IsNullOrEmpty(StartIcon))
+    {
+        <i class="@StartIcon"></i>
+    }
+    @if (!string.IsNullOrEmpty(Title))
+    {
+        <span aria-label="@Title">@Title</span>
+    }
+    @if (!string.IsNullOrEmpty(EndIcon))
+    {
+        <i class="@EndIcon"></i>
+    }
 </button>
+
+@code {
+    private string GetButtonClasses()
+    {
+        var baseClasses = CssConverter.GetFilledButtonClass(ButtonType);
+        return string.IsNullOrEmpty(Class) ? baseClasses : $"{baseClasses} {Class}";
+    }
+}

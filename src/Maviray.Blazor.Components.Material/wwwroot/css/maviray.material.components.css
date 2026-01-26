@@ -17,4 +17,54 @@
     [multiple] {
         @apply bg-gray-100 border-none rounded-md p-2 text-gray-800 focus:ring-blue-500 focus:border-blue-500;
     }
+
+    /* Base Filled Button Styles - Material Design 3 + MUI */
+    .mavi-button-filled {
+        @apply inline-flex items-center justify-center relative box-border cursor-pointer select-none align-middle appearance-none font-medium text-sm leading-[1.75] tracking-[0.02857em] uppercase min-w-16 outline-none m-0 no-underline px-4 py-1.5 border-0 rounded transition-all duration-200 ease-in-out [-webkit-tap-highlight-color:transparent] shadow-[var(--mui-shadows-2)] hover:shadow-[var(--mui-shadows-4)] active:shadow-[var(--mui-shadows-8)] disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none font-[var(--font-ui)];
+    }
+
+    /* Default Button */
+    .mavi-button-filled-default {
+        @apply bg-(--theme-light-six) text-(--theme-dark-nine) hover:bg-(--theme-light-seven) hover:shadow-lg focus:ring-(--theme-light-eight) active:bg-(--theme-light-eight);
+    }
+
+    /* Primary Button */
+    .mavi-button-filled-primary {
+        @apply bg-(--theme-primary-six) text-white hover:bg-(--theme-primary-seven) hover:shadow-lg focus:ring-(--theme-primary-eight) active:bg-(--theme-primary-eight);
+    }
+
+    /* Secondary Button */
+    .mavi-button-filled-secondary {
+        @apply bg-(--theme-secondary-six) text-white hover:bg-(--theme-secondary-seven) hover:shadow-lg focus:ring-(--theme-secondary-eight) active:bg-(--theme-secondary-eight);
+    }
+
+    /* Success Button */
+    .mavi-button-filled-success {
+        @apply bg-(--theme-success-seven) text-white hover:bg-(--theme-success-eight) hover:shadow-lg focus:ring-(--theme-success-nine) active:bg-(--theme-success-nine);
+    }
+
+    /* Danger Button (using Alert colors) */
+    .mavi-button-filled-danger {
+        @apply bg-(--theme-alert-seven) text-white hover:bg-(--theme-alert-eight) hover:shadow-lg focus:ring-(--theme-alert-nine) active:bg-(--theme-alert-nine);
+    }
+
+    /* Warning Button */
+    .mavi-button-filled-warning {
+        @apply bg-(--theme-warning-seven) text-(--theme-dark-ten) hover:bg-(--theme-warning-eight) hover:shadow-lg focus:ring-(--theme-warning-nine) active:bg-(--theme-warning-nine);
+    }
+
+    /* Info Button */
+    .mavi-button-filled-info {
+        @apply bg-(--theme-info-six) text-white hover:bg-(--theme-info-seven) hover:shadow-lg focus:ring-(--theme-info-eight) active:bg-(--theme-info-eight);
+    }
+
+    /* Dark Button */
+    .mavi-button-filled-dark {
+        @apply bg-(--theme-dark-eight) text-white hover:bg-(--theme-dark-nine) hover:shadow-lg focus:ring-(--theme-dark-ten) active:bg-(--theme-dark-ten);
+    }
+
+    /* Light Button */
+    .mavi-button-filled-light {
+        @apply bg-(--theme-light-two) text-(--theme-dark-eight) hover:bg-(--theme-light-three) hover:shadow-lg focus:ring-(--theme-light-four) active:bg-(--theme-light-four);
+    }
 }

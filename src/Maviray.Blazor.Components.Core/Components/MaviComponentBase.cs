@@ -17,7 +17,7 @@ public class MaviComponentBase : ComponentBase
 
     [Parameter] public string? Style { get; set; }
 
-    [Parameter] public object? Title { get; set; }
+    [Parameter] public string? Title { get; set; }
 
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object> AdditionalAttributes { get; set; } = [];
 

@@ -1,0 +1,23 @@
+﻿@page "/PageButtons"
+@using Maviray.Blazor.Components.Material.Components.Inputs
+
+<PageTitle>Buttons</PageTitle>
+
+<div class="p-4 flex flex-col gap-2">
+    @foreach (var buttonType in Enum.GetValues<ButtonType>())
+    {
+        foreach (var elementSize in Enum.GetValues<ElementSize>())
+        {
+            <MaviButtonFilled ButtonType="buttonType" ElementSize="elementSize" Title="@GetButtonTitle(buttonType, elementSize)"></MaviButtonFilled>
+        }
+    }
+    
+</div>
+
+@code
+{
+    private string GetButtonTitle(ButtonType buttonType, ElementSize elementSize)
+    {
+        return $"{buttonType} {elementSize}";
+    }
+}

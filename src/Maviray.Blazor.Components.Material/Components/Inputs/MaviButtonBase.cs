@@ -20,9 +20,7 @@ namespace Maviray.Blazor.Components.Material.Components.Inputs
         [Parameter] public bool Disabled { get; set; }
 
         [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
-
-        [Parameter] public string? IconCss { get; set; }
-
+        
         [Parameter]
         public string? StartIcon { get; set; }
 
