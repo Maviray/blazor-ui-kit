@@ -1,0 +1,417 @@
+﻿@inherits MaviComponentBase
+@using Maviray.Blazor.Components.Core.EventArgs
+@using Maviray.Blazor.Components.Core.Models.Buttons
+
+<div id="@Id" class="@GetContainerClasses()" style="@Style" @attributes="AdditionalAttributes">
+    @if (Buttons != null && Buttons.Any())
+    {
+        @foreach (var (button, index) in Buttons.Select((b, i) => (b, i)))
+        {
+            <button id="@button.Id"
+                    type="button"
+                    class="@GetButtonClasses(index)"
+                    disabled="@(Disabled || button.Disabled)"
+                    @onclick="async (e) => { await HandleButtonClick(e, button.Id); }">
+
+                @if (!string.IsNullOrEmpty(button.StartIcon))
+                {
+                    <i class="@GetIconClasses(button.StartIcon)"></i>
+                }
+
+                <span class="@GetTextClasses()">
+                    @button.Title
+                </span>
+
+                @if (!string.IsNullOrEmpty(button.EndIcon))
+                {
+                    <i class="@GetIconClasses(button.EndIcon)"></i>
+                }
+            </button>
+        }
+    }
+    else
+    {
+        @ChildContent
+    }
+</div>
+
+@code {
+    [Parameter] public override string? Id { get; set; } = $"button_group_{Guid.NewGuid()}";
+
+    [Parameter] public ButtonType ButtonType { get; set; }
+
+    [Parameter] public ElementSize ElementSize { get; set; }
+
+    [Parameter] public TextTransform TextTransform { get; set; }
+
+    [Parameter] public ButtonVariant ButtonVariant { get; set; }
+
+    [Parameter] public bool Disabled { get; set; }
+
+    [Parameter] public List<ButtonModel>? Buttons { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    [Parameter] public EventCallback<MouseGroupClickEventArgs> OnClick { get; set; }
+
+    private string GetContainerClasses()
+    {
+        var classes = new List<string>
+        {
+            "inline-flex",
+            "isolate",
+            Class ?? string.Empty
+        };
+
+        // Variant-specific container styles
+        if (ButtonVariant == ButtonVariant.Outlined)
+        {
+            classes.Add("shadow-sm");
+        }
+
+        return string.Join(" ", classes.Where(c => !string.IsNullOrEmpty(c)));
+    }
+
+    private string GetButtonClasses(int index)
+    {
+        var classes = new List<string>
+        {
+            "relative",
+            "inline-flex",
+            "items-center",
+            "justify-center",
+            "font-medium",
+            "transition-all",
+            "duration-200",
+            "focus:outline-none",
+            "overflow-hidden"
+        };
+
+        // Size classes with fixed height
+        classes.Add(GetSizeClasses());
+
+        // Variant and type specific styles
+        classes.AddRange(GetVariantClasses());
+
+        // Text transform
+        classes.Add(GetTextTransformClass());
+
+        // Position-specific styles (first, middle, last)
+        classes.AddRange(GetPositionClasses(index));
+
+        // Disabled state
+        if (Disabled || (Buttons != null && Buttons[index].Disabled))
+        {
+            classes.Add("cursor-not-allowed");
+            classes.Add("opacity-60");
+        }
+        else
+        {
+            classes.Add("cursor-pointer");
+        }
+
+        return string.Join(" ", classes.Where(c => !string.IsNullOrEmpty(c)));
+    }
+
+    private string GetSizeClasses()
+    {
+        return ElementSize switch
+        {
+            ElementSize.Small => "px-3 h-8 text-sm",
+            ElementSize.Large => "px-5 h-12 text-base",
+            _ => "px-4 h-10 text-sm" // Regular
+        };
+    }
+
+    private List<string> GetVariantClasses()
+    {
+        var classes = new List<string>();
+        var colorPrefix = GetColorPrefix();
+
+        switch (ButtonVariant)
+        {
+            case ButtonVariant.Filled:
+                // Default button type has special colors
+                if (ButtonType == ButtonType.Default)
+                {
+                    classes.Add("bg-(--theme-light-six)");
+                    classes.Add("text-(--theme-dark-nine)");
+                    if (!Disabled)
+                    {
+                        classes.Add("hover:bg-(--theme-light-seven)");
+                        classes.Add("hover:shadow-lg");
+                        classes.Add("focus:bg-(--theme-light-seven)");
+                        classes.Add("focus:ring-(--theme-light-eight)");
+                        classes.Add("active:bg-(--theme-light-eight)");
+                    }
+                    classes.Add("border-0");
+                }
+                // Primary button type has special colors
+                else if (ButtonType == ButtonType.Primary)
+                {
+                    classes.Add("bg-(--theme-primary-eight)");
+                    classes.Add("text-white");
+                    if (!Disabled)
+                    {
+                        classes.Add("hover:bg-(--theme-primary-nine)");
+                        classes.Add("hover:shadow-lg");
+                        classes.Add("focus:bg-(--theme-primary-nine)");
+                        classes.Add("focus:ring-(--theme-primary-nine)");
+                        classes.Add("active:bg-(--theme-primary-four)");
+                    }
+                    classes.Add("border-0");
+                }
+                else
+                {
+                    classes.Add($"bg-({colorPrefix}-six)");
+                    classes.Add("text-white");
+                    if (!Disabled)
+                    {
+                        classes.Add($"hover:bg-({colorPrefix}-seven)");
+                        classes.Add($"focus:bg-({colorPrefix}-seven)");
+                        classes.Add($"active:bg-({colorPrefix}-eight)");
+                    }
+                    classes.Add("border-0");
+                }
+                break;
+
+            case ButtonVariant.Outlined:
+                // Default button type for outlined variant
+                if (ButtonType == ButtonType.Default)
+                {
+                    classes.Add("bg-transparent");
+                    classes.Add("text-(--theme-dark-nine)");
+                    classes.Add("border-(--theme-light-six)");
+                    classes.Add("border");
+                    if (!Disabled)
+                    {
+                        classes.Add("hover:bg-(--theme-light-one)");
+                        classes.Add("hover:border-(--theme-light-seven)");
+                        classes.Add("hover:text-(--theme-dark-ten)");
+                        classes.Add("hover:shadow-lg");
+                        classes.Add("focus:bg-(--theme-light-one)");
+                        classes.Add("focus:border-(--theme-light-seven)");
+                        classes.Add("focus:text-(--theme-dark-ten)");
+                        classes.Add("focus:ring-(--theme-light-eight)");
+                        classes.Add("active:bg-(--theme-light-two)");
+                        classes.Add("active:border-(--theme-light-eight)");
+                    }
+                }
+                // Primary button type for outlined variant
+                else if (ButtonType == ButtonType.Primary)
+                {
+                    classes.Add("bg-transparent");
+                    classes.Add("text-(--theme-primary-eight)");
+                    classes.Add("border-(--theme-primary-eight)");
+                    classes.Add("border");
+                    if (!Disabled)
+                    {
+                        classes.Add("hover:bg-(--theme-primary-one)");
+                        classes.Add("hover:border-(--theme-primary-nine)");
+                        classes.Add("hover:text-(--theme-primary-nine)");
+                        classes.Add("hover:shadow-lg");
+                        classes.Add("focus:bg-(--theme-primary-one)");
+                        classes.Add("focus:border-(--theme-primary-nine)");
+                        classes.Add("focus:text-(--theme-primary-nine)");
+                        classes.Add("focus:ring-(--theme-primary-nine)");
+                        classes.Add("active:bg-(--theme-primary-two)");
+                        classes.Add("active:border-(--theme-primary-four)");
+                        classes.Add("active:text-(--theme-primary-four)");
+                    }
+                }
+                else
+                {
+                    classes.Add("bg-transparent");
+                    classes.Add($"text-({colorPrefix}-seven)");
+                    classes.Add($"border-({colorPrefix}-six)");
+                    classes.Add("border");
+                    if (!Disabled)
+                    {
+                        classes.Add($"hover:bg-({colorPrefix}-one)");
+                        classes.Add($"hover:border-({colorPrefix}-seven)");
+                        classes.Add($"hover:text-({colorPrefix}-eight)");
+                        classes.Add($"focus:bg-({colorPrefix}-one)");
+                        classes.Add($"focus:border-({colorPrefix}-seven)");
+                        classes.Add($"focus:text-({colorPrefix}-eight)");
+                        classes.Add($"active:bg-({colorPrefix}-two)");
+                        classes.Add($"active:border-({colorPrefix}-eight)");
+                        classes.Add($"active:text-({colorPrefix}-nine)");
+                    }
+                }
+                break;
+
+            case ButtonVariant.Text:
+                // Default button type for text variant
+                if (ButtonType == ButtonType.Default)
+                {
+                    classes.Add("bg-transparent");
+                    classes.Add("text-(--theme-dark-nine)");
+                    classes.Add("border-0");
+                    if (!Disabled)
+                    {
+                        classes.Add("hover:bg-(--theme-light-one)");
+                        classes.Add("hover:text-(--theme-dark-ten)");
+                        classes.Add("hover:shadow-lg");
+                        classes.Add("focus:bg-(--theme-light-one)");
+                        classes.Add("focus:text-(--theme-dark-ten)");
+                        classes.Add("focus:ring-(--theme-light-eight)");
+                        classes.Add("active:bg-(--theme-light-two)");
+                    }
+                }
+                // Primary button type for text variant
+                else if (ButtonType == ButtonType.Primary)
+                {
+                    classes.Add("bg-transparent");
+                    classes.Add("text-(--theme-primary-eight)");
+                    classes.Add("border-0");
+                    if (!Disabled)
+                    {
+                        classes.Add("hover:bg-(--theme-primary-one)");
+                        classes.Add("hover:text-(--theme-primary-nine)");
+                        classes.Add("hover:shadow-lg");
+                        classes.Add("focus:bg-(--theme-primary-one)");
+                        classes.Add("focus:text-(--theme-primary-nine)");
+                        classes.Add("focus:ring-(--theme-primary-nine)");
+                        classes.Add("active:bg-(--theme-primary-two)");
+                        classes.Add("active:text-(--theme-primary-four)");
+                    }
+                }
+                else
+                {
+                    classes.Add("bg-transparent");
+                    classes.Add($"text-({colorPrefix}-seven)");
+                    classes.Add("border-0");
+                    if (!Disabled)
+                    {
+                        classes.Add($"hover:bg-({colorPrefix}-one)");
+                        classes.Add($"hover:text-({colorPrefix}-eight)");
+                        classes.Add($"focus:bg-({colorPrefix}-one)");
+                        classes.Add($"focus:text-({colorPrefix}-eight)");
+                        classes.Add($"active:bg-({colorPrefix}-two)");
+                        classes.Add($"active:text-({colorPrefix}-nine)");
+                    }
+                }
+                break;
+        }
+
+        return classes;
+    }
+
+    private List<string> GetPositionClasses(int index)
+    {
+        var classes = new List<string>();
+        var isFirst = index == 0;
+        var isLast = Buttons != null && index == Buttons.Count - 1;
+        var isMiddle = !isFirst && !isLast;
+
+        // Border radius based on position
+        if (isFirst)
+        {
+            classes.Add("rounded-l-md");
+            if (ButtonVariant != ButtonVariant.Text)
+            {
+                classes.Add("rounded-r-none");
+            }
+        }
+        else if (isLast)
+        {
+            classes.Add("rounded-r-md");
+            if (ButtonVariant != ButtonVariant.Text)
+            {
+                classes.Add("rounded-l-none");
+            }
+        }
+        else if (isMiddle && ButtonVariant != ButtonVariant.Text)
+        {
+            classes.Add("rounded-none");
+        }
+
+        // Border handling for outlined variant
+        if (ButtonVariant == ButtonVariant.Outlined)
+        {
+            if (!isFirst)
+            {
+                classes.Add("-ml-px");
+            }
+        }
+
+        return classes;
+    }
+
+    private string GetColorPrefix()
+    {
+        return ButtonType switch
+        {
+            ButtonType.Primary => "--theme-primary",
+            ButtonType.Secondary => "--theme-secondary",
+            ButtonType.Success => "--theme-success",
+            ButtonType.Danger => "--theme-alert",
+            ButtonType.Warning => "--theme-warning",
+            ButtonType.Info => "--theme-info",
+            ButtonType.Dark => "--theme-dark",
+            ButtonType.Light => "--theme-light",
+            ButtonType.Default => "--theme-light",
+            _ => "--theme-primary"
+        };
+    }
+
+    private string GetTextTransformClass()
+    {
+        return TextTransform switch
+        {
+            TextTransform.UpperCase => "uppercase",
+            TextTransform.LowerCase => "lowercase",
+            TextTransform.Capitalize => "capitalize",
+            _ => "normal-case"
+        };
+    }
+
+    private string GetIconClasses(string iconClass)
+    {
+        var iconSizeClass = GetIconTextSize();
+        return $"{iconClass} {iconSizeClass}";
+    }
+
+    private string GetIconTextSize()
+    {
+        return ElementSize switch
+        {
+            ElementSize.Small => "text-sm ",
+            ElementSize.Large => "text-lg",
+            _ => "text-base"
+        };
+    }
+
+    private string GetTextClasses()
+    {
+        return "whitespace-nowrap";
+    }
+
+    protected async Task HandleButtonClick(MouseEventArgs args, string? buttonId)
+    {
+        if (OnClick.HasDelegate)
+        {
+            var customArgs = new MouseGroupClickEventArgs(Id, buttonId)
+            {
+                AltKey = args.AltKey,
+                Button = args.Button,
+                Buttons = args.Buttons,
+                ClientX = args.ClientX,
+                ClientY = args.ClientY,
+                CtrlKey = args.CtrlKey,
+                Detail = args.Detail,
+                MetaKey = args.MetaKey,
+                OffsetX = args.OffsetX,
+                OffsetY = args.OffsetY,
+                PageX = args.PageX,
+                PageY = args.PageY,
+                ScreenX = args.ScreenX,
+                ScreenY = args.ScreenY,
+                ShiftKey = args.ShiftKey,
+                Type = args.Type
+            };
+
+            await OnClick.InvokeAsync(customArgs);
+        }
+    }
+}

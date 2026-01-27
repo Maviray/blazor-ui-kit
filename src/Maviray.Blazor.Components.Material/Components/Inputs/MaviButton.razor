@@ -1,17 +1,30 @@
 ﻿@inherits MaviButtonBase
 
-<button id="@Id" class="@GetButtonClasses()" style="@Style" @onclick="@OnClick" disabled="@Disabled" type="@Role" role="@Role" title="@Title" @attributes="AdditionalAttributes">
-    @if (!string.IsNullOrEmpty(StartIcon))
+<button id="@Id" class="@GetButtonClasses()" style="@Style" @onclick="@HandleButtonClick" disabled="@Disabled" type="@Role" role="@Role" title="@Title" @attributes="AdditionalAttributes">
+    @if (IsLoading && ShowSpinner)
     {
-        <i class="@StartIcon"></i>
+        <div class="flex gap-1 items-center justify-center">
+            <svg class="@GetSpinnerClass()" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <div>@SpinnerText</div>
+        </div>
     }
-    @if (!string.IsNullOrEmpty(Title))
+    else
     {
-        <span aria-label="@Title">@Title</span>
-    }
-    @if (!string.IsNullOrEmpty(EndIcon))
-    {
-        <i class="@EndIcon"></i>
+        @if (!string.IsNullOrEmpty(StartIcon))
+        {
+            <i class="@StartIcon"></i>
+        }
+        @if (!string.IsNullOrEmpty(Title))
+        {
+            <span aria-label="@Title">@Title</span>
+        }
+        @if (!string.IsNullOrEmpty(EndIcon))
+        {
+            <i class="@EndIcon"></i>
+        }
     }
 </button>
 
@@ -24,6 +37,12 @@
 
     [Parameter]
     public string? EndIcon { get; set; }
+
+    [Parameter]
+    public string? SpinnerText { get; set; }
+
+    [Parameter]
+    public bool ShowSpinner { get; set; }
 
     private string GetButtonClasses()
     {
@@ -118,5 +137,18 @@
             ElementSize.Large => "mavi-button-filled-large",
             _ => "mavi-button-filled-regular"
         };
+    }
+
+    private string GetSpinnerClass()
+    {
+        var size = ElementSize switch
+        {
+            ElementSize.Small => "h-3 w-3",
+            ElementSize.Regular => "h-5 w-5",
+            ElementSize.Large => "h-6 w-6",
+            _ => "h-5 w-5"
+        };
+
+        return $"animate-spin {size}";
     }
 }

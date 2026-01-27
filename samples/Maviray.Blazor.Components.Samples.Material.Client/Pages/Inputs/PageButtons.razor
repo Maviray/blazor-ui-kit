@@ -1,34 +1,327 @@
 ﻿@page "/PageButtons"
+@inherits SamplePageBase
+@using Maviray.Blazor.Components.Core.EventArgs
 @using Maviray.Blazor.Components.Material.Components.Inputs
 
 <PageTitle>Buttons</PageTitle>
 
 <div class="p-4 flex flex-col gap-2">
+<div class="flex gap-2">
+    <MaviButton ButtonType="ButtonType.Primary"
+                ElementSize="ElementSize.Large"
+                Title="Primary Large"
+                TextTransform="TextTransform.Capitalize"
+                StartIcon="lni lni-chevron-left"
+                SpinnerText="Working..."
+                OnClick="OnButtonClickAsync">
+
+    </MaviButton>
+
+    <MaviButton ButtonType="ButtonType.Primary"
+                ElementSize="ElementSize.Regular"
+                Title="Primary Regular"
+                StartIcon="lni lni-check"
+                TextTransform="TextTransform.LowerCase"
+                OnClick="OnButtonClickAsync">
+
+    </MaviButton>
+
+    <MaviButton ButtonType="ButtonType.Primary"
+                ElementSize="ElementSize.Small"
+                Title="Primary Small"
+                SpinnerText="lni lni-shield-2-check"
+                TextTransform="TextTransform.UpperCase"
+                OnClick="OnButtonClickAsync">
+
+    </MaviButton>
+</div>
+<div class="flex flex-col gap-2">
     <div class="flex gap-2">
-        <MaviButton ButtonType="ButtonType.Primary"
-                          ElementSize="ElementSize.Large"
-                          Title="Primary Large"
-                          TextTransform="TextTransform.Capitalize"
-                          StartIcon="lni lni-chevron-left"
-                          EndIcon="lni lni-check-circle-1">
+        <MaviButton ButtonType="ButtonType.Default"
+                    ElementSize="ElementSize.Regular"
+                    Title="Primary Disabled"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
 
         </MaviButton>
-
         <MaviButton ButtonType="ButtonType.Primary"
-                          ElementSize="ElementSize.Regular"
-                          Title="Primary Regular"
-                          StartIcon="lni lni-check"
-                          TextTransform="TextTransform.LowerCase">
+                    ElementSize="ElementSize.Regular"
+                    Title="Primary Disabled"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
 
         </MaviButton>
-
-        <MaviButton ButtonType="ButtonType.Primary"
-                          ElementSize="ElementSize.Small"
-                          Title="Primary Small"
-                          Endicon="lni lni-shield-2-check"
-                          TextTransform="TextTransform.UpperCase">
+        <MaviButton ButtonType="ButtonType.Secondary"
+                    ElementSize="ElementSize.Regular"
+                    Title="Secondary Disabled"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
 
         </MaviButton>
+        <MaviButton ButtonType="ButtonType.Success"
+                    ElementSize="ElementSize.Regular"
+                    Title="Success Disabled"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+
+        </MaviButton>
+    </div>
+    <div class="flex gap-2">
+        <MaviButton ButtonType="ButtonType.Danger"
+                    ElementSize="ElementSize.Regular"
+                    Title="Danger Disabled"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+
+        </MaviButton>
+        <MaviButton ButtonType="ButtonType.Warning"
+                    ElementSize="ElementSize.Regular"
+                    Title="Warning Disabled"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+
+        </MaviButton>
+        <MaviButton ButtonType="ButtonType.Info"
+                    ElementSize="ElementSize.Regular"
+                    Title="Info Disabled"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+
+        </MaviButton>
+        <MaviButton ButtonType="ButtonType.Dark"
+                    ElementSize="ElementSize.Regular"
+                    Title="Dark Disabled"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+
+        </MaviButton>
+        <MaviButton ButtonType="ButtonType.Light"
+                    ElementSize="ElementSize.Regular"
+                    Title="Light Disabled"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+
+        </MaviButton>
+    </div>
+</div>
+<div class="flex flex-col gap-2">
+    <div class="flex gap-2">
+        <MaviButton ButtonType="ButtonType.Default"
+                    ElementSize="ElementSize.Regular" ButtonVariant="ButtonVariant.Outlined"
+                    Title="Primary Disabled"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+
+        </MaviButton>
+        <MaviButton ButtonType="ButtonType.Primary"
+                    ElementSize="ElementSize.Regular" ButtonVariant="ButtonVariant.Outlined"
+                    Title="Primary Disabled"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+
+        </MaviButton>
+        <MaviButton ButtonType="ButtonType.Secondary"
+                    ElementSize="ElementSize.Regular" ButtonVariant="ButtonVariant.Outlined"
+                    Title="Secondary Disabled"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+
+        </MaviButton>
+        <MaviButton ButtonType="ButtonType.Success"
+                    ElementSize="ElementSize.Regular" ButtonVariant="ButtonVariant.Outlined"
+                    Title="Success Disabled"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+
+        </MaviButton>
+    </div>
+    <div class="flex gap-2">
+        <MaviButton ButtonType="ButtonType.Danger"
+                    ElementSize="ElementSize.Regular" ButtonVariant="ButtonVariant.Outlined"
+                    Title="Danger Disabled"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+
+        </MaviButton>
+        <MaviButton ButtonType="ButtonType.Warning"
+                    ElementSize="ElementSize.Regular" ButtonVariant="ButtonVariant.Outlined"
+                    Title="Warning Disabled"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+
+        </MaviButton>
+        <MaviButton ButtonType="ButtonType.Info"
+                    ElementSize="ElementSize.Regular" ButtonVariant="ButtonVariant.Outlined"
+                    Title="Info Disabled"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+
+        </MaviButton>
+        <MaviButton ButtonType="ButtonType.Dark"
+                    ElementSize="ElementSize.Regular" ButtonVariant="ButtonVariant.Outlined"
+                    Title="Dark Disabled"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+
+        </MaviButton>
+        <MaviButton ButtonType="ButtonType.Light"
+                    ElementSize="ElementSize.Regular" ButtonVariant="ButtonVariant.Outlined"
+                    Title="Light Disabled"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+
+        </MaviButton>
+    </div>
+</div>
+    <div class="flex flex-col gap-2">
+        <div class="flex gap-2">
+            <MaviButton ButtonType="ButtonType.Default"
+                        ElementSize="ElementSize.Regular" ButtonVariant="ButtonVariant.Text"
+                        Title="Primary Disabled"
+                        TextTransform="TextTransform.Capitalize"
+                        StartIcon="lni lni-chevron-left"
+                        SpinnerText="Working..."
+                        ShowSpinner="true"
+                        OnClick="OnButtonClickAsync">
+
+            </MaviButton>
+            <MaviButton ButtonType="ButtonType.Primary"
+                        ElementSize="ElementSize.Regular" ButtonVariant="ButtonVariant.Text"
+                        Title="Primary Disabled"
+                        TextTransform="TextTransform.Capitalize"
+                        StartIcon="lni lni-chevron-left"
+                        SpinnerText="Working..."
+                        ShowSpinner="true"
+                        OnClick="OnButtonClickAsync">
+
+            </MaviButton>
+            <MaviButton ButtonType="ButtonType.Secondary"
+                        ElementSize="ElementSize.Regular" ButtonVariant="ButtonVariant.Text"
+                        Title="Secondary Disabled"
+                        TextTransform="TextTransform.Capitalize"
+                        StartIcon="lni lni-chevron-left"
+                        SpinnerText="Working..."
+                        ShowSpinner="true"
+                        OnClick="OnButtonClickAsync">
+
+            </MaviButton>
+            <MaviButton ButtonType="ButtonType.Success"
+                        ElementSize="ElementSize.Regular" ButtonVariant="ButtonVariant.Text"
+                        Title="Success Disabled"
+                        TextTransform="TextTransform.Capitalize"
+                        StartIcon="lni lni-chevron-left"
+                        SpinnerText="Working..."
+                        ShowSpinner="true"
+                        OnClick="OnButtonClickAsync">
+
+            </MaviButton>
+        </div>
+        <div class="flex gap-2">
+            <MaviButton ButtonType="ButtonType.Danger"
+                        ElementSize="ElementSize.Regular" ButtonVariant="ButtonVariant.Text"
+                        Title="Danger Disabled"
+                        TextTransform="TextTransform.Capitalize"
+                        StartIcon="lni lni-chevron-left"
+                        SpinnerText="Working..."
+                        ShowSpinner="true"
+                        OnClick="OnButtonClickAsync">
+
+            </MaviButton>
+            <MaviButton ButtonType="ButtonType.Warning"
+                        ElementSize="ElementSize.Regular" ButtonVariant="ButtonVariant.Text"
+                        Title="Warning Disabled"
+                        TextTransform="TextTransform.Capitalize"
+                        StartIcon="lni lni-chevron-left"
+                        SpinnerText="Working..."
+                        ShowSpinner="true"
+                        OnClick="OnButtonClickAsync">
+
+            </MaviButton>
+            <MaviButton ButtonType="ButtonType.Info"
+                        ElementSize="ElementSize.Regular" ButtonVariant="ButtonVariant.Text"
+                        Title="Info Disabled"
+                        TextTransform="TextTransform.Capitalize"
+                        StartIcon="lni lni-chevron-left"
+                        SpinnerText="Working..."
+                        ShowSpinner="true"
+                        OnClick="OnButtonClickAsync">
+
+            </MaviButton>
+            <MaviButton ButtonType="ButtonType.Dark"
+                        ElementSize="ElementSize.Regular" ButtonVariant="ButtonVariant.Text"
+                        Title="Dark Disabled"
+                        TextTransform="TextTransform.Capitalize"
+                        StartIcon="lni lni-chevron-left"
+                        SpinnerText="Working..."
+                        ShowSpinner="true"
+                        OnClick="OnButtonClickAsync">
+
+            </MaviButton>
+            <MaviButton ButtonType="ButtonType.Light"
+                        ElementSize="ElementSize.Regular" ButtonVariant="ButtonVariant.Text"
+                        Title="Light Disabled"
+                        TextTransform="TextTransform.Capitalize"
+                        StartIcon="lni lni-chevron-left"
+                        SpinnerText="Working..."
+                        ShowSpinner="true"
+                        OnClick="OnButtonClickAsync">
+
+            </MaviButton>
+        </div>
     </div>
     <div class="flex flex-col gap-2">
         <div class="flex gap-2">
@@ -37,7 +330,8 @@
                         Title="Primary Disabled"
                         TextTransform="TextTransform.Capitalize"
                         StartIcon="lni lni-chevron-left"
-                        EndIcon="lni lni-check-circle-1"
+                        SpinnerText="Working..."
+                        OnClick="OnButtonClickAsync"
                         Disabled="true">
 
             </MaviButton>
@@ -46,7 +340,8 @@
                         Title="Primary Disabled"
                         TextTransform="TextTransform.Capitalize"
                         StartIcon="lni lni-chevron-left"
-                        EndIcon="lni lni-check-circle-1"
+                        SpinnerText="Working..."
+                        OnClick="OnButtonClickAsync"
                         Disabled="true">
 
             </MaviButton>
@@ -55,7 +350,8 @@
                         Title="Secondary Disabled"
                         TextTransform="TextTransform.Capitalize"
                         StartIcon="lni lni-chevron-left"
-                        EndIcon="lni lni-check-circle-1"
+                        SpinnerText="Working..."
+                        OnClick="OnButtonClickAsync"
                         Disabled="true">
 
             </MaviButton>
@@ -64,7 +360,8 @@
                         Title="Success Disabled"
                         TextTransform="TextTransform.Capitalize"
                         StartIcon="lni lni-chevron-left"
-                        EndIcon="lni lni-check-circle-1"
+                        SpinnerText="Working..."
+                        OnClick="OnButtonClickAsync"
                         Disabled="true">
 
             </MaviButton>
@@ -75,7 +372,8 @@
                         Title="Danger Disabled"
                         TextTransform="TextTransform.Capitalize"
                         StartIcon="lni lni-chevron-left"
-                        EndIcon="lni lni-check-circle-1"
+                        SpinnerText="Working..."
+                        OnClick="OnButtonClickAsync"
                         Disabled="true">
 
             </MaviButton>
@@ -84,7 +382,8 @@
                         Title="Warning Disabled"
                         TextTransform="TextTransform.Capitalize"
                         StartIcon="lni lni-chevron-left"
-                        EndIcon="lni lni-check-circle-1"
+                        SpinnerText="Working..."
+                        OnClick="OnButtonClickAsync"
                         Disabled="true">
 
             </MaviButton>
@@ -93,7 +392,8 @@
                         Title="Info Disabled"
                         TextTransform="TextTransform.Capitalize"
                         StartIcon="lni lni-chevron-left"
-                        EndIcon="lni lni-check-circle-1"
+                        SpinnerText="Working..."
+                        OnClick="OnButtonClickAsync"
                         Disabled="true">
 
             </MaviButton>
@@ -102,7 +402,8 @@
                         Title="Dark Disabled"
                         TextTransform="TextTransform.Capitalize"
                         StartIcon="lni lni-chevron-left"
-                        EndIcon="lni lni-check-circle-1"
+                        SpinnerText="Working..."
+                        OnClick="OnButtonClickAsync"
                         Disabled="true">
 
             </MaviButton>
@@ -111,7 +412,8 @@
                         Title="Light Disabled"
                         TextTransform="TextTransform.Capitalize"
                         StartIcon="lni lni-chevron-left"
-                        EndIcon="lni lni-check-circle-1"
+                        SpinnerText="Working..."
+                        OnClick="OnButtonClickAsync"
                         Disabled="true">
 
             </MaviButton>
@@ -122,6 +424,7 @@
                     ElementSize="ElementSize.Large"
                     Title="Click"
                     Width="w-64"
+                    OnClick="OnButtonClickAsync"
                     TextTransform="TextTransform.Capitalize">
 
         </MaviButton>
@@ -129,6 +432,7 @@
                     ElementSize="ElementSize.Large"
                     Title="Click"
                     Width="w-48"
+                    OnClick="OnButtonClickAsync"
                     TextTransform="TextTransform.Capitalize">
 
         </MaviButton>
@@ -136,6 +440,7 @@
                     ElementSize="ElementSize.Large"
                     Title="Click"
                     Width="w-40"
+                    OnClick="OnButtonClickAsync"
                     TextTransform="TextTransform.Capitalize">
 
         </MaviButton>
@@ -143,6 +448,7 @@
                     ElementSize="ElementSize.Large"
                     Title="Click"
                     Width="w-32"
+                    OnClick="OnButtonClickAsync"
                     TextTransform="TextTransform.Capitalize">
 
         </MaviButton>
@@ -161,6 +467,7 @@
                                                 ButtonVariant="buttonVariant"
                                                 ButtonType="buttonType"
                                                 ElementSize="elementSize"
+                                                OnClick="OnButtonClickAsync"
                                                 Title="Like"/>
                             }
                         </div>
@@ -178,18 +485,21 @@
                         ButtonType="ButtonType.Primary"
                         ElementSize="ElementSize.Regular"
                         Disabled="true"
+                        OnClick="OnButtonClickAsync"
                         Title="Like"/>
         <MaviButtonIcon Icon="lni lni-alarm-1"
                         ButtonVariant="ButtonVariant.Outlined"
                         ButtonType="ButtonType.Primary"
                         ElementSize="ElementSize.Regular"
                         Disabled="true"
+                        OnClick="OnButtonClickAsync"
                         Title="Like" />
         <MaviButtonIcon Icon="lni lni-alarm-1"
                         ButtonVariant="ButtonVariant.Text"
                         ButtonType="ButtonType.Primary"
                         ElementSize="ElementSize.Regular"
                         Disabled="true"
+                        OnClick="OnButtonClickAsync"
                         Title="Like"/>
     </div>
     <div class="grid gap-4" style="grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));">
@@ -203,6 +513,7 @@
                         <MaviButton ButtonVariant="buttonVariant"
                                     ButtonType="buttonType"
                                     ElementSize="elementSize"
+                                    OnClick="OnButtonClickAsync"
                                     Title="@GetButtonTitle(buttonType, elementSize)">
 
                         </MaviButton>
@@ -218,5 +529,12 @@
     private string GetButtonTitle(ButtonType buttonType, ElementSize elementSize)
     {
         return $"{buttonType} {elementSize}";
+    }
+
+    private async Task OnButtonClickAsync(MouseClickEventArgs mouseEventArgs)
+    {
+        Logger?.LogInformation("Button Click! ID: {ButtonId} Introduce 4s delay to demo inline spinner effect.", mouseEventArgs.ButtonId);
+        await Task.Delay(4000);
+        Logger?.LogInformation("Button Click! ID: {ButtonId} End 4s delay.", mouseEventArgs.ButtonId);
     }
 }
