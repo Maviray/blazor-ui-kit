@@ -1,0 +1,9 @@
+﻿@inherits MaviComponentBase
+
+<div id="@Id" class="@Class" style="@Style" @attributes="AdditionalAttributes">
+
+</div>
+
+@code {
+    [Parameter] public override string? Id { get; set; } = $"button_group_{Guid.NewGuid()}";
+}
