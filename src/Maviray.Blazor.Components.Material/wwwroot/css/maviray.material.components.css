@@ -28,6 +28,11 @@
         @apply inline-flex items-center justify-center relative box-border cursor-pointer select-none align-middle appearance-none font-medium tracking-[0.02857em] min-w-16 outline-none m-0 no-underline border border-solid rounded transition-all duration-200 ease-in-out [-webkit-tap-highlight-color:transparent] bg-transparent disabled:opacity-40 disabled:cursor-not-allowed font-[var(--font-ui)];
     }
 
+    /* Base Text Button Styles - Material Design 3 + MUI */
+    .mavi-button-text {
+        @apply inline-flex items-center justify-center relative box-border cursor-pointer select-none align-middle appearance-none font-medium tracking-[0.02857em] min-w-16 outline-none m-0 no-underline border-0 rounded transition-all duration-200 ease-in-out [-webkit-tap-highlight-color:transparent] bg-transparent shadow-none disabled:opacity-40 disabled:cursor-not-allowed font-[var(--font-ui)];
+    }
+
     /* Default Button */
     .mavi-button-filled-default {
         @apply bg-(--theme-light-six) text-(--theme-dark-nine) hover:bg-(--theme-light-seven) hover:shadow-lg focus:ring-(--theme-light-eight) active:bg-(--theme-light-eight);
@@ -118,6 +123,51 @@
         @apply border-(--theme-light-six) text-(--theme-light-nine) hover:border-(--theme-light-seven) hover:bg-(--theme-light-one) active:bg-(--theme-light-two);
     }
 
+    /* Text Button - Default */
+    .mavi-button-text-default {
+        @apply text-(--theme-dark-nine) hover:bg-(--theme-light-one) active:bg-(--theme-light-two);
+    }
+
+    /* Text Button - Primary */
+    .mavi-button-text-primary {
+        @apply text-(--theme-primary-six) hover:bg-(--theme-primary-one) active:bg-(--theme-primary-two);
+    }
+
+    /* Text Button - Secondary */
+    .mavi-button-text-secondary {
+        @apply text-(--theme-secondary-seven) hover:bg-(--theme-secondary-one) active:bg-(--theme-secondary-two);
+    }
+
+    /* Text Button - Success */
+    .mavi-button-text-success {
+        @apply text-(--theme-success-eight) hover:bg-(--theme-success-one) active:bg-(--theme-success-two);
+    }
+
+    /* Text Button - Danger */
+    .mavi-button-text-danger {
+        @apply text-(--theme-alert-eight) hover:bg-(--theme-alert-one) active:bg-(--theme-alert-two);
+    }
+
+    /* Text Button - Warning */
+    .mavi-button-text-warning {
+        @apply text-(--theme-warning-eight) hover:bg-(--theme-warning-one) active:bg-(--theme-warning-two);
+    }
+
+    /* Text Button - Info */
+    .mavi-button-text-info {
+        @apply text-(--theme-info-seven) hover:bg-(--theme-info-one) active:bg-(--theme-info-two);
+    }
+
+    /* Text Button - Dark */
+    .mavi-button-text-dark {
+        @apply text-(--theme-dark-eight) hover:bg-(--theme-dark-one) active:bg-(--theme-dark-two);
+    }
+
+    /* Text Button - Light */
+    .mavi-button-text-light {
+        @apply text-(--theme-light-nine) hover:bg-(--theme-light-one) active:bg-(--theme-light-two);
+    }
+
     /* Size Variants */
     /* Small - 30px height (h-[30px] = 30px, closest is h-8 = 32px but we'll use exact) */
     .mavi-button-filled-small {
@@ -133,4 +183,37 @@
     .mavi-button-filled-large {
         @apply h-[42px] px-5 py-2 text-base leading-[1.75] min-w-20 gap-2;
     }
+
+    /* Size Variants - Outlined (slightly adjusted padding to account for border) */
+    /* Small - 30px height */
+    .mavi-button-outlined-small {
+        @apply h-[30px] px-2 py-0.5 text-xs leading-[1.75] min-w-14 gap-1;
+    }
+
+    /* Regular - 36px height */
+    .mavi-button-outlined-regular {
+        @apply h-9 px-[15px] py-[5px] text-sm leading-[1.75] min-w-16 gap-2;
+    }
+
+    /* Large - 42px height */
+    .mavi-button-outlined-large {
+        @apply h-[42px] px-[19px] py-[7px] text-base leading-[1.75] min-w-20 gap-2;
+    }
+
+    /* Size Variants - Text (same as filled, no border consideration needed) */
+    /* Small - 30px height */
+    .mavi-button-text-small {
+        @apply h-[30px] px-2.5 py-1 text-xs leading-[1.75] min-w-14 gap-1;
+    }
+
+    /* Regular - 36px height */
+    .mavi-button-text-regular {
+        @apply h-9 px-4 py-1.5 text-sm leading-[1.75] min-w-16 gap-2;
+    }
+
+    /* Large - 42px height */
+    .mavi-button-text-large {
+        @apply h-[42px] px-5 py-2 text-base leading-[1.75] min-w-20 gap-2;
+    }
+
 }

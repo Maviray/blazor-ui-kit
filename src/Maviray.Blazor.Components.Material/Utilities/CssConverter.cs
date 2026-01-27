@@ -34,7 +34,19 @@ namespace Maviray.Blazor.Components.Material.Utilities
 
         public static string GetTextButtonClass(ButtonType buttonType)
         {
-            return string.Empty;
+            return buttonType switch
+            {
+                ButtonType.Default => "mavi-button-text mavi-button-text-default",
+                ButtonType.Primary => "mavi-button-text mavi-button-text-primary",
+                ButtonType.Secondary => "mavi-button-text mavi-button-text-secondary",
+                ButtonType.Success => "mavi-button-text mavi-button-text-success",
+                ButtonType.Danger => "mavi-button-text mavi-button-text-danger",
+                ButtonType.Warning => "mavi-button-text mavi-button-text-warning",
+                ButtonType.Info => "mavi-button-text mavi-button-text-info",
+                ButtonType.Dark => "mavi-button-text mavi-button-text-dark",
+                ButtonType.Light => "mavi-button-text mavi-button-text-light",
+                _ => "mavi-button-text mavi-button-text-default"
+            };
         }
 
         public static string GetOutlinedButtonClass(ButtonType buttonType)
