@@ -1,12 +1,14 @@
 ﻿using Maviray.Blazor.Components.Core.Enums;
+using Maviray.Blazor.Components.Core.EventArgs;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 
 namespace Maviray.Blazor.Components.Core.Models.Buttons
 {
     public class ButtonModel
     {
         public string? Id { get; set; } = $"button_{Guid.NewGuid()}";
+
+        public string? Title { get; set; }
 
         public ButtonRole ButtonRole { get; set; }
 
@@ -19,8 +21,6 @@ namespace Maviray.Blazor.Components.Core.Models.Buttons
         public ButtonVariant ButtonVariant { get; set; }
 
         public bool Disabled { get; set; }
-
-        public EventCallback<MouseEventArgs> OnClick { get; set; }
 
         public string Width { get; set; } = "min-w-16";
 

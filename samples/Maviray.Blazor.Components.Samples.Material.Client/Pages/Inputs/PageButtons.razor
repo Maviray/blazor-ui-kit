@@ -1,4 +1,6 @@
 ﻿@page "/PageButtons"
+@inherits SamplePageBase
+@using Maviray.Blazor.Components.Core.EventArgs
 @using Maviray.Blazor.Components.Material.Components.Inputs
 
 <PageTitle>Buttons</PageTitle>
@@ -10,7 +12,8 @@
                           Title="Primary Large"
                           TextTransform="TextTransform.Capitalize"
                           StartIcon="lni lni-chevron-left"
-                          EndIcon="lni lni-check-circle-1">
+                          EndIcon="lni lni-check-circle-1"
+                          OnClick="OnButtonClickAsync">
 
         </MaviButton>
 
@@ -18,7 +21,8 @@
                           ElementSize="ElementSize.Regular"
                           Title="Primary Regular"
                           StartIcon="lni lni-check"
-                          TextTransform="TextTransform.LowerCase">
+                          TextTransform="TextTransform.LowerCase"
+                    OnClick="OnButtonClickAsync">
 
         </MaviButton>
 
@@ -26,7 +30,8 @@
                           ElementSize="ElementSize.Small"
                           Title="Primary Small"
                           Endicon="lni lni-shield-2-check"
-                          TextTransform="TextTransform.UpperCase">
+                          TextTransform="TextTransform.UpperCase"
+                    OnClick="OnButtonClickAsync">
 
         </MaviButton>
     </div>
@@ -38,6 +43,7 @@
                         TextTransform="TextTransform.Capitalize"
                         StartIcon="lni lni-chevron-left"
                         EndIcon="lni lni-check-circle-1"
+                        OnClick="OnButtonClickAsync"
                         Disabled="true">
 
             </MaviButton>
@@ -47,6 +53,7 @@
                         TextTransform="TextTransform.Capitalize"
                         StartIcon="lni lni-chevron-left"
                         EndIcon="lni lni-check-circle-1"
+                        OnClick="OnButtonClickAsync"
                         Disabled="true">
 
             </MaviButton>
@@ -56,6 +63,7 @@
                         TextTransform="TextTransform.Capitalize"
                         StartIcon="lni lni-chevron-left"
                         EndIcon="lni lni-check-circle-1"
+                        OnClick="OnButtonClickAsync"
                         Disabled="true">
 
             </MaviButton>
@@ -65,6 +73,7 @@
                         TextTransform="TextTransform.Capitalize"
                         StartIcon="lni lni-chevron-left"
                         EndIcon="lni lni-check-circle-1"
+                        OnClick="OnButtonClickAsync"
                         Disabled="true">
 
             </MaviButton>
@@ -76,6 +85,7 @@
                         TextTransform="TextTransform.Capitalize"
                         StartIcon="lni lni-chevron-left"
                         EndIcon="lni lni-check-circle-1"
+                        OnClick="OnButtonClickAsync"
                         Disabled="true">
 
             </MaviButton>
@@ -85,6 +95,7 @@
                         TextTransform="TextTransform.Capitalize"
                         StartIcon="lni lni-chevron-left"
                         EndIcon="lni lni-check-circle-1"
+                        OnClick="OnButtonClickAsync"
                         Disabled="true">
 
             </MaviButton>
@@ -94,6 +105,7 @@
                         TextTransform="TextTransform.Capitalize"
                         StartIcon="lni lni-chevron-left"
                         EndIcon="lni lni-check-circle-1"
+                        OnClick="OnButtonClickAsync"
                         Disabled="true">
 
             </MaviButton>
@@ -103,6 +115,7 @@
                         TextTransform="TextTransform.Capitalize"
                         StartIcon="lni lni-chevron-left"
                         EndIcon="lni lni-check-circle-1"
+                        OnClick="OnButtonClickAsync"
                         Disabled="true">
 
             </MaviButton>
@@ -112,6 +125,7 @@
                         TextTransform="TextTransform.Capitalize"
                         StartIcon="lni lni-chevron-left"
                         EndIcon="lni lni-check-circle-1"
+                        OnClick="OnButtonClickAsync"
                         Disabled="true">
 
             </MaviButton>
@@ -122,6 +136,7 @@
                     ElementSize="ElementSize.Large"
                     Title="Click"
                     Width="w-64"
+                    OnClick="OnButtonClickAsync"
                     TextTransform="TextTransform.Capitalize">
 
         </MaviButton>
@@ -129,6 +144,7 @@
                     ElementSize="ElementSize.Large"
                     Title="Click"
                     Width="w-48"
+                    OnClick="OnButtonClickAsync"
                     TextTransform="TextTransform.Capitalize">
 
         </MaviButton>
@@ -136,6 +152,7 @@
                     ElementSize="ElementSize.Large"
                     Title="Click"
                     Width="w-40"
+                    OnClick="OnButtonClickAsync"
                     TextTransform="TextTransform.Capitalize">
 
         </MaviButton>
@@ -143,6 +160,7 @@
                     ElementSize="ElementSize.Large"
                     Title="Click"
                     Width="w-32"
+                    OnClick="OnButtonClickAsync"
                     TextTransform="TextTransform.Capitalize">
 
         </MaviButton>
@@ -161,6 +179,7 @@
                                                 ButtonVariant="buttonVariant"
                                                 ButtonType="buttonType"
                                                 ElementSize="elementSize"
+                                                OnClick="OnButtonClickAsync"
                                                 Title="Like"/>
                             }
                         </div>
@@ -178,18 +197,21 @@
                         ButtonType="ButtonType.Primary"
                         ElementSize="ElementSize.Regular"
                         Disabled="true"
+                        OnClick="OnButtonClickAsync"
                         Title="Like"/>
         <MaviButtonIcon Icon="lni lni-alarm-1"
                         ButtonVariant="ButtonVariant.Outlined"
                         ButtonType="ButtonType.Primary"
                         ElementSize="ElementSize.Regular"
                         Disabled="true"
+                        OnClick="OnButtonClickAsync"
                         Title="Like" />
         <MaviButtonIcon Icon="lni lni-alarm-1"
                         ButtonVariant="ButtonVariant.Text"
                         ButtonType="ButtonType.Primary"
                         ElementSize="ElementSize.Regular"
                         Disabled="true"
+                        OnClick="OnButtonClickAsync"
                         Title="Like"/>
     </div>
     <div class="grid gap-4" style="grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));">
@@ -203,6 +225,7 @@
                         <MaviButton ButtonVariant="buttonVariant"
                                     ButtonType="buttonType"
                                     ElementSize="elementSize"
+                                    OnClick="OnButtonClickAsync"
                                     Title="@GetButtonTitle(buttonType, elementSize)">
 
                         </MaviButton>
@@ -218,5 +241,12 @@
     private string GetButtonTitle(ButtonType buttonType, ElementSize elementSize)
     {
         return $"{buttonType} {elementSize}";
+    }
+
+    private Task OnButtonClickAsync(MouseClickEventArgs mouseEventArgs)
+    {
+        Logger?.LogDebug("Button Click! ID: {ButtonId}", mouseEventArgs.ButtonId);
+
+        return Task.CompletedTask;
     }
 }

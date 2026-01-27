@@ -1,6 +1,6 @@
 ﻿@inherits MaviButtonBase
 
-<button id="@Id" class="@GetButtonClasses()" style="@Style" @onclick="@OnClick" disabled="@Disabled" type="@Role" role="@Role" title="@Title" @attributes="AdditionalAttributes">
+<button id="@Id" class="@GetButtonClasses()" style="@Style" @onclick="@HandleButtonClick" disabled="@Disabled" type="@Role" role="@Role" title="@Title" @attributes="AdditionalAttributes">
     @if (!string.IsNullOrEmpty(StartIcon))
     {
         <i class="@StartIcon"></i>

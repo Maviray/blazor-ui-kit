@@ -1,0 +1,65 @@
+﻿@page "/PageButtonGroups"
+@using Maviray.Blazor.Components.Core.EventArgs
+@using Maviray.Blazor.Components.Core.Models.Buttons
+@using Maviray.Blazor.Components.Material.Components.Inputs
+@inherits SamplePageBase
+
+<PageTitle>Button Groups</PageTitle>
+
+<div class="p-4 flex gap-2">
+    <div>
+        <MaviButtonGroup ButtonVariant="ButtonVariant.Filled"
+                         ElementSize="ElementSize.Regular"
+                         ButtonType="ButtonType.Primary"
+                         OnClick="OnButtonGroupClick"
+                         Buttons="@GenerateIconButtonGroup()" />
+    </div>
+    @foreach (var elementSize in Enum.GetValues<ElementSize>())
+    {
+        <div class="p-4 flex flex-col gap-2">
+            @foreach (var buttonVariant in Enum.GetValues<ButtonVariant>())
+            {
+                <div class="p-4 flex flex-col gap-2">
+                    @foreach (var buttonType in Enum.GetValues<ButtonType>())
+                    {
+                        <div class="flex flex-col gap-2 items-center">
+                            <MaviButtonGroup ButtonVariant="buttonVariant"
+                                             ElementSize="elementSize"
+                                             ButtonType="buttonType"
+                                             OnClick="OnButtonGroupClick"
+                                             Buttons="@GenerateTextButtonGroup()" />
+                            <div>
+                                @buttonVariant @buttonType
+                            </div>
+                        </div>
+
+
+                    }
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code
+{
+    private static List<ButtonModel> GenerateTextButtonGroup() =>
+    [
+        new() { Title = "Left" },
+        new() { Title = "Middle" },
+        new() { Title = "Right" }
+    ];
+
+    private static List<ButtonModel> GenerateIconButtonGroup() =>
+    [
+        new() { StartIcon = "lni lni-chevron-left" },
+        new() { StartIcon = "lni lni-shield-2-check" },
+        new() { EndIcon = "lni lni-chevron-left" }
+    ];
+
+    private Task OnButtonGroupClick(MouseGroupClickEventArgs eventArgs)
+    {
+        Logger?.LogInformation("Button Click! ID: {EventArgsButtonId}", eventArgs.ButtonId);
+        return Task.CompletedTask;
+    }
+}
