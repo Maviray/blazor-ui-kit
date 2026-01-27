@@ -3,7 +3,7 @@
 Collection of re-usable Blazor UI components.
 
 ## Overview
-This is an attempt to centralize lots of previously relatively sparadic efforts to manage and maintain Blazor UI. Hopefully someone might find this useful. This is hardly an effort to compete or replicate effort matching one with professional UI libraries. I really like what MudBlazor folks are doing and have given it a number of serious thought inclining using those libraries. The dilemma is I am also a big fan of Tailwind idea of managing CSS with utility classes and the biggest bummer is that they or any other team don’t do Tailwind with Blazor components.
+This is an attempt to centralize lots of previously relatively sparadic efforts to manage and maintain Blazor UI. Hopefully someone might find this useful. This is hardly an effort to compete or replicate effort matching one with professional UI libraries. I really like what MudBlazor folks are doing and have given it a number of serious thought inclining using those libraries. The dilemma is I am also a big fan of Tailwind idea of managing CSS with utility classes and the biggest bummer is that they or any other team i had come across don’t do Tailwind with Blazor components.
 
 ## Purpose
 
