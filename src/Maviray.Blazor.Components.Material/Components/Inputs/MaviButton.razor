@@ -21,6 +21,12 @@
 
     [Parameter] public ButtonVariant ButtonVariant { get; set; }
 
+    [Parameter]
+    public string? StartIcon { get; set; }
+
+    [Parameter]
+    public string? EndIcon { get; set; }
+
     private string GetButtonClasses()
     {
         var baseClasses = CssConverter.GetButtonClass(ButtonVariant, ButtonType);

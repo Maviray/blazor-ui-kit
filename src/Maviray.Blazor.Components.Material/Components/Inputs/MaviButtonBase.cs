@@ -21,11 +21,7 @@ namespace Maviray.Blazor.Components.Material.Components.Inputs
 
         [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
         
-        [Parameter]
-        public string? StartIcon { get; set; }
-
-        [Parameter]
-        public string? EndIcon { get; set; }
+      
 
         protected string Role => ButtonRole.ToString().ToLower();
     }

@@ -40,7 +40,7 @@
 
     /* Primary Button */
     .mavi-button-filled-primary {
-        @apply bg-(--theme-primary-six) text-white hover:bg-(--theme-primary-seven) hover:shadow-lg focus:ring-(--theme-primary-eight) active:bg-(--theme-primary-eight);
+        @apply bg-(--theme-primary-eight) text-white hover:bg-(--theme-primary-nine) hover:shadow-lg focus:ring-(--theme-primary-nine) active:bg-(--theme-primary-four);
     }
 
     /* Secondary Button */
