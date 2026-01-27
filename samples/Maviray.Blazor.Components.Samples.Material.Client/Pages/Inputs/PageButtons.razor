@@ -119,33 +119,78 @@
     </div>
     <div class="flex flex-col gap-2">
         <MaviButton ButtonType="ButtonType.Primary"
-                          ElementSize="ElementSize.Large"
-                          Title="Click"
-                          Width="w-64"
-                          TextTransform="TextTransform.Capitalize">
+                    ElementSize="ElementSize.Large"
+                    Title="Click"
+                    Width="w-64"
+                    TextTransform="TextTransform.Capitalize">
 
         </MaviButton>
         <MaviButton ButtonType="ButtonType.Primary"
-                          ElementSize="ElementSize.Large"
-                          Title="Click"
-                          Width="w-48"
-                          TextTransform="TextTransform.Capitalize">
+                    ElementSize="ElementSize.Large"
+                    Title="Click"
+                    Width="w-48"
+                    TextTransform="TextTransform.Capitalize">
 
         </MaviButton>
         <MaviButton ButtonType="ButtonType.Primary"
-                          ElementSize="ElementSize.Large"
-                          Title="Click"
-                          Width="w-40"
-                          TextTransform="TextTransform.Capitalize">
+                    ElementSize="ElementSize.Large"
+                    Title="Click"
+                    Width="w-40"
+                    TextTransform="TextTransform.Capitalize">
 
         </MaviButton>
         <MaviButton ButtonType="ButtonType.Primary"
-                          ElementSize="ElementSize.Large"
-                          Title="Click"
-                          Width="w-32"
-                          TextTransform="TextTransform.Capitalize">
+                    ElementSize="ElementSize.Large"
+                    Title="Click"
+                    Width="w-32"
+                    TextTransform="TextTransform.Capitalize">
 
         </MaviButton>
+    </div>
+    <div class="grid gap-4" style="grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));">
+        @foreach (var buttonVariant in Enum.GetValues<ButtonVariant>())
+        {
+            foreach (var buttonType in Enum.GetValues<ButtonType>())
+            {
+                <div class="flex gap-2 justify-center items-center p-4 border rounded-lg hover:shadow-lg transition-shadow bg-white min-h-[140px]">
+                    <div class="flex flex-col gap-2">
+                        <div class="flex gap-2">
+                            @foreach (var elementSize in Enum.GetValues<ElementSize>())
+                            {
+                                <MaviButtonIcon Icon="lni lni-alarm-1"
+                                                ButtonVariant="buttonVariant"
+                                                ButtonType="buttonType"
+                                                ElementSize="elementSize"
+                                                Title="Like"/>
+                            }
+                        </div>
+                        <div>
+                            @buttonVariant @buttonType
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+    <div class="flex gap-2">
+        <MaviButtonIcon Icon="lni lni-alarm-1"
+                        ButtonVariant="ButtonVariant.Filled"
+                        ButtonType="ButtonType.Primary"
+                        ElementSize="ElementSize.Regular"
+                        Disabled="true"
+                        Title="Like"/>
+        <MaviButtonIcon Icon="lni lni-alarm-1"
+                        ButtonVariant="ButtonVariant.Outlined"
+                        ButtonType="ButtonType.Primary"
+                        ElementSize="ElementSize.Regular"
+                        Disabled="true"
+                        Title="Like" />
+        <MaviButtonIcon Icon="lni lni-alarm-1"
+                        ButtonVariant="ButtonVariant.Text"
+                        ButtonType="ButtonType.Primary"
+                        ElementSize="ElementSize.Regular"
+                        Disabled="true"
+                        Title="Like"/>
     </div>
     <div class="grid gap-4" style="grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));">
         @foreach (var buttonVariant in Enum.GetValues<ButtonVariant>())

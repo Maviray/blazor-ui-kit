@@ -214,6 +214,5 @@
     /* Large - 42px height */
     .mavi-button-text-large {
         @apply h-[42px] px-5 py-2 text-base leading-[1.75] min-w-20 gap-2;
-    }
-
+    }    
 }
