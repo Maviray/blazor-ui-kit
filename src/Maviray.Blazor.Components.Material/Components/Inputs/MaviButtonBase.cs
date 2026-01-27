@@ -17,17 +17,13 @@ namespace Maviray.Blazor.Components.Material.Components.Inputs
 
         [Parameter] public TextTransform TextTransform { get; set; }
 
+        [Parameter] public ButtonVariant ButtonVariant { get; set; }
+
         [Parameter] public bool Disabled { get; set; }
 
         [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
-
-        [Parameter] public string? IconCss { get; set; }
-
-        [Parameter]
-        public string? StartIcon { get; set; }
-
-        [Parameter]
-        public string? EndIcon { get; set; }
+        
+      
 
         protected string Role => ButtonRole.ToString().ToLower();
     }

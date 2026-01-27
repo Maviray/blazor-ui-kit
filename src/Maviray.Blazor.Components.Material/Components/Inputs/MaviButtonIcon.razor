@@ -1,4 +1,157 @@
 ﻿@inherits MaviButtonBase
 
-<button id="@Id" class="@Class" style="@Style" @onclick="@OnClick" disabled="@Disabled" type="@Role" role="@Role" title="@Title" @attributes="AdditionalAttributes">
+<button id="@Id" class="@GetClasses()" style="@Style" @onclick="@OnClick" disabled="@Disabled" type="@Role" role="@Role" title="@Title" @attributes="AdditionalAttributes">
+    <i class="@Icon"></i>
 </button>
+
+@code {
+    [Parameter] public string? Icon { get; set; }
+
+    private string GetClasses()
+    {
+        var classes = new List<string>
+        {
+            "inline-flex",
+            "items-center",
+            "justify-center",
+            "rounded-full",
+            "font-medium",
+            "transition-all",
+            "duration-200",
+            "ease-in-out",
+            "select-none",
+            "outline-none",
+            "border",
+            "active:ring-4",
+            "active:ring-opacity-20",
+            // Add size classes
+            GetSizeClasses(),
+            // Add variant and type specific classes
+            GetVariantClasses(),
+            // Add disabled or enabled cursor
+            GetCursorClasses()
+        };
+
+        // Add user-defined classes
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+
+        return string.Join(" ", classes.Where(c => !string.IsNullOrEmpty(c)));
+    }
+
+    private string GetSizeClasses()
+    {
+        return ElementSize switch
+        {
+            ElementSize.Small => "w-8 h-8 text-sm",
+            ElementSize.Large => "w-14 h-14 text-2xl",
+            _ => "w-10 h-10 text-base" // Regular
+        };
+    }
+
+    private string GetCursorClasses()
+    {
+        return Disabled
+            ? "cursor-not-allowed opacity-40 pointer-events-none"
+            : "cursor-pointer";
+    }
+
+    private string GetVariantClasses()
+    {
+        return ButtonVariant switch
+        {
+            ButtonVariant.Filled => GetFilledClasses(),
+            ButtonVariant.Outlined => GetOutlinedClasses(),
+            ButtonVariant.Text => GetTextClasses(),
+            _ => GetFilledClasses()
+        };
+    }
+
+    private string GetFilledClasses()
+    {
+        var baseClasses = "border-transparent shadow-md";
+        var hoverClasses = Disabled ? "" : "hover:shadow-lg";
+        var activeClasses = Disabled ? "" : "active:shadow-sm";
+
+        var typeClasses = ButtonType switch
+        {
+            ButtonType.Primary => $"bg-(--theme-primary-six) text-white {(Disabled ? "" : "hover:bg-(--theme-primary-seven) active:bg-(--theme-primary-eight) active:ring-(--theme-primary-six)")}",
+
+            ButtonType.Secondary => $"bg-(--theme-secondary-six) text-white {(Disabled ? "" : "hover:bg-(--theme-secondary-seven) active:bg-(--theme-secondary-eight) active:ring-(--theme-secondary-six)")}",
+
+            ButtonType.Success => $"bg-(--theme-success-seven) text-white {(Disabled ? "" : "hover:bg-(--theme-success-eight) active:bg-(--theme-success-nine) active:ring-(--theme-success-seven)")}",
+
+            ButtonType.Danger => $"bg-(--theme-alert-seven) text-white {(Disabled ? "" : "hover:bg-(--theme-alert-eight) active:bg-(--theme-alert-nine) active:ring-(--theme-alert-seven)")}",
+
+            ButtonType.Warning => $"bg-(--theme-warning-seven) text-white {(Disabled ? "" : "hover:bg-(--theme-warning-eight) active:bg-(--theme-warning-nine) active:ring-(--theme-warning-seven)")}",
+
+            ButtonType.Info => $"bg-(--theme-info-seven) text-white {(Disabled ? "" : "hover:bg-(--theme-info-eight) active:bg-(--theme-info-nine) active:ring-(--theme-info-seven)")}",
+
+            ButtonType.Dark => $"bg-(--theme-dark-eight) text-white {(Disabled ? "" : "hover:bg-(--theme-dark-nine) active:bg-(--theme-dark-ten) active:ring-(--theme-dark-eight)")}",
+
+            ButtonType.Light => $"bg-(--theme-light-four) text-(--theme-dark-nine) {(Disabled ? "" : "hover:bg-(--theme-light-five) active:bg-(--theme-light-six) active:ring-(--theme-light-four)")}",
+
+            _ => $"bg-(--theme-light-four) text-(--theme-dark-nine) {(Disabled ? "" : "hover:bg-(--theme-light-five) active:bg-(--theme-light-six) active:ring-(--theme-light-four)")}" // Default
+        };
+
+        return $"{baseClasses} {hoverClasses} {activeClasses} {typeClasses}";
+    }
+
+    private string GetOutlinedClasses()
+    {
+        var baseClasses = "bg-transparent border-2";
+
+        var typeClasses = ButtonType switch
+        {
+            ButtonType.Primary => $"text-(--theme-primary-seven) border-(--theme-primary-six) {(Disabled ? "" : "hover:bg-(--theme-primary-one) active:bg-(--theme-primary-two) active:ring-(--theme-primary-six)")}",
+
+            ButtonType.Secondary => $"text-(--theme-secondary-seven) border-(--theme-secondary-six) {(Disabled ? "" : "hover:bg-(--theme-secondary-one) active:bg-(--theme-secondary-two) active:ring-(--theme-secondary-six)")}",
+
+            ButtonType.Success => $"text-(--theme-success-eight) border-(--theme-success-seven) {(Disabled ? "" : "hover:bg-(--theme-success-one) active:bg-(--theme-success-two) active:ring-(--theme-success-seven)")}",
+
+            ButtonType.Danger => $"text-(--theme-alert-eight) border-(--theme-alert-seven) {(Disabled ? "" : "hover:bg-(--theme-alert-one) active:bg-(--theme-alert-two) active:ring-(--theme-alert-seven)")}",
+
+            ButtonType.Warning => $"text-(--theme-warning-eight) border-(--theme-warning-seven) {(Disabled ? "" : "hover:bg-(--theme-warning-one) active:bg-(--theme-warning-two) active:ring-(--theme-warning-seven)")}",
+
+            ButtonType.Info => $"text-(--theme-info-eight) border-(--theme-info-seven) {(Disabled ? "" : "hover:bg-(--theme-info-one) active:bg-(--theme-info-two) active:ring-(--theme-info-seven)")}",
+
+            ButtonType.Dark => $"text-(--theme-dark-nine) border-(--theme-dark-eight) {(Disabled ? "" : "hover:bg-(--theme-dark-one) active:bg-(--theme-dark-two) active:ring-(--theme-dark-eight)")}",
+
+            ButtonType.Light => $"text-(--theme-dark-eight) border-(--theme-light-six) {(Disabled ? "" : "hover:bg-(--theme-light-two) active:bg-(--theme-light-three) active:ring-(--theme-light-six)")}",
+
+            _ => $"text-(--theme-dark-eight) border-(--theme-light-six) {(Disabled ? "" : "hover:bg-(--theme-light-two) active:bg-(--theme-light-three) active:ring-(--theme-light-six)")}" // Default
+        };
+
+        return $"{baseClasses} {typeClasses}";
+    }
+
+    private string GetTextClasses()
+    {
+        var baseClasses = "bg-transparent border-transparent";
+
+        var typeClasses = ButtonType switch
+        {
+            ButtonType.Primary => $"text-(--theme-primary-seven) {(Disabled ? "" : "hover:bg-(--theme-primary-one) active:bg-(--theme-primary-two) active:ring-(--theme-primary-six)")}",
+
+            ButtonType.Secondary => $"text-(--theme-secondary-seven) {(Disabled ? "" : "hover:bg-(--theme-secondary-one) active:bg-(--theme-secondary-two) active:ring-(--theme-secondary-six)")}",
+
+            ButtonType.Success => $"text-(--theme-success-eight) {(Disabled ? "" : "hover:bg-(--theme-success-one) active:bg-(--theme-success-two) active:ring-(--theme-success-seven)")}",
+
+            ButtonType.Danger => $"text-(--theme-alert-eight) {(Disabled ? "" : "hover:bg-(--theme-alert-one) active:bg-(--theme-alert-two) active:ring-(--theme-alert-seven)")}",
+
+            ButtonType.Warning => $"text-(--theme-warning-eight) {(Disabled ? "" : "hover:bg-(--theme-warning-one) active:bg-(--theme-warning-two) active:ring-(--theme-warning-seven)")}",
+
+            ButtonType.Info => $"text-(--theme-info-eight) {(Disabled ? "" : "hover:bg-(--theme-info-one) active:bg-(--theme-info-two) active:ring-(--theme-info-seven)")}",
+
+            ButtonType.Dark => $"text-(--theme-dark-nine) {(Disabled ? "" : "hover:bg-(--theme-dark-one) active:bg-(--theme-dark-two) active:ring-(--theme-dark-eight)")}",
+
+            ButtonType.Light => $"text-(--theme-dark-eight) {(Disabled ? "" : "hover:bg-(--theme-light-two) active:bg-(--theme-light-three) active:ring-(--theme-light-six)")}",
+
+            _ => $"text-(--theme-dark-eight) {(Disabled ? "" : "hover:bg-(--theme-light-two) active:bg-(--theme-light-three) active:ring-(--theme-light-six)")}" // Default
+        };
+
+        return $"{baseClasses} {typeClasses}";
+    }
+}
