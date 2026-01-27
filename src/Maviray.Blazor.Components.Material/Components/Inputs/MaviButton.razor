@@ -1,0 +1,122 @@
+﻿@inherits MaviButtonBase
+
+<button id="@Id" class="@GetButtonClasses()" style="@Style" @onclick="@OnClick" disabled="@Disabled" type="@Role" role="@Role" title="@Title" @attributes="AdditionalAttributes">
+    @if (!string.IsNullOrEmpty(StartIcon))
+    {
+        <i class="@StartIcon"></i>
+    }
+    @if (!string.IsNullOrEmpty(Title))
+    {
+        <span aria-label="@Title">@Title</span>
+    }
+    @if (!string.IsNullOrEmpty(EndIcon))
+    {
+        <i class="@EndIcon"></i>
+    }
+</button>
+
+@code {
+
+    [Parameter] public string Width { get; set; } = "min-w-16";
+
+    [Parameter]
+    public string? StartIcon { get; set; }
+
+    [Parameter]
+    public string? EndIcon { get; set; }
+
+    private string GetButtonClasses()
+    {
+        var baseClasses = GetButtonClass(ButtonVariant, ButtonType);
+        var transformClass = GetTextTransformClass(TextTransform);
+        var sizeClass = GetButtonSizeClass(ElementSize);
+        var allClasses = $"{baseClasses} {transformClass} {sizeClass} {Width}";
+
+        return string.IsNullOrEmpty(Class) ? allClasses : $"{allClasses} {Class}";
+    }
+
+    private static string GetButtonClass(ButtonVariant buttonVariant, ButtonType buttonType)
+    {
+        return buttonVariant switch
+        {
+            ButtonVariant.Filled => GetFilledButtonClass(buttonType),
+            ButtonVariant.Outlined => GetOutlinedButtonClass(buttonType),
+            ButtonVariant.Text => GetTextButtonClass(buttonType),
+            _ => GetFilledButtonClass(buttonType)
+        };
+    }
+
+    private static string GetFilledButtonClass(ButtonType buttonType)
+    {
+        return buttonType switch
+        {
+            ButtonType.Default => "mavi-button-filled mavi-button-filled-default",
+            ButtonType.Primary => "mavi-button-filled mavi-button-filled-primary",
+            ButtonType.Secondary => "mavi-button-filled mavi-button-filled-secondary",
+            ButtonType.Success => "mavi-button-filled mavi-button-filled-success",
+            ButtonType.Danger => "mavi-button-filled mavi-button-filled-danger",
+            ButtonType.Warning => "mavi-button-filled mavi-button-filled-warning",
+            ButtonType.Info => "mavi-button-filled mavi-button-filled-info",
+            ButtonType.Dark => "mavi-button-filled mavi-button-filled-dark",
+            ButtonType.Light => "mavi-button-filled mavi-button-filled-light",
+            _ => "mavi-button-filled mavi-button-filled-default"
+        };
+    }
+
+    private static string GetTextButtonClass(ButtonType buttonType)
+    {
+        return buttonType switch
+        {
+            ButtonType.Default => "mavi-button-text mavi-button-text-default",
+            ButtonType.Primary => "mavi-button-text mavi-button-text-primary",
+            ButtonType.Secondary => "mavi-button-text mavi-button-text-secondary",
+            ButtonType.Success => "mavi-button-text mavi-button-text-success",
+            ButtonType.Danger => "mavi-button-text mavi-button-text-danger",
+            ButtonType.Warning => "mavi-button-text mavi-button-text-warning",
+            ButtonType.Info => "mavi-button-text mavi-button-text-info",
+            ButtonType.Dark => "mavi-button-text mavi-button-text-dark",
+            ButtonType.Light => "mavi-button-text mavi-button-text-light",
+            _ => "mavi-button-text mavi-button-text-default"
+        };
+    }
+
+    private static string GetOutlinedButtonClass(ButtonType buttonType)
+    {
+        return buttonType switch
+        {
+            ButtonType.Default => "mavi-button-outlined mavi-button-outlined-default",
+            ButtonType.Primary => "mavi-button-outlined mavi-button-outlined-primary",
+            ButtonType.Secondary => "mavi-button-outlined mavi-button-outlined-secondary",
+            ButtonType.Success => "mavi-button-outlined mavi-button-outlined-success",
+            ButtonType.Danger => "mavi-button-outlined mavi-button-outlined-danger",
+            ButtonType.Warning => "mavi-button-outlined mavi-button-outlined-warning",
+            ButtonType.Info => "mavi-button-outlined mavi-button-outlined-info",
+            ButtonType.Dark => "mavi-button-outlined mavi-button-outlined-dark",
+            ButtonType.Light => "mavi-button-outlined mavi-button-outlined-light",
+            _ => "mavi-button-outlined mavi-button-outlined-default"
+        };
+    }
+
+    private static string GetTextTransformClass(TextTransform textTransform)
+    {
+        return textTransform switch
+        {
+            TextTransform.Normal => "normal-case",
+            TextTransform.UpperCase => "uppercase",
+            TextTransform.LowerCase => "lowercase",
+            TextTransform.Capitalize => "capitalize",
+            _ => "uppercase" // Default to uppercase for Material Design
+        };
+    }
+
+    private static string GetButtonSizeClass(ElementSize size)
+    {
+        return size switch
+        {
+            ElementSize.Small => "mavi-button-filled-small",
+            ElementSize.Regular => "mavi-button-filled-regular",
+            ElementSize.Large => "mavi-button-filled-large",
+            _ => "mavi-button-filled-regular"
+        };
+    }
+}

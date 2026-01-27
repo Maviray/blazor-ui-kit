@@ -273,5 +273,77 @@ public static class Tailwind
             public const string THEME_DARK_NINE_BG = "bg-(--theme-dark-nine)";
             public const string THEME_DARK_TEN_BG = "bg-(--theme-dark-ten)";
         }
+
+        public static class Typography
+        {
+            // =========================
+            // DISPLAY
+            // =========================
+
+            public const string DISPLAY_LARGE =
+                "text-6xl font-light tracking-tight leading-tight font-[var(--font-display)]";
+
+            public const string DISPLAY_MEDIUM =
+                "text-5xl font-light tracking-tight leading-tight font-[var(--font-display)]";
+
+            public const string DISPLAY_SMALL =
+                "text-4xl font-normal tracking-tight leading-tight font-[var(--font-display)]";
+
+
+            // =========================
+            // HEADLINES
+            // =========================
+
+            public const string HEADLINE_LARGE =
+                "text-3xl font-semibold tracking-tight leading-snug font-[var(--font-heading)]";
+
+            public const string HEADLINE_MEDIUM =
+                "text-2xl font-semibold tracking-tight leading-snug font-[var(--font-heading)]";
+
+            public const string HEADLINE_SMALL =
+                "text-xl font-semibold leading-snug font-[var(--font-heading)]";
+
+
+            // =========================
+            // TITLES
+            // =========================
+
+            public const string TITLE_LARGE =
+                "text-lg font-semibold leading-snug font-[var(--font-heading)]";
+
+            public const string TITLE_MEDIUM =
+                "text-base font-semibold leading-snug font-[var(--font-heading)]";
+
+            public const string TITLE_SMALL =
+                "text-sm font-semibold leading-snug font-[var(--font-heading)]";
+
+
+            // =========================
+            // BODY
+            // =========================
+
+            public const string BODY_LARGE =
+                "text-base font-normal leading-relaxed font-[var(--font-ui)]";
+
+            public const string BODY_MEDIUM =
+                "text-sm font-normal leading-relaxed font-[var(--font-ui)]";
+
+            public const string BODY_SMALL =
+                "text-xs font-normal leading-relaxed font-[var(--font-ui)]";
+
+
+            // =========================
+            // LABELS (BUTTONS, CHIPS)
+            // =========================
+
+            public const string LABEL_LARGE =
+                "text-sm font-medium leading-none font-[var(--font-ui)]";
+
+            public const string LABEL_MEDIUM =
+                "text-xs font-medium leading-none font-[var(--font-ui)]";
+
+            public const string LABEL_SMALL =
+                "text-[11px] font-medium uppercase tracking-wide leading-none font-[var(--font-ui)]";
+        }
     }
 }
