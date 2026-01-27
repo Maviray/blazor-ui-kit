@@ -3,7 +3,7 @@
 Collection of re-usable Blazor UI components.
 
 ## Overview
-This is an attempt to centralize lots of previously relatively sparadic efforts to manage and maintain Blazor UI. Hopefully someone might find this useful.
+This is an attempt to centralize lots of previously relatively sparadic efforts to manage and maintain Blazor UI. Hopefully someone might find this useful. This is hardly an effort to compete or replicate effort matching one with professional UI libraries. I really like what MudBlazor folks are doing and have given it a number of serious thought inclining using those libraries. The dilemma is I am also a big fan of Tailwind idea of managing CSS with utility classes and the biggest bummer is that they or any other team don’t do Tailwind with Blazor components.
 
 ## Purpose
 
@@ -24,58 +24,59 @@ Each project can be installed independently based on your requirements.
 
 ## Tentative Intended Content
 
-- Inputs & Controls
-  - Button (variants: filled, tonal, outlined, text, icon-only; states & loading)
-  - IconButton
-  - FAB (small/regular/large)
-  - ToggleButton / ToggleButtonGroup
+- Inputs
+  - Autocomplete
+  - Button
+  - Button Group
   - Checkbox
-  - Radio
+  - Radio Group
+  - Rating
+  - Select
+  - Slider
   - Switch
-  - Slider (single/range, tick marks)
-  - TextField (filled/outlined; with leading/trailing icons; validation, helper, counter)
-  - TextArea
-  - Select (native & custom popover)
-  - Autocomplete / Combobox
-  - DatePicker / DateRangePicker
-  - TimePicker
-  - Chip (assist/filter/input/suggestion) + ChipSet
-  - SegmentedButton
-  - Stepper (horizontal/vertical)
-- Data Display
-  - Badge
+  - Text Field
+  - Transfer List
+  - Toggle Button
+- Data display
   - Avatar
-  - Icon (Material Symbols)
-  - List / ListItem (one-line/two-line/three-line, leading/trailing actions)
-  - Table (sortable, pageable, density, sticky header/cols, row selection)
-  - DataGrid-lite (virtualized rows, selection, multi-sort if feasible)
-  - Tooltip
+  - Badge
+  - Chip
   - Divider
-- Feedback & Surfaces
-  - Snackbar / Toast (stacking, action button, dismiss, durations)
-  - Dialog (modal, full-screen on small screens)
-  - Drawer (modal, dismissible, permanent)
-  - AppBar / TopAppBar (small/centered/large)
-  - Card (elevated, filled, outlined)
-  - Banner
+  - Icons
+  - List
+  - Table
+  - Tooltip
+  - Typography
+- Feedback
+  - Alert
+  - Backdrop
+  - Dialog
+  - Progress
+  - Skeleton
+  - Snackbar
+- Surfaces
+  - Accordion
+  - App Bar
+  - Card
+  - Paper
 - Navigation
-  - Tabs (primary/secondary, fixed/scrollable)
-  - NavigationRail
-  - NavigationDrawer
-  - BottomNavigation
+  - Bottom Navigation
   - Breadcrumbs
+  - Drawer
+  - Link
+  - Menu
   - Pagination
+  - Stepper
+  - Tabs
 - Layout
-  - Grid helpers (CSS Grid utilities, responsive)
-  - Stack/Spacer helpers
-  - Responsive container (breakpoints aligned to Material 3)
-  - Surface container tokens for elevation overlays
-- Utility Behaviors
-  - FocusTrap
-  - ScrollLock
-  - Ripple (JS interop or CSS-only approximation)
-  - Elevation & state layers (hover/pressed/disabled)
-  - Motion helpers (CSS transitions aligned to Material durations/easings)
+  - Box
+  - Container
+  - Grid
+- Utilities
+  - Data Grid
+  - Date and Time Pickers
+  - Charts
+  - Tree View
 
 ## Installation
 
