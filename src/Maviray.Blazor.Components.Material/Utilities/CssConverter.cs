@@ -4,6 +4,17 @@ namespace Maviray.Blazor.Components.Material.Utilities
 {
     internal static class CssConverter
     {
+        public static string GetButtonClass(ButtonVariant buttonVariant, ButtonType buttonType)
+        {
+            return buttonVariant switch
+            {
+                ButtonVariant.Filled => GetFilledButtonClass(buttonType),
+                ButtonVariant.Outlined => GetOutlinedButtonClass(buttonType),
+                ButtonVariant.Text => GetTextButtonClass(buttonType),
+                _ => GetFilledButtonClass(buttonType)
+            };
+        }
+
         public static string GetFilledButtonClass(ButtonType buttonType)
         {
             return buttonType switch
@@ -18,6 +29,28 @@ namespace Maviray.Blazor.Components.Material.Utilities
                 ButtonType.Dark => "mavi-button-filled mavi-button-filled-dark",
                 ButtonType.Light => "mavi-button-filled mavi-button-filled-light",
                 _ => "mavi-button-filled mavi-button-filled-default"
+            };
+        }
+
+        public static string GetTextButtonClass(ButtonType buttonType)
+        {
+            return string.Empty;
+        }
+
+        public static string GetOutlinedButtonClass(ButtonType buttonType)
+        {
+            return buttonType switch
+            {
+                ButtonType.Default => "mavi-button-outlined mavi-button-outlined-default",
+                ButtonType.Primary => "mavi-button-outlined mavi-button-outlined-primary",
+                ButtonType.Secondary => "mavi-button-outlined mavi-button-outlined-secondary",
+                ButtonType.Success => "mavi-button-outlined mavi-button-outlined-success",
+                ButtonType.Danger => "mavi-button-outlined mavi-button-outlined-danger",
+                ButtonType.Warning => "mavi-button-outlined mavi-button-outlined-warning",
+                ButtonType.Info => "mavi-button-outlined mavi-button-outlined-info",
+                ButtonType.Dark => "mavi-button-outlined mavi-button-outlined-dark",
+                ButtonType.Light => "mavi-button-outlined mavi-button-outlined-light",
+                _ => "mavi-button-outlined mavi-button-outlined-default"
             };
         }
 

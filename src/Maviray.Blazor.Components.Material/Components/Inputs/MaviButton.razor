@@ -19,9 +19,11 @@
 
     [Parameter] public string Width { get; set; } = "min-w-16";
 
+    [Parameter] public ButtonVariant ButtonVariant { get; set; }
+
     private string GetButtonClasses()
     {
-        var baseClasses = CssConverter.GetFilledButtonClass(ButtonType);
+        var baseClasses = CssConverter.GetButtonClass(ButtonVariant, ButtonType);
         var transformClass = CssConverter.GetTextTransformClass(TextTransform);
         var sizeClass = CssConverter.GetButtonSizeClass(ElementSize);
         var allClasses = $"{baseClasses} {transformClass} {sizeClass} {Width}";

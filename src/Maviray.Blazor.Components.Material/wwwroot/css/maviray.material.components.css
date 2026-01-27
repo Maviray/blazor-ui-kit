@@ -20,7 +20,12 @@
 
     /* Base Filled Button Styles - Material Design 3 + MUI */
     .mavi-button-filled {
-        @apply inline-flex items-center justify-center relative box-border cursor-pointer select-none align-middle appearance-none font-medium tracking-[0.02857em] outline-none m-0 no-underline border-0 rounded transition-all duration-200 ease-in-out [-webkit-tap-highlight-color:transparent] shadow-[var(--mui-shadows-2)] hover:shadow-[var(--mui-shadows-4)] active:shadow-[var(--mui-shadows-8)] disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none font-[var(--font-ui)];
+        @apply inline-flex items-center justify-center relative box-border cursor-pointer select-none align-middle appearance-none font-medium tracking-[0.02857em] min-w-16 outline-none m-0 no-underline border-0 rounded transition-all duration-200 ease-in-out [-webkit-tap-highlight-color:transparent] shadow-none hover:shadow-[var(--mui-shadows-4)] active:shadow-[var(--mui-shadows-2)] disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none font-[var(--font-ui)];
+    }
+
+    /* Base Outlined Button Styles - Material Design 3 + MUI */
+    .mavi-button-outlined {
+        @apply inline-flex items-center justify-center relative box-border cursor-pointer select-none align-middle appearance-none font-medium tracking-[0.02857em] min-w-16 outline-none m-0 no-underline border border-solid rounded transition-all duration-200 ease-in-out [-webkit-tap-highlight-color:transparent] bg-transparent disabled:opacity-40 disabled:cursor-not-allowed font-[var(--font-ui)];
     }
 
     /* Default Button */
@@ -66,6 +71,51 @@
     /* Light Button */
     .mavi-button-filled-light {
         @apply bg-(--theme-light-two) text-(--theme-dark-eight) hover:bg-(--theme-light-three) hover:shadow-lg focus:ring-(--theme-light-four) active:bg-(--theme-light-four);
+    }
+
+    /* Outlined Button - Default */
+    .mavi-button-outlined-default {
+        @apply border-(--theme-light-seven) text-(--theme-dark-nine) hover:border-(--theme-light-eight) hover:bg-(--theme-light-one) active:bg-(--theme-light-two);
+    }
+
+    /* Outlined Button - Primary */
+    .mavi-button-outlined-primary {
+        @apply border-(--theme-primary-six) text-(--theme-primary-six) hover:border-(--theme-primary-seven) hover:bg-(--theme-primary-one) active:bg-(--theme-primary-two);
+    }
+
+    /* Outlined Button - Secondary */
+    .mavi-button-outlined-secondary {
+        @apply border-(--theme-secondary-six) text-(--theme-secondary-seven) hover:border-(--theme-secondary-seven) hover:bg-(--theme-secondary-one) active:bg-(--theme-secondary-two);
+    }
+
+    /* Outlined Button - Success */
+    .mavi-button-outlined-success {
+        @apply border-(--theme-success-seven) text-(--theme-success-eight) hover:border-(--theme-success-eight) hover:bg-(--theme-success-one) active:bg-(--theme-success-two);
+    }
+
+    /* Outlined Button - Danger */
+    .mavi-button-outlined-danger {
+        @apply border-(--theme-alert-seven) text-(--theme-alert-eight) hover:border-(--theme-alert-eight) hover:bg-(--theme-alert-one) active:bg-(--theme-alert-two);
+    }
+
+    /* Outlined Button - Warning */
+    .mavi-button-outlined-warning {
+        @apply border-(--theme-warning-seven) text-(--theme-warning-eight) hover:border-(--theme-warning-eight) hover:bg-(--theme-warning-one) active:bg-(--theme-warning-two);
+    }
+
+    /* Outlined Button - Info */
+    .mavi-button-outlined-info {
+        @apply border-(--theme-info-six) text-(--theme-info-seven) hover:border-(--theme-info-seven) hover:bg-(--theme-info-one) active:bg-(--theme-info-two);
+    }
+
+    /* Outlined Button - Dark */
+    .mavi-button-outlined-dark {
+        @apply border-(--theme-dark-eight) text-(--theme-dark-eight) hover:border-(--theme-dark-nine) hover:bg-(--theme-dark-one) active:bg-(--theme-dark-two);
+    }
+
+    /* Outlined Button - Light */
+    .mavi-button-outlined-light {
+        @apply border-(--theme-light-six) text-(--theme-light-nine) hover:border-(--theme-light-seven) hover:bg-(--theme-light-one) active:bg-(--theme-light-two);
     }
 
     /* Size Variants */
