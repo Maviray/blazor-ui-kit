@@ -18,6 +18,10 @@
         @apply bg-gray-100 border-none rounded-md p-2 text-gray-800 focus:ring-blue-500 focus:border-blue-500;
     }
 
+    .validation-message {
+        @apply text-xs font-[var(--font-ui)] ml-1 text-(--theme-alert-nine);
+    }
+
     /* Base Filled Button Styles - Material Design 3 + MUI */
     .mavi-button-filled {
         @apply inline-flex items-center justify-center relative box-border cursor-pointer select-none align-middle appearance-none font-medium tracking-[0.02857em] min-w-16 outline-none m-0 no-underline border-0 rounded transition-all duration-200 ease-in-out [-webkit-tap-highlight-color:transparent] shadow-none hover:shadow-[var(--mui-shadows-4)] active:shadow-[var(--mui-shadows-2)] disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none font-[var(--font-ui)];

@@ -1,0 +1,94 @@
+﻿@page "/PageForm"
+@inherits SamplePageBase
+@using Maviray.Blazor.Components.Material.Components.Inputs
+@using Maviray.Blazor.Components.Samples.Material.Client.Models
+
+<PageTitle>Form Elements</PageTitle>
+
+<div class="p-4">
+    <EditForm Model="@_formSampleModel" OnValidSubmit="OnValidFormSubmit" OnInvalidSubmit="OnInValidFormSubmit">
+    <DataAnnotationsValidator/>
+    <div class="flex flex-col gap-2">
+        <div>
+            <MaviInputString @bind-Value="_formSampleModel.RequiredLimitedStringSmall"
+                             Placeholder="Enter your full name"
+                             ElementSize="ElementSize.Small"
+                             Width="w-full"/>
+            <ValidationMessage For="@(() => _formSampleModel.RequiredLimitedStringSmall)" />
+        </div>
+        <div>
+            <MaviInputString @bind-Value="_formSampleModel.RequiredLimitedStringRegular"
+                             Placeholder="Enter your full name"
+                             ElementSize="ElementSize.Regular"
+                             Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.RequiredLimitedStringRegular)" />
+        </div>
+        <div>
+            <MaviInputString @bind-Value="_formSampleModel.RequiredLimitedStringLarge"
+                             Placeholder="Enter your full name"
+                             ElementSize="ElementSize.Large"
+                             Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.RequiredLimitedStringLarge)" />
+        </div>
+        <div>
+            <MaviInputString @bind-Value="_formSampleModel.DisabledString"
+                             Disabled="true"
+                             ElementSize="ElementSize.Regular"
+                             Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.DisabledString)" />
+        </div>
+        <div>
+            
+            <MaviInputString @bind-Value="_formSampleModel.ReadonlyString"
+                             Readonly="true"
+                             ElementSize="ElementSize.Regular"
+                             Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.ReadonlyString)" />
+        </div>
+        <div>
+            <MaviInputString @bind-Value="_formSampleModel.UndecoratedString"
+                             Label="Undecorated String"
+                             Placeholder="Fill in Undecorated String"
+                             HelperText="Helper Text provided as component parameter"
+                             ElementSize="ElementSize.Regular"
+                             Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.UndecoratedString)" />
+        </div>
+        <div>
+            <MaviInputString @bind-Value="DirectString"
+                             Label="Direct String"
+                             Placeholder="Fill in Undecorated String"
+                             HelperText="Helper Text provided as component parameter"
+                             ElementSize="ElementSize.Regular"
+                             Width="w-full"/>
+                <ValidationMessage For="@(() => DirectString)" />
+        </div>
+    </div>
+    <div class="p-2">
+        <MaviButton ButtonType="ButtonType.Primary"
+                    ElementSize="ElementSize.Regular"
+                    Title="Submit"
+                    ButtonRole="ButtonRole.Submit"
+                    ButtonVariant="ButtonVariant.Outlined"
+                    TextTransform="TextTransform.Capitalize">
+
+        </MaviButton>
+    </div>
+</EditForm>
+</div>
+
+@code {
+    private readonly SampleFormModel _formSampleModel = new();
+
+    private string? DirectString { get; set; }
+
+    private void OnValidFormSubmit(EditContext context)
+    {
+        Logger?.LogInformation("Form Valid.");
+    }
+
+    private void OnInValidFormSubmit(EditContext context)
+    {
+        Logger?.LogInformation("Form In-Valid.");
+    }
+}
