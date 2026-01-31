@@ -1,5 +1,6 @@
 ﻿@page "/PageForm"
 @inherits SamplePageBase
+@using Maviray.Blazor.Components.Core.EventArgs
 @using Maviray.Blazor.Components.Material.Components.Inputs
 @using Maviray.Blazor.Components.Samples.Material.Client.Models
 
@@ -12,18 +13,21 @@
         <div>
             <MaviInputString @bind-Value="_formSampleModel.RequiredLimitedStringSmall"
                              ElementSize="ElementSize.Small"
+                             Icon="lni lni-android-old"
                              Width="w-full"/>
             <ValidationMessage For="@(() => _formSampleModel.RequiredLimitedStringSmall)" />
         </div>
         <div>
             <MaviInputString @bind-Value="_formSampleModel.RequiredLimitedStringRegular"
                              ElementSize="ElementSize.Regular"
+                             Icon="lni lni-search-2"
                              Width="w-full"/>
             <ValidationMessage For="@(() => _formSampleModel.RequiredLimitedStringRegular)" />
         </div>
         <div>
             <MaviInputString @bind-Value="_formSampleModel.RequiredLimitedStringLarge"
                              ElementSize="ElementSize.Large"
+                             Icon="lni lni-home-2"
                              Width="w-full"/>
             <ValidationMessage For="@(() => _formSampleModel.RequiredLimitedStringLarge)" />
         </div>
@@ -54,5 +58,11 @@
     private void OnInValidFormSubmit(EditContext context)
     {
         Logger?.LogInformation("Form In-Valid.");
+    }
+
+    private Task OnInputIconClick(MouseClickEventArgs args)
+    {
+        Logger?.LogInformation("Input item icon click. ID: {ArgsButtonId}", args.ButtonId);
+        return Task.CompletedTask;
     }
 }

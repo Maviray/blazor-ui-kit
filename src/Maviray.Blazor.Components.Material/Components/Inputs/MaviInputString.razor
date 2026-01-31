@@ -3,6 +3,7 @@
 @using Microsoft.Extensions.Logging
 @using System.ComponentModel.DataAnnotations
 @using System.Reflection
+@using Maviray.Blazor.Components.Core.EventArgs
 @inherits InputBase<string>
 @implements IDisposable
 
@@ -44,18 +45,10 @@
         }
 
         <!-- Start Icon -->
-        @if (!string.IsNullOrEmpty(StartIcon))
+        @if (!string.IsNullOrEmpty(Icon))
         {
             <div class="@GetStartIconClass()">
-                <i class="@StartIcon text-xl"></i>
-            </div>
-        }
-
-        <!-- End Icon -->
-        @if (!string.IsNullOrEmpty(EndIcon))
-        {
-            <div class="@GetEndIconClass()">
-                <i class="@EndIcon text-xl"></i>
+                <i class="@Icon text-xl"></i>
             </div>
         }
 
@@ -98,9 +91,7 @@
 
     [Parameter] public string Label { get; set; } = string.Empty;
 
-    [Parameter] public string? StartIcon { get; set; }
-
-    [Parameter] public string? EndIcon { get; set; }
+    [Parameter] public string? Icon { get; set; }
 
     [Parameter] public int MaxLength { get; set; } = FormatConstants.DEFAULT_MAX_STRING_INPUT_LIMIT;
 
@@ -136,7 +127,7 @@
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        
+
         // Only infer once and only if enabled
         if (InferFromModelAttributes && !_attributesInferred)
         {
@@ -148,14 +139,14 @@
         if (EditContext != _previousEditContext)
         {
             DetachValidationStateChangedListener();
-            
+
             // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract - outside of Form context EditContext can be null
             if (EditContext != null)
             {
                 EditContext.OnValidationStateChanged += OnValidationStateChanged;
                 _validationMessageStore = new ValidationMessageStore(EditContext);
             }
-            
+
             _previousEditContext = EditContext;
         }
 
@@ -197,7 +188,7 @@
         {
             _validationMessageStore.Clear(FieldIdentifier);
         }
-        
+
         // Re-render the component to reflect the new validation state
         InvokeAsync(StateHasChanged);
     }
@@ -210,7 +201,7 @@
         // Don't update value for disabled/readonly fields
         if (Disabled || Readonly)
             return;
-            
+
         CurrentValue = e.Value?.ToString();
         // Don't trigger validation on every keystroke - just update the UI
     }
@@ -223,9 +214,9 @@
         // Don't update value or validate disabled/readonly fields
         if (Disabled || Readonly)
             return;
-            
+
         CurrentValue = e.Value?.ToString();
-        
+
         // Trigger validation on change (blur)
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract - outside of Form context EditContext can be null
         EditContext?.NotifyFieldChanged(FieldIdentifier);
@@ -239,7 +230,7 @@
                 return;
 
             var propertyInfo = GetPropertyInfo();
-            
+
             if (propertyInfo == null)
                 return;
 
@@ -248,7 +239,7 @@
             {
                 var displayAttr = propertyInfo.GetCustomAttribute<DisplayAttribute>();
                 var displayNameAttr = propertyInfo.GetCustomAttribute<System.ComponentModel.DisplayNameAttribute>();
-                
+
                 Label = displayAttr?.Name 
                     ?? displayAttr?.GetName() 
                     ?? displayNameAttr?.DisplayName 
@@ -266,9 +257,9 @@
             {
                 var maxLengthAttr = propertyInfo.GetCustomAttribute<MaxLengthAttribute>();
                 var stringLengthAttr = propertyInfo.GetCustomAttribute<StringLengthAttribute>();
-                
+
                 var inferredMaxLength = maxLengthAttr?.Length ?? stringLengthAttr?.MaximumLength;
-                
+
                 if (inferredMaxLength.HasValue)
                 {
                     MaxLength = inferredMaxLength.Value;
@@ -280,7 +271,7 @@
             {
                 var displayAttr = propertyInfo.GetCustomAttribute<DisplayAttribute>();
                 HelperText = displayAttr?.Description ?? displayAttr?.Prompt;
-                
+
                 // Add min length info if available
                 var stringLengthAttr = propertyInfo.GetCustomAttribute<StringLengthAttribute>();
                 if (stringLengthAttr != null && stringLengthAttr.MinimumLength > 0)
@@ -418,9 +409,9 @@
         // Padding and font size for each size
         var (padding, fontSize, lineHeight) = ElementSize switch
         {
-            ElementSize.Small => GetSizePadding("px-3", "pl-10 pr-3", "pl-3 pr-10", "text-sm", "leading-normal"),
-            ElementSize.Large => GetSizePadding("px-4", "pl-12 pr-4", "pl-4 pr-12", "text-lg", "leading-normal"),
-            _ => GetSizePadding("px-3.5", "pl-11 pr-3.5", "pl-3.5 pr-11", "text-base", "leading-normal")
+            ElementSize.Small => GetSizePadding("px-3", "pl-10 pr-3", "text-sm", "leading-normal"),
+            ElementSize.Large => GetSizePadding("px-4", "pl-12 pr-4", "text-lg", "leading-normal"),
+            _ => GetSizePadding("px-3.5", "pl-11 pr-3.5", "text-base", "leading-normal")
         };
 
         classes.Add(padding);
@@ -430,15 +421,9 @@
         return string.Join(" ", classes);
     }
 
-    private (string padding, string fontSize, string lineHeight) GetSizePadding(string defaultPadding, string startIconPadding, string endIconPadding, string fontSize, string lineHeight)
+    private (string padding, string fontSize, string lineHeight) GetSizePadding(string defaultPadding, string iconPadding, string fontSize, string lineHeight)
     {
-        string padding;
-        if (!string.IsNullOrEmpty(StartIcon))
-            padding = startIconPadding;
-        else if (!string.IsNullOrEmpty(EndIcon))
-            padding = endIconPadding;
-        else
-            padding = defaultPadding;
+        var padding = !string.IsNullOrEmpty(Icon) ? iconPadding : defaultPadding;
 
         return (padding, fontSize, lineHeight);
     }
@@ -462,13 +447,13 @@
             // Not floating: perfectly centered vertically and horizontally inside the field
             var (left, fontSize) = ElementSize switch
             {
-                ElementSize.Small => (!string.IsNullOrEmpty(StartIcon) ? "left-10" : "left-3", "text-sm"),
-                ElementSize.Large => (!string.IsNullOrEmpty(StartIcon) ? "left-12" : "left-4", "text-base"),
-                _ => (!string.IsNullOrEmpty(StartIcon) ? "left-11" : "left-3.5", "text-base")
+                ElementSize.Small => (!string.IsNullOrEmpty(Icon) ? "left-[37px]" : "left-3", "text-sm"),
+                ElementSize.Large => (!string.IsNullOrEmpty(Icon) ? "left-[38px]" : "left-4", "text-base"),
+                _ => (!string.IsNullOrEmpty(Icon) ? "left-[37px]" : "left-3.5", "text-base")
             };
-            
+
             // Perfect vertical center
-            classes.Add($"top-1/2 -translate-y-1/2 {left} {fontSize}");
+            classes.Add($"{GetLabelAsPlaceholderTopOffset()} -translate-y-1/2 {left} {fontSize}"); 
         }
 
         // Color based on state (matching border state)
@@ -490,6 +475,18 @@
         }
 
         return string.Join(" ", classes);
+    }
+
+    private string GetLabelAsPlaceholderTopOffset()
+    {
+        var topOffset = ElementSize switch
+        {
+            ElementSize.Small => "top-[22px]",
+            ElementSize.Large => "top-[30px]",
+            _ => "top-[25px]"
+        };
+
+        return topOffset;
     }
 
     private string BuildFieldsetClass()
@@ -554,7 +551,7 @@
     {
         var classes = new List<string>
         {
-            "absolute top-1/2 -translate-y-1/2 left-3 pointer-events-none transition-colors duration-200 z-10"
+            $"absolute {GetIconTopOffset()} -translate-y-1/2 left-3 pointer-events-none transition-colors duration-200 z-10"
         };
 
         // Icon color based on state
@@ -578,32 +575,16 @@
         return string.Join(" ", classes);
     }
 
-    private string GetEndIconClass()
+    private string GetIconTopOffset()
     {
-        var classes = new List<string>
+        var topOffset = ElementSize switch
         {
-            "absolute top-1/2 -translate-y-1/2 right-3 pointer-events-none transition-colors duration-200 z-10"
+            ElementSize.Small => "top-[24px]",
+            ElementSize.Large => "top-[32px]",      
+            _ => "top-[27px]"                    
         };
 
-        // Icon color based on state
-        if (HasError)
-        {
-            classes.Add("text-(--theme-alert-eight)");
-        }
-        else if (_isFocused)
-        {
-            classes.Add("text-(--theme-primary-nine)");
-        }
-        else if (Disabled)
-        {
-            classes.Add("text-black/[0.38]");
-        }
-        else
-        {
-            classes.Add("text-(--theme-primary-eight)");
-        }
-
-        return string.Join(" ", classes);
+        return topOffset;
     }
 
     private string GetAriaDescribedByString()
