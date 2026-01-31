@@ -5,23 +5,32 @@ namespace Maviray.Blazor.Components.Samples.Material.Client.Models;
 
 public class SampleFormModel
 {
+    [Required]
     [StringLength(200, ErrorMessage = "Must not be longer than 200 characters.")]
-    [Display(Name = "Required Limited String Small")]
-    public string? RequiredLimitedStringSmall { get; set; }
+    [Display(Name = "Required Limited String One", Description = "Custom description as part of Display attribute.")]
+    public string? StringOne { get; set; }
     
     [StringLength(200, ErrorMessage = "Must not be longer than 200 characters.")]
-    [Display(Name = "Required Limited String Regular", Description = "This is provided as part of Display attribute.")]
-    public string? RequiredLimitedStringRegular { get; set; }
+    [Display(Name = "Limited String Regular")]
+    public string? StringTWo { get; set; }
     
-    [StringLength(200, ErrorMessage = "Must not be longer than 200 characters.")]
-    [Display(Name = "Required Limited String Large", Description = "This is provided as part of Display attribute.")]
-    public string? RequiredLimitedStringLarge { get; set; }
+    [Display(Name = "String Large", Description = "Custom description as part of Display attribute.")]
+    public string? StringThree { get; set; }
     
     [Display(Name = "Disabled String")]
-    public string? DisabledString { get; set; } = "this string is disabled";
+    public string? StringFour { get; set; } = "this string is disabled";
 
     [Display(Name = "Readonly String")]
-    public string? ReadonlyString { get; set; } = "this string is readonly";
+    public string? StringFive { get; set; } = "this string is readonly";
 
-    public string? UndecoratedString { get; set; }
+    // undecorated string property
+    public string? StringSix { get; set; }
+
+    [Required]
+    public string? StringSeven { get; set; }
+
+    [Required]
+    public string? StringEight { get; set; }
+
+    public string? StringNine { get; set; }
 }
