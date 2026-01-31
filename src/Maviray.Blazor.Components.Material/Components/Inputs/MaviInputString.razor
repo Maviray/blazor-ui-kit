@@ -62,7 +62,7 @@
         <!-- Fieldset for Outlined Border -->
         <fieldset aria-hidden="true" class="@BuildFieldsetClass()">
             <legend class="@BuildLegendClass()">
-                <span class="@(string.IsNullOrEmpty(Label) ? "" : "px-1")">@Label@((Required && !Disabled && !Readonly) ? " *" : "")</span>
+                <span class="@(string.IsNullOrEmpty(Label) ? "" : "px-2")">@Label@((Required && !Disabled && !Readonly) ? " *" : "")</span>
             </legend>
         </fieldset>
     </div>
@@ -77,7 +77,6 @@
 </div>
 
 @code {
-    private ILogger? _logger;
     private bool _isFocused;
     private bool _attributesInferred = false;
     private EditContext? _previousEditContext;
@@ -85,7 +84,7 @@
 
     [Inject] private ILoggerFactory? LoggerFactory { get; set; }
 
-    private ILogger? Logger => _logger ??= LoggerFactory?.CreateLogger(GetType());
+    private ILogger? Logger => field ??= LoggerFactory?.CreateLogger(GetType());
 
     [Parameter] public virtual string? Id { get; set; } = $"input_{Guid.NewGuid()}";
 
@@ -115,7 +114,7 @@
 
     /// <summary>
     /// When true, automatically infers Label, Required, MaxLength, and HelperText from model property attributes.
-    /// Default is true. Set to false to disable automatic inference.
+    /// Default is true. Set to false in order to disable automatic inference.
     /// </summary>
     [Parameter] public bool InferFromModelAttributes { get; set; } = true;
 
@@ -150,6 +149,7 @@
         {
             DetachValidationStateChangedListener();
             
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract - outside of Form context EditContext can be null
             if (EditContext != null)
             {
                 EditContext.OnValidationStateChanged += OnValidationStateChanged;
@@ -192,6 +192,7 @@
     private void OnValidationStateChanged(object? sender, ValidationStateChangedEventArgs e)
     {
         // Clear validation for disabled/readonly fields
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract - outside of Form context EditContext can be null
         if ((Disabled || Readonly) && EditContext != null && _validationMessageStore != null)
         {
             _validationMessageStore.Clear(FieldIdentifier);
@@ -226,10 +227,8 @@
         CurrentValue = e.Value?.ToString();
         
         // Trigger validation on change (blur)
-        if (EditContext != null)
-        {
-            EditContext.NotifyFieldChanged(FieldIdentifier);
-        }
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract - outside of Form context EditContext can be null
+        EditContext?.NotifyFieldChanged(FieldIdentifier);
     }
 
     private void InferValuesFromAttributes()
@@ -294,20 +293,19 @@
             }
 
             // Infer StringInputType if still at default (Text)
-            if (StringInputType == StringInputType.Text)
+            if (StringInputType != StringInputType.Text) return;
+
+            var dataTypeAttr = propertyInfo.GetCustomAttribute<DataTypeAttribute>();
+            if (dataTypeAttr != null)
             {
-                var dataTypeAttr = propertyInfo.GetCustomAttribute<DataTypeAttribute>();
-                if (dataTypeAttr != null)
+                StringInputType = dataTypeAttr.DataType switch
                 {
-                    StringInputType = dataTypeAttr.DataType switch
-                    {
-                        DataType.Password => StringInputType.Password,
-                        DataType.EmailAddress => StringInputType.Email,
-                        DataType.PhoneNumber => StringInputType.Tel,
-                        DataType.Url => StringInputType.Url,
-                        _ => StringInputType.Text
-                    };
-                }
+                    DataType.Password => StringInputType.Password,
+                    DataType.EmailAddress => StringInputType.Email,
+                    DataType.PhoneNumber => StringInputType.Tel,
+                    DataType.Url => StringInputType.Url,
+                    _ => StringInputType.Text
+                };
             }
         }
         catch (Exception ex)
@@ -324,28 +322,19 @@
 
         var expression = ValueExpression.Body;
 
-        // Handle member access (e.g., () => model.Property)
-        if (expression is System.Linq.Expressions.MemberExpression memberExpression)
+        return expression switch
         {
-            return memberExpression.Member as PropertyInfo;
-        }
-
-        // Handle converted expressions (e.g., () => (object)model.Property)
-        if (expression is System.Linq.Expressions.UnaryExpression unaryExpression 
-            && unaryExpression.Operand is System.Linq.Expressions.MemberExpression operandMember)
-        {
-            return operandMember.Member as PropertyInfo;
-        }
-
-        return null;
+            // Handle member access (e.g., () => model.Property)
+            System.Linq.Expressions.MemberExpression memberExpression => memberExpression.Member as PropertyInfo,
+            // Handle converted expressions (e.g., () => (object)model.Property)
+            System.Linq.Expressions.UnaryExpression { Operand: System.Linq.Expressions.MemberExpression operandMember } => operandMember.Member as PropertyInfo,
+            _ => null
+        };
     }
 
-    private string SplitCamelCase(string input)
+    private static string SplitCamelCase(string input)
     {
-        if (string.IsNullOrEmpty(input))
-            return input;
-
-        return System.Text.RegularExpressions.Regex.Replace(input, "([a-z])([A-Z])", "$1 $2");
+        return string.IsNullOrEmpty(input) ? input : System.Text.RegularExpressions.Regex.Replace(input, "([a-z])([A-Z])", "$1 $2");
     }
 
     private void OnFocus()
@@ -462,10 +451,11 @@
         };
 
         // Position based on floating state
+
         if (IsLabelFloating)
         {
-            // Floating: positioned on top of the border, centered on the border line
-            classes.Add("top-0 -translate-y-1/2 left-3 px-1 text-xs");
+            // Floating: positioned on top of the border, centered on the border
+            classes.Add("top-[4px] -translate-y-1/2 left-[11px] px-1 text-xs");
         }
         else
         {
@@ -552,18 +542,10 @@
     {
         var classes = new List<string>
         {
-            "ml-1.5 px-0 text-xs transition-all duration-200 invisible whitespace-nowrap leading-none"
+            "ml-1.5 px-0 text-xs transition-all duration-200 invisible whitespace-nowrap leading-none",
+            // Show legend when label is floating to create cutout in border
+            IsLabelFloating ? "max-w-full" : "max-w-0"
         };
-
-        // Show legend when label is floating to create cutout in border
-        if (IsLabelFloating)
-        {
-            classes.Add("max-w-full");
-        }
-        else
-        {
-            classes.Add("max-w-0");
-        }
 
         return string.Join(" ", classes);
     }
@@ -626,9 +608,7 @@
 
     private string GetAriaDescribedByString()
     {
-        if (!string.IsNullOrEmpty(HelperText))
-            return $"{Id}-helper";
-        return string.Empty;
+        return !string.IsNullOrEmpty(HelperText) ? $"{Id}-helper" : string.Empty;
     }
 
     private string GetAreaInvalidValue()
