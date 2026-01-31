@@ -6,17 +6,15 @@ namespace Maviray.Blazor.Components.Samples.Material.Client.Models;
 public class SampleFormModel
 {
     [Required]
-    [StringLength(5, ErrorMessage = "Must not be longer than 5 characters.")]
+    [StringLength(200, ErrorMessage = "Must not be longer than 200 characters.")]
     [Display(Name = "Required Limited String Small", Description = "Please enter whatever comes to mind.")]
     public string? RequiredLimitedStringSmall { get; set; }
-
-    [Required]
-    [StringLength(5, ErrorMessage = "Must not be longer than 5 characters.")]
+    
+    [StringLength(200, ErrorMessage = "Must not be longer than 200 characters.")]
     [Display(Name = "Required Limited String Regular", Description = "This is provided as part of Display attribute.")]
     public string? RequiredLimitedStringRegular { get; set; }
-
-    [Required]
-    [StringLength(5, ErrorMessage = "Must not be longer than 5 characters.")]
+    
+    [StringLength(200, ErrorMessage = "Must not be longer than 200 characters.")]
     [Display(Name = "Required Limited String Large", Description = "This is provided as part of Display attribute.")]
     public string? RequiredLimitedStringLarge { get; set; }
     

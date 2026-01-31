@@ -8,14 +8,13 @@
 
 <div class="@Width">
     <!-- Floating Label Input Container -->
-    <div class="relative">
+    <div class="@GetContainerClass()">
         <!-- Input Field -->
         <input value="@CurrentValue"
                @oninput="HandleInput"
                @onchange="HandleChange"
                type="@GetInputType()"
                id="@Id"
-               placeholder="@GetPlaceholder()"
                maxlength="@MaxLength"
                disabled="@Disabled"
                readonly="@Readonly"
@@ -33,7 +32,7 @@
         <!-- Floating Label -->
         @if (!string.IsNullOrEmpty(Label))
         {
-            <label for="@Id"
+            <label for="@Id" 
                    class="@BuildLabelClass()"
                    title="@Title">
                 @Label
@@ -100,10 +99,6 @@
 
     [Parameter] public string Label { get; set; } = string.Empty;
 
-    [Parameter] public string? Placeholder { get; set; }
-
-    [Parameter] public string? HelperText { get; set; }
-
     [Parameter] public string? StartIcon { get; set; }
 
     [Parameter] public string? EndIcon { get; set; }
@@ -124,6 +119,12 @@
     /// </summary>
     [Parameter] public bool InferFromModelAttributes { get; set; } = true;
 
+    /// <summary>
+    /// Helper text displayed below the input field. Provides guidance to the user.
+    /// Can be automatically inferred from [Display(Description = "")] or [Display(Prompt = "")] attributes.
+    /// </summary>
+    [Parameter] public string? HelperText { get; set; }
+
     protected bool HasRendered { get; private set; }
 
     // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract - outside of Form context EditContext can be null
@@ -131,12 +132,12 @@
 
     protected bool HasValue => !string.IsNullOrWhiteSpace(CurrentValue);
 
-    protected bool IsLabelFloating => _isFocused || HasValue || !string.IsNullOrEmpty(Placeholder);
+    protected bool IsLabelFloating => _isFocused || HasValue;
 
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-
+        
         // Only infer once and only if enabled
         if (InferFromModelAttributes && !_attributesInferred)
         {
@@ -148,13 +149,13 @@
         if (EditContext != _previousEditContext)
         {
             DetachValidationStateChangedListener();
-
+            
             if (EditContext != null)
             {
                 EditContext.OnValidationStateChanged += OnValidationStateChanged;
                 _validationMessageStore = new ValidationMessageStore(EditContext);
             }
-
+            
             _previousEditContext = EditContext;
         }
 
@@ -176,8 +177,8 @@
     }
 
     protected override bool TryParseValueFromString(
-        string? value,
-        [MaybeNullWhen(false)] out string result,
+        string? value, 
+        [MaybeNullWhen(false)] out string result, 
         [NotNullWhen(false)] out string? validationErrorMessage)
     {
         result = value ?? string.Empty;
@@ -195,7 +196,7 @@
         {
             _validationMessageStore.Clear(FieldIdentifier);
         }
-
+        
         // Re-render the component to reflect the new validation state
         InvokeAsync(StateHasChanged);
     }
@@ -208,7 +209,7 @@
         // Don't update value for disabled/readonly fields
         if (Disabled || Readonly)
             return;
-
+            
         CurrentValue = e.Value?.ToString();
         // Don't trigger validation on every keystroke - just update the UI
     }
@@ -221,9 +222,9 @@
         // Don't update value or validate disabled/readonly fields
         if (Disabled || Readonly)
             return;
-
+            
         CurrentValue = e.Value?.ToString();
-
+        
         // Trigger validation on change (blur)
         if (EditContext != null)
         {
@@ -239,7 +240,7 @@
                 return;
 
             var propertyInfo = GetPropertyInfo();
-
+            
             if (propertyInfo == null)
                 return;
 
@@ -248,10 +249,10 @@
             {
                 var displayAttr = propertyInfo.GetCustomAttribute<DisplayAttribute>();
                 var displayNameAttr = propertyInfo.GetCustomAttribute<System.ComponentModel.DisplayNameAttribute>();
-
-                Label = displayAttr?.Name
-                    ?? displayAttr?.GetName()
-                    ?? displayNameAttr?.DisplayName
+                
+                Label = displayAttr?.Name 
+                    ?? displayAttr?.GetName() 
+                    ?? displayNameAttr?.DisplayName 
                     ?? SplitCamelCase(propertyInfo.Name);
             }
 
@@ -266,9 +267,9 @@
             {
                 var maxLengthAttr = propertyInfo.GetCustomAttribute<MaxLengthAttribute>();
                 var stringLengthAttr = propertyInfo.GetCustomAttribute<StringLengthAttribute>();
-
+                
                 var inferredMaxLength = maxLengthAttr?.Length ?? stringLengthAttr?.MaximumLength;
-
+                
                 if (inferredMaxLength.HasValue)
                 {
                     MaxLength = inferredMaxLength.Value;
@@ -280,14 +281,14 @@
             {
                 var displayAttr = propertyInfo.GetCustomAttribute<DisplayAttribute>();
                 HelperText = displayAttr?.Description ?? displayAttr?.Prompt;
-
+                
                 // Add min length info if available
                 var stringLengthAttr = propertyInfo.GetCustomAttribute<StringLengthAttribute>();
                 if (stringLengthAttr != null && stringLengthAttr.MinimumLength > 0)
                 {
                     var minLengthText = $"Minimum {stringLengthAttr.MinimumLength} characters";
-                    HelperText = string.IsNullOrEmpty(HelperText)
-                        ? minLengthText
+                    HelperText = string.IsNullOrEmpty(HelperText) 
+                        ? minLengthText 
                         : $"{HelperText}. {minLengthText}";
                 }
             }
@@ -311,7 +312,7 @@
         }
         catch (Exception ex)
         {
-            Logger?.LogWarning(ex, "Failed to infer values from model attributes for property '{PropertyName}'",
+            Logger?.LogWarning(ex, "Failed to infer values from model attributes for property '{PropertyName}'", 
                 GetPropertyInfo()?.Name ?? "Unknown");
         }
     }
@@ -330,7 +331,7 @@
         }
 
         // Handle converted expressions (e.g., () => (object)model.Property)
-        if (expression is System.Linq.Expressions.UnaryExpression unaryExpression
+        if (expression is System.Linq.Expressions.UnaryExpression unaryExpression 
             && unaryExpression.Operand is System.Linq.Expressions.MemberExpression operandMember)
         {
             return operandMember.Member as PropertyInfo;
@@ -350,11 +351,13 @@
     private void OnFocus()
     {
         _isFocused = true;
+        StateHasChanged();
     }
 
     private void OnBlur()
     {
         _isFocused = false;
+        StateHasChanged();
     }
 
     private void DetachValidationStateChangedListener()
@@ -384,54 +387,61 @@
         };
     }
 
-    private string GetPlaceholder()
+    private string GetContainerClass()
     {
-        // Only show placeholder when label is floating
-        return IsLabelFloating ? Placeholder ?? string.Empty : string.Empty;
+        var heightClass = ElementSize switch
+        {
+            ElementSize.Small => "h-10",      // 40px
+            ElementSize.Large => "h-14",      // 56px
+            _ => "h-12"                       // 48px (Regular)
+        };
+
+        return $"relative {heightClass}";
     }
 
     private string BuildInputClass()
     {
         var classes = new List<string>
         {
-            "peer w-full bg-white border-0 outline-none rounded transition-all duration-200"
+            "block w-full h-full bg-transparent border-0 outline-none rounded transition-all duration-200"
         };
 
         // Text color
         if (Disabled)
         {
-            classes.Add("bg-black/[0.04] cursor-not-allowed text-black/[0.38]");
+            classes.Add("cursor-not-allowed text-black/[0.38]");
         }
         else if (Readonly)
         {
-            classes.Add("bg-black/[0.04] cursor-default text-black/[0.87]");
+            classes.Add("cursor-default text-black/[0.87]");
         }
         else
         {
             classes.Add("text-black/[0.87]");
         }
 
-        // Placeholder
-        classes.Add("placeholder:text-black/[0.38]");
+        // Placeholder - should be transparent since we use floating label
+        classes.Add("placeholder:text-transparent");
 
         // Focus
         classes.Add("focus:outline-none focus:ring-0");
 
-        // Size-based padding and font
-        var (padding, fontSize) = ElementSize switch
+        // Padding and font size for each size
+        var (padding, fontSize, lineHeight) = ElementSize switch
         {
-            ElementSize.Small => GetSizePadding("py-2 px-3", "pl-10 pr-3", "pl-3 pr-10", "text-sm"),
-            ElementSize.Large => GetSizePadding("py-4 px-4", "pl-12 pr-4", "pl-4 pr-12", "text-lg"),
-            _ => GetSizePadding("py-3.5 px-3.5", "pl-11 pr-3.5", "pl-3.5 pr-11", "text-base")
+            ElementSize.Small => GetSizePadding("px-3", "pl-10 pr-3", "pl-3 pr-10", "text-sm", "leading-normal"),
+            ElementSize.Large => GetSizePadding("px-4", "pl-12 pr-4", "pl-4 pr-12", "text-lg", "leading-normal"),
+            _ => GetSizePadding("px-3.5", "pl-11 pr-3.5", "pl-3.5 pr-11", "text-base", "leading-normal")
         };
 
         classes.Add(padding);
         classes.Add(fontSize);
+        classes.Add(lineHeight);
 
         return string.Join(" ", classes);
     }
 
-    private (string padding, string fontSize) GetSizePadding(string defaultPadding, string startIconPadding, string endIconPadding, string fontSize)
+    private (string padding, string fontSize, string lineHeight) GetSizePadding(string defaultPadding, string startIconPadding, string endIconPadding, string fontSize, string lineHeight)
     {
         string padding;
         if (!string.IsNullOrEmpty(StartIcon))
@@ -441,36 +451,34 @@
         else
             padding = defaultPadding;
 
-        return (padding, fontSize);
+        return (padding, fontSize, lineHeight);
     }
 
     private string BuildLabelClass()
     {
         var classes = new List<string>
         {
-            "absolute transition-all duration-200 pointer-events-none origin-top-left"
+            "absolute transition-all duration-200 pointer-events-none bg-white leading-none"
         };
 
         // Position based on floating state
         if (IsLabelFloating)
         {
-            classes.Add("-top-2 bg-white px-1 text-xs");
-            classes.Add("left-3.5");
+            // Floating: positioned on top of the border, centered on the border line
+            classes.Add("top-0 -translate-y-1/2 left-3 px-1 text-xs");
         }
         else
         {
-            var (top, fontSize) = ElementSize switch
+            // Not floating: perfectly centered vertically and horizontally inside the field
+            var (left, fontSize) = ElementSize switch
             {
-                ElementSize.Small => ("top-2", "text-sm"),
-                ElementSize.Large => ("top-4", "text-lg"),
-                _ => ("top-3.5", "text-base")
+                ElementSize.Small => (!string.IsNullOrEmpty(StartIcon) ? "left-10" : "left-3", "text-sm"),
+                ElementSize.Large => (!string.IsNullOrEmpty(StartIcon) ? "left-12" : "left-4", "text-base"),
+                _ => (!string.IsNullOrEmpty(StartIcon) ? "left-11" : "left-3.5", "text-base")
             };
-
-            classes.Add(top);
-            classes.Add(fontSize);
-            classes.Add(!string.IsNullOrEmpty(StartIcon)
-                ? (ElementSize == ElementSize.Small ? "left-10" : ElementSize == ElementSize.Large ? "left-12" : "left-11")
-                : "left-3.5");
+            
+            // Perfect vertical center
+            classes.Add($"top-1/2 -translate-y-1/2 {left} {fontSize}");
         }
 
         // Color based on state (matching border state)
@@ -522,6 +530,13 @@
         {
             // Disabled state
             classes.Add("border-black/[0.12]");
+            classes.Add("bg-black/[0.04]");
+        }
+        else if (Readonly)
+        {
+            // Readonly state
+            classes.Add("border-black/[0.23]");
+            classes.Add("bg-black/[0.04]");
         }
         else
         {
@@ -537,17 +552,17 @@
     {
         var classes = new List<string>
         {
-            "ml-2.5 px-0 text-xs transition-all duration-200 invisible"
+            "ml-1.5 px-0 text-xs transition-all duration-200 invisible whitespace-nowrap leading-none"
         };
 
-        // Show legend when label is floating
+        // Show legend when label is floating to create cutout in border
         if (IsLabelFloating)
         {
             classes.Add("max-w-full");
         }
         else
         {
-            classes.Add("max-w-[0.01px]");
+            classes.Add("max-w-0");
         }
 
         return string.Join(" ", classes);
@@ -557,7 +572,7 @@
     {
         var classes = new List<string>
         {
-            "absolute top-1/2 -translate-y-1/2 left-3 pointer-events-none transition-colors duration-200"
+            "absolute top-1/2 -translate-y-1/2 left-3 pointer-events-none transition-colors duration-200 z-10"
         };
 
         // Icon color based on state
@@ -585,7 +600,7 @@
     {
         var classes = new List<string>
         {
-            "absolute top-1/2 -translate-y-1/2 right-3 pointer-events-none transition-colors duration-200"
+            "absolute top-1/2 -translate-y-1/2 right-3 pointer-events-none transition-colors duration-200 z-10"
         };
 
         // Icon color based on state
