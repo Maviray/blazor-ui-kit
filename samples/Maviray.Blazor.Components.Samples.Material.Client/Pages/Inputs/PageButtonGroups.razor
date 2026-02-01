@@ -10,7 +10,7 @@
     <div>
         <MaviButtonGroup ButtonVariant="ButtonVariant.Filled"
                          ElementSize="ElementSize.Regular"
-                         ButtonType="ButtonType.Primary"
+                         ButtonType="ThemeColorScheme.Primary"
                          OnClick="OnButtonGroupClick"
                          Buttons="@GenerateIconButtonGroup()" />
     </div>
@@ -20,7 +20,7 @@
             @foreach (var buttonVariant in Enum.GetValues<ButtonVariant>())
             {
                 <div class="p-4 flex flex-col gap-2">
-                    @foreach (var buttonType in Enum.GetValues<ButtonType>())
+                    @foreach (var buttonType in Enum.GetValues<ThemeColorScheme>())
                     {
                         <div class="flex flex-col gap-2 items-center">
                             <MaviButtonGroup ButtonVariant="buttonVariant"

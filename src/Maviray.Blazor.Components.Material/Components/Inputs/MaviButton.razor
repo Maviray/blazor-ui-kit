@@ -46,7 +46,7 @@
 
     private string GetButtonClasses()
     {
-        var baseClasses = GetButtonClass(ButtonVariant, ButtonType);
+        var baseClasses = GetButtonClass(ButtonVariant, ThemeColorScheme);
         var transformClass = GetTextTransformClass(TextTransform);
         var sizeClass = GetButtonSizeClass(ElementSize);
         var allClasses = $"{baseClasses} {transformClass} {sizeClass} {Width}";
@@ -54,7 +54,7 @@
         return string.IsNullOrEmpty(Class) ? allClasses : $"{allClasses} {Class}";
     }
 
-    private static string GetButtonClass(ButtonVariant buttonVariant, ButtonType buttonType)
+    private static string GetButtonClass(ButtonVariant buttonVariant, ThemeColorScheme buttonType)
     {
         return buttonVariant switch
         {
@@ -65,53 +65,53 @@
         };
     }
 
-    private static string GetFilledButtonClass(ButtonType buttonType)
+    private static string GetFilledButtonClass(ThemeColorScheme buttonType)
     {
         return buttonType switch
         {
-            ButtonType.Default => "mavi-button-filled mavi-button-filled-default",
-            ButtonType.Primary => "mavi-button-filled mavi-button-filled-primary",
-            ButtonType.Secondary => "mavi-button-filled mavi-button-filled-secondary",
-            ButtonType.Success => "mavi-button-filled mavi-button-filled-success",
-            ButtonType.Danger => "mavi-button-filled mavi-button-filled-danger",
-            ButtonType.Warning => "mavi-button-filled mavi-button-filled-warning",
-            ButtonType.Info => "mavi-button-filled mavi-button-filled-info",
-            ButtonType.Dark => "mavi-button-filled mavi-button-filled-dark",
-            ButtonType.Light => "mavi-button-filled mavi-button-filled-light",
+            ThemeColorScheme.Default => "mavi-button-filled mavi-button-filled-default",
+            ThemeColorScheme.Primary => "mavi-button-filled mavi-button-filled-primary",
+            ThemeColorScheme.Secondary => "mavi-button-filled mavi-button-filled-secondary",
+            ThemeColorScheme.Success => "mavi-button-filled mavi-button-filled-success",
+            ThemeColorScheme.Danger => "mavi-button-filled mavi-button-filled-danger",
+            ThemeColorScheme.Warning => "mavi-button-filled mavi-button-filled-warning",
+            ThemeColorScheme.Info => "mavi-button-filled mavi-button-filled-info",
+            ThemeColorScheme.Dark => "mavi-button-filled mavi-button-filled-dark",
+            ThemeColorScheme.Light => "mavi-button-filled mavi-button-filled-light",
             _ => "mavi-button-filled mavi-button-filled-default"
         };
     }
 
-    private static string GetTextButtonClass(ButtonType buttonType)
+    private static string GetTextButtonClass(ThemeColorScheme buttonType)
     {
         return buttonType switch
         {
-            ButtonType.Default => "mavi-button-text mavi-button-text-default",
-            ButtonType.Primary => "mavi-button-text mavi-button-text-primary",
-            ButtonType.Secondary => "mavi-button-text mavi-button-text-secondary",
-            ButtonType.Success => "mavi-button-text mavi-button-text-success",
-            ButtonType.Danger => "mavi-button-text mavi-button-text-danger",
-            ButtonType.Warning => "mavi-button-text mavi-button-text-warning",
-            ButtonType.Info => "mavi-button-text mavi-button-text-info",
-            ButtonType.Dark => "mavi-button-text mavi-button-text-dark",
-            ButtonType.Light => "mavi-button-text mavi-button-text-light",
+            ThemeColorScheme.Default => "mavi-button-text mavi-button-text-default",
+            ThemeColorScheme.Primary => "mavi-button-text mavi-button-text-primary",
+            ThemeColorScheme.Secondary => "mavi-button-text mavi-button-text-secondary",
+            ThemeColorScheme.Success => "mavi-button-text mavi-button-text-success",
+            ThemeColorScheme.Danger => "mavi-button-text mavi-button-text-danger",
+            ThemeColorScheme.Warning => "mavi-button-text mavi-button-text-warning",
+            ThemeColorScheme.Info => "mavi-button-text mavi-button-text-info",
+            ThemeColorScheme.Dark => "mavi-button-text mavi-button-text-dark",
+            ThemeColorScheme.Light => "mavi-button-text mavi-button-text-light",
             _ => "mavi-button-text mavi-button-text-default"
         };
     }
 
-    private static string GetOutlinedButtonClass(ButtonType buttonType)
+    private static string GetOutlinedButtonClass(ThemeColorScheme buttonType)
     {
         return buttonType switch
         {
-            ButtonType.Default => "mavi-button-outlined mavi-button-outlined-default",
-            ButtonType.Primary => "mavi-button-outlined mavi-button-outlined-primary",
-            ButtonType.Secondary => "mavi-button-outlined mavi-button-outlined-secondary",
-            ButtonType.Success => "mavi-button-outlined mavi-button-outlined-success",
-            ButtonType.Danger => "mavi-button-outlined mavi-button-outlined-danger",
-            ButtonType.Warning => "mavi-button-outlined mavi-button-outlined-warning",
-            ButtonType.Info => "mavi-button-outlined mavi-button-outlined-info",
-            ButtonType.Dark => "mavi-button-outlined mavi-button-outlined-dark",
-            ButtonType.Light => "mavi-button-outlined mavi-button-outlined-light",
+            ThemeColorScheme.Default => "mavi-button-outlined mavi-button-outlined-default",
+            ThemeColorScheme.Primary => "mavi-button-outlined mavi-button-outlined-primary",
+            ThemeColorScheme.Secondary => "mavi-button-outlined mavi-button-outlined-secondary",
+            ThemeColorScheme.Success => "mavi-button-outlined mavi-button-outlined-success",
+            ThemeColorScheme.Danger => "mavi-button-outlined mavi-button-outlined-danger",
+            ThemeColorScheme.Warning => "mavi-button-outlined mavi-button-outlined-warning",
+            ThemeColorScheme.Info => "mavi-button-outlined mavi-button-outlined-info",
+            ThemeColorScheme.Dark => "mavi-button-outlined mavi-button-outlined-dark",
+            ThemeColorScheme.Light => "mavi-button-outlined mavi-button-outlined-light",
             _ => "mavi-button-outlined mavi-button-outlined-default"
         };
     }

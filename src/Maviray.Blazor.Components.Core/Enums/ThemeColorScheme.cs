@@ -1,6 +1,6 @@
 ﻿namespace Maviray.Blazor.Components.Core.Enums;
 
-public enum ButtonType
+public enum ThemeColorScheme
 {
     Default,
     Primary,

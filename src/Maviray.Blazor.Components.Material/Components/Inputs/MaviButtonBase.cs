@@ -13,7 +13,7 @@ namespace Maviray.Blazor.Components.Material.Components.Inputs
 
         [Parameter] public ButtonRole ButtonRole { get; set; }
 
-        [Parameter] public ButtonType ButtonType { get; set; }
+        [Parameter] public ThemeColorScheme ThemeColorScheme { get; set; }
 
         [Parameter] public ElementSize ElementSize { get; set; }
 

@@ -12,7 +12,7 @@ namespace Maviray.Blazor.Components.Core.Models.Buttons
 
         public ButtonRole ButtonRole { get; set; }
 
-        public ButtonType ButtonType { get; set; }
+        public ThemeColorScheme ButtonType { get; set; }
 
         public ElementSize ElementSize { get; set; }
 
