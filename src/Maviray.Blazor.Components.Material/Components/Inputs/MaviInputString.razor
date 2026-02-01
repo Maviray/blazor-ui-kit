@@ -106,14 +106,14 @@
     private bool _passwordVisible = false;
     private bool _isEndIconLoading = false;
 
-    private string _textAlertColor = "text-(--theme-alert-eight)";
-    private string _borderAlertColor = "border-(--theme-alert-eight)";
+    private readonly string _textAlertColor = "text-(--theme-alert-eight)";
+    private readonly string _borderAlertColor = "border-(--theme-alert-eight)";
 
-    private string? _themeTextLightColor;
-    private string? _themeTextDarkColor;
-    private string? _themeBorderLightColor;
-    private string? _themeBorderDarkColor;
-    private string? _themeBorderHoverColor;
+    private string _themeTextLightColor = "text-(--theme-primary-eight)";
+    private string _themeTextDarkColor = "text-(--theme-primary-nine)";
+    private string _themeBorderLightColor = "border-(--theme-primary-eight)";
+    private string _themeBorderDarkColor = "border-(--theme-primary-nine)";
+    private string _themeBorderHoverColor = "hover:border-(--theme-primary-nine)";
 
     [Inject] private ILoggerFactory? LoggerFactory { get; set; }
 
@@ -888,7 +888,7 @@
             ThemeColorScheme.Primary => "primary",
             ThemeColorScheme.Secondary => "secondary",
             ThemeColorScheme.Success => "success",
-            ThemeColorScheme.Danger => "alert",
+            ThemeColorScheme.Alert => "alert",
             ThemeColorScheme.Warning => "warning",
             ThemeColorScheme.Info => "info",
             ThemeColorScheme.Dark => "dark",

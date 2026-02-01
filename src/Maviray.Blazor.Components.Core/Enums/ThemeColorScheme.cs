@@ -6,7 +6,7 @@ public enum ThemeColorScheme
     Primary,
     Secondary,
     Success,
-    Danger,
+    Alert,
     Warning,
     Info,
     Dark,
