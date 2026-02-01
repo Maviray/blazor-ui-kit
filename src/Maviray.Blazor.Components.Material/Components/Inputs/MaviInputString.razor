@@ -409,9 +409,9 @@
         // Padding and font size for each size
         var (padding, fontSize, lineHeight) = ElementSize switch
         {
-            ElementSize.Small => GetSizePadding("px-3 pt-4 pb-2", "pl-10 pr-3 pt-4 pb-2", "text-sm", "leading-normal"),
-            ElementSize.Large => GetSizePadding("px-4 pt-5 pb-3", "pl-12 pr-4 pt-5 pb-3", "text-lg", "leading-normal"),
-            _ => GetSizePadding("px-3.5 pt-4.5 pb-2.5", "pl-11 pr-3.5 pt-4.5 pb-2.5", "text-base", "leading-normal")
+            ElementSize.Small => GetSizePadding("px-3 pt-4 pb-2", "pl-[36px] pr-3 pt-4 pb-2", "text-sm", "leading-normal"),
+            ElementSize.Large => GetSizePadding("px-4 pt-5 pb-3", "pl-[38px] pr-4 pt-5 pb-3", "text-lg", "leading-normal"),
+            _ => GetSizePadding("px-3.5 pt-4.5 pb-2.5", "pl-[36px] pr-3.5 pt-4.5 pb-2.5", "text-base", "leading-normal")
         };
 
         classes.Add(padding);
@@ -579,9 +579,9 @@
     {
         var topOffset = ElementSize switch
         {
-            ElementSize.Small => "top-[24px]",
-            ElementSize.Large => "top-[32px]",      
-            _ => "top-[27px]"                    
+            ElementSize.Small => "top-[26px]",
+            ElementSize.Large => "top-[34px]",      
+            _ => "top-[31px]"                    
         };
 
         return topOffset;
