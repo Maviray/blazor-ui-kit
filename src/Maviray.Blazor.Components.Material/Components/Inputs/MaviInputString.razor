@@ -20,6 +20,7 @@
                readonly="@Readonly"
                class="@BuildInputClass()"
                style="@Style"
+               title="@GetTitle()"
                aria-describedby="@GetAriaDescribedByString()"
                aria-invalid="@GetAreaInvalidValue()"
                aria-label="@Label"
@@ -594,5 +595,10 @@
     private string GetAreaInvalidValue()
     {
         return HasError.ToString().ToLowerInvariant();
+    }
+    
+    private string? GetTitle()
+    {
+        return !string.IsNullOrEmpty(Title) ? Title : HelperText;
     }
 }
