@@ -12,6 +12,17 @@
     --mui-shadows-2: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);
     --mui-shadows-4: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
     --mui-shadows-8: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12);
+    /* Default */
+    --theme-default-one: #FAFAFA;
+    --theme-default-two: #F0F0F0;
+    --theme-default-three: #E3E3E3;
+    --theme-default-four: #D6D6D6;
+    --theme-default-five: #BFBFBF;
+    --theme-default-six: #A6A6A6;
+    --theme-default-seven: #8C8C8C;
+    --theme-default-eight: #737373;
+    --theme-default-nine: #5C5C5C;
+    --theme-default-ten: #404040;
     /* Primary - Blue (Material Blue) */
     --theme-primary-one: #E3F2FD; /* Lightest tint */
     --theme-primary-two: #BBDEFB; /* Very light */

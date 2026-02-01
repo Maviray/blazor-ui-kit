@@ -39,7 +39,7 @@
 
     /* Default Button */
     .mavi-button-filled-default {
-        @apply bg-(--theme-light-six) text-(--theme-dark-nine) hover:bg-(--theme-light-seven) hover:shadow-lg focus:ring-(--theme-light-eight) active:bg-(--theme-light-eight);
+        @apply bg-(--theme-light-six) text-(--theme-default-nine) hover:bg-(--theme-default-seven) hover:shadow-lg focus:ring-(--theme-default-eight) active:bg-(--theme-default-eight);
     }
 
     /* Primary Button */
@@ -84,7 +84,7 @@
 
     /* Outlined Button - Default */
     .mavi-button-outlined-default {
-        @apply border-(--theme-light-seven) text-(--theme-dark-nine) hover:border-(--theme-light-eight) hover:bg-(--theme-light-one) active:bg-(--theme-light-two);
+        @apply border-(--theme-default-seven) text-(--theme-default-nine) hover:border-(--theme-default-eight) hover:bg-(--theme-default-one) active:bg-(--theme-default-two);
     }
 
     /* Outlined Button - Primary */
@@ -129,7 +129,7 @@
 
     /* Text Button - Default */
     .mavi-button-text-default {
-        @apply text-(--theme-dark-nine) hover:bg-(--theme-light-one) active:bg-(--theme-light-two);
+        @apply text-(--theme-default-nine) hover:bg-(--theme-default-one) active:bg-(--theme-default-two);
     }
 
     /* Text Button - Primary */
