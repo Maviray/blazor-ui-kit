@@ -84,7 +84,7 @@
         <!-- Fieldset for Outlined Border -->
         <fieldset aria-hidden="true" class="@BuildFieldsetClass()">
             <legend class="@BuildLegendClass()">
-                <span class="@(string.IsNullOrEmpty(Label) ? "" : "px-2")">@Label@((Required && !Disabled && !Readonly) ? " *" : "")</span>
+                <span class="@(string.IsNullOrEmpty(Label) || Disabled || Readonly ? "" : "px-2")">@Label@((Required && !Disabled && !Readonly) ? " *" : "")</span>
             </legend>
         </fieldset>
     </div>
@@ -185,7 +185,7 @@
 
     protected bool HasValue => !string.IsNullOrWhiteSpace(CurrentValue);
 
-    protected bool IsLabelFloating => _isFocused || HasValue;
+    protected bool IsLabelFloating => _isFocused || HasValue || Disabled || Readonly;
 
     protected override void OnParametersSet()
     {
@@ -503,7 +503,7 @@
             _ => "h-12"                       // 48px (Regular)
         };
 
-        return $"relative {heightClass}";
+        return $"relative mt-[2px] {heightClass}";
     }
 
     private string BuildInputClass()
@@ -574,15 +574,25 @@
     {
         var classes = new List<string>
         {
-            "absolute transition-all duration-200 pointer-events-none bg-white leading-none"
+            "absolute transition-all duration-200 pointer-events-none leading-none"
         };
 
         // Position based on floating state
 
         if (IsLabelFloating)
         {
+            if (Disabled || Readonly)
+            {
+                classes.Add("top-[5px]");
+            }
+
+            else
+            {
+                classes.Add("top-[4px]"); 
+            }
+
             // Floating: positioned on top of the border, centered on the border
-            classes.Add("top-[4px] -translate-y-1/2 left-[11px] px-1 text-xs");
+            classes.Add("-translate-y-1/2 left-[11px] px-1 text-xs");
         }
         else
         {
@@ -598,6 +608,22 @@
             classes.Add($"{GetLabelAsPlaceholderTopOffset()} -translate-y-1/2 {left} {fontSize}");
         }
 
+        // Add border for disabled state when floating
+        if (Disabled)
+        {
+            classes.Add("border-black/[0.12]");
+        }
+
+        if (Readonly)
+        {
+            classes.Add("border-black/[0.24]");
+        }
+
+        if (Disabled || Readonly)
+        {
+            classes.Add("bg-white border border-solid rounded pb-[2px] z-10");
+        }
+
         // Color based on state (matching border state)
         if (HasError)
         {
@@ -608,6 +634,10 @@
             classes.Add("text-(--theme-primary-nine)");
         }
         else if (Disabled)
+        {
+            classes.Add("text-black/[0.23]");
+        }
+        else if (Readonly)
         {
             classes.Add("text-black/[0.38]");
         }
@@ -681,8 +711,9 @@
     {
         var classes = new List<string>
         {
-            "ml-1.5 px-0 text-xs transition-all duration-200 invisible whitespace-nowrap leading-none",
+            "px-0 text-xs transition-all duration-200 invisible whitespace-nowrap leading-none",
             // Show legend when label is floating to create cutout in border
+            Disabled || Readonly ? "ml-2.5" : "ml-1.5",
             IsLabelFloating ? "max-w-full" : "max-w-0"
         };
 
@@ -706,6 +737,10 @@
             classes.Add("text-(--theme-primary-nine)");
         }
         else if (Disabled)
+        {
+            classes.Add("text-black/[0.23]");
+        }
+        else if (Readonly)
         {
             classes.Add("text-black/[0.38]");
         }

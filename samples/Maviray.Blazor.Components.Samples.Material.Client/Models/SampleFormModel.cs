@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 namespace Maviray.Blazor.Components.Samples.Material.Client.Models;
 
@@ -46,4 +47,19 @@ public class SampleFormModel
     [StringLength(200, ErrorMessage = "Must not be longer than 200 characters.")]
     [Display(Name = "Required Limited String One", Description = "Custom description as part of Display attribute.")]
     public string? StringTwelve { get; set; }
+
+    [Display(Name = "Disabled String")]
+    public string? StringThirteen { get; set; } 
+
+    [Display(Name = "Readonly String")]
+    public string? StringFourteen { get; set; }
+
+    [Display(Name = "Small Size")]
+    public string? StringFifteen { get; set; }
+
+    [Display(Name = "Regular Size")]
+    public string? StringSixteen { get; set; }
+
+    [Display(Name = "Large Size")]
+    public string? StringSeventeen { get; set; }
 }
