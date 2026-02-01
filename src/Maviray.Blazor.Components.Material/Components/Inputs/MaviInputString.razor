@@ -53,18 +53,32 @@
             </div>
         }
 
-        <!-- End Icon (Clickable) -->
+        <!-- End Icon (Clickable) or Loading Spinner -->
         @if (!string.IsNullOrEmpty(EndIcon))
         {
-            <button type="button"
-                    class="@GetEndIconClass()"
-                    @onclick="HandleEndIconClick"
-                    disabled="@(Disabled || EndIconDisabled)"
-                    title="@ButtonLabel"
-                    aria-label="@ButtonLabel"
-                    tabindex="-1">
-                <i class="@EndIcon text-xl"></i>
-            </button>
+            @if (_isEndIconLoading)
+            {
+                <!-- Loading Spinner -->
+                <div class="@GetEndIconLoadingClass()"
+                     aria-label="Loading"
+                     role="status">
+                    <div class="animate-spin rounded-full border-2 border-solid border-current border-r-transparent"
+                         style="@GetLoadingSpinnerSize()"></div>
+                </div>
+            }
+            else
+            {
+                <!-- End Icon Button -->
+                <button type="button"
+                        class="@GetEndIconClass()"
+                        @onclick="HandleEndIconClick"
+                        disabled="@(Disabled || EndIconDisabled)"
+                        title="@ButtonLabel"
+                        aria-label="@ButtonLabel"
+                        tabindex="-1">
+                    <i class="@EndIcon text-xl"></i>
+                </button>
+            }
         }
 
         <!-- Fieldset for Outlined Border -->
@@ -90,6 +104,7 @@
     private EditContext? _previousEditContext;
     private ValidationMessageStore? _validationMessageStore;
     private bool _passwordVisible = false;
+    private bool _isEndIconLoading = false;
 
     [Inject] private ILoggerFactory? LoggerFactory { get; set; }
 
@@ -175,7 +190,7 @@
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        
+
         // Only infer once and only if enabled
         if (InferFromModelAttributes && !_attributesInferred)
         {
@@ -275,44 +290,56 @@
     /// </summary>
     private async Task HandleEndIconClick(MouseEventArgs args)
     {
-        if (Disabled || EndIconDisabled)
+        if (Disabled || EndIconDisabled || _isEndIconLoading)
             return;
 
-        if (TogglePasswordOnClick)
+        try
         {
-            _passwordVisible = !_passwordVisible;
-        }
-
-        if (!string.IsNullOrEmpty(EndIcon) && !string.IsNullOrWhiteSpace(EndIconAlternative))
-        {
-            (EndIcon, EndIconAlternative) = (EndIconAlternative, EndIcon);
+            // Show loading state
+            _isEndIconLoading = true;
             StateHasChanged();
-        }
 
-        // Invoke custom callback
-        if (OnEndIconClick.HasDelegate)
-        {
-            var customArgs = new MouseClickEventArgs(Id)
+            if (TogglePasswordOnClick)
             {
-                AltKey = args.AltKey,
-                Button = args.Button,
-                Buttons = args.Buttons,
-                ClientX = args.ClientX,
-                ClientY = args.ClientY,
-                CtrlKey = args.CtrlKey,
-                Detail = args.Detail,
-                MetaKey = args.MetaKey,
-                OffsetX = args.OffsetX,
-                OffsetY = args.OffsetY,
-                PageX = args.PageX,
-                PageY = args.PageY,
-                ScreenX = args.ScreenX,
-                ScreenY = args.ScreenY,
-                ShiftKey = args.ShiftKey,
-                Type = args.Type
-            };
+                _passwordVisible = !_passwordVisible;
+            }
 
-            await OnEndIconClick.InvokeAsync(customArgs);
+            if (!string.IsNullOrEmpty(EndIcon) && !string.IsNullOrWhiteSpace(EndIconAlternative))
+            {
+                (EndIcon, EndIconAlternative) = (EndIconAlternative, EndIcon);
+            }
+
+            // Invoke custom callback
+            if (OnEndIconClick.HasDelegate)
+            {
+                var customArgs = new MouseClickEventArgs(Id)
+                {
+                    AltKey = args.AltKey,
+                    Button = args.Button,
+                    Buttons = args.Buttons,
+                    ClientX = args.ClientX,
+                    ClientY = args.ClientY,
+                    CtrlKey = args.CtrlKey,
+                    Detail = args.Detail,
+                    MetaKey = args.MetaKey,
+                    OffsetX = args.OffsetX,
+                    OffsetY = args.OffsetY,
+                    PageX = args.PageX,
+                    PageY = args.PageY,
+                    ScreenX = args.ScreenX,
+                    ScreenY = args.ScreenY,
+                    ShiftKey = args.ShiftKey,
+                    Type = args.Type
+                };
+
+                await OnEndIconClick.InvokeAsync(customArgs);
+            }
+        }
+        finally
+        {
+            // Hide loading state
+            _isEndIconLoading = false;
+            StateHasChanged();
         }
     }
 
@@ -734,6 +761,43 @@
         classes.Add(buttonSize);
 
         return string.Join(" ", classes);
+    }
+
+    private string GetEndIconLoadingClass()
+    {
+        var classes = new List<string>
+        {
+            $"absolute {GetIconTopOffset()} -translate-y-1/2 right-[8px] z-10",
+            "flex items-center justify-center"
+        };
+
+        // Loading spinner color based on state
+        if (HasError)
+        {
+            classes.Add("text-(--theme-alert-eight)");
+        }
+        else if (_isFocused)
+        {
+            classes.Add("text-(--theme-primary-nine)");
+        }
+        else
+        {
+            classes.Add("text-(--theme-primary-eight)");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetLoadingSpinnerSize()
+    {
+        var size = ElementSize switch
+        {
+            ElementSize.Small => "width: 16px; height: 16px;",
+            ElementSize.Large => "width: 20px; height: 20px;",
+            _ => "width: 18px; height: 18px;"
+        };
+
+        return size;
     }
 
     private string GetIconTopOffset()
