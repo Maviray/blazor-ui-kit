@@ -536,9 +536,9 @@
         // Padding and font size for each size
         var (padding, fontSize, lineHeight) = ElementSize switch
         {
-            ElementSize.Small => GetSizePadding("px-3 pt-4 pb-2", "pl-[36px] pr-3 pt-4 pb-2", "pr-[36px]", "pl-[36px] pr-[36px] pt-4 pb-2", "text-sm", "leading-normal"),
-            ElementSize.Large => GetSizePadding("px-4 pt-5 pb-3", "pl-[38px] pr-4 pt-5 pb-3", "pr-[44px]", "pl-[38px] pr-[44px] pt-5 pb-3", "text-lg", "leading-normal"),
-            _ => GetSizePadding("px-3.5 pt-4.5 pb-2.5", "pl-[36px] pr-3.5 pt-4.5 pb-2.5", "pr-[40px]", "pl-[36px] pr-[40px] pt-4.5 pb-2.5", "text-base", "leading-normal")
+            ElementSize.Small => GetSizePadding("px-3 pt-4 pb-2", "pl-[36px] pr-3 pt-[12px] pb-2", "pr-[36px]", "pl-[36px] pr-[36px] pt-4 pb-2", "text-sm", "leading-normal"),
+            ElementSize.Large => GetSizePadding("px-4 pt-5 pb-3", "pl-[38px] pr-4 pt-[14px] pb-3", "pr-[44px]", "pl-[38px] pr-[44px] pt-5 pb-3", "text-lg", "leading-normal"),
+            _ => GetSizePadding("px-3.5 pt-4.5 pb-2.5", "pl-[36px] pr-3.5 pt-[12px] pb-2.5", "pr-[40px]", "pl-[36px] pr-[40px] pt-4.5 pb-2.5", "text-base", "leading-normal")
         };
 
         classes.Add(padding);
@@ -724,7 +724,7 @@
     {
         var classes = new List<string>
         {
-            $"absolute {GetIconTopOffset()} -translate-y-1/2 left-3 pointer-events-none transition-colors duration-200 z-10"
+            $"absolute flex {GetIconTopOffset()} -translate-y-1/2 left-3 pointer-events-none transition-colors duration-200 z-10"
         };
 
         // Icon color based on state
