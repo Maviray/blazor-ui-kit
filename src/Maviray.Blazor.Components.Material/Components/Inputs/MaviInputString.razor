@@ -40,7 +40,7 @@
                 @Label
                 @if (Required && !Disabled && !Readonly)
                 {
-                    <span class="ml-0.5 text-(--theme-alert-eight)">*</span>
+                    <span class="@BuildRequiredAsteriskClass()">*</span>
                 }
             </label>
         }
@@ -105,6 +105,15 @@
     private ValidationMessageStore? _validationMessageStore;
     private bool _passwordVisible = false;
     private bool _isEndIconLoading = false;
+
+    private string _textAlertColor = "text-(--theme-alert-eight)";
+    private string _borderAlertColor = "border-(--theme-alert-eight)";
+
+    private string? _themeTextLightColor;
+    private string? _themeTextDarkColor;
+    private string? _themeBorderLightColor;
+    private string? _themeBorderDarkColor;
+    private string? _themeBorderHoverColor;
 
     [Inject] private ILoggerFactory? LoggerFactory { get; set; }
 
@@ -192,6 +201,8 @@
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
+
+        SetThemeColors();
 
         // Only infer once and only if enabled
         if (InferFromModelAttributes && !_attributesInferred)
@@ -629,11 +640,11 @@
         // Color based on state (matching border state)
         if (HasError)
         {
-            classes.Add("text-(--theme-alert-eight)");
+            classes.Add(_textAlertColor);
         }
         else if (_isFocused)
         {
-            classes.Add("text-(--theme-primary-nine)");
+            classes.Add(_themeTextDarkColor);
         }
         else if (Disabled)
         {
@@ -645,7 +656,7 @@
         }
         else
         {
-            classes.Add("text-(--theme-primary-eight)");
+            classes.Add(_themeTextLightColor);
         }
 
         return string.Join(" ", classes);
@@ -680,12 +691,12 @@
         if (HasError)
         {
             // Error state - always red
-            classes.Add("border-(--theme-alert-eight)");
+            classes.Add(_borderAlertColor);
         }
         else if (_isFocused)
         {
             // Focused/Active state - darker primary
-            classes.Add("border-(--theme-primary-nine)");
+            classes.Add(_themeBorderDarkColor);
         }
         else if (Disabled)
         {
@@ -702,8 +713,8 @@
         else
         {
             // Default state with hover
-            classes.Add("border-(--theme-primary-eight)");
-            classes.Add("hover:border-(--theme-primary-nine)");
+            classes.Add(_themeBorderLightColor);
+            classes.Add(_themeBorderHoverColor);
         }
 
         return string.Join(" ", classes);
@@ -732,11 +743,11 @@
         // Icon color based on state
         if (HasError)
         {
-            classes.Add("text-(--theme-alert-eight)");
+            classes.Add(_textAlertColor);
         }
         else if (_isFocused)
         {
-            classes.Add("text-(--theme-primary-nine)");
+            classes.Add(_themeTextDarkColor);
         }
         else if (Disabled)
         {
@@ -748,7 +759,7 @@
         }
         else
         {
-            classes.Add("text-(--theme-primary-eight)");
+            classes.Add(_themeTextLightColor);
         }
 
         return string.Join(" ", classes);
@@ -775,15 +786,15 @@
             // Icon color based on state
             if (HasError)
             {
-                classes.Add("text-(--theme-alert-eight)");
+                classes.Add(_textAlertColor);
             }
             else if (_isFocused)
             {
-                classes.Add("text-(--theme-primary-nine)");
+                classes.Add(_themeTextDarkColor);
             }
             else
             {
-                classes.Add("text-(--theme-primary-eight)");
+                classes.Add(_themeTextLightColor);
             }
         }
 
@@ -811,15 +822,15 @@
         // Loading spinner color based on state
         if (HasError)
         {
-            classes.Add("text-(--theme-alert-eight)");
+            classes.Add(_textAlertColor);
         }
         else if (_isFocused)
         {
-            classes.Add("text-(--theme-primary-nine)");
+            classes.Add(_themeTextDarkColor);
         }
         else
         {
-            classes.Add("text-(--theme-primary-eight)");
+            classes.Add(_themeTextLightColor);
         }
 
         return string.Join(" ", classes);
@@ -862,5 +873,33 @@
     private string? GetTitle()
     {
         return !string.IsNullOrEmpty(Title) ? Title : HelperText;
+    }
+
+    private string BuildRequiredAsteriskClass()
+    {
+        return $"ml-0.5 {_textAlertColor}";
+    }
+
+    private void SetThemeColors()
+    {
+        var colorName = ThemeColorScheme switch
+        {
+            ThemeColorScheme.Default => "default",
+            ThemeColorScheme.Primary => "primary",
+            ThemeColorScheme.Secondary => "secondary",
+            ThemeColorScheme.Success => "success",
+            ThemeColorScheme.Danger => "alert",
+            ThemeColorScheme.Warning => "warning",
+            ThemeColorScheme.Info => "info",
+            ThemeColorScheme.Dark => "dark",
+            ThemeColorScheme.Light => "light",
+            _ => "primary"
+        };
+
+        _themeTextLightColor = $"text-(--theme-{colorName}-eight)";
+        _themeTextDarkColor = $"text-(--theme-{colorName}-nine)";
+        _themeBorderLightColor = $"border-(--theme-{colorName}-eight)";
+        _themeBorderDarkColor = $"border-(--theme-{colorName}-nine)";
+        _themeBorderHoverColor = $"hover:border-(--theme-{colorName}-nine)";
     }
 }

@@ -62,4 +62,41 @@ public class SampleFormModel
 
     [Display(Name = "Large Size")]
     public string? StringSeventeen { get; set; }
+
+
+    [Required]
+    [Display(Name = "Default")]
+    public string? Default { get; set; }
+
+    [Required]
+    [Display(Name = "Primary")]
+    public string? Primary { get; set; }
+
+    [Required]
+    [Display(Name = "Secondary")]
+    public string? Secondary { get; set; }
+
+    [Required]
+    [Display(Name = "Success")]
+    public string? Success { get; set; }
+
+    [Required]
+    [Display(Name = "Danger")]
+    public string? Danger { get; set; }
+
+    [Required]
+    [Display(Name = "Warning")]
+    public string? Warning { get; set; }
+
+    [Required]
+    [Display(Name = "Info")]
+    public string? Info { get; set; }
+
+    [Required]
+    [Display(Name = "Dark")]
+    public string? Dark { get; set; }
+
+    [Required]
+    [Display(Name = "Light")]
+    public string? Light { get; set; }
 }

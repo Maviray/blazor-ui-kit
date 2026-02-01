@@ -158,6 +158,86 @@
                 </div>
             </div>
         </div>
+        <div class="flex flex-col 2xl:flex-row gap-2">
+            <div class="basis-1/3 flex flex-col">
+                <div>
+                    <MaviInputString @bind-Value="_formSampleModel.Default"
+                                     ThemeColorScheme="ThemeColorScheme.Default"
+                                     ElementSize="ElementSize.Small"
+                                     StartIcon="lni lni-android-old"
+                                     Width="w-96" />
+                    <ValidationMessage For="@(() => _formSampleModel.Default)" />
+                </div>
+                <div>
+                    <MaviInputString @bind-Value="_formSampleModel.Primary"
+                                     ThemeColorScheme="ThemeColorScheme.Primary"
+                                     ElementSize="ElementSize.Regular"
+                                     StartIcon="lni lni-angle-double-right"
+                                     Width="w-96" />
+                    <ValidationMessage For="@(() => _formSampleModel.Primary)" />
+                </div>
+                <div>
+                    <MaviInputString @bind-Value="_formSampleModel.Secondary"
+                                     ThemeColorScheme="ThemeColorScheme.Secondary"
+                                     ElementSize="ElementSize.Large"
+                                     StartIcon="lni lni-adobe"
+                                     Width="w-96" />
+                    <ValidationMessage For="@(() => _formSampleModel.Secondary)" />
+                </div>
+            </div>
+            <div class="basis-1/3 flex flex-col">
+                <div>
+                    <MaviInputString @bind-Value="_formSampleModel.Success"
+                                     ThemeColorScheme="ThemeColorScheme.Success"
+                                     ElementSize="ElementSize.Small"
+                                     StartIcon="lni lni-android-old"
+                                     Width="w-96" />
+                    <ValidationMessage For="@(() => _formSampleModel.Success)" />
+                </div>
+                <div>
+                    <MaviInputString @bind-Value="_formSampleModel.Danger"
+                                     ThemeColorScheme="ThemeColorScheme.Danger"
+                                     ElementSize="ElementSize.Regular"
+                                     StartIcon="lni lni-angle-double-right"
+                                     Width="w-96" />
+                    <ValidationMessage For="@(() => _formSampleModel.Danger)" />
+                </div>
+                <div>
+                    <MaviInputString @bind-Value="_formSampleModel.Warning"
+                                     ThemeColorScheme="ThemeColorScheme.Warning"
+                                     ElementSize="ElementSize.Large"
+                                     StartIcon="lni lni-adobe"
+                                     Width="w-96" />
+                    <ValidationMessage For="@(() => _formSampleModel.Warning)" />
+                </div>
+            </div>
+            <div class="basis-1/3 flex flex-col">
+                <div>
+                    <MaviInputString @bind-Value="_formSampleModel.Info"
+                                     ThemeColorScheme="ThemeColorScheme.Info"
+                                     ElementSize="ElementSize.Small"
+                                     StartIcon="lni lni-android-old"
+                                     Width="w-96" />
+                    <ValidationMessage For="@(() => _formSampleModel.Info)" />
+                </div>
+                <div>
+                    <MaviInputString @bind-Value="_formSampleModel.Dark"
+                                     ThemeColorScheme="ThemeColorScheme.Dark"
+                                     ElementSize="ElementSize.Regular"
+                                     StartIcon="lni lni-angle-double-right"
+                                     Width="w-96" />
+                    <ValidationMessage For="@(() => _formSampleModel.Dark)" />
+                </div>
+                <div>
+                    <MaviInputString @bind-Value="_formSampleModel.Light"
+                                     ThemeColorScheme="ThemeColorScheme.Light"
+                                     ElementSize="ElementSize.Large"
+                                     StartIcon="lni lni-adobe"
+                                     Width="w-96" />
+                    <ValidationMessage For="@(() => _formSampleModel.Light)" />
+                </div>
+            </div>
+        </div>
     <div class="p-2">
         <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
                     ElementSize="ElementSize.Regular"
