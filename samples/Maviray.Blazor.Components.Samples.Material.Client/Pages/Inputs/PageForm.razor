@@ -9,55 +9,59 @@
 <div class="p-4">
     <EditForm Model="@_formSampleModel" OnValidSubmit="OnValidFormSubmit" OnInvalidSubmit="OnInValidFormSubmit">
         <DataAnnotationsValidator/>
+        <div class="flex flex-col gap-2">
+            <div class="flex flex-col 2xl:flex-row gap-2">
+                <div class="basis-1/3 flex flex-col gap-2">
+                    <div>
+                        <MaviInputString @bind-Value="_formSampleModel.StringOne"
+                                         ElementSize="ElementSize.Small"
+                                         StartIcon="lni lni-android-old"
+                                         Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.StringOne)" />
+                    </div>
+                    <div>
+                        <MaviInputString @bind-Value="_formSampleModel.StringTWo"
+                                         ElementSize="ElementSize.Regular"
+                                         StartIcon="lni lni-angle-double-right"
+                                         Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.StringTWo)" />
+                    </div>
+                    <div>
+                        <MaviInputString @bind-Value="_formSampleModel.StringThree"
+                                         ElementSize="ElementSize.Large"
+                                         StartIcon="lni lni-adobe"
+                                         Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.StringThree)" />
+                    </div>
+                </div>
+                <div class="basis-1/3 flex flex-col gap-2">
+                    <div>
+                        <MaviInputString @bind-Value="_formSampleModel.StringFour"
+                                         ElementSize="ElementSize.Small"
+                                         Disabled="true"
+                                         StartIcon="lni lni-angle-double-right"
+                                         Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.StringFour)" />
+                    </div>
+                    <div>
+                        <MaviInputString @bind-Value="_formSampleModel.StringFive"
+                                         ElementSize="ElementSize.Regular"
+                                         Readonly="true"
+                                         StartIcon="lni lni-align-text-left"
+                                         Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.StringFive)" />
+                    </div>
+                    <div>
+                        <MaviInputString @bind-Value="_formSampleModel.StringSix"
+                                         ElementSize="ElementSize.Large"
+                                         StartIcon="lni lni-apple-brand"
+                                         Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.StringSix)" />
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="flex flex-col 2xl:flex-row gap-2">
-            <div class="basis-1/3 flex flex-col gap-2">
-                <div>
-                    <MaviInputString @bind-Value="_formSampleModel.StringOne"
-                                     ElementSize="ElementSize.Small"
-                                     Icon="lni lni-android-old"
-                                     Width="w-full"/>
-                    <ValidationMessage For="@(() => _formSampleModel.StringOne)"/>
-                </div>
-                <div>
-                    <MaviInputString @bind-Value="_formSampleModel.StringTWo"
-                                     ElementSize="ElementSize.Regular"
-                                     Icon="lni lni-angle-double-right"
-                                     Width="w-full"/>
-                    <ValidationMessage For="@(() => _formSampleModel.StringTWo)" />
-                </div>
-                <div>
-                    <MaviInputString @bind-Value="_formSampleModel.StringThree"
-                                     ElementSize="ElementSize.Large"
-                                     Icon="lni lni-adobe"
-                                     Width="w-full" />
-                    <ValidationMessage For="@(() => _formSampleModel.StringThree)" />
-                </div>
-            </div>
-            <div class="basis-1/3 flex flex-col gap-2">
-                <div>
-                    <MaviInputString @bind-Value="_formSampleModel.StringFour"
-                                     ElementSize="ElementSize.Small"
-                                     Disabled="true"
-                                     Icon="lni lni-angle-double-right"
-                                     Width="w-full"/>
-                    <ValidationMessage For="@(() => _formSampleModel.StringFour)" />
-                </div>
-                <div>
-                    <MaviInputString @bind-Value="_formSampleModel.StringFive"
-                                     ElementSize="ElementSize.Regular"
-                                     Readonly="true"
-                                     Icon="lni lni-align-text-left"
-                                     Width="w-full"/>
-                    <ValidationMessage For="@(() => _formSampleModel.StringFive)" />
-                </div>
-                <div>
-                    <MaviInputString @bind-Value="_formSampleModel.StringSix"
-                                     ElementSize="ElementSize.Large"
-                                     Icon="lni lni-apple-brand"
-                                     Width="w-full" />
-                    <ValidationMessage For="@(() => _formSampleModel.StringSix)" />
-                </div>
-            </div>
             <div class="basis-1/3 flex flex-col gap-2">
                 <div>
                     <MaviInputString @bind-Value="_formSampleModel.StringSeven"
@@ -76,6 +80,36 @@
                                      ElementSize="ElementSize.Small"
                                      Width="w-96" />
                     <ValidationMessage For="@(() => _formSampleModel.StringNine)" />
+                </div>
+            </div>
+            <div class="basis-1/3 flex flex-col gap-2">
+                <div>
+                    <MaviInputString @bind-Value="_formSampleModel.StringTen"
+                                     TogglePasswordOnClick="true"
+                                     EndIcon="lni lni-search-1"
+                                     EndIconAlternative="lni lni-xmark"
+                                     ButtonLabel="Toggle Password Visibility"
+                                     ElementSize="ElementSize.Small"
+                                     Width="w-64" />
+                    <ValidationMessage For="@(() => _formSampleModel.StringTen)" />
+                </div>
+                <div>
+                    <MaviInputString @bind-Value="_formSampleModel.StringEleven"
+                                     ElementSize="ElementSize.Regular"
+                                     EndIcon="lni lni-angle-double-right"
+                                     ButtonLabel="Search"
+                                     OnEndIconClick="PerformSearch"
+                                     Width="min-w-48 max-w-80" />
+                    <ValidationMessage For="@(() => _formSampleModel.StringEleven)" />
+                </div>
+                <div>
+                    <MaviInputString @bind-Value="_formSampleModel.StringTwelve"
+                                     ElementSize="ElementSize.Large"
+                                     Width="w-96" 
+                                     EndIcon="lni lni-angle-double-right"
+                                     ButtonLabel="Clear"
+                                     OnEndIconClick="() => _formSampleModel.StringTwelve = string.Empty" />
+                    <ValidationMessage For="@(() => _formSampleModel.StringTwelve)" />
                 </div>
             </div>
         </div>
@@ -111,5 +145,15 @@
     {
         Logger?.LogInformation("Input item icon click. ID: {ArgsButtonId}", args.ButtonId);
         return Task.CompletedTask;
+    }
+
+    private async Task PerformSearch()
+    {
+        Logger?.LogInformation("Starting search for: {SearchTerm}", _formSampleModel.StringEleven);
+    
+        // Simulate a long-running search operation
+        await Task.Delay(2000); // 2-second delay
+    
+        Logger?.LogInformation("Search completed for: {SearchTerm}", _formSampleModel.StringEleven);
     }
 }

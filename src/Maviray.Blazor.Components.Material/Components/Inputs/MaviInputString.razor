@@ -3,6 +3,7 @@
 @using Microsoft.Extensions.Logging
 @using System.ComponentModel.DataAnnotations
 @using System.Reflection
+@using Maviray.Blazor.Components.Core.EventArgs
 @inherits InputBase<string>
 @implements IDisposable
 
@@ -33,7 +34,7 @@
         <!-- Floating Label -->
         @if (!string.IsNullOrEmpty(Label))
         {
-            <label for="@Id" 
+            <label for="@Id"
                    class="@BuildLabelClass()"
                    title="@Title">
                 @Label
@@ -45,11 +46,25 @@
         }
 
         <!-- Start Icon -->
-        @if (!string.IsNullOrEmpty(Icon))
+        @if (!string.IsNullOrEmpty(StartIcon))
         {
             <div class="@GetStartIconClass()">
-                <i class="@Icon text-xl"></i>
+                <i class="@StartIcon text-xl"></i>
             </div>
+        }
+
+        <!-- End Icon (Clickable) -->
+        @if (!string.IsNullOrEmpty(EndIcon))
+        {
+            <button type="button"
+                    class="@GetEndIconClass()"
+                    @onclick="HandleEndIconClick"
+                    disabled="@(Disabled || EndIconDisabled)"
+                    title="@ButtonLabel"
+                    aria-label="@ButtonLabel"
+                    tabindex="-1">
+                <i class="@EndIcon text-xl"></i>
+            </button>
         }
 
         <!-- Fieldset for Outlined Border -->
@@ -74,6 +89,7 @@
     private bool _attributesInferred = false;
     private EditContext? _previousEditContext;
     private ValidationMessageStore? _validationMessageStore;
+    private bool _passwordVisible = false;
 
     [Inject] private ILoggerFactory? LoggerFactory { get; set; }
 
@@ -91,7 +107,39 @@
 
     [Parameter] public string Label { get; set; } = string.Empty;
 
-    [Parameter] public string? Icon { get; set; }
+    [Parameter] public string? StartIcon { get; set; }
+
+    /// <summary>
+    /// Icon displayed at the end (right side) of the input field. This icon is clickable.
+    /// </summary>
+    [Parameter] public string? EndIcon { get; set; }
+
+    /// <summary>
+    /// Icon displayed at the end (right side) of the input field. This icon is toggled to on-click.
+    /// </summary>
+
+    [Parameter] public string? EndIconAlternative { get; set; }
+
+    /// <summary>
+    /// Callback invoked when the end icon is clicked.
+    /// </summary>
+    [Parameter] public EventCallback<MouseClickEventArgs> OnEndIconClick { get; set; }
+
+    /// <summary>
+    /// Disables the end icon button independently of the input field.
+    /// </summary>
+    [Parameter] public bool EndIconDisabled { get; set; }
+
+    /// <summary>
+    /// Aria label for the end icon button for accessibility.
+    /// </summary>
+    [Parameter] public string ButtonLabel { get; set; } = "Action";
+
+    /// <summary>
+    /// When true and StringInputType is Password, automatically adds a visibility toggle icon.
+    /// Default is false.
+    /// </summary>
+    [Parameter] public bool TogglePasswordOnClick { get; set; }
 
     [Parameter] public int MaxLength { get; set; } = FormatConstants.DEFAULT_MAX_STRING_INPUT_LIMIT;
 
@@ -127,7 +175,7 @@
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-
+        
         // Only infer once and only if enabled
         if (InferFromModelAttributes && !_attributesInferred)
         {
@@ -168,8 +216,8 @@
     }
 
     protected override bool TryParseValueFromString(
-        string? value, 
-        [MaybeNullWhen(false)] out string result, 
+        string? value,
+        [MaybeNullWhen(false)] out string result,
         [NotNullWhen(false)] out string? validationErrorMessage)
     {
         result = value ?? string.Empty;
@@ -222,6 +270,52 @@
         EditContext?.NotifyFieldChanged(FieldIdentifier);
     }
 
+    /// <summary>
+    /// Handles the end icon click event
+    /// </summary>
+    private async Task HandleEndIconClick(MouseEventArgs args)
+    {
+        if (Disabled || EndIconDisabled)
+            return;
+
+        if (TogglePasswordOnClick)
+        {
+            _passwordVisible = !_passwordVisible;
+        }
+
+        if (!string.IsNullOrEmpty(EndIcon) && !string.IsNullOrWhiteSpace(EndIconAlternative))
+        {
+            (EndIcon, EndIconAlternative) = (EndIconAlternative, EndIcon);
+            StateHasChanged();
+        }
+
+        // Invoke custom callback
+        if (OnEndIconClick.HasDelegate)
+        {
+            var customArgs = new MouseClickEventArgs(Id)
+            {
+                AltKey = args.AltKey,
+                Button = args.Button,
+                Buttons = args.Buttons,
+                ClientX = args.ClientX,
+                ClientY = args.ClientY,
+                CtrlKey = args.CtrlKey,
+                Detail = args.Detail,
+                MetaKey = args.MetaKey,
+                OffsetX = args.OffsetX,
+                OffsetY = args.OffsetY,
+                PageX = args.PageX,
+                PageY = args.PageY,
+                ScreenX = args.ScreenX,
+                ScreenY = args.ScreenY,
+                ShiftKey = args.ShiftKey,
+                Type = args.Type
+            };
+
+            await OnEndIconClick.InvokeAsync(customArgs);
+        }
+    }
+
     private void InferValuesFromAttributes()
     {
         try
@@ -240,9 +334,9 @@
                 var displayAttr = propertyInfo.GetCustomAttribute<DisplayAttribute>();
                 var displayNameAttr = propertyInfo.GetCustomAttribute<System.ComponentModel.DisplayNameAttribute>();
 
-                Label = displayAttr?.Name 
-                    ?? displayAttr?.GetName() 
-                    ?? displayNameAttr?.DisplayName 
+                Label = displayAttr?.Name
+                    ?? displayAttr?.GetName()
+                    ?? displayNameAttr?.DisplayName
                     ?? SplitCamelCase(propertyInfo.Name);
             }
 
@@ -277,8 +371,8 @@
                 if (stringLengthAttr != null && stringLengthAttr.MinimumLength > 0)
                 {
                     var minLengthText = $"Minimum {stringLengthAttr.MinimumLength} characters";
-                    HelperText = string.IsNullOrEmpty(HelperText) 
-                        ? minLengthText 
+                    HelperText = string.IsNullOrEmpty(HelperText)
+                        ? minLengthText
                         : $"{HelperText}. {minLengthText}";
                 }
             }
@@ -301,7 +395,7 @@
         }
         catch (Exception ex)
         {
-            Logger?.LogWarning(ex, "Failed to infer values from model attributes for property '{PropertyName}'", 
+            Logger?.LogWarning(ex, "Failed to infer values from model attributes for property '{PropertyName}'",
                 GetPropertyInfo()?.Name ?? "Unknown");
         }
     }
@@ -355,6 +449,12 @@
 
     private string GetInputType()
     {
+        // Override type for password visibility toggle
+        if (StringInputType == StringInputType.Password && _passwordVisible)
+        {
+            return "text";
+        }
+
         return StringInputType switch
         {
             StringInputType.Password => "password",
@@ -409,9 +509,9 @@
         // Padding and font size for each size
         var (padding, fontSize, lineHeight) = ElementSize switch
         {
-            ElementSize.Small => GetSizePadding("px-3 pt-4 pb-2", "pl-[36px] pr-3 pt-4 pb-2", "text-sm", "leading-normal"),
-            ElementSize.Large => GetSizePadding("px-4 pt-5 pb-3", "pl-[38px] pr-4 pt-5 pb-3", "text-lg", "leading-normal"),
-            _ => GetSizePadding("px-3.5 pt-4.5 pb-2.5", "pl-[36px] pr-3.5 pt-4.5 pb-2.5", "text-base", "leading-normal")
+            ElementSize.Small => GetSizePadding("px-3 pt-4 pb-2", "pl-[36px] pr-3 pt-4 pb-2", "pr-[36px]", "pl-[36px] pr-[36px] pt-4 pb-2", "text-sm", "leading-normal"),
+            ElementSize.Large => GetSizePadding("px-4 pt-5 pb-3", "pl-[38px] pr-4 pt-5 pb-3", "pr-[44px]", "pl-[38px] pr-[44px] pt-5 pb-3", "text-lg", "leading-normal"),
+            _ => GetSizePadding("px-3.5 pt-4.5 pb-2.5", "pl-[36px] pr-3.5 pt-4.5 pb-2.5", "pr-[40px]", "pl-[36px] pr-[40px] pt-4.5 pb-2.5", "text-base", "leading-normal")
         };
 
         classes.Add(padding);
@@ -421,9 +521,24 @@
         return string.Join(" ", classes);
     }
 
-    private (string padding, string fontSize, string lineHeight) GetSizePadding(string defaultPadding, string iconPadding, string fontSize, string lineHeight)
+    private (string padding, string fontSize, string lineHeight) GetSizePadding(
+        string defaultPadding,
+        string iconPadding,
+        string endIconPadding,
+        string bothIconsPadding,
+        string fontSize,
+        string lineHeight)
     {
-        var padding = !string.IsNullOrEmpty(Icon) ? iconPadding : defaultPadding;
+        var hasStartIcon = !string.IsNullOrEmpty(StartIcon);
+        var hasEndIcon = !string.IsNullOrEmpty(EndIcon);
+
+        var padding = (hasStartIcon, hasEndIcon) switch
+        {
+            (true, true) => bothIconsPadding,
+            (true, false) => iconPadding,
+            (false, true) => $"px-3.5 pt-4.5 pb-2.5 {endIconPadding}",
+            _ => defaultPadding
+        };
 
         return (padding, fontSize, lineHeight);
     }
@@ -447,13 +562,13 @@
             // Not floating: perfectly centered vertically and horizontally inside the field
             var (left, fontSize) = ElementSize switch
             {
-                ElementSize.Small => (!string.IsNullOrEmpty(Icon) ? "left-[37px]" : "left-3", "text-sm"),
-                ElementSize.Large => (!string.IsNullOrEmpty(Icon) ? "left-[38px]" : "left-4", "text-base"),
-                _ => (!string.IsNullOrEmpty(Icon) ? "left-[37px]" : "left-3.5", "text-base")
+                ElementSize.Small => (!string.IsNullOrEmpty(StartIcon) ? "left-[37px]" : "left-3", "text-sm"),
+                ElementSize.Large => (!string.IsNullOrEmpty(StartIcon) ? "left-[38px]" : "left-4", "text-base"),
+                _ => (!string.IsNullOrEmpty(StartIcon) ? "left-[37px]" : "left-3.5", "text-base")
             };
 
             // Perfect vertical center
-            classes.Add($"{GetLabelAsPlaceholderTopOffset()} -translate-y-1/2 {left} {fontSize}"); 
+            classes.Add($"{GetLabelAsPlaceholderTopOffset()} -translate-y-1/2 {left} {fontSize}");
         }
 
         // Color based on state (matching border state)
@@ -575,13 +690,59 @@
         return string.Join(" ", classes);
     }
 
+    private string GetEndIconClass()
+    {
+        var classes = new List<string>
+        {
+            $"absolute {GetIconTopOffset()} -translate-y-1/2 right-[8px] transition-colors duration-200 z-10",
+            "flex items-center justify-center rounded-full",
+            "focus:outline-none"
+        };
+
+        // Button states
+        if (Disabled || EndIconDisabled)
+        {
+            classes.Add("cursor-not-allowed text-black/[0.38]");
+        }
+        else
+        {
+            classes.Add("cursor-pointer hover:bg-black/[0.04] active:bg-black/[0.1]");
+
+            // Icon color based on state
+            if (HasError)
+            {
+                classes.Add("text-(--theme-alert-eight)");
+            }
+            else if (_isFocused)
+            {
+                classes.Add("text-(--theme-primary-nine)");
+            }
+            else
+            {
+                classes.Add("text-(--theme-primary-eight)");
+            }
+        }
+
+        // Size based on element size
+        var buttonSize = ElementSize switch
+        {
+            ElementSize.Small => "w-6 h-6",
+            ElementSize.Large => "w-8 h-8",
+            _ => "w-7 h-7"
+        };
+
+        classes.Add(buttonSize);
+
+        return string.Join(" ", classes);
+    }
+
     private string GetIconTopOffset()
     {
         var topOffset = ElementSize switch
         {
-            ElementSize.Small => "top-[26px]",
-            ElementSize.Large => "top-[34px]",      
-            _ => "top-[31px]"                    
+            ElementSize.Small => "top-[23px]",
+            ElementSize.Large => "top-[31px]",
+            _ => "top-[27px]"
         };
 
         return topOffset;
@@ -596,7 +757,7 @@
     {
         return HasError.ToString().ToLowerInvariant();
     }
-    
+
     private string? GetTitle()
     {
         return !string.IsNullOrEmpty(Title) ? Title : HelperText;

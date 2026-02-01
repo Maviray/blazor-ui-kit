@@ -33,4 +33,17 @@ public class SampleFormModel
     public string? StringEight { get; set; }
 
     public string? StringNine { get; set; }
+
+    [Required]
+    [DataType(DataType.Password)]
+    [StringLength(200, ErrorMessage = "Must not be longer than 200 characters.")]
+    [Display(Name = "Password", Description = "Required field.")]
+    public string? StringTen { get; set; }
+
+    [Required]
+    public string? StringEleven { get; set; }
+
+    [StringLength(200, ErrorMessage = "Must not be longer than 200 characters.")]
+    [Display(Name = "Required Limited String One", Description = "Custom description as part of Display attribute.")]
+    public string? StringTwelve { get; set; }
 }
