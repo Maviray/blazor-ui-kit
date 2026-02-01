@@ -6,6 +6,19 @@ public static class Tailwind
     {
         public static class Colors
         {
+
+            // Default
+            public const string THEME_DEFAULT_ONE = "--theme-default-one";
+            public const string THEME_DEFAULT_TWO = "--theme-default-two";
+            public const string THEME_DEFAULT_THREE = "--theme-default-three";
+            public const string THEME_DEFAULT_FOUR = "--theme-default-four";
+            public const string THEME_DEFAULT_FIVE = "--theme-default-five";
+            public const string THEME_DEFAULT_SIX = "--theme-default-six";
+            public const string THEME_DEFAULT_SEVEN = "--theme-default-seven";
+            public const string THEME_DEFAULT_EIGHT = "--theme-default-eight";
+            public const string THEME_DEFAULT_NINE = "--theme-default-nine";
+            public const string THEME_DEFAULT_TEN = "--theme-default-ten";
+
             // Primary
             public const string THEME_PRIMARY_ONE = "--theme-primary-one";
             public const string THEME_PRIMARY_TWO = "--theme-primary-two";
@@ -141,6 +154,20 @@ public static class Tailwind
 
         public static class Background
         {
+            #region Background Colors
+
+            // Default - Background
+            public const string THEME_DEFAULT_ONE_BG = "bg-(--theme-default-one)";
+            public const string THEME_DEFAULT_TWO_BG = "bg-(--theme-default-two)";
+            public const string THEME_DEFAULT_THREE_BG = "bg-(--theme-default-three)";
+            public const string THEME_DEFAULT_FOUR_BG = "bg-(--theme-default-four)";
+            public const string THEME_DEFAULT_FIVE_BG = "bg-(--theme-default-five)";
+            public const string THEME_DEFAULT_SIX_BG = "bg-(--theme-default-six)";
+            public const string THEME_DEFAULT_SEVEN_BG = "bg-(--theme-default-seven)";
+            public const string THEME_DEFAULT_EIGHT_BG = "bg-(--theme-default-eight)";
+            public const string THEME_DEFAULT_NINE_BG = "bg-(--theme-default-nine)";
+            public const string THEME_DEFAULT_TEN_BG = "bg-(--theme-default-ten)";
+
             // Primary - Background
             public const string THEME_PRIMARY_ONE_BG = "bg-(--theme-primary-one)";
             public const string THEME_PRIMARY_TWO_BG = "bg-(--theme-primary-two)";
@@ -272,6 +299,22 @@ public static class Tailwind
             public const string THEME_DARK_EIGHT_BG = "bg-(--theme-dark-eight)";
             public const string THEME_DARK_NINE_BG = "bg-(--theme-dark-nine)";
             public const string THEME_DARK_TEN_BG = "bg-(--theme-dark-ten)";
+
+            #endregion
+
+            #region Background Hover Colors
+
+            // Default - Background - Hover
+            public const string THEME_DEFAULT_ONE_BG_HOVER = "hover:bg-(--theme-primary-one)";
+            public const string THEME_DEFAULT_TWO_BG_HOVER = "hover:bg-(--theme-primary-two)";
+            public const string THEME_DEFAULT_THREE_BG_HOVER = "hover:bg-(--theme-primary-three)";
+            public const string THEME_DEFAULT_FOUR_BG_HOVER = "hover:bg-(--theme-primary-four)";
+            public const string THEME_DEFAULT_FIVE_BG_HOVER = "hover:bg-(--theme-primary-five)";
+            public const string THEME_DEFAULT_SIX_BG_HOVER = "hover:bg-(--theme-primary-six)";
+            public const string THEME_DEFAULT_SEVEN_BG_HOVER = "hover:bg-(--theme-primary-seven)";
+            public const string THEME_DEFAULT_EIGHT_BG_HOVER = "hover:bg-(--theme-primary-eight)";
+            public const string THEME_DEFAULT_NINE_BG_HOVER = "hover:bg-(--theme-primary-nine)";
+            public const string THEME_DEFAULT_TEN_BG_HOVER = "hover:bg-(--theme-primary-ten)";
 
             // Primary - Background - Hover
             public const string THEME_PRIMARY_ONE_BG_HOVER = "hover:bg-(--theme-primary-one)";
@@ -405,6 +448,23 @@ public static class Tailwind
             public const string THEME_DARK_NINE_BG_HOVER = "hover:bg-(--theme-dark-nine)";
             public const string THEME_DARK_TEN_BG_HOVER = "hover:bg-(--theme-dark-ten)";
 
+
+            #endregion
+
+            #region Background Focus Colors
+
+            // Default - Background - Focus
+            public const string THEME_DEFAULT_ONE_BG_FOCUS = "focus:bg-(--theme-default-one)";
+            public const string THEME_DEFAULT_TWO_BG_FOCUS = "focus:bg-(--theme-default-two)";
+            public const string THEME_DEFAULT_THREE_BG_FOCUS = "focus:bg-(--theme-default-three)";
+            public const string THEME_DEFAULT_FOUR_BG_FOCUS = "focus:bg-(--theme-default-four)";
+            public const string THEME_DEFAULT_FIVE_BG_FOCUS = "focus:bg-(--theme-default-five)";
+            public const string THEME_DEFAULT_SIX_BG_FOCUS = "focus:bg-(--theme-default-six)";
+            public const string THEME_DEFAULT_SEVEN_BG_FOCUS = "focus:bg-(--theme-default-seven)";
+            public const string THEME_DEFAULT_EIGHT_BG_FOCUS = "focus:bg-(--theme-default-eight)";
+            public const string THEME_DEFAULT_NINE_BG_FOCUS = "focus:bg-(--theme-default-nine)";
+            public const string THEME_DEFAULT_TEN_BG_FOCUS = "focus:bg-(--theme-default-ten)";
+
             // Primary - Background - Focus
             public const string THEME_PRIMARY_ONE_BG_FOCUS = "focus:bg-(--theme-primary-one)";
             public const string THEME_PRIMARY_TWO_BG_FOCUS = "focus:bg-(--theme-primary-two)";
@@ -537,6 +597,22 @@ public static class Tailwind
             public const string THEME_DARK_NINE_BG_FOCUS = "focus:bg-(--theme-dark-nine)";
             public const string THEME_DARK_TEN_BG_FOCUS = "focus:bg-(--theme-dark-ten)";
 
+            #endregion
+
+            #region Background Active Colors 
+
+            // Default - Background - Active
+            public const string THEME_DEFAULT_ONE_BG_ACTIVE = "active:bg-(--theme-default-one)";
+            public const string THEME_DEFAULT_TWO_BG_ACTIVE = "active:bg-(--theme-default-two)";
+            public const string THEME_DEFAULT_THREE_BG_ACTIVE = "active:bg-(--theme-default-three)";
+            public const string THEME_DEFAULT_FOUR_BG_ACTIVE = "active:bg-(--theme-default-four)";
+            public const string THEME_DEFAULT_FIVE_BG_ACTIVE = "active:bg-(--theme-default-five)";
+            public const string THEME_DEFAULT_SIX_BG_ACTIVE = "active:bg-(--theme-default-six)";
+            public const string THEME_DEFAULT_SEVEN_BG_ACTIVE = "active:bg-(--theme-default-seven)";
+            public const string THEME_DEFAULT_EIGHT_BG_ACTIVE = "active:bg-(--theme-default-eight)";
+            public const string THEME_DEFAULT_NINE_BG_ACTIVE = "active:bg-(--theme-default-nine)";
+            public const string THEME_DEFAULT_TEN_BG_ACTIVE = "active:bg-(--theme-default-ten)";
+
             // Primary - Background - Active
             public const string THEME_PRIMARY_ONE_BG_ACTIVE = "active:bg-(--theme-primary-one)";
             public const string THEME_PRIMARY_TWO_BG_ACTIVE = "active:bg-(--theme-primary-two)";
@@ -668,10 +744,26 @@ public static class Tailwind
             public const string THEME_DARK_EIGHT_BG_ACTIVE = "active:bg-(--theme-dark-eight)";
             public const string THEME_DARK_NINE_BG_ACTIVE = "active:bg-(--theme-dark-nine)";
             public const string THEME_DARK_TEN_BG_ACTIVE = "active:bg-(--theme-dark-ten)";
+
+            #endregion
         }
 
         public static class Border
         {
+            #region Border colors
+
+            // Default - Border
+            public const string THEME_DEFAULT_ONE_BORDER = "border-(--theme-default-one)";
+            public const string THEME_DEFAULT_TWO_BORDER = "border-(--theme-default-two)";
+            public const string THEME_DEFAULT_THREE_BORDER = "border-(--theme-default-three)";
+            public const string THEME_DEFAULT_FOUR_BORDER = "border-(--theme-default-four)";
+            public const string THEME_DEFAULT_FIVE_BORDER = "border-(--theme-default-five)";
+            public const string THEME_DEFAULT_SIX_BORDER = "border-(--theme-default-six)";
+            public const string THEME_DEFAULT_SEVEN_BORDER = "border-(--theme-default-seven)";
+            public const string THEME_DEFAULT_EIGHT_BORDER = "border-(--theme-default-eight)";
+            public const string THEME_DEFAULT_NINE_BORDER = "border-(--theme-default-nine)";
+            public const string THEME_DEFAULT_TEN_BORDER = "border-(--theme-default-ten)";
+
             // Primary - Border
             public const string THEME_PRIMARY_ONE_BORDER = "border-(--theme-primary-one)";
             public const string THEME_PRIMARY_TWO_BORDER = "border-(--theme-primary-two)";
@@ -803,6 +895,22 @@ public static class Tailwind
             public const string THEME_DARK_EIGHT_BORDER = "border-(--theme-dark-eight)";
             public const string THEME_DARK_NINE_BORDER = "border-(--theme-dark-nine)";
             public const string THEME_DARK_TEN_BORDER = "border-(--theme-dark-ten)";
+
+            #endregion
+
+            #region Border Hover Colors
+
+            // Default - Border - Hover
+            public const string THEME_DEFAULT_ONE_BORDER_HOVER = "hover:border-(--theme-default-one)";
+            public const string THEME_DEFAULT_TWO_BORDER_HOVER = "hover:border-(--theme-default-two)";
+            public const string THEME_DEFAULT_THREE_BORDER_HOVER = "hover:border-(--theme-default-three)";
+            public const string THEME_DEFAULT_FOUR_BORDER_HOVER = "hover:border-(--theme-default-four)";
+            public const string THEME_DEFAULT_FIVE_BORDER_HOVER = "hover:border-(--theme-default-five)";
+            public const string THEME_DEFAULT_SIX_BORDER_HOVER = "hover:border-(--theme-default-six)";
+            public const string THEME_DEFAULT_SEVEN_BORDER_HOVER = "hover:border-(--theme-default-seven)";
+            public const string THEME_DEFAULT_EIGHT_BORDER_HOVER = "hover:border-(--theme-default-eight)";
+            public const string THEME_DEFAULT_NINE_BORDER_HOVER = "hover:border-(--theme-default-nine)";
+            public const string THEME_DEFAULT_TEN_BORDER_HOVER = "hover:border-(--theme-default-ten)";
 
             // Primary - Border - Hover
             public const string THEME_PRIMARY_ONE_BORDER_HOVER = "hover:border-(--theme-primary-one)";
@@ -936,6 +1044,22 @@ public static class Tailwind
             public const string THEME_DARK_NINE_BORDER_HOVER = "hover:border-(--theme-dark-nine)";
             public const string THEME_DARK_TEN_BORDER_HOVER = "hover:border-(--theme-dark-ten)";
 
+            #endregion
+
+            #region Border Focus Colors
+
+            // Default - Border - Focus
+            public const string THEME_DEFAULT_ONE_BORDER_FOCUS = "focus:border-(--theme-default-one)";
+            public const string THEME_DEFAULT_TWO_BORDER_FOCUS = "focus:border-(--theme-default-two)";
+            public const string THEME_DEFAULT_THREE_BORDER_FOCUS = "focus:border-(--theme-default-three)";
+            public const string THEME_DEFAULT_FOUR_BORDER_FOCUS = "focus:border-(--theme-default-four)";
+            public const string THEME_DEFAULT_FIVE_BORDER_FOCUS = "focus:border-(--theme-default-five)";
+            public const string THEME_DEFAULT_SIX_BORDER_FOCUS = "focus:border-(--theme-default-six)";
+            public const string THEME_DEFAULT_SEVEN_BORDER_FOCUS = "focus:border-(--theme-default-seven)";
+            public const string THEME_DEFAULT_EIGHT_BORDER_FOCUS = "focus:border-(--theme-default-eight)";
+            public const string THEME_DEFAULT_NINE_BORDER_FOCUS = "focus:border-(--theme-default-nine)";
+            public const string THEME_DEFAULT_TEN_BORDER_FOCUS = "focus:border-(--theme-default-ten)";
+
             // Primary - Border - Focus
             public const string THEME_PRIMARY_ONE_BORDER_FOCUS = "focus:border-(--theme-primary-one)";
             public const string THEME_PRIMARY_TWO_BORDER_FOCUS = "focus:border-(--theme-primary-two)";
@@ -1068,6 +1192,22 @@ public static class Tailwind
             public const string THEME_DARK_NINE_BORDER_FOCUS = "focus:border-(--theme-dark-nine)";
             public const string THEME_DARK_TEN_BORDER_FOCUS = "focus:border-(--theme-dark-ten)";
 
+            #endregion
+
+            #region Border Active Colors
+
+            // Default - Border - Active
+            public const string THEME_DEFAULT_ONE_BORDER_ACTIVE = "active:border-(--theme-default-one)";
+            public const string THEME_DEFAULT_TWO_BORDER_ACTIVE = "active:border-(--theme-default-two)";
+            public const string THEME_DEFAULT_THREE_BORDER_ACTIVE = "active:border-(--theme-default-three)";
+            public const string THEME_DEFAULT_FOUR_BORDER_ACTIVE = "active:border-(--theme-default-four)";
+            public const string THEME_DEFAULT_FIVE_BORDER_ACTIVE = "active:border-(--theme-default-five)";
+            public const string THEME_DEFAULT_SIX_BORDER_ACTIVE = "active:border-(--theme-default-six)";
+            public const string THEME_DEFAULT_SEVEN_BORDER_ACTIVE = "active:border-(--theme-default-seven)";
+            public const string THEME_DEFAULT_EIGHT_BORDER_ACTIVE = "active:border-(--theme-default-eight)";
+            public const string THEME_DEFAULT_NINE_BORDER_ACTIVE = "active:border-(--theme-default-nine)";
+            public const string THEME_DEFAULT_TEN_BORDER_ACTIVE = "active:border-(--theme-default-ten)";
+
             // Primary - Border - Active
             public const string THEME_PRIMARY_ONE_BORDER_ACTIVE = "active:border-(--theme-primary-one)";
             public const string THEME_PRIMARY_TWO_BORDER_ACTIVE = "active:border-(--theme-primary-two)";
@@ -1199,10 +1339,25 @@ public static class Tailwind
             public const string THEME_DARK_EIGHT_BORDER_ACTIVE = "active:border-(--theme-dark-eight)";
             public const string THEME_DARK_NINE_BORDER_ACTIVE = "active:border-(--theme-dark-nine)";
             public const string THEME_DARK_TEN_BORDER_ACTIVE = "active:border-(--theme-dark-ten)";
+
+            #endregion
         }
 
-        public static class Text
+        public static class Texts
         {
+            #region Text Colors
+            // Default - Text
+            public const string THEME_DEFAULT_ONE_TEXT = "text-(--theme-default-one)";
+            public const string THEME_DEFAULT_TWO_TEXT = "text-(--theme-default-two)";
+            public const string THEME_DEFAULT_THREE_TEXT = "text-(--theme-default-three)";
+            public const string THEME_DEFAULT_FOUR_TEXT = "text-(--theme-default-four)";
+            public const string THEME_DEFAULT_FIVE_TEXT = "text-(--theme-default-five)";
+            public const string THEME_DEFAULT_SIX_TEXT = "text-(--theme-default-six)";
+            public const string THEME_DEFAULT_SEVEN_TEXT = "text-(--theme-default-seven)";
+            public const string THEME_DEFAULT_EIGHT_TEXT = "text-(--theme-default-eight)";
+            public const string THEME_DEFAULT_NINE_TEXT = "text-(--theme-default-nine)";
+            public const string THEME_DEFAULT_TEN_TEXT = "text-(--theme-default-ten)";
+
             // Primary - Text
             public const string THEME_PRIMARY_ONE_TEXT = "text-(--theme-primary-one)";
             public const string THEME_PRIMARY_TWO_TEXT = "text-(--theme-primary-two)";
@@ -1334,6 +1489,22 @@ public static class Tailwind
             public const string THEME_DARK_EIGHT_TEXT = "text-(--theme-dark-eight)";
             public const string THEME_DARK_NINE_TEXT = "text-(--theme-dark-nine)";
             public const string THEME_DARK_TEN_TEXT = "text-(--theme-dark-ten)";
+
+            #endregion
+
+            #region Text Hover Colors
+
+            // Default - Text - Hover
+            public const string THEME_DEFAULT_ONE_TEXT_HOVER = "hover:text-(--theme-default-one)";
+            public const string THEME_DEFAULT_TWO_TEXT_HOVER = "hover:text-(--theme-default-two)";
+            public const string THEME_DEFAULT_THREE_TEXT_HOVER = "hover:text-(--theme-default-three)";
+            public const string THEME_DEFAULT_FOUR_TEXT_HOVER = "hover:text-(--theme-default-four)";
+            public const string THEME_DEFAULT_FIVE_TEXT_HOVER = "hover:text-(--theme-default-five)";
+            public const string THEME_DEFAULT_SIX_TEXT_HOVER = "hover:text-(--theme-default-six)";
+            public const string THEME_DEFAULT_SEVEN_TEXT_HOVER = "hover:text-(--theme-default-seven)";
+            public const string THEME_DEFAULT_EIGHT_TEXT_HOVER = "hover:text-(--theme-default-eight)";
+            public const string THEME_DEFAULT_NINE_TEXT_HOVER = "hover:text-(--theme-default-nine)";
+            public const string THEME_DEFAULT_TEN_TEXT_HOVER = "hover:text-(--theme-default-ten)";
 
             // Primary - Text - Hover
             public const string THEME_PRIMARY_ONE_TEXT_HOVER = "hover:text-(--theme-primary-one)";
@@ -1467,6 +1638,22 @@ public static class Tailwind
             public const string THEME_DARK_NINE_TEXT_HOVER = "hover:text-(--theme-dark-nine)";
             public const string THEME_DARK_TEN_TEXT_HOVER = "hover:text-(--theme-dark-ten)";
 
+            #endregion
+
+            #region Text Focus Colors
+
+            // Default - Text - Focus
+            public const string THEME_DEFAULT_ONE_TEXT_FOCUS = "focus:text-(--theme-default-one)";
+            public const string THEME_DEFAULT_TWO_TEXT_FOCUS = "focus:text-(--theme-default-two)";
+            public const string THEME_DEFAULT_THREE_TEXT_FOCUS = "focus:text-(--theme-default-three)";
+            public const string THEME_DEFAULT_FOUR_TEXT_FOCUS = "focus:text-(--theme-default-four)";
+            public const string THEME_DEFAULT_FIVE_TEXT_FOCUS = "focus:text-(--theme-default-five)";
+            public const string THEME_DEFAULT_SIX_TEXT_FOCUS = "focus:text-(--theme-default-six)";
+            public const string THEME_DEFAULT_SEVEN_TEXT_FOCUS = "focus:text-(--theme-default-seven)";
+            public const string THEME_DEFAULT_EIGHT_TEXT_FOCUS = "focus:text-(--theme-default-eight)";
+            public const string THEME_DEFAULT_NINE_TEXT_FOCUS = "focus:text-(--theme-default-nine)";
+            public const string THEME_DEFAULT_TEN_TEXT_FOCUS = "focus:text-(--theme-default-ten)";
+
             // Primary - Text - Focus
             public const string THEME_PRIMARY_ONE_TEXT_FOCUS = "focus:text-(--theme-primary-one)";
             public const string THEME_PRIMARY_TWO_TEXT_FOCUS = "focus:text-(--theme-primary-two)";
@@ -1599,6 +1786,22 @@ public static class Tailwind
             public const string THEME_DARK_NINE_TEXT_FOCUS = "focus:text-(--theme-dark-nine)";
             public const string THEME_DARK_TEN_TEXT_FOCUS = "focus:text-(--theme-dark-ten)";
 
+            #endregion
+
+            #region Text Active Colors
+
+            // Default - Text - Active
+            public const string THEME_DEFAULT_ONE_TEXT_ACTIVE = "active:text-(--theme-default-one)";
+            public const string THEME_DEFAULT_TWO_TEXT_ACTIVE = "active:text-(--theme-default-two)";
+            public const string THEME_DEFAULT_THREE_TEXT_ACTIVE = "active:text-(--theme-default-three)";
+            public const string THEME_DEFAULT_FOUR_TEXT_ACTIVE = "active:text-(--theme-default-four)";
+            public const string THEME_DEFAULT_FIVE_TEXT_ACTIVE = "active:text-(--theme-default-five)";
+            public const string THEME_DEFAULT_SIX_TEXT_ACTIVE = "active:text-(--theme-default-six)";
+            public const string THEME_DEFAULT_SEVEN_TEXT_ACTIVE = "active:text-(--theme-default-seven)";
+            public const string THEME_DEFAULT_EIGHT_TEXT_ACTIVE = "active:text-(--theme-default-eight)";
+            public const string THEME_DEFAULT_NINE_TEXT_ACTIVE = "active:text-(--theme-default-nine)";
+            public const string THEME_DEFAULT_TEN_TEXT_ACTIVE = "active:text-(--theme-default-ten)";
+
             // Primary - Text - Active
             public const string THEME_PRIMARY_ONE_TEXT_ACTIVE = "active:text-(--theme-primary-one)";
             public const string THEME_PRIMARY_TWO_TEXT_ACTIVE = "active:text-(--theme-primary-two)";
@@ -1730,10 +1933,26 @@ public static class Tailwind
             public const string THEME_DARK_EIGHT_TEXT_ACTIVE = "active:text-(--theme-dark-eight)";
             public const string THEME_DARK_NINE_TEXT_ACTIVE = "active:text-(--theme-dark-nine)";
             public const string THEME_DARK_TEN_TEXT_ACTIVE = "active:text-(--theme-dark-ten)";
+
+            #endregion
         }
 
         public static class Outline
         {
+            #region Outline Colors
+
+            // Default - Outline
+            public const string THEME_DEFAULT_ONE_OUTLINE = "outline-(--theme-default-one)";
+            public const string THEME_DEFAULT_TWO_OUTLINE = "outline-(--theme-default-two)";
+            public const string THEME_DEFAULT_THREE_OUTLINE = "outline-(--theme-default-three)";
+            public const string THEME_DEFAULT_FOUR_OUTLINE = "outline-(--theme-default-four)";
+            public const string THEME_DEFAULT_FIVE_OUTLINE = "outline-(--theme-default-five)";
+            public const string THEME_DEFAULT_SIX_OUTLINE = "outline-(--theme-default-six)";
+            public const string THEME_DEFAULT_SEVEN_OUTLINE = "outline-(--theme-default-seven)";
+            public const string THEME_DEFAULT_EIGHT_OUTLINE = "outline-(--theme-default-eight)";
+            public const string THEME_DEFAULT_NINE_OUTLINE = "outline-(--theme-default-nine)";
+            public const string THEME_DEFAULT_TEN_OUTLINE = "outline-(--theme-default-ten)";
+
             // Primary - Outline
             public const string THEME_PRIMARY_ONE_OUTLINE = "outline-(--theme-primary-one)";
             public const string THEME_PRIMARY_TWO_OUTLINE = "outline-(--theme-primary-two)";
@@ -1865,6 +2084,22 @@ public static class Tailwind
             public const string THEME_DARK_EIGHT_OUTLINE = "outline-(--theme-dark-eight)";
             public const string THEME_DARK_NINE_OUTLINE = "outline-(--theme-dark-nine)";
             public const string THEME_DARK_TEN_OUTLINE = "outline-(--theme-dark-ten)";
+
+            #endregion
+
+            #region Outline Hover Colors
+
+            // Default - Outline - Hover
+            public const string THEME_DEFAULT_ONE_OUTLINE_HOVER = "hover:outline-(--theme-default-one)";
+            public const string THEME_DEFAULT_TWO_OUTLINE_HOVER = "hover:outline-(--theme-default-two)";
+            public const string THEME_DEFAULT_THREE_OUTLINE_HOVER = "hover:outline-(--theme-default-three)";
+            public const string THEME_DEFAULT_FOUR_OUTLINE_HOVER = "hover:outline-(--theme-default-four)";
+            public const string THEME_DEFAULT_FIVE_OUTLINE_HOVER = "hover:outline-(--theme-default-five)";
+            public const string THEME_DEFAULT_SIX_OUTLINE_HOVER = "hover:outline-(--theme-default-six)";
+            public const string THEME_DEFAULT_SEVEN_OUTLINE_HOVER = "hover:outline-(--theme-default-seven)";
+            public const string THEME_DEFAULT_EIGHT_OUTLINE_HOVER = "hover:outline-(--theme-default-eight)";
+            public const string THEME_DEFAULT_NINE_OUTLINE_HOVER = "hover:outline-(--theme-default-nine)";
+            public const string THEME_DEFAULT_TEN_OUTLINE_HOVER = "hover:outline-(--theme-default-ten)";
 
             // Primary - Outline - Hover
             public const string THEME_PRIMARY_ONE_OUTLINE_HOVER = "hover:outline-(--theme-primary-one)";
@@ -1998,6 +2233,22 @@ public static class Tailwind
             public const string THEME_DARK_NINE_OUTLINE_HOVER = "hover:outline-(--theme-dark-nine)";
             public const string THEME_DARK_TEN_OUTLINE_HOVER = "hover:outline-(--theme-dark-ten)";
 
+            #endregion
+
+            #region Outline Focus Colors
+
+            // Default - Outline - Focus
+            public const string THEME_DEFAULT_ONE_OUTLINE_FOCUS = "focus:outline-(--theme-default-one)";
+            public const string THEME_DEFAULT_TWO_OUTLINE_FOCUS = "focus:outline-(--theme-default-two)";
+            public const string THEME_DEFAULT_THREE_OUTLINE_FOCUS = "focus:outline-(--theme-default-three)";
+            public const string THEME_DEFAULT_FOUR_OUTLINE_FOCUS = "focus:outline-(--theme-default-four)";
+            public const string THEME_DEFAULT_FIVE_OUTLINE_FOCUS = "focus:outline-(--theme-default-five)";
+            public const string THEME_DEFAULT_SIX_OUTLINE_FOCUS = "focus:outline-(--theme-default-six)";
+            public const string THEME_DEFAULT_SEVEN_OUTLINE_FOCUS = "focus:outline-(--theme-default-seven)";
+            public const string THEME_DEFAULT_EIGHT_OUTLINE_FOCUS = "focus:outline-(--theme-default-eight)";
+            public const string THEME_DEFAULT_NINE_OUTLINE_FOCUS = "focus:outline-(--theme-default-nine)";
+            public const string THEME_DEFAULT_TEN_OUTLINE_FOCUS = "focus:outline-(--theme-default-ten)";
+
             // Primary - Outline - Focus
             public const string THEME_PRIMARY_ONE_OUTLINE_FOCUS = "focus:outline-(--theme-primary-one)";
             public const string THEME_PRIMARY_TWO_OUTLINE_FOCUS = "focus:outline-(--theme-primary-two)";
@@ -2130,6 +2381,22 @@ public static class Tailwind
             public const string THEME_DARK_NINE_OUTLINE_FOCUS = "focus:outline-(--theme-dark-nine)";
             public const string THEME_DARK_TEN_OUTLINE_FOCUS = "focus:outline-(--theme-dark-ten)";
 
+            #endregion
+
+            #region Outline Active Colors
+
+            // Default - Outline - Active
+            public const string THEME_DEFAULT_ONE_OUTLINE_ACTIVE = "active:outline-(--theme-default-one)";
+            public const string THEME_DEFAULT_TWO_OUTLINE_ACTIVE = "active:outline-(--theme-default-two)";
+            public const string THEME_DEFAULT_THREE_OUTLINE_ACTIVE = "active:outline-(--theme-default-three)";
+            public const string THEME_DEFAULT_FOUR_OUTLINE_ACTIVE = "active:outline-(--theme-default-four)";
+            public const string THEME_DEFAULT_FIVE_OUTLINE_ACTIVE = "active:outline-(--theme-default-five)";
+            public const string THEME_DEFAULT_SIX_OUTLINE_ACTIVE = "active:outline-(--theme-default-six)";
+            public const string THEME_DEFAULT_SEVEN_OUTLINE_ACTIVE = "active:outline-(--theme-default-seven)";
+            public const string THEME_DEFAULT_EIGHT_OUTLINE_ACTIVE = "active:outline-(--theme-default-eight)";
+            public const string THEME_DEFAULT_NINE_OUTLINE_ACTIVE = "active:outline-(--theme-default-nine)";
+            public const string THEME_DEFAULT_TEN_OUTLINE_ACTIVE = "active:outline-(--theme-default-ten)";
+
             // Primary - Outline - Active
             public const string THEME_PRIMARY_ONE_OUTLINE_ACTIVE = "active:outline-(--theme-primary-one)";
             public const string THEME_PRIMARY_TWO_OUTLINE_ACTIVE = "active:outline-(--theme-primary-two)";
@@ -2261,10 +2528,26 @@ public static class Tailwind
             public const string THEME_DARK_EIGHT_OUTLINE_ACTIVE = "active:outline-(--theme-dark-eight)";
             public const string THEME_DARK_NINE_OUTLINE_ACTIVE = "active:outline-(--theme-dark-nine)";
             public const string THEME_DARK_TEN_OUTLINE_ACTIVE = "active:outline-(--theme-dark-ten)";
+
+            #endregion
         }
 
         public static class Ring
         {
+            #region Ring Colors
+
+            // Default - Ring
+            public const string THEME_DEFAULT_ONE_RING = "ring-(--theme-default-one)";
+            public const string THEME_DEFAULT_TWO_RING = "ring-(--theme-default-two)";
+            public const string THEME_DEFAULT_THREE_RING = "ring-(--theme-default-three)";
+            public const string THEME_DEFAULT_FOUR_RING = "ring-(--theme-default-four)";
+            public const string THEME_DEFAULT_FIVE_RING = "ring-(--theme-default-five)";
+            public const string THEME_DEFAULT_SIX_RING = "ring-(--theme-default-six)";
+            public const string THEME_DEFAULT_SEVEN_RING = "ring-(--theme-default-seven)";
+            public const string THEME_DEFAULT_EIGHT_RING = "ring-(--theme-default-eight)";
+            public const string THEME_DEFAULT_NINE_RING = "ring-(--theme-default-nine)";
+            public const string THEME_DEFAULT_TEN_RING = "ring-(--theme-default-ten)";
+
             // Primary - Ring
             public const string THEME_PRIMARY_ONE_RING = "ring-(--theme-primary-one)";
             public const string THEME_PRIMARY_TWO_RING = "ring-(--theme-primary-two)";
@@ -2396,6 +2679,22 @@ public static class Tailwind
             public const string THEME_DARK_EIGHT_RING = "ring-(--theme-dark-eight)";
             public const string THEME_DARK_NINE_RING = "ring-(--theme-dark-nine)";
             public const string THEME_DARK_TEN_RING = "ring-(--theme-dark-ten)";
+
+            #endregion
+
+            #region Ring Hover Colors
+
+            // Default - Ring - Hover
+            public const string THEME_DEFAULT_ONE_RING_HOVER = "hover:ring-(--theme-default-one)";
+            public const string THEME_DEFAULT_TWO_RING_HOVER = "hover:ring-(--theme-default-two)";
+            public const string THEME_DEFAULT_THREE_RING_HOVER = "hover:ring-(--theme-default-three)";
+            public const string THEME_DEFAULT_FOUR_RING_HOVER = "hover:ring-(--theme-default-four)";
+            public const string THEME_DEFAULT_FIVE_RING_HOVER = "hover:ring-(--theme-default-five)";
+            public const string THEME_DEFAULT_SIX_RING_HOVER = "hover:ring-(--theme-default-six)";
+            public const string THEME_DEFAULT_SEVEN_RING_HOVER = "hover:ring-(--theme-default-seven)";
+            public const string THEME_DEFAULT_EIGHT_RING_HOVER = "hover:ring-(--theme-default-eight)";
+            public const string THEME_DEFAULT_NINE_RING_HOVER = "hover:ring-(--theme-default-nine)";
+            public const string THEME_DEFAULT_TEN_RING_HOVER = "hover:ring-(--theme-default-ten)";
 
             // Primary - Ring - Hover
             public const string THEME_PRIMARY_ONE_RING_HOVER = "hover:ring-(--theme-primary-one)";
@@ -2529,6 +2828,22 @@ public static class Tailwind
             public const string THEME_DARK_NINE_RING_HOVER = "hover:ring-(--theme-dark-nine)";
             public const string THEME_DARK_TEN_RING_HOVER = "hover:ring-(--theme-dark-ten)";
 
+            #endregion
+
+            #region Ring Focus Colors
+
+            // Default - Ring - Focus
+            public const string THEME_DEFAULT_ONE_RING_FOCUS = "focus:ring-(--theme-default-one)";
+            public const string THEME_DEFAULT_TWO_RING_FOCUS = "focus:ring-(--theme-default-two)";
+            public const string THEME_DEFAULT_THREE_RING_FOCUS = "focus:ring-(--theme-default-three)";
+            public const string THEME_DEFAULT_FOUR_RING_FOCUS = "focus:ring-(--theme-default-four)";
+            public const string THEME_DEFAULT_FIVE_RING_FOCUS = "focus:ring-(--theme-default-five)";
+            public const string THEME_DEFAULT_SIX_RING_FOCUS = "focus:ring-(--theme-default-six)";
+            public const string THEME_DEFAULT_SEVEN_RING_FOCUS = "focus:ring-(--theme-default-seven)";
+            public const string THEME_DEFAULT_EIGHT_RING_FOCUS = "focus:ring-(--theme-default-eight)";
+            public const string THEME_DEFAULT_NINE_RING_FOCUS = "focus:ring-(--theme-default-nine)";
+            public const string THEME_DEFAULT_TEN_RING_FOCUS = "focus:ring-(--theme-default-ten)";
+
             // Primary - Ring - Focus
             public const string THEME_PRIMARY_ONE_RING_FOCUS = "focus:ring-(--theme-primary-one)";
             public const string THEME_PRIMARY_TWO_RING_FOCUS = "focus:ring-(--theme-primary-two)";
@@ -2661,6 +2976,22 @@ public static class Tailwind
             public const string THEME_DARK_NINE_RING_FOCUS = "focus:ring-(--theme-dark-nine)";
             public const string THEME_DARK_TEN_RING_FOCUS = "focus:ring-(--theme-dark-ten)";
 
+            #endregion
+
+            #region Ring Active Colors
+
+            // Default - Ring - Active
+            public const string THEME_DEFAULT_ONE_RING_ACTIVE = "active:ring-(--theme-default-one)";
+            public const string THEME_DEFAULT_TWO_RING_ACTIVE = "active:ring-(--theme-default-two)";
+            public const string THEME_DEFAULT_THREE_RING_ACTIVE = "active:ring-(--theme-default-three)";
+            public const string THEME_DEFAULT_FOUR_RING_ACTIVE = "active:ring-(--theme-default-four)";
+            public const string THEME_DEFAULT_FIVE_RING_ACTIVE = "active:ring-(--theme-default-five)";
+            public const string THEME_DEFAULT_SIX_RING_ACTIVE = "active:ring-(--theme-default-six)";
+            public const string THEME_DEFAULT_SEVEN_RING_ACTIVE = "active:ring-(--theme-default-seven)";
+            public const string THEME_DEFAULT_EIGHT_RING_ACTIVE = "active:ring-(--theme-default-eight)";
+            public const string THEME_DEFAULT_NINE_RING_ACTIVE = "active:ring-(--theme-default-nine)";
+            public const string THEME_DEFAULT_TEN_RING_ACTIVE = "active:ring-(--theme-default-ten)";
+
             // Primary - Ring - Active
             public const string THEME_PRIMARY_ONE_RING_ACTIVE = "active:ring-(--theme-primary-one)";
             public const string THEME_PRIMARY_TWO_RING_ACTIVE = "active:ring-(--theme-primary-two)";
@@ -2792,6 +3123,8 @@ public static class Tailwind
             public const string THEME_DARK_EIGHT_RING_ACTIVE = "active:ring-(--theme-dark-eight)";
             public const string THEME_DARK_NINE_RING_ACTIVE = "active:ring-(--theme-dark-nine)";
             public const string THEME_DARK_TEN_RING_ACTIVE = "active:ring-(--theme-dark-ten)";
+
+            #endregion
         }
 
         public static class Typography
