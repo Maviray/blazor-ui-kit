@@ -3134,13 +3134,13 @@ public static class Tailwind
             // =========================
 
             public const string DISPLAY_LARGE =
-                "text-6xl font-light tracking-tight leading-tight font-[var(--font-display)]";
+                "text-6xl font-light tracking-tight leading-tight font-display";
 
             public const string DISPLAY_MEDIUM =
-                "text-5xl font-light tracking-tight leading-tight font-[var(--font-display)]";
+                "text-5xl font-light tracking-tight leading-tight font-display";
 
             public const string DISPLAY_SMALL =
-                "text-4xl font-normal tracking-tight leading-tight font-[var(--font-display)]";
+                "text-4xl font-normal tracking-tight leading-tight font-display";
 
 
             // =========================
@@ -3148,13 +3148,13 @@ public static class Tailwind
             // =========================
 
             public const string HEADLINE_LARGE =
-                "text-3xl font-semibold tracking-tight leading-snug font-[var(--font-heading)]";
+                "text-3xl font-semibold tracking-tight leading-snug font-heading";
 
             public const string HEADLINE_MEDIUM =
-                "text-2xl font-semibold tracking-tight leading-snug font-[var(--font-heading)]";
+                "text-2xl font-semibold tracking-tight leading-snug font-heading";
 
             public const string HEADLINE_SMALL =
-                "text-xl font-semibold leading-snug font-[var(--font-heading)]";
+                "text-xl font-semibold leading-snug font-heading";
 
 
             // =========================
@@ -3162,13 +3162,13 @@ public static class Tailwind
             // =========================
 
             public const string TITLE_LARGE =
-                "text-lg font-semibold leading-snug font-[var(--font-heading)]";
+                "text-lg font-semibold leading-snug font-heading";
 
             public const string TITLE_MEDIUM =
-                "text-base font-semibold leading-snug font-[var(--font-heading)]";
+                "text-base font-semibold leading-snug font-heading";
 
             public const string TITLE_SMALL =
-                "text-sm font-semibold leading-snug font-[var(--font-heading)]";
+                "text-sm font-semibold leading-snug font-heading";
 
 
             // =========================
@@ -3176,13 +3176,13 @@ public static class Tailwind
             // =========================
 
             public const string BODY_LARGE =
-                "text-base font-normal leading-relaxed font-[var(--font-ui)]";
+                "text-base font-normal leading-relaxed font-ui";
 
             public const string BODY_MEDIUM =
-                "text-sm font-normal leading-relaxed font-[var(--font-ui)]";
+                "text-sm font-normal leading-relaxed font-ui";
 
             public const string BODY_SMALL =
-                "text-xs font-normal leading-relaxed font-[var(--font-ui)]";
+                "text-xs font-normal leading-relaxed font-ui";
 
 
             // =========================
@@ -3190,13 +3190,13 @@ public static class Tailwind
             // =========================
 
             public const string LABEL_LARGE =
-                "text-sm font-medium leading-none font-[var(--font-ui)]";
+                "text-sm font-medium leading-none font-ui";
 
             public const string LABEL_MEDIUM =
-                "text-xs font-medium leading-none font-[var(--font-ui)]";
+                "text-xs font-medium leading-none font-ui";
 
             public const string LABEL_SMALL =
-                "text-[11px] font-medium tracking-wide leading-none font-[var(--font-ui)]";
+                "text-[11px] font-medium tracking-wide leading-none font-ui";
         }
 
         public static class NavLink
@@ -3301,6 +3301,110 @@ public static class Tailwind
                 "focus-visible:ring-(--theme-light-six) " +
                 "active:bg-(--theme-light-three) " +
                 "active:text-(--theme-light-ten) ";
+        }
+
+        public static class Button
+        {
+            public const string BUTTON_BASE = 
+                "inline-flex items-center justify-center relative box-border cursor-pointer select-none " +
+                "align-middle appearance-none outline-none m-0 no-underline transition-all duration-200 ease-in-out disabled:opacity-40 disabled:cursor-not-allowed";
+
+            public const string BUTTON_FILLED = "border-0 rounded shadow-none disabled:shadow-none";
+
+            public const string BUTTON_OUTLINED = "border border-solid rounded bg-transparent";
+
+            public const string BUTTON_TEXT = "border-0 rounded bg-transparent shadow-none";
+
+
+            #region Button Variant Colors
+
+            public const string BUTTON_FILLED_DEFAULT =
+                "bg-(--theme-light-six) text-(--theme-default-nine) hover:bg-(--theme-default-seven) hover:shadow-lg focus:ring-(--theme-default-eight) active:bg-(--theme-default-eight)";
+
+            public const string BUTTON_FILLED_PRIMARY = 
+                "bg-(--theme-primary-eight) text-white hover:bg-(--theme-primary-nine) hover:shadow-lg focus:ring-(--theme-primary-nine) active:bg-(--theme-primary-four)";
+
+            public const string BUTTON_FILLED_SECONDARY =
+                "bg-(--theme-secondary-six) text-white hover:bg-(--theme-secondary-seven) hover:shadow-lg focus:ring-(--theme-secondary-eight) active:bg-(--theme-secondary-eight)";
+
+            public const string BUTTON_FILLED_SUCCESS 
+                = "bg-(--theme-success-seven) text-white hover:bg-(--theme-success-eight) hover:shadow-lg focus:ring-(--theme-success-nine) active:bg-(--theme-success-nine)";
+
+            public const string BUTTON_FILLED_ALERT 
+                = "bg-(--theme-alert-seven) text-white hover:bg-(--theme-alert-eight) hover:shadow-lg focus:ring-(--theme-alert-nine) active:bg-(--theme-alert-nine)";
+
+            public const string BUTTON_FILLED_WARNING 
+                = "bg-(--theme-warning-seven) text-(--theme-dark-ten) hover:bg-(--theme-warning-eight) hover:shadow-lg focus:ring-(--theme-warning-nine) active:bg-(--theme-warning-nine)";
+
+            public const string BUTTON_FILLED_INFO 
+                = "bg-(--theme-info-six) text-white hover:bg-(--theme-info-seven) hover:shadow-lg focus:ring-(--theme-info-eight) active:bg-(--theme-info-eight)";
+
+            public const string BUTTON_FILLED_DARK 
+                = "bg-(--theme-dark-eight) text-white hover:bg-(--theme-dark-nine) hover:shadow-lg focus:ring-(--theme-dark-ten) active:bg-(--theme-dark-ten)";
+
+            public const string BUTTON_FILLED_LIGHT 
+                = "bg-(--theme-light-two) text-(--theme-dark-eight) hover:bg-(--theme-light-three) hover:shadow-lg focus:ring-(--theme-light-four) active:bg-(--theme-light-four)";
+
+            public const string BUTTON_OUTLINED_DEFAULT 
+                = "border-(--theme-default-seven) text-(--theme-default-nine) hover:border-(--theme-default-eight) hover:bg-(--theme-default-one) active:bg-(--theme-default-two)";
+
+            public const string BUTTON_OUTLINED_PRIMARY 
+                = "border-(--theme-primary-six) text-(--theme-primary-six) hover:border-(--theme-primary-seven) hover:bg-(--theme-primary-one) active:bg-(--theme-primary-two)";
+
+            public const string BUTTON_OUTLINED_SECONDARY 
+                = "border-(--theme-secondary-six) text-(--theme-secondary-seven) hover:border-(--theme-secondary-seven) hover:bg-(--theme-secondary-one) active:bg-(--theme-secondary-two)";
+
+            public const string BUTTON_OUTLINED_SUCCESS 
+                = "border-(--theme-success-seven) text-(--theme-success-eight) hover:border-(--theme-success-eight) hover:bg-(--theme-success-one) active:bg-(--theme-success-two)";
+
+            public const string BUTTON_OUTLINED_ALERT 
+                = "border-(--theme-alert-seven) text-(--theme-alert-eight) hover:border-(--theme-alert-eight) hover:bg-(--theme-alert-one) active:bg-(--theme-alert-two)";
+
+            public const string BUTTON_OUTLINED_WARNING 
+                = "border-(--theme-warning-seven) text-(--theme-warning-eight) hover:border-(--theme-warning-eight) hover:bg-(--theme-warning-one) active:bg-(--theme-warning-two)";
+
+            public const string BUTTON_OUTLINED_INFO 
+                = "border-(--theme-info-six) text-(--theme-info-seven) hover:border-(--theme-info-seven) hover:bg-(--theme-info-one) active:bg-(--theme-info-two)";
+
+            public const string BUTTON_OUTLINED_DARK 
+                = "border-(--theme-dark-eight) text-(--theme-dark-eight) hover:border-(--theme-dark-nine) hover:bg-(--theme-dark-one) active:bg-(--theme-dark-two)";
+
+            public const string BUTTON_OUTLINED_LIGHT
+                = "border-(--theme-light-six) text-(--theme-light-nine) hover:border-(--theme-light-seven) hover:bg-(--theme-light-one) active:bg-(--theme-light-two)";
+
+
+            public const string BUTTON_TEXT_DEFAULT 
+                = "text-(--theme-default-nine) hover:bg-(--theme-default-one) active:bg-(--theme-default-two)";
+
+            public const string BUTTON_TEXT_PRIMARY 
+                = "text-(--theme-primary-six) hover:bg-(--theme-primary-one) active:bg-(--theme-primary-two)";
+
+            public const string BUTTON_TEXT_SECONDARY 
+                = "text-(--theme-secondary-seven) hover:bg-(--theme-secondary-one) active:bg-(--theme-secondary-two)";
+
+            public const string BUTTON_TEXT_SUCCESS 
+                = "text-(--theme-success-eight) hover:bg-(--theme-success-one) active:bg-(--theme-success-two)";
+
+            public const string BUTTON_TEXT_ALERT 
+                = "text-(--theme-alert-eight) hover:bg-(--theme-alert-one) active:bg-(--theme-alert-two)";
+
+            public const string BUTTON_TEXT_WARNING 
+                = "text-(--theme-warning-eight) hover:bg-(--theme-warning-one) active:bg-(--theme-warning-two)";
+
+            public const string BUTTON_TEXT_INFO 
+                = "text-(--theme-info-seven) hover:bg-(--theme-info-one) active:bg-(--theme-info-two)";
+
+            public const string BUTTON_TEXT_DARK 
+                = "text-(--theme-dark-eight) hover:bg-(--theme-dark-one) active:bg-(--theme-dark-two)";
+
+            public const string BUTTON_TEXT_LIGHT 
+                = "text-(--theme-light-nine) hover:bg-(--theme-light-one) active:bg-(--theme-light-two)";
+
+            #endregion
+
+            public const string BUTTON_SMALL = "h-[30px] px-2.5 py-1 gap-1";
+            public const string BUTTON_REGULAR = "h-9 px-4 py-1.5 gap-2";
+            public const string BUTTON_LARGE = "h-[42px] px-5 py-2 gap-2";
         }
     }
 }
