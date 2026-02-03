@@ -19,6 +19,6 @@
     }
 
     .validation-message {
-        @apply text-xs font-[var(--font-ui)] ml-1 text-(--theme-alert-nine);
+        @apply text-xs font-(--font-ui) ml-1 text-(--theme-alert-nine);
     }
 }
