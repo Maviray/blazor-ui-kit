@@ -1,0 +1,66 @@
+﻿@using Maviray.Blazor.Components.Core.Utilities
+@using Maviray.Blazor.Components.Material.Constants
+@inherits Microsoft.AspNetCore.Components.Routing.NavLink
+
+<a @attributes="AdditionalAttributes"
+   href="@Href"
+   title="@Title"
+   class="@GetCssClass()"
+   sryle="@Style"
+   data-badge="@Badge">
+    @if (LeftIcon != null)
+    {
+        <span class="@Tailwind.Theme.NavLink.ICON_CONTAINER">
+            @LeftIcon
+        </span>
+    }
+    @if (!string.IsNullOrWhiteSpace(Label))
+    {
+        <span>@Label</span>
+    }
+    @if (RightIcon != null)
+    {
+        <span class="@Tailwind.Theme.NavLink.ICON_CONTAINER">
+            @RightIcon
+        </span>
+    }
+</a>
+
+@code {
+
+    [Parameter] public RenderFragment? LeftIcon { get; set; }
+    [Parameter] public RenderFragment? RightIcon { get; set; }
+    [Parameter] public string Href { get; set; } = "";
+    [Parameter] public ThemeColorScheme ThemeColorScheme { get; set; }
+    [Parameter] public ElementSize ElementSize { get; set; }
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter] public string? Style { get; set; }
+    [Parameter] public string? Badge { get; set; }
+
+    private string GetCssClass()
+    {
+        var variantClass = ThemeColorScheme switch
+        {
+            ThemeColorScheme.Primary => Tailwind.Theme.NavLink.PRIMARY,
+            ThemeColorScheme.Secondary => Tailwind.Theme.NavLink.SECONDARY,
+            ThemeColorScheme.Success => Tailwind.Theme.NavLink.SUCCESS,
+            ThemeColorScheme.Alert => Tailwind.Theme.NavLink.ALERT,
+            ThemeColorScheme.Warning => Tailwind.Theme.NavLink.WARNING,
+            ThemeColorScheme.Info => Tailwind.Theme.NavLink.INFO,
+            ThemeColorScheme.Dark => Tailwind.Theme.NavLink.DARK,
+            ThemeColorScheme.Light => Tailwind.Theme.NavLink.LIGHT,
+            _ => Tailwind.Theme.NavLink.DEFAULT
+        };
+
+        var sizeClass = ElementSize switch
+        {
+            ElementSize.Small => Tailwind.Theme.NavLink.SMALL,
+            ElementSize.Large => Tailwind.Theme.NavLink.LARGE,
+            _ => ""
+        };
+
+        return CssManager.Combine(Tailwind.Theme.NavLink.BASE, variantClass, sizeClass, Class);
+    }
+}

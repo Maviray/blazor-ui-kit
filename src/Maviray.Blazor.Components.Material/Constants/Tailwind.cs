@@ -305,16 +305,16 @@ public static class Tailwind
             #region Background Hover Colors
 
             // Default - Background - Hover
-            public const string THEME_DEFAULT_ONE_BG_HOVER = "hover:bg-(--theme-primary-one)";
-            public const string THEME_DEFAULT_TWO_BG_HOVER = "hover:bg-(--theme-primary-two)";
-            public const string THEME_DEFAULT_THREE_BG_HOVER = "hover:bg-(--theme-primary-three)";
-            public const string THEME_DEFAULT_FOUR_BG_HOVER = "hover:bg-(--theme-primary-four)";
-            public const string THEME_DEFAULT_FIVE_BG_HOVER = "hover:bg-(--theme-primary-five)";
-            public const string THEME_DEFAULT_SIX_BG_HOVER = "hover:bg-(--theme-primary-six)";
-            public const string THEME_DEFAULT_SEVEN_BG_HOVER = "hover:bg-(--theme-primary-seven)";
-            public const string THEME_DEFAULT_EIGHT_BG_HOVER = "hover:bg-(--theme-primary-eight)";
-            public const string THEME_DEFAULT_NINE_BG_HOVER = "hover:bg-(--theme-primary-nine)";
-            public const string THEME_DEFAULT_TEN_BG_HOVER = "hover:bg-(--theme-primary-ten)";
+            public const string THEME_DEFAULT_ONE_BG_HOVER = "hover:bg-(--theme-default-one)";
+            public const string THEME_DEFAULT_TWO_BG_HOVER = "hover:bg-(--theme-default-two)";
+            public const string THEME_DEFAULT_THREE_BG_HOVER = "hover:bg-(--theme-default-three)";
+            public const string THEME_DEFAULT_FOUR_BG_HOVER = "hover:bg-(--theme-default-four)";
+            public const string THEME_DEFAULT_FIVE_BG_HOVER = "hover:bg-(--theme-default-five)";
+            public const string THEME_DEFAULT_SIX_BG_HOVER = "hover:bg-(--theme-default-six)";
+            public const string THEME_DEFAULT_SEVEN_BG_HOVER = "hover:bg-(--theme-default-seven)";
+            public const string THEME_DEFAULT_EIGHT_BG_HOVER = "hover:bg-(--theme-default-eight)";
+            public const string THEME_DEFAULT_NINE_BG_HOVER = "hover:bg-(--theme-default-nine)";
+            public const string THEME_DEFAULT_TEN_BG_HOVER = "hover:bg-(--theme-default-ten)";
 
             // Primary - Background - Hover
             public const string THEME_PRIMARY_ONE_BG_HOVER = "hover:bg-(--theme-primary-one)";
@@ -3196,7 +3196,111 @@ public static class Tailwind
                 "text-xs font-medium leading-none font-[var(--font-ui)]";
 
             public const string LABEL_SMALL =
-                "text-[11px] font-medium uppercase tracking-wide leading-none font-[var(--font-ui)]";
+                "text-[11px] font-medium tracking-wide leading-none font-[var(--font-ui)]";
+        }
+
+        public static class NavLink
+        {
+            public const string SMALL =
+                "px-3 py-1.5 gap-1.5 " + Typography.LABEL_SMALL;
+
+            public const string MEDIUM =
+                "px-4 py-2 gap-2 " + Typography.LABEL_MEDIUM;
+
+            public const string LARGE =
+                "px-6 py-3 gap-3 " + Typography.LABEL_LARGE;
+
+            // Icon wrapper
+            public const string ICON_CONTAINER =
+                "flex items-center shrink-0 w-5 h-5";
+
+            // Base styles shared across all variants
+            public const string BASE =
+                "inline-flex items-center gap-2 px-4 py-2 " +
+                "transition-all duration-200 relative overflow-hidden " +
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 " +
+                "disabled:opacity-38 disabled:pointer-events-none disabled:cursor-not-allowed active:font-semibold";
+
+            // Default variant (neutral)
+            public const string DEFAULT =
+                "text-(--theme-default-nine) " +
+                "hover:bg-(--theme-default-two) " +
+                "active:bg-(--theme-default-three) " +
+                "focus-visible:ring-(--theme-default-six) " +
+                "active:bg-(--theme-default-three) " +
+                "active:text-(--theme-default-ten)";
+
+            // Primary variant (Blue)
+            public const string PRIMARY =
+                "text-(--theme-primary-eight) " +
+                "hover:bg-(--theme-primary-one) " +
+                "active:bg-(--theme-primary-two) " +
+                "focus-visible:ring-(--theme-primary-seven) " +
+                "active:bg-(--theme-primary-two) " +
+                "active:text-(--theme-primary-nine)";
+
+            // Secondary variant (Teal)
+            public const string SECONDARY =
+                "text-(--theme-secondary-eight) " +
+                "hover:bg-(--theme-secondary-one) " +
+                "active:bg-(--theme-secondary-two) " +
+                "focus-visible:ring-(--theme-secondary-seven) " +
+                "active:bg-(--theme-secondary-two) " +
+                "active:text-(--theme-secondary-nine)";
+
+            // Success variant (Green)
+            public const string SUCCESS =
+                "text-(--theme-success-eight) " +
+                "hover:bg-(--theme-success-one) " +
+                "active:bg-(--theme-success-two) " +
+                "focus-visible:ring-(--theme-success-seven) " +
+                "active:bg-(--theme-success-two) " +
+                "active:text-(--theme-success-nine)";
+
+            // Alert variant (Red)
+            public const string ALERT =
+                "text-(--theme-alert-eight) " +
+                "hover:bg-(--theme-alert-one) " +
+                "active:bg-(--theme-alert-two) " +
+                "focus-visible:ring-(--theme-alert-seven) " +
+                "active:bg-(--theme-alert-two) " +
+                "active:text-(--theme-alert-nine)";
+
+            // Warning variant (Orange)
+            public const string WARNING =
+                "text-(--theme-warning-nine) " +
+                "hover:bg-(--theme-warning-one) " +
+                "active:bg-(--theme-warning-two) " +
+                "focus-visible:ring-(--theme-warning-eight) " +
+                "active:bg-(--theme-warning-two) " +
+                "active:text-(--theme-warning-ten)";
+
+            // Info variant (Light Blue)
+            public const string INFO =
+                "text-(--theme-info-eight) " +
+                "hover:bg-(--theme-info-one) " +
+                "active:bg-(--theme-info-two) " +
+                "focus-visible:ring-(--theme-info-seven) " +
+                "active:bg-(--theme-info-two) " +
+                "active:text-(--theme-info-nine)";
+
+            // Dark variant
+            public const string DARK =
+                "text-[var(--theme-dark-nine) " +
+                "hover:bg-(--theme-dark-one) " +
+                "active:bg-(--theme-dark-two) " +
+                "focus-visible:ring-(--theme-dark-seven) " +
+                "active:bg-(--theme-dark-two) " +
+                "active:text-(--theme-dark-ten)";
+
+            // Light variant
+            public const string LIGHT =
+                "text-(--theme-light-nine) " +
+                "hover:bg-(--theme-light-two) " +
+                "active:bg-(--theme-light-three) " +
+                "focus-visible:ring-(--theme-light-six) " +
+                "active:bg-(--theme-light-three) " +
+                "active:text-(--theme-light-ten) ";
         }
     }
 }
