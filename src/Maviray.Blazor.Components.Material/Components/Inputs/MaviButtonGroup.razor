@@ -1,6 +1,7 @@
 ﻿@inherits MaviComponentBase
 @using Maviray.Blazor.Components.Core.EventArgs
 @using Maviray.Blazor.Components.Core.Models.Buttons
+@using Maviray.Blazor.Components.Material.Constants
 
 <div id="@Id" class="@GetContainerClasses()" style="@Style" @attributes="AdditionalAttributes">
     @if (Buttons != null && Buttons.Any())
@@ -9,6 +10,7 @@
         {
             <button id="@button.Id"
                     type="button"
+                    display="@button.Title"
                     class="@GetButtonClasses(index)"
                     disabled="@(Disabled || button.Disabled)"
                     @onclick="async (e) => { await HandleButtonClick(e, button.Id); }">
@@ -376,7 +378,7 @@
     {
         return ElementSize switch
         {
-            ElementSize.Small => "text-sm ",
+            ElementSize.Small => "text-sm",
             ElementSize.Large => "text-lg",
             _ => "text-base"
         };
@@ -384,7 +386,14 @@
 
     private string GetTextClasses()
     {
-        return "whitespace-nowrap";
+        var font = ElementSize switch
+        {
+            ElementSize.Small => Tailwind.Theme.Typography.LABEL_SMALL,
+            ElementSize.Large => Tailwind.Theme.Typography.LABEL_LARGE,
+            _ => Tailwind.Theme.Typography.LABEL_MEDIUM
+        };
+
+        return $"{font} whitespace-nowrap";
     }
 
     protected async Task HandleButtonClick(MouseEventArgs args, string? buttonId)
