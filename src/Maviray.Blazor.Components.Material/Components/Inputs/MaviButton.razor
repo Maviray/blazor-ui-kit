@@ -47,7 +47,7 @@
 
     private string GetButtonClasses()
     {
-        var baseClasses = GetButtonClass(ButtonVariant, ThemeColorScheme);
+        var baseClasses = GetButtonClass(ElementVariant, ThemeColorScheme);
         var transformClass = GetTextTransformClass(TextTransform);
         var sizeClass = GetButtonSizeClass(ElementSize);
         var allClasses = $"{baseClasses} {transformClass} {sizeClass} {Width} {Tailwind.Theme.Button.BUTTON_BASE}";
@@ -55,20 +55,20 @@
         return string.IsNullOrEmpty(Class) ? allClasses : $"{allClasses} {Class}";
     }
 
-    private static string GetButtonClass(ButtonVariant buttonVariant, ThemeColorScheme buttonType)
+    private static string GetButtonClass(ElementVariant ElementVariant, ThemeColorScheme buttonType)
     {
-        return buttonVariant switch
+        return ElementVariant switch
         {
-            ButtonVariant.Filled => GetFilledButtonClass(buttonType),
-            ButtonVariant.Outlined => GetOutlinedButtonClass(buttonType),
-            ButtonVariant.Text => GetTextButtonClass(buttonType),
+            ElementVariant.Filled => GetFilledButtonClass(buttonType),
+            ElementVariant.Outlined => GetOutlinedButtonClass(buttonType),
+            ElementVariant.Text => GetTextButtonClass(buttonType),
             _ => GetFilledButtonClass(buttonType)
         };
     }
 
     private static string GetFilledButtonClass(ThemeColorScheme buttonType)
     {
-        var buttonVariant = buttonType switch
+        var ElementVariant = buttonType switch
         {
             ThemeColorScheme.Default => Tailwind.Theme.Button.BUTTON_FILLED_DEFAULT,
             ThemeColorScheme.Primary => Tailwind.Theme.Button.BUTTON_FILLED_PRIMARY,
@@ -82,12 +82,12 @@
             _ => Tailwind.Theme.Button.BUTTON_FILLED_DEFAULT
         };
 
-        return $"{Tailwind.Theme.Button.BUTTON_FILLED} {buttonVariant}";
+        return $"{Tailwind.Theme.Button.BUTTON_FILLED} {ElementVariant}";
     }
 
     private static string GetTextButtonClass(ThemeColorScheme buttonType)
     {
-        var buttonVariant = buttonType switch
+        var ElementVariant = buttonType switch
         {
             ThemeColorScheme.Default => Tailwind.Theme.Button.BUTTON_TEXT_DEFAULT,
             ThemeColorScheme.Primary => Tailwind.Theme.Button.BUTTON_TEXT_PRIMARY,
@@ -101,12 +101,12 @@
             _ => Tailwind.Theme.Button.BUTTON_TEXT_DEFAULT
         };
 
-        return $"{Tailwind.Theme.Button.BUTTON_TEXT} {buttonVariant}";
+        return $"{Tailwind.Theme.Button.BUTTON_TEXT} {ElementVariant}";
     }
 
     private static string GetOutlinedButtonClass(ThemeColorScheme buttonType)
     {
-        var buttonVariant = buttonType switch
+        var ElementVariant = buttonType switch
         {
             ThemeColorScheme.Default => Tailwind.Theme.Button.BUTTON_OUTLINED_DEFAULT,
             ThemeColorScheme.Primary => Tailwind.Theme.Button.BUTTON_OUTLINED_PRIMARY,
@@ -120,7 +120,7 @@
             _ => Tailwind.Theme.Button.BUTTON_OUTLINED_DEFAULT
         };
 
-        return $"{Tailwind.Theme.Button.BUTTON_OUTLINED} {buttonVariant}";
+        return $"{Tailwind.Theme.Button.BUTTON_OUTLINED} {ElementVariant}";
     }
 
     private static string GetTextTransformClass(TextTransform textTransform)

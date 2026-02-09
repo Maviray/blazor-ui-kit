@@ -2,7 +2,7 @@
 
 namespace Maviray.Blazor.Components.Core.Enums;
 
-public enum ButtonVariant
+public enum ElementVariant
 {
 
     [Description("filled")]

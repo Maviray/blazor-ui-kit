@@ -19,7 +19,7 @@ namespace Maviray.Blazor.Components.Material.Components.Inputs
 
         [Parameter] public TextTransform TextTransform { get; set; }
 
-        [Parameter] public ButtonVariant ButtonVariant { get; set; }
+        [Parameter] public ElementVariant ElementVariant { get; set; }
 
         [Parameter] public bool Disabled { get; set; }
 

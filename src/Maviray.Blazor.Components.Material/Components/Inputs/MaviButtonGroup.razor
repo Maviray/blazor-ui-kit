@@ -46,7 +46,7 @@
 
     [Parameter] public TextTransform TextTransform { get; set; }
 
-    [Parameter] public ButtonVariant ButtonVariant { get; set; }
+    [Parameter] public ElementVariant ElementVariant { get; set; }
 
     [Parameter] public bool Disabled { get; set; }
 
@@ -66,7 +66,7 @@
         };
 
         // Variant-specific container styles
-        if (ButtonVariant == ButtonVariant.Outlined)
+        if (ElementVariant == ElementVariant.Outlined)
         {
             classes.Add("shadow-sm rounded-md");
         }
@@ -129,9 +129,9 @@
         var classes = new List<string>();
         var colorPrefix = GetColorPrefix();
 
-        switch (ButtonVariant)
+        switch (ElementVariant)
         {
-            case ButtonVariant.Filled:
+            case ElementVariant.Filled:
                 // Default button type has special colors
                 if (ButtonType == ThemeColorScheme.Default)
                 {
@@ -174,7 +174,7 @@
                 }
                 break;
 
-            case ButtonVariant.Outlined:
+            case ElementVariant.Outlined:
                 // Default button type for outlined variant
                 if (ButtonType == ThemeColorScheme.Default)
                 {
@@ -237,7 +237,7 @@
                 }
                 break;
 
-            case ButtonVariant.Text:
+            case ElementVariant.Text:
                 // Default button type for text variant
                 if (ButtonType == ThemeColorScheme.Default)
                 {
@@ -303,7 +303,7 @@
         if (isFirst)
         {
             classes.Add("rounded-l-md");
-            if (ButtonVariant != ButtonVariant.Text)
+            if (ElementVariant != ElementVariant.Text)
             {
                 classes.Add("rounded-r-none");
             }
@@ -311,18 +311,18 @@
         else if (isLast)
         {
             classes.Add("rounded-r-md");
-            if (ButtonVariant != ButtonVariant.Text)
+            if (ElementVariant != ElementVariant.Text)
             {
                 classes.Add("rounded-l-none");
             }
         }
-        else if (isMiddle && ButtonVariant != ButtonVariant.Text)
+        else if (isMiddle && ElementVariant != ElementVariant.Text)
         {
             classes.Add("rounded-none");
         }
 
         // Border handling for outlined variant
-        if (ButtonVariant != ButtonVariant.Outlined) return classes;
+        if (ElementVariant != ElementVariant.Outlined) return classes;
 
         if (!isFirst)
         {

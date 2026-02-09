@@ -60,11 +60,11 @@
 
     private string GetVariantClasses()
     {
-        return ButtonVariant switch
+        return ElementVariant switch
         {
-            ButtonVariant.Filled => GetFilledClasses(),
-            ButtonVariant.Outlined => GetOutlinedClasses(),
-            ButtonVariant.Text => GetTextClasses(),
+            ElementVariant.Filled => GetFilledClasses(),
+            ElementVariant.Outlined => GetOutlinedClasses(),
+            ElementVariant.Text => GetTextClasses(),
             _ => GetFilledClasses()
         };
     }

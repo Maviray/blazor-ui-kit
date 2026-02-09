@@ -8,7 +8,7 @@
 
 <div class="p-4 flex gap-2">
     <div>
-        <MaviButtonGroup ButtonVariant="ButtonVariant.Filled"
+        <MaviButtonGroup ButtonVariant="ElementVariant.Filled"
                          ElementSize="ElementSize.Regular"
                          ButtonType="ThemeColorScheme.Primary"
                          OnClick="OnButtonGroupClick"
@@ -17,7 +17,7 @@
     @foreach (var elementSize in Enum.GetValues<ElementSize>())
     {
         <div class="p-4 flex flex-col gap-2">
-            @foreach (var buttonVariant in Enum.GetValues<ButtonVariant>())
+            @foreach (var buttonVariant in Enum.GetValues<ElementVariant>())
             {
                 <div class="p-4 flex flex-col gap-2">
                     @foreach (var buttonType in Enum.GetValues<ThemeColorScheme>())
