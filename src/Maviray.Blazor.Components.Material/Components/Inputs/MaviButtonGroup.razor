@@ -68,7 +68,7 @@
         // Variant-specific container styles
         if (ButtonVariant == ButtonVariant.Outlined)
         {
-            classes.Add("shadow-sm");
+            classes.Add("shadow-sm rounded-md");
         }
 
         return string.Join(" ", classes.Where(c => !string.IsNullOrEmpty(c)));
@@ -86,11 +86,10 @@
             "transition-all",
             "duration-200",
             "focus:outline-none",
-            "overflow-hidden"
+            "overflow-hidden",
+            // Size classes with fixed height
+            GetSizeClasses()
         };
-
-        // Size classes with fixed height
-        classes.Add(GetSizeClasses());
 
         // Variant and type specific styles
         classes.AddRange(GetVariantClasses());
@@ -119,9 +118,9 @@
     {
         return ElementSize switch
         {
-            ElementSize.Small => "px-3 h-8 text-sm",
-            ElementSize.Large => "px-5 h-12 text-base",
-            _ => "px-4 h-10 text-sm" // Regular
+            ElementSize.Small => "px-3 h-8",
+            ElementSize.Large => "px-5 h-12",
+            _ => "px-4 h-10" // Regular
         };
     }
 
@@ -141,7 +140,6 @@
                     if (!Disabled)
                     {
                         classes.Add("hover:bg-(--theme-light-seven)");
-                        classes.Add("hover:shadow-lg");
                         classes.Add("focus:bg-(--theme-light-seven)");
                         classes.Add("focus:ring-(--theme-light-eight)");
                         classes.Add("active:bg-(--theme-light-eight)");
@@ -156,7 +154,6 @@
                     if (!Disabled)
                     {
                         classes.Add("hover:bg-(--theme-primary-nine)");
-                        classes.Add("hover:shadow-lg");
                         classes.Add("focus:bg-(--theme-primary-nine)");
                         classes.Add("focus:ring-(--theme-primary-nine)");
                         classes.Add("active:bg-(--theme-primary-four)");
@@ -189,8 +186,7 @@
                     {
                         classes.Add("hover:bg-(--theme-light-one)");
                         classes.Add("hover:border-(--theme-light-seven)");
-                        classes.Add("hover:text-(--theme-dark-ten)");
-                        classes.Add("hover:shadow-lg");
+                        classes.Add("hover:text-(--theme-dark-ten)"); 
                         classes.Add("focus:bg-(--theme-light-one)");
                         classes.Add("focus:border-(--theme-light-seven)");
                         classes.Add("focus:text-(--theme-dark-ten)");
@@ -211,7 +207,6 @@
                         classes.Add("hover:bg-(--theme-primary-one)");
                         classes.Add("hover:border-(--theme-primary-nine)");
                         classes.Add("hover:text-(--theme-primary-nine)");
-                        classes.Add("hover:shadow-lg");
                         classes.Add("focus:bg-(--theme-primary-one)");
                         classes.Add("focus:border-(--theme-primary-nine)");
                         classes.Add("focus:text-(--theme-primary-nine)");
@@ -253,7 +248,6 @@
                     {
                         classes.Add("hover:bg-(--theme-light-one)");
                         classes.Add("hover:text-(--theme-dark-ten)");
-                        classes.Add("hover:shadow-lg");
                         classes.Add("focus:bg-(--theme-light-one)");
                         classes.Add("focus:text-(--theme-dark-ten)");
                         classes.Add("focus:ring-(--theme-light-eight)");
@@ -270,7 +264,6 @@
                     {
                         classes.Add("hover:bg-(--theme-primary-one)");
                         classes.Add("hover:text-(--theme-primary-nine)");
-                        classes.Add("hover:shadow-lg");
                         classes.Add("focus:bg-(--theme-primary-one)");
                         classes.Add("focus:text-(--theme-primary-nine)");
                         classes.Add("focus:ring-(--theme-primary-nine)");
@@ -329,12 +322,11 @@
         }
 
         // Border handling for outlined variant
-        if (ButtonVariant == ButtonVariant.Outlined)
+        if (ButtonVariant != ButtonVariant.Outlined) return classes;
+
+        if (!isFirst)
         {
-            if (!isFirst)
-            {
-                classes.Add("-ml-px");
-            }
+            classes.Add("-ml-px");
         }
 
         return classes;

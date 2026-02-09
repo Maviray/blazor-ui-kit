@@ -3200,15 +3200,15 @@ public static class Tailwind
         }
 
         public static class NavLink
-        {
+        { 
             public const string SMALL =
-                "px-3 py-1.5 gap-1.5 " + Typography.LABEL_SMALL;
+                Button.BUTTON_SMALL + " " + Typography.LABEL_SMALL;
 
-            public const string MEDIUM =
-                "px-4 py-2 gap-2 " + Typography.LABEL_MEDIUM;
+            public const string REGULAR =
+                Button.BUTTON_REGULAR + " " + Typography.LABEL_MEDIUM;
 
             public const string LARGE =
-                "px-6 py-3 gap-3 " + Typography.LABEL_LARGE;
+                Button.BUTTON_LARGE + " " + Typography.LABEL_LARGE;
 
             // Icon wrapper
             public const string ICON_CONTAINER =
@@ -3216,7 +3216,7 @@ public static class Tailwind
 
             // Base styles shared across all variants
             public const string BASE =
-                "inline-flex items-center gap-2 px-4 py-2 " +
+                "inline-flex items-center " +
                 "transition-all duration-200 relative overflow-hidden " +
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 " +
                 "disabled:opacity-38 disabled:pointer-events-none disabled:cursor-not-allowed active:font-semibold";
@@ -3305,15 +3305,15 @@ public static class Tailwind
 
         public static class Button
         {
-            public const string BUTTON_BASE = 
-                "inline-flex items-center justify-center relative box-border cursor-pointer select-none " +
+            public const string BUTTON_BASE =
+                "inline-flex items-center justify-center relative box-border cursor-pointer select-none rounded-sm " +
                 "align-middle appearance-none outline-none m-0 no-underline transition-all duration-200 ease-in-out disabled:opacity-40 disabled:cursor-not-allowed";
 
-            public const string BUTTON_FILLED = "border-0 rounded shadow-none disabled:shadow-none";
+            public const string BUTTON_FILLED = "border-0 shadow-none disabled:shadow-none";
 
-            public const string BUTTON_OUTLINED = "border border-solid rounded bg-transparent";
+            public const string BUTTON_OUTLINED = "border border-solid  bg-transparent";
 
-            public const string BUTTON_TEXT = "border-0 rounded bg-transparent shadow-none";
+            public const string BUTTON_TEXT = "border-0 bg-transparent shadow-none";
 
 
             #region Button Variant Colors

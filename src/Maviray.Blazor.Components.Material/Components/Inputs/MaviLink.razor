@@ -38,6 +38,7 @@
     [Parameter] public string? Class { get; set; }
     [Parameter] public string? Style { get; set; }
     [Parameter] public string? Badge { get; set; }
+    [Parameter] public string Width { get; set; } = "min-w-16";
 
     private string GetCssClass()
     {
@@ -58,9 +59,9 @@
         {
             ElementSize.Small => Tailwind.Theme.NavLink.SMALL,
             ElementSize.Large => Tailwind.Theme.NavLink.LARGE,
-            _ => ""
+            _ => Tailwind.Theme.NavLink.REGULAR
         };
 
-        return CssManager.Combine(Tailwind.Theme.NavLink.BASE, variantClass, sizeClass, Class);
+        return CssManager.Combine(Tailwind.Theme.NavLink.BASE, variantClass, sizeClass, Width, Class);
     }
 }
