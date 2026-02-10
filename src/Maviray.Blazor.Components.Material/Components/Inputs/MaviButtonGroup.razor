@@ -41,7 +41,7 @@
 @code {
     [Parameter] public override string? Id { get; set; } = $"button_group_{Guid.NewGuid()}";
 
-    [Parameter] public ThemeColorScheme ButtonType { get; set; }
+    [Parameter] public ThemeColorScheme ThemeColorScheme { get; set; }
 
     [Parameter] public ElementSize ElementSize { get; set; }
 
@@ -134,7 +134,7 @@
         {
             case ElementVariant.Filled:
                 // Default button type has special colors
-                if (ButtonType == ThemeColorScheme.Default)
+                if (ThemeColorScheme == ThemeColorScheme.Default)
                 {
                     classes.Add("bg-(--theme-light-six)");
                     classes.Add("text-(--theme-dark-nine)");
@@ -148,7 +148,7 @@
                     classes.Add("border-0");
                 }
                 // Primary button type has special colors
-                else if (ButtonType == ThemeColorScheme.Primary)
+                else if (ThemeColorScheme == ThemeColorScheme.Primary)
                 {
                     classes.Add("bg-(--theme-primary-eight)");
                     classes.Add("text-white");
@@ -177,7 +177,7 @@
 
             case ElementVariant.Outlined:
                 // Default button type for outlined variant
-                if (ButtonType == ThemeColorScheme.Default)
+                if (ThemeColorScheme == ThemeColorScheme.Default)
                 {
                     classes.Add("bg-transparent");
                     classes.Add("text-(--theme-dark-nine)");
@@ -197,7 +197,7 @@
                     }
                 }
                 // Primary button type for outlined variant
-                else if (ButtonType == ThemeColorScheme.Primary)
+                else if (ThemeColorScheme == ThemeColorScheme.Primary)
                 {
                     classes.Add("bg-transparent");
                     classes.Add("text-(--theme-primary-eight)");
@@ -240,7 +240,7 @@
 
             case ElementVariant.Text:
                 // Default button type for text variant
-                if (ButtonType == ThemeColorScheme.Default)
+                if (ThemeColorScheme == ThemeColorScheme.Default)
                 {
                     classes.Add("bg-transparent");
                     classes.Add("text-(--theme-dark-nine)");
@@ -256,7 +256,7 @@
                     }
                 }
                 // Primary button type for text variant
-                else if (ButtonType == ThemeColorScheme.Primary)
+                else if (ThemeColorScheme == ThemeColorScheme.Primary)
                 {
                     classes.Add("bg-transparent");
                     classes.Add("text-(--theme-primary-eight)");
@@ -335,7 +335,7 @@
 
     private string GetColorPrefix()
     {
-        return ButtonType switch
+        return ThemeColorScheme switch
         {
             ThemeColorScheme.Primary => "--theme-primary",
             ThemeColorScheme.Secondary => "--theme-secondary",
