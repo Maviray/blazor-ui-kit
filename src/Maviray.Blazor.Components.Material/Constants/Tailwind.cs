@@ -1343,7 +1343,7 @@ public static class Tailwind
             #endregion
         }
 
-        public static class Texts
+        public static class Text
         {
             #region Text Colors
             // Default - Text

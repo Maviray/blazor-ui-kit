@@ -24,6 +24,12 @@
 	  <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Services\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Services\**" />
+  </ItemGroup>
+
 	<ItemGroup>
 		<None Include="..\..\icon.png" Pack="true" PackagePath="\" />
 		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
@@ -35,9 +41,5 @@
 	  <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.2" />
 	  <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.2" />
 	  <PackageReference Include="Microsoft.JSInterop" Version="10.0.2" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Services\" />
 	</ItemGroup>
 </Project>
