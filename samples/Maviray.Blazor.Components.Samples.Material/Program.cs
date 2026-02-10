@@ -1,3 +1,5 @@
+using Maviray.Blazor.Components.Core.Enums;
+using Maviray.Blazor.Components.Core.Extensions;
 using Maviray.Blazor.Components.Samples.Material.Components;
 
 namespace Maviray.Blazor.Components.Samples.Material
@@ -11,6 +13,14 @@ namespace Maviray.Blazor.Components.Samples.Material
             // Add services to the container.
             builder.Services.AddRazorComponents()
                 .AddInteractiveWebAssemblyComponents();
+
+            // Configure Maviray components
+            builder.Services.AddMaviComponents(options =>
+            {
+                options.ComponentLogLevel = LogLevel.Debug;
+                options.EnableLifecycleLogging = true;
+                options.EnablePerformanceTracking = true;
+            });
 
             var app = builder.Build();
 

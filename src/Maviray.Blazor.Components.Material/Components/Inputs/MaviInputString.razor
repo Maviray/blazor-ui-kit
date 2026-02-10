@@ -4,6 +4,7 @@
 @using System.ComponentModel.DataAnnotations
 @using System.Reflection
 @using Maviray.Blazor.Components.Core.EventArgs
+@using Maviray.Blazor.Components.Core.Options
 @inherits InputBase<string>
 @implements IDisposable
 
@@ -116,6 +117,8 @@
     private string _themeBorderHoverColor = "hover:border-(--theme-primary-nine)";
 
     [Inject] private ILoggerFactory? LoggerFactory { get; set; }
+
+    [Inject] protected IMaviComponentOptions? ComponentOptions { get; set; }
 
     private ILogger? Logger => field ??= LoggerFactory?.CreateLogger(GetType());
 

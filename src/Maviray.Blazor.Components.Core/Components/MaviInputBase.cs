@@ -1,5 +1,7 @@
 ﻿using Maviray.Blazor.Components.Core.Constants;
 using Maviray.Blazor.Components.Core.Enums;
+using Maviray.Blazor.Components.Core.Extensions;
+using Maviray.Blazor.Components.Core.Options;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Extensions.Logging;
@@ -11,6 +13,8 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>
     private ILogger? _logger;
 
     [Inject] private ILoggerFactory? LoggerFactory { get; set; }
+
+    [Inject] protected IMaviComponentOptions? ComponentOptions { get; set; }
 
     protected ILogger? Logger => _logger ??= LoggerFactory?.CreateLogger(GetType());
 
@@ -53,6 +57,11 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>
         if (firstRender)
         {
             HasRendered = true;
+        }
+
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, GetType());
         }
     }
 }
