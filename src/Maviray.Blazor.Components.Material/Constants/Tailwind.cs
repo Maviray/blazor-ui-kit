@@ -3201,28 +3201,20 @@ public static class Tailwind
 
         public static class NavLink
         { 
-            public const string SMALL =
-                Button.BUTTON_SMALL + " " + Typography.LABEL_SMALL;
-
-            public const string REGULAR =
-                Button.BUTTON_REGULAR + " " + Typography.LABEL_MEDIUM;
-
-            public const string LARGE =
-                Button.BUTTON_LARGE + " " + Typography.LABEL_LARGE;
-
             // Icon wrapper
             public const string ICON_CONTAINER =
                 "flex items-center shrink-0 w-5 h-5";
 
             // Base styles shared across all variants
-            public const string BASE =
-                "inline-flex items-center " +
-                "transition-all duration-200 relative overflow-hidden " +
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 " +
-                "disabled:opacity-38 disabled:pointer-events-none disabled:cursor-not-allowed active:font-semibold";
+            public const string BASE = "inline-flex items-center transition-all duration-200 relative active:font-semibold";
+
+            public const string SURROUND = "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 overflow-hidden";
+
+            public const string DISABLED = "opacity-38 cursor-not-allowed pointer-events-none";
+
 
             // Default variant (neutral)
-            public const string DEFAULT =
+            public const string DEFAULT_FILLED =
                 "text-(--theme-default-nine) " +
                 "hover:bg-(--theme-default-two) " +
                 "active:bg-(--theme-default-three) " +
@@ -3231,7 +3223,7 @@ public static class Tailwind
                 "active:text-(--theme-default-ten)";
 
             // Primary variant (Blue)
-            public const string PRIMARY =
+            public const string PRIMARY_FILLED =
                 "text-(--theme-primary-eight) " +
                 "hover:bg-(--theme-primary-one) " +
                 "active:bg-(--theme-primary-two) " +
@@ -3240,7 +3232,7 @@ public static class Tailwind
                 "active:text-(--theme-primary-nine)";
 
             // Secondary variant (Teal)
-            public const string SECONDARY =
+            public const string SECONDARY_FILLED =
                 "text-(--theme-secondary-eight) " +
                 "hover:bg-(--theme-secondary-one) " +
                 "active:bg-(--theme-secondary-two) " +
@@ -3249,7 +3241,7 @@ public static class Tailwind
                 "active:text-(--theme-secondary-nine)";
 
             // Success variant (Green)
-            public const string SUCCESS =
+            public const string SUCCESS_FILLED =
                 "text-(--theme-success-eight) " +
                 "hover:bg-(--theme-success-one) " +
                 "active:bg-(--theme-success-two) " +
@@ -3258,7 +3250,7 @@ public static class Tailwind
                 "active:text-(--theme-success-nine)";
 
             // Alert variant (Red)
-            public const string ALERT =
+            public const string ALERT_FILLED =
                 "text-(--theme-alert-eight) " +
                 "hover:bg-(--theme-alert-one) " +
                 "active:bg-(--theme-alert-two) " +
@@ -3267,7 +3259,7 @@ public static class Tailwind
                 "active:text-(--theme-alert-nine)";
 
             // Warning variant (Orange)
-            public const string WARNING =
+            public const string WARNING_FILLED =
                 "text-(--theme-warning-nine) " +
                 "hover:bg-(--theme-warning-one) " +
                 "active:bg-(--theme-warning-two) " +
@@ -3276,7 +3268,7 @@ public static class Tailwind
                 "active:text-(--theme-warning-ten)";
 
             // Info variant (Light Blue)
-            public const string INFO =
+            public const string INFO_FILLED =
                 "text-(--theme-info-eight) " +
                 "hover:bg-(--theme-info-one) " +
                 "active:bg-(--theme-info-two) " +
@@ -3285,7 +3277,7 @@ public static class Tailwind
                 "active:text-(--theme-info-nine)";
 
             // Dark variant
-            public const string DARK =
+            public const string DARK_FILLED =
                 "text-[var(--theme-dark-nine) " +
                 "hover:bg-(--theme-dark-one) " +
                 "active:bg-(--theme-dark-two) " +
@@ -3294,13 +3286,38 @@ public static class Tailwind
                 "active:text-(--theme-dark-ten)";
 
             // Light variant
-            public const string LIGHT =
+            public const string LIGHT_FILLED =
                 "text-(--theme-light-nine) " +
                 "hover:bg-(--theme-light-two) " +
                 "active:bg-(--theme-light-three) " +
                 "focus-visible:ring-(--theme-light-six) " +
                 "active:bg-(--theme-light-three) " +
                 "active:text-(--theme-light-ten) ";
+
+            // New underline styles
+            public const string PRIMARY_UNDERLINE = "hover:border-(--theme-primary-six)";
+            public const string SECONDARY_UNDERLINE = "hover:border-(--theme-secondary-six)";
+            public const string SUCCESS_UNDERLINE = "hover:border-(--theme-success-six)";
+            public const string ALERT_UNDERLINE = "hover:border-(--theme-alert-six)";
+            public const string WARNING_UNDERLINE = "hover:border-(--theme-warning-six)";
+            public const string INFO_UNDERLINE = "hover:border-(--theme-info-six)";
+            public const string DARK_UNDERLINE = "hover:border-(--theme-dark-six)";
+            public const string LIGHT_UNDERLINE = "hover:border-(--theme-light-six)";
+            public const string DEFAULT_UNDERLINE = "hover:border-(--theme-default-six)";
+
+            // TEXT COLORS
+            public const string PRIMARY_TEXT = "text-(--theme-primary-six) hover:text-(--theme-primary-seven)";
+            public const string SECONDARY_TEXT = "text-(--theme-secondary-six) hover:text-(--theme-secondary-seven)";
+            public const string SUCCESS_TEXT = "text-(--theme-success-six) hover:text-(--theme-success-seven)";
+            public const string ALERT_TEXT = "text-(--theme-alert-six) hover:text-(--theme-alert-seven)";
+            public const string WARNING_TEXT = "text-(--theme-warning-six) hover:text-(--theme-warning-seven)";
+            public const string INFO_TEXT = "text-(--theme-info-six) hover:text-(--theme-info-seven)";
+            public const string DARK_TEXT = "text-(--theme-dark-six) hover:text-(--theme-dark-seven)";
+            public const string LIGHT_TEXT = "text-(--theme-light-six) hover:text-(--theme-light-seven)";
+            public const string DEFAULT_TEXT = "text-(--theme-default-eight) hover:text-(--theme-default-nine)";
+
+            public const string LINK_UNDERLINE = "hover:border-b";
+            public const string LINK_TEXT = "hover:underline";
         }
 
         public static class Button

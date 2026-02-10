@@ -18,7 +18,7 @@ namespace Maviray.Blazor.Components.Core.Models.Buttons
 
         public TextTransform TextTransform { get; set; }
 
-        public ElementVariant ButtonVariant { get; set; }
+        public ElementVariant ElementVariant { get; set; }
 
         public bool Disabled { get; set; }
 
