@@ -705,7 +705,7 @@
                 {
                     foreach (var buttonType in Enum.GetValues<ThemeColorScheme>())
                     {
-                        <div class="flex gap-2 justify-center items-center p-6 border border-gray-200 rounded-xl hover:shadow-md transition-shadow bg-white">
+                        <div class="flex gap-2 justify-center items-center p-6 bg-white">
                             <div class="flex flex-col gap-3 items-center">
                                 <div class="flex gap-2 items-center">
                                     @foreach (var elementSize in Enum.GetValues<ElementSize>())
@@ -761,7 +761,362 @@
             </div>
         </div>
     </section>
-</div>
+    
+    <!-- Section: Component Parameters -->
+    <section class="space-y-6">
+        <div class="space-y-2">
+            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Component Parameters</h2>
+            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+                Reference documentation for all available parameters on MaviButton and MaviButtonIcon components.
+            </p>
+        </div>
+
+        <!-- MaviButton Parameters -->
+        <div class="space-y-3">
+            <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE">MaviButton Parameters</h3>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
+                                Parameter
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
+                                Type
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
+                                Description
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                                Id
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                string?
+                            </td>
+                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                Unique identifier for the button element. Auto-generated if not provided.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                                Title
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                string?
+                            </td>
+                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                Text displayed on the button and used for accessibility attributes.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                                ThemeColorScheme
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                ThemeColorScheme
+                            </td>
+                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                Color scheme of the button (Default, Primary, Secondary, Success, Alert, Warning, Info, Dark, Light).
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                                ElementVariant
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                ElementVariant
+                            </td>
+                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                Visual style variant (Filled, Outlined, Text). Filled is the default.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                                ElementSize
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                ElementSize
+                            </td>
+                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                Size of the button (Small, Regular, Large). Regular is the default.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                                TextTransform
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                TextTransform
+                            </td>
+                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                Text transformation style (UpperCase, LowerCase, Capitalize, None).
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                                Disabled
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                bool
+                            </td>
+                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                When true, disables the button and prevents user interaction.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                                Width
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                string
+                            </td>
+                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                CSS class for button width. Default is "min-w-16". Use Tailwind width utilities (e.g., "w-32", "w-48", "w-full").
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                                StartIcon
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                string?
+                            </td>
+                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                Icon class to display before the button text (e.g., "lni lni-chevron-left").
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                                EndIcon
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                string?
+                            </td>
+                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                Icon class to display after the button text (e.g., "lni lni-chevron-right").
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                                ShowSpinner
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                bool
+                            </td>
+                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                When true, displays a loading spinner instead of the button content during async operations.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                                SpinnerText
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                string?
+                            </td>
+                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                Text to display alongside the loading spinner (e.g., "Loading...", "Saving...").
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                                ButtonRole
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                ButtonRole
+                            </td>
+                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                HTML button role/type attribute (Button, Submit, Reset).
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                                OnClick
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                EventCallback&lt;MouseClickEventArgs&gt;
+                            </td>
+                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                Event callback triggered when the button is clicked. Automatically manages loading state.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                                Class
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                string?
+                            </td>
+                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                Additional CSS classes to apply to the button element.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                                Style
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                string?
+                            </td>
+                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                Inline CSS styles to apply to the button element.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- MaviButtonIcon Parameters -->
+        <div class="space-y-3">
+            <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE">MaviButtonIcon Parameters</h3>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
+                                Parameter
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
+                                Type
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
+                                Description
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                                Icon
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                string?
+                            </td>
+                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                Icon class to display in the button (e.g., "lni lni-alarm-1"). This is the primary content of the icon button.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                                Id
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                string?
+                            </td>
+                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                Unique identifier for the button element. Auto-generated if not provided.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                                Title
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                string?
+                            </td>
+                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                Tooltip text shown on hover. Important for accessibility on icon-only buttons.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                                ThemeColorScheme
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                ThemeColorScheme
+                            </td>
+                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                Color scheme of the button (Default, Primary, Secondary, Success, Alert, Warning, Info, Dark, Light).
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                                ElementVariant
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                ElementVariant
+                            </td>
+                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                Visual style variant (Filled, Outlined, Text). Filled is the default.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                                ElementSize
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                ElementSize
+                            </td>
+                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                Size of the icon button (Small: 32px, Regular: 40px, Large: 56px). Regular is the default.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                                Disabled
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                bool
+                            </td>
+                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                When true, disables the button and prevents user interaction.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                                ButtonRole
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                ButtonRole
+                            </td>
+                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                HTML button role/type attribute (Button, Submit, Reset).
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                                OnClick
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                EventCallback&lt;MouseClickEventArgs&gt;
+                            </td>
+                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                Event callback triggered when the button is clicked. Automatically manages loading state.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                                Class
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                string?
+                            </td>
+                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                Additional CSS classes to apply to the button element.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                Style
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                string?
+                            </td>
+                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                                Inline CSS styles to apply to the button element.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+ </div>
 
 @code
 {
