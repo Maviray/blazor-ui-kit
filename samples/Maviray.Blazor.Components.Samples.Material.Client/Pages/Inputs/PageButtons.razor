@@ -1119,13 +1119,7 @@
  </div>
 
 @code
-{
-    private string GetButtonTitle(ThemeColorScheme buttonType, ElementSize elementSize)
-    {
-        return $"{buttonType} {elementSize}";
-    }
-
-    private async Task OnButtonClickAsync(MouseClickEventArgs mouseEventArgs)
+{private async Task OnButtonClickAsync(MouseClickEventArgs mouseEventArgs)
     {
         Logger?.LogInformation("Button Click! ID: {ButtonId} Introduce 4s delay to demo inline spinner effect.", mouseEventArgs.ButtonId);
         await Task.Delay(4000);
