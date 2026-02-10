@@ -1,5 +1,6 @@
-﻿@inherits MaviComponentBase
+﻿@inherits MaviAttributesComponent
 @using Maviray.Blazor.Components.Core.EventArgs
+@using Maviray.Blazor.Components.Core.Extensions
 @using Maviray.Blazor.Components.Core.Models.Buttons
 @using Maviray.Blazor.Components.Material.Constants
 
@@ -390,6 +391,11 @@
 
     protected async Task HandleButtonClick(MouseEventArgs args, string? buttonId)
     {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
         if (OnClick.HasDelegate)
         {
             var customArgs = new MouseGroupClickEventArgs(Id, buttonId)

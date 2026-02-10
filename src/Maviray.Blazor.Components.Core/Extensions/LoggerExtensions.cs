@@ -173,12 +173,14 @@ public static class LoggerExtensions
         /// </summary>
         /// <param name="componentOptions">Component options for log level filtering (optional)</param>
         /// <param name="callerType">The type of the calling class</param>
+        /// <param name="id">id of the executing component</param>
         /// <param name="message">The log message</param>
         /// <param name="args">Optional message format arguments</param>
         /// <param name="memberName">caller member name</param>
         /// <param name="sourceLineNumber">source line number</param>
         public void LogDebugLifeCycle(IMaviComponentOptions? componentOptions,
             Type callerType,
+            string? id,
             string message,
             object?[]? args = null,
             [CallerMemberName] string memberName = "",
@@ -190,15 +192,15 @@ public static class LoggerExtensions
             if (!componentOptions.EnableLifecycleLogging) return;
 
             // Format: [ComponentType.MethodName] Message
-            var enrichedMessage = $"[{callerType.Name}.{memberName}][{sourceLineNumber}] {message}";
+            var enrichedMessage = $"[{callerType.Name}.{memberName}][{sourceLineNumber}]-[{id}]: {message}";
 
             if (args != null && args.Length > 0)
             {
-                logger.Log(LogLevel.Debug, enrichedMessage, args);
+                logger.Log(LogLevel.Information, enrichedMessage, args);
             }
             else
             {
-                logger.Log(LogLevel.Debug, enrichedMessage);
+                logger.Log(LogLevel.Information, enrichedMessage);
             }
         }
 
@@ -226,11 +228,45 @@ public static class LoggerExtensions
 
             if (args != null && args.Length > 0)
             {
-                logger.Log(LogLevel.Debug, enrichedMessage, args);
+                logger.Log(LogLevel.Information, enrichedMessage, args);
             }
             else
             {
-                logger.Log(LogLevel.Debug, enrichedMessage);
+                logger.Log(LogLevel.Information, enrichedMessage);
+            }
+        }
+
+        /// <summary>
+        /// Logs a message if the configured log level allows it as per IMaviComponentOptions
+        /// </summary>
+        /// <param name="componentOptions">Component options for log level filtering (optional)</param>
+        /// <param name="id">id of the executing component</param>
+        /// <param name="callerType">The type of the calling class</param>
+        /// <param name="args">Optional message format arguments</param>
+        /// <param name="memberName">caller member name</param>
+        /// <param name="sourceLineNumber">source line number</param>
+        public void LogDebugLifeCycle(IMaviComponentOptions? componentOptions,
+            string? id,
+            Type callerType,
+            object?[]? args = null,
+            [CallerMemberName] string memberName = "",
+            [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            if (componentOptions == null) return;
+
+            // If component options are provided, respect the configured log level
+            if (!componentOptions.EnableLifecycleLogging) return;
+
+            // Format: [ComponentType.MethodName] Message
+            var enrichedMessage = $"[Executing: {callerType.Name}.{memberName}][{sourceLineNumber}]-[{id}]";
+
+            if (args != null && args.Length > 0)
+            {
+                logger.Log(LogLevel.Information, enrichedMessage, args);
+            }
+            else
+            {
+                logger.Log(LogLevel.Information, enrichedMessage);
             }
         }
     }

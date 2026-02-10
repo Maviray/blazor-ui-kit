@@ -4,6 +4,7 @@
 @using System.ComponentModel.DataAnnotations
 @using System.Reflection
 @using Maviray.Blazor.Components.Core.EventArgs
+@using Maviray.Blazor.Components.Core.Extensions
 @using Maviray.Blazor.Components.Core.Options
 @inherits InputBase<string>
 @implements IDisposable
@@ -203,6 +204,11 @@
 
     protected override void OnParametersSet()
     {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
         base.OnParametersSet();
 
         SetThemeColors();
@@ -238,6 +244,11 @@
 
     protected override void OnAfterRender(bool firstRender)
     {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
         base.OnAfterRender(firstRender);
 
         if (firstRender)
@@ -251,6 +262,11 @@
         [MaybeNullWhen(false)] out string result,
         [NotNullWhen(false)] out string? validationErrorMessage)
     {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
         result = value ?? string.Empty;
         validationErrorMessage = null;
         return true;
@@ -261,6 +277,11 @@
     /// </summary>
     private void OnValidationStateChanged(object? sender, ValidationStateChangedEventArgs e)
     {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
         // Clear validation for disabled/readonly fields
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract - outside of Form context EditContext can be null
         if ((Disabled || Readonly) && EditContext != null && _validationMessageStore != null)
@@ -306,6 +327,11 @@
     /// </summary>
     private async Task HandleEndIconClick(MouseEventArgs args)
     {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
         if (Disabled || EndIconDisabled || _isEndIconLoading)
             return;
 
@@ -487,6 +513,11 @@
 
     public void Dispose()
     {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
         DetachValidationStateChangedListener();
     }
 

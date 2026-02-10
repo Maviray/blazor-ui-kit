@@ -23,22 +23,20 @@ public class MaviComponentBase : ComponentBase
 
     [Parameter] public string? Title { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object> AdditionalAttributes { get; set; } = [];
-
     protected bool HasRendered { get; private set; }
 
     protected override void OnAfterRender(bool firstRender)
     {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
         base.OnAfterRender(firstRender);
 
         if (firstRender)
         {
             HasRendered = true;
-        }
-
-        if (ComponentOptions is { EnableLifecycleLogging: true })
-        {
-            Logger?.LogDebugLifeCycle(ComponentOptions, GetType());
         }
     }
 }
