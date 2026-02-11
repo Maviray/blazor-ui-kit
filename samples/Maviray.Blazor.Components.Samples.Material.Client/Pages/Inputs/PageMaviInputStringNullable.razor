@@ -1,0 +1,878 @@
+﻿@page "/PageMaviInputStringNullable"
+@inherits SamplePageBase
+
+<PageTitle>String Input (Nullable)</PageTitle>
+
+<div class="p-6 max-w-7xl mx-auto">
+    <!-- Page Header -->
+    <div class="mb-8">
+        <h1 class="@CssManager.Combine(Tailwind.Theme.Typography.DISPLAY_MEDIUM, "mb-2")">MaviInputStringNullable Component</h1>
+        <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_LARGE, "text-gray-600")">
+            Comprehensive showcase demonstrating all available parameters, use cases, and input types for the MaviInputStringNullable component.
+            This component is identical to MaviInputString but properly handles nullable string values.
+        </p>
+    </div>
+
+    <EditForm Model="@_formSampleModel" OnValidSubmit="OnValidFormSubmit" OnInvalidSubmit="OnInValidFormSubmit" novalidate>
+        <DataAnnotationsValidator />
+
+        <!-- Section 1: Size Variants -->
+        <div class="mb-12">
+            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">1. Size Variants</h2>
+            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+                Three size options: Small, Regular (default), and Large
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Small -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Small</h3>
+                        <MaviInputStringNullable @bind-Value="_formSampleModel.NickName"
+                                                 ElementSize="ElementSize.Small"
+                                                 StartIcon="lni lni-android-old"
+                                                 Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.NickName)" />
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            &lt;MaviInputStringNullable
+                            @@bind-Value="value"
+                            ElementSize="ElementSize.Small"
+                            StartIcon="lni lni-android-old"
+                            Width="w-full" /&gt;
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Regular -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Regular (Default)</h3>
+                        <MaviInputStringNullable @bind-Value="_formSampleModel.MiddleName"
+                                                 ElementSize="ElementSize.Regular"
+                                                 StartIcon="lni lni-angle-double-right"
+                                                 Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.MiddleName)" />
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            &lt;MaviInputStringNullable
+                            @@bind-Value="value"
+                            ElementSize="ElementSize.Regular"
+                            StartIcon="lni lni-angle-double-right"
+                            Width="w-full" /&gt;
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Large -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Large</h3>
+                        <MaviInputStringNullable @bind-Value="_formSampleModel.Suffix"
+                                                 ElementSize="ElementSize.Large"
+                                                 StartIcon="lni lni-adobe"
+                                                 Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.Suffix)" />
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            &lt;MaviInputStringNullable
+                            @@bind-Value="value"
+                            ElementSize="ElementSize.Large"
+                            StartIcon="lni lni-adobe"
+                            Width="w-full" /&gt;
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Input States -->
+        <div class="mb-12">
+            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">2. Input States</h2>
+            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+                Control input interactivity with Disabled and Readonly states
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Disabled -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Disabled</h3>
+                        <MaviInputStringNullable @bind-Value="_formSampleModel.PreviousEmployer"
+                                                 ElementSize="ElementSize.Small"
+                                                 Disabled="true"
+                                                 StartIcon="lni lni-angle-double-right"
+                                                 Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.PreviousEmployer)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            User cannot interact with disabled inputs
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            &lt;MaviInputStringNullable
+                            @@bind-Value="value"
+                            Disabled="true"
+                            StartIcon="lni lni-angle-double-right"
+                            Width="w-full" /&gt;
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Readonly -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Readonly</h3>
+                        <MaviInputStringNullable @bind-Value="_formSampleModel.LinkedInProfile"
+                                                 ElementSize="ElementSize.Regular"
+                                                 Readonly="true"
+                                                 StartIcon="lni lni-angle-double-right"
+                                                 Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.LinkedInProfile)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Value is visible but not editable
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            &lt;MaviInputStringNullable
+                            @@bind-Value="value"
+                            Readonly="true"
+                            StartIcon="lni lni-angle-double-right"
+                            Width="w-full" /&gt;
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Normal (for comparison) -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Normal (Enabled)</h3>
+                        <MaviInputStringNullable @bind-Value="_formSampleModel.SecondaryAddress"
+                                                 ElementSize="ElementSize.Small"
+                                                 StartIcon="lni lni-angle-double-right"
+                                                 Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.SecondaryAddress)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Fully interactive input
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            &lt;MaviInputStringNullable
+                            @@bind-Value="value"
+                            StartIcon="lni lni-angle-double-right"
+                            Width="w-full" /&gt;
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: String Input Types -->
+        <div class="mb-12">
+            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">3. String Input Types</h2>
+            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+                Different HTML5 input types with automatic DataType attribute inference
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Text -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Text Input</h3>
+                        <MaviInputStringNullable @bind-Value="_formSampleModel.State"
+                                                 ElementSize="ElementSize.Small"
+                                                 StringInputType="StringInputType.Text"
+                                                 StartIcon="lni lni-angle-double-right"
+                                                 Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.State)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Standard text input
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            StringInputType="StringInputType.Text"
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Password -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Password</h3>
+                        <MaviInputStringNullable @bind-Value="_formSampleModel.SecurityCode"
+                                                 ElementSize="ElementSize.Small"
+                                                 StringInputType="StringInputType.Password"
+                                                 StartIcon="lni lni lni-euro"
+                                                 Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.SecurityCode)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Masked password input
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            StringInputType="StringInputType.Password"
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Password with Toggle -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Password Toggle</h3>
+                        <MaviInputStringNullable @bind-Value="_formSampleModel.Pin"
+                                                 ElementSize="ElementSize.Small"
+                                                 StringInputType="StringInputType.Password"
+                                                 TogglePasswordOnClick="true"
+                                                 StartIcon="lni lni lni-euro"
+                                                 EndIcon="lni lni-power-button"
+                                                 EndIconAlternative="lni lni-hourglass"
+                                                 Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.Pin)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Toggle visibility with icon
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            TogglePasswordOnClick="true"
+                            EndIcon="lni lni-power-button"
+                            EndIconAlternative="lni lni-hourglass"
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Email -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Email</h3>
+                        <MaviInputStringNullable @bind-Value="_formSampleModel.AlternativeEmail"
+                                                 ElementSize="ElementSize.Small"
+                                                 StringInputType="StringInputType.Email"
+                                                 StartIcon="lni lni lni-euro"
+                                                 Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.AlternativeEmail)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Email format with validation
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            StringInputType="StringInputType.Email"
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Tel -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Phone Number</h3>
+                        <MaviInputStringNullable @bind-Value="_formSampleModel.FaxNumber"
+                                                 ElementSize="ElementSize.Small"
+                                                 StringInputType="StringInputType.Tel"
+                                                 StartIcon="lni lni lni-euro"
+                                                 Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.FaxNumber)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Telephone number input
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            StringInputType="StringInputType.Tel"
+                        </code>
+                    </div>
+                </div>
+
+                <!-- URL -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Website URL</h3>
+                        <MaviInputStringNullable @bind-Value="_formSampleModel.BlogUrl"
+                                                 ElementSize="ElementSize.Small"
+                                                 StringInputType="StringInputType.Url"
+                                                 StartIcon="lni lni lni-euro"
+                                                 Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.BlogUrl)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            URL format with validation
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            StringInputType="StringInputType.Url"
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Search -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Search</h3>
+                        <MaviInputStringNullable @bind-Value="_formSampleModel.SearchKeywords"
+                                                 ElementSize="ElementSize.Small"
+                                                 StringInputType="StringInputType.Search"
+                                                 StartIcon="lni lni lni-euro"
+                                                 Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.SearchKeywords)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Search input with clear button
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            StringInputType="StringInputType.Search"
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4: Icons & Interactive Elements -->
+        <div class="mb-12">
+            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">4. Icons & Interactive Elements</h2>
+            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+                Add visual context and interaction through start icons, end icons, buttons, and event handlers
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Start Icon Only -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Start Icon</h3>
+                        <MaviInputStringNullable @bind-Value="_formSampleModel.WorkEmail"
+                                                 ElementSize="ElementSize.Regular"
+                                                 StartIcon="lni lni lni-euro"
+                                                 Width="w-full" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Icon positioned at input start
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            StartIcon="lni lni lni-euro"
+                        </code>
+                    </div>
+                </div>
+
+                <!-- End Icon & Alternative -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">End Icon with Alternative</h3>
+                        <MaviInputStringNullable @bind-Value="_formSampleModel.HomePhone"
+                                                 ElementSize="ElementSize.Regular"
+                                                 EndIcon="lni lni-power-button"
+                                                 EndIconAlternative="lni lni lni-euro"
+                                                 Width="w-full" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Switches between two end icons
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            EndIcon="lni lni-power-button"
+                            EndIconAlternative="lni lni lni-euro"
+                        </code>
+                    </div>
+                </div>
+
+                <!-- With Button -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">With Action Button</h3>
+                        <MaviInputStringNullable @bind-Value="_formSampleModel.GitHubProfile"
+                                                 ElementSize="ElementSize.Regular"
+                                                 StringInputType="StringInputType.Url"
+                                                 ButtonLabel="Validate"
+                                                 EndIcon="lni lni-power-button"
+                                                 OnEndIconClick="ValidateUrl"
+                                                 Width="w-full" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Button triggers custom action
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            ButtonLabel="Validate"
+                            EndIcon="lni lni-power-button"
+                            OnEndIconClick="HandleClick"
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Complete Example -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Complete: Icons + Button</h3>
+                        <MaviInputStringNullable @bind-Value="_formSampleModel.Skills"
+                                                 ElementSize="ElementSize.Regular"
+                                                 StartIcon="lni lni-euro"
+                                                 EndIcon="lni lni-power-button"
+                                                 EndIconAlternative="lni lni-hourglass"
+                                                 ButtonLabel="Add Skill"
+                                                 OnEndIconClick="HandleSkillAction"
+                                                 Width="w-full" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            All icon and button features combined
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            StartIcon="lni lni-euro"
+                            EndIcon="lni lni-power-button"
+                            EndIconAlternative="lni lni-hourglass"
+                            ButtonLabel="Add Skill"
+                            OnEndIconClick="HandleClick"
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 5: Advanced Features -->
+        <div class="mb-12">
+            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">5. Advanced Features</h2>
+            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+                Demonstrate helper text, max length, required fields, and attribute inference
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Helper Text -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Helper Text</h3>
+                        <MaviInputStringNullable @bind-Value="_formSampleModel.AdditionalInfo"
+                                                 ElementSize="ElementSize.Regular"
+                                                 HelperText="Optional additional information"
+                                                 StartIcon="lni lni lni-euro"
+                                                 Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.AdditionalInfo)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Shows guidance below input
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            HelperText="Optional additional information"
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Max Length -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Max Length</h3>
+                        <MaviInputStringNullable @bind-Value="_formSampleModel.TwitterHandle"
+                                                 ElementSize="ElementSize.Regular"
+                                                 MaxLength="15"
+                                                 HelperText="Maximum 15 characters (Twitter username limit)"
+                                                 StartIcon="lni lni lni-euro"
+                                                 Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.TwitterHandle)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Limits input length
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            MaxLength="15"
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Attribute Inference (Default) -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Auto Attribute Inference</h3>
+                        <MaviInputStringNullable @bind-Value="_formSampleModel.NickName"
+                                                 ElementSize="ElementSize.Regular"
+                                                 InferFromModelAttributes="true"
+                                                 Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.NickName)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Label, Required, MaxLength auto-inferred from model
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            InferFromModelAttributes="true"
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Manual Configuration -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Manual Configuration</h3>
+                        <MaviInputStringNullable @bind-Value="_formSampleModel.NickName"
+                                                 ElementSize="ElementSize.Regular"
+                                                 Label="Custom Nickname Label"
+                                                 Required="false"
+                                                 MaxLength="50"
+                                                 InferFromModelAttributes="false"
+                                                 HelperText="Custom helper text for nickname"
+                                                 Width="w-full" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            All properties explicitly set
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            Label="Custom Nickname Label"
+                            Required="false"
+                            MaxLength="50"
+                            InferFromModelAttributes="false"
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 6: Theme Color Schemes -->
+        <div class="mb-12">
+            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">6. Theme Color Schemes</h2>
+            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+                Apply different color themes to match your design system
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Primary -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Primary</h3>
+                        <MaviInputStringNullable @bind-Value="_formSampleModel.NickName"
+                                                 ElementSize="ElementSize.Small"
+                                                 ThemeColorScheme="ThemeColorScheme.Primary"
+                                                 StartIcon="lni lni-android-old"
+                                                 Width="w-full" />
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            ThemeColorScheme="ThemeColorScheme.Primary"
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Secondary -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Secondary</h3>
+                        <MaviInputStringNullable @bind-Value="_formSampleModel.AlternativeEmail"
+                                                 ElementSize="ElementSize.Small"
+                                                 ThemeColorScheme="ThemeColorScheme.Secondary"
+                                                 StartIcon="lni lni-angle-double-right"
+                                                 Width="w-full" />
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            ThemeColorScheme="ThemeColorScheme.Secondary"
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Success -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Success</h3>
+                        <MaviInputStringNullable @bind-Value="_formSampleModel.FaxNumber"
+                                                 ElementSize="ElementSize.Small"
+                                                 ThemeColorScheme="ThemeColorScheme.Success"
+                                                 StartIcon="lni lni-adobe"
+                                                 Width="w-full" />
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            ThemeColorScheme="ThemeColorScheme.Success"
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Alert -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Alert</h3>
+                        <MaviInputStringNullable @bind-Value="_formSampleModel.SecurityCode"
+                                                 ElementSize="ElementSize.Small"
+                                                 ThemeColorScheme="ThemeColorScheme.Alert"
+                                                 StartIcon="lni lni lni-euro"
+                                                 Width="w-full" />
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            ThemeColorScheme="ThemeColorScheme.Alert"
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Warning -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Warning</h3>
+                        <MaviInputStringNullable @bind-Value="_formSampleModel.BlogUrl"
+                                                 ElementSize="ElementSize.Small"
+                                                 ThemeColorScheme="ThemeColorScheme.Warning"
+                                                 StartIcon="lni lni lni-euro"
+                                                 Width="w-full" />
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            ThemeColorScheme="ThemeColorScheme.Warning"
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Info -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Info</h3>
+                        <MaviInputStringNullable @bind-Value="_formSampleModel.AdditionalInfo"
+                                                 ElementSize="ElementSize.Small"
+                                                 ThemeColorScheme="ThemeColorScheme.Info"
+                                                 StartIcon="lni lni lni-euro"
+                                                 Width="w-full" />
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            ThemeColorScheme="ThemeColorScheme.Info"
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 7: Nullable-Specific Demonstrations -->
+        <div class="mb-12">
+            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">7. Nullable Value Handling</h2>
+            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+                Demonstration of how the component handles null values vs empty strings
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Null Value -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Null Value (Optional Field)</h3>
+                        <MaviInputStringNullable @bind-Value="_formSampleModel.OptionalField1"
+                                                 ElementSize="ElementSize.Regular"
+                                                 Label="Optional Field"
+                                                 HelperText="This field can be null or empty"
+                                                 StartIcon="lni lni-angle-double-right"
+                                                 Width="w-full" />
+                        <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "mt-2")">
+                            Current value: <code class="bg-gray-100 px-2 py-1 rounded">@(_formSampleModel.OptionalField1 == null ? "null" : $"\"{_formSampleModel.OptionalField1}\"")</code>
+                        </div>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            @@bind-Value="nullableStringProperty"
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Clearing to Null -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Clears to Null</h3>
+                        <MaviInputStringNullable @bind-Value="_formSampleModel.OptionalField2"
+                                                 ElementSize="ElementSize.Regular"
+                                                 Label="Clear Me"
+                                                 HelperText="Delete all text to set value to null"
+                                                 StartIcon="lni lni-angle-double-right"
+                                                 Width="w-full" />
+                        <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "mt-2")">
+                            Current value: <code class="bg-gray-100 px-2 py-1 rounded">@(_formSampleModel.OptionalField2 == null ? "null" : $"\"{_formSampleModel.OptionalField2}\"")</code>
+                        </div>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            Empty/whitespace input → null value
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 8: Complete Parameter Reference -->
+        <div class="mb-12">
+            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">8. Complete Parameter Reference</h2>
+            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+                All available parameters for MaviInputStringNullable component
+            </p>
+
+            <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+                <table class="min-w-full">
+                    <thead class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_LIGHT_FOUR_BG)">
+                        <tr>
+                            <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Parameter</th>
+                            <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Type</th>
+                            <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Default</th>
+                            <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>@@bind-Value</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string?</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Two-way bound nullable string value</td>
+                        </tr>
+                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>ElementSize</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">ElementSize</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Regular</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Size variant: Small, Regular, Large</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>ThemeColorScheme</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">ThemeColorScheme</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Primary</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Color scheme for borders and labels</td>
+                        </tr>
+                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Label</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">""</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Floating label text</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>StartIcon</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string?</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Icon class for input start position</td>
+                        </tr>
+                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>EndIcon</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string?</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Clickable icon at input end position</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>EndIconAlternative</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string?</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Alternative end icon for toggle states</td>
+                        </tr>
+                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>StringInputType</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">StringInputType</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Text</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">HTML5 input type (Text, Password, Email, Tel, Url, Search)</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>TogglePasswordOnClick</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Auto-toggle password visibility with end icon</td>
+                        </tr>
+                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>MaxLength</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">int</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">524288</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Maximum character length</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Width</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">w-96</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Tailwind width class</td>
+                        </tr>
+                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Disabled</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Disables user interaction</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Readonly</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Makes input read-only</td>
+                        </tr>
+                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Required</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Shows required asterisk (*)</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>HelperText</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string?</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Helper text displayed below input</td>
+                        </tr>
+                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>InferFromModelAttributes</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">true</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Auto-infer properties from model attributes</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>ButtonLabel</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Action</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Aria label for end icon button</td>
+                        </tr>
+                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>EndIconDisabled</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Disables end icon button independently</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>OnEndIconClick</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">EventCallback</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Event handler for end icon click</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="flex justify-start">
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                        ElementSize="ElementSize.Regular"
+                        Title="Submit Form"
+                        ButtonRole="ButtonRole.Submit"
+                        ElementVariant="ElementVariant.Outlined"
+                        TextTransform="TextTransform.Capitalize"
+                        StartIcon="lni lni-checkmark">
+            </MaviButton>
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    private readonly SampleStringNullableModel _formSampleModel = new();
+
+    private void OnValidFormSubmit(EditContext context)
+    {
+        Logger?.LogInformation("Form validation successful.");
+    }
+
+    private void OnInValidFormSubmit(EditContext context)
+    {
+        Logger?.LogInformation("Form validation failed.");
+    }
+
+    private async Task ValidateUrl(MouseClickEventArgs args)
+    {
+        Logger?.LogInformation("URL validation started for input: {ButtonId}", args.ButtonId);
+        await Task.Delay(1500); // Simulate validation
+        Logger?.LogInformation("URL validation completed for input: {ButtonId}", args.ButtonId);
+    }
+
+    private async Task HandleSkillAction(MouseClickEventArgs args)
+    {
+        Logger?.LogInformation("Skill action triggered for input: {ButtonId}", args.ButtonId);
+        await Task.Delay(500);
+        Logger?.LogInformation("Skill action completed for input: {ButtonId}", args.ButtonId);
+    }
+}
