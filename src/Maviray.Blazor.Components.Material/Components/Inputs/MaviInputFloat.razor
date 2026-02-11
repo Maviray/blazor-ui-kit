@@ -1,0 +1,301 @@
+﻿@using System.Diagnostics.CodeAnalysis
+@using Microsoft.Extensions.Logging
+@using System.ComponentModel.DataAnnotations
+@using System.Reflection
+@using System.Globalization
+@inherits MaviNumericInputBase<float>
+
+<div class="@Width">
+    <!-- Floating Label Input Container -->
+    <div class="@GetContainerClass()">
+        <!-- Input Field -->
+        <input value="@GetDisplayValue()"
+               @oninput="HandleInput"
+               @onchange="HandleChange"
+               @onfocus="OnFocus"
+               @onblur="OnBlur"
+               type="@GetInputType()"
+               inputmode="@GetInputMode()"
+               id="@Id"
+               min="@Min"
+               max="@Max"
+               step="@Step"
+               disabled="@Disabled"
+               readonly="@Readonly"
+               class="@BuildInputClass()"
+               style="@Style"
+               title="@GetTitle()"
+               aria-describedby="@GetAriaDescribedByString()"
+               aria-invalid="@GetAreaInvalidValue()"
+               aria-label="@Label"
+               aria-required="@Required.ToString().ToLowerInvariant()"
+               data-val="@(!Disabled && !Readonly ? "true" : "false")"
+               @attributes="AdditionalAttributes" />
+
+        <!-- Floating Label -->
+        @if (!string.IsNullOrEmpty(Label))
+        {
+            <label for="@Id"
+                   class="@BuildLabelClass()"
+                   title="@Title">
+                @Label
+                @if (Required && !Disabled && !Readonly)
+                {
+                    <span class="@BuildRequiredAsteriskClass()">*</span>
+                }
+            </label>
+        }
+
+        <!-- Start Icon -->
+        @if (!string.IsNullOrEmpty(StartIcon))
+        {
+            <div class="@GetStartIconClass()">
+                <i class="@StartIcon text-xl"></i>
+            </div>
+        }
+
+        <!-- End Icon (Clickable) or Loading Spinner -->
+        @if (!string.IsNullOrEmpty(EndIcon))
+        {
+            @if (_isEndIconLoading)
+            {
+                <!-- Loading Spinner -->
+                <div class="@GetEndIconLoadingClass()"
+                     aria-label="Loading"
+                     role="status">
+                    <div class="animate-spin rounded-full border-2 border-solid border-current border-r-transparent"
+                         style="@GetLoadingSpinnerSize()"></div>
+                </div>
+            }
+            else
+            {
+                <!-- End Icon Button -->
+                <button type="button"
+                        class="@GetEndIconClass()"
+                        @onclick="HandleEndIconClick"
+                        disabled="@(Disabled || EndIconDisabled)"
+                        title="@ButtonLabel"
+                        aria-label="@ButtonLabel"
+                        tabindex="-1">
+                    <i class="@EndIcon text-xl"></i>
+                </button>
+            }
+        }
+
+        <!-- Fieldset for Outlined Border -->
+        <fieldset aria-hidden="true" class="@BuildFieldsetClass()">
+            <legend class="@BuildLegendClass()">
+                <span class="@(string.IsNullOrEmpty(Label) || Disabled || Readonly ? "" : "px-2")">@Label@((Required && !Disabled && !Readonly) ? " *" : "")</span>
+            </legend>
+        </fieldset>
+    </div>
+
+    <!-- Helper Text -->
+    @if (!string.IsNullOrEmpty(HelperText))
+    {
+        <div class="mt-1.5 px-3.5 text-xs leading-tight text-black/60" id="@($"{Id}-helper")">
+            @HelperText
+        </div>
+    }
+</div>
+
+@code {
+    /// <summary>
+    /// Minimum allowed value for the float input.
+    /// </summary>
+    [Parameter] public float? Min { get; set; }
+
+    /// <summary>
+    /// Maximum allowed value for the float input.
+    /// </summary>
+    [Parameter] public float? Max { get; set; }
+
+    /// <summary>
+    /// Step value for increment/decrement operations.
+    /// </summary>
+    [Parameter] public float Step { get; set; } = 0.01f;
+
+    /// <summary>
+    /// Number of decimal places to display and round to.
+    /// </summary>
+    [Parameter] public int? DecimalPlaces { get; set; }
+
+    /// <summary>
+    /// Allow input and parsing of scientific notation (e.g., 1.23e+10).
+    /// </summary>
+    [Parameter] public bool AllowScientificNotation { get; set; }
+
+    protected override bool HasValue => CurrentValue != 0.0f || !string.IsNullOrWhiteSpace(_rawInputValue);
+
+    protected override bool TryParseValueFromString(
+        string? value,
+        out float result,
+        [NotNullWhen(false)] out string? validationErrorMessage)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            result = 0.0f;
+            validationErrorMessage = null;
+            return true;
+        }
+
+        var cleanValue = CleanValueForParsing(value);
+        var numberStyles = NumberStyles.Float | NumberStyles.AllowThousands;
+        if (AllowScientificNotation)
+        {
+            numberStyles |= NumberStyles.AllowExponent;
+        }
+
+        if (float.TryParse(cleanValue, numberStyles, CurrentCulture, out var parsedValue))
+        {
+            if (DecimalPlaces.HasValue)
+            {
+                parsedValue = (float)Math.Round(parsedValue, DecimalPlaces.Value, MidpointRounding.AwayFromZero);
+            }
+
+            if (Min.HasValue && parsedValue < Min.Value)
+            {
+                result = parsedValue;
+                validationErrorMessage = $"The {Label ?? FieldIdentifier.FieldName} field must be at least {Min.Value}.";
+                return false;
+            }
+
+            if (Max.HasValue && parsedValue > Max.Value)
+            {
+                result = parsedValue;
+                validationErrorMessage = $"The {Label ?? FieldIdentifier.FieldName} field must not exceed {Max.Value}.";
+                return false;
+            }
+
+            if (float.IsNaN(parsedValue))
+            {
+                result = 0.0f;
+                validationErrorMessage = $"The {Label ?? FieldIdentifier.FieldName} field must be a valid number.";
+                return false;
+            }
+
+            if (float.IsInfinity(parsedValue))
+            {
+                result = 0.0f;
+                validationErrorMessage = $"The {Label ?? FieldIdentifier.FieldName} field value is too large.";
+                return false;
+            }
+
+            result = parsedValue;
+            validationErrorMessage = null;
+            return true;
+        }
+
+        result = 0.0f;
+        validationErrorMessage = $"The {Label ?? FieldIdentifier.FieldName} field must be a valid decimal number.";
+        return false;
+    }
+
+    protected override string? FormatValueAsString(float value)
+    {
+        if (float.IsNaN(value)) return "NaN";
+        if (float.IsPositiveInfinity(value)) return "∞";
+        if (float.IsNegativeInfinity(value)) return "-∞";
+
+        if (string.IsNullOrWhiteSpace(FormatMask))
+        {
+            return DecimalPlaces.HasValue ? value.ToString($"F{DecimalPlaces.Value}", CurrentCulture) : value.ToString(CurrentCulture);
+        }
+
+        try
+        {
+            return value.ToString(FormatMask, CurrentCulture);
+        }
+        catch (FormatException ex)
+        {
+            Logger?.LogWarning(ex, "Invalid format mask '{FormatMask}'. Falling back.", FormatMask);
+
+            return DecimalPlaces.HasValue ? value.ToString($"F{DecimalPlaces.Value}", CurrentCulture) : value.ToString(CurrentCulture);
+        }
+    }
+
+    protected override string? GetDisplayValue()
+    {
+        if (_isFocused && !ShowFormattedWhileFocused)
+        {
+            return _rawInputValue ?? CurrentValue.ToString(CurrentCulture);
+        }
+
+        if (CurrentValue == 0.0f && string.IsNullOrWhiteSpace(_rawInputValue))
+        {
+            return string.Empty;
+        }
+
+        return FormatValueAsString(CurrentValue);
+    }
+
+    protected override void HandleInput(ChangeEventArgs e)
+    {
+        if (Disabled || Readonly) return;
+
+        _rawInputValue = e.Value?.ToString();
+
+        if (TryParseValueFromString(_rawInputValue, out var parsedValue, out _))
+        {
+            CurrentValue = parsedValue;
+        }
+    }
+
+    protected override void HandleChange(ChangeEventArgs e)
+    {
+        if (Disabled || Readonly) return;
+
+        _rawInputValue = e.Value?.ToString();
+        CurrentValueAsString = _rawInputValue;
+        EditContext?.NotifyFieldChanged(FieldIdentifier);
+    }
+
+    protected override string GetInputType() => "text";
+
+    protected override string GetInputMode() => "decimal";
+
+    protected override string? GetMinAttribute() => Min?.ToString();
+    protected override string? GetMaxAttribute() => Max?.ToString();
+    protected override string? GetStepAttribute() => Step.ToString(CurrentCulture);
+
+    protected override void InferTypeSpecificAttributes(PropertyInfo propertyInfo)
+    {
+        var rangeAttr = propertyInfo.GetCustomAttribute<RangeAttribute>();
+
+        if (rangeAttr == null) return;
+
+        Min ??= Convert.ToSingle(rangeAttr.Minimum);
+
+        Max ??= Convert.ToSingle(rangeAttr.Maximum);
+
+        var rangeText = $"Value must be between {rangeAttr.Minimum} and {rangeAttr.Maximum}";
+        HelperText = string.IsNullOrEmpty(HelperText) ? rangeText : $"{HelperText}. {rangeText}";
+    }
+
+    private string CleanValueForParsing(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value)) return value;
+
+        var cleaned = value.Trim();
+
+        if (AllowScientificNotation && cleaned.Contains('e', StringComparison.OrdinalIgnoreCase))
+        {
+            cleaned = cleaned.Replace(CurrentCulture.NumberFormat.CurrencySymbol, "");
+            cleaned = cleaned.Replace(CurrentCulture.NumberFormat.PercentSymbol, "");
+            return cleaned;
+        }
+
+        cleaned = cleaned.Replace(CurrentCulture.NumberFormat.CurrencySymbol, "");
+        cleaned = cleaned.Replace(CurrentCulture.NumberFormat.PercentSymbol, "");
+        cleaned = cleaned.Replace(CurrentCulture.NumberFormat.NumberGroupSeparator, "");
+        cleaned = cleaned.Replace(CurrentCulture.NumberFormat.CurrencyGroupSeparator, "");
+
+        if (CurrentCulture.NumberFormat.NumberGroupSeparator == " " ||
+            CurrentCulture.NumberFormat.CurrencyGroupSeparator == " ")
+        {
+            cleaned = cleaned.Replace(" ", "");
+        }
+
+        return cleaned.Trim();
+    }
+}

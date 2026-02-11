@@ -1,0 +1,303 @@
+﻿@using System.Diagnostics.CodeAnalysis
+@using Microsoft.Extensions.Logging
+@using System.ComponentModel.DataAnnotations
+@using System.Reflection
+@using System.Globalization
+@using Maviray.Blazor.Components.Core.Extensions
+@inherits MaviNumericInputBase<short>
+
+<div class="@Width">
+    <!-- Floating Label Input Container -->
+    <div class="@GetContainerClass()">
+        <!-- Input Field -->
+        <input value="@GetDisplayValue()"
+               @oninput="HandleInput"
+               @onchange="HandleChange"
+               @onfocus="OnFocus"
+               @onblur="OnBlur"
+               type="@GetInputType()"
+               inputmode="@GetInputMode()"
+               id="@Id"
+               min="@Min"
+               max="@Max"
+               step="@Step"
+               disabled="@Disabled"
+               readonly="@Readonly"
+               class="@BuildInputClass()"
+               style="@Style"
+               title="@GetTitle()"
+               aria-describedby="@GetAriaDescribedByString()"
+               aria-invalid="@GetAreaInvalidValue()"
+               aria-label="@Label"
+               aria-required="@Required.ToString().ToLowerInvariant()"
+               data-val="@(!Disabled && !Readonly ? "true" : "false")"
+               @attributes="AdditionalAttributes" />
+
+        <!-- Floating Label -->
+        @if (!string.IsNullOrEmpty(Label))
+        {
+            <label for="@Id"
+                   class="@BuildLabelClass()"
+                   title="@Title">
+                @Label
+                @if (Required && !Disabled && !Readonly)
+                {
+                    <span class="@BuildRequiredAsteriskClass()">*</span>
+                }
+            </label>
+        }
+
+        <!-- Start Icon -->
+        @if (!string.IsNullOrEmpty(StartIcon))
+        {
+            <div class="@GetStartIconClass()">
+                <i class="@StartIcon text-xl"></i>
+            </div>
+        }
+
+        <!-- End Icon (Clickable) or Loading Spinner -->
+        @if (!string.IsNullOrEmpty(EndIcon))
+        {
+            @if (_isEndIconLoading)
+            {
+                <!-- Loading Spinner -->
+                <div class="@GetEndIconLoadingClass()"
+                     aria-label="Loading"
+                     role="status">
+                    <div class="animate-spin rounded-full border-2 border-solid border-current border-r-transparent"
+                         style="@GetLoadingSpinnerSize()"></div>
+                </div>
+            }
+            else
+            {
+                <!-- End Icon Button -->
+                <button type="button"
+                        class="@GetEndIconClass()"
+                        @onclick="HandleEndIconClick"
+                        disabled="@(Disabled || EndIconDisabled)"
+                        title="@ButtonLabel"
+                        aria-label="@ButtonLabel"
+                        tabindex="-1">
+                    <i class="@EndIcon text-xl"></i>
+                </button>
+            }
+        }
+
+        <!-- Fieldset for Outlined Border -->
+        <fieldset aria-hidden="true" class="@BuildFieldsetClass()">
+            <legend class="@BuildLegendClass()">
+                <span class="@(string.IsNullOrEmpty(Label) || Disabled || Readonly ? "" : "px-2")">@Label@((Required && !Disabled && !Readonly) ? " *" : "")</span>
+            </legend>
+        </fieldset>
+    </div>
+
+    <!-- Helper Text -->
+    @if (!string.IsNullOrEmpty(HelperText))
+    {
+        <div class="mt-1.5 px-3.5 text-xs leading-tight text-black/60" id="@($"{Id}-helper")">
+            @HelperText
+        </div>
+    }
+</div>
+
+@code {
+    /// <summary>
+    /// Minimum allowed value for the short integer input.
+    /// Range: -32,768 to 32,767
+    /// </summary>
+    [Parameter] public short? Min { get; set; }
+
+    /// <summary>
+    /// Maximum allowed value for the short integer input.
+    /// Range: -32,768 to 32,767
+    /// </summary>
+    [Parameter] public short? Max { get; set; }
+
+    /// <summary>
+    /// Step value for increment/decrement operations.
+    /// </summary>
+    [Parameter] public short Step { get; set; } = 1;
+
+    protected override bool HasValue => CurrentValue != 0 || !string.IsNullOrWhiteSpace(_rawInputValue);
+
+    protected override bool TryParseValueFromString(
+        string? value,
+        out short result,
+        [NotNullWhen(false)] out string? validationErrorMessage)
+    {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            result = 0;
+            validationErrorMessage = null;
+            return true;
+        }
+
+        // Remove formatting characters for parsing
+        var cleanValue = CleanValueForParsing(value);
+
+        if (short.TryParse(cleanValue, NumberStyles.Integer, CurrentCulture, out var parsedValue))
+        {
+            // Validate min/max constraints
+            if (Min.HasValue && parsedValue < Min.Value)
+            {
+                result = parsedValue;
+                validationErrorMessage = $"The {Label ?? FieldIdentifier.FieldName} field must be at least {Min.Value}.";
+                return false;
+            }
+
+            if (Max.HasValue && parsedValue > Max.Value)
+            {
+                result = parsedValue;
+                validationErrorMessage = $"The {Label ?? FieldIdentifier.FieldName} field must not exceed {Max.Value}.";
+                return false;
+            }
+
+            result = parsedValue;
+            validationErrorMessage = null;
+            return true;
+        }
+
+        result = 0;
+        validationErrorMessage = $"The {Label ?? FieldIdentifier.FieldName} field must be a valid integer between -32,768 and 32,767.";
+        return false;
+    }
+
+    protected override string? FormatValueAsString(short value)
+    {
+        if (string.IsNullOrWhiteSpace(FormatMask))
+        {
+            return value.ToString(CurrentCulture);
+        }
+
+        try
+        {
+            return value.ToString(FormatMask, CurrentCulture);
+        }
+        catch (FormatException ex)
+        {
+            Logger?.LogWarning(ex, "Invalid format mask '{FormatMask}' for short integer value. Falling back to default format.", FormatMask);
+            return value.ToString(CurrentCulture);
+        }
+    }
+
+    protected override string? GetDisplayValue()
+    {
+        // When focused and not showing formatted value, show raw input or plain number
+        if (_isFocused && !ShowFormattedWhileFocused)
+        {
+            return _rawInputValue ?? CurrentValue.ToString(CurrentCulture);
+        }
+
+        // When not focused or ShowFormattedWhileFocused is true, show formatted value
+        if (CurrentValue == 0 && string.IsNullOrWhiteSpace(_rawInputValue))
+        {
+            return string.Empty;
+        }
+
+        return FormatValueAsString(CurrentValue);
+    }
+
+    protected override void HandleInput(ChangeEventArgs e)
+    {
+        // Don't update value for disabled/readonly fields
+        if (Disabled || Readonly)
+            return;
+
+        _rawInputValue = e.Value?.ToString();
+
+        // Try to parse and update the value
+        if (TryParseValueFromString(_rawInputValue, out var parsedValue, out _))
+        {
+            CurrentValue = parsedValue;
+        }
+
+        // Don't trigger validation on every keystroke - just update the UI
+    }
+
+    protected override void HandleChange(ChangeEventArgs e)
+    {
+        // Don't update value or validate disabled/readonly fields
+        if (Disabled || Readonly)
+            return;
+
+        _rawInputValue = e.Value?.ToString();
+        CurrentValueAsString = _rawInputValue;
+
+        // Trigger validation on change (blur)
+        EditContext?.NotifyFieldChanged(FieldIdentifier);
+    }
+
+    protected override string GetInputType()
+    {
+        // For better mobile experience, use 'number' for standard numeric formats
+        // Use 'text' for complex formats that might confuse numeric keyboards
+        if (string.IsNullOrWhiteSpace(FormatMask))
+        {
+            return _isFocused && !ShowFormattedWhileFocused ? "number" : "text";
+        }
+
+        return "text";
+    }
+
+    protected override string GetInputMode()
+    {
+        // Provide appropriate input mode for mobile keyboards
+        if (string.IsNullOrWhiteSpace(FormatMask)) return "numeric";
+
+        // Check if format is primarily numeric
+        var numericFormats = new[] { "N", "D", "G", "F", "C" };
+
+        if (numericFormats.Any(f => FormatMask.StartsWith(f, StringComparison.OrdinalIgnoreCase)))
+        {
+            return "numeric";
+        }
+
+        // Hexadecimal format uses different keyboard
+        return FormatMask.StartsWith("X", StringComparison.OrdinalIgnoreCase) ? "text" : "numeric";
+    }
+
+    protected override string? GetMinAttribute() => Min?.ToString();
+    protected override string? GetMaxAttribute() => Max?.ToString();
+    protected override string? GetStepAttribute() => Step.ToString(CurrentCulture);
+
+    protected override void InferTypeSpecificAttributes(PropertyInfo propertyInfo)
+    {
+        var rangeAttr = propertyInfo.GetCustomAttribute<RangeAttribute>();
+
+        if (rangeAttr == null) return;
+
+        Min ??= Convert.ToInt16(rangeAttr.Minimum);
+
+        Max ??= Convert.ToInt16(rangeAttr.Maximum);
+
+        var rangeText = $"Value must be between {rangeAttr.Minimum} and {rangeAttr.Maximum}";
+        HelperText = string.IsNullOrEmpty(HelperText) ? rangeText : $"{HelperText}. {rangeText}";
+    }
+
+    private string CleanValueForParsing(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value)) return value;
+
+        var cleaned = value.Trim();
+
+        // Remove common formatting characters
+        cleaned = cleaned.Replace(CurrentCulture.NumberFormat.CurrencySymbol, "");
+        cleaned = cleaned.Replace(CurrentCulture.NumberFormat.PercentSymbol, "");
+        cleaned = cleaned.Replace(CurrentCulture.NumberFormat.NumberGroupSeparator, "");
+        cleaned = cleaned.Replace(CurrentCulture.NumberFormat.CurrencyGroupSeparator, "");
+
+        // Handle cultures that use space as group separator
+        if (CurrentCulture.NumberFormat.NumberGroupSeparator == " " ||
+            CurrentCulture.NumberFormat.CurrencyGroupSeparator == " ")
+        {
+            cleaned = cleaned.Replace(" ", "");
+        }
+
+        return cleaned.Trim();
+    }
+}
