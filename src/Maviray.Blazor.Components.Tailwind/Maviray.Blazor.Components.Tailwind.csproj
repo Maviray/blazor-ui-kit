@@ -29,13 +29,6 @@
 	  <IsPackable>true</IsPackable>
 	  <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Areas\**" />
-    <Content Remove="Areas\**" />
-    <EmbeddedResource Remove="Areas\**" />
-    <None Remove="Areas\**" />
-  </ItemGroup>
  
   <ItemGroup>
     <Folder Include="wwwroot\css\" />

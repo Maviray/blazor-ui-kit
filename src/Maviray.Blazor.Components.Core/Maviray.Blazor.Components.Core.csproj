@@ -24,12 +24,6 @@
 	  <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Services\**" />
-    <EmbeddedResource Remove="Services\**" />
-    <None Remove="Services\**" />
-  </ItemGroup>
-
 	<ItemGroup>
 		<None Include="..\..\icon.png" Pack="true" PackagePath="\" />
 		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
