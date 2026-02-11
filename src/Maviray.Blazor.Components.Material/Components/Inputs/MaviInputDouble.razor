@@ -6,6 +6,7 @@
 @using System.Globalization
 @using Maviray.Blazor.Components.Core.Extensions
 @using Maviray.Blazor.Components.Core.Options
+@using Maviray.Blazor.Components.Material.Constants
 @inherits InputBase<double>
 @implements IDisposable
 
@@ -111,14 +112,14 @@
     private bool _isEndIconLoading = false;
     private string? _rawInputValue;
 
-    private readonly string _textAlertColor = "text-(--theme-alert-eight)";
-    private readonly string _borderAlertColor = "border-(--theme-alert-eight)";
+    private readonly string _textAlertColor = Tailwind.Theme.Colors.Text.THEME_ALERT_EIGHT_TEXT;
+    private readonly string _borderAlertColor = Tailwind.Theme.Colors.Border.THEME_ALERT_EIGHT_BORDER;
 
-    private string _themeTextLightColor = "text-(--theme-primary-eight)";
-    private string _themeTextDarkColor = "text-(--theme-primary-nine)";
-    private string _themeBorderLightColor = "border-(--theme-primary-eight)";
-    private string _themeBorderDarkColor = "border-(--theme-primary-nine)";
-    private string _themeBorderHoverColor = "hover:border-(--theme-primary-nine)";
+    private string _themeTextLightColor = Tailwind.Theme.Colors.Text.THEME_PRIMARY_EIGHT_TEXT;
+    private string _themeTextDarkColor = Tailwind.Theme.Colors.Text.THEME_ACCENT_NINE_TEXT;
+    private string _themeBorderLightColor = Tailwind.Theme.Colors.Border.THEME_PRIMARY_EIGHT_BORDER;
+    private string _themeBorderDarkColor = Tailwind.Theme.Colors.Border.THEME_PRIMARY_NINE_BORDER;
+    private string _themeBorderHoverColor = Tailwind.Theme.Colors.Border.Hover.THEME_PRIMARY_NINE_BORDER_HOVER;
 
     [Inject] private ILoggerFactory? LoggerFactory { get; set; }
 
@@ -1134,52 +1135,52 @@
     {
         _themeTextLightColor = ThemeColorScheme switch
         {
-            ThemeColorScheme.Secondary => "text-(--theme-secondary-eight)",
-            ThemeColorScheme.Success => "text-(--theme-success-eight)",
-            ThemeColorScheme.Warning => "text-(--theme-warning-eight)",
-            ThemeColorScheme.Alert => "text-(--theme-alert-eight)",
-            ThemeColorScheme.Info => "text-(--theme-info-eight)",
-            _ => "text-(--theme-primary-eight)"
+            ThemeColorScheme.Secondary => Tailwind.Theme.Colors.Text.THEME_SECONDARY_EIGHT_TEXT,
+            ThemeColorScheme.Success => Tailwind.Theme.Colors.Text.THEME_SUCCESS_EIGHT_TEXT,
+            ThemeColorScheme.Warning => Tailwind.Theme.Colors.Text.THEME_WARNING_EIGHT_TEXT,
+            ThemeColorScheme.Alert => Tailwind.Theme.Colors.Text.THEME_ALERT_EIGHT_TEXT,
+            ThemeColorScheme.Info => Tailwind.Theme.Colors.Text.THEME_INFO_EIGHT_TEXT,
+            _ => Tailwind.Theme.Colors.Text.THEME_PRIMARY_EIGHT_TEXT
         };
 
         _themeTextDarkColor = ThemeColorScheme switch
         {
-            ThemeColorScheme.Secondary => "text-(--theme-secondary-nine)",
-            ThemeColorScheme.Success => "text-(--theme-success-nine)",
-            ThemeColorScheme.Warning => "text-(--theme-warning-nine)",
-            ThemeColorScheme.Alert => "text-(--theme-alert-nine)",
-            ThemeColorScheme.Info => "text-(--theme-info-nine)",
-            _ => "text-(--theme-primary-nine)"
+            ThemeColorScheme.Secondary => Tailwind.Theme.Colors.Text.THEME_SECONDARY_NINE_TEXT,
+            ThemeColorScheme.Success => Tailwind.Theme.Colors.Text.THEME_SUCCESS_NINE_TEXT,
+            ThemeColorScheme.Warning => Tailwind.Theme.Colors.Text.THEME_WARNING_NINE_TEXT,
+            ThemeColorScheme.Alert => Tailwind.Theme.Colors.Text.THEME_ALERT_NINE_TEXT,
+            ThemeColorScheme.Info => Tailwind.Theme.Colors.Text.THEME_INFO_NINE_TEXT,
+            _ => Tailwind.Theme.Colors.Text.THEME_PRIMARY_NINE_TEXT
         };
 
         _themeBorderLightColor = ThemeColorScheme switch
         {
-            ThemeColorScheme.Secondary => "border-(--theme-secondary-eight)",
-            ThemeColorScheme.Success => "border-(--theme-success-eight)",
-            ThemeColorScheme.Warning => "border-(--theme-warning-eight)",
-            ThemeColorScheme.Alert => "border-(--theme-alert-eight)",
-            ThemeColorScheme.Info => "border-(--theme-info-eight)",
-            _ => "border-(--theme-primary-eight)"
+            ThemeColorScheme.Secondary => Tailwind.Theme.Colors.Border.THEME_SECONDARY_EIGHT_BORDER,
+            ThemeColorScheme.Success => Tailwind.Theme.Colors.Border.THEME_SUCCESS_EIGHT_BORDER,
+            ThemeColorScheme.Warning => Tailwind.Theme.Colors.Border.THEME_WARNING_EIGHT_BORDER,
+            ThemeColorScheme.Alert => Tailwind.Theme.Colors.Border.THEME_ALERT_EIGHT_BORDER,
+            ThemeColorScheme.Info => Tailwind.Theme.Colors.Border.THEME_INFO_EIGHT_BORDER,
+            _ => Tailwind.Theme.Colors.Border.THEME_PRIMARY_EIGHT_BORDER
         };
 
         _themeBorderDarkColor = ThemeColorScheme switch
         {
-            ThemeColorScheme.Secondary => "border-(--theme-secondary-nine)",
-            ThemeColorScheme.Success => "border-(--theme-success-nine)",
-            ThemeColorScheme.Warning => "border-(--theme-warning-nine)",
-            ThemeColorScheme.Alert => "border-(--theme-alert-nine)",
-            ThemeColorScheme.Info => "border-(--theme-info-nine)",
-            _ => "border-(--theme-primary-nine)"
+            ThemeColorScheme.Secondary => Tailwind.Theme.Colors.Border.THEME_SECONDARY_NINE_BORDER,
+            ThemeColorScheme.Success => Tailwind.Theme.Colors.Border.THEME_SUCCESS_NINE_BORDER,
+            ThemeColorScheme.Warning => Tailwind.Theme.Colors.Border.THEME_WARNING_NINE_BORDER,
+            ThemeColorScheme.Alert => Tailwind.Theme.Colors.Border.THEME_ALERT_NINE_BORDER,
+            ThemeColorScheme.Info => Tailwind.Theme.Colors.Border.THEME_INFO_NINE_BORDER,
+            _ => Tailwind.Theme.Colors.Border.THEME_PRIMARY_NINE_BORDER
         };
 
         _themeBorderHoverColor = ThemeColorScheme switch
         {
-            ThemeColorScheme.Secondary => "hover:border-(--theme-secondary-nine)",
-            ThemeColorScheme.Success => "hover:border-(--theme-success-nine)",
-            ThemeColorScheme.Warning => "hover:border-(--theme-warning-nine)",
-            ThemeColorScheme.Alert => "hover:border-(--theme-alert-nine)",
-            ThemeColorScheme.Info => "hover:border-(--theme-info-nine)",
-            _ => "hover:border-(--theme-primary-nine)"
+            ThemeColorScheme.Secondary => Tailwind.Theme.Colors.Border.Hover.THEME_SECONDARY_NINE_BORDER_HOVER,
+            ThemeColorScheme.Success => Tailwind.Theme.Colors.Border.Hover.THEME_SUCCESS_NINE_BORDER_HOVER,
+            ThemeColorScheme.Warning => Tailwind.Theme.Colors.Border.Hover.THEME_WARNING_NINE_BORDER_HOVER,
+            ThemeColorScheme.Alert => Tailwind.Theme.Colors.Border.Hover.THEME_ALERT_NINE_BORDER_HOVER,
+            ThemeColorScheme.Info => Tailwind.Theme.Colors.Border.Hover.THEME_INFO_NINE_BORDER_HOVER,
+            _ => Tailwind.Theme.Colors.Border.Hover.THEME_PRIMARY_NINE_BORDER_HOVER
         };
     }
 }

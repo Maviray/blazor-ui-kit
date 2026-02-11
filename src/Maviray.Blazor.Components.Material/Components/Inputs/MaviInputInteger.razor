@@ -6,6 +6,7 @@
 @using System.Globalization
 @using Maviray.Blazor.Components.Core.Extensions
 @using Maviray.Blazor.Components.Core.Options
+@using Maviray.Blazor.Components.Material.Constants
 @inherits InputBase<int>
 @implements IDisposable
 
@@ -111,14 +112,14 @@
     private bool _isEndIconLoading = false;
     private string? _rawInputValue;
 
-    private readonly string _textAlertColor = "text-(--theme-alert-eight)";
-    private readonly string _borderAlertColor = "border-(--theme-alert-eight)";
+    private readonly string _textAlertColor = Tailwind.Theme.Colors.Text.THEME_ALERT_EIGHT_TEXT;
+    private readonly string _borderAlertColor = Tailwind.Theme.Colors.Border.THEME_ALERT_EIGHT_BORDER;
 
-    private string _themeTextLightColor = "text-(--theme-primary-eight)";
-    private string _themeTextDarkColor = "text-(--theme-primary-nine)";
-    private string _themeBorderLightColor = "border-(--theme-primary-eight)";
-    private string _themeBorderDarkColor = "border-(--theme-primary-nine)";
-    private string _themeBorderHoverColor = "hover:border-(--theme-primary-nine)";
+    private string _themeTextLightColor = Tailwind.Theme.Colors.Text.THEME_PRIMARY_EIGHT_TEXT;
+    private string _themeTextDarkColor = Tailwind.Theme.Colors.Text.THEME_ACCENT_NINE_TEXT;
+    private string _themeBorderLightColor = Tailwind.Theme.Colors.Border.THEME_PRIMARY_EIGHT_BORDER;
+    private string _themeBorderDarkColor = Tailwind.Theme.Colors.Border.THEME_PRIMARY_NINE_BORDER;
+    private string _themeBorderHoverColor = Tailwind.Theme.Colors.Border.Hover.THEME_PRIMARY_NINE_BORDER_HOVER;
 
     [Inject] private ILoggerFactory? LoggerFactory { get; set; }
 
