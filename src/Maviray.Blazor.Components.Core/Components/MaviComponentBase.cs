@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Maviray.Blazor.Components.Core.Options;
+using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
+using Maviray.Blazor.Components.Core.Extensions;
 
 namespace Maviray.Blazor.Components.Core.Components;
 
@@ -8,6 +10,8 @@ public class MaviComponentBase : ComponentBase
     private ILogger? _logger;
 
     [Inject] private ILoggerFactory? LoggerFactory { get; set; }
+
+    [Inject] protected IMaviComponentOptions? ComponentOptions { get; set; }
 
     protected ILogger? Logger => _logger ??= LoggerFactory?.CreateLogger(GetType());
 
@@ -19,12 +23,15 @@ public class MaviComponentBase : ComponentBase
 
     [Parameter] public string? Title { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object> AdditionalAttributes { get; set; } = [];
-
     protected bool HasRendered { get; private set; }
 
     protected override void OnAfterRender(bool firstRender)
     {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
         base.OnAfterRender(firstRender);
 
         if (firstRender)

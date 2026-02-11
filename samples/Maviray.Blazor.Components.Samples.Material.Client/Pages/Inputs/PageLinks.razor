@@ -1,0 +1,181 @@
+﻿@page "/PageLinks"
+@using System.Collections.ObjectModel
+@using Maviray.Blazor.Components.Core.EventArgs
+@using Maviray.Blazor.Components.Core.Utilities
+@using Maviray.Blazor.Components.Material.Components.Inputs
+@inherits SamplePageBase
+
+<PageTitle>Links</PageTitle>
+
+<div class="flex flex-col gap-2 p-4">
+    <div class="flex gap-2">
+        @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
+        {
+            <MaviLink Href="/"
+                      ThemeColorScheme="colorScheme"
+                      ElementSize="ElementSize.Small"
+                      ElementVariant="ElementVariant.Outlined"
+                      OnClick="OnButtonClickAsync"
+                      Label="Outlined Small"
+                      Title="Outlined Small">
+            </MaviLink>
+        }
+    </div>
+    <div class="flex gap-2">
+        @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
+        {
+            <MaviLink Href="/"
+                      ThemeColorScheme="colorScheme"
+                      ElementSize="ElementSize.Regular"
+                      ElementVariant="ElementVariant.Outlined"
+                      OnClick="OnButtonClickAsync"
+                      Label="Outlined Regular"
+                      Title="Outlined Regular">
+            </MaviLink>
+        }
+    </div>
+    <div class="flex gap-2">
+        @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
+        {
+            <MaviLink Href="/"
+                      ThemeColorScheme="colorScheme"
+                      ElementSize="ElementSize.Large"
+                      ElementVariant="ElementVariant.Outlined"
+                      OnClick="OnButtonClickAsync"
+                      Label="Outlined Large"
+                      Title="Outlined Large">
+            </MaviLink>
+        }
+    </div>
+    <div class="flex gap-2">
+        @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
+        {
+            <MaviLink Href="/"
+                      ThemeColorScheme="colorScheme"
+                      ElementSize="ElementSize.Small"
+                      ElementVariant="ElementVariant.Text"
+                      OnClick="OnButtonClickAsync"
+                      Label="Text Small"
+                      Title="Text Small">
+            </MaviLink>
+        }
+    </div>
+    <div class="flex gap-2">
+        @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
+        {
+            <MaviLink Href="/"
+                      ThemeColorScheme="colorScheme"
+                      ElementSize="ElementSize.Regular"
+                      ElementVariant="ElementVariant.Text"
+                      OnClick="OnButtonClickAsync"
+                      Label="Text Regular"
+                      Title="Text Regular">
+            </MaviLink>
+        }
+    </div>
+    <div class="flex gap-2">
+        @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
+        {
+            <MaviLink Href="/"
+                      ThemeColorScheme="colorScheme"
+                      ElementSize="ElementSize.Large"
+                      ElementVariant="ElementVariant.Text"
+                      OnClick="OnButtonClickAsync"
+                      Label="Text Large"
+                      Title="Text Large">
+            </MaviLink>
+        }
+    </div>
+    <div class="flex gap-2">
+        @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
+        {
+            <MaviLink Href="/"
+                      ThemeColorScheme="colorScheme"
+                      ElementSize="ElementSize.Small"
+                      ElementVariant="ElementVariant.Filled" 
+                      OnClick="OnButtonClickAsync"
+                      Label="Filled Small"
+                      Title="Filled Small">
+            </MaviLink>
+        }
+    </div>
+    <div class="flex gap-2">
+        @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
+        {
+            <MaviLink Href="/"
+                      ThemeColorScheme="colorScheme"
+                      ElementSize="ElementSize.Regular"
+                      ElementVariant="ElementVariant.Filled"
+                      OnClick="OnButtonClickAsync"
+                      Label="Filled Regular"
+                      Title="Filled Regular">
+            </MaviLink>
+        }
+    </div>
+    <div class="flex gap-2">
+        @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
+        {
+            <MaviLink Href="/"
+                      ThemeColorScheme="colorScheme"
+                      ElementSize="ElementSize.Large"
+                      ElementVariant="ElementVariant.Filled"
+                      OnClick="OnButtonClickAsync"
+                      Label="Filled Large"
+                      Title="Filled Large">
+            </MaviLink>
+        }
+    </div>
+    
+    <div class="flex gap-2">
+        @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
+        {
+            <MaviLink Href="/"
+                      ThemeColorScheme="colorScheme"
+                      ElementSize="ElementSize.Large"
+                      ElementVariant="ElementVariant.Outlined"
+                      OnClick="OnButtonClickAsync"
+                      Disabled="true"
+                      Label="Outlined Large"
+                      Title="Outlined Large">
+            </MaviLink>
+        }
+    </div>
+    <div class="flex gap-2">
+        @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
+        {
+            <MaviLink Href="/"
+                      ThemeColorScheme="colorScheme"
+                      ElementSize="ElementSize.Large"
+                      ElementVariant="ElementVariant.Filled"
+                      OnClick="OnButtonClickAsync"
+                      Disabled="true"
+                      Label="Filled Large"
+                      Title="Filled Large">
+            </MaviLink>
+        }
+    </div>
+    <div class="flex gap-2">
+        @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
+        {
+            <MaviLink Href="/"
+                      ThemeColorScheme="colorScheme"
+                      ElementSize="ElementSize.Large"
+                      ElementVariant="ElementVariant.Text"
+                      OnClick="OnButtonClickAsync"
+                      Disabled="true"
+                      Label="Text Large"
+                      Title="Text Large">
+            </MaviLink>
+        }
+    </div>
+</div>
+
+@code
+{
+
+    private Task OnButtonClickAsync(MouseClickEventArgs mouseEventArgs)
+    {
+        Logger?.LogInformation("NavLink Click! ID: {ButtonId}.", mouseEventArgs.ButtonId);
+        return Task.CompletedTask;
+    }
+}

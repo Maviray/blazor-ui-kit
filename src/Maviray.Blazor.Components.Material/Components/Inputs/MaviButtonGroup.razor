@@ -1,6 +1,8 @@
-﻿@inherits MaviComponentBase
+﻿@inherits MaviAttributesComponent
 @using Maviray.Blazor.Components.Core.EventArgs
+@using Maviray.Blazor.Components.Core.Extensions
 @using Maviray.Blazor.Components.Core.Models.Buttons
+@using Maviray.Blazor.Components.Material.Constants
 
 <div id="@Id" class="@GetContainerClasses()" style="@Style" @attributes="AdditionalAttributes">
     @if (Buttons != null && Buttons.Any())
@@ -9,6 +11,7 @@
         {
             <button id="@button.Id"
                     type="button"
+                    display="@button.Title"
                     class="@GetButtonClasses(index)"
                     disabled="@(Disabled || button.Disabled)"
                     @onclick="async (e) => { await HandleButtonClick(e, button.Id); }">
@@ -38,13 +41,13 @@
 @code {
     [Parameter] public override string? Id { get; set; } = $"button_group_{Guid.NewGuid()}";
 
-    [Parameter] public ButtonType ButtonType { get; set; }
+    [Parameter] public ThemeColorScheme ThemeColorScheme { get; set; }
 
     [Parameter] public ElementSize ElementSize { get; set; }
 
     [Parameter] public TextTransform TextTransform { get; set; }
 
-    [Parameter] public ButtonVariant ButtonVariant { get; set; }
+    [Parameter] public ElementVariant ElementVariant { get; set; }
 
     [Parameter] public bool Disabled { get; set; }
 
@@ -64,9 +67,9 @@
         };
 
         // Variant-specific container styles
-        if (ButtonVariant == ButtonVariant.Outlined)
+        if (ElementVariant == ElementVariant.Outlined)
         {
-            classes.Add("shadow-sm");
+            classes.Add("shadow-sm rounded-md");
         }
 
         return string.Join(" ", classes.Where(c => !string.IsNullOrEmpty(c)));
@@ -84,11 +87,10 @@
             "transition-all",
             "duration-200",
             "focus:outline-none",
-            "overflow-hidden"
+            "overflow-hidden",
+            // Size classes with fixed height
+            GetSizeClasses()
         };
-
-        // Size classes with fixed height
-        classes.Add(GetSizeClasses());
 
         // Variant and type specific styles
         classes.AddRange(GetVariantClasses());
@@ -117,9 +119,9 @@
     {
         return ElementSize switch
         {
-            ElementSize.Small => "px-3 h-8 text-sm",
-            ElementSize.Large => "px-5 h-12 text-base",
-            _ => "px-4 h-10 text-sm" // Regular
+            ElementSize.Small => "px-3 h-8",
+            ElementSize.Large => "px-5 h-12",
+            _ => "px-4 h-10" // Regular
         };
     }
 
@@ -128,18 +130,17 @@
         var classes = new List<string>();
         var colorPrefix = GetColorPrefix();
 
-        switch (ButtonVariant)
+        switch (ElementVariant)
         {
-            case ButtonVariant.Filled:
+            case ElementVariant.Filled:
                 // Default button type has special colors
-                if (ButtonType == ButtonType.Default)
+                if (ThemeColorScheme == ThemeColorScheme.Default)
                 {
                     classes.Add("bg-(--theme-light-six)");
                     classes.Add("text-(--theme-dark-nine)");
                     if (!Disabled)
                     {
                         classes.Add("hover:bg-(--theme-light-seven)");
-                        classes.Add("hover:shadow-lg");
                         classes.Add("focus:bg-(--theme-light-seven)");
                         classes.Add("focus:ring-(--theme-light-eight)");
                         classes.Add("active:bg-(--theme-light-eight)");
@@ -147,14 +148,13 @@
                     classes.Add("border-0");
                 }
                 // Primary button type has special colors
-                else if (ButtonType == ButtonType.Primary)
+                else if (ThemeColorScheme == ThemeColorScheme.Primary)
                 {
                     classes.Add("bg-(--theme-primary-eight)");
                     classes.Add("text-white");
                     if (!Disabled)
                     {
                         classes.Add("hover:bg-(--theme-primary-nine)");
-                        classes.Add("hover:shadow-lg");
                         classes.Add("focus:bg-(--theme-primary-nine)");
                         classes.Add("focus:ring-(--theme-primary-nine)");
                         classes.Add("active:bg-(--theme-primary-four)");
@@ -175,9 +175,9 @@
                 }
                 break;
 
-            case ButtonVariant.Outlined:
+            case ElementVariant.Outlined:
                 // Default button type for outlined variant
-                if (ButtonType == ButtonType.Default)
+                if (ThemeColorScheme == ThemeColorScheme.Default)
                 {
                     classes.Add("bg-transparent");
                     classes.Add("text-(--theme-dark-nine)");
@@ -187,8 +187,7 @@
                     {
                         classes.Add("hover:bg-(--theme-light-one)");
                         classes.Add("hover:border-(--theme-light-seven)");
-                        classes.Add("hover:text-(--theme-dark-ten)");
-                        classes.Add("hover:shadow-lg");
+                        classes.Add("hover:text-(--theme-dark-ten)"); 
                         classes.Add("focus:bg-(--theme-light-one)");
                         classes.Add("focus:border-(--theme-light-seven)");
                         classes.Add("focus:text-(--theme-dark-ten)");
@@ -198,7 +197,7 @@
                     }
                 }
                 // Primary button type for outlined variant
-                else if (ButtonType == ButtonType.Primary)
+                else if (ThemeColorScheme == ThemeColorScheme.Primary)
                 {
                     classes.Add("bg-transparent");
                     classes.Add("text-(--theme-primary-eight)");
@@ -209,7 +208,6 @@
                         classes.Add("hover:bg-(--theme-primary-one)");
                         classes.Add("hover:border-(--theme-primary-nine)");
                         classes.Add("hover:text-(--theme-primary-nine)");
-                        classes.Add("hover:shadow-lg");
                         classes.Add("focus:bg-(--theme-primary-one)");
                         classes.Add("focus:border-(--theme-primary-nine)");
                         classes.Add("focus:text-(--theme-primary-nine)");
@@ -240,9 +238,9 @@
                 }
                 break;
 
-            case ButtonVariant.Text:
+            case ElementVariant.Text:
                 // Default button type for text variant
-                if (ButtonType == ButtonType.Default)
+                if (ThemeColorScheme == ThemeColorScheme.Default)
                 {
                     classes.Add("bg-transparent");
                     classes.Add("text-(--theme-dark-nine)");
@@ -251,7 +249,6 @@
                     {
                         classes.Add("hover:bg-(--theme-light-one)");
                         classes.Add("hover:text-(--theme-dark-ten)");
-                        classes.Add("hover:shadow-lg");
                         classes.Add("focus:bg-(--theme-light-one)");
                         classes.Add("focus:text-(--theme-dark-ten)");
                         classes.Add("focus:ring-(--theme-light-eight)");
@@ -259,7 +256,7 @@
                     }
                 }
                 // Primary button type for text variant
-                else if (ButtonType == ButtonType.Primary)
+                else if (ThemeColorScheme == ThemeColorScheme.Primary)
                 {
                     classes.Add("bg-transparent");
                     classes.Add("text-(--theme-primary-eight)");
@@ -268,7 +265,6 @@
                     {
                         classes.Add("hover:bg-(--theme-primary-one)");
                         classes.Add("hover:text-(--theme-primary-nine)");
-                        classes.Add("hover:shadow-lg");
                         classes.Add("focus:bg-(--theme-primary-one)");
                         classes.Add("focus:text-(--theme-primary-nine)");
                         classes.Add("focus:ring-(--theme-primary-nine)");
@@ -308,7 +304,7 @@
         if (isFirst)
         {
             classes.Add("rounded-l-md");
-            if (ButtonVariant != ButtonVariant.Text)
+            if (ElementVariant != ElementVariant.Text)
             {
                 classes.Add("rounded-r-none");
             }
@@ -316,23 +312,22 @@
         else if (isLast)
         {
             classes.Add("rounded-r-md");
-            if (ButtonVariant != ButtonVariant.Text)
+            if (ElementVariant != ElementVariant.Text)
             {
                 classes.Add("rounded-l-none");
             }
         }
-        else if (isMiddle && ButtonVariant != ButtonVariant.Text)
+        else if (isMiddle && ElementVariant != ElementVariant.Text)
         {
             classes.Add("rounded-none");
         }
 
         // Border handling for outlined variant
-        if (ButtonVariant == ButtonVariant.Outlined)
+        if (ElementVariant != ElementVariant.Outlined) return classes;
+
+        if (!isFirst)
         {
-            if (!isFirst)
-            {
-                classes.Add("-ml-px");
-            }
+            classes.Add("-ml-px");
         }
 
         return classes;
@@ -340,17 +335,17 @@
 
     private string GetColorPrefix()
     {
-        return ButtonType switch
+        return ThemeColorScheme switch
         {
-            ButtonType.Primary => "--theme-primary",
-            ButtonType.Secondary => "--theme-secondary",
-            ButtonType.Success => "--theme-success",
-            ButtonType.Danger => "--theme-alert",
-            ButtonType.Warning => "--theme-warning",
-            ButtonType.Info => "--theme-info",
-            ButtonType.Dark => "--theme-dark",
-            ButtonType.Light => "--theme-light",
-            ButtonType.Default => "--theme-light",
+            ThemeColorScheme.Primary => "--theme-primary",
+            ThemeColorScheme.Secondary => "--theme-secondary",
+            ThemeColorScheme.Success => "--theme-success",
+            ThemeColorScheme.Alert => "--theme-alert",
+            ThemeColorScheme.Warning => "--theme-warning",
+            ThemeColorScheme.Info => "--theme-info",
+            ThemeColorScheme.Dark => "--theme-dark",
+            ThemeColorScheme.Light => "--theme-light",
+            ThemeColorScheme.Default => "--theme-light",
             _ => "--theme-primary"
         };
     }
@@ -376,7 +371,7 @@
     {
         return ElementSize switch
         {
-            ElementSize.Small => "text-sm ",
+            ElementSize.Small => "text-sm",
             ElementSize.Large => "text-lg",
             _ => "text-base"
         };
@@ -384,11 +379,23 @@
 
     private string GetTextClasses()
     {
-        return "whitespace-nowrap";
+        var font = ElementSize switch
+        {
+            ElementSize.Small => Tailwind.Theme.Typography.LABEL_SMALL,
+            ElementSize.Large => Tailwind.Theme.Typography.LABEL_LARGE,
+            _ => Tailwind.Theme.Typography.LABEL_MEDIUM
+        };
+
+        return $"{font} whitespace-nowrap";
     }
 
     protected async Task HandleButtonClick(MouseEventArgs args, string? buttonId)
     {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
         if (OnClick.HasDelegate)
         {
             var customArgs = new MouseGroupClickEventArgs(Id, buttonId)
