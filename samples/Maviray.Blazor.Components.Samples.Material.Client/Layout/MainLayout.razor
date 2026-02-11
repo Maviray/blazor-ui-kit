@@ -4,16 +4,16 @@
 
 <div class="min-h-screen flex flex-col">
     <!-- Header -->
-    <header class="@CssManager.Combine(Tailwind.Theme.Background.THEME_LIGHT_ONE_BG, Tailwind.Theme.Border.THEME_LIGHT_THREE_BORDER, "border-b sticky top-0 z-50")">
+    <header class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG, Tailwind.Theme.Colors.Border.THEME_LIGHT_THREE_BORDER, "border-b sticky top-0 z-50")">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center">
-                    <h1 class="@CssManager.Combine(Tailwind.Theme.Typography.TITLE_LARGE, Tailwind.Theme.Text.THEME_DARK_NINE_TEXT)">Maviray Blazor UI Kit</h1>
+                    <h1 class="@CssManager.Combine(Tailwind.Theme.Typography.TITLE_LARGE, Tailwind.Theme.Colors.Text.THEME_DARK_NINE_TEXT)">Maviray Blazor UI Kit</h1>
                 </div>
                 <nav class="flex gap-4">
-                    <a href="/" class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, Tailwind.Theme.Text.THEME_DARK_SIX_TEXT, Tailwind.Theme.Text.THEME_DARK_NINE_TEXT_HOVER, "px-3 py-2 rounded-md")">Home</a>
-                    <a href="/components" class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, Tailwind.Theme.Text.THEME_DARK_SIX_TEXT, Tailwind.Theme.Text.THEME_DARK_NINE_TEXT_HOVER, "px-3 py-2 rounded-md")">Components</a>
-                    <a href="/about" class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, Tailwind.Theme.Text.THEME_DARK_SIX_TEXT, Tailwind.Theme.Text.THEME_DARK_NINE_TEXT_HOVER, "px-3 py-2 rounded-md")">About</a>
+                    <a href="/" class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, Tailwind.Theme.Colors.Text.THEME_DARK_SIX_TEXT, Tailwind.Theme.Colors.Text.Hover.THEME_DARK_NINE_TEXT_HOVER, "px-3 py-2 rounded-md")">Home</a>
+                    <a href="/components" class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, Tailwind.Theme.Colors.Text.THEME_DARK_SIX_TEXT, Tailwind.Theme.Colors.Text.Hover.THEME_DARK_NINE_TEXT_HOVER, "px-3 py-2 rounded-md")">Components</a>
+                    <a href="/about" class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, Tailwind.Theme.Colors.Text.THEME_DARK_SIX_TEXT, Tailwind.Theme.Colors.Text.Hover.THEME_DARK_NINE_TEXT_HOVER, "px-3 py-2 rounded-md")">About</a>
                 </nav>
             </div>
         </div>
@@ -21,9 +21,9 @@
 
     <div class="flex flex-1">
         <!-- Side Navigation -->
-        <aside class="@CssManager.Combine(Tailwind.Theme.Background.THEME_LIGHT_TWO_BG, Tailwind.Theme.Border.THEME_LIGHT_THREE_BORDER, "w-64 border-r overflow-y-auto")">
+        <aside class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_LIGHT_TWO_BG, Tailwind.Theme.Colors.Border.THEME_LIGHT_THREE_BORDER, "w-64 border-r overflow-y-auto")">
             <nav class="py-4 pr-4 pl-16 space-y-2 flex flex-col gap-2">
-                <div class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, Tailwind.Theme.Text.THEME_DARK_FIVE_TEXT, "px-3 py-2")">
+                <div class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, Tailwind.Theme.Colors.Text.THEME_DARK_FIVE_TEXT, "px-3 py-2")">
                     Components
                 </div>
                 <MaviLink Href="/PageCustomColors"
