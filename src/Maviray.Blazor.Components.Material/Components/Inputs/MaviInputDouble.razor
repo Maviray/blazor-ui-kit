@@ -134,14 +134,14 @@
                 parsedValue = Math.Round(parsedValue, DecimalPlaces.Value, MidpointRounding.AwayFromZero);
             }
 
-            if (Min.HasValue && parsedValue < Min.Value)
+            if (parsedValue < Min)
             {
                 result = parsedValue;
                 validationErrorMessage = $"The {Label ?? FieldIdentifier.FieldName} field must be at least {Min.Value}.";
                 return false;
             }
 
-            if (Max.HasValue && parsedValue > Max.Value)
+            if (parsedValue > Max)
             {
                 result = parsedValue;
                 validationErrorMessage = $"The {Label ?? FieldIdentifier.FieldName} field must not exceed {Max.Value}.";
@@ -180,11 +180,7 @@
 
         if (string.IsNullOrWhiteSpace(FormatMask))
         {
-            if (DecimalPlaces.HasValue)
-            {
-                return value.ToString($"F{DecimalPlaces.Value}", CurrentCulture);
-            }
-            return value.ToString(CurrentCulture);
+            return DecimalPlaces.HasValue ? value.ToString($"F{DecimalPlaces.Value}", CurrentCulture) : value.ToString(CurrentCulture);
         }
 
         try
@@ -194,11 +190,8 @@
         catch (FormatException ex)
         {
             Logger?.LogWarning(ex, "Invalid format mask '{FormatMask}'. Falling back.", FormatMask);
-            if (DecimalPlaces.HasValue)
-            {
-                return value.ToString($"F{DecimalPlaces.Value}", CurrentCulture);
-            }
-            return value.ToString(CurrentCulture);
+
+            return DecimalPlaces.HasValue ? value.ToString($"F{DecimalPlaces.Value}", CurrentCulture) : value.ToString(CurrentCulture);
         }
     }
 
@@ -222,6 +215,7 @@
         if (Disabled || Readonly) return;
 
         _rawInputValue = e.Value?.ToString();
+
         if (TryParseValueFromString(_rawInputValue, out var parsedValue, out _))
         {
             CurrentValue = parsedValue;
@@ -239,18 +233,7 @@
 
     protected override string GetInputType() => "text";
 
-    protected override string GetInputMode()
-    {
-        if (string.IsNullOrWhiteSpace(FormatMask)) return "decimal";
-
-        var decimalFormats = new[] { "N", "F", "G", "C", "P", "E" };
-        if (decimalFormats.Any(f => FormatMask.StartsWith(f, StringComparison.OrdinalIgnoreCase)))
-        {
-            return "decimal";
-        }
-
-        return "decimal";
-    }
+    protected override string GetInputMode() => "decimal";
 
     protected override string? GetMinAttribute() => Min?.ToString();
     protected override string? GetMaxAttribute() => Max?.ToString();
@@ -259,21 +242,15 @@
     protected override void InferTypeSpecificAttributes(PropertyInfo propertyInfo)
     {
         var rangeAttr = propertyInfo.GetCustomAttribute<RangeAttribute>();
-        if (rangeAttr != null)
-        {
-            if (!Min.HasValue && rangeAttr.Minimum != null)
-            {
-                Min = Convert.ToDouble(rangeAttr.Minimum);
-            }
 
-            if (!Max.HasValue && rangeAttr.Maximum != null)
-            {
-                Max = Convert.ToDouble(rangeAttr.Maximum);
-            }
+        if (rangeAttr == null) return;
 
-            var rangeText = $"Value must be between {rangeAttr.Minimum} and {rangeAttr.Maximum}";
-            HelperText = string.IsNullOrEmpty(HelperText) ? rangeText : $"{HelperText}. {rangeText}";
-        }
+        Min ??= Convert.ToDouble(rangeAttr.Minimum);
+
+        Max ??= Convert.ToDouble(rangeAttr.Maximum);
+
+        var rangeText = $"Value must be between {rangeAttr.Minimum} and {rangeAttr.Maximum}";
+        HelperText = string.IsNullOrEmpty(HelperText) ? rangeText : $"{HelperText}. {rangeText}";
     }
 
     private string CleanValueForParsing(string value)

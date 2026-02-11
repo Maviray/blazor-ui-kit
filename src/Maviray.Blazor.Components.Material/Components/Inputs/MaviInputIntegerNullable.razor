@@ -175,6 +175,7 @@
         if (Disabled || Readonly) return;
 
         _rawInputValue = e.Value?.ToString();
+
         if (TryParseValueFromString(_rawInputValue, out var parsedValue, out _))
         {
             CurrentValue = parsedValue;
@@ -195,6 +196,7 @@
         if (string.IsNullOrWhiteSpace(FormatMask)) return "number";
 
         var numericFormats = new[] { "N", "D", "G", "F" };
+
         if (numericFormats.Any(f => FormatMask.StartsWith(f, StringComparison.OrdinalIgnoreCase)))
         {
             return _isFocused && !ShowFormattedWhileFocused ? "number" : "text";
@@ -208,6 +210,7 @@
         if (string.IsNullOrWhiteSpace(FormatMask)) return "numeric";
 
         var numericFormats = new[] { "N", "D", "G", "F", "C" };
+
         if (numericFormats.Any(f => FormatMask.StartsWith(f, StringComparison.OrdinalIgnoreCase)))
         {
             return "numeric";
@@ -223,14 +226,14 @@
     protected override void InferTypeSpecificAttributes(PropertyInfo propertyInfo)
     {
         var rangeAttr = propertyInfo.GetCustomAttribute<RangeAttribute>();
-        if (rangeAttr != null)
-        {
-            if (!Min.HasValue && rangeAttr.Minimum is int minValue) Min = minValue;
-            if (!Max.HasValue && rangeAttr.Maximum is int maxValue) Max = maxValue;
 
-            var rangeText = $"Value must be between {rangeAttr.Minimum} and {rangeAttr.Maximum}";
-            HelperText = string.IsNullOrEmpty(HelperText) ? rangeText : $"{HelperText}. {rangeText}";
-        }
+        if (rangeAttr == null) return;
+
+        if (!Min.HasValue && rangeAttr.Minimum is int minValue) Min = minValue;
+        if (!Max.HasValue && rangeAttr.Maximum is int maxValue) Max = maxValue;
+
+        var rangeText = $"Value must be between {rangeAttr.Minimum} and {rangeAttr.Maximum}";
+        HelperText = string.IsNullOrEmpty(HelperText) ? rangeText : $"{HelperText}. {rangeText}";
     }
 
     private string CleanValueForParsing(string value)

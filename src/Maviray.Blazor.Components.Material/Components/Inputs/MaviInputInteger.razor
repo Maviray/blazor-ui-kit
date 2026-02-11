@@ -261,28 +261,21 @@
     {
         // Infer Min and Max from RangeAttribute
         var rangeAttr = propertyInfo.GetCustomAttribute<RangeAttribute>();
-        if (rangeAttr != null)
+
+        if (rangeAttr == null) return;
+
+        if (!Min.HasValue && rangeAttr.Minimum is int minValue)
         {
-            if (!Min.HasValue && rangeAttr.Minimum is int minValue)
-            {
-                Min = minValue;
-            }
-
-            if (!Max.HasValue && rangeAttr.Maximum is int maxValue)
-            {
-                Max = maxValue;
-            }
-
-            // Add range info to HelperText if available
-            if (string.IsNullOrEmpty(HelperText))
-            {
-                HelperText = $"Value must be between {rangeAttr.Minimum} and {rangeAttr.Maximum}";
-            }
-            else
-            {
-                HelperText = $"{HelperText}. Value must be between {rangeAttr.Minimum} and {rangeAttr.Maximum}";
-            }
+            Min = minValue;
         }
+
+        if (!Max.HasValue && rangeAttr.Maximum is int maxValue)
+        {
+            Max = maxValue;
+        }
+
+        // Add range info to HelperText if available
+        HelperText = string.IsNullOrEmpty(HelperText) ? $"Value must be between {rangeAttr.Minimum} and {rangeAttr.Maximum}" : $"{HelperText}. Value must be between {rangeAttr.Minimum} and {rangeAttr.Maximum}";
     }
 
     private string CleanValueForParsing(string value)
