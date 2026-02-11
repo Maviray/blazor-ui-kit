@@ -57,7 +57,7 @@
         <!-- End Icon (Clickable) or Loading Spinner -->
         @if (!string.IsNullOrEmpty(EndIcon))
         {
-            @if (_isEndIconLoading)
+            @if (IsEndIconLoading)
             {
                 <!-- Loading Spinner -->
                 <div class="@GetEndIconLoadingClass()"
@@ -157,7 +157,7 @@
 
     protected override string? GetDisplayValue()
     {
-        if (_isFocused && !ShowFormattedWhileFocused)
+        if (IsFocused && !ShowFormattedWhileFocused)
         {
             return _rawInputValue ?? (CurrentValue.HasValue ? CurrentValue.Value.ToString(CurrentCulture) : string.Empty);
         }
@@ -199,7 +199,7 @@
 
         if (numericFormats.Any(f => FormatMask.StartsWith(f, StringComparison.OrdinalIgnoreCase)))
         {
-            return _isFocused && !ShowFormattedWhileFocused ? "number" : "text";
+            return IsFocused && !ShowFormattedWhileFocused ? "number" : "text";
         }
 
         return "text";

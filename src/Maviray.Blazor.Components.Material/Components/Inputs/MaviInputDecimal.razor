@@ -57,7 +57,7 @@
         <!-- End Icon (Clickable) or Loading Spinner -->
         @if (!string.IsNullOrEmpty(EndIcon))
         {
-            @if (_isEndIconLoading)
+            @if (IsEndIconLoading)
             {
                 <!-- Loading Spinner -->
                 <div class="@GetEndIconLoadingClass()"
@@ -178,7 +178,7 @@
 
     protected override string? GetDisplayValue()
     {
-        if (_isFocused && !ShowFormattedWhileFocused)
+        if (IsFocused && !ShowFormattedWhileFocused)
         {
             return _rawInputValue ?? CurrentValue.ToString(CurrentCulture);
         }
