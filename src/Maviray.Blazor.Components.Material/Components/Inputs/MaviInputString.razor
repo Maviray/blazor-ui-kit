@@ -1,12 +1,9 @@
 ﻿@using System.Diagnostics.CodeAnalysis
 @using Maviray.Blazor.Components.Core.Constants
-@using Microsoft.Extensions.Logging
 @using System.ComponentModel.DataAnnotations
 @using System.Reflection
 @using Maviray.Blazor.Components.Core.EventArgs
 @using Maviray.Blazor.Components.Core.Extensions
-@using Maviray.Blazor.Components.Core.Options
-@using Maviray.Blazor.Components.Material.Constants
 @inherits MaviInputBase<string>
 
 <div class="@Width">
@@ -58,7 +55,7 @@
         <!-- End Icon (Clickable) or Loading Spinner -->
         @if (!string.IsNullOrEmpty(EndIcon))
         {
-            @if (_isEndIconLoading)
+            @if (IsEndIconLoading)
             {
                 <!-- Loading Spinner -->
                 <div class="@GetEndIconLoadingClass()"
@@ -172,13 +169,13 @@
             Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
         }
 
-        if (Disabled || EndIconDisabled || _isEndIconLoading)
+        if (Disabled || EndIconDisabled || IsEndIconLoading)
             return;
 
         try
         {
             // Show loading state
-            _isEndIconLoading = true;
+            IsEndIconLoading = true;
             StateHasChanged();
 
             // Handle password visibility toggle
@@ -222,7 +219,7 @@
         finally
         {
             // Hide loading state
-            _isEndIconLoading = false;
+            IsEndIconLoading = false;
             StateHasChanged();
         }
     }
