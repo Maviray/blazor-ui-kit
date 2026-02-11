@@ -1,0 +1,402 @@
+﻿@page "/PageMaviInputFloat"
+@inherits SamplePageBase
+
+<PageTitle>MaviInputFloat</PageTitle>
+
+<div class="p-6 max-w-7xl mx-auto">
+    <!-- Page Header -->
+    <div class="mb-8">
+        <h1 class="@CssManager.Combine(Tailwind.Theme.Typography.DISPLAY_MEDIUM, "mb-2")">MaviInputFloat Component</h1>
+        <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_LARGE, "text-gray-600")">
+            Comprehensive showcase demonstrating all available parameters, use cases, and formatting options for the MaviInputFloat component.
+            This component is optimized for single-precision floating-point input (32-bit), ideal for 3D graphics, game development, physics simulations,
+            GPU calculations, and memory-efficient scenarios requiring decimal values with 6-9 significant digits.
+        </p>
+    </div>
+
+    <EditForm Model="@_formSampleModel" OnValidSubmit="OnValidFormSubmit" OnInvalidSubmit="OnInValidFormSubmit" novalidate>
+        <DataAnnotationsValidator />
+
+        <!-- Section 1: Size Variants -->
+        <div class="mb-12">
+            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">1. Size Variants</h2>
+            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+                Three size options: Small, Regular (default), and Large - optimized for single-precision floating-point numbers
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Small -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Small</h3>
+                        <MaviInputFloat @bind-Value="_formSampleModel.NumberOne"
+                                        ElementSize="ElementSize.Small"
+                                        StartIcon="lni lni-vector"
+                                        Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.NumberOne)" />
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            &lt;MaviInputFloat
+                            @@bind-Value="value"
+                            ElementSize="ElementSize.Small"
+                            StartIcon="lni lni-vector"
+                            Width="w-full" /&gt;
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Regular -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Regular (Default)</h3>
+                        <MaviInputFloat @bind-Value="_formSampleModel.NumberTwo"
+                                        ElementSize="ElementSize.Regular"
+                                        StartIcon="lni lni-game"
+                                        Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.NumberTwo)" />
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            &lt;MaviInputFloat
+                            @@bind-Value="value"
+                            ElementSize="ElementSize.Regular"
+                            StartIcon="lni lni-game"
+                            Width="w-full" /&gt;
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Large -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Large</h3>
+                        <MaviInputFloat @bind-Value="_formSampleModel.NumberThree"
+                                        ElementSize="ElementSize.Large"
+                                        StartIcon="lni lni-graph"
+                                        Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.NumberThree)" />
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            &lt;MaviInputFloat
+                            @@bind-Value="value"
+                            ElementSize="ElementSize.Large"
+                            StartIcon="lni lni-graph"
+                            Width="w-full" /&gt;
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: State Variants -->
+        <div class="mb-12">
+            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">2. Input States</h2>
+            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+                Control input interactivity with Disabled and Readonly states
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Disabled -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Disabled</h3>
+                        <MaviInputFloat @bind-Value="_formSampleModel.NumberFour"
+                                        ElementSize="ElementSize.Small"
+                                        Disabled="true"
+                                        StartIcon="lni lni-lock"
+                                        Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.NumberFour)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            User cannot interact with disabled inputs
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            &lt;MaviInputFloat
+                            @@bind-Value="value"
+                            Disabled="true"
+                            StartIcon="lni lni-lock"
+                            Width="w-full" /&gt;
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Readonly -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Readonly</h3>
+                        <MaviInputFloat @bind-Value="_formSampleModel.NumberFive"
+                                        ElementSize="ElementSize.Regular"
+                                        Readonly="true"
+                                        StartIcon="lni lni-eye"
+                                        Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.NumberFive)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Value is visible but not editable
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            &lt;MaviInputFloat
+                            @@bind-Value="value"
+                            Readonly="true"
+                            StartIcon="lni lni-eye"
+                            Width="w-full" /&gt;
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Normal (for comparison) -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Normal (Enabled)</h3>
+                        <MaviInputFloat @bind-Value="_formSampleModel.NumberSix"
+                                        ElementSize="ElementSize.Small"
+                                        StartIcon="lni lni-pencil"
+                                        Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.NumberSix)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Fully interactive input
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            &lt;MaviInputFloat
+                            @@bind-Value="value"
+                            StartIcon="lni lni-pencil"
+                            Width="w-full" /&gt;
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: Format Masks -->
+        <div class="mb-12">
+            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">3. Format Masks for Floating-Point Numbers</h2>
+            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+                Apply various formatting patterns - values are shown formatted when not focused, raw when editing
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Fixed Point 2 Decimals -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Fixed Point (2 decimals)</h3>
+                        <MaviInputFloat @bind-Value="_formSampleModel.FixedPoint2"
+                                        ElementSize="ElementSize.Small"
+                                        FormatMask="F2"
+                                        StartIcon="lni lni-calculator"
+                                        Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.FixedPoint2)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Format: 123.45
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Fixed Point 4 Decimals -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Fixed Point (4 decimals)</h3>
+                        <MaviInputFloat @bind-Value="_formSampleModel.FixedPoint4"
+                                        ElementSize="ElementSize.Small"
+                                        FormatMask="F4"
+                                        StartIcon="lni lni-calculator"
+                                        Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.FixedPoint4)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Format: 123.4567
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Scientific Notation -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Scientific Notation</h3>
+                        <MaviInputFloat @bind-Value="_formSampleModel.Scientific"
+                                        ElementSize="ElementSize.Small"
+                                        FormatMask="E2"
+                                        AllowScientificNotation="true"
+                                        StartIcon="lni lni-microscope"
+                                        Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.Scientific)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Format: 1.23E+003
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4: Graphics & Game Development Use Cases -->
+        <div class="mb-12">
+            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">4. Graphics & Game Development Use Cases</h2>
+            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+                Practical examples for 3D engines, GPU operations, and real-time graphics
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 3D Position X -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Position X (3D)</h3>
+                        <MaviInputFloat @bind-Value="_formSampleModel.PositionX"
+                                        ElementSize="ElementSize.Regular"
+                                        DecimalPlaces="2"
+                                        Min="-1000"
+                                        Max="1000"
+                                        StartIcon="lni lni-move"
+                                        HelperText="X coordinate in 3D space"
+                                        Width="w-full" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Unity/Unreal standard
+                        </span>
+                    </div>
+                </div>
+
+                <!-- RGB Color Red -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Red Channel (0-1)</h3>
+                        <MaviInputFloat @bind-Value="_formSampleModel.ColorRed"
+                                        ElementSize="ElementSize.Regular"
+                                        DecimalPlaces="3"
+                                        Min="0"
+                                        Max="1"
+                                        Step="0.01f"
+                                        StartIcon="lni lni-drop"
+                                        HelperText="Red color component"
+                                        Width="w-full" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            GPU shader format
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Rotation -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Rotation (degrees)</h3>
+                        <MaviInputFloat @bind-Value="_formSampleModel.RotationAngle"
+                                        ElementSize="ElementSize.Regular"
+                                        DecimalPlaces="1"
+                                        Min="0"
+                                        Max="360"
+                                        StartIcon="lni lni-reload"
+                                        HelperText="Rotation angle"
+                                        Width="w-full" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            360-degree rotation
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 5: Complete Parameter Reference -->
+        <div class="mb-12">
+            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">5. Complete Parameter Reference</h2>
+            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+                All available parameters for MaviInputFloat component
+            </p>
+
+            <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+                <table class="min-w-full">
+                    <thead class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_LIGHT_FOUR_BG)">
+                        <tr>
+                            <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Parameter</th>
+                            <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Type</th>
+                            <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Default</th>
+                            <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>@@bind-Value</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">float</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">0.0f</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Two-way bound float value</td>
+                        </tr>
+                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>ElementSize</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">ElementSize</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Regular</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Size variant: Small, Regular, Large</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Min</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">float?</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Minimum allowed value</td>
+                        </tr>
+                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Max</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">float?</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Maximum allowed value</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>DecimalPlaces</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">int?</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Round to specified decimals</td>
+                        </tr>
+                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>AllowScientificNotation</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Allow scientific notation</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="flex justify-start">
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                        ElementSize="ElementSize.Regular"
+                        Title="Submit Form"
+                        ButtonRole="ButtonRole.Submit"
+                        ElementVariant="ElementVariant.Outlined"
+                        TextTransform="TextTransform.Capitalize"
+                        StartIcon="lni lni-checkmark">
+            </MaviButton>
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    private readonly SampleFloatModel _formSampleModel = new();
+
+    private void OnValidFormSubmit(EditContext context)
+    {
+        Logger?.LogInformation("Form validation successful.");
+    }
+
+    private void OnInValidFormSubmit(EditContext context)
+    {
+        Logger?.LogInformation("Form validation failed.");
+    }
+
+    private async Task ResetRotation(MouseClickEventArgs args)
+    {
+        Logger?.LogInformation("Resetting rotation for input: {ButtonId}", args.ButtonId);
+        _formSampleModel.RotationAngle = 0f;
+        await Task.Delay(500);
+        Logger?.LogInformation("Rotation reset to 0°");
+    }
+
+    private async Task RandomizeColor(MouseClickEventArgs args)
+    {
+        Logger?.LogInformation("Randomizing color for input: {ButtonId}", args.ButtonId);
+        var random = new Random();
+        _formSampleModel.ColorRed = (float)random.NextDouble();
+        await Task.Delay(500);
+        Logger?.LogInformation("Color randomized to: {Color}", _formSampleModel.ColorRed);
+    }
+}

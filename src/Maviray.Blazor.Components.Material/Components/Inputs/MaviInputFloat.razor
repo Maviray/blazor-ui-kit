@@ -3,7 +3,7 @@
 @using System.ComponentModel.DataAnnotations
 @using System.Reflection
 @using System.Globalization
-@inherits MaviNumericInputBase<int?>
+@inherits MaviNumericInputBase<float>
 
 <div class="@Width">
     <!-- Floating Label Input Container -->
@@ -100,58 +100,117 @@
 </div>
 
 @code {
-    [Parameter] public int? Min { get; set; }
-    [Parameter] public int? Max { get; set; }
-    [Parameter] public int Step { get; set; } = 1;
+    /// <summary>
+    /// Minimum allowed value for the float input.
+    /// </summary>
+    [Parameter] public float? Min { get; set; }
 
-    protected override bool HasValue => CurrentValue.HasValue || !string.IsNullOrWhiteSpace(_rawInputValue);
+    /// <summary>
+    /// Maximum allowed value for the float input.
+    /// </summary>
+    [Parameter] public float? Max { get; set; }
+
+    /// <summary>
+    /// Step value for increment/decrement operations.
+    /// </summary>
+    [Parameter] public float Step { get; set; } = 0.01f;
+
+    /// <summary>
+    /// Number of decimal places to display and round to.
+    /// </summary>
+    [Parameter] public int? DecimalPlaces { get; set; }
+
+    /// <summary>
+    /// Allow input and parsing of scientific notation (e.g., 1.23e+10).
+    /// </summary>
+    [Parameter] public bool AllowScientificNotation { get; set; }
+
+    protected override bool HasValue => CurrentValue != 0.0f || !string.IsNullOrWhiteSpace(_rawInputValue);
 
     protected override bool TryParseValueFromString(
         string? value,
-        out int? result,
+        out float result,
         [NotNullWhen(false)] out string? validationErrorMessage)
     {
         if (string.IsNullOrWhiteSpace(value))
         {
-            result = null;
+            result = 0.0f;
             validationErrorMessage = null;
             return true;
         }
 
         var cleanValue = CleanValueForParsing(value);
-
-        if (int.TryParse(cleanValue, NumberStyles.Integer, CurrentCulture, out var parsedValue))
+        var numberStyles = NumberStyles.Float | NumberStyles.AllowThousands;
+        if (AllowScientificNotation)
         {
+            numberStyles |= NumberStyles.AllowExponent;
+        }
+
+        if (float.TryParse(cleanValue, numberStyles, CurrentCulture, out var parsedValue))
+        {
+            if (DecimalPlaces.HasValue)
+            {
+                parsedValue = (float)Math.Round(parsedValue, DecimalPlaces.Value, MidpointRounding.AwayFromZero);
+            }
+
+            if (Min.HasValue && parsedValue < Min.Value)
+            {
+                result = parsedValue;
+                validationErrorMessage = $"The {Label ?? FieldIdentifier.FieldName} field must be at least {Min.Value}.";
+                return false;
+            }
+
+            if (Max.HasValue && parsedValue > Max.Value)
+            {
+                result = parsedValue;
+                validationErrorMessage = $"The {Label ?? FieldIdentifier.FieldName} field must not exceed {Max.Value}.";
+                return false;
+            }
+
+            if (float.IsNaN(parsedValue))
+            {
+                result = 0.0f;
+                validationErrorMessage = $"The {Label ?? FieldIdentifier.FieldName} field must be a valid number.";
+                return false;
+            }
+
+            if (float.IsInfinity(parsedValue))
+            {
+                result = 0.0f;
+                validationErrorMessage = $"The {Label ?? FieldIdentifier.FieldName} field value is too large.";
+                return false;
+            }
+
             result = parsedValue;
             validationErrorMessage = null;
             return true;
         }
 
-        result = null;
-        validationErrorMessage = $"The {Label ?? FieldIdentifier.FieldName} field must be a valid integer.";
+        result = 0.0f;
+        validationErrorMessage = $"The {Label ?? FieldIdentifier.FieldName} field must be a valid decimal number.";
         return false;
     }
 
-    protected override string? FormatValueAsString(int? value)
+    protected override string? FormatValueAsString(float value)
     {
-        if (!value.HasValue)
-        {
-            return null;
-        }
+        if (float.IsNaN(value)) return "NaN";
+        if (float.IsPositiveInfinity(value)) return "∞";
+        if (float.IsNegativeInfinity(value)) return "-∞";
 
         if (string.IsNullOrWhiteSpace(FormatMask))
         {
-            return value.Value.ToString(CurrentCulture);
+            return DecimalPlaces.HasValue ? value.ToString($"F{DecimalPlaces.Value}", CurrentCulture) : value.ToString(CurrentCulture);
         }
 
         try
         {
-            return value.Value.ToString(FormatMask, CurrentCulture);
+            return value.ToString(FormatMask, CurrentCulture);
         }
         catch (FormatException ex)
         {
-            Logger?.LogWarning(ex, "Invalid format mask '{FormatMask}'. Falling back to default.", FormatMask);
-            return value.Value.ToString(CurrentCulture);
+            Logger?.LogWarning(ex, "Invalid format mask '{FormatMask}'. Falling back.", FormatMask);
+
+            return DecimalPlaces.HasValue ? value.ToString($"F{DecimalPlaces.Value}", CurrentCulture) : value.ToString(CurrentCulture);
         }
     }
 
@@ -159,10 +218,10 @@
     {
         if (IsFocused && !ShowFormattedWhileFocused)
         {
-            return _rawInputValue ?? (CurrentValue.HasValue ? CurrentValue.Value.ToString(CurrentCulture) : string.Empty);
+            return _rawInputValue ?? CurrentValue.ToString(CurrentCulture);
         }
 
-        if (!CurrentValue.HasValue && string.IsNullOrWhiteSpace(_rawInputValue))
+        if (CurrentValue == 0.0f && string.IsNullOrWhiteSpace(_rawInputValue))
         {
             return string.Empty;
         }
@@ -191,37 +250,13 @@
         EditContext?.NotifyFieldChanged(FieldIdentifier);
     }
 
-    protected override string GetInputType()
-    {
-        if (string.IsNullOrWhiteSpace(FormatMask)) return "number";
+    protected override string GetInputType() => "text";
 
-        var numericFormats = new[] { "N", "D", "G", "F" };
-
-        if (numericFormats.Any(f => FormatMask.StartsWith(f, StringComparison.OrdinalIgnoreCase)))
-        {
-            return IsFocused && !ShowFormattedWhileFocused ? "number" : "text";
-        }
-
-        return "text";
-    }
-
-    protected override string GetInputMode()
-    {
-        if (string.IsNullOrWhiteSpace(FormatMask)) return "numeric";
-
-        var numericFormats = new[] { "N", "D", "G", "F", "C" };
-
-        if (numericFormats.Any(f => FormatMask.StartsWith(f, StringComparison.OrdinalIgnoreCase)))
-        {
-            return "numeric";
-        }
-
-        return FormatMask.StartsWith("X", StringComparison.OrdinalIgnoreCase) ? "text" : "numeric";
-    }
+    protected override string GetInputMode() => "decimal";
 
     protected override string? GetMinAttribute() => Min?.ToString();
     protected override string? GetMaxAttribute() => Max?.ToString();
-    protected override string? GetStepAttribute() => Step.ToString();
+    protected override string? GetStepAttribute() => Step.ToString(CurrentCulture);
 
     protected override void InferTypeSpecificAttributes(PropertyInfo propertyInfo)
     {
@@ -229,8 +264,9 @@
 
         if (rangeAttr == null) return;
 
-        if (!Min.HasValue && rangeAttr.Minimum is int minValue) Min = minValue;
-        if (!Max.HasValue && rangeAttr.Maximum is int maxValue) Max = maxValue;
+        Min ??= Convert.ToSingle(rangeAttr.Minimum);
+
+        Max ??= Convert.ToSingle(rangeAttr.Maximum);
 
         var rangeText = $"Value must be between {rangeAttr.Minimum} and {rangeAttr.Maximum}";
         HelperText = string.IsNullOrEmpty(HelperText) ? rangeText : $"{HelperText}. {rangeText}";
@@ -240,7 +276,15 @@
     {
         if (string.IsNullOrWhiteSpace(value)) return value;
 
-        var cleaned = value;
+        var cleaned = value.Trim();
+
+        if (AllowScientificNotation && cleaned.Contains('e', StringComparison.OrdinalIgnoreCase))
+        {
+            cleaned = cleaned.Replace(CurrentCulture.NumberFormat.CurrencySymbol, "");
+            cleaned = cleaned.Replace(CurrentCulture.NumberFormat.PercentSymbol, "");
+            return cleaned;
+        }
+
         cleaned = cleaned.Replace(CurrentCulture.NumberFormat.CurrencySymbol, "");
         cleaned = cleaned.Replace(CurrentCulture.NumberFormat.PercentSymbol, "");
         cleaned = cleaned.Replace(CurrentCulture.NumberFormat.NumberGroupSeparator, "");

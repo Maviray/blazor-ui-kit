@@ -21,20 +21,20 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>, IDisposable
 {
     #region Protected Fields
 
-    protected bool _isFocused;
-    protected bool _attributesInferred = false;
-    protected EditContext? _previousEditContext;
-    protected ValidationMessageStore? _validationMessageStore;
-    protected bool _isEndIconLoading = false;
+    protected bool IsFocused;
+    protected bool AttributesInferred = false;
+    protected EditContext? PreviousEditContext;
+    protected ValidationMessageStore? ValidationMessageStore;
+    protected bool IsEndIconLoading = false;
 
-    protected readonly string _textAlertColor = Tailwind.Theme.Colors.Text.THEME_ALERT_EIGHT_TEXT;
-    protected readonly string _borderAlertColor = Tailwind.Theme.Colors.Border.THEME_ALERT_EIGHT_BORDER;
+    protected readonly string TextAlertColor = Tailwind.Theme.Colors.Text.THEME_ALERT_EIGHT_TEXT;
+    protected readonly string BorderAlertColor = Tailwind.Theme.Colors.Border.THEME_ALERT_EIGHT_BORDER;
 
-    protected string _themeTextLightColor = Tailwind.Theme.Colors.Text.THEME_PRIMARY_EIGHT_TEXT;
-    protected string _themeTextDarkColor = Tailwind.Theme.Colors.Text.THEME_ACCENT_NINE_TEXT;
-    protected string _themeBorderLightColor = Tailwind.Theme.Colors.Border.THEME_PRIMARY_EIGHT_BORDER;
-    protected string _themeBorderDarkColor = Tailwind.Theme.Colors.Border.THEME_PRIMARY_NINE_BORDER;
-    protected string _themeBorderHoverColor = Tailwind.Theme.Colors.Border.Hover.THEME_PRIMARY_NINE_BORDER_HOVER;
+    protected string ThemeTextLightColor = Tailwind.Theme.Colors.Text.THEME_PRIMARY_EIGHT_TEXT;
+    protected string ThemeTextDarkColor = Tailwind.Theme.Colors.Text.THEME_ACCENT_NINE_TEXT;
+    protected string ThemeBorderLightColor = Tailwind.Theme.Colors.Border.THEME_PRIMARY_EIGHT_BORDER;
+    protected string ThemeBorderDarkColor = Tailwind.Theme.Colors.Border.THEME_PRIMARY_NINE_BORDER;
+    protected string ThemeBorderHoverColor = Tailwind.Theme.Colors.Border.Hover.THEME_PRIMARY_NINE_BORDER_HOVER;
 
     #endregion
 
@@ -89,7 +89,7 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>, IDisposable
 
     /// <summary>
     /// When true, automatically infers Label, Required, and HelperText from model property attributes.
-    /// Default is true. Set to false to disable automatic inference.
+    /// Default is true. Set to false in order to disable automatic inference.
     /// </summary>
     [Parameter] public bool InferFromModelAttributes { get; set; } = true;
 
@@ -109,7 +109,7 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>, IDisposable
     protected bool HasError => EditContext != null && !Disabled && !Readonly && EditContext.GetValidationMessages(FieldIdentifier).Any();
 
     protected abstract bool HasValue { get; }
-    protected bool IsLabelFloating => _isFocused || HasValue || Disabled || Readonly;
+    protected bool IsLabelFloating => IsFocused || HasValue || Disabled || Readonly;
 
     #endregion
 
@@ -127,14 +127,14 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>, IDisposable
         SetThemeColors();
 
         // Only infer once and only if enabled
-        if (InferFromModelAttributes && !_attributesInferred)
+        if (InferFromModelAttributes && !AttributesInferred)
         {
             InferValuesFromAttributes();
-            _attributesInferred = true;
+            AttributesInferred = true;
         }
 
         // Subscribe to EditContext validation state changes
-        if (EditContext != _previousEditContext)
+        if (EditContext != PreviousEditContext)
         {
             DetachValidationStateChangedListener();
 
@@ -142,16 +142,16 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>, IDisposable
             if (EditContext != null)
             {
                 EditContext.OnValidationStateChanged += OnValidationStateChanged;
-                _validationMessageStore = new ValidationMessageStore(EditContext);
+                ValidationMessageStore = new ValidationMessageStore(EditContext);
             }
 
-            _previousEditContext = EditContext;
+            PreviousEditContext = EditContext;
         }
 
         // Clear validation messages for disabled/readonly fields
-        if ((Disabled || Readonly) && EditContext != null && _validationMessageStore != null)
+        if ((Disabled || Readonly) && EditContext != null && ValidationMessageStore != null)
         {
-            _validationMessageStore.Clear(FieldIdentifier);
+            ValidationMessageStore.Clear(FieldIdentifier);
         }
     }
 
@@ -196,9 +196,9 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>, IDisposable
 
         // Clear validation for disabled/readonly fields
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-        if ((Disabled || Readonly) && EditContext != null && _validationMessageStore != null)
+        if ((Disabled || Readonly) && EditContext != null && ValidationMessageStore != null)
         {
-            _validationMessageStore.Clear(FieldIdentifier);
+            ValidationMessageStore.Clear(FieldIdentifier);
         }
 
         // Re-render the component to reflect the new validation state
@@ -225,13 +225,13 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>, IDisposable
             Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
         }
 
-        if (Disabled || EndIconDisabled || _isEndIconLoading)
+        if (Disabled || EndIconDisabled || IsEndIconLoading)
             return;
 
         try
         {
             // Show loading state
-            _isEndIconLoading = true;
+            IsEndIconLoading = true;
             StateHasChanged();
 
             if (!string.IsNullOrEmpty(EndIcon) && !string.IsNullOrWhiteSpace(EndIconAlternative))
@@ -268,20 +268,20 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>, IDisposable
         finally
         {
             // Hide loading state
-            _isEndIconLoading = false;
+            IsEndIconLoading = false;
             StateHasChanged();
         }
     }
 
     protected void OnFocus()
     {
-        _isFocused = true;
+        IsFocused = true;
         StateHasChanged();
     }
 
     protected virtual void OnBlur()
     {
-        _isFocused = false;
+        IsFocused = false;
         StateHasChanged();
     }
 
@@ -501,11 +501,11 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>, IDisposable
         // Color based on state (matching border state)
         if (HasError)
         {
-            classes.Add(_textAlertColor);
+            classes.Add(TextAlertColor);
         }
-        else if (_isFocused)
+        else if (IsFocused)
         {
-            classes.Add(_themeTextDarkColor);
+            classes.Add(ThemeTextDarkColor);
         }
         else if (Disabled)
         {
@@ -517,7 +517,7 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>, IDisposable
         }
         else
         {
-            classes.Add(_themeTextLightColor);
+            classes.Add(ThemeTextLightColor);
         }
 
         return string.Join(" ", classes);
@@ -543,7 +543,7 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>, IDisposable
         };
 
         // Border width - thicker when focused or error
-        if (_isFocused || HasError)
+        if (IsFocused || HasError)
         {
             classes.Add("!border-2");
         }
@@ -552,12 +552,12 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>, IDisposable
         if (HasError)
         {
             // Error state - always red
-            classes.Add(_borderAlertColor);
+            classes.Add(BorderAlertColor);
         }
-        else if (_isFocused)
+        else if (IsFocused)
         {
             // Focused/Active state - darker primary
-            classes.Add(_themeBorderDarkColor);
+            classes.Add(ThemeBorderDarkColor);
         }
         else if (Disabled)
         {
@@ -574,8 +574,8 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>, IDisposable
         else
         {
             // Default state with hover
-            classes.Add(_themeBorderLightColor);
-            classes.Add(_themeBorderHoverColor);
+            classes.Add(ThemeBorderLightColor);
+            classes.Add(ThemeBorderHoverColor);
         }
 
         return string.Join(" ", classes);
@@ -596,7 +596,7 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>, IDisposable
 
     protected string BuildRequiredAsteriskClass()
     {
-        return $"ml-0.5 {_textAlertColor}";
+        return $"ml-0.5 {TextAlertColor}";
     }
 
     protected string GetStartIconClass()
@@ -609,11 +609,11 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>, IDisposable
         // Icon color based on state
         if (HasError)
         {
-            classes.Add(_textAlertColor);
+            classes.Add(TextAlertColor);
         }
-        else if (_isFocused)
+        else if (IsFocused)
         {
-            classes.Add(_themeTextDarkColor);
+            classes.Add(ThemeTextDarkColor);
         }
         else if (Disabled)
         {
@@ -625,7 +625,7 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>, IDisposable
         }
         else
         {
-            classes.Add(_themeTextLightColor);
+            classes.Add(ThemeTextLightColor);
         }
 
         return string.Join(" ", classes);
@@ -652,15 +652,15 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>, IDisposable
             // Icon color based on state
             if (HasError)
             {
-                classes.Add(_textAlertColor);
+                classes.Add(TextAlertColor);
             }
-            else if (_isFocused)
+            else if (IsFocused)
             {
-                classes.Add(_themeTextDarkColor);
+                classes.Add(ThemeTextDarkColor);
             }
             else
             {
-                classes.Add(_themeTextLightColor);
+                classes.Add(ThemeTextLightColor);
             }
         }
 
@@ -688,15 +688,15 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>, IDisposable
         // Loading spinner color based on state
         if (HasError)
         {
-            classes.Add(_textAlertColor);
+            classes.Add(TextAlertColor);
         }
-        else if (_isFocused)
+        else if (IsFocused)
         {
-            classes.Add(_themeTextDarkColor);
+            classes.Add(ThemeTextDarkColor);
         }
         else
         {
-            classes.Add(_themeTextLightColor);
+            classes.Add(ThemeTextLightColor);
         }
 
         return string.Join(" ", classes);
@@ -765,11 +765,11 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>, IDisposable
             _ => "primary"
         };
 
-        _themeTextLightColor = $"text-(--theme-{colorName}-eight)";
-        _themeTextDarkColor = $"text-(--theme-{colorName}-nine)";
-        _themeBorderLightColor = $"border-(--theme-{colorName}-eight)";
-        _themeBorderDarkColor = $"border-(--theme-{colorName}-nine)";
-        _themeBorderHoverColor = $"hover:border-(--theme-{colorName}-nine)";
+        ThemeTextLightColor = $"text-(--theme-{colorName}-eight)";
+        ThemeTextDarkColor = $"text-(--theme-{colorName}-nine)";
+        ThemeBorderLightColor = $"border-(--theme-{colorName}-eight)";
+        ThemeBorderDarkColor = $"border-(--theme-{colorName}-nine)";
+        ThemeBorderHoverColor = $"hover:border-(--theme-{colorName}-nine)";
     }
 
     #endregion
@@ -778,9 +778,9 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>, IDisposable
 
     protected void DetachValidationStateChangedListener()
     {
-        if (_previousEditContext != null)
+        if (PreviousEditContext != null)
         {
-            _previousEditContext.OnValidationStateChanged -= OnValidationStateChanged;
+            PreviousEditContext.OnValidationStateChanged -= OnValidationStateChanged;
         }
     }
 

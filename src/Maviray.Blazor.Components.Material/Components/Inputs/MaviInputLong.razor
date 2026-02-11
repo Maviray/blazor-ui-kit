@@ -3,7 +3,8 @@
 @using System.ComponentModel.DataAnnotations
 @using System.Reflection
 @using System.Globalization
-@inherits MaviNumericInputBase<int?>
+@using Maviray.Blazor.Components.Core.Extensions
+@inherits MaviNumericInputBase<long>
 
 <div class="@Width">
     <!-- Floating Label Input Container -->
@@ -100,69 +101,98 @@
 </div>
 
 @code {
-    [Parameter] public int? Min { get; set; }
-    [Parameter] public int? Max { get; set; }
-    [Parameter] public int Step { get; set; } = 1;
+    /// <summary>
+    /// Minimum allowed value for the long integer input.
+    /// </summary>
+    [Parameter] public long? Min { get; set; }
 
-    protected override bool HasValue => CurrentValue.HasValue || !string.IsNullOrWhiteSpace(_rawInputValue);
+    /// <summary>
+    /// Maximum allowed value for the long integer input.
+    /// </summary>
+    [Parameter] public long? Max { get; set; }
+
+    /// <summary>
+    /// Step value for increment/decrement operations.
+    /// </summary>
+    [Parameter] public long Step { get; set; } = 1L;
+
+    protected override bool HasValue => CurrentValue != 0L || !string.IsNullOrWhiteSpace(_rawInputValue);
 
     protected override bool TryParseValueFromString(
         string? value,
-        out int? result,
+        out long result,
         [NotNullWhen(false)] out string? validationErrorMessage)
     {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
         if (string.IsNullOrWhiteSpace(value))
         {
-            result = null;
+            result = 0L;
             validationErrorMessage = null;
             return true;
         }
 
+        // Remove formatting characters for parsing
         var cleanValue = CleanValueForParsing(value);
 
-        if (int.TryParse(cleanValue, NumberStyles.Integer, CurrentCulture, out var parsedValue))
+        if (long.TryParse(cleanValue, NumberStyles.Integer, CurrentCulture, out var parsedValue))
         {
+            // Validate min/max constraints
+            if (parsedValue < Min)
+            {
+                result = parsedValue;
+                validationErrorMessage = $"The {Label ?? FieldIdentifier.FieldName} field must be at least {Min.Value}.";
+                return false;
+            }
+
+            if (parsedValue > Max)
+            {
+                result = parsedValue;
+                validationErrorMessage = $"The {Label ?? FieldIdentifier.FieldName} field must not exceed {Max.Value}.";
+                return false;
+            }
+
             result = parsedValue;
             validationErrorMessage = null;
             return true;
         }
 
-        result = null;
+        result = 0L;
         validationErrorMessage = $"The {Label ?? FieldIdentifier.FieldName} field must be a valid integer.";
         return false;
     }
 
-    protected override string? FormatValueAsString(int? value)
+    protected override string? FormatValueAsString(long value)
     {
-        if (!value.HasValue)
-        {
-            return null;
-        }
-
         if (string.IsNullOrWhiteSpace(FormatMask))
         {
-            return value.Value.ToString(CurrentCulture);
+            return value.ToString(CurrentCulture);
         }
 
         try
         {
-            return value.Value.ToString(FormatMask, CurrentCulture);
+            return value.ToString(FormatMask, CurrentCulture);
         }
         catch (FormatException ex)
         {
-            Logger?.LogWarning(ex, "Invalid format mask '{FormatMask}'. Falling back to default.", FormatMask);
-            return value.Value.ToString(CurrentCulture);
+            Logger?.LogWarning(ex, "Invalid format mask '{FormatMask}' for long integer value. Falling back to default format.", FormatMask);
+            return value.ToString(CurrentCulture);
         }
     }
 
     protected override string? GetDisplayValue()
     {
+        // When focused and not showing formatted value, show raw input or plain number
         if (IsFocused && !ShowFormattedWhileFocused)
         {
-            return _rawInputValue ?? (CurrentValue.HasValue ? CurrentValue.Value.ToString(CurrentCulture) : string.Empty);
+            return _rawInputValue ?? CurrentValue.ToString(CurrentCulture);
         }
 
-        if (!CurrentValue.HasValue && string.IsNullOrWhiteSpace(_rawInputValue))
+        // When not focused or ShowFormattedWhileFocused is true, show formatted value
+        if (CurrentValue == 0L && string.IsNullOrWhiteSpace(_rawInputValue))
         {
             return string.Empty;
         }
@@ -172,32 +202,39 @@
 
     protected override void HandleInput(ChangeEventArgs e)
     {
-        if (Disabled || Readonly) return;
+        // Don't update value for disabled/readonly fields
+        if (Disabled || Readonly)
+            return;
 
         _rawInputValue = e.Value?.ToString();
 
+        // Try to parse and update the value
         if (TryParseValueFromString(_rawInputValue, out var parsedValue, out _))
         {
             CurrentValue = parsedValue;
         }
+
+        // Don't trigger validation on every keystroke - just update the UI
     }
 
     protected override void HandleChange(ChangeEventArgs e)
     {
-        if (Disabled || Readonly) return;
+        // Don't update value or validate disabled/readonly fields
+        if (Disabled || Readonly)
+            return;
 
         _rawInputValue = e.Value?.ToString();
         CurrentValueAsString = _rawInputValue;
+
+        // Trigger validation on change (blur)
         EditContext?.NotifyFieldChanged(FieldIdentifier);
     }
 
     protected override string GetInputType()
     {
-        if (string.IsNullOrWhiteSpace(FormatMask)) return "number";
-
-        var numericFormats = new[] { "N", "D", "G", "F" };
-
-        if (numericFormats.Any(f => FormatMask.StartsWith(f, StringComparison.OrdinalIgnoreCase)))
+        // For better mobile experience, use 'number' for standard numeric formats
+        // Use 'text' for complex formats that might confuse numeric keyboards
+        if (string.IsNullOrWhiteSpace(FormatMask))
         {
             return IsFocused && !ShowFormattedWhileFocused ? "number" : "text";
         }
@@ -207,8 +244,10 @@
 
     protected override string GetInputMode()
     {
+        // Provide appropriate input mode for mobile keyboards
         if (string.IsNullOrWhiteSpace(FormatMask)) return "numeric";
 
+        // Check if format is primarily numeric
         var numericFormats = new[] { "N", "D", "G", "F", "C" };
 
         if (numericFormats.Any(f => FormatMask.StartsWith(f, StringComparison.OrdinalIgnoreCase)))
@@ -216,12 +255,13 @@
             return "numeric";
         }
 
+        // Hexadecimal format uses different keyboard
         return FormatMask.StartsWith("X", StringComparison.OrdinalIgnoreCase) ? "text" : "numeric";
     }
 
     protected override string? GetMinAttribute() => Min?.ToString();
     protected override string? GetMaxAttribute() => Max?.ToString();
-    protected override string? GetStepAttribute() => Step.ToString();
+    protected override string? GetStepAttribute() => Step.ToString(CurrentCulture);
 
     protected override void InferTypeSpecificAttributes(PropertyInfo propertyInfo)
     {
@@ -229,8 +269,9 @@
 
         if (rangeAttr == null) return;
 
-        if (!Min.HasValue && rangeAttr.Minimum is int minValue) Min = minValue;
-        if (!Max.HasValue && rangeAttr.Maximum is int maxValue) Max = maxValue;
+        Min ??= Convert.ToInt64(rangeAttr.Minimum);
+
+        Max ??= Convert.ToInt64(rangeAttr.Maximum);
 
         var rangeText = $"Value must be between {rangeAttr.Minimum} and {rangeAttr.Maximum}";
         HelperText = string.IsNullOrEmpty(HelperText) ? rangeText : $"{HelperText}. {rangeText}";
@@ -240,12 +281,15 @@
     {
         if (string.IsNullOrWhiteSpace(value)) return value;
 
-        var cleaned = value;
+        var cleaned = value.Trim();
+
+        // Remove common formatting characters
         cleaned = cleaned.Replace(CurrentCulture.NumberFormat.CurrencySymbol, "");
         cleaned = cleaned.Replace(CurrentCulture.NumberFormat.PercentSymbol, "");
         cleaned = cleaned.Replace(CurrentCulture.NumberFormat.NumberGroupSeparator, "");
         cleaned = cleaned.Replace(CurrentCulture.NumberFormat.CurrencyGroupSeparator, "");
 
+        // Handle cultures that use space as group separator
         if (CurrentCulture.NumberFormat.NumberGroupSeparator == " " ||
             CurrentCulture.NumberFormat.CurrencyGroupSeparator == " ")
         {

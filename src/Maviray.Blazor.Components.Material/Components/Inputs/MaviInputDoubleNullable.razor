@@ -57,7 +57,7 @@
         <!-- End Icon (Clickable) or Loading Spinner -->
         @if (!string.IsNullOrEmpty(EndIcon))
         {
-            @if (_isEndIconLoading)
+            @if (IsEndIconLoading)
             {
                 <!-- Loading Spinner -->
                 <div class="@GetEndIconLoadingClass()"
@@ -253,7 +253,7 @@
     protected override string? GetDisplayValue()
     {
         // When focused and not showing formatted value, show raw input or plain number
-        if (_isFocused && !ShowFormattedWhileFocused)
+        if (IsFocused && !ShowFormattedWhileFocused)
         {
             return _rawInputValue ?? (CurrentValue.HasValue ? CurrentValue.Value.ToString(CurrentCulture) : string.Empty);
         }
