@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Maviray.Blazor.Components.Samples.Material.Client.Layout;
+namespace Maviray.Blazor.Components.Samples.Material.Client.Models;
 
 public class SampleIntegerNullableModel
 {
