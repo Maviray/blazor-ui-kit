@@ -30,11 +30,6 @@
 	  <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Areas\" />
-    <Folder Include="Components\Feedback\" />
-  </ItemGroup>
-
 	<ItemGroup>
 		<None Include="..\..\icon.png" Pack="true" PackagePath="\" />
 		<None Include="..\..\README.md" Pack="true" PackagePath="\" />

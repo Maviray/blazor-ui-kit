@@ -1,0 +1,1078 @@
+﻿@using System.Diagnostics.CodeAnalysis
+@using Microsoft.Extensions.Logging
+@using System.ComponentModel.DataAnnotations
+@using System.Reflection
+@using Maviray.Blazor.Components.Core.EventArgs
+@using System.Globalization
+@using Maviray.Blazor.Components.Core.Extensions
+@using Maviray.Blazor.Components.Core.Options
+@inherits InputBase<int>
+@implements IDisposable
+
+<div class="@Width">
+    <!-- Floating Label Input Container -->
+    <div class="@GetContainerClass()">
+        <!-- Input Field -->
+        <input value="@GetDisplayValue()"
+               @oninput="HandleInput"
+               @onchange="HandleChange"
+               @onfocus="OnFocus"
+               @onblur="OnBlur"
+               type="@GetInputType()"
+               inputmode="@GetInputMode()"
+               id="@Id"
+               min="@Min"
+               max="@Max"
+               step="@Step"
+               disabled="@Disabled"
+               readonly="@Readonly"
+               class="@BuildInputClass()"
+               style="@Style"
+               title="@GetTitle()"
+               aria-describedby="@GetAriaDescribedByString()"
+               aria-invalid="@GetAreaInvalidValue()"
+               aria-label="@Label"
+               aria-required="@Required.ToString().ToLowerInvariant()"
+               data-val="@(!Disabled && !Readonly ? "true" : "false")"
+               @attributes="AdditionalAttributes" />
+
+        <!-- Floating Label -->
+        @if (!string.IsNullOrEmpty(Label))
+        {
+            <label for="@Id"
+                   class="@BuildLabelClass()"
+                   title="@Title">
+                @Label
+                @if (Required && !Disabled && !Readonly)
+                {
+                    <span class="@BuildRequiredAsteriskClass()">*</span>
+                }
+            </label>
+        }
+
+        <!-- Start Icon -->
+        @if (!string.IsNullOrEmpty(StartIcon))
+        {
+            <div class="@GetStartIconClass()">
+                <i class="@StartIcon text-xl"></i>
+            </div>
+        }
+
+        <!-- End Icon (Clickable) or Loading Spinner -->
+        @if (!string.IsNullOrEmpty(EndIcon))
+        {
+            @if (_isEndIconLoading)
+            {
+                <!-- Loading Spinner -->
+                <div class="@GetEndIconLoadingClass()"
+                     aria-label="Loading"
+                     role="status">
+                    <div class="animate-spin rounded-full border-2 border-solid border-current border-r-transparent"
+                         style="@GetLoadingSpinnerSize()"></div>
+                </div>
+            }
+            else
+            {
+                <!-- End Icon Button -->
+                <button type="button"
+                        class="@GetEndIconClass()"
+                        @onclick="HandleEndIconClick"
+                        disabled="@(Disabled || EndIconDisabled)"
+                        title="@ButtonLabel"
+                        aria-label="@ButtonLabel"
+                        tabindex="-1">
+                    <i class="@EndIcon text-xl"></i>
+                </button>
+            }
+        }
+
+        <!-- Fieldset for Outlined Border -->
+        <fieldset aria-hidden="true" class="@BuildFieldsetClass()">
+            <legend class="@BuildLegendClass()">
+                <span class="@(string.IsNullOrEmpty(Label) || Disabled || Readonly ? "" : "px-2")">@Label@((Required && !Disabled && !Readonly) ? " *" : "")</span>
+            </legend>
+        </fieldset>
+    </div>
+
+    <!-- Helper Text -->
+    @if (!string.IsNullOrEmpty(HelperText))
+    {
+        <div class="mt-1.5 px-3.5 text-xs leading-tight text-black/60" id="@($"{Id}-helper")">
+            @HelperText
+        </div>
+    }
+</div>
+
+@code {
+    private bool _isFocused;
+    private bool _attributesInferred = false;
+    private EditContext? _previousEditContext;
+    private ValidationMessageStore? _validationMessageStore;
+    private bool _isEndIconLoading = false;
+    private string? _rawInputValue;
+
+    private readonly string _textAlertColor = "text-(--theme-alert-eight)";
+    private readonly string _borderAlertColor = "border-(--theme-alert-eight)";
+
+    private string _themeTextLightColor = "text-(--theme-primary-eight)";
+    private string _themeTextDarkColor = "text-(--theme-primary-nine)";
+    private string _themeBorderLightColor = "border-(--theme-primary-eight)";
+    private string _themeBorderDarkColor = "border-(--theme-primary-nine)";
+    private string _themeBorderHoverColor = "hover:border-(--theme-primary-nine)";
+
+    [Inject] private ILoggerFactory? LoggerFactory { get; set; }
+
+    [Inject] protected IMaviComponentOptions? ComponentOptions { get; set; }
+
+    private ILogger? Logger => field ??= LoggerFactory?.CreateLogger(GetType());
+
+    [Parameter] public virtual string? Id { get; set; } = $"input_{Guid.NewGuid()}";
+
+    [Parameter] public string Width { get; set; } = "w-96";
+
+    [Parameter] public string? Style { get; set; }
+
+    [Parameter] public string? Title { get; set; }
+
+    [Parameter] public ElementSize ElementSize { get; set; } = ElementSize.Regular;
+
+    [Parameter] public ThemeColorScheme ThemeColorScheme { get; set; } = ThemeColorScheme.Primary;
+
+    [Parameter] public string Label { get; set; } = string.Empty;
+
+    [Parameter] public string? StartIcon { get; set; }
+
+    /// <summary>
+    /// Icon displayed at the end (right side) of the input field. This icon is clickable.
+    /// </summary>
+    [Parameter] public string? EndIcon { get; set; }
+
+    /// <summary>
+    /// Icon displayed at the end (right side) of the input field. This icon is toggled on-click.
+    /// </summary>
+    [Parameter] public string? EndIconAlternative { get; set; }
+
+    /// <summary>
+    /// Callback invoked when the end icon is clicked.
+    /// </summary>
+    [Parameter] public EventCallback<MouseClickEventArgs> OnEndIconClick { get; set; }
+
+    /// <summary>
+    /// Disables the end icon button independently of the input field.
+    /// </summary>
+    [Parameter] public bool EndIconDisabled { get; set; }
+
+    /// <summary>
+    /// Aria label for the end icon button for accessibility.
+    /// </summary>
+    [Parameter] public string ButtonLabel { get; set; } = "Action";
+
+    /// <summary>
+    /// Minimum allowed value for the integer input.
+    /// </summary>
+    [Parameter] public int? Min { get; set; }
+
+    /// <summary>
+    /// Maximum allowed value for the integer input.
+    /// </summary>
+    [Parameter] public int? Max { get; set; }
+
+    /// <summary>
+    /// Step value for increment/decrement operations.
+    /// </summary>
+    [Parameter] public int Step { get; set; } = 1;
+
+    [Parameter] public bool Disabled { get; set; }
+
+    [Parameter] public bool Readonly { get; set; }
+
+    [Parameter] public bool Required { get; set; }
+
+    /// <summary>
+    /// When true, automatically infers Label, Required, Min, Max, and HelperText from model property attributes.
+    /// Default is true. Set to false to disable automatic inference.
+    /// </summary>
+    [Parameter] public bool InferFromModelAttributes { get; set; } = true;
+
+    /// <summary>
+    /// Helper text displayed below the input field. Provides guidance to the user.
+    /// Can be automatically inferred from [Display(Description = "")] or [Display(Prompt = "")] attributes.
+    /// </summary>
+    [Parameter] public string? HelperText { get; set; }
+
+    /// <summary>
+    /// Culture info used for parsing and formatting integer values. Defaults to current UI culture.
+    /// </summary>
+    [Parameter] public CultureInfo? FormatCulture { get; set; }
+
+    /// <summary>
+    /// Format string for displaying the integer value (e.g., "N0", "C", "D5", "X", etc.).
+    /// Supports all standard and custom .NET numeric format strings.
+    /// When focused, the raw number is shown for editing. When blurred, the formatted value is displayed.
+    /// Examples:
+    /// - "N0" - Number with thousand separators (1,234)
+    /// - "C" or "C0" - Currency ($1,234)
+    /// - "D5" - Decimal padded to 5 digits (00123)
+    /// - "X" - Hexadecimal (7B)
+    /// - "P0" - Percentage (12%)
+    /// - "#,##0" - Custom format with thousand separators
+    /// </summary>
+    [Parameter] public string? FormatMask { get; set; }
+
+    /// <summary>
+    /// When true, shows formatted value even when focused (editing).
+    /// Default is false - shows raw number when focused for easier editing.
+    /// </summary>
+    [Parameter] public bool ShowFormattedWhileFocused { get; set; }
+
+    protected bool HasRendered { get; private set; }
+
+    protected CultureInfo CurrentCulture => FormatCulture ?? CultureInfo.CurrentUICulture;
+
+    // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract - outside of Form context EditContext can be null
+    protected bool HasError => EditContext != null && !Disabled && !Readonly && EditContext.GetValidationMessages(FieldIdentifier).Any();
+
+    protected bool HasValue => CurrentValue != 0 || !string.IsNullOrWhiteSpace(_rawInputValue);
+
+    protected bool IsLabelFloating => _isFocused || HasValue || Disabled || Readonly;
+
+    protected override void OnParametersSet()
+    {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
+        base.OnParametersSet();
+
+        SetThemeColors();
+
+        // Only infer once and only if enabled
+        if (InferFromModelAttributes && !_attributesInferred)
+        {
+            InferValuesFromAttributes();
+            _attributesInferred = true;
+        }
+
+        // Subscribe to EditContext validation state changes
+        if (EditContext != _previousEditContext)
+        {
+            DetachValidationStateChangedListener();
+
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract - outside of Form context EditContext can be null
+            if (EditContext != null)
+            {
+                EditContext.OnValidationStateChanged += OnValidationStateChanged;
+                _validationMessageStore = new ValidationMessageStore(EditContext);
+            }
+
+            _previousEditContext = EditContext;
+        }
+
+        // Clear validation messages for disabled/readonly fields
+        if ((Disabled || Readonly) && EditContext != null && _validationMessageStore != null)
+        {
+            _validationMessageStore.Clear(FieldIdentifier);
+        }
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
+        base.OnAfterRender(firstRender);
+
+        if (firstRender)
+        {
+            HasRendered = true;
+        }
+    }
+
+    protected override bool TryParseValueFromString(
+        string? value,
+        out int result,
+        [NotNullWhen(false)] out string? validationErrorMessage)
+    {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            result = 0;
+            validationErrorMessage = null;
+            return true;
+        }
+
+        // Remove formatting characters for parsing
+        var cleanValue = CleanValueForParsing(value);
+
+        if (int.TryParse(cleanValue, NumberStyles.Integer, CurrentCulture, out var parsedValue))
+        {
+            result = parsedValue;
+            validationErrorMessage = null;
+            return true;
+        }
+
+        result = 0;
+        validationErrorMessage = $"The {Label ?? FieldIdentifier.FieldName} field must be a valid integer.";
+        return false;
+    }
+
+    protected override string? FormatValueAsString(int value)
+    {
+        if (string.IsNullOrWhiteSpace(FormatMask))
+        {
+            return value.ToString(CurrentCulture);
+        }
+
+        try
+        {
+            return value.ToString(FormatMask, CurrentCulture);
+        }
+        catch (FormatException ex)
+        {
+            Logger?.LogWarning(ex, "Invalid format mask '{FormatMask}' for integer value. Falling back to default format.", FormatMask);
+            return value.ToString(CurrentCulture);
+        }
+    }
+
+    /// <summary>
+    /// Gets the value to display in the input field.
+    /// Shows formatted value when not focused (or when ShowFormattedWhileFocused is true),
+    /// and raw value when focused for easier editing.
+    /// </summary>
+    private string? GetDisplayValue()
+    {
+        // When focused and not showing formatted value, show raw input or plain number
+        if (_isFocused && !ShowFormattedWhileFocused)
+        {
+            return _rawInputValue ?? CurrentValue.ToString(CurrentCulture);
+        }
+
+        // When not focused or ShowFormattedWhileFocused is true, show formatted value
+        if (CurrentValue == 0 && string.IsNullOrWhiteSpace(_rawInputValue))
+        {
+            return string.Empty;
+        }
+
+        return FormatValueAsString(CurrentValue);
+    }
+
+    /// <summary>
+    /// Cleans the input value by removing formatting characters for parsing.
+    /// </summary>
+    private string CleanValueForParsing(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return value;
+
+        var cleaned = value;
+
+        // Remove currency symbols
+        cleaned = cleaned.Replace(CurrentCulture.NumberFormat.CurrencySymbol, "");
+
+        // Remove percent symbols
+        cleaned = cleaned.Replace(CurrentCulture.NumberFormat.PercentSymbol, "");
+
+        // Remove group separators (thousand separators)
+        cleaned = cleaned.Replace(CurrentCulture.NumberFormat.NumberGroupSeparator, "");
+        cleaned = cleaned.Replace(CurrentCulture.NumberFormat.CurrencyGroupSeparator, "");
+
+        // Remove spaces that might be used as group separators
+        if (CurrentCulture.NumberFormat.NumberGroupSeparator == " " ||
+            CurrentCulture.NumberFormat.CurrencyGroupSeparator == " ")
+        {
+            cleaned = cleaned.Replace(" ", "");
+        }
+
+        return cleaned.Trim();
+    }
+
+    /// <summary>
+    /// Determines the input type based on format mask.
+    /// </summary>
+    private string GetInputType()
+    {
+        // For better mobile experience, use 'number' for standard numeric formats
+        // Use 'text' for complex formats that might confuse numeric keyboards
+        if (string.IsNullOrWhiteSpace(FormatMask))
+        {
+            return "number";
+        }
+
+        // Standard numeric formats that work well with number input
+        var numericFormats = new[] { "N", "D", "G", "F" };
+        if (numericFormats.Any(f => FormatMask.StartsWith(f, StringComparison.OrdinalIgnoreCase)))
+        {
+            return _isFocused && !ShowFormattedWhileFocused ? "number" : "text";
+        }
+
+        // Use text for currency, percentage, hex, and custom formats
+        return "text";
+    }
+
+    /// <summary>
+    /// Determines the input mode for mobile keyboards.
+    /// </summary>
+    private string GetInputMode()
+    {
+        if (string.IsNullOrWhiteSpace(FormatMask))
+        {
+            return "numeric";
+        }
+
+        // Use numeric keyboard for most formats
+        var numericFormats = new[] { "N", "D", "G", "F", "C" };
+        if (numericFormats.Any(f => FormatMask.StartsWith(f, StringComparison.OrdinalIgnoreCase)))
+        {
+            return "numeric";
+        }
+
+        // Use text for hex and other special formats
+        return FormatMask.StartsWith("X", StringComparison.OrdinalIgnoreCase) ? "text" : "numeric";
+    }
+
+    /// <summary>
+    /// Called when the EditContext's validation state changes (e.g., on form submit)
+    /// </summary>
+    private void OnValidationStateChanged(object? sender, ValidationStateChangedEventArgs e)
+    {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
+        // Clear validation for disabled/readonly fields
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract - outside of Form context EditContext can be null
+        if ((Disabled || Readonly) && EditContext != null && _validationMessageStore != null)
+        {
+            _validationMessageStore.Clear(FieldIdentifier);
+        }
+
+        // Re-render the component to reflect the new validation state
+        InvokeAsync(StateHasChanged);
+    }
+
+    /// <summary>
+    /// Handles input event - updates value for UI purposes (label float) without triggering validation
+    /// </summary>
+    private void HandleInput(ChangeEventArgs e)
+    {
+        // Don't update value for disabled/readonly fields
+        if (Disabled || Readonly)
+            return;
+
+        _rawInputValue = e.Value?.ToString();
+
+        // Try to parse and update the value
+        if (TryParseValueFromString(_rawInputValue, out var parsedValue, out _))
+        {
+            CurrentValue = parsedValue;
+        }
+
+        // Don't trigger validation on every keystroke - just update the UI
+    }
+
+    /// <summary>
+    /// Handles change event - triggers validation when user is done editing
+    /// </summary>
+    private void HandleChange(ChangeEventArgs e)
+    {
+        // Don't update value or validate disabled/readonly fields
+        if (Disabled || Readonly)
+            return;
+
+        _rawInputValue = e.Value?.ToString();
+        CurrentValueAsString = _rawInputValue;
+
+        // Trigger validation on change (blur)
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract - outside of Form context EditContext can be null
+        EditContext?.NotifyFieldChanged(FieldIdentifier);
+    }
+
+    /// <summary>
+    /// Handles the end icon click event
+    /// </summary>
+    private async Task HandleEndIconClick(MouseEventArgs args)
+    {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
+        if (Disabled || EndIconDisabled || _isEndIconLoading)
+            return;
+
+        try
+        {
+            // Show loading state
+            _isEndIconLoading = true;
+            StateHasChanged();
+
+            if (!string.IsNullOrEmpty(EndIcon) && !string.IsNullOrWhiteSpace(EndIconAlternative))
+            {
+                (EndIcon, EndIconAlternative) = (EndIconAlternative, EndIcon);
+            }
+
+            // Invoke custom callback
+            if (OnEndIconClick.HasDelegate)
+            {
+                var customArgs = new MouseClickEventArgs(Id)
+                {
+                    AltKey = args.AltKey,
+                    Button = args.Button,
+                    Buttons = args.Buttons,
+                    ClientX = args.ClientX,
+                    ClientY = args.ClientY,
+                    CtrlKey = args.CtrlKey,
+                    Detail = args.Detail,
+                    MetaKey = args.MetaKey,
+                    OffsetX = args.OffsetX,
+                    OffsetY = args.OffsetY,
+                    PageX = args.PageX,
+                    PageY = args.PageY,
+                    ScreenX = args.ScreenX,
+                    ScreenY = args.ScreenY,
+                    ShiftKey = args.ShiftKey,
+                    Type = args.Type
+                };
+
+                await OnEndIconClick.InvokeAsync(customArgs);
+            }
+        }
+        finally
+        {
+            // Hide loading state
+            _isEndIconLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private void InferValuesFromAttributes()
+    {
+        try
+        {
+            if (ValueExpression == null)
+                return;
+
+            var propertyInfo = GetPropertyInfo();
+
+            if (propertyInfo == null)
+                return;
+
+            // Infer Label if not explicitly set
+            if (string.IsNullOrEmpty(Label))
+            {
+                var displayAttr = propertyInfo.GetCustomAttribute<DisplayAttribute>();
+                var displayNameAttr = propertyInfo.GetCustomAttribute<System.ComponentModel.DisplayNameAttribute>();
+
+                Label = displayAttr?.Name
+                    ?? displayAttr?.GetName()
+                    ?? displayNameAttr?.DisplayName
+                    ?? SplitCamelCase(propertyInfo.Name);
+            }
+
+            // Infer Required if not explicitly set (default is false)
+            if (!Required)
+            {
+                Required = propertyInfo.GetCustomAttribute<RequiredAttribute>() != null;
+            }
+
+            // Infer Min and Max from RangeAttribute
+            var rangeAttr = propertyInfo.GetCustomAttribute<RangeAttribute>();
+            if (rangeAttr != null)
+            {
+                if (!Min.HasValue && rangeAttr.Minimum is int minValue)
+                {
+                    Min = minValue;
+                }
+
+                if (!Max.HasValue && rangeAttr.Maximum is int maxValue)
+                {
+                    Max = maxValue;
+                }
+            }
+
+            // Infer HelperText if not explicitly set
+            if (string.IsNullOrEmpty(HelperText))
+            {
+                var displayAttr = propertyInfo.GetCustomAttribute<DisplayAttribute>();
+                HelperText = displayAttr?.Description ?? displayAttr?.Prompt;
+
+                // Add range info if available
+                if (rangeAttr != null)
+                {
+                    var rangeText = $"Value must be between {rangeAttr.Minimum} and {rangeAttr.Maximum}";
+                    HelperText = string.IsNullOrEmpty(HelperText)
+                        ? rangeText
+                        : $"{HelperText}. {rangeText}";
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger?.LogWarning(ex, "Failed to infer values from model attributes for property '{PropertyName}'",
+                GetPropertyInfo()?.Name ?? "Unknown");
+        }
+    }
+
+    private PropertyInfo? GetPropertyInfo()
+    {
+        if (ValueExpression == null)
+            return null;
+
+        var expression = ValueExpression.Body;
+
+        return expression switch
+        {
+            // Handle member access (e.g., () => model.Property)
+            System.Linq.Expressions.MemberExpression memberExpression => memberExpression.Member as PropertyInfo,
+            // Handle converted expressions (e.g., () => (object)model.Property)
+            System.Linq.Expressions.UnaryExpression { Operand: System.Linq.Expressions.MemberExpression operandMember } => operandMember.Member as PropertyInfo,
+            _ => null
+        };
+    }
+
+    private static string SplitCamelCase(string input)
+    {
+        return string.IsNullOrEmpty(input) ? input : System.Text.RegularExpressions.Regex.Replace(input, "([a-z])([A-Z])", "$1 $2");
+    }
+
+    private void OnFocus()
+    {
+        _isFocused = true;
+        StateHasChanged();
+    }
+
+    private void OnBlur()
+    {
+        _isFocused = false;
+
+        // Clear raw input value on blur - will show formatted value
+        _rawInputValue = null;
+
+        StateHasChanged();
+    }
+
+    private void DetachValidationStateChangedListener()
+    {
+        if (_previousEditContext != null)
+        {
+            _previousEditContext.OnValidationStateChanged -= OnValidationStateChanged;
+        }
+    }
+
+    public void Dispose()
+    {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
+        DetachValidationStateChangedListener();
+    }
+
+    private string GetContainerClass()
+    {
+        var heightClass = ElementSize switch
+        {
+            ElementSize.Small => "h-10",      // 40px
+            ElementSize.Large => "h-14",      // 56px
+            _ => "h-12"                       // 48px (Regular)
+        };
+
+        return $"relative mt-[2px] {heightClass}";
+    }
+
+    private string BuildInputClass()
+    {
+        var classes = new List<string>
+        {
+            "block w-full h-full bg-transparent border-0 outline-none rounded transition-all duration-200"
+        };
+
+        // Text color
+        if (Disabled)
+        {
+            classes.Add("cursor-not-allowed text-black/[0.38]");
+        }
+        else if (Readonly)
+        {
+            classes.Add("cursor-default text-black/[0.87]");
+        }
+        else
+        {
+            classes.Add("text-black/[0.87]");
+        }
+
+        // Placeholder - should be transparent since we use floating label
+        classes.Add("placeholder:text-transparent");
+
+        // Focus
+        classes.Add("focus:outline-none focus:ring-0");
+
+        // Padding and font size for each size
+        var (padding, fontSize, lineHeight) = ElementSize switch
+        {
+            ElementSize.Small => GetSizePadding("px-3 pt-4 pb-2", "pl-[36px] pr-3 pt-[12px] pb-2", "pr-[36px]", "pl-[36px] pr-[36px] pt-4 pb-2", "text-sm", "leading-normal"),
+            ElementSize.Large => GetSizePadding("px-4 pt-5 pb-3", "pl-[38px] pr-4 pt-[14px] pb-3", "pr-[44px]", "pl-[38px] pr-[44px] pt-5 pb-3", "text-lg", "leading-normal"),
+            _ => GetSizePadding("px-3.5 pt-4.5 pb-2.5", "pl-[36px] pr-3.5 pt-[12px] pb-2.5", "pr-[40px]", "pl-[36px] pr-[40px] pt-4.5 pb-2.5", "text-base", "leading-normal")
+        };
+
+        classes.Add(padding);
+        classes.Add(fontSize);
+        classes.Add(lineHeight);
+
+        return string.Join(" ", classes);
+    }
+
+    private (string padding, string fontSize, string lineHeight) GetSizePadding(
+        string defaultPadding,
+        string iconPadding,
+        string endIconPadding,
+        string bothIconsPadding,
+        string fontSize,
+        string lineHeight)
+    {
+        var hasStartIcon = !string.IsNullOrEmpty(StartIcon);
+        var hasEndIcon = !string.IsNullOrEmpty(EndIcon);
+
+        var padding = (hasStartIcon, hasEndIcon) switch
+        {
+            (true, true) => bothIconsPadding,
+            (true, false) => iconPadding,
+            (false, true) => $"px-3.5 pt-4.5 pb-2.5 {endIconPadding}",
+            _ => defaultPadding
+        };
+
+        return (padding, fontSize, lineHeight);
+    }
+
+    private string BuildLabelClass()
+    {
+        var classes = new List<string>
+        {
+            "absolute transition-all duration-200 pointer-events-none leading-none"
+        };
+
+        // Position based on floating state
+        if (IsLabelFloating)
+        {
+            if (Disabled || Readonly)
+            {
+                classes.Add("top-[5px]");
+            }
+            else
+            {
+                classes.Add("top-[4px]");
+            }
+
+            // Floating: positioned on top of the border, centered on the border
+            classes.Add("-translate-y-1/2 left-[11px] px-1 text-xs");
+        }
+        else
+        {
+            // Not floating: perfectly centered vertically and horizontally inside the field
+            var (left, fontSize) = ElementSize switch
+            {
+                ElementSize.Small => (!string.IsNullOrEmpty(StartIcon) ? "left-[37px]" : "left-3", "text-sm"),
+                ElementSize.Large => (!string.IsNullOrEmpty(StartIcon) ? "left-[38px]" : "left-4", "text-base"),
+                _ => (!string.IsNullOrEmpty(StartIcon) ? "left-[37px]" : "left-3.5", "text-base")
+            };
+
+            // Perfect vertical center
+            classes.Add($"{GetLabelAsPlaceholderTopOffset()} -translate-y-1/2 {left} {fontSize}");
+        }
+
+        // Add border for disabled state when floating
+        if (Disabled)
+        {
+            classes.Add("border-black/[0.12]");
+        }
+
+        if (Readonly)
+        {
+            classes.Add("border-black/[0.24]");
+        }
+
+        if (Disabled || Readonly)
+        {
+            classes.Add("bg-white border border-solid rounded pb-[2px] z-10");
+        }
+
+        // Color based on state (matching border state)
+        if (HasError)
+        {
+            classes.Add(_textAlertColor);
+        }
+        else if (_isFocused)
+        {
+            classes.Add(_themeTextDarkColor);
+        }
+        else if (Disabled)
+        {
+            classes.Add("text-black/[0.23]");
+        }
+        else if (Readonly)
+        {
+            classes.Add("text-black/[0.38]");
+        }
+        else
+        {
+            classes.Add(_themeTextLightColor);
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetLabelAsPlaceholderTopOffset()
+    {
+        var topOffset = ElementSize switch
+        {
+            ElementSize.Small => "top-[22px]",
+            ElementSize.Large => "top-[30px]",
+            _ => "top-[25px]"
+        };
+
+        return topOffset;
+    }
+
+    private string BuildFieldsetClass()
+    {
+        var classes = new List<string>
+        {
+            "absolute inset-0 pointer-events-none rounded border border-solid m-0 p-0 transition-all duration-200"
+        };
+
+        // Border width - thicker when focused or error
+        if (_isFocused || HasError)
+        {
+            classes.Add("!border-2");
+        }
+
+        // Border color based on state
+        if (HasError)
+        {
+            // Error state - always red
+            classes.Add(_borderAlertColor);
+        }
+        else if (_isFocused)
+        {
+            // Focused/Active state - darker primary
+            classes.Add(_themeBorderDarkColor);
+        }
+        else if (Disabled)
+        {
+            // Disabled state
+            classes.Add("border-black/[0.12]");
+            classes.Add("bg-black/[0.04]");
+        }
+        else if (Readonly)
+        {
+            // Readonly state
+            classes.Add("border-black/[0.23]");
+            classes.Add("bg-black/[0.04]");
+        }
+        else
+        {
+            // Default state with hover
+            classes.Add(_themeBorderLightColor);
+            classes.Add(_themeBorderHoverColor);
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string BuildLegendClass()
+    {
+        var classes = new List<string>
+        {
+            "px-0 text-xs transition-all duration-200 invisible whitespace-nowrap leading-none",
+            // Show legend when label is floating to create cutout in border
+            Disabled || Readonly ? "ml-2.5" : "ml-1.5",
+            IsLabelFloating ? "max-w-full" : "max-w-0"
+        };
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetStartIconClass()
+    {
+        var classes = new List<string>
+        {
+            $"absolute flex {GetIconTopOffset()} -translate-y-1/2 left-3 pointer-events-none transition-colors duration-200 z-10"
+        };
+
+        // Icon color based on state
+        if (HasError)
+        {
+            classes.Add(_textAlertColor);
+        }
+        else if (_isFocused)
+        {
+            classes.Add(_themeTextDarkColor);
+        }
+        else if (Disabled)
+        {
+            classes.Add("text-black/[0.23]");
+        }
+        else if (Readonly)
+        {
+            classes.Add("text-black/[0.38]");
+        }
+        else
+        {
+            classes.Add(_themeTextLightColor);
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetEndIconClass()
+    {
+        var classes = new List<string>
+        {
+            $"absolute {GetIconTopOffset()} -translate-y-1/2 right-[8px] transition-colors duration-200 z-10",
+            "flex items-center justify-center rounded-full",
+            "focus:outline-none"
+        };
+
+        // Button states
+        if (Disabled || EndIconDisabled)
+        {
+            classes.Add("cursor-not-allowed text-black/[0.38]");
+        }
+        else
+        {
+            classes.Add("cursor-pointer hover:bg-black/[0.04] active:bg-black/[0.1]");
+
+            // Icon color based on state
+            if (HasError)
+            {
+                classes.Add(_textAlertColor);
+            }
+            else if (_isFocused)
+            {
+                classes.Add(_themeTextDarkColor);
+            }
+            else
+            {
+                classes.Add(_themeTextLightColor);
+            }
+        }
+
+        // Size based on element size
+        var buttonSize = ElementSize switch
+        {
+            ElementSize.Small => "w-6 h-6",
+            ElementSize.Large => "w-8 h-8",
+            _ => "w-7 h-7"
+        };
+
+        classes.Add(buttonSize);
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetEndIconLoadingClass()
+    {
+        var classes = new List<string>
+        {
+            $"absolute {GetIconTopOffset()} -translate-y-1/2 right-[8px] z-10",
+            "flex items-center justify-center"
+        };
+
+        // Loading spinner color based on state
+        if (HasError)
+        {
+            classes.Add(_textAlertColor);
+        }
+        else if (_isFocused)
+        {
+            classes.Add(_themeTextDarkColor);
+        }
+        else
+        {
+            classes.Add(_themeTextLightColor);
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetLoadingSpinnerSize()
+    {
+        var size = ElementSize switch
+        {
+            ElementSize.Small => "width: 16px; height: 16px;",
+            ElementSize.Large => "width: 20px; height: 20px;",
+            _ => "width: 18px; height: 18px;"
+        };
+
+        return size;
+    }
+
+    private string GetIconTopOffset()
+    {
+        var topOffset = ElementSize switch
+        {
+            ElementSize.Small => "top-[23px]",
+            ElementSize.Large => "top-[31px]",
+            _ => "top-[27px]"
+        };
+
+        return topOffset;
+    }
+
+    private string GetAriaDescribedByString()
+    {
+        return !string.IsNullOrEmpty(HelperText) ? $"{Id}-helper" : string.Empty;
+    }
+
+    private string GetAreaInvalidValue()
+    {
+        return HasError.ToString().ToLowerInvariant();
+    }
+
+    private string? GetTitle()
+    {
+        return !string.IsNullOrEmpty(Title) ? Title : HelperText;
+    }
+
+    private string BuildRequiredAsteriskClass()
+    {
+        return $"ml-0.5 {_textAlertColor}";
+    }
+
+    private void SetThemeColors()
+    {
+        var colorName = ThemeColorScheme switch
+        {
+            ThemeColorScheme.Default => "default",
+            ThemeColorScheme.Primary => "primary",
+            ThemeColorScheme.Secondary => "secondary",
+            ThemeColorScheme.Success => "success",
+            ThemeColorScheme.Alert => "alert",
+            ThemeColorScheme.Warning => "warning",
+            ThemeColorScheme.Info => "info",
+            ThemeColorScheme.Dark => "dark",
+            ThemeColorScheme.Light => "light",
+            _ => "primary"
+        };
+
+        _themeTextLightColor = $"text-(--theme-{colorName}-eight)";
+        _themeTextDarkColor = $"text-(--theme-{colorName}-nine)";
+        _themeBorderLightColor = $"border-(--theme-{colorName}-eight)";
+        _themeBorderDarkColor = $"border-(--theme-{colorName}-nine)";
+        _themeBorderHoverColor = $"hover:border-(--theme-{colorName}-nine)";
+    }
+}

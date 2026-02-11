@@ -1,0 +1,191 @@
+﻿@using Maviray.Blazor.Components.Core.EventArgs
+@using Maviray.Blazor.Components.Core.Extensions
+@using Maviray.Blazor.Components.Core.Options
+@using Maviray.Blazor.Components.Core.Utilities
+@using Maviray.Blazor.Components.Material.Constants
+@using Microsoft.Extensions.Logging
+@inherits Microsoft.AspNetCore.Components.Routing.NavLink
+
+<a @attributes="AdditionalAttributes"
+   id="@Id"
+   href="@Href"
+   title="@Title"
+   class="@GetCssClass()"
+   style="@Style"
+   data-badge="@Badge"
+   aria-disabled="@Disabled"
+   tabindex="@(Disabled ? -1 : 0)"
+   @onclick="HandleClick"
+   @onclick:preventDefault="Disabled">
+    @if (LeftIcon != null)
+    {
+        <span class="@Tailwind.Theme.NavLink.ICON_CONTAINER">
+            @LeftIcon
+        </span>
+    }
+    @if (!string.IsNullOrWhiteSpace(Label))
+    {
+        <span>@Label</span>
+    }
+    @if (RightIcon != null)
+    {
+        <span class="@Tailwind.Theme.NavLink.ICON_CONTAINER">
+            @RightIcon
+        </span>
+    }
+</a>
+
+@code {
+
+    [Parameter] public string? Id { get; set; } = $"link_{Guid.NewGuid()}";
+    [Parameter] public RenderFragment? LeftIcon { get; set; }
+    [Parameter] public RenderFragment? RightIcon { get; set; }
+    [Parameter] public string Href { get; set; } = "";
+    [Parameter] public ThemeColorScheme ThemeColorScheme { get; set; }
+    [Parameter] public ElementSize ElementSize { get; set; }
+    [Parameter] public ElementVariant ElementVariant { get; set; }
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter] public string? Style { get; set; }
+    [Parameter] public string? Badge { get; set; }
+    [Parameter] public string Width { get; set; } = "min-w-16";
+    [Parameter] public bool Disabled { get; set; }
+
+    [Parameter] public EventCallback<MouseClickEventArgs> OnClick { get; set; }
+
+    private ILogger? _logger;
+
+    [Inject] private ILoggerFactory? LoggerFactory { get; set; }
+
+    [Inject] protected IMaviComponentOptions? ComponentOptions { get; set; }
+
+    private ILogger? Logger => _logger ??= LoggerFactory?.CreateLogger(GetType());
+
+    private string GetCssClass()
+    {
+        var variantClass = GetVariantCssClass();
+
+        var disabledClass = Disabled ? Tailwind.Theme.NavLink.DISABLED : string.Empty;
+
+        return CssManager.Combine(Tailwind.Theme.NavLink.BASE, variantClass, Width, disabledClass, Class);
+    }
+
+    private string GetVariantCssClass()
+    {
+        return ElementVariant switch
+        {
+            ElementVariant.Filled => GetFilledCssClass(),
+            ElementVariant.Outlined => GetOutlinedCssClass(),
+            _ => GetTextCssClass()
+        };
+    }
+
+    private string GetFilledCssClass()
+    {
+        var colors = ThemeColorScheme switch
+        {
+            ThemeColorScheme.Primary => Tailwind.Theme.NavLink.PRIMARY_FILLED,
+            ThemeColorScheme.Secondary => Tailwind.Theme.NavLink.SECONDARY_FILLED,
+            ThemeColorScheme.Success => Tailwind.Theme.NavLink.SUCCESS_FILLED,
+            ThemeColorScheme.Alert => Tailwind.Theme.NavLink.ALERT_FILLED,
+            ThemeColorScheme.Warning => Tailwind.Theme.NavLink.WARNING_FILLED,
+            ThemeColorScheme.Info => Tailwind.Theme.NavLink.INFO_FILLED,
+            ThemeColorScheme.Dark => Tailwind.Theme.NavLink.DARK_FILLED,
+            ThemeColorScheme.Light => Tailwind.Theme.NavLink.LIGHT_FILLED,
+            _ => Tailwind.Theme.NavLink.DEFAULT_FILLED
+        };
+
+        var size = ElementSize switch
+        {
+            ElementSize.Small => Tailwind.Theme.Button.BUTTON_SMALL + " " + Tailwind.Theme.Typography.LABEL_SMALL,
+            ElementSize.Large => Tailwind.Theme.Button.BUTTON_LARGE + " " + Tailwind.Theme.Typography.LABEL_LARGE,
+            _ => Tailwind.Theme.Button.BUTTON_REGULAR + " " + Tailwind.Theme.Typography.LABEL_MEDIUM,
+        };
+
+        return colors + " " + size + " " + Tailwind.Theme.NavLink.SURROUND;
+    }
+
+    private string GetOutlinedCssClass()
+    {
+        var colors = ThemeColorScheme switch
+        {
+            ThemeColorScheme.Primary => Tailwind.Theme.NavLink.PRIMARY_UNDERLINE + " " + Tailwind.Theme.NavLink.PRIMARY_TEXT,
+            ThemeColorScheme.Secondary => Tailwind.Theme.NavLink.SECONDARY_UNDERLINE + " " + Tailwind.Theme.NavLink.SECONDARY_TEXT,
+            ThemeColorScheme.Success => Tailwind.Theme.NavLink.SUCCESS_UNDERLINE + " " + Tailwind.Theme.NavLink.SUCCESS_TEXT,
+            ThemeColorScheme.Alert => Tailwind.Theme.NavLink.ALERT_UNDERLINE + " " + Tailwind.Theme.NavLink.ALERT_TEXT,
+            ThemeColorScheme.Warning => Tailwind.Theme.NavLink.WARNING_UNDERLINE + " " + Tailwind.Theme.NavLink.WARNING_TEXT,
+            ThemeColorScheme.Info => Tailwind.Theme.NavLink.INFO_UNDERLINE + " " + Tailwind.Theme.NavLink.INFO_TEXT,
+            ThemeColorScheme.Dark => Tailwind.Theme.NavLink.DARK_UNDERLINE + " " + Tailwind.Theme.NavLink.DARK_TEXT,
+            ThemeColorScheme.Light => Tailwind.Theme.NavLink.LIGHT_UNDERLINE + " " + Tailwind.Theme.NavLink.LIGHT_TEXT,
+            _ => Tailwind.Theme.NavLink.DEFAULT_UNDERLINE + " " + Tailwind.Theme.NavLink.DEFAULT_TEXT
+        };
+
+        var size = ElementSize switch
+        {
+            ElementSize.Small => Tailwind.Theme.Button.BUTTON_SMALL + " " + Tailwind.Theme.Typography.LABEL_SMALL,
+            ElementSize.Large => Tailwind.Theme.Button.BUTTON_LARGE + " " + Tailwind.Theme.Typography.LABEL_LARGE,
+            _ => Tailwind.Theme.Button.BUTTON_REGULAR + " " + Tailwind.Theme.Typography.LABEL_MEDIUM,
+        };
+
+        return colors + " " + size + " " + Tailwind.Theme.NavLink.LINK_UNDERLINE + " " + Tailwind.Theme.NavLink.SURROUND;
+    }
+
+    private string GetTextCssClass()
+    {
+        var colors = ThemeColorScheme switch
+        {
+            ThemeColorScheme.Primary => Tailwind.Theme.NavLink.PRIMARY_TEXT,
+            ThemeColorScheme.Secondary => Tailwind.Theme.NavLink.SECONDARY_TEXT,
+            ThemeColorScheme.Success => Tailwind.Theme.NavLink.SUCCESS_TEXT,
+            ThemeColorScheme.Alert => Tailwind.Theme.NavLink.ALERT_TEXT,
+            ThemeColorScheme.Warning => Tailwind.Theme.NavLink.WARNING_TEXT,
+            ThemeColorScheme.Info => Tailwind.Theme.NavLink.INFO_TEXT,
+            ThemeColorScheme.Dark => Tailwind.Theme.NavLink.DARK_TEXT,
+            ThemeColorScheme.Light => Tailwind.Theme.NavLink.LIGHT_TEXT,
+            _ => Tailwind.Theme.NavLink.DEFAULT_TEXT
+        };
+
+        var size = ElementSize switch
+        {
+            ElementSize.Small => Tailwind.Theme.Typography.LABEL_SMALL,
+            ElementSize.Large => Tailwind.Theme.Typography.LABEL_LARGE,
+            _ => Tailwind.Theme.Typography.LABEL_MEDIUM,
+        };
+
+        return colors + " " + size + " " + Tailwind.Theme.NavLink.LINK_TEXT;
+    }
+
+    private async Task HandleClick(MouseEventArgs args)
+    {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
+        if (OnClick.HasDelegate)
+        {
+            var customArgs = new MouseClickEventArgs(Id)
+            {
+                AltKey = args.AltKey,
+                Button = args.Button,
+                Buttons = args.Buttons,
+                ClientX = args.ClientX,
+                ClientY = args.ClientY,
+                CtrlKey = args.CtrlKey,
+                Detail = args.Detail,
+                MetaKey = args.MetaKey,
+                OffsetX = args.OffsetX,
+                OffsetY = args.OffsetY,
+                PageX = args.PageX,
+                PageY = args.PageY,
+                ScreenX = args.ScreenX,
+                ScreenY = args.ScreenY,
+                ShiftKey = args.ShiftKey,
+                Type = args.Type
+            };
+
+            await OnClick.InvokeAsync(customArgs);
+        }
+    }
+}

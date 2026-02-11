@@ -1,3 +1,132 @@
-﻿@inherits LayoutComponentBase
+﻿@using Maviray.Blazor.Components.Core.Utilities
+@using Maviray.Blazor.Components.Material.Components.Inputs
+@inherits LayoutComponentBase
 
-@Body
+<div class="min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG, Tailwind.Theme.Colors.Border.THEME_LIGHT_THREE_BORDER, "border-b sticky top-0 z-50")">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <h1 class="@CssManager.Combine(Tailwind.Theme.Typography.TITLE_LARGE, Tailwind.Theme.Colors.Text.THEME_DARK_NINE_TEXT)">Maviray Blazor UI Kit</h1>
+                </div>
+                <nav class="flex gap-4">
+                    <a href="/" class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, Tailwind.Theme.Colors.Text.THEME_DARK_SIX_TEXT, Tailwind.Theme.Colors.Text.Hover.THEME_DARK_NINE_TEXT_HOVER, "px-3 py-2 rounded-md")">Home</a>
+                    <a href="/components" class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, Tailwind.Theme.Colors.Text.THEME_DARK_SIX_TEXT, Tailwind.Theme.Colors.Text.Hover.THEME_DARK_NINE_TEXT_HOVER, "px-3 py-2 rounded-md")">Components</a>
+                    <a href="/about" class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, Tailwind.Theme.Colors.Text.THEME_DARK_SIX_TEXT, Tailwind.Theme.Colors.Text.Hover.THEME_DARK_NINE_TEXT_HOVER, "px-3 py-2 rounded-md")">About</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex flex-1">
+        <!-- Side Navigation -->
+        <aside class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_LIGHT_TWO_BG, Tailwind.Theme.Colors.Border.THEME_LIGHT_THREE_BORDER, "w-64 border-r overflow-y-auto")">
+            <nav class="py-4 pr-4 pl-16 space-y-2 flex flex-col gap-2">
+                <div class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, Tailwind.Theme.Colors.Text.THEME_DARK_FIVE_TEXT, "px-3 py-2")">
+                    Components
+                </div>
+                <MaviLink Href="/PageCustomColors"
+                          ThemeColorScheme="ThemeColorScheme.Default"
+                          ElementSize="ElementSize.Large"
+                          ElementVariant="ElementVariant.Text"
+                          Label="Custom Theme Colors"
+                          Title="Custom Theme Colors">
+                </MaviLink>
+                <MaviLink Href="/PageIconsMini"
+                          ThemeColorScheme="ThemeColorScheme.Default"
+                          ElementSize="ElementSize.Large"
+                          ElementVariant="ElementVariant.Text"
+                          Label="Icons Mini"
+                          Title="Icons Mini">
+                </MaviLink>
+                <MaviLink Href="/PageIconsOnline"
+                          ThemeColorScheme="ThemeColorScheme.Default"
+                          ElementSize="ElementSize.Large"
+                          ElementVariant="ElementVariant.Text"
+                          Label="Icons Online"
+                          Title="Icons Online">
+                </MaviLink>
+                <MaviLink Href="/PageIconsSolid"
+                          ThemeColorScheme="ThemeColorScheme.Default"
+                          ElementSize="ElementSize.Large"
+                          ElementVariant="ElementVariant.Text"
+                          Label="Icons Solid"
+                          Title="Icons Solid">
+                </MaviLink>
+                <MaviLink Href="/PageIconColors"
+                          ThemeColorScheme="ThemeColorScheme.Default"
+                          ElementSize="ElementSize.Large"
+                          ElementVariant="ElementVariant.Text"
+                          Label="Icons Colors"
+                          Title="Icons Colors">
+                </MaviLink>
+                <MaviLink Href="/PageLineIcons"
+                          ThemeColorScheme="ThemeColorScheme.Default"
+                          ElementSize="ElementSize.Large"
+                          ElementVariant="ElementVariant.Text"
+                          Label="Line Icons"
+                          Title="Line Icons">
+                </MaviLink>
+                <MaviLink Href="/PageTypography"
+                          ThemeColorScheme="ThemeColorScheme.Default"
+                          ElementSize="ElementSize.Large"
+                          ElementVariant="ElementVariant.Text"
+                          Label="Typography"
+                          Title="Typography">
+                </MaviLink>
+                <MaviLink Href="/PageButtons"
+                          ThemeColorScheme="ThemeColorScheme.Default"
+                          ElementSize="ElementSize.Large"
+                          ElementVariant="ElementVariant.Text"
+                          Label="Buttons"
+                          Title="Buttons">
+                </MaviLink>
+                <MaviLink Href="/PageButtonGroups"
+                          ThemeColorScheme="ThemeColorScheme.Default"
+                          ElementSize="ElementSize.Large"
+                          ElementVariant="ElementVariant.Text"
+                          Label="Button Groups"
+                          Title="Button Groups">
+                </MaviLink>
+                <MaviLink Href="/PageForm"
+                          ThemeColorScheme="ThemeColorScheme.Default"
+                          ElementSize="ElementSize.Large"
+                          ElementVariant="ElementVariant.Text"
+                          Label="Form Elements"
+                          Title="Form Elements">
+                </MaviLink>
+                <MaviLink Href="/PageIntegerInput"
+                          ThemeColorScheme="ThemeColorScheme.Default"
+                          ElementSize="ElementSize.Large"
+                          ElementVariant="ElementVariant.Text"
+                          Label="Integer Input"
+                          Title="Integer Input">
+
+                </MaviLink>
+                <MaviLink Href="/PageStringInput"
+                          ThemeColorScheme="ThemeColorScheme.Default"
+                          ElementSize="ElementSize.Large"
+                          ElementVariant="ElementVariant.Text"
+                          Label="String Input"
+                          Title="String Input">
+
+                </MaviLink>
+                <MaviLink Href="/PageLinks"
+                          ThemeColorScheme="ThemeColorScheme.Default"
+                          ElementSize="ElementSize.Large"
+                          ElementVariant="ElementVariant.Text"
+                          Label="Links"
+                          Title="Links">
+                </MaviLink>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-y-auto">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                @Body
+            </div>
+        </main>
+    </div>
+</div>
