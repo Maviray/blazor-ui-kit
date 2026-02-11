@@ -1,25 +1,30 @@
 ﻿@using System.Diagnostics.CodeAnalysis
-@using Maviray.Blazor.Components.Core.Constants
 @using Microsoft.Extensions.Logging
 @using System.ComponentModel.DataAnnotations
 @using System.Reflection
 @using Maviray.Blazor.Components.Core.EventArgs
+@using System.Globalization
 @using Maviray.Blazor.Components.Core.Extensions
 @using Maviray.Blazor.Components.Core.Options
 @using Maviray.Blazor.Components.Material.Constants
-@inherits InputBase<string>
+@inherits InputBase<int?>
 @implements IDisposable
 
 <div class="@Width">
     <!-- Floating Label Input Container -->
     <div class="@GetContainerClass()">
         <!-- Input Field -->
-        <input value="@CurrentValue"
+        <input value="@GetDisplayValue()"
                @oninput="HandleInput"
                @onchange="HandleChange"
+               @onfocus="OnFocus"
+               @onblur="OnBlur"
                type="@GetInputType()"
+               inputmode="@GetInputMode()"
                id="@Id"
-               maxlength="@MaxLength"
+               min="@Min"
+               max="@Max"
+               step="@Step"
                disabled="@Disabled"
                readonly="@Readonly"
                class="@BuildInputClass()"
@@ -30,8 +35,6 @@
                aria-label="@Label"
                aria-required="@Required.ToString().ToLowerInvariant()"
                data-val="@(!Disabled && !Readonly ? "true" : "false")"
-               @onfocus="OnFocus"
-               @onblur="OnBlur"
                @attributes="AdditionalAttributes" />
 
         <!-- Floating Label -->
@@ -106,8 +109,8 @@
     private bool _attributesInferred = false;
     private EditContext? _previousEditContext;
     private ValidationMessageStore? _validationMessageStore;
-    private bool _passwordVisible = false;
     private bool _isEndIconLoading = false;
+    private string? _rawInputValue;
 
     private readonly string _textAlertColor = Tailwind.Theme.Colors.Text.THEME_ALERT_EIGHT_TEXT;
     private readonly string _borderAlertColor = Tailwind.Theme.Colors.Border.THEME_ALERT_EIGHT_BORDER;
@@ -146,9 +149,8 @@
     [Parameter] public string? EndIcon { get; set; }
 
     /// <summary>
-    /// Icon displayed at the end (right side) of the input field. This icon is toggled to on-click.
+    /// Icon displayed at the end (right side) of the input field. This icon is toggled on-click.
     /// </summary>
-
     [Parameter] public string? EndIconAlternative { get; set; }
 
     /// <summary>
@@ -167,12 +169,19 @@
     [Parameter] public string ButtonLabel { get; set; } = "Action";
 
     /// <summary>
-    /// When true and StringInputType is Password, automatically adds a visibility toggle icon.
-    /// Default is false.
+    /// Minimum allowed value for the nullable integer input.
     /// </summary>
-    [Parameter] public bool TogglePasswordOnClick { get; set; }
+    [Parameter] public int? Min { get; set; }
 
-    [Parameter] public int MaxLength { get; set; } = FormatConstants.DEFAULT_MAX_STRING_INPUT_LIMIT;
+    /// <summary>
+    /// Maximum allowed value for the nullable integer input.
+    /// </summary>
+    [Parameter] public int? Max { get; set; }
+
+    /// <summary>
+    /// Step value for increment/decrement operations.
+    /// </summary>
+    [Parameter] public int Step { get; set; } = 1;
 
     [Parameter] public bool Disabled { get; set; }
 
@@ -180,11 +189,9 @@
 
     [Parameter] public bool Required { get; set; }
 
-    [Parameter] public StringInputType StringInputType { get; set; } = StringInputType.Text;
-
     /// <summary>
-    /// When true, automatically infers Label, Required, MaxLength, and HelperText from model property attributes.
-    /// Default is true. Set to false in order to disable automatic inference.
+    /// When true, automatically infers Label, Required, Min, Max, and HelperText from model property attributes.
+    /// Default is true. Set to false to disable automatic inference.
     /// </summary>
     [Parameter] public bool InferFromModelAttributes { get; set; } = true;
 
@@ -194,12 +201,40 @@
     /// </summary>
     [Parameter] public string? HelperText { get; set; }
 
+    /// <summary>
+    /// Culture info used for parsing and formatting nullable integer values. Defaults to current UI culture.
+    /// </summary>
+    [Parameter] public CultureInfo? FormatCulture { get; set; }
+
+    /// <summary>
+    /// Format string for displaying the nullable integer value (e.g., "N0", "C", "D5", "X", etc.).
+    /// Supports all standard and custom .NET numeric format strings.
+    /// When focused, the raw number is shown for editing. When blurred, the formatted value is displayed.
+    /// When value is null, the field is empty.
+    /// Examples:
+    /// - "N0" - Number with thousand separators (1,234)
+    /// - "C" or "C0" - Currency ($1,234)
+    /// - "D5" - Decimal padded to 5 digits (00123)
+    /// - "X" - Hexadecimal (7B)
+    /// - "P0" - Percentage (12%)
+    /// - "#,##0" - Custom format with thousand separators
+    /// </summary>
+    [Parameter] public string? FormatMask { get; set; }
+
+    /// <summary>
+    /// When true, shows formatted value even when focused (editing).
+    /// Default is false - shows raw number when focused for easier editing.
+    /// </summary>
+    [Parameter] public bool ShowFormattedWhileFocused { get; set; }
+
     protected bool HasRendered { get; private set; }
+
+    protected CultureInfo CurrentCulture => FormatCulture ?? CultureInfo.CurrentUICulture;
 
     // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract - outside of Form context EditContext can be null
     protected bool HasError => EditContext != null && !Disabled && !Readonly && EditContext.GetValidationMessages(FieldIdentifier).Any();
 
-    protected bool HasValue => !string.IsNullOrWhiteSpace(CurrentValue);
+    protected bool HasValue => CurrentValue.HasValue || !string.IsNullOrWhiteSpace(_rawInputValue);
 
     protected bool IsLabelFloating => _isFocused || HasValue || Disabled || Readonly;
 
@@ -260,7 +295,7 @@
 
     protected override bool TryParseValueFromString(
         string? value,
-        [MaybeNullWhen(false)] out string result,
+        out int? result,
         [NotNullWhen(false)] out string? validationErrorMessage)
     {
         if (ComponentOptions is { EnableLifecycleLogging: true })
@@ -268,9 +303,146 @@
             Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
         }
 
-        result = value ?? string.Empty;
-        validationErrorMessage = null;
-        return true;
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            result = null;
+            validationErrorMessage = null;
+            return true;
+        }
+
+        // Remove formatting characters for parsing
+        var cleanValue = CleanValueForParsing(value);
+
+        if (int.TryParse(cleanValue, NumberStyles.Integer, CurrentCulture, out var parsedValue))
+        {
+            result = parsedValue;
+            validationErrorMessage = null;
+            return true;
+        }
+
+        result = null;
+        validationErrorMessage = $"The {Label ?? FieldIdentifier.FieldName} field must be a valid integer.";
+        return false;
+    }
+
+    protected override string? FormatValueAsString(int? value)
+    {
+        if (!value.HasValue)
+        {
+            return null;
+        }
+
+        if (string.IsNullOrWhiteSpace(FormatMask))
+        {
+            return value.Value.ToString(CurrentCulture);
+        }
+
+        try
+        {
+            return value.Value.ToString(FormatMask, CurrentCulture);
+        }
+        catch (FormatException ex)
+        {
+            Logger?.LogWarning(ex, "Invalid format mask '{FormatMask}' for nullable integer value. Falling back to default format.", FormatMask);
+            return value.Value.ToString(CurrentCulture);
+        }
+    }
+
+    /// <summary>
+    /// Gets the value to display in the input field.
+    /// Shows formatted value when not focused (or when ShowFormattedWhileFocused is true),
+    /// and raw value when focused for easier editing.
+    /// Returns empty string when value is null.
+    /// </summary>
+    private string? GetDisplayValue()
+    {
+        // When focused and not showing formatted value, show raw input or plain number
+        if (_isFocused && !ShowFormattedWhileFocused)
+        {
+            return _rawInputValue ?? (CurrentValue.HasValue ? CurrentValue.Value.ToString(CurrentCulture) : string.Empty);
+        }
+
+        // When not focused or ShowFormattedWhileFocused is true, show formatted value
+        if (!CurrentValue.HasValue && string.IsNullOrWhiteSpace(_rawInputValue))
+        {
+            return string.Empty;
+        }
+
+        return FormatValueAsString(CurrentValue);
+    }
+
+    /// <summary>
+    /// Cleans the input value by removing formatting characters for parsing.
+    /// </summary>
+    private string CleanValueForParsing(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return value;
+
+        var cleaned = value;
+
+        // Remove currency symbols
+        cleaned = cleaned.Replace(CurrentCulture.NumberFormat.CurrencySymbol, "");
+
+        // Remove percent symbols
+        cleaned = cleaned.Replace(CurrentCulture.NumberFormat.PercentSymbol, "");
+
+        // Remove group separators (thousand separators)
+        cleaned = cleaned.Replace(CurrentCulture.NumberFormat.NumberGroupSeparator, "");
+        cleaned = cleaned.Replace(CurrentCulture.NumberFormat.CurrencyGroupSeparator, "");
+
+        // Remove spaces that might be used as group separators
+        if (CurrentCulture.NumberFormat.NumberGroupSeparator == " " ||
+            CurrentCulture.NumberFormat.CurrencyGroupSeparator == " ")
+        {
+            cleaned = cleaned.Replace(" ", "");
+        }
+
+        return cleaned.Trim();
+    }
+
+    /// <summary>
+    /// Determines the input type based on format mask.
+    /// </summary>
+    private string GetInputType()
+    {
+        // For better mobile experience, use 'number' for standard numeric formats
+        // Use 'text' for complex formats that might confuse numeric keyboards
+        if (string.IsNullOrWhiteSpace(FormatMask))
+        {
+            return "number";
+        }
+
+        // Standard numeric formats that work well with number input
+        var numericFormats = new[] { "N", "D", "G", "F" };
+        if (numericFormats.Any(f => FormatMask.StartsWith(f, StringComparison.OrdinalIgnoreCase)))
+        {
+            return _isFocused && !ShowFormattedWhileFocused ? "number" : "text";
+        }
+
+        // Use text for currency, percentage, hex, and custom formats
+        return "text";
+    }
+
+    /// <summary>
+    /// Determines the input mode for mobile keyboards.
+    /// </summary>
+    private string GetInputMode()
+    {
+        if (string.IsNullOrWhiteSpace(FormatMask))
+        {
+            return "numeric";
+        }
+
+        // Use numeric keyboard for most formats
+        var numericFormats = new[] { "N", "D", "G", "F", "C" };
+        if (numericFormats.Any(f => FormatMask.StartsWith(f, StringComparison.OrdinalIgnoreCase)))
+        {
+            return "numeric";
+        }
+
+        // Use text for hex and other special formats
+        return FormatMask.StartsWith("X", StringComparison.OrdinalIgnoreCase) ? "text" : "numeric";
     }
 
     /// <summary>
@@ -303,7 +475,14 @@
         if (Disabled || Readonly)
             return;
 
-        CurrentValue = e.Value?.ToString();
+        _rawInputValue = e.Value?.ToString();
+
+        // Try to parse and update the value
+        if (TryParseValueFromString(_rawInputValue, out var parsedValue, out _))
+        {
+            CurrentValue = parsedValue;
+        }
+
         // Don't trigger validation on every keystroke - just update the UI
     }
 
@@ -316,7 +495,8 @@
         if (Disabled || Readonly)
             return;
 
-        CurrentValue = e.Value?.ToString();
+        _rawInputValue = e.Value?.ToString();
+        CurrentValueAsString = _rawInputValue;
 
         // Trigger validation on change (blur)
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract - outside of Form context EditContext can be null
@@ -341,11 +521,6 @@
             // Show loading state
             _isEndIconLoading = true;
             StateHasChanged();
-
-            if (TogglePasswordOnClick)
-            {
-                _passwordVisible = !_passwordVisible;
-            }
 
             if (!string.IsNullOrEmpty(EndIcon) && !string.IsNullOrWhiteSpace(EndIconAlternative))
             {
@@ -416,17 +591,18 @@
                 Required = propertyInfo.GetCustomAttribute<RequiredAttribute>() != null;
             }
 
-            // Infer MaxLength if still at default value
-            if (MaxLength == FormatConstants.DEFAULT_MAX_STRING_INPUT_LIMIT)
+            // Infer Min and Max from RangeAttribute
+            var rangeAttr = propertyInfo.GetCustomAttribute<RangeAttribute>();
+            if (rangeAttr != null)
             {
-                var maxLengthAttr = propertyInfo.GetCustomAttribute<MaxLengthAttribute>();
-                var stringLengthAttr = propertyInfo.GetCustomAttribute<StringLengthAttribute>();
-
-                var inferredMaxLength = maxLengthAttr?.Length ?? stringLengthAttr?.MaximumLength;
-
-                if (inferredMaxLength.HasValue)
+                if (!Min.HasValue && rangeAttr.Minimum is int minValue)
                 {
-                    MaxLength = inferredMaxLength.Value;
+                    Min = minValue;
+                }
+
+                if (!Max.HasValue && rangeAttr.Maximum is int maxValue)
+                {
+                    Max = maxValue;
                 }
             }
 
@@ -436,31 +612,14 @@
                 var displayAttr = propertyInfo.GetCustomAttribute<DisplayAttribute>();
                 HelperText = displayAttr?.Description ?? displayAttr?.Prompt;
 
-                // Add min length info if available
-                var stringLengthAttr = propertyInfo.GetCustomAttribute<StringLengthAttribute>();
-                if (stringLengthAttr != null && stringLengthAttr.MinimumLength > 0)
+                // Add range info if available
+                if (rangeAttr != null)
                 {
-                    var minLengthText = $"Minimum {stringLengthAttr.MinimumLength} characters";
+                    var rangeText = $"Value must be between {rangeAttr.Minimum} and {rangeAttr.Maximum}";
                     HelperText = string.IsNullOrEmpty(HelperText)
-                        ? minLengthText
-                        : $"{HelperText}. {minLengthText}";
+                        ? rangeText
+                        : $"{HelperText}. {rangeText}";
                 }
-            }
-
-            // Infer StringInputType if still at default (Text)
-            if (StringInputType != StringInputType.Text) return;
-
-            var dataTypeAttr = propertyInfo.GetCustomAttribute<DataTypeAttribute>();
-            if (dataTypeAttr != null)
-            {
-                StringInputType = dataTypeAttr.DataType switch
-                {
-                    DataType.Password => StringInputType.Password,
-                    DataType.EmailAddress => StringInputType.Email,
-                    DataType.PhoneNumber => StringInputType.Tel,
-                    DataType.Url => StringInputType.Url,
-                    _ => StringInputType.Text
-                };
             }
         }
         catch (Exception ex)
@@ -501,6 +660,10 @@
     private void OnBlur()
     {
         _isFocused = false;
+
+        // Clear raw input value on blur - will show formatted value
+        _rawInputValue = null;
+
         StateHasChanged();
     }
 
@@ -520,26 +683,6 @@
         }
 
         DetachValidationStateChangedListener();
-    }
-
-    private string GetInputType()
-    {
-        // Override type for password visibility toggle
-        if (StringInputType == StringInputType.Password && _passwordVisible)
-        {
-            return "text";
-        }
-
-        return StringInputType switch
-        {
-            StringInputType.Password => "password",
-            StringInputType.Email => "email",
-            StringInputType.Tel => "tel",
-            StringInputType.Url => "url",
-            StringInputType.Search => "search",
-            StringInputType.Text => "text",
-            _ => "text"
-        };
     }
 
     private string GetContainerClass()
@@ -626,17 +769,15 @@
         };
 
         // Position based on floating state
-
         if (IsLabelFloating)
         {
             if (Disabled || Readonly)
             {
                 classes.Add("top-[5px]");
             }
-
             else
             {
-                classes.Add("top-[4px]"); 
+                classes.Add("top-[4px]");
             }
 
             // Floating: positioned on top of the border, centered on the border
