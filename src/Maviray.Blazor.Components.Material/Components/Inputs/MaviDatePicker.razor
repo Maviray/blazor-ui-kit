@@ -1,0 +1,257 @@
+﻿@using System.Globalization
+@using Maviray.Blazor.Components.Core.Models
+@using Maviray.Blazor.Components.Material.Constants
+
+<div class="relative inline-block">
+    <!-- Calendar Popup -->
+    @if (_isOpen)
+    {
+        <div class="absolute z-50 mt-2 bg-white rounded-lg shadow-xl border @Tailwind.Theme.Colors.Border.THEME_LIGHT_TWO_BORDER"
+             style="min-width: 320px;">
+
+            <!-- Calendar Header -->
+            <div class="flex items-center justify-between p-4 border-b @Tailwind.Theme.Colors.Border.THEME_LIGHT_ONE_BORDER">
+                <!-- Previous Month Button -->
+                <button type="button"
+                        @onclick="PreviousMonth"
+                        class="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                    <i class="lni lni-chevron-left text-xl"></i>
+                </button>
+
+                <!-- Month/Year Display -->
+                <div class="flex items-center gap-2">
+                    <!-- Month Selector -->
+                    <select @bind="_displayMonth"
+                            class="px-3 py-1 rounded border @Tailwind.Theme.Colors.Border.THEME_LIGHT_ONE_BORDER focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        @for (var month = 1; month <= 12; month++)
+                        {
+                            <option value="@month">@CurrentCulture.DateTimeFormat.GetMonthName(month)</option>
+                        }
+                    </select>
+
+                    <!-- Year Selector -->
+                    <select @bind="_displayYear"
+                            class="px-3 py-1 rounded border @Tailwind.Theme.Colors.Border.THEME_LIGHT_ONE_BORDER focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        @for (var year = MinYear; year <= MaxYear; year++)
+                        {
+                            <option value="@year">@year</option>
+                        }
+                    </select>
+                </div>
+
+                <!-- Next Month Button -->
+                <button type="button"
+                        @onclick="NextMonth"
+                        class="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                    <i class="lni lni-chevron-right text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Calendar Grid -->
+            <div class="p-4">
+                <!-- Day Headers -->
+                <div class="grid grid-cols-7 gap-1 mb-2">
+                    @foreach (var dayName in GetDayNames())
+                    {
+                        <div class="text-center text-xs font-semibold text-gray-600 p-2">
+                            @dayName
+                        </div>
+                    }
+                </div>
+
+                <!-- Calendar Days -->
+                <div class="grid grid-cols-7 gap-1">
+                    @foreach (var day in GetCalendarDays())
+                    {
+                        <button type="button"
+                                @onclick="() => SelectDate(day.Date)"
+                                disabled="@(!day.IsInCurrentMonth || !IsDateSelectable(day.Date))"
+                                class="@GetDayButtonClass(day)">
+                            @day.Date.Day
+                        </button>
+                    }
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex items-center justify-between p-4 border-t @Tailwind.Theme.Colors.Border.THEME_LIGHT_ONE_BORDER">
+                <button type="button"
+                        @onclick="SelectToday"
+                        class="px-4 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50 rounded transition-colors">
+                    Today
+                </button>
+                <div class="flex gap-2">
+                    <button type="button"
+                            @onclick="Clear"
+                            class="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded transition-colors">
+                        Clear
+                    </button>
+                    <button type="button"
+                            @onclick="Close"
+                            class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded transition-colors">
+                        OK
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public DateTime? Value { get; set; }
+    [Parameter] public EventCallback<DateTime?> ValueChanged { get; set; }
+    [Parameter] public DateTime? Min { get; set; }
+    [Parameter] public DateTime? Max { get; set; }
+    [Parameter] public CultureInfo? Culture { get; set; }
+    [Parameter] public bool IsOpen { get; set; }
+    [Parameter] public EventCallback<bool> IsOpenChanged { get; set; }
+
+    private bool _isOpen;
+    private int _displayMonth;
+    private int _displayYear;
+
+    private CultureInfo CurrentCulture => Culture ?? CultureInfo.CurrentUICulture;
+    private int MinYear => Min?.Year ?? DateTime.Today.Year - 100;
+    private int MaxYear => Max?.Year ?? DateTime.Today.Year + 100;
+
+    protected override void OnParametersSet()
+    {
+        _isOpen = IsOpen;
+
+        if (Value.HasValue)
+        {
+            _displayMonth = Value.Value.Month;
+            _displayYear = Value.Value.Year;
+        }
+        else
+        {
+            _displayMonth = DateTime.Today.Month;
+            _displayYear = DateTime.Today.Year;
+        }
+    }
+
+    private IEnumerable<string> GetDayNames()
+    {
+        var firstDayOfWeek = CurrentCulture.DateTimeFormat.FirstDayOfWeek;
+        var dayNames = new List<string>();
+
+        for (var i = 0; i < 7; i++)
+        {
+            var day = (DayOfWeek)(((int)firstDayOfWeek + i) % 7);
+            dayNames.Add(CurrentCulture.DateTimeFormat.GetShortestDayName(day));
+        }
+
+        return dayNames;
+    }
+
+    private IEnumerable<CalendarDay> GetCalendarDays()
+    {
+        var firstDayOfMonth = new DateTime(_displayYear, _displayMonth, 1);
+        var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
+
+        var firstDayOfWeek = CurrentCulture.DateTimeFormat.FirstDayOfWeek;
+        var daysFromPreviousMonth = ((int)firstDayOfMonth.DayOfWeek - (int)firstDayOfWeek + 7) % 7;
+
+        var startDate = firstDayOfMonth.AddDays(-daysFromPreviousMonth);
+        var days = new List<CalendarDay>();
+
+        for (int i = 0; i < 42; i++) // 6 weeks
+        {
+            var date = startDate.AddDays(i);
+            days.Add(new CalendarDay
+            {
+                Date = date,
+                IsInCurrentMonth = date.Month == _displayMonth,
+                IsToday = date.Date == DateTime.Today,
+                IsSelected = Value.HasValue && date.Date == Value.Value.Date
+            });
+        }
+
+        return days;
+    }
+
+    private bool IsDateSelectable(DateTime date)
+    {
+        if (Min.HasValue && date < Min.Value.Date)
+            return false;
+
+        return !Max.HasValue || date <= Max.Value.Date;
+    }
+
+    private string GetDayButtonClass(CalendarDay day)
+    {
+        var classes = new List<string>
+        {
+            "p-2 text-sm rounded-full transition-all duration-200"
+        };
+
+        if (!day.IsInCurrentMonth)
+        {
+            classes.Add("text-gray-300");
+        }
+        else if (day.IsSelected)
+        {
+            classes.Add("bg-blue-600 text-white font-semibold hover:bg-blue-700");
+        }
+        else if (day.IsToday)
+        {
+            classes.Add("border-2 border-blue-600 text-blue-600 font-semibold hover:bg-blue-50");
+        }
+        else if (IsDateSelectable(day.Date))
+        {
+            classes.Add("text-gray-900 hover:bg-gray-100");
+        }
+        else
+        {
+            classes.Add("text-gray-300 cursor-not-allowed");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private async Task SelectDate(DateTime date)
+    {
+        if (!IsDateSelectable(date))
+            return;
+
+        Value = date;
+        await ValueChanged.InvokeAsync(Value);
+    }
+
+    private async Task SelectToday()
+    {
+        if (IsDateSelectable(DateTime.Today))
+        {
+            Value = DateTime.Today;
+            _displayMonth = DateTime.Today.Month;
+            _displayYear = DateTime.Today.Year;
+            await ValueChanged.InvokeAsync(Value);
+        }
+    }
+
+    private async Task Clear()
+    {
+        Value = null;
+        await ValueChanged.InvokeAsync(Value);
+    }
+
+    private async Task Close()
+    {
+        _isOpen = false;
+        await IsOpenChanged.InvokeAsync(_isOpen);
+    }
+
+    private void PreviousMonth()
+    {
+        var newDate = new DateTime(_displayYear, _displayMonth, 1).AddMonths(-1);
+        _displayMonth = newDate.Month;
+        _displayYear = newDate.Year;
+    }
+
+    private void NextMonth()
+    {
+        var newDate = new DateTime(_displayYear, _displayMonth, 1).AddMonths(1);
+        _displayMonth = newDate.Month;
+        _displayYear = newDate.Year;
+    }
+}
