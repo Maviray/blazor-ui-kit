@@ -1,0 +1,631 @@
+﻿@using System.Diagnostics.CodeAnalysis
+@using System.Reflection
+@using Microsoft.Extensions.Logging
+@typeparam TItem
+@typeparam TValue
+@implements IAsyncDisposable
+@inherits MaviInputBase<TValue>
+@inject IJSRuntime JSRuntime
+
+<div class="@CssManager.Combine(Width, "relative")" @ref="_containerRef">
+    <!-- Floating Label Dropdown Container -->
+    <div class="@GetContainerClass()">
+        <!-- Display Input (Read-only text input that shows selected value) -->
+        <input value="@GetDisplayText()"
+               @onclick="ToggleDropdown"
+               @onfocus="OnFocus"
+               @onblur="OnBlur"
+               type="text"
+               id="@Id"
+               disabled="@Disabled"
+               readonly="true"
+               class="@BuildDropdownClass()"
+               style="@Style"
+               title="@GetTitle()"
+               aria-describedby="@GetAriaDescribedByString()"
+               aria-invalid="@GetAreaInvalidValue()"
+               aria-label="@Label"
+               aria-required="@Required.ToString().ToLowerInvariant()"
+               aria-expanded="@_isOpen.ToString().ToLowerInvariant()"
+               aria-haspopup="listbox"
+               @attributes="AdditionalAttributes" />
+
+        <!-- Floating Label -->
+        @if (!string.IsNullOrEmpty(Label))
+        {
+            <label for="@Id"
+                   class="@BuildLabelClass()"
+                   title="@Title">
+                @Label
+                @if (Required && !Disabled && !Readonly)
+                {
+                    <span class="@BuildRequiredAsteriskClass()">*</span>
+                }
+            </label>
+        }
+
+        <!-- Start Icon -->
+        @if (!string.IsNullOrEmpty(StartIcon))
+        {
+            <div class="@GetStartIconClass()">
+                <i class="@StartIcon text-xl"></i>
+            </div>
+        }
+
+        <!-- Dropdown Arrow Icon -->
+        <div class="@GetDropdownArrowClass()" @onclick="ToggleDropdown">
+            <i class="@CssManager.Combine(DropdownIcon, "text-xl", "transition-transform duration-200", _isOpen ? "rotate-180" : "")"></i>
+        </div>
+
+        <!-- Fieldset for Outlined Border -->
+        <fieldset aria-hidden="true" class="@BuildFieldsetClass()">
+            <legend class="@BuildLegendClass()">
+                <span class="@(string.IsNullOrEmpty(Label) || Disabled || Readonly ? "" : "px-2")">@Label@((Required && !Disabled && !Readonly) ? " *" : "")</span>
+            </legend>
+        </fieldset>
+    </div>
+
+    <!-- Dropdown Options Overlay -->
+    @if (_isOpen && !Disabled && !Readonly)
+    {
+        <div class="@GetDropdownOverlayClass()"
+             role="listbox"
+             aria-label="@Label"
+             @onclick:stopPropagation="true">
+
+            <!-- Options List Container with Scrolling -->
+            <div class="@GetOptionsContainerClass()">
+                <!-- Placeholder option -->
+                @if (ShowPlaceholderOption && !Required)
+                {
+                    var isPlaceholderSelected = !HasValue;
+                    <div class="@GetOptionClass(isPlaceholderSelected)"
+                         role="option"
+                         aria-selected="@isPlaceholderSelected.ToString().ToLowerInvariant()"
+                         @onclick="() => SelectItem(default(TValue))"
+                         @onclick:stopPropagation="true">
+                        <span class="block truncate">@PlaceholderText</span>
+                        @if (isPlaceholderSelected)
+                        {
+                            <span class="@GetCheckmarkClass()">
+                                <i class="lni lni-checkmark"></i>
+                            </span>
+                        }
+                    </div>
+                }
+
+                <!-- Options from Items -->
+                @if (Items != null)
+                {
+                    @foreach (var item in Items)
+                    {
+                        var value = GetItemValue(item);
+                        var text = GetItemText(item);
+                        var isSelected = IsSelected(value);
+
+                        <div class="@GetOptionClass(isSelected)"
+                             role="option"
+                             aria-selected="@isSelected.ToString().ToLowerInvariant()"
+                             @onclick="() => SelectItem(value)"
+                             @onclick:stopPropagation="true"
+                             @onmouseenter="() => _hoveredValue = value"
+                             @onmouseleave="() => _hoveredValue = default(TValue)">
+                            <span class="block truncate">@text</span>
+                            @if (isSelected)
+                            {
+                                <span class="@GetCheckmarkClass()">
+                                    <i class="lni lni-checkmark"></i>
+                                </span>
+                            }
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    }
+
+    <!-- Helper Text -->
+    @if (!string.IsNullOrEmpty(HelperText))
+    {
+        <div class="mt-1.5 px-3.5 text-xs leading-tight text-black/60" id="@($"{Id}-helper")">
+            @HelperText
+        </div>
+    }
+</div>
+
+@code {
+    private ElementReference _containerRef;
+    private bool _isOpen = false;
+    private TValue? _hoveredValue = default;
+    private DotNetObjectReference<MaviDropdown<TItem, TValue>>? _dotNetRef;
+    private IJSObjectReference? _jsModule;
+    
+    #region Dropdown-Specific Parameters
+
+    /// <summary>
+    /// The collection of items to display in the dropdown.
+    /// </summary>
+    [Parameter] public IEnumerable<TItem>? Items { get; set; }
+
+    /// <summary>
+    /// Expression to extract the value from each item.
+    /// If not provided, the item itself is used as the value.
+    /// </summary>
+    [Parameter] public Func<TItem, TValue>? ValueSelector { get; set; }
+
+    /// <summary>
+    /// Expression to extract the display text from each item.
+    /// If not provided, ToString() is called on the item.
+    /// </summary>
+    [Parameter] public Func<TItem, string>? TextSelector { get; set; }
+
+    /// <summary>
+    /// Text to display when no option is selected.
+    /// Default is "Select an option..."
+    /// </summary>
+    [Parameter] public string PlaceholderText { get; set; } = "Select an option...";
+
+    /// <summary>
+    /// Whether to show a placeholder option at the top of the dropdown.
+    /// Default is true.
+    /// </summary>
+    [Parameter] public bool ShowPlaceholderOption { get; set; } = true;
+
+    /// <summary>
+    /// Custom icon for the dropdown arrow. Default is a down chevron icon.
+    /// </summary>
+    [Parameter] public string DropdownIcon { get; set; } = "lni lni-chevron-down";
+
+    /// <summary>
+    /// Maximum height for the dropdown options list. Default is "max-h-60".
+    /// </summary>
+    [Parameter] public string MaxDropdownHeight { get; set; } = "max-h-60";
+
+    /// <summary>
+    /// Event callback invoked when the selection changes.
+    /// </summary>
+    [Parameter] public EventCallback<TValue> OnSelectionChanged { get; set; }
+
+    #endregion
+
+    #region Overrides
+
+    protected override bool HasValue
+    {
+        get
+        {
+            if (CurrentValue == null)
+                return false;
+
+            if (typeof(TValue) == typeof(string))
+                return !string.IsNullOrWhiteSpace(CurrentValue as string);
+
+            return !EqualityComparer<TValue>.Default.Equals(CurrentValue, default(TValue));
+        }
+    }
+
+    protected override bool TryParseValueFromString(
+        string? value,
+        [MaybeNullWhen(false)] out TValue result,
+        [NotNullWhen(false)] out string? validationErrorMessage)
+    {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
+        try
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                result = default;
+                validationErrorMessage = null;
+                return true;
+            }
+
+            var targetType = Nullable.GetUnderlyingType(typeof(TValue)) ?? typeof(TValue);
+
+            if (targetType == typeof(string))
+            {
+                result = (TValue)(object)value;
+                validationErrorMessage = null;
+                return true;
+            }
+
+            if (targetType.IsEnum)
+            {
+                result = (TValue)Enum.Parse(targetType, value);
+                validationErrorMessage = null;
+                return true;
+            }
+
+            if (targetType == typeof(Guid))
+            {
+                result = (TValue)(object)Guid.Parse(value);
+                validationErrorMessage = null;
+                return true;
+            }
+
+            result = (TValue)Convert.ChangeType(value, targetType);
+            validationErrorMessage = null;
+            return true;
+        }
+        catch (Exception ex)
+        {
+            result = default;
+            validationErrorMessage = $"Unable to convert '{value}' to type {typeof(TValue).Name}.";
+            Logger?.LogWarning(ex, "Failed to parse value for dropdown {Id}", Id);
+            return false;
+        }
+    }
+
+    protected override void HandleInput(ChangeEventArgs e)
+    {
+        // Not used for custom dropdown
+    }
+
+    protected override void HandleChange(ChangeEventArgs e)
+    {
+        // Not used for custom dropdown
+    }
+
+    protected override void InferTypeSpecificAttributes(PropertyInfo propertyInfo)
+    {
+        // Dropdown-specific inference
+        // Auto-populate enum values if TValue is an enum or nullable enum
+        if (Items == null)
+        {
+            var underlyingType = Nullable.GetUnderlyingType(typeof(TValue));
+            var enumType = underlyingType ?? typeof(TValue);
+
+            if (enumType.IsEnum)
+            {
+                var enumValues = Enum.GetValues(enumType)
+                    .Cast<object>()
+                    .Select(e => (TItem)(object)(TValue)e)
+                    .ToList();
+                Items = enumValues;
+            }
+        }
+    }
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            _jsModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Maviray.Blazor.Components.Material/js/maviDropDownJsInterop.js");
+            _dotNetRef = DotNetObjectReference.Create(this);
+            await JSRuntime.InvokeVoidAsync("maviDropdownInit", _dotNetRef, _containerRef);
+        }
+    }
+
+    public override void Dispose()
+    {
+        base.Dispose();
+        _dotNetRef?.Dispose();
+    }
+
+    #endregion
+
+    #region Dropdown Logic
+
+    [JSInvokable]
+    public async Task CloseFromJs()
+    {
+        if (_isOpen)
+        {
+            _isOpen = false;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private async Task ToggleDropdown()
+    {
+        if (Disabled || Readonly)
+            return;
+
+        _isOpen = !_isOpen;
+        IsFocused = _isOpen;
+
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
+        StateHasChanged();
+        await Task.CompletedTask;
+    }
+
+    private async Task SelectItem(TValue value)
+    {
+        if (Disabled || Readonly)
+            return;
+
+        CurrentValue = value;
+        _isOpen = false;
+        IsFocused = false;
+
+        // Trigger validation
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+        EditContext?.NotifyFieldChanged(FieldIdentifier);
+
+        // Invoke custom callback
+        if (OnSelectionChanged.HasDelegate)
+        {
+            await OnSelectionChanged.InvokeAsync(value);
+        }
+
+        StateHasChanged();
+    }
+
+    private bool IsSelected(TValue value)
+    {
+        // Special handling for null checks
+        if (CurrentValue == null)
+            return value == null || EqualityComparer<TValue>.Default.Equals(value, default(TValue));
+
+        if (value == null)
+            return false;
+
+        return EqualityComparer<TValue>.Default.Equals(CurrentValue, value);
+    }
+
+    private string GetDisplayText()
+    {
+        if (!HasValue || CurrentValue == null)
+            return string.Empty;
+
+        if (Items == null)
+            return CurrentValue.ToString() ?? string.Empty;
+
+        foreach (var item in Items)
+        {
+            var itemValue = GetItemValue(item);
+            if (EqualityComparer<TValue>.Default.Equals(itemValue, CurrentValue))
+            {
+                return GetItemText(item);
+            }
+        }
+
+        return CurrentValue.ToString() ?? string.Empty;
+    }
+
+    #endregion
+
+    #region Private Methods
+
+    private string BuildDropdownClass()
+    {
+        var classes = new List<string>
+        {
+            CssManager.Combine(
+                "block w-full h-full bg-transparent border-0 outline-none rounded",
+                "transition-all duration-200",
+                "cursor-pointer"
+            )
+        };
+
+        // Text color
+        if (Disabled)
+        {
+            classes.Add("cursor-not-allowed text-black/[0.38]");
+        }
+        else if (Readonly)
+        {
+            classes.Add("cursor-default text-black/[0.87]");
+        }
+        else
+        {
+            classes.Add("text-black/[0.87]");
+        }
+
+        // Placeholder color
+        if (!HasValue)
+        {
+            classes.Add("text-black/40");
+        }
+
+        // Focus
+        classes.Add("focus:outline-none focus:ring-0");
+
+        // Padding and font size for each size
+        var (padding, fontSize, lineHeight) = ElementSize switch
+        {
+            ElementSize.Small => GetDropdownSizePadding(
+                "px-3 pt-4 pb-2",
+                "pl-[36px] pr-8 pt-[12px] pb-2",
+                "text-sm",
+                "leading-normal"
+            ),
+            ElementSize.Large => GetDropdownSizePadding(
+                "px-4 pt-5 pb-3",
+                "pl-[38px] pr-10 pt-[14px] pb-3",
+                "text-lg",
+                "leading-normal"
+            ),
+            _ => GetDropdownSizePadding(
+                "px-3.5 pt-4.5 pb-2.5",
+                "pl-[36px] pr-9 pt-[12px] pb-2.5",
+                "text-base",
+                "leading-normal"
+            )
+        };
+
+        classes.Add(padding);
+        classes.Add(fontSize);
+        classes.Add(lineHeight);
+
+        return CssManager.Combine(classes.ToArray());
+    }
+
+    private (string padding, string fontSize, string lineHeight) GetDropdownSizePadding(
+        string defaultPadding,
+        string iconPadding,
+        string fontSize,
+        string lineHeight)
+    {
+        var hasStartIcon = !string.IsNullOrEmpty(StartIcon);
+
+        var padding = hasStartIcon ? iconPadding : defaultPadding;
+
+        return (padding, fontSize, lineHeight);
+    }
+
+    private string GetDropdownArrowClass()
+    {
+        var classes = new List<string>
+        {
+            CssManager.Combine(
+                $"absolute {GetIconTopOffset()} -translate-y-1/2 right-2",
+                "transition-colors duration-200 z-10 cursor-pointer"
+            )
+        };
+
+        // Icon color based on state
+        if (HasError)
+        {
+            classes.Add(TextAlertColor);
+        }
+        else if (IsFocused || _isOpen)
+        {
+            classes.Add(ThemeTextDarkColor);
+        }
+        else if (Disabled)
+        {
+            classes.Add("text-black/[0.23]");
+        }
+        else if (Readonly)
+        {
+            classes.Add("text-black/[0.38]");
+        }
+        else
+        {
+            classes.Add(ThemeTextLightColor);
+        }
+
+        return CssManager.Combine(classes.ToArray());
+    }
+
+    private string GetDropdownOverlayClass()
+    {
+        var borderColor = HasError ? BorderAlertColor : ThemeBorderLightColor;
+
+        return CssManager.Combine(
+            "absolute left-0 right-0 z-50",
+            "mt-1 rounded-md shadow-lg",
+            "bg-white border-2",
+            borderColor,
+            "transform transition-all duration-200 ease-out",
+            "origin-top"
+        );
+    }
+
+    private string GetOptionsContainerClass()
+    {
+        return CssManager.Combine(
+            MaxDropdownHeight,
+            "overflow-y-auto",
+            "py-1",
+            "scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100"
+        );
+    }
+
+    private string GetOptionClass(bool isSelected)
+    {
+        var baseClasses = CssManager.Combine(
+            "relative px-3.5 py-2.5 cursor-pointer select-none",
+            "flex items-center justify-between",
+            "transition-colors duration-150"
+        );
+
+        string stateClasses;
+        if (isSelected)
+        {
+            stateClasses = CssManager.Combine(
+                ThemeTextDarkColor,
+                "bg-black/[0.08]",
+                "font-medium"
+            );
+        }
+        else
+        {
+            stateClasses = CssManager.Combine(
+                "text-black/[0.87]",
+                "hover:bg-black/[0.04]",
+                "active:bg-black/[0.08]"
+            );
+        }
+
+        var fontSize = ElementSize switch
+        {
+            ElementSize.Small => "text-sm",
+            ElementSize.Large => "text-lg",
+            _ => "text-base"
+        };
+
+        return CssManager.Combine(baseClasses, stateClasses, fontSize);
+    }
+
+    private string GetCheckmarkClass()
+    {
+        return CssManager.Combine(
+            "ml-2 flex-shrink-0",
+            ThemeTextDarkColor
+        );
+    }
+
+    private TValue GetItemValue(TItem item)
+    {
+        if (item == null)
+            return default(TValue)!;
+
+        if (ValueSelector != null)
+        {
+            return ValueSelector(item);
+        }
+
+        // If TItem and TValue are the same type, cast directly
+        if (typeof(TItem) == typeof(TValue))
+        {
+            return (TValue)(object)item;
+        }
+
+        // Try to convert
+        try
+        {
+            return (TValue)Convert.ChangeType(item, typeof(TValue))!;
+        }
+        catch
+        {
+            return default(TValue)!;
+        }
+    }
+
+    private string GetItemText(TItem item)
+    {
+        if (item == null)
+            return string.Empty;
+
+        if (TextSelector != null)
+        {
+            return TextSelector(item);
+        }
+
+        return item.ToString() ?? string.Empty;
+    }
+
+    #endregion
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_jsModule != null)
+        {
+            await _jsModule.DisposeAsync();
+        }
+
+        _dotNetRef?.Dispose();
+    }
+}
