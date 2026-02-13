@@ -1,4 +1,5 @@
 ﻿@page "/PageMaviDropdown"
+@using Maviray.Blazor.Components.Core.Models
 @inherits SamplePageBase
 
 <PageTitle>MaviDropdown</PageTitle>
@@ -188,7 +189,7 @@
                 <div class="space-y-3">
                     <div>
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Skill Level (Enum)</h3>
-                        <MaviDropdown TItem="SkillLevel" TValue="SkillLevel?"
+                        <MaviDropdown TItem="SkillLevel" TValue="SkillLevel"
                                       @bind-Value="_formSampleModel.SkillLevel"
                                       Items="_skiLevels"
                                       ElementSize="ElementSize.Small"
@@ -201,7 +202,7 @@
                     </div>
                     <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                         <code class="text-xs">
-                            TItem="SkillLevel" TValue="SkillLevel?"
+                            TItem="SkillLevel" TValue="SkillLevel"
                             Items="@@Enum.GetValues&lt;SkillLevel&gt;()"
                         </code>
                     </div>
@@ -235,7 +236,7 @@
                 <div class="space-y-3">
                     <div>
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Status (Enum)</h3>
-                        <MaviDropdown TItem="Status" TValue="Status?"
+                        <MaviDropdown TItem="Status" TValue="Status"
                                       @bind-Value="_formSampleModel.Status"
                                       Items="_statuses"
                                       ElementSize="ElementSize.Small"
@@ -248,7 +249,7 @@
                     </div>
                     <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                         <code class="text-xs">
-                            TItem="Status" TValue="Status?"
+                            TItem="Status" TValue="Status"
                         </code>
                     </div>
                 </div>
@@ -257,7 +258,7 @@
                 <div class="space-y-3">
                     <div>
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Category</h3>
-                        <MaviDropdown TItem="Category" TValue="Category?"
+                        <MaviDropdown TItem="Category" TValue="Category"
                                       @bind-Value="_formSampleModel.Category"
                                       Items="_categories"
                                       ElementSize="ElementSize.Small"
@@ -267,7 +268,7 @@
                     </div>
                     <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                         <code class="text-xs">
-                            TItem="Category" TValue="Category?"
+                            TItem="Category" TValue="Category"
                         </code>
                     </div>
                 </div>
@@ -276,7 +277,7 @@
                 <div class="space-y-3">
                     <div>
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Product Size</h3>
-                        <MaviDropdown TItem="ProductSize" TValue="ProductSize?"
+                        <MaviDropdown TItem="ProductSize" TValue="ProductSize"
                                       @bind-Value="_formSampleModel.ProductSize"
                                       Items="_productSizes"
                                       ElementSize="ElementSize.Small"
@@ -286,7 +287,7 @@
                     </div>
                     <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                         <code class="text-xs">
-                            TItem="ProductSize" TValue="ProductSize?"
+                            TItem="ProductSize" TValue="ProductSize"
                         </code>
                     </div>
                 </div>
@@ -513,7 +514,7 @@
                 <div class="space-y-3">
                     <div>
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Secondary</h3>
-                        <MaviDropdown TItem="Status" TValue="Status?"
+                        <MaviDropdown TItem="Status" TValue="Status"
                                       @bind-Value="_formSampleModel.Status"
                                       Items="_statuses"
                                       ElementSize="ElementSize.Small"
@@ -532,7 +533,7 @@
                 <div class="space-y-3">
                     <div>
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Success</h3>
-                        <MaviDropdown TItem="Category" TValue="Category?"
+                        <MaviDropdown TItem="Category" TValue="Category"
                                       @bind-Value="_formSampleModel.Category"
                                       Items="_categories"
                                       ElementSize="ElementSize.Small"
@@ -551,7 +552,7 @@
                 <div class="space-y-3">
                     <div>
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Alert</h3>
-                        <MaviDropdown TItem="SkillLevel" TValue="SkillLevel?"
+                        <MaviDropdown TItem="SkillLevel" TValue="SkillLevel"
                                       @bind-Value="_formSampleModel.SkillLevel"
                                       Items="_skiLevels"
                                       ElementSize="ElementSize.Small"
@@ -753,11 +754,11 @@
 
 @code {
 
-    private IEnumerable<SkillLevel> _skiLevels = Enum.GetValues<SkillLevel>();
-    private IEnumerable<Priority> _priorities = Enum.GetValues<Priority>();
-    private IEnumerable<Status> _statuses = Enum.GetValues<Status>();
-    private IEnumerable<Category> _categories = Enum.GetValues<Category>();
-    private IEnumerable<ProductSize> _productSizes = Enum.GetValues<ProductSize>();
+    private readonly IEnumerable<SkillLevel> _skiLevels = Enum.GetValues<SkillLevel>();
+    private readonly IEnumerable<Priority> _priorities = Enum.GetValues<Priority>();
+    private readonly IEnumerable<Status> _statuses = Enum.GetValues<Status>();
+    private readonly IEnumerable<Category> _categories = Enum.GetValues<Category>();
+    private readonly IEnumerable<ProductSize> _productSizes = Enum.GetValues<ProductSize>();
 
     private readonly SampleDropdownModel _formSampleModel = new()
     {
@@ -841,10 +842,10 @@
         Logger?.LogInformation("Form validation failed.");
     }
 
-    private async Task HandleThemeChange(string theme)
+    private async Task HandleThemeChange(ValueChangedCallbackParameters<string> args)
     {
-        _lastThemeChange = theme ?? "None";
-        Logger?.LogInformation("Theme changed to: {Theme}", theme);
+        _lastThemeChange = args.Value ?? "None";
+        Logger?.LogInformation("DropDown ID: {Id} - Theme changed to: {Theme}", args.ElementId, args.Value);
         await Task.CompletedTask;
     }
 }

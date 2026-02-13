@@ -27,20 +27,20 @@ public class SampleDropdownModel
     public int? ExperienceLevel { get; set; }
 
     [Display(Name = "Skill Level", Description = "Your expertise level")]
-    public SkillLevel? SkillLevel { get; set; }
+    public SkillLevel SkillLevel { get; set; }
 
     [Required]
     [Display(Name = "Priority", Description = "Task priority")]
     public Priority Priority { get; set; }
 
     [Display(Name = "Status", Description = "Current status")]
-    public Status? Status { get; set; }
+    public Status Status { get; set; }
 
     [Display(Name = "Category", Description = "Item category")]
-    public Category? Category { get; set; }
+    public Category Category { get; set; }
 
     [Display(Name = "Size", Description = "Product size")]
-    public ProductSize? ProductSize { get; set; }
+    public ProductSize ProductSize { get; set; }
 
     [Display(Name = "Color Theme", Description = "Preferred color theme")]
     public string? ColorTheme { get; set; }

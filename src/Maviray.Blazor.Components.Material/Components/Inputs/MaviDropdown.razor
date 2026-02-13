@@ -1,5 +1,6 @@
 ﻿@using System.Diagnostics.CodeAnalysis
 @using System.Reflection
+@using Maviray.Blazor.Components.Core.Models
 @using Microsoft.Extensions.Logging
 @typeparam TItem
 @typeparam TValue
@@ -79,18 +80,12 @@
                 @if (ShowPlaceholderOption && !Required)
                 {
                     var isPlaceholderSelected = !HasValue;
-                    <div class="@GetOptionClass(isPlaceholderSelected)"
+                    <div class="@GetOptionClass(false)"
                          role="option"
                          aria-selected="@isPlaceholderSelected.ToString().ToLowerInvariant()"
                          @onclick="() => SelectItem(default(TValue))"
                          @onclick:stopPropagation="true">
                         <span class="block truncate">@PlaceholderText</span>
-                        @if (isPlaceholderSelected)
-                        {
-                            <span class="@GetCheckmarkClass()">
-                                <i class="lni lni-checkmark"></i>
-                            </span>
-                        }
                     </div>
                 }
 
@@ -114,7 +109,7 @@
                             @if (isSelected)
                             {
                                 <span class="@GetCheckmarkClass()">
-                                    <i class="lni lni-checkmark"></i>
+                                    <i class="lni lni-check"></i>
                                 </span>
                             }
                         </div>
@@ -139,7 +134,7 @@
     private TValue? _hoveredValue = default;
     private DotNetObjectReference<MaviDropdown<TItem, TValue>>? _dotNetRef;
     private IJSObjectReference? _jsModule;
-    
+
     #region Dropdown-Specific Parameters
 
     /// <summary>
@@ -184,7 +179,7 @@
     /// <summary>
     /// Event callback invoked when the selection changes.
     /// </summary>
-    [Parameter] public EventCallback<TValue> OnSelectionChanged { get; set; }
+    [Parameter] public EventCallback<ValueChangedCallbackParameters<TValue>> OnSelectionChanged { get; set; }
 
     #endregion
 
@@ -220,7 +215,9 @@
             {
                 result = default;
                 validationErrorMessage = null;
+#pragma warning disable CS8762 // Parameter must have a non-null value when exiting in some condition.
                 return true;
+#pragma warning restore CS8762 // Parameter must have a non-null value when exiting in some condition.
             }
 
             var targetType = Nullable.GetUnderlyingType(typeof(TValue)) ?? typeof(TValue);
@@ -273,20 +270,18 @@
     {
         // Dropdown-specific inference
         // Auto-populate enum values if TValue is an enum or nullable enum
-        if (Items == null)
-        {
-            var underlyingType = Nullable.GetUnderlyingType(typeof(TValue));
-            var enumType = underlyingType ?? typeof(TValue);
+        if (Items != null) return;
 
-            if (enumType.IsEnum)
-            {
-                var enumValues = Enum.GetValues(enumType)
-                    .Cast<object>()
-                    .Select(e => (TItem)(object)(TValue)e)
-                    .ToList();
-                Items = enumValues;
-            }
-        }
+        var underlyingType = Nullable.GetUnderlyingType(typeof(TValue));
+        var enumType = underlyingType ?? typeof(TValue);
+
+        if (!enumType.IsEnum) return;
+
+        var enumValues = Enum.GetValues(enumType)
+            .Cast<object>()
+            .Select(e => (TItem)(object)(TValue)e)
+            .ToList();
+        Items = enumValues;
     }
 
 
@@ -339,7 +334,7 @@
         await Task.CompletedTask;
     }
 
-    private async Task SelectItem(TValue value)
+    private async Task SelectItem(TValue? value)
     {
         if (Disabled || Readonly)
             return;
@@ -355,7 +350,7 @@
         // Invoke custom callback
         if (OnSelectionChanged.HasDelegate)
         {
-            await OnSelectionChanged.InvokeAsync(value);
+            await OnSelectionChanged.InvokeAsync(new(){ ElementId = Id, Value = value });
         }
 
         StateHasChanged();
@@ -367,10 +362,7 @@
         if (CurrentValue == null)
             return value == null || EqualityComparer<TValue>.Default.Equals(value, default(TValue));
 
-        if (value == null)
-            return false;
-
-        return EqualityComparer<TValue>.Default.Equals(CurrentValue, value);
+        return value != null && EqualityComparer<TValue>.Default.Equals(CurrentValue, value);
     }
 
     private string GetDisplayText()
@@ -600,7 +592,7 @@
         }
         catch
         {
-            return default(TValue)!;
+            return default!;
         }
     }
 
