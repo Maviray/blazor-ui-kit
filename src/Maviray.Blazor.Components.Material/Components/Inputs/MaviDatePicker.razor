@@ -6,15 +6,14 @@
     <!-- Calendar Popup -->
     @if (_isOpen)
     {
-        <div class="absolute z-50 mt-2 bg-white rounded-lg shadow-xl border @Tailwind.Theme.Colors.Border.THEME_LIGHT_TWO_BORDER"
-             style="min-width: 320px;">
+        <div class="@CssManager.Combine(Tailwind.Theme.Colors.Border.THEME_LIGHT_TWO_BORDER, "absolute z-50 mt-2 bg-white rounded-lg shadow-xl border min-w-80")">
 
             <!-- Calendar Header -->
-            <div class="flex items-center justify-between p-4 border-b @Tailwind.Theme.Colors.Border.THEME_LIGHT_ONE_BORDER">
+            <div class="@CssManager.Combine(Tailwind.Theme.Colors.Border.THEME_LIGHT_ONE_BORDER, "flex items-center justify-between p-4 border-b")">
                 <!-- Previous Month Button -->
                 <button type="button"
                         @onclick="PreviousMonth"
-                        class="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                        class="p-2 rounded-full hover:bg-gray-100 transition-colors cursor-pointer">
                     <svg width="24" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
                         <path d="M15.2335 5.21967C15.5263 5.51256 15.5263 5.98744 15.2335 6.28033L9.51379 12L15.2335 17.7197C15.5263 18.0126 15.5263 18.4874 15.2335 18.7803C14.9406 19.0732 14.4657 19.0732 14.1728 18.7803L7.92279 12.5303C7.6299 12.2374 7.6299 11.7626 7.92279 11.4697L14.1728 5.21967C14.4657 4.92678 14.9406 4.92678 15.2335 5.21967Z" fill="#343C54"/>
                     </svg>
@@ -24,7 +23,7 @@
                 <div class="flex items-center gap-2">
                     <!-- Month Selector -->
                     <select @bind="_displayMonth"
-                            class="px-3 py-1 rounded border @Tailwind.Theme.Colors.Border.THEME_LIGHT_ONE_BORDER focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            class="@CssManager.Combine(Tailwind.Theme.Colors.Border.THEME_LIGHT_ONE_BORDER, Tailwind.Theme.Colors.Ring.Focus.THEME_PRIMARY_FIVE_RING_FOCUS, "px-3 py-1 rounded border focus:outline-none focus:ring-2")">
                         @for (var month = 1; month <= 12; month++)
                         {
                             <option value="@month">@CurrentCulture.DateTimeFormat.GetMonthName(month)</option>
@@ -33,7 +32,7 @@
 
                     <!-- Year Selector -->
                     <select @bind="_displayYear"
-                            class="px-3 py-1 rounded border @Tailwind.Theme.Colors.Border.THEME_LIGHT_ONE_BORDER focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            class="@CssManager.Combine(Tailwind.Theme.Colors.Border.THEME_LIGHT_ONE_BORDER, Tailwind.Theme.Colors.Ring.Focus.THEME_PRIMARY_FIVE_RING_FOCUS, "px-3 py-1 rounded border focus:outline-none focus:ring-2")">
                         @for (var year = MinYear; year <= MaxYear; year++)
                         {
                             <option value="@year">@year</option>
@@ -44,7 +43,7 @@
                 <!-- Next Month Button -->
                 <button type="button"
                         @onclick="NextMonth"
-                        class="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                        class="p-2 rounded-full hover:bg-gray-100 transition-colors cursor-pointer">
                     <svg width="24" height="24" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
                         <path d="M9.08979 19.2803C8.79689 18.9874 8.79689 18.5126 9.08979 18.2197L14.8095 12.5L9.08979 6.78033C8.7969 6.48744 8.7969 6.01256 9.08979 5.71967C9.38268 5.42678 9.85756 5.42678 10.1504 5.71967L16.4004 11.9697C16.6933 12.2626 16.6933 12.7374 16.4004 13.0303L10.1504 19.2803C9.85755 19.5732 9.38268 19.5732 9.08979 19.2803Z" fill="#343C54"/>
                     </svg>
@@ -72,28 +71,37 @@
                                 @onclick="() => SelectDate(day.Date)"
                                 disabled="@(!day.IsInCurrentMonth || !IsDateSelectable(day.Date))"
                                 class="@GetDayButtonClass(day)">
-                            @day.Date.Day
+                            <span>@day.Date.Day</span>
                         </button>
                     }
                 </div>
             </div>
 
             <!-- Action Buttons -->
-            <div class="flex items-center justify-between p-4 border-t @Tailwind.Theme.Colors.Border.THEME_LIGHT_ONE_BORDER">
+            <div class="@CssManager.Combine(Tailwind.Theme.Colors.Border.THEME_LIGHT_ONE_BORDER, "flex items-center justify-between p-4 border-t")">
                 <button type="button"
                         @onclick="SelectToday"
-                        class="px-4 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50 rounded transition-colors">
+                        class="@CssManager.Combine(Tailwind.Theme.Colors.Text.THEME_PRIMARY_EIGHT_TEXT, 
+                                                    Tailwind.Theme.Colors.Background.Hover.THEME_PRIMARY_ONE_BG_HOVER, 
+                                                    Tailwind.Theme.Colors.Background.Active.THEME_PRIMARY_THREE_BG_ACTIVE,
+                                                                            Tailwind.Theme.Typography.LABEL_MEDIUM, "px-4 py-2 hover:bg-blue-50 rounded transition-colors cursor-pointer")">
                     Today
                 </button>
                 <div class="flex gap-2">
                     <button type="button"
                             @onclick="Clear"
-                            class="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded transition-colors">
+                            class="@CssManager.Combine(Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT, 
+                                                                    Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER, 
+                                                                    Tailwind.Theme.Colors.Background.Active.THEME_DEFAULT_THREE_BG_ACTIVE, 
+                                                                                            Tailwind.Theme.Typography.LABEL_MEDIUM, "px-4 py-2 rounded transition-colors cursor-pointer")">
                         Clear
                     </button>
                     <button type="button"
                             @onclick="Close"
-                            class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded transition-colors">
+                            class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_PRIMARY_SEVEN_BG, 
+                                       Tailwind.Theme.Colors.Background.Hover.THEME_PRIMARY_EIGHT_BG_HOVER, 
+                                       Tailwind.Theme.Colors.Background.Active.THEME_PRIMARY_NINE_BG_ACTIVE,
+                                       Tailwind.Theme.Typography.LABEL_MEDIUM, "px-4 py-2 rounded transition-colors text-white cursor-pointer")">
                         OK
                     </button>
                 </div>
@@ -187,8 +195,16 @@
     {
         var classes = new List<string>
         {
-            "p-2 text-sm rounded-full transition-all duration-200"
+            "w-[37px] h-[37px] flex items-center justify-center p-2 rounded-full transition-all duration-200",
+            Tailwind.Theme.Typography.LABEL_MEDIUM
         };
+
+        var selectable = IsDateSelectable(day.Date);
+
+        if (selectable)
+        {
+            classes.Add("cursor-pointer");
+        }
 
         if (!day.IsInCurrentMonth)
         {
@@ -196,19 +212,27 @@
         }
         else if (day.IsSelected)
         {
-            classes.Add("bg-blue-600 text-white font-semibold hover:bg-blue-700");
+            classes.Add(Tailwind.Theme.Colors.Background.THEME_PRIMARY_SEVEN_BG);
+            classes.Add(Tailwind.Theme.Colors.Background.Hover.THEME_PRIMARY_EIGHT_BG_HOVER);
+           
+            classes.Add("text-white");
         }
         else if (day.IsToday)
         {
-            classes.Add("border-2 border-blue-600 text-blue-600 font-semibold hover:bg-blue-50");
+            classes.Add(Tailwind.Theme.Colors.Text.THEME_PRIMARY_EIGHT_TEXT);
+            classes.Add(Tailwind.Theme.Colors.Border.THEME_PRIMARY_EIGHT_BORDER);
+            classes.Add(Tailwind.Theme.Colors.Background.Hover.THEME_PRIMARY_ONE_BG_HOVER);
+            classes.Add("border-2");
         }
-        else if (IsDateSelectable(day.Date))
+        else if (selectable)
         {
-            classes.Add("text-gray-900 hover:bg-gray-100");
+            classes.Add(Tailwind.Theme.Colors.Text.THEME_DEFAULT_SEVEN_TEXT);
+            classes.Add(Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_FOUR_BG_HOVER);
         }
         else
         {
-            classes.Add("text-gray-300 cursor-not-allowed");
+            classes.Add(Tailwind.Theme.Colors.Text.THEME_DEFAULT_THREE_TEXT);
+            classes.Add("cursor-not-allowed");
         }
 
         return string.Join(" ", classes);
