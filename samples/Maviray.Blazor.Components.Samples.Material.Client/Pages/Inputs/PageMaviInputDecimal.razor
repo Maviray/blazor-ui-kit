@@ -30,7 +30,7 @@
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Small</h3>
                         <MaviInputDecimal @bind-Value="_formSampleModel.NumberOne"
                                           ElementSize="ElementSize.Small"
-                                          StartIcon="lni lni-coin"
+                                          StartIcon="lni lni-euro"
                                           Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.NumberOne)" />
                     </div>
@@ -51,7 +51,7 @@
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Regular (Default)</h3>
                         <MaviInputDecimal @bind-Value="_formSampleModel.NumberTwo"
                                           ElementSize="ElementSize.Regular"
-                                          StartIcon="lni lni-money-protection"
+                                          StartIcon="lni lni-euro"
                                           Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.NumberTwo)" />
                     </div>
@@ -72,7 +72,7 @@
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Large</h3>
                         <MaviInputDecimal @bind-Value="_formSampleModel.NumberThree"
                                           ElementSize="ElementSize.Large"
-                                          StartIcon="lni lni-wallet"
+                                          StartIcon="lni lni-euro"
                                           Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.NumberThree)" />
                     </div>
@@ -188,7 +188,7 @@
                         <MaviInputDecimal @bind-Value="_formSampleModel.FixedPoint2"
                                           ElementSize="ElementSize.Small"
                                           FormatMask="F2"
-                                          StartIcon="lni lni-calculator"
+                                          StartIcon="lni lni-calculator-1"
                                           Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.FixedPoint2)" />
                         <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
@@ -209,7 +209,7 @@
                         <MaviInputDecimal @bind-Value="_formSampleModel.FixedPoint4"
                                           ElementSize="ElementSize.Small"
                                           FormatMask="F4"
-                                          StartIcon="lni lni-calculator"
+                                          StartIcon="lni lni-calculator-1"
                                           Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.FixedPoint4)" />
                         <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
@@ -230,7 +230,7 @@
                         <MaviInputDecimal @bind-Value="_formSampleModel.Separator"
                                           ElementSize="ElementSize.Small"
                                           FormatMask="N2"
-                                          StartIcon="lni lni-calculator"
+                                          StartIcon="lni lni-calculator-1"
                                           Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.Separator)" />
                         <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
@@ -272,7 +272,7 @@
                         <MaviInputDecimal @bind-Value="_formSampleModel.Percentage"
                                           ElementSize="ElementSize.Small"
                                           FormatMask="P2"
-                                          StartIcon="lni lni-pie-chart"
+                                          StartIcon="lni lni-bar-chart-dollar"
                                           Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.Percentage)" />
                         <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
@@ -293,7 +293,7 @@
                         <MaviInputDecimal @bind-Value="_formSampleModel.General"
                                           ElementSize="ElementSize.Small"
                                           FormatMask="G"
-                                          StartIcon="lni lni-calculator"
+                                          StartIcon="lni lni-calculator-1"
                                           Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.General)" />
                         <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
@@ -314,7 +314,7 @@
                         <MaviInputDecimal @bind-Value="_formSampleModel.General"
                                           ElementSize="ElementSize.Small"
                                           FormatMask="#,##0.00"
-                                          StartIcon="lni lni-cog"
+                                          StartIcon="lni lni-gears-3"
                                           Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.General)" />
                         <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
@@ -336,7 +336,7 @@
                                           ElementSize="ElementSize.Small"
                                           FormatMask="C2"
                                           DecimalPlaces="2"
-                                          StartIcon="lni lni-revenue"
+                                          StartIcon="lni lni-gears-3"
                                           Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.AccountBalance)" />
                         <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
@@ -369,7 +369,7 @@
                         <MaviInputDecimal @bind-Value="_formSampleModel.DecimalPlaces2"
                                           ElementSize="ElementSize.Small"
                                           DecimalPlaces="2"
-                                          StartIcon="lni lni-ruler-pencil"
+                                          StartIcon="lni lni-gears-3"
                                           Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.DecimalPlaces2)" />
                         <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
@@ -390,7 +390,7 @@
                         <MaviInputDecimal @bind-Value="_formSampleModel.DecimalPlaces4"
                                           ElementSize="ElementSize.Small"
                                           DecimalPlaces="4"
-                                          StartIcon="lni lni-ruler-pencil"
+                                          StartIcon="lni lni-gears-3"
                                           Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.DecimalPlaces4)" />
                         <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
@@ -444,7 +444,7 @@
                         <MaviInputDecimal @bind-Value="_formSampleModel.InterestRate"
                                           ElementSize="ElementSize.Regular"
                                           FormatMask="F2"
-                                          StartIcon="lni lni-bar-chart"
+                                          StartIcon="lni lni-gears-3"
                                           Width="w-full" />
                         <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
                             Icon positioned at input start
@@ -464,8 +464,8 @@
                         <MaviInputDecimal @bind-Value="_formSampleModel.TaxAmount"
                                           ElementSize="ElementSize.Regular"
                                           FormatMask="C2"
-                                          EndIcon="lni lni-calculator"
-                                          EndIconAlternative="lni lni-checkmark"
+                                          EndIcon="lni lni-calculator-1"
+                                          EndIconAlternative="lni lni-gears-3"
                                           Width="w-full" />
                         <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
                             Switches between two end icons
@@ -473,8 +473,8 @@
                     </div>
                     <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                         <code class="text-xs">
-                            EndIcon="lni lni-calculator"
-                            EndIconAlternative="lni lni-checkmark"
+                            EndIcon="lni lni-calculator-1"
+                            EndIconAlternative="lni lni-gears-3"
                         </code>
                     </div>
                 </div>
@@ -512,7 +512,7 @@
                                           FormatMask="C2"
                                           DecimalPlaces="2"
                                           StartIcon="lni lni-euro"
-                                          EndIcon="lni lni-calculator"
+                                          EndIcon="lni lni-gears-3"
                                           EndIconAlternative="lni lni-checkmark"
                                           ButtonLabel="Process"
                                           OnEndIconClick="SimulateCalculation"
@@ -571,7 +571,7 @@
                                           DecimalPlaces="2"
                                           Min="0"
                                           Max="100"
-                                          StartIcon="lni lni-stats-up"
+                                          StartIcon="lni lni-gears-3"
                                           HelperText="Annual interest rate"
                                           Width="w-full" />
                         <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
@@ -589,7 +589,7 @@
                                           FormatMask="C2"
                                           DecimalPlaces="2"
                                           Min="0"
-                                          StartIcon="lni lni-credit-cards"
+                                          StartIcon="lni lni-gears-3"
                                           HelperText="Current account balance"
                                           Width="w-full" />
                         <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
@@ -625,7 +625,7 @@
                                           FormatMask="C2"
                                           DecimalPlaces="2"
                                           Min="0"
-                                          StartIcon="lni lni-invoice"
+                                          StartIcon="lni lni-gears-3"
                                           HelperText="Total invoice amount"
                                           Width="w-full" />
                         <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
@@ -644,7 +644,7 @@
                                           DecimalPlaces="4"
                                           Min="0"
                                           Max="1"
-                                          StartIcon="lni lni-offer"
+                                          StartIcon="lni lni-gears-3"
                                           HelperText="Discount percentage (0.0 - 1.0)"
                                           Width="w-full" />
                         <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">

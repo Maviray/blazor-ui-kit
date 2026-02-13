@@ -1,5 +1,6 @@
 ﻿@using System.Diagnostics.CodeAnalysis
 @using System.ComponentModel.DataAnnotations
+@using System.Diagnostics
 @using System.Reflection
 @using System.Globalization
 @inherits MaviInputBase<DateTime>
@@ -197,6 +198,12 @@
         if (firstRender && UseCalendarPicker)
         {
             _dotNetRef = DotNetObjectReference.Create(this);
+           
+            if (JsRuntime == null)
+            {
+                throw new InvalidOperationException("IJSRuntime is not available. Ensure it is properly injected.");
+            }
+
             _jsModule = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Maviray.Blazor.Components.Material/js/maviDatePickerJsInterop.js");
             await _jsModule.InvokeVoidAsync("initializeDatePicker", _containerRef, _dotNetRef);
         }
