@@ -33,7 +33,7 @@
                                       @bind-Value="_formSampleModel.Country"
                                       Items="@_countries.Select(c => c.Name)"
                                       ElementSize="ElementSize.Small"
-                                      StartIcon="lni lni-world"
+                                      StartIcon="lni lni-gears-3"
                                       Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.Country)" />
                     </div>
@@ -43,7 +43,7 @@
                             @@bind-Value="value"
                             Items="@@items"
                             ElementSize="ElementSize.Small"
-                            StartIcon="lni lni-world"
+                            StartIcon="lni lni-gears-3"
                             Width="w-full" /&gt;
                         </code>
                     </div>
@@ -57,7 +57,7 @@
                                       @bind-Value="_formSampleModel.State"
                                       Items="@_states"
                                       ElementSize="ElementSize.Regular"
-                                      StartIcon="lni lni-map"
+                                      StartIcon="lni lni-gears-3"
                                       Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.State)" />
                     </div>
@@ -67,7 +67,7 @@
                             @@bind-Value="value"
                             Items="@@items"
                             ElementSize="ElementSize.Regular"
-                            StartIcon="lni lni-map"
+                            StartIcon="lni lni-gears-3"
                             Width="w-full" /&gt;
                         </code>
                     </div>
@@ -81,7 +81,7 @@
                                       @bind-Value="_formSampleModel.City"
                                       Items="@_cities"
                                       ElementSize="ElementSize.Large"
-                                      StartIcon="lni lni-map-marker"
+                                      StartIcon="lni lni-gears-3"
                                       Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.City)" />
                     </div>
@@ -91,7 +91,7 @@
                             @@bind-Value="value"
                             Items="@@items"
                             ElementSize="ElementSize.Large"
-                            StartIcon="lni lni-map-marker"
+                            StartIcon="lni lni-gears-3"
                             Width="w-full" /&gt;
                         </code>
                     </div>
@@ -116,7 +116,7 @@
                                       Items="@_departments.Select(d => d.Name)"
                                       ElementSize="ElementSize.Small"
                                       Disabled="true"
-                                      StartIcon="lni lni-briefcase"
+                                      StartIcon="lni lni-gears-3"
                                       Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.Department)" />
                         <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
@@ -139,7 +139,7 @@
                                       Items="@_jobRoles"
                                       ElementSize="ElementSize.Regular"
                                       Readonly="true"
-                                      StartIcon="lni lni-user"
+                                      StartIcon="lni lni-gears-3"
                                       Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.JobRole)" />
                         <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
@@ -161,7 +161,7 @@
                                       @bind-Value="_formSampleModel.Language"
                                       Items="@_languages"
                                       ElementSize="ElementSize.Small"
-                                      StartIcon="lni lni-comments"
+                                      StartIcon="lni lni-gears-3"
                                       Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.Language)" />
                         <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
@@ -193,7 +193,7 @@
                                       @bind-Value="_formSampleModel.SkillLevel"
                                       Items="_skiLevels"
                                       ElementSize="ElementSize.Small"
-                                      StartIcon="lni lni-graduation"
+                                      StartIcon="lni lni-gears-3"
                                       Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.SkillLevel)" />
                         <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
@@ -216,7 +216,7 @@
                                       @bind-Value="_formSampleModel.Priority"
                                       Items="_priorities"
                                       ElementSize="ElementSize.Small"
-                                      StartIcon="lni lni-warning"
+                                      StartIcon="lni lni-gears-3"
                                       ShowPlaceholderOption="false"
                                       Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.Priority)" />
@@ -240,7 +240,7 @@
                                       @bind-Value="_formSampleModel.Status"
                                       Items="_statuses"
                                       ElementSize="ElementSize.Small"
-                                      StartIcon="lni lni-checkmark-circle"
+                                      StartIcon="lni lni-gears-3"
                                       Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.Status)" />
                         <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
@@ -262,7 +262,7 @@
                                       @bind-Value="_formSampleModel.Category"
                                       Items="_categories"
                                       ElementSize="ElementSize.Small"
-                                      StartIcon="lni lni-tag"
+                                      StartIcon="lni lni-gears-3"
                                       Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.Category)" />
                     </div>
@@ -281,7 +281,7 @@
                                       @bind-Value="_formSampleModel.ProductSize"
                                       Items="_productSizes"
                                       ElementSize="ElementSize.Small"
-                                      StartIcon="lni lni-ruler"
+                                      StartIcon="lni lni-gears-3"
                                       Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.ProductSize)" />
                     </div>
@@ -312,7 +312,7 @@
                                       ValueSelector="@(c => c.Code)"
                                       TextSelector="@(c => c.Name)"
                                       ElementSize="ElementSize.Regular"
-                                      StartIcon="lni lni-world"
+                                      StartIcon="lni lni-gears-3"
                                       Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.Country)" />
                         <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
@@ -339,7 +339,7 @@
                                       ValueSelector="@(d => d.Name)"
                                       TextSelector="@(d => $"{d.Name} - {d.Description}")"
                                       ElementSize="ElementSize.Regular"
-                                      StartIcon="lni lni-briefcase"
+                                      StartIcon="lni lni-gears-3"
                                       Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.Department)" />
                         <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
@@ -365,7 +365,7 @@
                                       ValueSelector="@(e => e.Years)"
                                       TextSelector="@(e => e.Label)"
                                       ElementSize="ElementSize.Regular"
-                                      StartIcon="lni lni-calendar"
+                                      StartIcon="lni lni-gears-3"
                                       Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.ExperienceLevel)" />
                         <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
@@ -400,7 +400,7 @@
                                       Items="@_currencies"
                                       ElementSize="ElementSize.Regular"
                                       PlaceholderText="Choose your currency..."
-                                      StartIcon="lni lni-money-protection"
+                                      StartIcon="lni lni-gears-3"
                                       Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.Currency)" />
                         <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
@@ -423,7 +423,7 @@
                                       Items="@_timezones"
                                       ElementSize="ElementSize.Regular"
                                       HelperText="Select your local timezone for scheduling"
-                                      StartIcon="lni lni-alarm-clock"
+                                      StartIcon="lni lni-gears-3"
                                       Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.Timezone)" />
                     </div>
@@ -443,7 +443,7 @@
                                       Items="@_colorThemes"
                                       ElementSize="ElementSize.Regular"
                                       OnSelectionChanged="HandleThemeChange"
-                                      StartIcon="lni lni-palette"
+                                      StartIcon="lni lni-gears-3"
                                       Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.ColorTheme)" />
                         <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
@@ -466,7 +466,7 @@
                                       Items="@_countries.Select(c => c.Name)"
                                       ElementSize="ElementSize.Regular"
                                       InferFromModelAttributes="true"
-                                      StartIcon="lni lni-world"
+                                      StartIcon="lni lni-gears-3"
                                       Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.Country)" />
                         <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
@@ -500,7 +500,7 @@
                                       ElementSize="ElementSize.Small"
                                       ThemeColorScheme="ThemeColorScheme.Primary"
                                       ShowPlaceholderOption="false"
-                                      StartIcon="lni lni-warning"
+                                      StartIcon="lni lni-gears-3"
                                       Width="w-full" />
                     </div>
                     <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
@@ -519,7 +519,7 @@
                                       Items="_statuses"
                                       ElementSize="ElementSize.Small"
                                       ThemeColorScheme="ThemeColorScheme.Secondary"
-                                      StartIcon="lni lni-checkmark-circle"
+                                      StartIcon="lni lni-gears-3"
                                       Width="w-full" />
                     </div>
                     <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
@@ -538,7 +538,7 @@
                                       Items="_categories"
                                       ElementSize="ElementSize.Small"
                                       ThemeColorScheme="ThemeColorScheme.Success"
-                                      StartIcon="lni lni-tag"
+                                      StartIcon="lni lni-gears-3"
                                       Width="w-full" />
                     </div>
                     <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
@@ -557,7 +557,7 @@
                                       Items="_skiLevels"
                                       ElementSize="ElementSize.Small"
                                       ThemeColorScheme="ThemeColorScheme.Alert"
-                                      StartIcon="lni lni-graduation"
+                                      StartIcon="lni lni-gears-3"
                                       Width="w-full" />
                     </div>
                     <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
@@ -576,7 +576,7 @@
                                       Items="@_languages"
                                       ElementSize="ElementSize.Small"
                                       ThemeColorScheme="ThemeColorScheme.Warning"
-                                      StartIcon="lni lni-comments"
+                                      StartIcon="lni lni-gears-3"
                                       Width="w-full" />
                     </div>
                     <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
@@ -595,7 +595,7 @@
                                       Items="@_currencies"
                                       ElementSize="ElementSize.Small"
                                       ThemeColorScheme="ThemeColorScheme.Info"
-                                      StartIcon="lni lni-money-protection"
+                                      StartIcon="lni lni-gears-3"
                                       Width="w-full" />
                     </div>
                     <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
