@@ -54,7 +54,7 @@ public static class CssManager
 
         var result = string.Join(" ",
             classes.Where(c => !string.IsNullOrWhiteSpace(c))
-                   .Select(c => c.Trim())
+                   .Select(c => c?.Trim())
         );
 
         return result;
