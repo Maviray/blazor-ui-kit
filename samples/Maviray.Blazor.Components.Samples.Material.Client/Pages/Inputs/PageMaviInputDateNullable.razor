@@ -30,7 +30,7 @@
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">With Clear Button (Default)</h3>
                         <MaviInputDateNullable @bind-Value="_formSampleModel.DateTwentyTwo"
                                                ShowClearButton="true"
-                                               StartIcon="lni lni-calendar"
+                                               StartIcon="lni lni-alarm-1"
                                                HelperText="Click the X to clear the date"
                                                Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.DateTwentyTwo)" />
@@ -43,7 +43,7 @@
                             &lt;MaviInputDateNullable
                             @@bind-Value="value"
                             ShowClearButton="true"
-                            StartIcon="lni lni-calendar" /&gt;
+                            StartIcon="lni lni-alarm-1" /&gt;
                         </code>
                     </div>
                 </div>
@@ -54,7 +54,7 @@
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Without Clear Button</h3>
                         <MaviInputDateNullable @bind-Value="_formSampleModel.DateTwentyThree"
                                                ShowClearButton="false"
-                                               StartIcon="lni lni-calendar"
+                                               StartIcon="lni lni-alarm-1"
                                                HelperText="No clear button available"
                                                Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.DateTwentyThree)" />
@@ -76,7 +76,7 @@
                     <div>
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Starts Empty/Null</h3>
                         <MaviInputDateNullable @bind-Value="_formSampleModel.DateTwentyFour"
-                                               StartIcon="lni lni-calendar"
+                                                StartIcon="lni lni-alarm-1"
                                                HelperText="This field started with null value"
                                                Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.DateTwentyFour)" />
@@ -284,7 +284,7 @@
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">DateTime</h3>
                         <MaviInputDateNullable @bind-Value="_formSampleModel.DateEight"
                                                DateInputType="DateInputType.DateTime"
-                                               StartIcon="lni lni-timer"
+                                               StartIcon="lni lni-alarm-1"
                                                Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.DateEight)" />
                     </div>
@@ -293,7 +293,7 @@
                             &lt;MaviInputDateNullable
                             @@bind-Value="value"
                             DateInputType="DateInputType.DateTime"
-                            StartIcon="lni lni-timer" /&gt;
+                            StartIcon="lni lni-alarm-1" /&gt;
                         </code>
                     </div>
                 </div>
@@ -304,7 +304,7 @@
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Time</h3>
                         <MaviInputDateNullable @bind-Value="_formSampleModel.DateNine"
                                                DateInputType="DateInputType.Time"
-                                               StartIcon="lni lni-alarm-clock"
+                                               StartIcon="lni lni-alarm-1"
                                                Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.DateNine)" />
                     </div>
@@ -313,7 +313,7 @@
                             &lt;MaviInputDateNullable
                             @@bind-Value="value"
                             DateInputType="DateInputType.Time"
-                            StartIcon="lni lni-alarm-clock" /&gt;
+                            StartIcon="lni lni-alarm-1" /&gt;
                         </code>
                     </div>
                 </div>
@@ -398,7 +398,7 @@
                         <MaviInputDateNullable @bind-Value="_formSampleModel.DateThirteen"
                                                Min="@DateTime.Today.AddYears(-100)"
                                                Max="@DateTime.Today.AddYears(-18)"
-                                               StartIcon="lni lni-cake"
+                                               StartIcon="lni lni-alarm-1"
                                                HelperText="Must be at least 18 years old (optional)"
                                                Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.DateThirteen)" />
@@ -482,7 +482,7 @@
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">With Custom End Icon</h3>
                         <MaviInputDateNullable @bind-Value="_formSampleModel.DateSixteen"
                                                StartIcon="lni lni-alarm-1"
-                                               EndIcon="lni lni-close"
+                                               EndIcon="lni lni-bar-chart-dollar"
                                                OnEndIconClick="HandleClearDate"
                                                ButtonLabel="Clear date"
                                                Width="w-full" />
@@ -493,7 +493,7 @@
                             &lt;MaviInputDateNullable
                             @@bind-Value="value"
                             StartIcon="lni lni-alarm-1"
-                            EndIcon="lni lni-close"
+                            EndIcon="lni lni-bar-chart-dollar"
                             OnEndIconClick="HandleClearDate"
                             ButtonLabel="Clear date" /&gt;
                         </code>
@@ -506,8 +506,8 @@
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">With Icon Toggle</h3>
                         <MaviInputDateNullable @bind-Value="_formSampleModel.DateSeventeen"
                                                StartIcon="lni lni-alarm-1"
-                                               EndIcon="lni lni-check-circle"
-                                               EndIconAlternative="lni lni-circle-minus"
+                                               EndIcon="lni lni-bar-chart-dollar"
+                                               EndIconAlternative="lni lni-calculator-1"
                                                ButtonLabel="Toggle validation"
                                                Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.DateSeventeen)" />
@@ -517,8 +517,8 @@
                             &lt;MaviInputDateNullable
                             @@bind-Value="value"
                             StartIcon="lni lni-alarm-1"
-                            EndIcon="lni lni-check-circle"
-                            EndIconAlternative="lni lni-circle-minus" /&gt;
+                            EndIcon="lni lni-bar-chart-dollar"
+                            EndIconAlternative="lni lni-calculator-1" /&gt;
                         </code>
                     </div>
                 </div>
