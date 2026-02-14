@@ -275,12 +275,22 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>, IDisposable
 
     protected void OnFocus()
     {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
         IsFocused = true;
         StateHasChanged();
     }
 
     protected virtual void OnBlur()
     {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
         IsFocused = false;
         StateHasChanged();
     }
