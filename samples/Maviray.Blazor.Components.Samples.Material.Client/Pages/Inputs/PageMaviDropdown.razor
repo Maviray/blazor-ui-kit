@@ -1,0 +1,851 @@
+﻿@page "/PageMaviDropdown"
+@using Maviray.Blazor.Components.Core.Models
+@inherits SamplePageBase
+
+<PageTitle>MaviDropdown</PageTitle>
+
+
+<div class="p-6 max-w-7xl mx-auto">
+    <!-- Page Header -->
+    <div class="mb-8">
+        <h1 class="@CssManager.Combine(Tailwind.Theme.Typography.DISPLAY_MEDIUM, "mb-2")">MaviDropdown Component</h1>
+        <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_LARGE, "text-gray-600")">
+            Comprehensive showcase demonstrating all available parameters, use cases, and data binding options for the MaviDropdown component.
+        </p>
+    </div>
+
+    <EditForm Model="@_formSampleModel" OnValidSubmit="OnValidFormSubmit" OnInvalidSubmit="OnInValidFormSubmit" novalidate>
+        <DataAnnotationsValidator />
+
+        <!-- Section 1: Size Variants -->
+        <div class="mb-12">
+            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">1. Size Variants</h2>
+            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+                Three size options: Small, Regular (default), and Large
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Small -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Small</h3>
+                        <MaviDropdown TItem="string" TValue="string"
+                                      @bind-Value="_formSampleModel.Country"
+                                      Items="@_countries.Select(c => c.Name)"
+                                      ElementSize="ElementSize.Small"
+                                      StartIcon="lni lni-gears-3"
+                                      Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.Country)" />
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            &lt;MaviDropdown TItem="string" TValue="string"
+                            @@bind-Value="value"
+                            Items="@@items"
+                            ElementSize="ElementSize.Small"
+                            StartIcon="lni lni-gears-3"
+                            Width="w-full" /&gt;
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Regular -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Regular (Default)</h3>
+                        <MaviDropdown TItem="string" TValue="string"
+                                      @bind-Value="_formSampleModel.State"
+                                      Items="@_states"
+                                      ElementSize="ElementSize.Regular"
+                                      StartIcon="lni lni-gears-3"
+                                      Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.State)" />
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            &lt;MaviDropdown TItem="string" TValue="string"
+                            @@bind-Value="value"
+                            Items="@@items"
+                            ElementSize="ElementSize.Regular"
+                            StartIcon="lni lni-gears-3"
+                            Width="w-full" /&gt;
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Large -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Large</h3>
+                        <MaviDropdown TItem="string" TValue="string"
+                                      @bind-Value="_formSampleModel.City"
+                                      Items="@_cities"
+                                      ElementSize="ElementSize.Large"
+                                      StartIcon="lni lni-gears-3"
+                                      Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.City)" />
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            &lt;MaviDropdown TItem="string" TValue="string"
+                            @@bind-Value="value"
+                            Items="@@items"
+                            ElementSize="ElementSize.Large"
+                            StartIcon="lni lni-gears-3"
+                            Width="w-full" /&gt;
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: States (Disabled, Readonly) -->
+        <div class="mb-12">
+            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">2. Dropdown States</h2>
+            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+                Control dropdown interactivity with Disabled and Readonly states
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Disabled -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Disabled</h3>
+                        <MaviDropdown TItem="string" TValue="string"
+                                      @bind-Value="_formSampleModel.Department"
+                                      Items="@_departments.Select(d => d.Name)"
+                                      ElementSize="ElementSize.Small"
+                                      Disabled="true"
+                                      StartIcon="lni lni-gears-3"
+                                      Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.Department)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            User cannot interact with disabled dropdowns
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            Disabled="true"
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Readonly -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Readonly</h3>
+                        <MaviDropdown TItem="string" TValue="string"
+                                      @bind-Value="_formSampleModel.JobRole"
+                                      Items="@_jobRoles"
+                                      ElementSize="ElementSize.Regular"
+                                      Readonly="true"
+                                      StartIcon="lni lni-gears-3"
+                                      Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.JobRole)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Value is visible but not changeable
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            Readonly="true"
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Normal (for comparison) -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Normal (Enabled)</h3>
+                        <MaviDropdown TItem="string" TValue="string"
+                                      @bind-Value="_formSampleModel.Language"
+                                      Items="@_languages"
+                                      ElementSize="ElementSize.Small"
+                                      StartIcon="lni lni-gears-3"
+                                      Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.Language)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Fully interactive dropdown
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            Default state - fully enabled
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: Enum Binding -->
+        <div class="mb-12">
+            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">3. Enum Binding</h2>
+            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+                Automatically populate dropdown from C# enum types
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- SkillLevel Enum -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Skill Level (Enum)</h3>
+                        <MaviDropdown TItem="SkillLevel" TValue="SkillLevel"
+                                      @bind-Value="_formSampleModel.SkillLevel"
+                                      Items="_skiLevels"
+                                      ElementSize="ElementSize.Small"
+                                      StartIcon="lni lni-gears-3"
+                                      Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.SkillLevel)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Nullable enum binding
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            TItem="SkillLevel" TValue="SkillLevel"
+                            Items="@@Enum.GetValues&lt;SkillLevel&gt;()"
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Priority Enum (Required) -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Priority (Required Enum)</h3>
+                        <MaviDropdown TItem="Priority" TValue="Priority"
+                                      @bind-Value="_formSampleModel.Priority"
+                                      Items="_priorities"
+                                      ElementSize="ElementSize.Small"
+                                      StartIcon="lni lni-gears-3"
+                                      ShowPlaceholderOption="false"
+                                      Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.Priority)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Non-nullable enum (no placeholder)
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            TItem="Priority" TValue="Priority"
+                            ShowPlaceholderOption="false"
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Status Enum -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Status (Enum)</h3>
+                        <MaviDropdown TItem="Status" TValue="Status"
+                                      @bind-Value="_formSampleModel.Status"
+                                      Items="_statuses"
+                                      ElementSize="ElementSize.Small"
+                                      StartIcon="lni lni-gears-3"
+                                      Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.Status)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Status enum with placeholder
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            TItem="Status" TValue="Status"
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Category Enum -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Category</h3>
+                        <MaviDropdown TItem="Category" TValue="Category"
+                                      @bind-Value="_formSampleModel.Category"
+                                      Items="_categories"
+                                      ElementSize="ElementSize.Small"
+                                      StartIcon="lni lni-gears-3"
+                                      Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.Category)" />
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            TItem="Category" TValue="Category"
+                        </code>
+                    </div>
+                </div>
+
+                <!-- ProductSize Enum -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Product Size</h3>
+                        <MaviDropdown TItem="ProductSize" TValue="ProductSize"
+                                      @bind-Value="_formSampleModel.ProductSize"
+                                      Items="_productSizes"
+                                      ElementSize="ElementSize.Small"
+                                      StartIcon="lni lni-gears-3"
+                                      Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.ProductSize)" />
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            TItem="ProductSize" TValue="ProductSize"
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4: Complex Object Binding -->
+        <div class="mb-12">
+            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">4. Complex Object Binding</h2>
+            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+                Bind to complex objects with custom value and text selectors
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Country Object -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Country (Complex Object)</h3>
+                        <MaviDropdown TItem="Country" TValue="string"
+                                      @bind-Value="_formSampleModel.Country"
+                                      Items="@_countries"
+                                      ValueSelector="@(c => c.Code)"
+                                      TextSelector="@(c => c.Name)"
+                                      ElementSize="ElementSize.Regular"
+                                      StartIcon="lni lni-gears-3"
+                                      Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.Country)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Selected Code: @(_formSampleModel.Country ?? "None")
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            TItem="Country" TValue="string"
+                            Items="@@countries"
+                            ValueSelector="@@(c => c.Code)"
+                            TextSelector="@@(c => c.Name)"
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Department Object -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Department (Int ID)</h3>
+                        <MaviDropdown TItem="Department" TValue="string"
+                                      @bind-Value="_formSampleModel.Department"
+                                      Items="@_departments"
+                                      ValueSelector="@(d => d.Name)"
+                                      TextSelector="@(d => $"{d.Name} - {d.Description}")"
+                                      ElementSize="ElementSize.Regular"
+                                      StartIcon="lni lni-gears-3"
+                                      Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.Department)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Displays combined text with description
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            TItem="Department" TValue="string"
+                            ValueSelector="@@(d => d.Name)"
+                            TextSelector="@@(d => $"{d.Name} - {d.Description}")"
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Experience Level (Custom Display) -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Experience Level (Custom)</h3>
+                        <MaviDropdown TItem="ExperienceOption" TValue="int?"
+                                      @bind-Value="_formSampleModel.ExperienceLevel"
+                                      Items="@_experienceOptions"
+                                      ValueSelector="@(e => e.Years)"
+                                      TextSelector="@(e => e.Label)"
+                                      ElementSize="ElementSize.Regular"
+                                      StartIcon="lni lni-gears-3"
+                                      Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.ExperienceLevel)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Selected Years: @(_formSampleModel.ExperienceLevel?.ToString() ?? "None")
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            TItem="ExperienceOption" TValue="int?"
+                            ValueSelector="@@(e => e.Years)"
+                            TextSelector="@@(e => e.Label)"
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 5: Advanced Features -->
+        <div class="mb-12">
+            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">5. Advanced Features</h2>
+            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+                Custom placeholder, helper text, required fields, and event handling
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Custom Placeholder -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Custom Placeholder</h3>
+                        <MaviDropdown TItem="string" TValue="string"
+                                      @bind-Value="_formSampleModel.Currency"
+                                      Items="@_currencies"
+                                      ElementSize="ElementSize.Regular"
+                                      PlaceholderText="Choose your currency..."
+                                      StartIcon="lni lni-gears-3"
+                                      Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.Currency)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Custom placeholder text
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            PlaceholderText="Choose your currency..."
+                        </code>
+                    </div>
+                </div>
+
+                <!-- With Helper Text -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">With Helper Text</h3>
+                        <MaviDropdown TItem="string" TValue="string"
+                                      @bind-Value="_formSampleModel.Timezone"
+                                      Items="@_timezones"
+                                      ElementSize="ElementSize.Regular"
+                                      HelperText="Select your local timezone for scheduling"
+                                      StartIcon="lni lni-gears-3"
+                                      Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.Timezone)" />
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            HelperText="Select your local timezone"
+                        </code>
+                    </div>
+                </div>
+
+                <!-- With Change Event -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">With Change Event</h3>
+                        <MaviDropdown TItem="string" TValue="string"
+                                      @bind-Value="_formSampleModel.ColorTheme"
+                                      Items="@_colorThemes"
+                                      ElementSize="ElementSize.Regular"
+                                      OnSelectionChanged="HandleThemeChange"
+                                      StartIcon="lni lni-gears-3"
+                                      Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.ColorTheme)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Last selection: @_lastThemeChange
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            OnSelectionChanged="HandleThemeChange"
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Attribute Inference -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Auto Attribute Inference</h3>
+                        <MaviDropdown TItem="string" TValue="string"
+                                      @bind-Value="_formSampleModel.Country"
+                                      Items="@_countries.Select(c => c.Name)"
+                                      ElementSize="ElementSize.Regular"
+                                      InferFromModelAttributes="true"
+                                      StartIcon="lni lni-gears-3"
+                                      Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.Country)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Label, Required auto-inferred from model
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            InferFromModelAttributes="true"
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 6: Theme Color Schemes -->
+        <div class="mb-12">
+            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">6. Theme Color Schemes</h2>
+            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+                Apply different color themes to match your design system
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Primary -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Primary</h3>
+                        <MaviDropdown TItem="Priority" TValue="Priority"
+                                      @bind-Value="_formSampleModel.Priority"
+                                      Items="_priorities"
+                                      ElementSize="ElementSize.Small"
+                                      ThemeColorScheme="ThemeColorScheme.Primary"
+                                      ShowPlaceholderOption="false"
+                                      StartIcon="lni lni-gears-3"
+                                      Width="w-full" />
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            ThemeColorScheme="ThemeColorScheme.Primary"
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Secondary -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Secondary</h3>
+                        <MaviDropdown TItem="Status" TValue="Status"
+                                      @bind-Value="_formSampleModel.Status"
+                                      Items="_statuses"
+                                      ElementSize="ElementSize.Small"
+                                      ThemeColorScheme="ThemeColorScheme.Secondary"
+                                      StartIcon="lni lni-gears-3"
+                                      Width="w-full" />
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            ThemeColorScheme="ThemeColorScheme.Secondary"
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Success -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Success</h3>
+                        <MaviDropdown TItem="Category" TValue="Category"
+                                      @bind-Value="_formSampleModel.Category"
+                                      Items="_categories"
+                                      ElementSize="ElementSize.Small"
+                                      ThemeColorScheme="ThemeColorScheme.Success"
+                                      StartIcon="lni lni-gears-3"
+                                      Width="w-full" />
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            ThemeColorScheme="ThemeColorScheme.Success"
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Alert -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Alert</h3>
+                        <MaviDropdown TItem="SkillLevel" TValue="SkillLevel"
+                                      @bind-Value="_formSampleModel.SkillLevel"
+                                      Items="_skiLevels"
+                                      ElementSize="ElementSize.Small"
+                                      ThemeColorScheme="ThemeColorScheme.Alert"
+                                      StartIcon="lni lni-gears-3"
+                                      Width="w-full" />
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            ThemeColorScheme="ThemeColorScheme.Alert"
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Warning -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Warning</h3>
+                        <MaviDropdown TItem="string" TValue="string"
+                                      @bind-Value="_formSampleModel.Language"
+                                      Items="@_languages"
+                                      ElementSize="ElementSize.Small"
+                                      ThemeColorScheme="ThemeColorScheme.Warning"
+                                      StartIcon="lni lni-gears-3"
+                                      Width="w-full" />
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            ThemeColorScheme="ThemeColorScheme.Warning"
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Info -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Info</h3>
+                        <MaviDropdown TItem="string" TValue="string"
+                                      @bind-Value="_formSampleModel.Currency"
+                                      Items="@_currencies"
+                                      ElementSize="ElementSize.Small"
+                                      ThemeColorScheme="ThemeColorScheme.Info"
+                                      StartIcon="lni lni-gears-3"
+                                      Width="w-full" />
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            ThemeColorScheme="ThemeColorScheme.Info"
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 7: Complete Parameter Reference -->
+        <div class="mb-12">
+            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">7. Complete Parameter Reference</h2>
+            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+                All available parameters for MaviDropdown component
+            </p>
+
+            <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+                <table class="min-w-full">
+                    <thead class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_LIGHT_FOUR_BG)">
+                        <tr>
+                            <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Parameter</th>
+                            <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Type</th>
+                            <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Default</th>
+                            <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>@@bind-Value</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">TValue</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">default</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Two-way bound selected value</td>
+                        </tr>
+                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Items</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">IEnumerable&lt;TItem&gt;</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Collection of items to display</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>ValueSelector</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Func&lt;TItem, TValue&gt;</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Expression to extract value from item</td>
+                        </tr>
+                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>TextSelector</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Func&lt;TItem, string&gt;</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Expression to extract display text</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>PlaceholderText</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Select an option...</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Text for placeholder option</td>
+                        </tr>
+                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>ShowPlaceholderOption</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">true</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Whether to show placeholder option</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>DropdownIcon</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">lni lni-chevron-down</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Icon class for dropdown arrow</td>
+                        </tr>
+                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>OnSelectionChanged</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">EventCallback&lt;TValue&gt;</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Event when selection changes</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>ElementSize</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">ElementSize</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Regular</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Size variant: Small, Regular, Large</td>
+                        </tr>
+                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>ThemeColorScheme</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">ThemeColorScheme</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Primary</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Color scheme for borders and labels</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Label</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">""</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Floating label text</td>
+                        </tr>
+                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>StartIcon</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Icon class for dropdown start position</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Width</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">w-96</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Tailwind width class</td>
+                        </tr>
+                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Disabled</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Disables user interaction</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Readonly</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Makes dropdown read-only (shown but not editable)</td>
+                        </tr>
+                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Required</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Shows required asterisk (*)</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>HelperText</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Helper text displayed below dropdown</td>
+                        </tr>
+                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>InferFromModelAttributes</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">true</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Auto-infer properties from model attributes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="flex justify-start">
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                        ElementSize="ElementSize.Regular"
+                        Title="Submit Form"
+                        ButtonRole="ButtonRole.Submit"
+                        ElementVariant="ElementVariant.Outlined"
+                        TextTransform="TextTransform.Capitalize"
+                        StartIcon="lni lni-checkmark">
+            </MaviButton>
+        </div>
+    </EditForm>
+</div>
+
+@code {
+
+    private readonly IEnumerable<SkillLevel> _skiLevels = Enum.GetValues<SkillLevel>();
+    private readonly IEnumerable<Priority> _priorities = Enum.GetValues<Priority>();
+    private readonly IEnumerable<Status> _statuses = Enum.GetValues<Status>();
+    private readonly IEnumerable<Category> _categories = Enum.GetValues<Category>();
+    private readonly IEnumerable<ProductSize> _productSizes = Enum.GetValues<ProductSize>();
+
+    private readonly SampleDropdownModel _formSampleModel = new()
+    {
+        Department = "Engineering",
+        JobRole = "Senior Developer"
+    };
+
+    private string _lastThemeChange = "None";
+
+    // Sample data
+    private readonly List<Country> _countries = new()
+    {
+        new Country { Code = "US", Name = "United States" },
+        new Country { Code = "CA", Name = "Canada" },
+        new Country { Code = "UK", Name = "United Kingdom" },
+        new Country { Code = "DE", Name = "Germany" },
+        new Country { Code = "FR", Name = "France" },
+        new Country { Code = "JP", Name = "Japan" },
+        new Country { Code = "AU", Name = "Australia" }
+    };
+
+    private readonly List<string> _states = new()
+    {
+        "California", "New York", "Texas", "Florida", "Illinois", "Pennsylvania", "Ohio"
+    };
+
+    private readonly List<string> _cities = new()
+    {
+        "Los Angeles", "New York City", "Chicago", "Houston", "Phoenix", "Philadelphia", "San Antonio"
+    };
+
+    private readonly List<Department> _departments = new()
+    {
+        new Department { Id = 1, Name = "Engineering", Description = "Software Development" },
+        new Department { Id = 2, Name = "Sales", Description = "Sales and Marketing" },
+        new Department { Id = 3, Name = "HR", Description = "Human Resources" },
+        new Department { Id = 4, Name = "Finance", Description = "Financial Operations" },
+        new Department { Id = 5, Name = "Operations", Description = "Day-to-day Operations" }
+    };
+
+    private readonly List<string> _jobRoles = new()
+    {
+        "Junior Developer", "Senior Developer", "Tech Lead", "Engineering Manager", "Architect"
+    };
+
+    private readonly List<ExperienceOption> _experienceOptions = new()
+    {
+        new ExperienceOption { Years = 0, Label = "Entry Level (0-2 years)" },
+        new ExperienceOption { Years = 3, Label = "Mid-Level (3-5 years)" },
+        new ExperienceOption { Years = 6, Label = "Senior (6-10 years)" },
+        new ExperienceOption { Years = 11, Label = "Expert (10+ years)" }
+    };
+
+    private readonly List<string> _languages = new()
+    {
+        "English", "Spanish", "French", "German", "Chinese", "Japanese", "Korean"
+    };
+
+    private readonly List<string> _currencies = new()
+    {
+        "USD - US Dollar", "EUR - Euro", "GBP - British Pound", "JPY - Japanese Yen", "CAD - Canadian Dollar"
+    };
+
+    private readonly List<string> _timezones = new()
+    {
+        "UTC-8 (PST)", "UTC-5 (EST)", "UTC+0 (GMT)", "UTC+1 (CET)", "UTC+9 (JST)"
+    };
+
+    private readonly List<string> _colorThemes = new()
+    {
+        "Light", "Dark", "Auto", "High Contrast"
+    };
+
+    private void OnValidFormSubmit(EditContext context)
+    {
+        Logger?.LogInformation("Form validation successful.");
+    }
+
+    private void OnInValidFormSubmit(EditContext context)
+    {
+        Logger?.LogInformation("Form validation failed.");
+    }
+
+    private async Task HandleThemeChange(ValueChangedCallbackParameters<string> args)
+    {
+        _lastThemeChange = args.Value ?? "None";
+        Logger?.LogInformation("DropDown ID: {Id} - Theme changed to: {Theme}", args.ElementId, args.Value);
+        await Task.CompletedTask;
+    }
+}

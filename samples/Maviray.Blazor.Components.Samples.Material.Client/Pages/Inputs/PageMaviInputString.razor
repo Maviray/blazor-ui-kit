@@ -207,7 +207,9 @@
                         <MaviInputString @bind-Value="_formSampleModel.Password"
                                          ElementSize="ElementSize.Small"
                                          StringInputType="StringInputType.Password"
+                                         TogglePasswordOnClick="true"
                                          StartIcon="lni lni lni-euro"
+                                         EndIcon="lni lni-power-button"
                                          Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.Password)" />
                         <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
@@ -217,6 +219,7 @@
                     <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                         <code class="text-xs">
                             StringInputType="StringInputType.Password"
+                            TogglePasswordOnClick="true"
                         </code>
                     </div>
                 </div>

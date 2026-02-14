@@ -1,0 +1,523 @@
+﻿@using System.Diagnostics.CodeAnalysis
+@using System.ComponentModel.DataAnnotations
+@using System.Diagnostics
+@using System.Reflection
+@using System.Globalization
+@inherits MaviInputBase<DateTime>
+@implements IAsyncDisposable
+
+<div class="@Width">
+    <!-- Floating Label Input Container -->
+    <div class="@GetContainerClass()" @ref="_containerRef">
+        <!-- Input Field -->
+        <input value="@GetDisplayValue()"
+               @oninput="HandleInput"
+               @onchange="HandleChange"
+               type="text"
+               id="@Id"
+               disabled="@Disabled"
+               readonly="@(Readonly || UseCalendarPicker)"
+               class="@BuildInputClass()"
+               style="@Style"
+               title="@GetTitle()"
+               aria-describedby="@GetAriaDescribedByString()"
+               aria-invalid="@GetAreaInvalidValue()"
+               aria-label="@Label"
+               aria-required="@Required.ToString().ToLowerInvariant()"
+               data-val="@(!Disabled && !Readonly ? "true" : "false")"
+               @onfocus="OnFocus"
+               @onblur="OnBlur"
+               @onclick="HandleInputClick"
+               @attributes="AdditionalAttributes" />
+
+        <!-- Floating Label -->
+        @if (!string.IsNullOrEmpty(Label))
+        {
+            <label for="@Id"
+                   class="@BuildLabelClass()"
+                   title="@Title">
+                @Label
+                @if (Required && !Disabled && !Readonly)
+                {
+                    <span class="@BuildRequiredAsteriskClass()">*</span>
+                }
+            </label>
+        }
+
+        <!-- Start Icon -->
+        @if (!string.IsNullOrEmpty(StartIcon))
+        {
+            <div class="@GetStartIconClass()">
+                <i class="@StartIcon text-xl"></i>
+            </div>
+        }
+
+        <!-- Calendar Icon (Default if UseCalendarPicker) -->
+        @if (UseCalendarPicker && string.IsNullOrEmpty(EndIcon))
+        {
+            <button type="button"
+                    class="@GetEndIconClass()"
+                    @onclick="ToggleCalendar"
+                    @onclick:stopPropagation="true"
+                    disabled="@Disabled"
+                    title="Open calendar"
+                    aria-label="Open calendar"
+                    tabindex="-1">
+                <i class="lni lni-calendar-days"></i>
+            </button>
+        }
+        else{
+        <!-- End Icon (Clickable) or Loading Spinner -->
+        @if (!string.IsNullOrEmpty(EndIcon))
+        {
+            @if (IsEndIconLoading)
+            {
+                <!-- Loading Spinner -->
+                <div class="@GetEndIconLoadingClass()"
+                     aria-label="Loading"
+                     role="status">
+                    <div class="animate-spin rounded-full border-2 border-solid border-current border-r-transparent"
+                         style="@GetLoadingSpinnerSize()"></div>
+                </div>
+            }
+            else
+            {
+                <!-- End Icon Button -->
+                <button type="button"
+                        class="@GetEndIconClass()"
+                        @onclick="HandleEndIconClick"
+                        disabled="@(Disabled || EndIconDisabled)"
+                        title="@ButtonLabel"
+                        aria-label="@ButtonLabel"
+                        tabindex="-1">
+                    <i class="@EndIcon text-xl"></i>
+                </button>
+            }
+        }
+        }
+        
+
+        <!-- Fieldset for Outlined Border -->
+        <fieldset aria-hidden="true" class="@BuildFieldsetClass()">
+            <legend class="@BuildLegendClass()">
+                <span class="@(string.IsNullOrEmpty(Label) || Disabled || Readonly ? "" : "px-2")">@Label@((Required && !Disabled && !Readonly) ? " *" : "")</span>
+            </legend>
+        </fieldset>
+
+        <!-- Custom Calendar Picker -->
+        @if (UseCalendarPicker)
+        {
+            <MaviDatePicker @bind-Value="NullableCurrentValue"
+                            @bind-IsOpen="_isCalendarOpen"
+                            Min="@Min"
+                            Max="@Max"
+                            Culture="@FormatCulture" />
+        }
+    </div>
+
+    <!-- Helper Text -->
+    @if (!string.IsNullOrEmpty(HelperText))
+    {
+        <div class="mt-1.5 px-3.5 text-xs leading-tight text-black/60" id="@($"{Id}-helper")">
+            @HelperText
+        </div>
+    }
+</div>
+
+@code {
+    private string? _rawInputValue;
+    private bool _isCalendarOpen = false;
+    private ElementReference _containerRef;
+    private IJSObjectReference? _jsModule;
+    private DotNetObjectReference<MaviInputDate>? _dotNetRef;
+
+    private DateTime? NullableCurrentValue
+    {
+        get => CurrentValue == default ? null : CurrentValue;
+        set
+        {
+            if (value.HasValue)
+            {
+                CurrentValue = value.Value;
+            }
+        }
+    }
+
+    #region Date-Specific Parameters
+
+    /// <summary>
+    /// Type of date input control to render.
+    /// </summary>
+    [Parameter] public DateInputType DateInputType { get; set; } = DateInputType.Date;
+
+    /// <summary>
+    /// Minimum allowed date value.
+    /// </summary>
+    [Parameter] public DateTime? Min { get; set; }
+
+    /// <summary>
+    /// Maximum allowed date value.
+    /// </summary>
+    [Parameter] public DateTime? Max { get; set; }
+
+    /// <summary>
+    /// Format string for displaying the date.
+    /// Common formats:
+    /// - "dd/MM/yyyy" (European: 25/12/2024)
+    /// - "MM/dd/yyyy" (US: 12/25/2024)
+    /// - "dd.MM.yyyy" (German: 25.12.2024)
+    /// - "yyyy-MM-dd" (ISO: 2024-12-25)
+    /// </summary>
+    [Parameter] public string? DisplayFormat { get; set; }
+
+    /// <summary>
+    /// Culture info used for parsing and formatting date values. Defaults to current UI culture.
+    /// </summary>
+    [Parameter] public CultureInfo? FormatCulture { get; set; }
+
+    /// <summary>
+    /// When true, shows a custom calendar picker instead of native browser input.
+    /// Default is true.
+    /// </summary>
+    [Parameter] public bool UseCalendarPicker { get; set; } = true;
+
+    [Inject] private IJSRuntime? JsRuntime { get; set; }
+
+    #endregion
+
+    #region Overrides
+
+    protected override bool HasValue => CurrentValue != default || !string.IsNullOrWhiteSpace(_rawInputValue);
+
+    protected CultureInfo CurrentCulture => FormatCulture ?? CultureInfo.CurrentUICulture;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender && UseCalendarPicker)
+        {
+            _dotNetRef = DotNetObjectReference.Create(this);
+           
+            if (JsRuntime == null)
+            {
+                throw new InvalidOperationException("IJSRuntime is not available. Ensure it is properly injected.");
+            }
+
+            _jsModule = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Maviray.Blazor.Components.Material/js/maviDatePickerJsInterop.js");
+            await _jsModule.InvokeVoidAsync("initializeDatePicker", _containerRef, _dotNetRef);
+        }
+    }
+
+    [JSInvokable]
+    public void CloseCalendar()
+    {
+        _isCalendarOpen = false;
+        StateHasChanged();
+    }
+
+    protected override bool TryParseValueFromString(
+        string? value,
+        [MaybeNullWhen(false)] out DateTime result,
+        [NotNullWhen(false)] out string? validationErrorMessage)
+    {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            result = default;
+            validationErrorMessage = null;
+            return true;
+        }
+
+        // Try parsing with the specific format based on DateInputType
+        var parseFormats = GetParseFormats();
+
+        foreach (var format in parseFormats)
+        {
+            if (DateTime.TryParseExact(value, format, CurrentCulture, DateTimeStyles.None, out result))
+            {
+                validationErrorMessage = null;
+                return true;
+            }
+        }
+
+        // Try standard .NET DateTime parsing as fallback
+        if (DateTime.TryParse(value, CurrentCulture, DateTimeStyles.None, out result))
+        {
+            validationErrorMessage = null;
+            return true;
+        }
+
+        result = default;
+        validationErrorMessage = $"The {Label ?? "date"} field must be a valid date.";
+        return false;
+    }
+
+    protected override void HandleInput(ChangeEventArgs e)
+    {
+        // Don't update value for disabled/readonly fields
+        if (Disabled || Readonly)
+            return;
+
+        var inputValue = e.Value?.ToString();
+        _rawInputValue = inputValue;
+
+        // Try to parse and update the current value
+        if (TryParseValueFromString(inputValue, out var parsedValue, out _))
+        {
+            CurrentValue = parsedValue;
+        }
+    }
+
+    protected override void HandleChange(ChangeEventArgs e)
+    {
+        // Don't update value or validate disabled/readonly fields
+        if (Disabled || Readonly)
+            return;
+
+        var inputValue = e.Value?.ToString();
+
+        if (TryParseValueFromString(inputValue, out var parsedValue, out _))
+        {
+            CurrentValue = parsedValue;
+        }
+
+        // Trigger validation on change (blur)
+        EditContext?.NotifyFieldChanged(FieldIdentifier);
+    }
+
+    private void HandleInputClick()
+    {
+        if (UseCalendarPicker && !Disabled && !Readonly)
+        {
+            _isCalendarOpen = !_isCalendarOpen;
+        }
+    }
+
+    private void ToggleCalendar()
+    {
+        if (!Disabled)
+        {
+            _isCalendarOpen = !_isCalendarOpen;
+        }
+    }
+
+    protected override void InferTypeSpecificAttributes(PropertyInfo propertyInfo)
+    {
+        // Infer Min date if available
+        if (!Min.HasValue)
+        {
+            var minDateAttr = propertyInfo.GetCustomAttribute<RangeAttribute>();
+            if (minDateAttr?.Minimum is DateTime minDateTime)
+            {
+                Min = minDateTime;
+            }
+        }
+
+        // Infer Max date if available
+        if (!Max.HasValue)
+        {
+            var maxDateAttr = propertyInfo.GetCustomAttribute<RangeAttribute>();
+            if (maxDateAttr?.Maximum is DateTime maxDateTime)
+            {
+                Max = maxDateTime;
+            }
+        }
+
+        // Infer DateInputType from DataType attribute
+        var dataTypeAttr = propertyInfo.GetCustomAttribute<DataTypeAttribute>();
+        if (dataTypeAttr != null)
+        {
+            DateInputType = dataTypeAttr.DataType switch
+            {
+                DataType.Date => DateInputType.Date,
+                DataType.DateTime => DateInputType.DateTime,
+                DataType.Time => DateInputType.Time,
+                _ => DateInputType.Date
+            };
+        }
+
+        // Add helper text for date range if not set
+        if (Min.HasValue && Max.HasValue)
+        {
+            var rangeText = $"Date must be between {Min.Value:d} and {Max.Value:d}";
+            if (string.IsNullOrEmpty(HelperText))
+            {
+                HelperText = rangeText;
+            }
+            else if (!HelperText.Contains("between"))
+            {
+                HelperText = $"{HelperText}. {rangeText}";
+            }
+        }
+        else if (Min.HasValue)
+        {
+            var minText = $"Date must be on or after {Min.Value:d}";
+            if (string.IsNullOrEmpty(HelperText))
+            {
+                HelperText = minText;
+            }
+        }
+        else if (Max.HasValue)
+        {
+            var maxText = $"Date must be on or before {Max.Value:d}";
+            if (string.IsNullOrEmpty(HelperText))
+            {
+                HelperText = maxText;
+            }
+        }
+    }
+
+    protected override void OnBlur()
+    {
+        base.OnBlur();
+        // Clear raw input value on blur - will show formatted value
+        _rawInputValue = null;
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_jsModule != null)
+        {
+            await _jsModule.InvokeVoidAsync("disposeDatePicker");
+            await _jsModule.DisposeAsync();
+        }
+
+        _dotNetRef?.Dispose();
+    }
+
+    #endregion
+
+    #region Private Methods
+
+    /// <summary>
+    /// Gets the value to display in the input field.
+    /// </summary>
+    private string? GetDisplayValue()
+    {
+        // If focused and we have raw input and not using calendar picker, show that
+        if (IsFocused && !string.IsNullOrWhiteSpace(_rawInputValue) && !UseCalendarPicker)
+        {
+            return _rawInputValue;
+        }
+
+        // If no value, return empty
+        if (CurrentValue == default(DateTime))
+        {
+            return string.Empty;
+        }
+
+        // Use custom display format or default based on DateInputType
+        var format = GetDisplayFormat();
+
+        return CurrentValue.ToString(format, CurrentCulture);
+    }
+
+    /// <summary>
+    /// Gets the display format based on DateInputType and DisplayFormat parameter.
+    /// </summary>
+    private string GetDisplayFormat()
+    {
+        if (!string.IsNullOrEmpty(DisplayFormat))
+            return DisplayFormat;
+
+        return DateInputType switch
+        {
+            DateInputType.Date => "d", // Short date pattern from culture
+            DateInputType.DateTime => "g", // Short date/time pattern
+            DateInputType.Time => "t", // Short time pattern
+            DateInputType.Month => "Y", // Year month pattern
+            DateInputType.Week => "yyyy-'W'ww",
+            _ => "d"
+        };
+    }
+
+    /// <summary>
+    /// Gets all possible parse formats for the current DateInputType.
+    /// </summary>
+    private string[] GetParseFormats()
+    {
+        // If custom DisplayFormat is set, prioritize it
+        if (!string.IsNullOrEmpty(DisplayFormat))
+        {
+            var formats = new List<string> { DisplayFormat };
+
+            // Add common variations and fallback formats
+            formats.AddRange(GetCommonFormatsForType());
+
+            return formats.ToArray();
+        }
+
+        return GetCommonFormatsForType();
+    }
+
+    /// <summary>
+    /// Gets common parse formats based on the DateInputType
+    /// </summary>
+    private string[] GetCommonFormatsForType()
+    {
+        return DateInputType switch
+        {
+            DateInputType.Date =>
+            [
+                "yyyy-MM-dd",           // ISO 8601
+                "dd/MM/yyyy",           // Common format
+                "MM/dd/yyyy",           // US format
+                "dd.MM.yyyy",           // European format
+                "d/M/yyyy",             // Short format
+                "d.M.yyyy",             // Short European
+                "M/d/yyyy",             // Short US
+                "yyyy/MM/dd",           // Asian format
+                "dd-MM-yyyy",           // Dashed format
+                "MM-dd-yyyy",           // Dashed US
+                "yyyyMMdd",             // Compact format
+                "d",                    // Culture short date
+                "D" // Culture long date
+            ],
+            DateInputType.DateTime =>
+            [
+                "yyyy-MM-ddTHH:mm",     // ISO 8601
+                "yyyy-MM-ddTHH:mm:ss",  // ISO 8601 with seconds
+                "yyyy-MM-dd HH:mm",     // Space separated
+                "yyyy-MM-dd HH:mm:ss",  // Space separated with seconds
+                "dd/MM/yyyy HH:mm",
+                "MM/dd/yyyy HH:mm",
+                "dd.MM.yyyy HH:mm:ss",
+                "dd/MM/yyyy HH:mm:ss",
+                "MM/dd/yyyy HH:mm:ss",
+                "g",                    // Culture general date/time
+                "G" // Culture general date/time with seconds
+            ],
+            DateInputType.Time =>
+            [
+                "HH:mm",                // 24-hour
+                "HH:mm:ss",             // 24-hour with seconds
+                "h:mm tt",              // 12-hour with AM/PM
+                "h:mm:ss tt",           // 12-hour with seconds
+                "hh:mm tt",
+                "t",                    // Culture short time
+                "T" // Culture long time
+            ],
+            DateInputType.Month =>
+            [
+                "yyyy-MM",              // ISO
+                "MM/yyyy",
+                "MM-yyyy",
+                "yyyy/MM",
+                "Y" // Culture year month
+            ],
+            DateInputType.Week =>
+            [
+                "yyyy-'W'ww",           // ISO week format
+                "yyyy-Www"
+            ],
+            _ => ["d"]
+        };
+    }
+
+    #endregion
+}
