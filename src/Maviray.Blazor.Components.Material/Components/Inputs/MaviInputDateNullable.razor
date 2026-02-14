@@ -273,7 +273,7 @@
         return false;
     }
 
-    protected override void HandleInput(ChangeEventArgs e)
+    protected override Task HandleInput(ChangeEventArgs e)
     {
         if (ComponentOptions is { EnableLifecycleLogging: true })
         {
@@ -282,7 +282,7 @@
 
         // Don't update value for disabled/readonly fields
         if (Disabled || Readonly)
-            return;
+            return Task.CompletedTask;
 
         var inputValue = e.Value?.ToString();
         _rawInputValue = inputValue;
@@ -292,9 +292,11 @@
         {
             CurrentValue = parsedValue;
         }
+
+        return Task.CompletedTask;
     }
 
-    protected override void HandleChange(ChangeEventArgs e)
+    protected override Task HandleChange(ChangeEventArgs e)
     {
         if (ComponentOptions is { EnableLifecycleLogging: true })
         {
@@ -303,7 +305,7 @@
 
         // Don't update value or validate disabled/readonly fields
         if (Disabled || Readonly)
-            return;
+            return Task.CompletedTask;
 
         var inputValue = e.Value?.ToString();
 
@@ -314,6 +316,8 @@
 
         // Trigger validation on change (blur)
         EditContext?.NotifyFieldChanged(FieldIdentifier);
+
+        return Task.CompletedTask;
     }
 
     private void HandleInputClick()

@@ -208,12 +208,12 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>, IDisposable
     /// <summary>
     /// Handles input event - updates value for UI purposes (label float) without triggering validation
     /// </summary>
-    protected abstract void HandleInput(ChangeEventArgs e);
+    protected abstract Task HandleInput(ChangeEventArgs e);
 
     /// <summary>
     /// Handles change event - triggers validation when user is done editing
     /// </summary>
-    protected abstract void HandleChange(ChangeEventArgs e);
+    protected abstract Task HandleChange(ChangeEventArgs e);
 
     /// <summary>
     /// Handles the end icon click event

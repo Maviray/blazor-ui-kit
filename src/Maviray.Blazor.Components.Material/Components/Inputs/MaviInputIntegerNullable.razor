@@ -170,9 +170,9 @@
         return FormatValueAsString(CurrentValue);
     }
 
-    protected override void HandleInput(ChangeEventArgs e)
+    protected override Task HandleInput(ChangeEventArgs e)
     {
-        if (Disabled || Readonly) return;
+        if (Disabled || Readonly) return Task.CompletedTask;
 
         _rawInputValue = e.Value?.ToString();
 
@@ -180,15 +180,19 @@
         {
             CurrentValue = parsedValue;
         }
+
+        return Task.CompletedTask;
     }
 
-    protected override void HandleChange(ChangeEventArgs e)
+    protected override Task HandleChange(ChangeEventArgs e)
     {
-        if (Disabled || Readonly) return;
+        if (Disabled || Readonly) return Task.CompletedTask;
 
         _rawInputValue = e.Value?.ToString();
         CurrentValueAsString = _rawInputValue;
         EditContext?.NotifyFieldChanged(FieldIdentifier);
+
+        return Task.CompletedTask;
     }
 
     protected override string GetInputType()

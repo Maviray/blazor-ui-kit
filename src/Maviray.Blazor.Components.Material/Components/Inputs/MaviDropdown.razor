@@ -256,13 +256,15 @@
         }
     }
 
-    protected override void HandleInput(ChangeEventArgs e)
+    protected override Task HandleInput(ChangeEventArgs e)
     {
+        return Task.CompletedTask;
         // Not used for custom dropdown
     }
 
-    protected override void HandleChange(ChangeEventArgs e)
+    protected override Task HandleChange(ChangeEventArgs e)
     {
+        return Task.CompletedTask;
         // Not used for custom dropdown
     }
 
