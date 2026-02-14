@@ -296,7 +296,7 @@
         return Task.CompletedTask;
     }
 
-    protected override Task HandleChange(ChangeEventArgs e)
+    protected override async Task HandleChange(ChangeEventArgs e)  // Changed from void to async Task
     {
         if (ComponentOptions is { EnableLifecycleLogging: true })
         {
@@ -305,19 +305,41 @@
 
         // Don't update value or validate disabled/readonly fields
         if (Disabled || Readonly)
-            return Task.CompletedTask;
+            return;
 
         var inputValue = e.Value?.ToString();
 
-        if (TryParseValueFromString(inputValue, out var parsedValue, out _))
+        // If empty, clear everything
+        if (string.IsNullOrWhiteSpace(inputValue))
         {
-            CurrentValue = parsedValue;
+            CurrentValue = null;
+            _rawInputValue = null;
+            EditContext?.NotifyFieldChanged(FieldIdentifier);
+            return;
         }
 
-        // Trigger validation on change (blur)
-        EditContext?.NotifyFieldChanged(FieldIdentifier);
+        // Try to parse the input
+        if (TryParseValueFromString(inputValue, out var parsedValue, out _))
+        {
+            // Valid date - update value and clear raw input
+            CurrentValue = parsedValue;
+            _rawInputValue = null;
+        }
+        else
+        {
+            // Invalid date - reset both visible text and value
+            CurrentValue = null;
+            _rawInputValue = null;
+        
+            // Clear the DOM input field via JavaScript
+            if (_jsModule != null)
+            {
+                await _jsModule.InvokeVoidAsync("clearInputValue", _containerRef);
+            }
+        }
 
-        return Task.CompletedTask;
+        // Trigger validation
+        EditContext?.NotifyFieldChanged(FieldIdentifier);
     }
 
     private void HandleInputClick()
