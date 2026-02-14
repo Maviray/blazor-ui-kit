@@ -295,7 +295,9 @@
         {
             _jsModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Maviray.Blazor.Components.Material/js/maviDropDownJsInterop.js");
             _dotNetRef = DotNetObjectReference.Create(this);
-            await JSRuntime.InvokeVoidAsync("maviDropdownInit", _dotNetRef, _containerRef);
+
+            // Changed: Use _jsModule.InvokeVoidAsync instead of JSRuntime.InvokeVoidAsync
+            await _jsModule.InvokeVoidAsync("initializeDropdown", _dotNetRef, _containerRef);
         }
     }
 
@@ -612,14 +614,34 @@
     }
 
     #endregion
+    private bool _disposed = false;
 
     public async ValueTask DisposeAsync()
     {
+        if (_disposed)
+            return;
+
+        _disposed = true;
+
+        // Cleanup JavaScript event listeners
         if (_jsModule != null)
         {
-            await _jsModule.DisposeAsync();
+            try
+            {
+                // Call the JavaScript cleanup function to remove event listeners
+                await _jsModule.InvokeVoidAsync("disposeDropdown", _containerRef);
+                await _jsModule.DisposeAsync();
+            }
+            catch (JSDisconnectedException ex)
+            {
+                Logger?.Error(ex, ex.Message);
+            }
         }
 
+        // Dispose the .NET object reference
         _dotNetRef?.Dispose();
+
+        // Call base disposal
+        base.Dispose();
     }
 }

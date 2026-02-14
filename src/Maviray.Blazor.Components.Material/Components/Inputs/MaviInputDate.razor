@@ -412,7 +412,7 @@
 
         if (_jsModule != null)
         {
-            await _jsModule.InvokeVoidAsync("disposeDatePicker");
+            await _jsModule.InvokeVoidAsync("disposeDatePicker", _containerRef);
             await _jsModule.DisposeAsync();
         }
 

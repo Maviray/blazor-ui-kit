@@ -262,7 +262,7 @@
         if (StringInputType != StringInputType.Text)
             return;
 
-        var dataTypeAttr = propertyInfo.GetCustomAttribute<DataTypeAttribute>();
+        var dataTypeAttr = propertyInfo.GetCustomAttributes<DataTypeAttribute>().FirstOrDefault();
         if (dataTypeAttr != null)
         {
             StringInputType = dataTypeAttr.DataType switch
