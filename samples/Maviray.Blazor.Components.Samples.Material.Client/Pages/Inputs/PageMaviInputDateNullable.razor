@@ -1,20 +1,98 @@
-﻿@page "/PageMaviInputDate"
+﻿@page "/PageMaviInputDateNullable"
 @inherits SamplePageBase
 
-<PageTitle>MaviInputDate</PageTitle>
+<PageTitle>MaviInputDateNullable</PageTitle>
 
 <div class="p-6 max-w-7xl mx-auto">
     <!-- Page Header -->
     <div class="mb-8">
-        <h1 class="@CssManager.Combine(Tailwind.Theme.Typography.DISPLAY_MEDIUM, "mb-2")">MaviInputDate Component</h1>
+        <h1 class="@CssManager.Combine(Tailwind.Theme.Typography.DISPLAY_MEDIUM, "mb-2")">MaviInputDateNullable Component</h1>
         <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_LARGE, "text-gray-600")">
-            Comprehensive showcase demonstrating all available parameters, use cases, and date formatting options for the MaviInputDate component.
-            This component supports various date input types including date, datetime, time, month, and week with multiple format support.
+            Comprehensive showcase demonstrating all available parameters, use cases, and date formatting options for the MaviInputDateNullable component.
+            This component supports optional/nullable DateTime values with a built-in clear button, making it perfect for optional date fields.
         </p>
     </div>
 
     <EditForm Model="@_formSampleModel" OnValidSubmit="OnValidFormSubmit" OnInvalidSubmit="OnInValidFormSubmit" novalidate>
         <DataAnnotationsValidator />
+
+        <!-- Section 0: Nullable Features -->
+        <div class="mb-12">
+            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">0. Nullable Date Features</h2>
+            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+                The key difference: nullable dates can be cleared and left empty, perfect for optional fields
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- With Clear Button (Default) -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">With Clear Button (Default)</h3>
+                        <MaviInputDateNullable @bind-Value="_formSampleModel.DateTwentyTwo"
+                                               ShowClearButton="true"
+                                               StartIcon="lni lni-calendar"
+                                               HelperText="Click the X to clear the date"
+                                               Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.DateTwentyTwo)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Current Value: @(_formSampleModel.DateTwentyTwo?.ToString("d") ?? "null")
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            &lt;MaviInputDateNullable
+                            @@bind-Value="value"
+                            ShowClearButton="true"
+                            StartIcon="lni lni-calendar" /&gt;
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Without Clear Button -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Without Clear Button</h3>
+                        <MaviInputDateNullable @bind-Value="_formSampleModel.DateTwentyThree"
+                                               ShowClearButton="false"
+                                               StartIcon="lni lni-calendar"
+                                               HelperText="No clear button available"
+                                               Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.DateTwentyThree)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Current Value: @(_formSampleModel.DateTwentyThree?.ToString("d") ?? "null")
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            &lt;MaviInputDateNullable
+                            @@bind-Value="value"
+                            ShowClearButton="false" /&gt;
+                        </code>
+                    </div>
+                </div>
+
+                <!-- Starts Empty/Null -->
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Starts Empty/Null</h3>
+                        <MaviInputDateNullable @bind-Value="_formSampleModel.DateTwentyFour"
+                                               StartIcon="lni lni-calendar"
+                                               HelperText="This field started with null value"
+                                               Width="w-full" />
+                        <ValidationMessage For="@(() => _formSampleModel.DateTwentyFour)" />
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                            Current Value: @(_formSampleModel.DateTwentyFour?.ToString("d") ?? "null")
+                        </span>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            // Model property initialized to null
+                            public DateTime? Date { get; set; } = null;
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Section 1: Size Variants -->
         <div class="mb-12">
@@ -28,15 +106,15 @@
                 <div class="space-y-3">
                     <div>
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Small</h3>
-                        <MaviInputDate @bind-Value="_formSampleModel.DateOne"
-                                       ElementSize="ElementSize.Small"
-                                       StartIcon="lni lni-alarm-1"
-                                       Width="w-full" />
+                        <MaviInputDateNullable @bind-Value="_formSampleModel.DateOne"
+                                               ElementSize="ElementSize.Small"
+                                               StartIcon="lni lni-alarm-1"
+                                               Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.DateOne)" />
                     </div>
                     <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                         <code class="text-xs">
-                            &lt;MaviInputDate
+                            &lt;MaviInputDateNullable
                             @@bind-Value="value"
                             ElementSize="ElementSize.Small"
                             StartIcon="lni lni-alarm-1"
@@ -49,15 +127,15 @@
                 <div class="space-y-3">
                     <div>
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Regular (Default)</h3>
-                        <MaviInputDate @bind-Value="_formSampleModel.DateTwo"
-                                       ElementSize="ElementSize.Regular"
-                                       StartIcon="lni lni-alarm-1"
-                                       Width="w-full" />
+                        <MaviInputDateNullable @bind-Value="_formSampleModel.DateTwo"
+                                               ElementSize="ElementSize.Regular"
+                                               StartIcon="lni lni-alarm-1"
+                                               Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.DateTwo)" />
                     </div>
                     <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                         <code class="text-xs">
-                            &lt;MaviInputDate
+                            &lt;MaviInputDateNullable
                             @@bind-Value="value"
                             ElementSize="ElementSize.Regular"
                             StartIcon="lni lni-alarm-1"
@@ -70,15 +148,15 @@
                 <div class="space-y-3">
                     <div>
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Large</h3>
-                        <MaviInputDate @bind-Value="_formSampleModel.DateThree"
-                                       ElementSize="ElementSize.Large"
-                                       StartIcon="lni lni-alarm-1"
-                                       Width="w-full" />
+                        <MaviInputDateNullable @bind-Value="_formSampleModel.DateThree"
+                                               ElementSize="ElementSize.Large"
+                                               StartIcon="lni lni-alarm-1"
+                                               Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.DateThree)" />
                     </div>
                     <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                         <code class="text-xs">
-                            &lt;MaviInputDate
+                            &lt;MaviInputDateNullable
                             @@bind-Value="value"
                             ElementSize="ElementSize.Large"
                             StartIcon="lni lni-alarm-1"
@@ -101,11 +179,11 @@
                 <div class="space-y-3">
                     <div>
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Disabled</h3>
-                        <MaviInputDate @bind-Value="_formSampleModel.DateFour"
-                                       ElementSize="ElementSize.Small"
-                                       Disabled="true"
-                                       StartIcon="lni lni-alarm-1"
-                                       Width="w-full" />
+                        <MaviInputDateNullable @bind-Value="_formSampleModel.DateFour"
+                                               ElementSize="ElementSize.Small"
+                                               Disabled="true"
+                                               StartIcon="lni lni-alarm-1"
+                                               Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.DateFour)" />
                         <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
                             User cannot interact with disabled inputs
@@ -113,7 +191,7 @@
                     </div>
                     <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                         <code class="text-xs">
-                            &lt;MaviInputDate
+                            &lt;MaviInputDateNullable
                             @@bind-Value="value"
                             Disabled="true"
                             StartIcon="lni lni-alarm-1"
@@ -126,11 +204,11 @@
                 <div class="space-y-3">
                     <div>
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Readonly</h3>
-                        <MaviInputDate @bind-Value="_formSampleModel.DateFive"
-                                       ElementSize="ElementSize.Regular"
-                                       Readonly="true"
-                                       StartIcon="lni lni-alarm-1"
-                                       Width="w-full" />
+                        <MaviInputDateNullable @bind-Value="_formSampleModel.DateFive"
+                                               ElementSize="ElementSize.Regular"
+                                               Readonly="true"
+                                               StartIcon="lni lni-alarm-1"
+                                               Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.DateFive)" />
                         <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
                             Value is visible but not editable
@@ -138,7 +216,7 @@
                     </div>
                     <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                         <code class="text-xs">
-                            &lt;MaviInputDate
+                            &lt;MaviInputDateNullable
                             @@bind-Value="value"
                             Readonly="true"
                             StartIcon="lni lni-alarm-1"
@@ -151,10 +229,10 @@
                 <div class="space-y-3">
                     <div>
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Normal (Enabled)</h3>
-                        <MaviInputDate @bind-Value="_formSampleModel.DateSix"
-                                       ElementSize="ElementSize.Small"
-                                       StartIcon="lni lni-alarm-1"
-                                       Width="w-full" />
+                        <MaviInputDateNullable @bind-Value="_formSampleModel.DateSix"
+                                               ElementSize="ElementSize.Small"
+                                               StartIcon="lni lni-alarm-1"
+                                               Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.DateSix)" />
                         <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
                             Fully interactive input
@@ -162,7 +240,7 @@
                     </div>
                     <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                         <code class="text-xs">
-                            &lt;MaviInputDate
+                            &lt;MaviInputDateNullable
                             @@bind-Value="value"
                             StartIcon="lni lni-alarm-1"
                             Width="w-full" /&gt;
@@ -184,15 +262,15 @@
                 <div class="space-y-3">
                     <div>
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Date</h3>
-                        <MaviInputDate @bind-Value="_formSampleModel.DateSeven"
-                                       DateInputType="DateInputType.Date"
-                                       StartIcon="lni lni-alarm-1"
-                                       Width="w-full" />
+                        <MaviInputDateNullable @bind-Value="_formSampleModel.DateSeven"
+                                               DateInputType="DateInputType.Date"
+                                               StartIcon="lni lni-alarm-1"
+                                               Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.DateSeven)" />
                     </div>
                     <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                         <code class="text-xs">
-                            &lt;MaviInputDate
+                            &lt;MaviInputDateNullable
                             @@bind-Value="value"
                             DateInputType="DateInputType.Date"
                             StartIcon="lni lni-alarm-1" /&gt;
@@ -204,15 +282,15 @@
                 <div class="space-y-3">
                     <div>
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">DateTime</h3>
-                        <MaviInputDate @bind-Value="_formSampleModel.DateEight"
-                                       DateInputType="DateInputType.DateTime"
-                                       StartIcon="lni lni-timer"
-                                       Width="w-full" />
+                        <MaviInputDateNullable @bind-Value="_formSampleModel.DateEight"
+                                               DateInputType="DateInputType.DateTime"
+                                               StartIcon="lni lni-timer"
+                                               Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.DateEight)" />
                     </div>
                     <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                         <code class="text-xs">
-                            &lt;MaviInputDate
+                            &lt;MaviInputDateNullable
                             @@bind-Value="value"
                             DateInputType="DateInputType.DateTime"
                             StartIcon="lni lni-timer" /&gt;
@@ -224,15 +302,15 @@
                 <div class="space-y-3">
                     <div>
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Time</h3>
-                        <MaviInputDate @bind-Value="_formSampleModel.DateNine"
-                                       DateInputType="DateInputType.Time"
-                                       StartIcon="lni lni-alarm-clock"
-                                       Width="w-full" />
+                        <MaviInputDateNullable @bind-Value="_formSampleModel.DateNine"
+                                               DateInputType="DateInputType.Time"
+                                               StartIcon="lni lni-alarm-clock"
+                                               Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.DateNine)" />
                     </div>
                     <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                         <code class="text-xs">
-                            &lt;MaviInputDate
+                            &lt;MaviInputDateNullable
                             @@bind-Value="value"
                             DateInputType="DateInputType.Time"
                             StartIcon="lni lni-alarm-clock" /&gt;
@@ -244,15 +322,15 @@
                 <div class="space-y-3">
                     <div>
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Month</h3>
-                        <MaviInputDate @bind-Value="_formSampleModel.DateTen"
-                                       DateInputType="DateInputType.Month"
-                                       StartIcon="lni lni-alarm-1"
-                                       Width="w-full" />
+                        <MaviInputDateNullable @bind-Value="_formSampleModel.DateTen"
+                                               DateInputType="DateInputType.Month"
+                                               StartIcon="lni lni-alarm-1"
+                                               Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.DateTen)" />
                     </div>
                     <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                         <code class="text-xs">
-                            &lt;MaviInputDate
+                            &lt;MaviInputDateNullable
                             @@bind-Value="value"
                             DateInputType="DateInputType.Month"
                             StartIcon="lni lni-alarm-1" /&gt;
@@ -264,15 +342,15 @@
                 <div class="space-y-3">
                     <div>
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Week</h3>
-                        <MaviInputDate @bind-Value="_formSampleModel.DateEleven"
-                                       DateInputType="DateInputType.Week"
-                                       StartIcon="lni lni-alarm-1"
-                                       Width="w-full" />
+                        <MaviInputDateNullable @bind-Value="_formSampleModel.DateEleven"
+                                               DateInputType="DateInputType.Week"
+                                               StartIcon="lni lni-alarm-1"
+                                               Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.DateEleven)" />
                     </div>
                     <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                         <code class="text-xs">
-                            &lt;MaviInputDate
+                            &lt;MaviInputDateNullable
                             @@bind-Value="value"
                             DateInputType="DateInputType.Week"
                             StartIcon="lni lni-alarm-1" /&gt;
@@ -294,17 +372,17 @@
                 <div class="space-y-3">
                     <div>
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Future Dates Only</h3>
-                        <MaviInputDate @bind-Value="_formSampleModel.DateTwelve"
-                                       Min="@DateTime.Today"
-                                       Max="@DateTime.Today.AddYears(1)"
-                                       StartIcon="lni lni-alarm-1"
-                                       HelperText="@($"Select a date between {DateTime.Today:d} and {DateTime.Today.AddYears(1):d}")"
-                                       Width="w-full" />
+                        <MaviInputDateNullable @bind-Value="_formSampleModel.DateTwelve"
+                                               Min="@DateTime.Today"
+                                               Max="@DateTime.Today.AddYears(1)"
+                                               StartIcon="lni lni-alarm-1"
+                                               HelperText="@($"Select a date between {DateTime.Today:d} and {DateTime.Today.AddYears(1):d}")"
+                                               Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.DateTwelve)" />
                     </div>
                     <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                         <code class="text-xs">
-                            &lt;MaviInputDate
+                            &lt;MaviInputDateNullable
                             @@bind-Value="value"
                             Min="@@DateTime.Today"
                             Max="@@DateTime.Today.AddYears(1)"
@@ -317,17 +395,17 @@
                 <div class="space-y-3">
                     <div>
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Birth Date (Past Only)</h3>
-                        <MaviInputDate @bind-Value="_formSampleModel.DateThirteen"
-                                       Min="@DateTime.Today.AddYears(-100)"
-                                       Max="@DateTime.Today.AddYears(-18)"
-                                       StartIcon="lni lni-cake"
-                                       HelperText="Must be at least 18 years old"
-                                       Width="w-full" />
+                        <MaviInputDateNullable @bind-Value="_formSampleModel.DateThirteen"
+                                               Min="@DateTime.Today.AddYears(-100)"
+                                               Max="@DateTime.Today.AddYears(-18)"
+                                               StartIcon="lni lni-cake"
+                                               HelperText="Must be at least 18 years old (optional)"
+                                               Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.DateThirteen)" />
                     </div>
                     <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                         <code class="text-xs">
-                            &lt;MaviInputDate
+                            &lt;MaviInputDateNullable
                             @@bind-Value="value"
                             Min="@@DateTime.Today.AddYears(-100)"
                             Max="@@DateTime.Today.AddYears(-18)"
@@ -350,16 +428,16 @@
                 <div class="space-y-3">
                     <div>
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">US Format (MM/dd/yyyy)</h3>
-                        <MaviInputDate @bind-Value="_formSampleModel.DateFourteen"
-                                       DisplayFormat="MM/dd/yyyy"
-                                       FormatCulture="@(new System.Globalization.CultureInfo("en-US"))"
-                                       StartIcon="lni lni-alarm-1"
-                                       Width="w-full" />
+                        <MaviInputDateNullable @bind-Value="_formSampleModel.DateFourteen"
+                                               DisplayFormat="MM/dd/yyyy"
+                                               FormatCulture="@(new System.Globalization.CultureInfo("en-US"))"
+                                               StartIcon="lni lni-alarm-1"
+                                               Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.DateFourteen)" />
                     </div>
                     <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                         <code class="text-xs">
-                            &lt;MaviInputDate
+                            &lt;MaviInputDateNullable
                             @@bind-Value="value"
                             DisplayFormat="MM/dd/yyyy"
                             FormatCulture="en-US" /&gt;
@@ -371,16 +449,16 @@
                 <div class="space-y-3">
                     <div>
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">European Format (dd.MM.yyyy)</h3>
-                        <MaviInputDate @bind-Value="_formSampleModel.DateFifteen"
-                                       DisplayFormat="dd.MM.yyyy"
-                                       FormatCulture="@(new System.Globalization.CultureInfo("de-DE"))"
-                                       StartIcon="lni lni-alarm-1"
-                                       Width="w-full" />
+                        <MaviInputDateNullable @bind-Value="_formSampleModel.DateFifteen"
+                                               DisplayFormat="dd.MM.yyyy"
+                                               FormatCulture="@(new System.Globalization.CultureInfo("de-DE"))"
+                                               StartIcon="lni lni-alarm-1"
+                                               Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.DateFifteen)" />
                     </div>
                     <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                         <code class="text-xs">
-                            &lt;MaviInputDate
+                            &lt;MaviInputDateNullable
                             @@bind-Value="value"
                             DisplayFormat="dd.MM.yyyy"
                             FormatCulture="de-DE" /&gt;
@@ -401,18 +479,18 @@
                 <!-- With End Icon Action -->
                 <div class="space-y-3">
                     <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">With Clear Button</h3>
-                        <MaviInputDate @bind-Value="_formSampleModel.DateSixteen"
-                                       StartIcon="lni lni-alarm-1"
-                                       EndIcon="lni lni-close"
-                                       OnEndIconClick="HandleClearDate"
-                                       ButtonLabel="Clear date"
-                                       Width="w-full" />
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">With Custom End Icon</h3>
+                        <MaviInputDateNullable @bind-Value="_formSampleModel.DateSixteen"
+                                               StartIcon="lni lni-alarm-1"
+                                               EndIcon="lni lni-close"
+                                               OnEndIconClick="HandleClearDate"
+                                               ButtonLabel="Clear date"
+                                               Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.DateSixteen)" />
                     </div>
                     <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                         <code class="text-xs">
-                            &lt;MaviInputDate
+                            &lt;MaviInputDateNullable
                             @@bind-Value="value"
                             StartIcon="lni lni-alarm-1"
                             EndIcon="lni lni-close"
@@ -426,17 +504,17 @@
                 <div class="space-y-3">
                     <div>
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">With Icon Toggle</h3>
-                        <MaviInputDate @bind-Value="_formSampleModel.DateSeventeen"
-                                       StartIcon="lni lni-alarm-1"
-                                       EndIcon="lni lni-check-circle"
-                                       EndIconAlternative="lni lni-circle-minus"
-                                       ButtonLabel="Toggle validation"
-                                       Width="w-full" />
+                        <MaviInputDateNullable @bind-Value="_formSampleModel.DateSeventeen"
+                                               StartIcon="lni lni-alarm-1"
+                                               EndIcon="lni lni-check-circle"
+                                               EndIconAlternative="lni lni-circle-minus"
+                                               ButtonLabel="Toggle validation"
+                                               Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.DateSeventeen)" />
                     </div>
                     <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                         <code class="text-xs">
-                            &lt;MaviInputDate
+                            &lt;MaviInputDateNullable
                             @@bind-Value="value"
                             StartIcon="lni lni-alarm-1"
                             EndIcon="lni lni-check-circle"
@@ -459,10 +537,10 @@
                 <div class="space-y-3">
                     <div>
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Primary</h3>
-                        <MaviInputDate @bind-Value="_formSampleModel.DateEighteen"
-                                       ThemeColorScheme="ThemeColorScheme.Primary"
-                                       StartIcon="lni lni-alarm-1"
-                                       Width="w-full" />
+                        <MaviInputDateNullable @bind-Value="_formSampleModel.DateEighteen"
+                                               ThemeColorScheme="ThemeColorScheme.Primary"
+                                               StartIcon="lni lni-alarm-1"
+                                               Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.DateEighteen)" />
                     </div>
                 </div>
@@ -471,10 +549,10 @@
                 <div class="space-y-3">
                     <div>
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Secondary</h3>
-                        <MaviInputDate @bind-Value="_formSampleModel.DateNineteen"
-                                       ThemeColorScheme="ThemeColorScheme.Secondary"
-                                       StartIcon="lni lni-alarm-1"
-                                       Width="w-full" />
+                        <MaviInputDateNullable @bind-Value="_formSampleModel.DateNineteen"
+                                               ThemeColorScheme="ThemeColorScheme.Secondary"
+                                               StartIcon="lni lni-alarm-1"
+                                               Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.DateNineteen)" />
                     </div>
                 </div>
@@ -483,10 +561,10 @@
                 <div class="space-y-3">
                     <div>
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Success</h3>
-                        <MaviInputDate @bind-Value="_formSampleModel.DateTwenty"
-                                       ThemeColorScheme="ThemeColorScheme.Success"
-                                       StartIcon="lni lni-alarm-1"
-                                       Width="w-full" />
+                        <MaviInputDateNullable @bind-Value="_formSampleModel.DateTwenty"
+                                               ThemeColorScheme="ThemeColorScheme.Success"
+                                               StartIcon="lni lni-alarm-1"
+                                               Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.DateTwenty)" />
                     </div>
                 </div>
@@ -495,50 +573,19 @@
                 <div class="space-y-3">
                     <div>
                         <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Alert</h3>
-                        <MaviInputDate @bind-Value="_formSampleModel.DateTwentyOne"
-                                       ThemeColorScheme="ThemeColorScheme.Alert"
-                                       StartIcon="lni lni-alarm-1"
-                                       Width="w-full" />
+                        <MaviInputDateNullable @bind-Value="_formSampleModel.DateTwentyOne"
+                                               ThemeColorScheme="ThemeColorScheme.Alert"
+                                               StartIcon="lni lni-alarm-1"
+                                               Width="w-full" />
                         <ValidationMessage For="@(() => _formSampleModel.DateTwentyOne)" />
                     </div>
                 </div>
             </div>
         </div>
-        
-        <!-- Section 8: No MaviDatePicker -->
-        <div class="mb-12">
-            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">8. Disable Date Picker overlay</h2>
-            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
-                Use MaviInputDate without expanding date picker drop overlay
-            </p>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Small</h3>
-                        <MaviInputDate @bind-Value="_formSampleModel.DateOne"
-                                       ElementSize="ElementSize.Small"
-                                       StartIcon="lni lni-alarm-1"
-                                       UseCalendarPicker="false"
-                                       Width="w-full"/>
-                        <ValidationMessage For="@(() => _formSampleModel.DateOne)"/>
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            &lt;MaviInputDate
-                            @@bind-Value="value"
-                            ElementSize="ElementSize.Small"
-                            UseCalendarPicker="false"
-                            StartIcon="lni lni-alarm-1"
-                            Width="w-full" /&gt;
-                        </code>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Section 9: API Reference -->
+        <!-- Section 8: API Reference -->
         <div class="mb-12">
-            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">9. API Reference</h2>
+            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">8. API Reference</h2>
             <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
                 Complete list of all available parameters and their descriptions
             </p>
@@ -556,39 +603,51 @@
                     <tbody>
                         <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
                             <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>@@bind-Value</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">DateTime</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">-</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Two-way binding for date value</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">DateTime?</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Two-way binding for nullable date value</td>
                         </tr>
                         <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>ShowClearButton</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">true</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Shows clear button to set value to null</td>
+                        </tr>
+                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
                             <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>DateInputType</code></td>
                             <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">DateInputType</td>
                             <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Date</td>
                             <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Type: Date, DateTime, Time, Month, Week</td>
                         </tr>
-                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                        <tr>
                             <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Min</code></td>
                             <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">DateTime?</td>
                             <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
                             <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Minimum allowed date</td>
                         </tr>
-                        <tr>
+                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
                             <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Max</code></td>
                             <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">DateTime?</td>
                             <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
                             <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Maximum allowed date</td>
                         </tr>
-                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                        <tr>
                             <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>DisplayFormat</code></td>
                             <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string?</td>
                             <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
                             <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Custom date display format</td>
                         </tr>
-                        <tr>
+                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
                             <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>FormatCulture</code></td>
                             <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">CultureInfo?</td>
                             <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">CurrentUICulture</td>
                             <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Culture for parsing and formatting</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>UseCalendarPicker</code></td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">true</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Shows custom calendar picker</td>
                         </tr>
                         <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
                             <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Label</code></td>
@@ -682,7 +741,7 @@
 </div>
 
 @code {
-    private readonly SampleDateModel _formSampleModel = new();
+    private readonly SampleDateNullableModel _formSampleModel = new();
 
     private void OnValidFormSubmit(EditContext context)
     {
@@ -697,7 +756,7 @@
     private async Task HandleClearDate(MouseClickEventArgs args)
     {
         Logger?.LogInformation("Clearing date for input: {ButtonId}", args.ButtonId);
-        _formSampleModel.DateSixteen = default;
+        _formSampleModel.DateSixteen = null;
         await Task.CompletedTask;
     }
 }

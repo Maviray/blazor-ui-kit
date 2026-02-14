@@ -3,7 +3,7 @@
 @using System.Diagnostics
 @using System.Reflection
 @using System.Globalization
-@inherits MaviInputBase<DateTime>
+@inherits MaviInputBase<DateTime?>
 @implements IAsyncDisposable
 
 <div class="@Width">
@@ -66,36 +66,51 @@
                 <i class="lni lni-calendar-days"></i>
             </button>
         }
-        else{
-        <!-- End Icon (Clickable) or Loading Spinner -->
-        @if (!string.IsNullOrEmpty(EndIcon))
+        else
         {
-            @if (IsEndIconLoading)
+            <!-- End Icon (Clickable) or Loading Spinner -->
+            @if (!string.IsNullOrEmpty(EndIcon))
             {
-                <!-- Loading Spinner -->
-                <div class="@GetEndIconLoadingClass()"
-                     aria-label="Loading"
-                     role="status">
-                    <div class="animate-spin rounded-full border-2 border-solid border-current border-r-transparent"
-                         style="@GetLoadingSpinnerSize()"></div>
-                </div>
-            }
-            else
-            {
-                <!-- End Icon Button -->
-                <button type="button"
-                        class="@GetEndIconClass()"
-                        @onclick="HandleEndIconClick"
-                        disabled="@(Disabled || EndIconDisabled)"
-                        title="@ButtonLabel"
-                        aria-label="@ButtonLabel"
-                        tabindex="-1">
-                    <i class="@EndIcon text-xl"></i>
-                </button>
+                @if (IsEndIconLoading)
+                {
+                    <!-- Loading Spinner -->
+                    <div class="@GetEndIconLoadingClass()"
+                         aria-label="Loading"
+                         role="status">
+                        <div class="animate-spin rounded-full border-2 border-solid border-current border-r-transparent"
+                             style="@GetLoadingSpinnerSize()"></div>
+                    </div>
+                }
+                else
+                {
+                    <!-- End Icon Button -->
+                    <button type="button"
+                            class="@GetEndIconClass()"
+                            @onclick="HandleEndIconClick"
+                            disabled="@(Disabled || EndIconDisabled)"
+                            title="@ButtonLabel"
+                            aria-label="@ButtonLabel"
+                            tabindex="-1">
+                        <i class="@EndIcon text-xl"></i>
+                    </button>
+                }
             }
         }
+
+        <!-- Clear Button (for nullable dates) -->
+        @if (CurrentValue.HasValue && !Disabled && !Readonly && ShowClearButton)
+        {
+            <button type="button"
+                    class="absolute right-2 top-1/2 -translate-y-1/2 text-black/40 hover:text-black/60 transition-colors"
+                    style="@(UseCalendarPicker || !string.IsNullOrEmpty(EndIcon) ? "right: 2.5rem;" : "")"
+                    @onclick="ClearValue"
+                    @onclick:stopPropagation="true"
+                    title="Clear date"
+                    aria-label="Clear date"
+                    tabindex="-1">
+                <i class="lni lni-close text-lg"></i>
+            </button>
         }
-        
 
         <!-- Fieldset for Outlined Border -->
         <fieldset aria-hidden="true" class="@BuildFieldsetClass()">
@@ -107,7 +122,7 @@
         <!-- Custom Calendar Picker -->
         @if (UseCalendarPicker)
         {
-            <MaviDatePicker @bind-Value="NullableCurrentValue"
+            <MaviDatePicker @bind-Value="CurrentValue"
                             @bind-IsOpen="_isCalendarOpen"
                             Min="@Min"
                             Max="@Max"
@@ -129,19 +144,7 @@
     private bool _isCalendarOpen = false;
     private ElementReference _containerRef;
     private IJSObjectReference? _jsModule;
-    private DotNetObjectReference<MaviInputDate>? _dotNetRef;
-
-    private DateTime? NullableCurrentValue
-    {
-        get => CurrentValue == default ? null : CurrentValue;
-        set
-        {
-            if (value.HasValue)
-            {
-                CurrentValue = value.Value;
-            }
-        }
-    }
+    private DotNetObjectReference<MaviInputDateNullable>? _dotNetRef;
 
     #region Date-Specific Parameters
 
@@ -181,13 +184,19 @@
     /// </summary>
     [Parameter] public bool UseCalendarPicker { get; set; } = true;
 
+    /// <summary>
+    /// When true, shows a clear button to allow clearing the date value.
+    /// Default is true for nullable dates.
+    /// </summary>
+    [Parameter] public bool ShowClearButton { get; set; } = true;
+
     [Inject] private IJSRuntime? JsRuntime { get; set; }
 
     #endregion
 
     #region Overrides
 
-    protected override bool HasValue => CurrentValue != default || !string.IsNullOrWhiteSpace(_rawInputValue);
+    protected override bool HasValue => CurrentValue.HasValue || !string.IsNullOrWhiteSpace(_rawInputValue);
 
     protected CultureInfo CurrentCulture => FormatCulture ?? CultureInfo.CurrentUICulture;
 
@@ -203,7 +212,7 @@
         if (firstRender && UseCalendarPicker)
         {
             _dotNetRef = DotNetObjectReference.Create(this);
-           
+
             if (JsRuntime == null)
             {
                 throw new InvalidOperationException("IJSRuntime is not available. Ensure it is properly injected.");
@@ -223,7 +232,7 @@
 
     protected override bool TryParseValueFromString(
         string? value,
-        [MaybeNullWhen(false)] out DateTime result,
+        [MaybeNullWhen(false)] out DateTime? result,
         [NotNullWhen(false)] out string? validationErrorMessage)
     {
         if (ComponentOptions is { EnableLifecycleLogging: true })
@@ -233,7 +242,7 @@
 
         if (string.IsNullOrWhiteSpace(value))
         {
-            result = default;
+            result = null;
             validationErrorMessage = null;
             return true;
         }
@@ -243,21 +252,23 @@
 
         foreach (var format in parseFormats)
         {
-            if (DateTime.TryParseExact(value, format, CurrentCulture, DateTimeStyles.None, out result))
+            if (DateTime.TryParseExact(value, format, CurrentCulture, DateTimeStyles.None, out var parsedDate))
             {
+                result = parsedDate;
                 validationErrorMessage = null;
                 return true;
             }
         }
 
         // Try standard .NET DateTime parsing as fallback
-        if (DateTime.TryParse(value, CurrentCulture, DateTimeStyles.None, out result))
+        if (DateTime.TryParse(value, CurrentCulture, DateTimeStyles.None, out var fallbackDate))
         {
+            result = fallbackDate;
             validationErrorMessage = null;
             return true;
         }
 
-        result = default;
+        result = null;
         validationErrorMessage = $"The {Label ?? "date"} field must be a valid date.";
         return false;
     }
@@ -307,6 +318,11 @@
 
     private void HandleInputClick()
     {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
         if (UseCalendarPicker && !Disabled && !Readonly)
         {
             _isCalendarOpen = !_isCalendarOpen;
@@ -318,6 +334,16 @@
         if (!Disabled)
         {
             _isCalendarOpen = !_isCalendarOpen;
+        }
+    }
+
+    private void ClearValue()
+    {
+        if (!Disabled && !Readonly)
+        {
+            CurrentValue = null;
+            _rawInputValue = null;
+            EditContext?.NotifyFieldChanged(FieldIdentifier);
         }
     }
 
@@ -389,11 +415,6 @@
 
     protected override void OnBlur()
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
-        {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
-        }
-
         base.OnBlur();
         // Clear raw input value on blur - will show formatted value
         _rawInputValue = null;
@@ -431,7 +452,7 @@
         }
 
         // If no value, return empty
-        if (CurrentValue == default(DateTime))
+        if (!CurrentValue.HasValue)
         {
             return string.Empty;
         }
@@ -439,7 +460,7 @@
         // Use custom display format or default based on DateInputType
         var format = GetDisplayFormat();
 
-        return CurrentValue.ToString(format, CurrentCulture);
+        return CurrentValue.Value.ToString(format, CurrentCulture);
     }
 
     /// <summary>
@@ -545,4 +566,5 @@
     }
 
     #endregion
+
 }
