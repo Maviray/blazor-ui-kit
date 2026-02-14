@@ -504,10 +504,41 @@
                 </div>
             </div>
         </div>
-
-        <!-- Section 8: API Reference -->
+        
+        <!-- Section 8: No MaviDatePicker -->
         <div class="mb-12">
-            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">8. API Reference</h2>
+            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">8. Disable Date Picker overlay</h2>
+            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+                Use MaviInputDate without expanding date picker drop overlay
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="space-y-3">
+                    <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Small</h3>
+                        <MaviInputDate @bind-Value="_formSampleModel.DateOne"
+                                       ElementSize="ElementSize.Small"
+                                       StartIcon="lni lni-alarm-1"
+                                       UseCalendarPicker="false"
+                                       Width="w-full"/>
+                        <ValidationMessage For="@(() => _formSampleModel.DateOne)"/>
+                    </div>
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                        <code class="text-xs">
+                            &lt;MaviInputDate
+                            @@bind-Value="value"
+                            ElementSize="ElementSize.Small"
+                            UseCalendarPicker="false"
+                            StartIcon="lni lni-alarm-1"
+                            Width="w-full" /&gt;
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 9: API Reference -->
+        <div class="mb-12">
+            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">9. API Reference</h2>
             <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
                 Complete list of all available parameters and their descriptions
             </p>
