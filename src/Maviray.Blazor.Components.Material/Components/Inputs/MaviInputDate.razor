@@ -193,6 +193,11 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
         await base.OnAfterRenderAsync(firstRender);
 
         if (firstRender && UseCalendarPicker)
@@ -259,6 +264,11 @@
 
     protected override void HandleInput(ChangeEventArgs e)
     {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
         // Don't update value for disabled/readonly fields
         if (Disabled || Readonly)
             return;
@@ -275,6 +285,11 @@
 
     protected override void HandleChange(ChangeEventArgs e)
     {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
         // Don't update value or validate disabled/readonly fields
         if (Disabled || Readonly)
             return;
@@ -374,6 +389,11 @@
 
     protected override void OnBlur()
     {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
         base.OnBlur();
         // Clear raw input value on blur - will show formatted value
         _rawInputValue = null;
@@ -381,6 +401,11 @@
 
     public async ValueTask DisposeAsync()
     {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
         if (_jsModule != null)
         {
             await _jsModule.InvokeVoidAsync("disposeDatePicker");
