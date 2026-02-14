@@ -23,7 +23,7 @@
                 <div class="flex items-center gap-2">
                     <!-- Month Selector -->
                     <select @bind="_displayMonth"
-                            class="@CssManager.Combine(Tailwind.Theme.Colors.Border.THEME_LIGHT_ONE_BORDER, Tailwind.Theme.Colors.Ring.Focus.THEME_PRIMARY_FIVE_RING_FOCUS, "px-3 py-1 rounded border focus:outline-none focus:ring-2")">
+                            class="@CssManager.Combine(Tailwind.Theme.Colors.Border.THEME_LIGHT_ONE_BORDER, Tailwind.Theme.Colors.Ring.Focus.THEME_PRIMARY_FIVE_RING_FOCUS, "px-3 py-1 rounded border focus:outline-none focus:ring-2 w-[125px]")">
                         @for (var month = 1; month <= 12; month++)
                         {
                             <option value="@month">@CurrentCulture.DateTimeFormat.GetMonthName(month)</option>
@@ -32,7 +32,7 @@
 
                     <!-- Year Selector -->
                     <select @bind="_displayYear"
-                            class="@CssManager.Combine(Tailwind.Theme.Colors.Border.THEME_LIGHT_ONE_BORDER, Tailwind.Theme.Colors.Ring.Focus.THEME_PRIMARY_FIVE_RING_FOCUS, "px-3 py-1 rounded border focus:outline-none focus:ring-2")">
+                            class="@CssManager.Combine(Tailwind.Theme.Colors.Border.THEME_LIGHT_ONE_BORDER, Tailwind.Theme.Colors.Ring.Focus.THEME_PRIMARY_FIVE_RING_FOCUS, "px-3 py-1 rounded border focus:outline-none focus:ring-2 w-[90px]")">
                         @for (var year = MinYear; year <= MaxYear; year++)
                         {
                             <option value="@year">@year</option>
@@ -214,7 +214,7 @@
         {
             classes.Add(Tailwind.Theme.Colors.Background.THEME_PRIMARY_SEVEN_BG);
             classes.Add(Tailwind.Theme.Colors.Background.Hover.THEME_PRIMARY_EIGHT_BG_HOVER);
-           
+
             classes.Add("text-white");
         }
         else if (day.IsToday)
@@ -244,7 +244,13 @@
             return;
 
         Value = date;
-        await ValueChanged.InvokeAsync(Value);
+
+        if (ValueChanged.HasDelegate)
+        {
+            await ValueChanged.InvokeAsync(Value);
+        }
+
+        await Close();
     }
 
     private async Task SelectToday()
@@ -267,7 +273,11 @@
     private async Task Close()
     {
         _isOpen = false;
-        await IsOpenChanged.InvokeAsync(_isOpen);
+
+        if (IsOpenChanged.HasDelegate)
+        {
+            await IsOpenChanged.InvokeAsync(_isOpen);
+        }
     }
 
     private void PreviousMonth()
