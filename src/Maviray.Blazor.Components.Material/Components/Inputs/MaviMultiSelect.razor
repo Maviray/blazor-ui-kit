@@ -1,35 +1,57 @@
 ﻿@using System.Diagnostics.CodeAnalysis
 @using System.Reflection
 @using Maviray.Blazor.Components.Core.Models
-@using Microsoft.Extensions.Logging
+@using Maviray.Blazor.Components.Material.Constants
 @typeparam TItem
 @typeparam TValue
 @implements IAsyncDisposable
-@inherits MaviInputBase<TValue>
+@inherits MaviInputBase<List<TValue>>
 @inject IJSRuntime JsRuntime
 
 <div class="@CssManager.Combine(Width, "relative")" @ref="_containerRef">
-    <!-- Floating Label Dropdown Container -->
+    <!-- Floating Label Multi-Select Container -->
     <div class="@GetContainerClass()">
-        <!-- Display Input (Read-only text input that shows selected value) -->
-        <input value="@GetDisplayText()"
-               @onclick="ToggleDropdown"
-               @onfocus="OnFocus"
-               @onblur="OnBlur"
-               type="text"
-               id="@Id"
-               disabled="@Disabled"
-               readonly="true"
-               class="@BuildDropdownClass()"
-               style="@Style"
-               title="@GetTitle()"
-               aria-describedby="@GetAriaDescribedByString()"
-               aria-invalid="@GetAreaInvalidValue()"
-               aria-label="@Label"
-               aria-required="@Required.ToString().ToLowerInvariant()"
-               aria-expanded="@_isOpen.ToString().ToLowerInvariant()"
-               aria-haspopup="listbox"
-               @attributes="AdditionalAttributes" />
+        <!-- Multi-Select Display Area -->
+        <div class="@BuildMultiSelectClass()"
+             @onclick="ToggleDropdown"
+             @onfocus="OnFocus"
+             @onblur="OnBlur"
+             id="@Id"
+             tabindex="@(Disabled ? "-1" : "0")"
+             role="combobox"
+             aria-describedby="@GetAriaDescribedByString()"
+             aria-invalid="@GetAreaInvalidValue()"
+             aria-label="@Label"
+             aria-required="@Required.ToString().ToLowerInvariant()"
+             aria-expanded="@_isOpen.ToString().ToLowerInvariant()"
+             aria-haspopup="listbox"
+             aria-multiselectable="true"
+             @attributes="AdditionalAttributes">
+
+            @if (HasValue && CurrentValue != null && CurrentValue.Any())
+            {
+                <!-- Selected Items as Chips -->
+                <div class="@GetChipsContainerClass()">
+                    @foreach (var selectedValue in CurrentValue)
+                    {
+                        var displayText = GetDisplayTextForValue(selectedValue);
+                        <div class="@GetChipClass()">
+                            <span class="@GetChipTextClass()">@displayText</span>
+                            @if (!Disabled && !Readonly)
+                            {
+                                <button type="button"
+                                        class="@GetChipRemoveButtonClass()"
+                                        @onclick="async (e) => await RemoveSelection(selectedValue, e)"
+                                        @onclick:stopPropagation="true"
+                                        aria-label="Remove @displayText">
+                                    <i class="lni lni-xmark text-xs"></i>
+                                </button>
+                            }
+                        </div>
+                    }
+                </div>
+            }
+        </div>
 
         <!-- Floating Label -->
         @if (!string.IsNullOrEmpty(Label))
@@ -72,23 +94,33 @@
         <div class="@GetDropdownOverlayClass()"
              role="listbox"
              aria-label="@Label"
+             aria-multiselectable="true"
              @onclick:stopPropagation="true">
+
+            <!-- Select All / Clear All Actions -->
+            @if (ShowSelectAllOption && Items != null && Items.Any())
+            {
+                <div class="@GetSelectAllContainerClass()">
+                    <button type="button"
+                            class="@GetSelectAllButtonClass()"
+                            @onclick="SelectAll"
+                            @onclick:stopPropagation="true">
+                        Select All
+                    </button>
+                    @if (HasValue && CurrentValue != null && CurrentValue.Any())
+                    {
+                        <button type="button"
+                                class="@GetSelectAllButtonClass()"
+                                @onclick="ClearAll"
+                                @onclick:stopPropagation="true">
+                            Clear All
+                        </button>
+                    }
+                </div>
+            }
 
             <!-- Options List Container with Scrolling -->
             <div class="@GetOptionsContainerClass()">
-                <!-- Placeholder option -->
-                @if (ShowPlaceholderOption && !Required)
-                {
-                    var isPlaceholderSelected = !HasValue;
-                    <div class="@GetOptionClass(false)"
-                         role="option"
-                         aria-selected="@isPlaceholderSelected.ToString().ToLowerInvariant()"
-                         @onclick="() => SelectItem(default(TValue))"
-                         @onclick:stopPropagation="true">
-                        <span class="block truncate">@PlaceholderText</span>
-                    </div>
-                }
-
                 <!-- Options from Items -->
                 @if (Items != null)
                 {
@@ -101,17 +133,20 @@
                         <div class="@GetOptionClass(isSelected)"
                              role="option"
                              aria-selected="@isSelected.ToString().ToLowerInvariant()"
-                             @onclick="() => SelectItem(value)"
+                             @onclick="() => ToggleSelection(value)"
                              @onclick:stopPropagation="true"
                              @onmouseenter="() => _hoveredValue = value"
                              @onmouseleave="() => _hoveredValue = default(TValue)">
-                            <span class="block truncate">@text</span>
-                            @if (isSelected)
-                            {
-                                <span class="@GetCheckmarkClass()">
-                                    <i class="lni lni-check"></i>
-                                </span>
-                            }
+
+                            <!-- Checkbox -->
+                            <div class="@GetCheckboxClass(isSelected)">
+                                @if (isSelected)
+                                {
+                                    <i class="lni lni-checkmark text-xs"></i>
+                                }
+                            </div>
+
+                            <span class="block truncate flex-1">@text</span>
                         </div>
                     }
                 }
@@ -132,10 +167,10 @@
     private ElementReference _containerRef;
     private bool _isOpen = false;
     private TValue? _hoveredValue = default;
-    private DotNetObjectReference<MaviDropdown<TItem, TValue>>? _dotNetRef;
+    private DotNetObjectReference<MaviMultiSelect<TItem, TValue>>? _dotNetRef;
     private IJSObjectReference? _jsModule;
 
-    #region Dropdown-Specific Parameters
+    #region MultiSelect-Specific Parameters
 
     /// <summary>
     /// The collection of items to display in the dropdown.
@@ -155,16 +190,10 @@
     [Parameter] public Func<TItem, string>? TextSelector { get; set; }
 
     /// <summary>
-    /// Text to display when no option is selected.
-    /// Default is "Select an option..."
-    /// </summary>
-    [Parameter] public string PlaceholderText { get; set; } = "Select an option...";
-
-    /// <summary>
-    /// Whether to show a placeholder option at the top of the dropdown.
+    /// Whether to show Select All / Clear All options.
     /// Default is true.
     /// </summary>
-    [Parameter] public bool ShowPlaceholderOption { get; set; } = true;
+    [Parameter] public bool ShowSelectAllOption { get; set; } = true;
 
     /// <summary>
     /// Custom icon for the dropdown arrow. Default is a down chevron icon.
@@ -177,9 +206,15 @@
     [Parameter] public string MaxDropdownHeight { get; set; } = "max-h-60";
 
     /// <summary>
+    /// Maximum number of chips to display before showing a count badge.
+    /// Default is 3. Set to 0 for unlimited.
+    /// </summary>
+    [Parameter] public int MaxVisibleChips { get; set; } = 3;
+
+    /// <summary>
     /// Event callback invoked when the selection changes.
     /// </summary>
-    [Parameter] public EventCallback<ValueChangedCallbackParameters<TValue>> OnSelectionChanged { get; set; }
+    [Parameter] public EventCallback<ValueChangedCallbackParameters<List<TValue>>> OnSelectionChanged { get; set; }
 
     #endregion
 
@@ -189,19 +224,13 @@
     {
         get
         {
-            if (CurrentValue == null)
-                return false;
-
-            if (typeof(TValue) == typeof(string))
-                return !string.IsNullOrWhiteSpace(CurrentValue as string);
-
-            return !EqualityComparer<TValue>.Default.Equals(CurrentValue, default(TValue));
+            return CurrentValue != null && CurrentValue.Any();
         }
     }
 
     protected override bool TryParseValueFromString(
         string? value,
-        [MaybeNullWhen(false)] out TValue result,
+        [MaybeNullWhen(false)] out List<TValue> result,
         [NotNullWhen(false)] out string? validationErrorMessage)
     {
         if (ComponentOptions is { EnableLifecycleLogging: true })
@@ -209,68 +238,26 @@
             Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
         }
 
-        try
-        {
-            if (string.IsNullOrEmpty(value))
-            {
-                result = default;
-                validationErrorMessage = null;
-#pragma warning disable CS8762 // Parameter must have a non-null value when exiting in some condition.
-                return true;
-#pragma warning restore CS8762 // Parameter must have a non-null value when exiting in some condition.
-            }
-
-            var targetType = Nullable.GetUnderlyingType(typeof(TValue)) ?? typeof(TValue);
-
-            if (targetType == typeof(string))
-            {
-                result = (TValue)(object)value;
-                validationErrorMessage = null;
-                return true;
-            }
-
-            if (targetType.IsEnum)
-            {
-                result = (TValue)Enum.Parse(targetType, value);
-                validationErrorMessage = null;
-                return true;
-            }
-
-            if (targetType == typeof(Guid))
-            {
-                result = (TValue)(object)Guid.Parse(value);
-                validationErrorMessage = null;
-                return true;
-            }
-
-            result = (TValue)Convert.ChangeType(value, targetType);
-            validationErrorMessage = null;
-            return true;
-        }
-        catch (Exception ex)
-        {
-            result = default;
-            validationErrorMessage = $"Unable to convert '{value}' to type {typeof(TValue).Name}.";
-            Logger?.LogWarning(ex, "Failed to parse value for dropdown {Id}", Id);
-            return false;
-        }
+        // Multi-select doesn't parse from string directly
+        result = new List<TValue>();
+        validationErrorMessage = null;
+        return true;
     }
 
     protected override Task HandleInput(ChangeEventArgs e)
     {
+        // Not used for multi-select
         return Task.CompletedTask;
-        // Not used for custom dropdown
     }
 
     protected override Task HandleChange(ChangeEventArgs e)
     {
+        // Not used for multi-select
         return Task.CompletedTask;
-        // Not used for custom dropdown
     }
 
     protected override void InferTypeSpecificAttributes(PropertyInfo propertyInfo)
     {
-        // Dropdown-specific inference
         // Auto-populate enum values if TValue is an enum or nullable enum
         if (Items != null) return;
 
@@ -286,7 +273,6 @@
         Items = enumValues;
     }
 
-
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -299,6 +285,17 @@
         }
     }
 
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        // Initialize CurrentValue as empty list if null
+        if (CurrentValue == null)
+        {
+            CurrentValue = new List<TValue>();
+        }
+    }
+
     public override void Dispose()
     {
         base.Dispose();
@@ -307,7 +304,7 @@
 
     #endregion
 
-    #region Dropdown Logic
+    #region MultiSelect Logic
 
     [JSInvokable]
     public async Task CloseFromJs()
@@ -336,23 +333,67 @@
         await Task.CompletedTask;
     }
 
-    private async Task SelectItem(TValue? value)
+    private async Task ToggleSelection(TValue value)
     {
         if (Disabled || Readonly)
             return;
 
-        CurrentValue = value;
-        _isOpen = false;
-        IsFocused = false;
+        if (CurrentValue == null)
+        {
+            CurrentValue = new List<TValue>();
+        }
 
+        if (IsSelected(value))
+        {
+            CurrentValue.Remove(value);
+        }
+        else
+        {
+            CurrentValue.Add(value);
+        }
+
+        await NotifySelectionChanged();
+    }
+
+    private async Task RemoveSelection(TValue value, MouseEventArgs e)
+    {
+        if (Disabled || Readonly)
+            return;
+
+        if (CurrentValue != null && CurrentValue.Contains(value))
+        {
+            CurrentValue.Remove(value);
+            await NotifySelectionChanged();
+        }
+    }
+
+    private async Task SelectAll()
+    {
+        if (Disabled || Readonly || Items == null)
+            return;
+
+        CurrentValue = Items.Select(GetItemValue).ToList();
+        await NotifySelectionChanged();
+    }
+
+    private async Task ClearAll()
+    {
+        if (Disabled || Readonly)
+            return;
+
+        CurrentValue = new List<TValue>();
+        await NotifySelectionChanged();
+    }
+
+    private async Task NotifySelectionChanged()
+    {
         // Trigger validation
-        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         EditContext?.NotifyFieldChanged(FieldIdentifier);
 
         // Invoke custom callback
         if (OnSelectionChanged.HasDelegate)
         {
-            await OnSelectionChanged.InvokeAsync(new(){ ElementId = Id, Value = value });
+            await OnSelectionChanged.InvokeAsync(new() { ElementId = Id, Value = CurrentValue });
         }
 
         StateHasChanged();
@@ -360,112 +401,142 @@
 
     private bool IsSelected(TValue value)
     {
-        // Special handling for null checks
-        if (CurrentValue == null)
-            return value == null || EqualityComparer<TValue>.Default.Equals(value, default(TValue));
+        if (CurrentValue == null || !CurrentValue.Any())
+            return false;
 
-        return value != null && EqualityComparer<TValue>.Default.Equals(CurrentValue, value);
+        return CurrentValue.Any(v => EqualityComparer<TValue>.Default.Equals(v, value));
     }
 
-    private string GetDisplayText()
+    private string GetDisplayTextForValue(TValue value)
     {
-        if (!HasValue || CurrentValue == null)
-            return string.Empty;
-
         if (Items == null)
-            return CurrentValue.ToString() ?? string.Empty;
+            return value?.ToString() ?? string.Empty;
 
         foreach (var item in Items)
         {
             var itemValue = GetItemValue(item);
-            if (EqualityComparer<TValue>.Default.Equals(itemValue, CurrentValue))
+            if (EqualityComparer<TValue>.Default.Equals(itemValue, value))
             {
                 return GetItemText(item);
             }
         }
 
-        return CurrentValue.ToString() ?? string.Empty;
+        return value?.ToString() ?? string.Empty;
     }
 
     #endregion
 
-    #region Private Methods
+    #region CSS Classes
 
-    private string BuildDropdownClass()
+    private string BuildMultiSelectClass()
     {
         var classes = new List<string>
         {
             CssManager.Combine(
-                "block w-full h-full bg-transparent border-0 outline-none rounded",
+                "block w-full bg-transparent border-0 outline-none rounded",
                 "transition-all duration-200",
-                "cursor-pointer"
+                "flex items-center gap-1.5", // Changed from flex-wrap to keep single line
+                "overflow-hidden" // Hide overflow chips
             )
         };
 
-        // Text color
+        // Cursor
         if (Disabled)
         {
-            classes.Add("cursor-not-allowed text-black/[0.38]");
+            classes.Add("cursor-not-allowed");
         }
         else if (Readonly)
         {
-            classes.Add("cursor-default text-black/[0.87]");
+            classes.Add("cursor-default");
         }
         else
         {
-            classes.Add("text-black/[0.87]");
-        }
-
-        // Placeholder color
-        if (!HasValue)
-        {
-            classes.Add("text-black/40");
+            classes.Add("cursor-pointer");
         }
 
         // Focus
         classes.Add("focus:outline-none focus:ring-0");
 
         // Padding and font size for each size
-        var (padding, fontSize, lineHeight) = ElementSize switch
+        var (padding, fontSize) = ElementSize switch
         {
-            ElementSize.Small => GetDropdownSizePadding(
-                "px-3 pt-4 pb-2",
-                "pl-[36px] pr-8 pt-[12px] pb-2",
-                "text-sm",
-                "leading-normal"
+            ElementSize.Small => GetMultiSelectSizePadding(
+                "px-3 py-2", // Simplified padding for single line
+                "pl-[36px] pr-8 py-2",
+                "text-sm"
             ),
-            ElementSize.Large => GetDropdownSizePadding(
-                "px-4 pt-5 pb-3",
-                "pl-[38px] pr-10 pt-[14px] pb-3",
-                "text-lg",
-                "leading-normal"
+            ElementSize.Large => GetMultiSelectSizePadding(
+                "px-4 py-3",
+                "pl-[38px] pr-10 py-3",
+                "text-lg"
             ),
-            _ => GetDropdownSizePadding(
-                "px-3.5 pt-4.5 pb-2.5",
-                "pl-[36px] pr-9 pt-[12px] pb-2.5",
-                "text-base",
-                "leading-normal"
+            _ => GetMultiSelectSizePadding(
+                "px-3.5 py-2.5",
+                "pl-[36px] pr-9 py-2.5",
+                "text-base"
             )
         };
 
         classes.Add(padding);
         classes.Add(fontSize);
-        classes.Add(lineHeight);
 
         return CssManager.Combine(classes.ToArray());
     }
 
-    private (string padding, string fontSize, string lineHeight) GetDropdownSizePadding(
+    private (string padding, string fontSize) GetMultiSelectSizePadding(
         string defaultPadding,
         string iconPadding,
-        string fontSize,
-        string lineHeight)
+        string fontSize)
     {
         var hasStartIcon = !string.IsNullOrEmpty(StartIcon);
-
         var padding = hasStartIcon ? iconPadding : defaultPadding;
+        return (padding, fontSize);
+    }
 
-        return (padding, fontSize, lineHeight);
+    private string GetChipsContainerClass()
+    {
+        return CssManager.Combine(
+            "flex gap-1.5 w-full",
+            "overflow-hidden" // Prevent wrapping and hide overflow
+        );
+    }
+
+    private string GetChipClass()
+    {
+        var bgColor = Disabled ? "bg-black/[0.12]" : Tailwind.Theme.Colors.Background.THEME_LIGHT_FIVE_BG;
+        var textColor = Disabled ? "text-black/[0.38]" : ThemeTextDarkColor;
+
+        var size = ElementSize switch
+        {
+            ElementSize.Small => "px-2 py-0.5 text-xs",
+            ElementSize.Large => "px-3 py-1 text-base",
+            _ => "px-2.5 py-0.5 text-sm"
+        };
+
+        return CssManager.Combine(
+            "inline-flex items-center gap-1.5 rounded-full",
+            "flex-shrink-0", // Prevent chips from shrinking
+            bgColor,
+            textColor,
+            size,
+            "max-w-[200px]" // Optional: set max width for individual chips
+        );
+    }
+
+    private string GetChipTextClass()
+    {
+        return "truncate";
+    }
+
+    private string GetChipRemoveButtonClass()
+    {
+        return CssManager.Combine(
+            "flex-shrink-0 rounded-full",
+            "hover:bg-black/[0.08] active:bg-black/[0.12]",
+            "transition-colors duration-150",
+            "w-4 h-4 flex items-center justify-center",
+            "focus:outline-none focus:ring-1 focus:ring-black/20"
+        );
     }
 
     private string GetDropdownArrowClass()
@@ -517,6 +588,25 @@
         );
     }
 
+    private string GetSelectAllContainerClass()
+    {
+        return CssManager.Combine(
+            "flex items-center justify-between gap-2",
+            "px-3.5 py-2 border-b border-black/[0.12]"
+        );
+    }
+
+    private string GetSelectAllButtonClass()
+    {
+        return CssManager.Combine(
+            "text-sm font-medium",
+            ThemeTextDarkColor,
+            "hover:underline",
+            "focus:outline-none focus:underline",
+            "transition-all duration-150"
+        );
+    }
+
     private string GetOptionsContainerClass()
     {
         return CssManager.Combine(
@@ -531,7 +621,7 @@
     {
         var baseClasses = CssManager.Combine(
             "relative px-3.5 py-2.5 cursor-pointer select-none",
-            "flex items-center justify-between",
+            "flex items-center gap-3",
             "transition-colors duration-150"
         );
 
@@ -540,8 +630,7 @@
         {
             stateClasses = CssManager.Combine(
                 ThemeTextDarkColor,
-                "bg-black/[0.08]",
-                "font-medium"
+                "bg-black/[0.04]"
             );
         }
         else
@@ -563,12 +652,19 @@
         return CssManager.Combine(baseClasses, stateClasses, fontSize);
     }
 
-    private string GetCheckmarkClass()
+    private string GetCheckboxClass(bool isSelected)
     {
-        return CssManager.Combine(
-            "ml-2 flex-shrink-0",
-            ThemeTextDarkColor
+        var baseClasses = CssManager.Combine(
+            "flex-shrink-0 w-5 h-5 rounded border-2",
+            "flex items-center justify-center",
+            "transition-all duration-150"
         );
+
+        var stateClasses = isSelected
+            ? CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_LIGHT_FIVE_BG, ThemeBorderDarkColor, "text-white")
+            : "border-black/[0.54] bg-transparent";
+
+        return CssManager.Combine(baseClasses, stateClasses);
     }
 
     private TValue GetItemValue(TItem item)
@@ -612,6 +708,7 @@
     }
 
     #endregion
+
     private bool _disposed = false;
 
     public async ValueTask DisposeAsync()

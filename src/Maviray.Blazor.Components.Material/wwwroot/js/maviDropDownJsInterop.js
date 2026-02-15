@@ -1,4 +1,4 @@
-﻿window.maviDropdownInit = (dotNetRef, containerElement) => {
+﻿export function initializeDropdown(dotNetRef, containerElement) {
     if (!containerElement) return;
 
     const handleClickOutside = (event) => {
@@ -14,12 +14,11 @@
     containerElement._maviDropdownCleanup = () => {
         document.removeEventListener('click', handleClickOutside, true);
     };
-};
+}
 
-// Cleanup on dispose
-window.maviDropdownDispose = (containerElement) => {
+export function disposeDropdown(containerElement) {
     if (containerElement && containerElement._maviDropdownCleanup) {
         containerElement._maviDropdownCleanup();
         delete containerElement._maviDropdownCleanup;
     }
-};
+}
