@@ -4,4 +4,5 @@
   <Project Path="src/Maviray.Blazor.Components.Core/Maviray.Blazor.Components.Core.csproj" Id="20e3ecac-bbb0-4c44-a0f1-76060cf23cf7" />
   <Project Path="src/Maviray.Blazor.Components.Material/Maviray.Blazor.Components.Material.csproj" />
   <Project Path="src/Maviray.Blazor.Components.Tailwind/Maviray.Blazor.Components.Tailwind.csproj" Id="696e41ad-dba3-4d89-8957-7241edae2bd1" />
+  <Project Path="tests/Maviray.Blazor.Components.Material.Tests/Maviray.Blazor.Components.Material.Tests.csproj" Id="2c334461-65e2-4d0f-a527-227908782d8c" />
 </Solution>

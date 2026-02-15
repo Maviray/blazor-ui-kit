@@ -1,6 +1,7 @@
-﻿using Maviray.Blazor.Components.Core.Enums;
+﻿using Maviray.Blazor.Components.Core.Components;
+using Maviray.Blazor.Components.Core.Enums;
 using Maviray.Blazor.Components.Core.EventArgs;
-using Maviray.Blazor.Components.Core.Options;
+using Maviray.Blazor.Components.Core.Extensions;
 using Maviray.Blazor.Components.Material.Constants;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -8,7 +9,6 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
-using Maviray.Blazor.Components.Core.Extensions;
 
 namespace Maviray.Blazor.Components.Material.Components.Inputs;
 
@@ -17,14 +17,12 @@ namespace Maviray.Blazor.Components.Material.Components.Inputs;
 /// Contains all shared C# logic for validation, theming, event handling, and CSS class building.
 /// </summary>
 /// <typeparam name="TValue">The type of the input value</typeparam>
-public abstract class MaviInputBase<TValue> : InputBase<TValue>, IDisposable
+public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDisposable
 {
     #region Protected Fields
 
     protected bool IsFocused;
     protected bool AttributesInferred = false;
-    protected EditContext? PreviousEditContext;
-    protected ValidationMessageStore? ValidationMessageStore;
     protected bool IsEndIconLoading = false;
 
     protected readonly string TextAlertColor = Tailwind.Theme.Colors.Text.THEME_ALERT_EIGHT_TEXT;
@@ -38,24 +36,8 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>, IDisposable
 
     #endregion
 
-    #region Injected Services
-
-    [Inject] private ILoggerFactory? LoggerFactory { get; set; }
-    [Inject] protected IMaviComponentOptions? ComponentOptions { get; set; }
-
-    protected ILogger? Logger => field ??= LoggerFactory?.CreateLogger(GetType());
-
-    #endregion
-
     #region Common Parameters
-
-    [Parameter] public virtual string? Id { get; set; } = $"input_{Guid.NewGuid()}";
-    [Parameter] public string Width { get; set; } = "w-96";
-    [Parameter] public string? Style { get; set; }
-    [Parameter] public string? Title { get; set; }
-    [Parameter] public ElementSize ElementSize { get; set; } = ElementSize.Regular;
-    [Parameter] public ThemeColorScheme ThemeColorScheme { get; set; } = ThemeColorScheme.Primary;
-    [Parameter] public string Label { get; set; } = string.Empty;
+    
     [Parameter] public string? StartIcon { get; set; }
 
     /// <summary>
@@ -83,32 +65,17 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>, IDisposable
     /// </summary>
     [Parameter] public string ButtonLabel { get; set; } = "Action";
 
-    [Parameter] public bool Disabled { get; set; }
-    [Parameter] public bool Readonly { get; set; }
-    [Parameter] public bool Required { get; set; }
-
     /// <summary>
     /// When true, automatically infers Label, Required, and HelperText from model property attributes.
     /// Default is true. Set to false in order to disable automatic inference.
     /// </summary>
     [Parameter] public bool InferFromModelAttributes { get; set; } = true;
 
-    /// <summary>
-    /// Helper text displayed below the input field. Provides guidance to the user.
-    /// Can be automatically inferred from [Display(Description = "")] or [Display(Prompt = "")] attributes.
-    /// </summary>
-    [Parameter] public string? HelperText { get; set; }
-
     #endregion
 
     #region Protected Properties
 
-    protected bool HasRendered { get; private set; }
-
-    // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-    protected bool HasError => EditContext != null && !Disabled && !Readonly && EditContext.GetValidationMessages(FieldIdentifier).Any();
-
-    protected abstract bool HasValue { get; }
+    
     protected bool IsLabelFloating => IsFocused || HasValue || Disabled || Readonly;
 
     #endregion
@@ -740,15 +707,7 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>, IDisposable
 
     #region Accessibility Helpers
 
-    protected string GetAriaDescribedByString()
-    {
-        return !string.IsNullOrEmpty(HelperText) ? $"{Id}-helper" : string.Empty;
-    }
-
-    protected string GetAreaInvalidValue()
-    {
-        return HasError.ToString().ToLowerInvariant();
-    }
+   
 
     protected string? GetTitle()
     {
