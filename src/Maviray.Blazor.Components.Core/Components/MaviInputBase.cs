@@ -88,7 +88,7 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>
         return !string.IsNullOrEmpty(HelperText) ? $"{Id}-helper" : string.Empty;
     }
 
-    protected string GetAreaInvalidValue()
+    protected virtual string GetAreaInvalidValue()
     {
         return HasError.ToString().ToLowerInvariant();
     }
