@@ -3,10 +3,9 @@
 @using System.ComponentModel.DataAnnotations
 @using System.Reflection
 @using Microsoft.Extensions.Logging
-@using Microsoft.JSInterop
 @typeparam TItem
 @inherits MaviMaterialInputBase<TItem>
-@inject IJSRuntime JSRuntime
+@inject IJSRuntime JsRuntime
 
 <div class="@Width">
     <!-- Floating Label Input Container -->
@@ -348,17 +347,16 @@
     protected override void InferTypeSpecificAttributes(PropertyInfo propertyInfo)
     {
         // Infer MaxLength if still at default value
-        if (MaxLength == FormatConstants.DEFAULT_MAX_STRING_INPUT_LIMIT)
+        if (MaxLength != FormatConstants.DEFAULT_MAX_STRING_INPUT_LIMIT) return;
+
+        var maxLengthAttr = propertyInfo.GetCustomAttribute<MaxLengthAttribute>();
+        var stringLengthAttr = propertyInfo.GetCustomAttribute<StringLengthAttribute>();
+
+        var inferredMaxLength = maxLengthAttr?.Length ?? stringLengthAttr?.MaximumLength;
+
+        if (inferredMaxLength.HasValue)
         {
-            var maxLengthAttr = propertyInfo.GetCustomAttribute<MaxLengthAttribute>();
-            var stringLengthAttr = propertyInfo.GetCustomAttribute<StringLengthAttribute>();
-
-            var inferredMaxLength = maxLengthAttr?.Length ?? stringLengthAttr?.MaximumLength;
-
-            if (inferredMaxLength.HasValue)
-            {
-                MaxLength = inferredMaxLength.Value;
-            }
+            MaxLength = inferredMaxLength.Value;
         }
     }
 
@@ -424,7 +422,11 @@
         }
 
         // Cancel previous search
-        _debounceTokenSource?.Cancel();
+        if (_debounceTokenSource != null)
+        {
+            await _debounceTokenSource.CancelAsync();
+        }
+        
         _debounceTokenSource = new CancellationTokenSource();
         var token = _debounceTokenSource.Token;
 
@@ -448,7 +450,7 @@
                 ? results?.Take(MaxDisplayItems).ToList()
                 : results?.ToList();
 
-            _options ??= new List<TItem>();
+            _options ??= [];
 
             _highlightedIndex = _options.Any() ? 0 : -1;
             _isDropdownOpen = true;
@@ -461,7 +463,7 @@
         catch (Exception ex)
         {
             Logger?.LogError(ex, "Error performing search for autocomplete {Id}", Id);
-            _options = new List<TItem>();
+            _options = [];
             _isDropdownOpen = false;
         }
         finally
@@ -517,7 +519,7 @@
     {
         try
         {
-            _dropdownWidth = await JSRuntime.InvokeAsync<double>(
+            _dropdownWidth = await JsRuntime.InvokeAsync<double>(
                 "eval",
                 $"document.getElementById('{Id}').parentElement.offsetWidth"
             );
@@ -559,24 +561,21 @@
 
     #region CSS Class Builders
 
-    private string GetDropdownClass()
+    private static string GetDropdownClass()
     {
         return "absolute z-50 mt-1 max-h-60 overflow-auto rounded bg-white shadow-lg border border-(--theme-default-three) focus:outline-none";
     }
 
     private string GetDropdownStyle()
     {
-        if (_dropdownWidth > 0)
-        {
-            return $"width: {_dropdownWidth}px;";
-        }
-        return string.Empty;
+        return _dropdownWidth > 0 ? $"width: {_dropdownWidth}px;" : string.Empty;
     }
 
     private string GetOptionClass(int index)
     {
-        var baseClass = "px-4 py-2 cursor-pointer transition-colors duration-150 text-sm";
-        var hoverClass = "hover:bg-(--theme-primary-one)";
+        const string baseClass = "px-4 py-2 cursor-pointer transition-colors duration-150 text-sm";
+        const string hoverClass = "hover:bg-(--theme-primary-one)";
+
         var selectedClass = index == _highlightedIndex
             ? "bg-(--theme-primary-two) text-(--theme-primary-nine)"
             : "text-(--theme-default-nine)";
@@ -611,5 +610,4 @@
     }
 
     #endregion
-
 }
