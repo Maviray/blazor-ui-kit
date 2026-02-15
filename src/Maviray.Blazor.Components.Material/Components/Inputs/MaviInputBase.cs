@@ -31,7 +31,7 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>, IDisposable
     protected readonly string BorderAlertColor = Tailwind.Theme.Colors.Border.THEME_ALERT_EIGHT_BORDER;
 
     protected string ThemeTextLightColor = Tailwind.Theme.Colors.Text.THEME_PRIMARY_EIGHT_TEXT;
-    protected string ThemeTextDarkColor = Tailwind.Theme.Colors.Text.THEME_ACCENT_NINE_TEXT;
+    protected string ThemeTextDarkColor = Tailwind.Theme.Colors.Text.THEME_PRIMARY_NINE_TEXT;
     protected string ThemeBorderLightColor = Tailwind.Theme.Colors.Border.THEME_PRIMARY_EIGHT_BORDER;
     protected string ThemeBorderDarkColor = Tailwind.Theme.Colors.Border.THEME_PRIMARY_NINE_BORDER;
     protected string ThemeBorderHoverColor = Tailwind.Theme.Colors.Border.Hover.THEME_PRIMARY_NINE_BORDER_HOVER;
