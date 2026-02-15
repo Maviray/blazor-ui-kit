@@ -115,7 +115,7 @@
     /// </summary>
     [Parameter] public long Step { get; set; } = 1L;
 
-    protected override bool HasValue => CurrentValue != 0L || !string.IsNullOrWhiteSpace(_rawInputValue);
+    protected override bool HasValue => CurrentValue != 0L || !string.IsNullOrWhiteSpace(RawInputValue);
 
     protected override bool TryParseValueFromString(
         string? value,
@@ -187,11 +187,11 @@
         // When focused and not showing formatted value, show raw input or plain number
         if (IsFocused && !ShowFormattedWhileFocused)
         {
-            return _rawInputValue ?? CurrentValue.ToString(CurrentCulture);
+            return RawInputValue ?? CurrentValue.ToString(CurrentCulture);
         }
 
         // When not focused or ShowFormattedWhileFocused is true, show formatted value
-        if (CurrentValue == 0L && string.IsNullOrWhiteSpace(_rawInputValue))
+        if (CurrentValue == 0L && string.IsNullOrWhiteSpace(RawInputValue))
         {
             return string.Empty;
         }
@@ -205,10 +205,10 @@
         if (Disabled || Readonly)
             return Task.CompletedTask;
 
-        _rawInputValue = e.Value?.ToString();
+        RawInputValue = e.Value?.ToString();
 
         // Try to parse and update the value
-        if (TryParseValueFromString(_rawInputValue, out var parsedValue, out _))
+        if (TryParseValueFromString(RawInputValue, out var parsedValue, out _))
         {
             CurrentValue = parsedValue;
         }
@@ -224,8 +224,8 @@
         if (Disabled || Readonly)
             return Task.CompletedTask;
 
-        _rawInputValue = e.Value?.ToString();
-        CurrentValueAsString = _rawInputValue;
+        RawInputValue = e.Value?.ToString();
+        CurrentValueAsString = RawInputValue;
 
         // Trigger validation on change (blur)
         EditContext?.NotifyFieldChanged(FieldIdentifier);

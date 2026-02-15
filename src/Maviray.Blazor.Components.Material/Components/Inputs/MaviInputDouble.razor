@@ -106,7 +106,7 @@
     [Parameter] public int? DecimalPlaces { get; set; }
     [Parameter] public bool AllowScientificNotation { get; set; }
 
-    protected override bool HasValue => CurrentValue != 0.0 || !string.IsNullOrWhiteSpace(_rawInputValue);
+    protected override bool HasValue => CurrentValue != 0.0 || !string.IsNullOrWhiteSpace(RawInputValue);
 
     protected override bool TryParseValueFromString(
         string? value,
@@ -199,10 +199,10 @@
     {
         if (IsFocused && !ShowFormattedWhileFocused)
         {
-            return _rawInputValue ?? CurrentValue.ToString(CurrentCulture);
+            return RawInputValue ?? CurrentValue.ToString(CurrentCulture);
         }
 
-        if (CurrentValue == 0.0 && string.IsNullOrWhiteSpace(_rawInputValue))
+        if (CurrentValue == 0.0 && string.IsNullOrWhiteSpace(RawInputValue))
         {
             return string.Empty;
         }
@@ -214,9 +214,9 @@
     {
         if (Disabled || Readonly) return Task.CompletedTask;
 
-        _rawInputValue = e.Value?.ToString();
+        RawInputValue = e.Value?.ToString();
 
-        if (TryParseValueFromString(_rawInputValue, out var parsedValue, out _))
+        if (TryParseValueFromString(RawInputValue, out var parsedValue, out _))
         {
             CurrentValue = parsedValue;
         }
@@ -228,8 +228,8 @@
     {
         if (Disabled || Readonly) return Task.CompletedTask;
 
-        _rawInputValue = e.Value?.ToString();
-        CurrentValueAsString = _rawInputValue;
+        RawInputValue = e.Value?.ToString();
+        CurrentValueAsString = RawInputValue;
         EditContext?.NotifyFieldChanged(FieldIdentifier);
 
         return Task.CompletedTask;

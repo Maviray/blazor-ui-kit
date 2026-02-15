@@ -1,6 +1,4 @@
-﻿using Maviray.Blazor.Components.Core.Constants;
-using Maviray.Blazor.Components.Core.Enums;
-using Maviray.Blazor.Components.Core.Extensions;
+﻿using Maviray.Blazor.Components.Core.Enums;
 using Maviray.Blazor.Components.Core.Options;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -10,58 +8,88 @@ namespace Maviray.Blazor.Components.Core.Components;
 
 public abstract class MaviInputBase<TValue> : InputBase<TValue>
 {
-    private ILogger? _logger;
-
+    protected EditContext? PreviousEditContext;
+    protected ValidationMessageStore? ValidationMessageStore;
+    
     [Inject] private ILoggerFactory? LoggerFactory { get; set; }
-
     [Inject] protected IMaviComponentOptions? ComponentOptions { get; set; }
 
-    protected ILogger? Logger => _logger ??= LoggerFactory?.CreateLogger(GetType());
+    public bool HasRendered { get; protected set; }
 
+    protected ILogger? Logger => field ??= LoggerFactory?.CreateLogger(GetType());
+
+    /// <summary>
+    /// Unique identifier for the input component
+    /// </summary>
     [Parameter] public virtual string? Id { get; set; } = $"input_{Guid.NewGuid()}";
-    [Parameter] public string Width { get; set; } = "w-96";
 
+    /// <summary>
+    /// Width CSS class (e.g., "w-96", "w-full")
+    /// </summary>
+    [Parameter] public string Width { get; set; } = "w-auto";
+
+    /// <summary>
+    /// Inline styles to apply to the component
+    /// </summary>
     [Parameter] public string? Style { get; set; }
 
+    /// <summary>
+    /// Title/tooltip text
+    /// </summary>
     [Parameter] public string? Title { get; set; }
 
+    /// <summary>
+    /// Theme color scheme for the component
+    /// </summary>
+    [Parameter] public ThemeColorScheme ThemeColorScheme { get; set; } = ThemeColorScheme.Primary;
+
+    /// <summary>
+    /// Size of element (e.g., Small, Regular, Large)
+    /// </summary>
     [Parameter] public ElementSize ElementSize { get; set; }
 
-    protected bool HasRendered { get; private set; }
-
+    /// <summary>
+    /// Label text for the input
+    /// </summary>
     [Parameter] public string Label { get; set; } = string.Empty;
 
-    [Parameter] public string? Placeholder { get; set; }
+    /// <summary>
+    /// Helper/hint text displayed below the input
+    /// </summary>
+    [Parameter] public string? HelperText { get; set; }
 
-    [Parameter] public string? StartIcon { get; set; }
-
-    [Parameter] public string? EndIcon { get; set; }
-
-    [Parameter]
-    public bool ShowValidationMessage { get; set; } = true;
-
-    [Parameter]
-    public int MaxLength { get; set; } = FormatConstants.DEFAULT_MAX_STRING_INPUT_LIMIT;
-
-    [Parameter] public bool Disabled { get; set; }
-    [Parameter] public bool Readonly { get; set; }
+    /// <summary>
+    /// Indicates if the field is required
+    /// </summary>
     [Parameter] public bool Required { get; set; }
 
+    /// <summary>
+    /// Disables the input
+    /// </summary>
+    [Parameter] public bool Disabled { get; set; }
+
+    /// <summary>
+    /// Makes the input read-only
+    /// </summary>
+    [Parameter] public bool Readonly { get; set; }
+
+    /// <summary>
+    /// Additional CSS classes to apply
+    /// </summary>
+    [Parameter] public string? Class { get; set; }
+
     // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-    protected bool HasError => EditContext != null && EditContext.GetValidationMessages(FieldIdentifier).Any();
+    protected bool HasError => EditContext != null && !Disabled && !Readonly && EditContext.GetValidationMessages(FieldIdentifier).Any();
 
-    protected override void OnAfterRender(bool firstRender)
+    protected abstract bool HasValue { get; }
+
+    protected virtual string GetAriaDescribedByString()
     {
-        base.OnAfterRender(firstRender);
+        return !string.IsNullOrEmpty(HelperText) ? $"{Id}-helper" : string.Empty;
+    }
 
-        if (firstRender)
-        {
-            HasRendered = true;
-        }
-
-        if (ComponentOptions is { EnableLifecycleLogging: true })
-        {
-            Logger?.LogDebugLifeCycle(ComponentOptions, GetType());
-        }
+    protected string GetAreaInvalidValue()
+    {
+        return HasError.ToString().ToLowerInvariant();
     }
 }

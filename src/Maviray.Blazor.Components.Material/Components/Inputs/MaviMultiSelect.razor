@@ -5,7 +5,7 @@
 @typeparam TItem
 @typeparam TValue
 @implements IAsyncDisposable
-@inherits MaviInputBase<List<TValue>>
+@inherits MaviMaterialInputBase<List<TValue>>
 @inject IJSRuntime JsRuntime
 
 <div class="@CssManager.Combine(Width, "relative")" @ref="_containerRef">
@@ -496,14 +496,14 @@
     private string GetChipsContainerClass()
     {
         return CssManager.Combine(
-            "flex gap-1.5 w-full",
+            "flex gap-1.5 mt-[4px] w-full",
             "overflow-hidden" // Prevent wrapping and hide overflow
         );
     }
 
     private string GetChipClass()
     {
-        var bgColor = Disabled ? "bg-black/[0.12]" : Tailwind.Theme.Colors.Background.THEME_LIGHT_FIVE_BG;
+        var bgColor = Disabled ? "bg-gray-50" : "bg-gray-100";
         var textColor = Disabled ? "text-black/[0.38]" : ThemeTextDarkColor;
 
         var size = ElementSize switch

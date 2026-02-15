@@ -3,9 +3,9 @@ using System.Globalization;
 
 namespace Maviray.Blazor.Components.Material.Components.Inputs;
 
-public abstract class MaviNumericInputBase<TValue> : MaviInputBase<TValue>
+public abstract class MaviNumericInputBase<TValue> : MaviMaterialInputBase<TValue>
 {
-    protected string? _rawInputValue;
+    protected string? RawInputValue;
 
     /// <summary>
     /// Culture info used for parsing and formatting numeric values. Defaults to current UI culture.
@@ -64,6 +64,6 @@ public abstract class MaviNumericInputBase<TValue> : MaviInputBase<TValue>
         base.OnBlur();
 
         // Clear raw input value on blur - will show formatted value
-        _rawInputValue = null;
+        RawInputValue = null;
     }
 }
