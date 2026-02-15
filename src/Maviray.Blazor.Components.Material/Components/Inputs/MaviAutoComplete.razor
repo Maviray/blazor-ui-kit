@@ -415,7 +415,7 @@
 
     private async Task PerformSearch(bool immediate = false)
     {
-        if (OnSearch == null || string.IsNullOrWhiteSpace(_searchText) || _searchText.Length < MinSearchLength)
+        if (OnSearch == null || string.IsNullOrEmpty(_searchText) || _searchText.Length < MinSearchLength)
         {
             CloseDropdown();
             return;

@@ -1,0 +1,1084 @@
+﻿@page "/PageMaviAutocomplete"
+@using System.ComponentModel.DataAnnotations
+@using Maviray.Blazor.Components.Core.Models
+@using Maviray.Blazor.Components.Material.Components
+@inherits SamplePageBase
+
+<PageTitle>MaviAutocomplete</PageTitle>
+
+
+<div class="p-6 max-w-7xl mx-auto">
+<!-- Page Header -->
+<div class="mb-8">
+    <h1 class="@CssManager.Combine(Tailwind.Theme.Typography.DISPLAY_MEDIUM, "mb-2")">MaviAutoComplete Component</h1>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_LARGE, "text-gray-600")">
+        Comprehensive showcase demonstrating all available parameters, use cases, and search patterns for the MaviAutoComplete component.
+    </p>
+</div>
+
+<EditForm Model="@_formSampleModel" OnValidSubmit="OnValidFormSubmit" OnInvalidSubmit="OnInValidFormSubmit" novalidate>
+<DataAnnotationsValidator />
+
+<!-- Section 1: Size Variants -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">1. Size Variants</h2>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+        Three size options: Small, Regular (default), and Large
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Small -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Small</h3>
+                <MaviAutoComplete TItem="string"
+                                  @bind-Value="_formSampleModel.Country"
+                                  Label="Country"
+                                  OnSearch="SearchCountries"
+                                  OnValueSelected="HandleCountrySelected"
+                                  ElementSize="ElementSize.Small"
+                                  StartIcon="lni lni-world"
+                                  Width="w-full" />
+                <ValidationMessage For="@(() => _formSampleModel.Country)" />
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    ElementSize="ElementSize.Small"
+                </code>
+            </div>
+        </div>
+
+        <!-- Regular -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Regular (Default)</h3>
+                <MaviAutoComplete TItem="string"
+                                  @bind-Value="_formSampleModel.City"
+                                  Label="City"
+                                  OnSearch="SearchCities"
+                                  ElementSize="ElementSize.Regular"
+                                  StartIcon="lni lni-map-marker"
+                                  Width="w-full" />
+                <ValidationMessage For="@(() => _formSampleModel.City)" />
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    ElementSize="ElementSize.Regular"
+                </code>
+            </div>
+        </div>
+
+        <!-- Large -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Large</h3>
+                <MaviAutoComplete TItem="string"
+                                  @bind-Value="_formSampleModel.Language"
+                                  Label="Language"
+                                  OnSearch="SearchLanguages"
+                                  ElementSize="ElementSize.Large"
+                                  StartIcon="lni lni-comments"
+                                  Width="w-full" />
+                <ValidationMessage For="@(() => _formSampleModel.Language)" />
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    ElementSize="ElementSize.Large"
+                </code>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Section 2: States (Disabled, Readonly) -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">2. AutoComplete States</h2>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+        Control autocomplete interactivity with Disabled and Readonly states
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Disabled -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Disabled</h3>
+                <MaviAutoComplete TItem="string"
+                                  @bind-Value="_selectedOccupationOne"
+                                  Label="Department"
+                                  OnSearch="SearchDepartments"
+                                  Disabled="true"
+                                  StartIcon="lni lni-briefcase"
+                                  Width="w-full" />
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    User cannot interact with disabled autocomplete
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    Disabled="true"
+                </code>
+            </div>
+        </div>
+
+        <!-- Readonly -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Readonly</h3>
+                <MaviAutoComplete TItem="string"
+                                  @bind-Value="_selectedOccupationTwo"
+                                  Label="Job Role"
+                                  OnSearch="SearchJobRoles"
+                                  Readonly="true"
+                                  StartIcon="lni lni-user"
+                                  Width="w-full" />
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Value is visible but not searchable
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    Readonly="true"
+                </code>
+            </div>
+        </div>
+
+        <!-- Normal (for comparison) -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Normal (Enabled)</h3>
+                <MaviAutoComplete TItem="string"
+                                  @bind-Value="_formSampleModel.Skill"
+                                  Label="Skills"
+                                  OnSearch="SearchSkills"
+                                  StartIcon="lni lni-code"
+                                  Width="w-full" />
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Fully interactive autocomplete
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    Default state - fully enabled
+                </code>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Section 3: Complex Object Binding -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">3. Complex Object Binding</h2>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+        Search and select complex objects with custom text selectors
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Country Object -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Country (Complex Object)</h3>
+                <MaviAutoComplete TItem="CountryInfo"
+                                  @bind-Value="_selectedCountryInfo"
+                                  Label="Select Country"
+                                  OnSearch="SearchCountryObjects"
+                                  ItemTextSelector="@(c => c.Name)"
+                                  OnValueSelected="HandleCountryInfoSelected"
+                                  StartIcon="lni lni-world"
+                                  Width="w-full" />
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Selected: @(_selectedCountryInfo?.Name ?? "None") (@(_selectedCountryInfo?.Code ?? "N/A"))
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    TItem="CountryInfo"<br />
+                    ItemTextSelector="@@(c => c.Name)"
+                </code>
+            </div>
+        </div>
+
+        <!-- User Object with Custom Template -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">User (Custom Template)</h3>
+                <MaviAutoComplete TItem="UserInfo"
+                                  @bind-Value="_selectedUser"
+                                  Label="Search Users"
+                                  OnSearch="SearchUsers"
+                                  ItemTextSelector="@(u => u.Name)"
+                                  OnValueSelected="HandleUserSelected"
+                                  StartIcon="lni lni-users"
+                                  Width="w-full">
+                    <ItemTemplate Context="user">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-(--theme-primary-two) flex items-center justify-center text-(--theme-primary-eight) font-semibold">
+                                @user.Name.Substring(0, 1).ToUpper()
+                            </div>
+                            <div>
+                                <div class="font-medium">@user.Name</div>
+                                <div class="text-xs text-(--theme-default-seven)">@user.Email</div>
+                            </div>
+                        </div>
+                    </ItemTemplate>
+                </MaviAutoComplete>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Selected: @(_selectedUser?.Name ?? "None")
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    &lt;ItemTemplate Context="user"&gt;<br />
+                    &nbsp;&nbsp;Custom rendering<br />
+                    &lt;/ItemTemplate&gt;
+                </code>
+            </div>
+        </div>
+
+        <!-- Product Search -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Product Search</h3>
+                <MaviAutoComplete TItem="ProductInfo"
+                                  @bind-Value="_selectedProduct"
+                                  Label="Search Products"
+                                  OnSearch="SearchProducts"
+                                  ItemTextSelector="@(p => $"{p.Name} - ${p.Price}")"
+                                  MinSearchLength="2"
+                                  StartIcon="lni lni-cart"
+                                  Width="w-full" />
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Min 2 characters to search
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    MinSearchLength="2"
+                </code>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Section 4: Search Behavior Configuration -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">4. Search Behavior Configuration</h2>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+        Configure debounce delay, min search length, and result limits
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Fast Debounce (100ms) -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Fast Search (100ms)</h3>
+                <MaviAutoComplete TItem="string"
+                                  @bind-Value="_formSampleModel.FastSearch"
+                                  Label="Fast Debounce"
+                                  OnSearch="SearchCities"
+                                  DebounceDelay="100"
+                                  StartIcon="lni lni-bolt"
+                                  Width="w-full" />
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    100ms debounce - very responsive
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    DebounceDelay="100"
+                </code>
+            </div>
+        </div>
+
+        <!-- Default Debounce (300ms) -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Default (300ms)</h3>
+                <MaviAutoComplete TItem="string"
+                                  @bind-Value="_formSampleModel.DefaultSearch"
+                                  Label="Default Debounce"
+                                  OnSearch="SearchCities"
+                                  StartIcon="lni lni-timer"
+                                  Width="w-full" />
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    300ms debounce - balanced
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    Default: 300ms
+                </code>
+            </div>
+        </div>
+
+        <!-- Slow Debounce (600ms) -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Slow Search (600ms)</h3>
+                <MaviAutoComplete TItem="string"
+                                  @bind-Value="_formSampleModel.SlowSearch"
+                                  Label="Slow Debounce"
+                                  OnSearch="SearchCities"
+                                  DebounceDelay="600"
+                                  StartIcon="lni lni-hourglass"
+                                  Width="w-full" />
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    600ms debounce - reduces API calls
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    DebounceDelay="600"
+                </code>
+            </div>
+        </div>
+
+        <!-- Limited Results -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Limited Results (5)</h3>
+                <MaviAutoComplete TItem="string"
+                                  @bind-Value="_formSampleModel.LimitedResults"
+                                  Label="Max 5 Results"
+                                  OnSearch="SearchCities"
+                                  MaxDisplayItems="5"
+                                  StartIcon="lni lni-list"
+                                  Width="w-full" />
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Shows max 5 results
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    MaxDisplayItems="5"
+                </code>
+            </div>
+        </div>
+
+        <!-- Min Search Length -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Min 3 Characters</h3>
+                <MaviAutoComplete TItem="string"
+                                  @bind-Value="_formSampleModel.MinLength"
+                                  Label="Min 3 Chars"
+                                  OnSearch="SearchCities"
+                                  MinSearchLength="3"
+                                  StartIcon="lni lni-keyword-research"
+                                  Width="w-full" />
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Requires 3+ characters
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    MinSearchLength="3"
+                </code>
+            </div>
+        </div>
+
+        <!-- Clear On Select -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Clear On Select</h3>
+                <MaviAutoComplete TItem="string"
+                                  @bind-Value="_formSampleModel.ClearOnSelect"
+                                  Label="Tags"
+                                  OnSearch="SearchSkills"
+                                  ClearOnSelect="true"
+                                  StartIcon="lni lni-tag"
+                                  Width="w-full" />
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Clears input after selection
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    ClearOnSelect="true"
+                </code>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Section 5: Advanced Features -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">5. Advanced Features</h2>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+        Custom messages, helper text, required fields, and event handling
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Custom No Results Message -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Custom No Results</h3>
+                <MaviAutoComplete TItem="string"
+                                  @bind-Value="_formSampleModel.NoResults"
+                                  Label="Custom Message"
+                                  OnSearch="SearchCities"
+                                  NoResultsText="😔 No cities found matching your search"
+                                  StartIcon="lni lni-search-alt"
+                                  Width="w-full" />
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Try searching for "xyz" to see custom message
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    NoResultsText="Custom message"
+                </code>
+            </div>
+        </div>
+
+        <!-- With Helper Text -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">With Helper Text</h3>
+                <MaviAutoComplete TItem="string"
+                                  @bind-Value="_formSampleModel.WithHelper"
+                                  Label="Email"
+                                  OnSearch="SearchEmails"
+                                  HelperText="Start typing to search from your contacts"
+                                  StartIcon="lni lni-envelope"
+                                  Width="w-full" />
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    HelperText="Helpful guidance text"
+                </code>
+            </div>
+        </div>
+
+        <!-- Required Field -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Required Field</h3>
+                <MaviAutoComplete TItem="string"
+                                  @bind-Value="_formSampleModel.Country"
+                                  Label="Country"
+                                  OnSearch="SearchCountries"
+                                  Required="true"
+                                  StartIcon="lni lni-world"
+                                  Width="w-full" />
+                <ValidationMessage For="@(() => _formSampleModel.Country)" />
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    Required="true"
+                </code>
+            </div>
+        </div>
+
+        <!-- With Selection Event -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">With Selection Event</h3>
+                <MaviAutoComplete TItem="string"
+                                  @bind-Value="_formSampleModel.Technology"
+                                  Label="Technology"
+                                  OnSearch="SearchTechnologies"
+                                  OnValueSelected="HandleTechnologySelected"
+                                  StartIcon="lni lni-rocket"
+                                  Width="w-full" />
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Last selection: @_lastTechnologySelection
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    OnValueSelected="HandleEvent"
+                </code>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Section 6: Theme Color Schemes -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">6. Theme Color Schemes</h2>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+        Apply different color themes to match your design system
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Primary -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Primary</h3>
+                <MaviAutoComplete TItem="string"
+                                  @bind-Value="_formSampleModel.ThemePrimary"
+                                  Label="Primary Theme"
+                                  OnSearch="SearchCities"
+                                  ThemeColorScheme="ThemeColorScheme.Primary"
+                                  StartIcon="lni lni-star"
+                                  Width="w-full" />
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    ThemeColorScheme="Primary"
+                </code>
+            </div>
+        </div>
+
+        <!-- Secondary -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Secondary</h3>
+                <MaviAutoComplete TItem="string"
+                                  @bind-Value="_formSampleModel.ThemeSecondary"
+                                  Label="Secondary Theme"
+                                  OnSearch="SearchCities"
+                                  ThemeColorScheme="ThemeColorScheme.Secondary"
+                                  StartIcon="lni lni-star-empty"
+                                  Width="w-full" />
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    ThemeColorScheme="Secondary"
+                </code>
+            </div>
+        </div>
+
+        <!-- Success -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Success</h3>
+                <MaviAutoComplete TItem="string"
+                                  @bind-Value="_formSampleModel.ThemeSuccess"
+                                  Label="Success Theme"
+                                  OnSearch="SearchCities"
+                                  ThemeColorScheme="ThemeColorScheme.Success"
+                                  StartIcon="lni lni-checkmark"
+                                  Width="w-full" />
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    ThemeColorScheme="Success"
+                </code>
+            </div>
+        </div>
+
+        <!-- Alert -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Alert</h3>
+                <MaviAutoComplete TItem="string"
+                                  @bind-Value="_formSampleModel.ThemeAlert"
+                                  Label="Alert Theme"
+                                  OnSearch="SearchCities"
+                                  ThemeColorScheme="ThemeColorScheme.Alert"
+                                  StartIcon="lni lni-close"
+                                  Width="w-full" />
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    ThemeColorScheme="Alert"
+                </code>
+            </div>
+        </div>
+
+        <!-- Warning -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Warning</h3>
+                <MaviAutoComplete TItem="string"
+                                  @bind-Value="_formSampleModel.ThemeWarning"
+                                  Label="Warning Theme"
+                                  OnSearch="SearchCities"
+                                  ThemeColorScheme="ThemeColorScheme.Warning"
+                                  StartIcon="lni lni-warning"
+                                  Width="w-full" />
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    ThemeColorScheme="Warning"
+                </code>
+            </div>
+        </div>
+
+        <!-- Info -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Info</h3>
+                <MaviAutoComplete TItem="string"
+                                  @bind-Value="_formSampleModel.ThemeInfo"
+                                  Label="Info Theme"
+                                  OnSearch="SearchCities"
+                                  ThemeColorScheme="ThemeColorScheme.Info"
+                                  StartIcon="lni lni-information"
+                                  Width="w-full" />
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    ThemeColorScheme="Info"
+                </code>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Section 7: Complete Parameter Reference -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">7. Complete Parameter Reference</h2>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+        All available parameters for MaviAutoComplete component
+    </p>
+
+    <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+        <table class="min-w-full">
+            <thead class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_LIGHT_FOUR_BG)">
+            <tr>
+                <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Parameter</th>
+                <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Type</th>
+                <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Default</th>
+                <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Description</th>
+            </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>@@bind-Value</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">TItem</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">default</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Two-way bound selected value</td>
+            </tr>
+            <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>OnSearch</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Func&lt;string, Task&lt;IEnumerable&lt;TItem&gt;&gt;&gt;</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Required</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Async search function to fetch results</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>ItemTextSelector</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Func&lt;TItem, string&gt;</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Function to extract display text from item</td>
+            </tr>
+            <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>ItemTemplate</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">RenderFragment&lt;TItem&gt;</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Custom template for rendering items</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>OnValueSelected</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">EventCallback&lt;TItem&gt;</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Event fired when value is selected</td>
+            </tr>
+            <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>MinSearchLength</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">int</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">1</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Minimum characters before search triggers</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>DebounceDelay</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">int</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">300</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Delay in milliseconds before search</td>
+            </tr>
+            <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>MaxDisplayItems</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">int</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">0 (unlimited)</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Maximum items to show in dropdown</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>NoResultsText</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">No results found</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Message when no results found</td>
+            </tr>
+            <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>ClearOnSelect</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Clear input after selection</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>MaxLength</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">int</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">255</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Maximum input characters</td>
+            </tr>
+            <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>ElementSize</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">ElementSize</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Regular</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Size: Small, Regular, Large</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>ThemeColorScheme</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">ThemeColorScheme</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Primary</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Color scheme for component</td>
+            </tr>
+            <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Label</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">""</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Floating label text</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>StartIcon</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Icon at start of input</td>
+            </tr>
+            <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>EndIcon</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">search icon</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Toggles between search/clear icons</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Width</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">w-96</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Tailwind width class</td>
+            </tr>
+            <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Disabled</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Disables user interaction</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Readonly</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Makes input read-only</td>
+            </tr>
+            <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Required</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Shows required asterisk (*)</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>HelperText</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Helper text below input</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Submit Button -->
+<div class="flex justify-start">
+    <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                ElementSize="ElementSize.Regular"
+                Title="Submit Form"
+                ButtonRole="ButtonRole.Submit"
+                ElementVariant="ElementVariant.Outlined"
+                TextTransform="TextTransform.Capitalize"
+                StartIcon="lni lni-checkmark">
+    </MaviButton>
+</div>
+</EditForm>
+</div>
+
+@code {
+
+    private string _selectedOccupationOne = "Engineering";
+    private string _selectedOccupationTwo = "Senior Developer";
+
+    private readonly SampleAutoCompleteModel _formSampleModel = new();
+
+    private CountryInfo? _selectedCountryInfo;
+    private UserInfo? _selectedUser;
+    private ProductInfo? _selectedProduct;
+    private string _lastTechnologySelection = "None";
+
+    // Sample data
+    private readonly List<string> _countries = new()
+    {
+        "United States", "Canada", "United Kingdom", "Germany", "France",
+        "Japan", "Australia", "Brazil", "India", "China", "Mexico", "Italy",
+        "Spain", "South Korea", "Russia", "Netherlands", "Sweden", "Switzerland"
+    };
+
+    private readonly List<string> _cities = new()
+    {
+        "New York", "Los Angeles", "Chicago", "Houston", "Phoenix", "Philadelphia",
+        "San Antonio", "San Diego", "Dallas", "San Jose", "Austin", "Jacksonville",
+        "London", "Paris", "Tokyo", "Berlin", "Sydney", "Toronto", "Mumbai", "Dubai"
+    };
+
+    private readonly List<string> _languages = new()
+    {
+        "English", "Spanish", "French", "German", "Chinese", "Japanese",
+        "Korean", "Portuguese", "Russian", "Arabic", "Hindi", "Italian"
+    };
+
+    private readonly List<string> _skills = new()
+    {
+        "C#", "JavaScript", "TypeScript", "Python", "Java", "Go", "Rust",
+        "React", "Angular", "Vue", "Blazor", "ASP.NET Core", "Node.js",
+        "SQL", "MongoDB", "Docker", "Kubernetes", "Azure", "AWS"
+    };
+
+    private readonly List<string> _technologies = new()
+    {
+        "Blazor", "ASP.NET Core", "Entity Framework", "SignalR", "Tailwind CSS",
+        "React", "Angular", "Vue.js", "Docker", "Kubernetes", "Azure", "AWS"
+    };
+
+    private readonly List<CountryInfo> _countryInfoList = new()
+    {
+        new() { Code = "US", Name = "United States", Population = 331000000 },
+        new() { Code = "CA", Name = "Canada", Population = 38000000 },
+        new() { Code = "UK", Name = "United Kingdom", Population = 67000000 },
+        new() { Code = "DE", Name = "Germany", Population = 83000000 },
+        new() { Code = "FR", Name = "France", Population = 65000000 },
+        new() { Code = "JP", Name = "Japan", Population = 126000000 },
+        new() { Code = "AU", Name = "Australia", Population = 25000000 }
+    };
+
+    private readonly List<UserInfo> _users = new()
+    {
+        new() { Id = 1, Name = "John Doe", Email = "john.doe@example.com" },
+        new() { Id = 2, Name = "Jane Smith", Email = "jane.smith@example.com" },
+        new() { Id = 3, Name = "Bob Johnson", Email = "bob.johnson@example.com" },
+        new() { Id = 4, Name = "Alice Williams", Email = "alice.williams@example.com" },
+        new() { Id = 5, Name = "Charlie Brown", Email = "charlie.brown@example.com" },
+        new() { Id = 6, Name = "Diana Prince", Email = "diana.prince@example.com" }
+    };
+
+    private readonly List<ProductInfo> _products = new()
+    {
+        new() { Id = 1, Name = "Laptop Pro", Price = 1299.99m, Category = "Electronics" },
+        new() { Id = 2, Name = "Wireless Mouse", Price = 29.99m, Category = "Accessories" },
+        new() { Id = 3, Name = "Mechanical Keyboard", Price = 149.99m, Category = "Accessories" },
+        new() { Id = 4, Name = "4K Monitor", Price = 499.99m, Category = "Electronics" },
+        new() { Id = 5, Name = "USB-C Hub", Price = 59.99m, Category = "Accessories" }
+    };
+
+    // Search methods
+    private async Task<IEnumerable<string>> SearchCountries(string searchText)
+    {
+        await Task.Delay(200); // Simulate API call
+
+        if (string.IsNullOrWhiteSpace(searchText))
+        {
+            return _countries;
+        }
+
+        return _countries.Where(c => c.Contains(searchText, StringComparison.OrdinalIgnoreCase));
+    }
+
+    private async Task<IEnumerable<string>> SearchCities(string searchText)
+    {
+        await Task.Delay(150);
+
+        if (string.IsNullOrWhiteSpace(searchText))
+        {
+            return _cities;
+        }
+
+        return _cities.Where(c => c.Contains(searchText, StringComparison.OrdinalIgnoreCase));
+    }
+
+    private async Task<IEnumerable<string>> SearchLanguages(string searchText)
+    {
+        await Task.Delay(100);
+
+        if (string.IsNullOrWhiteSpace(searchText))
+        {
+            return _languages;
+        }
+
+        return _languages.Where(l => l.Contains(searchText, StringComparison.OrdinalIgnoreCase));
+    }
+
+    private async Task<IEnumerable<string>> SearchDepartments(string searchText)
+    {
+        await Task.Delay(100);
+
+        var departments = new[] { "Engineering", "Sales", "Marketing", "HR", "Finance", "Operations" };
+
+        if (string.IsNullOrWhiteSpace(searchText))
+        {
+            return departments;
+        }
+
+        return departments.Where(d => d.Contains(searchText, StringComparison.OrdinalIgnoreCase));
+    }
+
+    private async Task<IEnumerable<string>> SearchJobRoles(string searchText)
+    {
+        await Task.Delay(100);
+        var roles = new[] { "Junior Developer", "Senior Developer", "Tech Lead", "Manager", "Director" };
+
+        if (string.IsNullOrWhiteSpace(searchText))
+        {
+            return roles;
+        }
+
+        return roles.Where(r => r.Contains(searchText, StringComparison.OrdinalIgnoreCase));
+    }
+
+    private async Task<IEnumerable<string>> SearchSkills(string searchText)
+    {
+        await Task.Delay(100);
+
+        if (string.IsNullOrWhiteSpace(searchText))
+        {
+            return _skills;
+        }
+
+        return _skills.Where(s => s.Contains(searchText, StringComparison.OrdinalIgnoreCase));
+    }
+
+    private async Task<IEnumerable<string>> SearchTechnologies(string searchText)
+    {
+        await Task.Delay(150);
+
+        if (string.IsNullOrWhiteSpace(searchText))
+        {
+            return _technologies;
+        }
+
+        return _technologies.Where(t => t.Contains(searchText, StringComparison.OrdinalIgnoreCase));
+    }
+
+    private async Task<IEnumerable<string>> SearchEmails(string searchText)
+    {
+        await Task.Delay(200);
+
+        if (string.IsNullOrWhiteSpace(searchText))
+        {
+            return _users
+                .Select(u => u.Email);
+        }
+
+        return _users
+            .Where(u => u.Email.Contains(searchText, StringComparison.OrdinalIgnoreCase))
+            .Select(u => u.Email);
+    }
+
+    private async Task<IEnumerable<CountryInfo>> SearchCountryObjects(string searchText)
+    {
+        await Task.Delay(200);
+
+        if (string.IsNullOrWhiteSpace(searchText))
+        {
+            return _countryInfoList;
+        }
+
+        return _countryInfoList.Where(c => c.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase));
+    }
+
+    private async Task<IEnumerable<UserInfo>> SearchUsers(string searchText)
+    {
+        await Task.Delay(250);
+
+        if (string.IsNullOrWhiteSpace(searchText))
+        {
+            return _users;
+        }
+
+        return _users.Where(u =>
+            u.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+            u.Email.Contains(searchText, StringComparison.OrdinalIgnoreCase));
+    }
+
+    private async Task<IEnumerable<ProductInfo>> SearchProducts(string searchText)
+    {
+        await Task.Delay(300);
+
+        if (string.IsNullOrWhiteSpace(searchText))
+        {
+            return _products;
+        }
+
+        return _products.Where(p =>
+            p.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+            p.Category.Contains(searchText, StringComparison.OrdinalIgnoreCase));
+    }
+
+    // Event handlers
+    private void HandleCountrySelected(string country)
+    {
+        Logger?.LogInformation("Country selected: {Country}", country);
+    }
+
+    private void HandleCountryInfoSelected(CountryInfo country)
+    {
+        Logger?.LogInformation("Country selected: {Country} ({Code})", country.Name, country.Code);
+    }
+
+    private void HandleUserSelected(UserInfo user)
+    {
+        Logger?.LogInformation("User selected: {User} ({Email})", user.Name, user.Email);
+    }
+
+    private void HandleTechnologySelected(string technology)
+    {
+        _lastTechnologySelection = technology;
+        Logger?.LogInformation("Technology selected: {Technology}", technology);
+    }
+
+    private void OnValidFormSubmit(EditContext context)
+    {
+        Logger?.LogInformation("Form validation successful.");
+    }
+
+    private void OnInValidFormSubmit(EditContext context)
+    {
+        Logger?.LogInformation("Form validation failed.");
+    }
+
+    // Model classes
+    public class SampleAutoCompleteModel
+    {
+        [Required]
+        public string? Country { get; set; }
+
+        [Required]
+        public string? City { get; set; }
+
+        [Required]
+        public string? Language { get; set; }
+        public string? Skill { get; set; }
+        public string? FastSearch { get; set; }
+        public string? DefaultSearch { get; set; }
+        public string? SlowSearch { get; set; }
+        public string? LimitedResults { get; set; }
+        public string? MinLength { get; set; }
+        public string? ClearOnSelect { get; set; }
+        public string? NoResults { get; set; }
+        public string? WithHelper { get; set; }
+        public string? Technology { get; set; }
+        public string? ThemePrimary { get; set; }
+        public string? ThemeSecondary { get; set; }
+        public string? ThemeSuccess { get; set; }
+        public string? ThemeAlert { get; set; }
+        public string? ThemeWarning { get; set; }
+        public string? ThemeInfo { get; set; }
+    }
+
+    public class CountryInfo
+    {
+        public string Code { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+        public int Population { get; set; }
+    }
+
+    public class UserInfo
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+    }
+
+    public class ProductInfo
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public decimal Price { get; set; }
+        public string Category { get; set; } = string.Empty;
+    }
+}
