@@ -15,7 +15,7 @@ namespace Maviray.Blazor.Components.Material.Components.Inputs;
 /// </summary>
 /// <typeparam name="TValue">Either DateTime or DateTime?</typeparam>
 /// <typeparam name="TComponent">Deriving Type</typeparam>
-public abstract class MaviInputDateBase<TValue, TComponent> : MaviInputBase<TValue>, IAsyncDisposable where TComponent : MaviInputDateBase<TValue, TComponent>
+public abstract class MaviInputDateBase<TValue, TComponent> : MaviMaterialInputBase<TValue>, IAsyncDisposable where TComponent : MaviInputDateBase<TValue, TComponent>
 {
     protected string? _rawInputValue;
     protected bool _isCalendarOpen = false;

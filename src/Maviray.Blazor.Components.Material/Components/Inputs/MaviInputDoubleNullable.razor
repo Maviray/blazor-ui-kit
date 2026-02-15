@@ -127,7 +127,7 @@
     /// </summary>
     [Parameter] public bool AllowScientificNotation { get; set; }
 
-    protected override bool HasValue => CurrentValue.HasValue || !string.IsNullOrWhiteSpace(_rawInputValue);
+    protected override bool HasValue => CurrentValue.HasValue || !string.IsNullOrWhiteSpace(RawInputValue);
 
     protected override bool TryParseValueFromString(
         string? value,
@@ -255,11 +255,11 @@
         // When focused and not showing formatted value, show raw input or plain number
         if (IsFocused && !ShowFormattedWhileFocused)
         {
-            return _rawInputValue ?? (CurrentValue.HasValue ? CurrentValue.Value.ToString(CurrentCulture) : string.Empty);
+            return RawInputValue ?? (CurrentValue.HasValue ? CurrentValue.Value.ToString(CurrentCulture) : string.Empty);
         }
 
         // When not focused or ShowFormattedWhileFocused is true, show formatted value
-        if (!CurrentValue.HasValue && string.IsNullOrWhiteSpace(_rawInputValue))
+        if (!CurrentValue.HasValue && string.IsNullOrWhiteSpace(RawInputValue))
         {
             return string.Empty;
         }
@@ -271,9 +271,9 @@
     {
         if (Disabled || Readonly) return Task.CompletedTask;
 
-        _rawInputValue = e.Value?.ToString();
+        RawInputValue = e.Value?.ToString();
 
-        if (TryParseValueFromString(_rawInputValue, out var parsedValue, out _))
+        if (TryParseValueFromString(RawInputValue, out var parsedValue, out _))
         {
             CurrentValue = parsedValue;
         }
@@ -285,8 +285,8 @@
     {
         if (Disabled || Readonly) return Task.CompletedTask;
 
-        _rawInputValue = e.Value?.ToString();
-        CurrentValueAsString = _rawInputValue;
+        RawInputValue = e.Value?.ToString();
+        CurrentValueAsString = RawInputValue;
         EditContext?.NotifyFieldChanged(FieldIdentifier);
 
         return Task.CompletedTask;

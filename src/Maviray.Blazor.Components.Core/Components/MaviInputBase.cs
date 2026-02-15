@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Maviray.Blazor.Components.Core.Components;
 
-public abstract class MaviInputCore<TValue> : InputBase<TValue>
+public abstract class MaviInputBase<TValue> : InputBase<TValue>
 {
     protected EditContext? PreviousEditContext;
     protected ValidationMessageStore? ValidationMessageStore;

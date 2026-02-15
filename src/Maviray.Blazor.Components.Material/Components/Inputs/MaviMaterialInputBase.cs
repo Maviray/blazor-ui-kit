@@ -2,7 +2,6 @@
 using Maviray.Blazor.Components.Core.Enums;
 using Maviray.Blazor.Components.Core.EventArgs;
 using Maviray.Blazor.Components.Core.Extensions;
-using Maviray.Blazor.Components.Core.Options;
 using Maviray.Blazor.Components.Material.Constants;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -18,7 +17,7 @@ namespace Maviray.Blazor.Components.Material.Components.Inputs;
 /// Contains all shared C# logic for validation, theming, event handling, and CSS class building.
 /// </summary>
 /// <typeparam name="TValue">The type of the input value</typeparam>
-public abstract class MaviInputBase<TValue> : MaviInputCore<TValue>, IDisposable
+public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDisposable
 {
     #region Protected Fields
 
