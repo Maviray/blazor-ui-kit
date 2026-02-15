@@ -1,0 +1,77 @@
+﻿@page "/PageMaviCheckbox"
+@using Maviray.Blazor.Components.Core.Models
+@inherits SamplePageBase
+
+<PageTitle>MaviCheckbox</PageTitle>
+
+<div class="flex flex-col gap-4">
+    <div>
+        <!-- Basic checkbox -->
+        <MaviCheckbox @bind-Value="_buttonSmallChecked" ElementSize="ElementSize.Small" CheckBoxStatusChange="HandleButtonValueChange" />
+        <!-- Basic checkbox -->
+        <MaviCheckbox @bind-Value="_buttonMediumChecked" ElementSize="ElementSize.Regular" CheckBoxStatusChange="HandleButtonValueChange" />
+        <!-- Basic checkbox -->
+        <MaviCheckbox @bind-Value="_buttonLargeChecked" ElementSize="ElementSize.Large" CheckBoxStatusChange="HandleButtonValueChange" />
+    </div>
+    <div>
+        <!-- Basic checkbox -->
+        <MaviCheckbox @bind-Value="_buttonPrimaryChecked" ElementSize="ElementSize.Small" ThemeColorScheme="ThemeColorScheme.Primary" CheckBoxStatusChange="HandleButtonValueChange" />
+        <!-- Basic checkbox -->
+        <MaviCheckbox @bind-Value="_buttonSecondaryChecked" ElementSize="ElementSize.Regular" ThemeColorScheme="ThemeColorScheme.Secondary" CheckBoxStatusChange="HandleButtonValueChange" />
+        <!-- Basic checkbox -->
+        <MaviCheckbox @bind-Value="_buttonSuccessChecked" ElementSize="ElementSize.Large" ThemeColorScheme="ThemeColorScheme.Success" CheckBoxStatusChange="HandleButtonValueChange" />
+        <!-- Basic checkbox -->
+        <MaviCheckbox @bind-Value="_buttonAlertChecked" ElementSize="ElementSize.Small" ThemeColorScheme="ThemeColorScheme.Alert" CheckBoxStatusChange="HandleButtonValueChange" />
+        <!-- Basic checkbox -->
+        <MaviCheckbox @bind-Value="_buttonWarningChecked" ElementSize="ElementSize.Regular" ThemeColorScheme="ThemeColorScheme.Warning" CheckBoxStatusChange="HandleButtonValueChange" />
+        <!-- Basic checkbox -->
+        <MaviCheckbox @bind-Value="_buttonInfoChecked" ElementSize="ElementSize.Large" ThemeColorScheme="ThemeColorScheme.Info" CheckBoxStatusChange="HandleButtonValueChange" />
+    </div>
+    <div class="flex gap-4">
+        <!-- Basic checkbox -->
+        <MaviCheckbox @bind-Value="_buttonOneChecked" Label="Accept terms" />
+
+        <!-- Checkbox with theme and size -->
+        <MaviCheckbox @bind-Value="_buttonTwoChecked"
+                      Label="Enable notifications"
+                      ThemeColorScheme="ThemeColorScheme.Primary"
+                      ElementSize="ElementSize.Large" CheckBoxStatusChange="HandleButtonValueChange" />
+
+        <!-- Required checkbox with helper text -->
+        <MaviCheckbox @bind-Value="_buttonThreeChecked"
+                      Label="I agree"
+                      Required="true"
+                      ElementSize="ElementSize.Regular"
+                      HelperText="You must accept to continue" CheckBoxStatusChange="HandleButtonValueChange" />
+
+        <!-- Indeterminate checkbox -->
+        <MaviCheckbox @bind-Value="_buttonFourChecked"
+                      ElementSize="ElementSize.Small"
+                      Indeterminate="true"
+                      Label="Select all" CheckBoxStatusChange="HandleButtonValueChange" />
+
+    </div>
+</div>
+@code{
+    private bool _buttonOneChecked = false;
+    private bool _buttonTwoChecked = false;
+    private bool _buttonThreeChecked = false;
+    private bool _buttonFourChecked = false;
+
+    private bool _buttonSmallChecked = false;
+    private bool _buttonMediumChecked = false;
+    private bool _buttonLargeChecked = false;
+
+    private bool _buttonPrimaryChecked = false;
+    private bool _buttonSecondaryChecked = false;
+    private bool _buttonSuccessChecked = false;
+    private bool _buttonAlertChecked = false;
+    private bool _buttonWarningChecked = false;
+    private bool _buttonInfoChecked = false;
+
+    private Task HandleButtonValueChange(ValueChangedCallbackParameters<bool> args)
+    {
+        Logger?.LogInformation("CheckBox: {ButtonId} Status: {Status}", args.ElementId, args.Value);
+        return Task.CompletedTask;
+    }
+}
