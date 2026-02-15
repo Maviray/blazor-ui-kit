@@ -1,0 +1,328 @@
+﻿@namespace Maviray.Blazor.Components.Material.Components
+@using Maviray.Blazor.Components.Core.Models
+@using Maviray.Blazor.Components.Material.Constants
+@inherits MaviInputBase<bool>
+
+<div class="@GetContainerClasses()" style="@Style" title="@Title">
+    @if (!string.IsNullOrEmpty(Label))
+    {
+        <label class="@GetLabelClasses()"
+               for="@Id"
+               @onclick="HandleClick">
+            @Label
+            @if (Required)
+            {
+                <span class="@Tailwind.Theme.NavLink.ALERT_TEXT ml-0.5">*</span>
+            }
+        </label>
+    }
+
+    <div class="relative inline-flex items-center">
+        <input type="checkbox"
+               id="@Id"
+               class="sr-only peer"
+               disabled="@Disabled"
+               readonly="@Readonly"
+               required="@Required"
+               checked="@CurrentValue"
+               title="@Title"
+               aria-describedby="@GetAriaDescribedByString()"
+               aria-invalid="@GetAreaInvalidValue()"
+               @attributes="AdditionalAttributes" />
+
+        <div class="@GetTrackClasses()"
+             @onclick="HandleClick"
+             @onkeydown="HandleKeyDown"
+             tabindex="@(Disabled || Readonly ? -1 : 0)"
+             role="switch"
+             aria-checked="@CurrentValue.ToString().ToLowerInvariant()">
+            <div class="@GetThumbClasses()"></div>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(HelperText) || HasError)
+    {
+        <div id="@(Id)-helper" class="@GetHelperTextClasses()">
+            @if (HasError)
+            {
+                @foreach (var message in EditContext?.GetValidationMessages(FieldIdentifier) ?? Enumerable.Empty<string>())
+                {
+                    <span class="block">@message</span>
+                }
+            }
+            else if (!string.IsNullOrEmpty(HelperText))
+            {
+                @HelperText
+            }
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public EventCallback<ValueChangedCallbackParameters<bool>> SwitchStatusChange { get; set; }
+
+    protected override bool HasValue => CurrentValue;
+
+    protected override bool TryParseValueFromString(string? value, out bool result, out string validationErrorMessage)
+    {
+        if (bool.TryParse(value, out result))
+        {
+            validationErrorMessage = string.Empty;
+            return true;
+        }
+
+        validationErrorMessage = "Invalid boolean value";
+        return false;
+    }
+
+    private async Task HandleClick()
+    {
+        if (Disabled || Readonly)
+            return;
+
+        CurrentValue = !CurrentValue;
+
+        if (SwitchStatusChange.HasDelegate)
+        {
+            await SwitchStatusChange.InvokeAsync(new() { ElementId = Id, Value = CurrentValue });
+        }
+    }
+
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (Disabled || Readonly)
+            return;
+
+        if (e.Key is " " or "Enter")
+        {
+            await HandleClick();
+        }
+    }
+
+    private string GetContainerClasses()
+    {
+        var classes = new List<string>
+        {
+            "inline-flex",
+            "flex-col",
+            "gap-1.5",
+            Width
+        };
+
+        if (!string.IsNullOrEmpty(Class))
+            classes.Add(Class);
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetLabelClasses()
+    {
+        var sizeClass = ElementSize switch
+        {
+            ElementSize.Small => Tailwind.Theme.Typography.LABEL_SMALL,
+            ElementSize.Large => Tailwind.Theme.Typography.LABEL_LARGE,
+            _ => Tailwind.Theme.Typography.LABEL_MEDIUM
+        };
+
+        var colorClass = Disabled
+            ? Tailwind.Theme.NavLink.DISABLED
+            : Tailwind.Theme.NavLink.DEFAULT_TEXT;
+
+        var cursorClass = Disabled || Readonly ? "cursor-not-allowed" : "cursor-pointer";
+
+        return $"{sizeClass} {colorClass} {cursorClass} select-none";
+    }
+
+    private string GetTrackClasses()
+    {
+        var baseClasses = new List<string>
+        {
+            "relative",
+            "inline-flex",
+            "items-center",
+            "rounded-full",
+            "transition-all",
+            "duration-300",
+            "ease-in-out",
+            "outline-none",
+            "group"
+        };
+
+        // Size classes - track is narrower for switch style
+        var sizeClasses = ElementSize switch
+        {
+            ElementSize.Small => "w-8 h-3.5",
+            ElementSize.Large => "w-12 h-5",
+            _ => "w-10 h-4"
+        };
+        baseClasses.Add(sizeClasses);
+
+        // Cursor classes
+        if (Disabled || Readonly)
+        {
+            baseClasses.Add("cursor-not-allowed");
+        }
+        else
+        {
+            baseClasses.Add("cursor-pointer");
+        }
+
+        // State classes
+        if (Disabled)
+        {
+            baseClasses.Add(Tailwind.Theme.NavLink.DISABLED);
+            baseClasses.Add(CurrentValue
+                ? Tailwind.Theme.Colors.Background.THEME_DEFAULT_THREE_BG
+                : Tailwind.Theme.Colors.Background.THEME_DEFAULT_TWO_BG);
+        }
+        else if (Readonly)
+        {
+            baseClasses.Add(GetTrackColorClass(CurrentValue));
+        }
+        else
+        {
+            baseClasses.Add(GetTrackColorClass(CurrentValue));
+            baseClasses.Add("focus-visible:ring-2");
+            baseClasses.Add("focus-visible:ring-offset-2");
+            baseClasses.Add(GetFocusRingClass());
+        }
+
+        return string.Join(" ", baseClasses);
+    }
+
+    private string GetThumbClasses()
+    {
+        var baseClasses = new List<string>
+        {
+            "absolute",
+            "rounded-full",
+            "transition-all",
+            "duration-300",
+            "ease-in-out",
+            "pointer-events-none",
+            "shadow-lg",
+            "before:content-['']",
+            "before:absolute",
+            "before:inset-0",
+            "before:rounded-full",
+            "before:transition-all",
+            "before:duration-300",
+            "before:scale-0",
+            "group-hover:before:scale-[2]",
+            "before:opacity-0",
+            "group-hover:before:opacity-20",
+            "before:-z-10"
+        };
+
+        // Thumb background color
+        if (Disabled)
+        {
+            baseClasses.Add("bg-gray-400");
+        }
+        else
+        {
+            baseClasses.Add(CurrentValue ? GetThumbActiveColorClass() : "bg-white");
+            // Add before background color based on theme
+            baseClasses.Add(GetHoverEffectColorClass());
+        }
+
+        // Size and position classes - thumb extends beyond track
+        var (sizeClass, positionClass) = ElementSize switch
+        {
+            ElementSize.Small => ("w-5 h-5", CurrentValue ? "left-[18px]" : "left-[-6px]"),
+            ElementSize.Large => ("w-7 h-7", CurrentValue ? "left-[26px]" : "left-[-8px]"),
+            _ => ("w-6 h-6", CurrentValue ? "left-[22px]" : "left-[-7px]")
+        };
+
+        baseClasses.Add(sizeClass);
+        baseClasses.Add(positionClass);
+
+        return string.Join(" ", baseClasses);
+    }
+
+    private string GetHoverEffectColorClass()
+    {
+        if (!CurrentValue)
+            return "before:bg-gray-400";
+
+        return ThemeColorScheme switch
+        {
+            ThemeColorScheme.Primary => "before:bg-(--theme-primary-seven)",
+            ThemeColorScheme.Secondary => "before:bg-(--theme-secondary-six)",
+            ThemeColorScheme.Success => "before:bg-(--theme-success-seven)",
+            ThemeColorScheme.Alert => "before:bg-(--theme-alert-seven)",
+            ThemeColorScheme.Warning => "before:bg-(--theme-warning-seven)",
+            ThemeColorScheme.Info => "before:bg-(--theme-info-six)",
+            ThemeColorScheme.Dark => "before:bg-(--theme-dark-eight)",
+            ThemeColorScheme.Light => "before:bg-(--theme-light-six)",
+            _ => "before:bg-gray-400"
+        };
+    }
+
+    private string GetTrackColorClass(bool isChecked)
+    {
+        if (!isChecked)
+            return Tailwind.Theme.Colors.Background.THEME_DEFAULT_FOUR_BG;
+
+        return ThemeColorScheme switch
+        {
+            ThemeColorScheme.Primary => Tailwind.Theme.Colors.Background.THEME_PRIMARY_THREE_BG,
+            ThemeColorScheme.Secondary => Tailwind.Theme.Colors.Background.THEME_SECONDARY_TWO_BG,
+            ThemeColorScheme.Success => Tailwind.Theme.Colors.Background.THEME_SUCCESS_THREE_BG,
+            ThemeColorScheme.Alert => Tailwind.Theme.Colors.Background.THEME_ALERT_THREE_BG,
+            ThemeColorScheme.Warning => Tailwind.Theme.Colors.Background.THEME_WARNING_THREE_BG,
+            ThemeColorScheme.Info => Tailwind.Theme.Colors.Background.THEME_INFO_TWO_BG,
+            ThemeColorScheme.Dark => Tailwind.Theme.Colors.Background.THEME_DARK_THREE_BG,
+            ThemeColorScheme.Light => Tailwind.Theme.Colors.Background.THEME_LIGHT_FOUR_BG,
+            _ => Tailwind.Theme.Colors.Background.THEME_DEFAULT_THREE_BG
+        };
+    }
+
+    private string GetThumbActiveColorClass()
+    {
+        return ThemeColorScheme switch
+        {
+            ThemeColorScheme.Primary => Tailwind.Theme.Colors.Background.THEME_PRIMARY_SEVEN_BG,
+            ThemeColorScheme.Secondary => Tailwind.Theme.Colors.Background.THEME_SECONDARY_SIX_BG,
+            ThemeColorScheme.Success => Tailwind.Theme.Colors.Background.THEME_SUCCESS_SEVEN_BG,
+            ThemeColorScheme.Alert => Tailwind.Theme.Colors.Background.THEME_ALERT_SEVEN_BG,
+            ThemeColorScheme.Warning => Tailwind.Theme.Colors.Background.THEME_WARNING_SEVEN_BG,
+            ThemeColorScheme.Info => Tailwind.Theme.Colors.Background.THEME_INFO_SIX_BG,
+            ThemeColorScheme.Dark => Tailwind.Theme.Colors.Background.THEME_DARK_EIGHT_BG,
+            ThemeColorScheme.Light => Tailwind.Theme.Colors.Background.THEME_LIGHT_SIX_BG,
+            _ => Tailwind.Theme.Colors.Background.THEME_DEFAULT_SEVEN_BG
+        };
+    }
+
+    private string GetFocusRingClass()
+    {
+        return ThemeColorScheme switch
+        {
+            ThemeColorScheme.Primary => Tailwind.Theme.Colors.Ring.Focus.THEME_PRIMARY_NINE_RING_FOCUS,
+            ThemeColorScheme.Secondary => Tailwind.Theme.Colors.Ring.Focus.THEME_SECONDARY_EIGHT_RING_FOCUS,
+            ThemeColorScheme.Success => Tailwind.Theme.Colors.Ring.Focus.THEME_SUCCESS_NINE_RING_FOCUS,
+            ThemeColorScheme.Alert => Tailwind.Theme.Colors.Ring.Focus.THEME_ALERT_NINE_RING_FOCUS,
+            ThemeColorScheme.Warning => Tailwind.Theme.Colors.Ring.Focus.THEME_WARNING_NINE_RING_FOCUS,
+            ThemeColorScheme.Info => Tailwind.Theme.Colors.Ring.Focus.THEME_INFO_EIGHT_RING_FOCUS,
+            ThemeColorScheme.Dark => Tailwind.Theme.Colors.Ring.Focus.THEME_DARK_TEN_RING_FOCUS,
+            ThemeColorScheme.Light => Tailwind.Theme.Colors.Ring.Focus.THEME_LIGHT_FOUR_RING_FOCUS,
+            _ => Tailwind.Theme.Colors.Ring.Focus.THEME_DEFAULT_EIGHT_RING_FOCUS
+        };
+    }
+
+    private string GetHelperTextClasses()
+    {
+        var sizeClass = ElementSize switch
+        {
+            ElementSize.Small => Tailwind.Theme.Typography.BODY_SMALL,
+            ElementSize.Large => Tailwind.Theme.Typography.BODY_MEDIUM,
+            _ => Tailwind.Theme.Typography.BODY_SMALL
+        };
+
+        var colorClass = HasError
+            ? Tailwind.Theme.NavLink.ALERT_TEXT
+            : Tailwind.Theme.NavLink.DEFAULT_TEXT;
+
+        return $"{sizeClass} {colorClass} mt-1";
+    }
+}
