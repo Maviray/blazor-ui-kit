@@ -137,27 +137,31 @@
         return true;
     }
 
-    protected override void HandleInput(ChangeEventArgs e)
+    protected override Task HandleInput(ChangeEventArgs e)
     {
         // Don't update value for disabled/readonly fields
         if (Disabled || Readonly)
-            return;
+            return Task.CompletedTask;
 
         CurrentValue = e.Value?.ToString();
         // Don't trigger validation on every keystroke - just update the UI
+
+        return Task.CompletedTask;
     }
 
-    protected override void HandleChange(ChangeEventArgs e)
+    protected override Task HandleChange(ChangeEventArgs e)
     {
         // Don't update value or validate disabled/readonly fields
         if (Disabled || Readonly)
-            return;
+            return Task.CompletedTask;
 
         CurrentValue = e.Value?.ToString();
 
         // Trigger validation on change (blur)
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         EditContext?.NotifyFieldChanged(FieldIdentifier);
+
+        return Task.CompletedTask;
     }
 
     protected override async Task HandleEndIconClick(MouseEventArgs args)
@@ -258,7 +262,7 @@
         if (StringInputType != StringInputType.Text)
             return;
 
-        var dataTypeAttr = propertyInfo.GetCustomAttribute<DataTypeAttribute>();
+        var dataTypeAttr = propertyInfo.GetCustomAttributes<DataTypeAttribute>().FirstOrDefault();
         if (dataTypeAttr != null)
         {
             StringInputType = dataTypeAttr.DataType switch

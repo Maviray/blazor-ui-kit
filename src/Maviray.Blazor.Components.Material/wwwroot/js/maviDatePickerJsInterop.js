@@ -15,6 +15,14 @@
     container._dotNetRef = dotNetRef;
 }
 
+export function clearInputValue(container) {
+    if (!container) return;
+    const input = container.querySelector('input[type="text"]');
+    if (input) {
+        input.value = '';
+    }
+}
+
 export function disposeDatePicker(container) {
     if (container && container._clickHandler) {
         document.removeEventListener('click', container._clickHandler);

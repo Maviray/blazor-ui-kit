@@ -31,7 +31,7 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>, IDisposable
     protected readonly string BorderAlertColor = Tailwind.Theme.Colors.Border.THEME_ALERT_EIGHT_BORDER;
 
     protected string ThemeTextLightColor = Tailwind.Theme.Colors.Text.THEME_PRIMARY_EIGHT_TEXT;
-    protected string ThemeTextDarkColor = Tailwind.Theme.Colors.Text.THEME_ACCENT_NINE_TEXT;
+    protected string ThemeTextDarkColor = Tailwind.Theme.Colors.Text.THEME_PRIMARY_NINE_TEXT;
     protected string ThemeBorderLightColor = Tailwind.Theme.Colors.Border.THEME_PRIMARY_EIGHT_BORDER;
     protected string ThemeBorderDarkColor = Tailwind.Theme.Colors.Border.THEME_PRIMARY_NINE_BORDER;
     protected string ThemeBorderHoverColor = Tailwind.Theme.Colors.Border.Hover.THEME_PRIMARY_NINE_BORDER_HOVER;
@@ -208,12 +208,12 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>, IDisposable
     /// <summary>
     /// Handles input event - updates value for UI purposes (label float) without triggering validation
     /// </summary>
-    protected abstract void HandleInput(ChangeEventArgs e);
+    protected abstract Task HandleInput(ChangeEventArgs e);
 
     /// <summary>
     /// Handles change event - triggers validation when user is done editing
     /// </summary>
-    protected abstract void HandleChange(ChangeEventArgs e);
+    protected abstract Task HandleChange(ChangeEventArgs e);
 
     /// <summary>
     /// Handles the end icon click event
