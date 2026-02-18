@@ -1,175 +1,115 @@
 ﻿@page "/"
+
 @inherits SamplePageBase
 
 <PageTitle>Home</PageTitle>
 
 <div class="p-8 space-y-8">
-    <h1 class="text-3xl font-bold mb-6">AutoComplete Examples</h1>
+    <h3>Slider Demo</h3>
 
-    <!-- Basic AutoComplete -->
-    <div class="max-w-md">
-        <h2 class="text-xl font-semibold mb-4">Basic AutoComplete</h2>
-        <MaviAutoComplete TItem="string"
-                          @bind-Value="selectedCountry"
-                          Label="Country"
-                          StartIcon="lni lni-search-2"
-                          EndIcon="lni lni-search-text"
-                          OnSearch="SearchCountries"
-                          OnValueSelected="HandleCountrySelected"
-                          HelperText="Start typing to search countries"
-                          Required="true" />
-        @if (!string.IsNullOrEmpty(selectedCountry))
-        {
-            <p class="mt-2 text-sm">Selected: @selectedCountry</p>
-        }
-    </div>
-
-    <!-- AutoComplete with Custom Item Template -->
-    <div class="max-w-md">
-        <h2 class="text-xl font-semibold mb-4">Custom Item Template</h2>
-        <MaviAutoComplete TItem="User"
-                          @bind-Value="selectedUser"
-                          Label="User"
-                          StartIcon="lni lni-search-2"
-                          EndIcon="lni lni-search-text"
-                          OnSearch="SearchUsers"
-                          ItemTextSelector="@(user => user.Name)"
-                          OnValueSelected="HandleUserSelected"
-                          MinSearchLength="2"
-                          DebounceDelay="500">
-            <ItemTemplate Context="user">
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-full bg-(--theme-primary-two) flex items-center justify-center text-(--theme-primary-eight) font-semibold">
-                        @user.Name.Substring(0, 1).ToUpper()
-                    </div>
-                    <div>
-                        <div class="font-medium">@user.Name</div>
-                        <div class="text-xs text-(--theme-default-seven)">@user.Email</div>
-                    </div>
-                </div>
-            </ItemTemplate>
-        </MaviAutoComplete>
-        @if (selectedUser != null)
-        {
-            <p class="mt-2 text-sm">Selected: @selectedUser.Name (@selectedUser.Email)</p>
-        }
-    </div>
-
-    <!-- AutoComplete with StartIcon -->
-    <div class="max-w-md">
-        <h2 class="text-xl font-semibold mb-4">With Start Icon</h2>
-        <MaviAutoComplete TItem="string"
-                          @bind-Value="selectedCity"
-                          Label="City"
-                          StartIcon="lni lni-search-2"
-                          EndIcon="lni lni-search-text"
-                          OnSearch="SearchCities"
-                          OnValueSelected="HandleCitySelected"
-                          ClearOnSelect="false" />
-    </div>
-
-    <!-- Disabled AutoComplete -->
-    <div class="max-w-md">
-        <h2 class="text-xl font-semibold mb-4">Disabled State</h2>
-        <MaviAutoComplete TItem="string"
-                          StartIcon="lni lni-search-2"
-                          EndIcon="lni lni-search-text"
-                          @bind-Value="_selectedOption"
-                          Label="City"
-                          Disabled="true"
-                          OnSearch="SearchCities" />
+    <div class="space-y-8 p-4">
+        <div>
+            <h4>Primary Slider - Small</h4>
+            <MaviSlider @bind-Value="small"
+                Size="ElementSize.Small" 
+                Color="ThemeColorScheme.Primary" />
+            <p>Value: @small</p>
+        </div>
+        <div>
+            <h4>Primary Slider - Regular</h4>
+            <MaviSlider @bind-Value="regular"
+                Size="ElementSize.Regular" 
+                Color="ThemeColorScheme.Primary" />
+            <p>Value: @regular</p>
+        </div>
+        <div>
+            <h4>Primary Slider - Large</h4>
+            <MaviSlider @bind-Value="large"
+                Size="ElementSize.Large" 
+                Color="ThemeColorScheme.Primary" />
+            <p>Value: @large</p>
+        </div>
+        <div>
+            <h4>Default Slider - Regular</h4>
+            <MaviSlider @bind-Value="primary"
+                        Size="ElementSize.Regular"
+                        Color="ThemeColorScheme.Default" />
+            <p>Value: @primary</p>
+        </div>
+        <div>
+            <h4>Primary Slider - Regular</h4>
+            <MaviSlider @bind-Value="secondary"
+                        Size="ElementSize.Regular"
+                        Color="ThemeColorScheme.Primary" />
+            <p>Value: @secondary</p>
+        </div>
+        <div>
+            <h4>Secondary Slider - Regular</h4>
+            <MaviSlider @bind-Value="defaultColor"
+                        Size="ElementSize.Regular"
+                        Color="ThemeColorScheme.Secondary" />
+            <p>Value: @defaultColor</p>
+        </div>
+        
+        <div>
+            <h4>Success Slider - Regular</h4>
+            <MaviSlider @bind-Value="success"
+                        Size="ElementSize.Regular"
+                        Color="ThemeColorScheme.Success" />
+            <p>Value: @success</p>
+        </div>
+        <div>
+            <h4>Alert Slider - Regular</h4>
+            <MaviSlider @bind-Value="alert"
+                        Size="ElementSize.Regular"
+                        Color="ThemeColorScheme.Alert" />
+            <p>Value: @alert</p>
+        </div>
+        <div>
+            <h4>Warning Slider - Regular</h4>
+            <MaviSlider @bind-Value="warning"
+                        Size="ElementSize.Regular"
+                        Color="ThemeColorScheme.Warning" />
+            <p>Value: @warning</p>
+        </div>
+        
+        
+        <div>
+            <h4>Info Slider - Regular</h4>
+            <MaviSlider @bind-Value="info"
+                        Size="ElementSize.Regular"
+                        Color="ThemeColorScheme.Info" />
+            <p>Value: @info</p>
+        </div>
+        <div>
+            <h4>Dark Slider - Regular</h4>
+            <MaviSlider @bind-Value="dark"
+                        Size="ElementSize.Regular"
+                        Color="ThemeColorScheme.Dark" />
+            <p>Value: @dark</p>
+        </div>
+        <div>
+            <h4>Light Slider - Regular</h4>
+            <MaviSlider @bind-Value="lite"
+                        Size="ElementSize.Regular"
+                        Color="ThemeColorScheme.Light" />
+            <p>Value: @lite</p>
+        </div>
     </div>
 </div>
 
 @code {
-    private string _selectedOption = "Tokyo";
-
-    private string? selectedCountry;
-    private User? selectedUser;
-    private string? selectedCity;
-
-    private async Task<IEnumerable<string>> SearchCountries(string searchText)
-    {
-        await Task.Delay(200); // Simulate API call
-
-        var countries = new List<string>
-        {
-            "United States", "United Kingdom", "Canada", "Australia",
-            "Germany", "France", "Italy", "Spain", "Japan", "China",
-            "Brazil", "Mexico", "India", "Russia", "South Korea"
-        };
-
-        if (string.IsNullOrWhiteSpace(searchText))
-        {
-            return countries;
-        }
-
-        return countries
-            .Where(c => c.Contains(searchText, StringComparison.OrdinalIgnoreCase))
-            .Take(10);
-    }
-
-    private async Task<IEnumerable<User>> SearchUsers(string searchText)
-    {
-        await Task.Delay(300); // Simulate API call
-        
-        var users = new List<User>
-        {
-            new User { Id = 1, Name = "John Doe", Email = "john@example.com" },
-            new User { Id = 2, Name = "Jane Smith", Email = "jane@example.com" },
-            new User { Id = 3, Name = "Bob Johnson", Email = "bob@example.com" },
-            new User { Id = 4, Name = "Alice Williams", Email = "alice@example.com" },
-            new User { Id = 5, Name = "Charlie Brown", Email = "charlie@example.com" },
-        };
-
-        if (string.IsNullOrWhiteSpace(searchText))
-        {
-            return users;
-        }
-
-        return users
-            .Where(u => u.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
-                       u.Email.Contains(searchText, StringComparison.OrdinalIgnoreCase));
-    }
-
-    private async Task<IEnumerable<string>> SearchCities(string searchText)
-    {
-        await Task.Delay(200);
-
-        var cities = new List<string>
-        {
-            "New York", "London", "Tokyo", "Paris", "Sydney",
-            "Berlin", "Toronto", "Singapore", "Dubai", "Mumbai"
-        };
-
-        if (string.IsNullOrWhiteSpace(searchText))
-        {
-            return cities;
-        }
-
-        return cities
-            .Where(c => c.Contains(searchText, StringComparison.OrdinalIgnoreCase));
-    }
-
-    private void HandleCountrySelected(string country)
-    {
-        Console.WriteLine($"Country selected: {country}");
-    }
-
-    private void HandleUserSelected(User user)
-    {
-        Console.WriteLine($"User selected: {user.Name}");
-    }
-
-    private void HandleCitySelected(string city)
-    {
-        Console.WriteLine($"City selected: {city}");
-    }
-
-    public class User
-    {
-        public int Id { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
-    }
+    private double small = 25;
+    private double regular = 50;
+    private double large = 75;
+    
+    private double primary = 5;
+    private double secondary = 5;
+    private double defaultColor = 5;
+    private double success = 5;
+    private double alert = 5;
+    private double warning = 5;
+    private double info = 5;
+    private double dark = 5;
+    private double lite = 5;
 }
