@@ -37,7 +37,7 @@
                                   OnSearch="SearchCountries"
                                   OnValueSelected="HandleCountrySelected"
                                   ElementSize="ElementSize.Small"
-                                  StartIcon="lni lni-world"
+                                          StartIcon="lni lni-gears-3"
                                   Width="w-full" />
                 <ValidationMessage For="@(() => _formSampleModel.Country)" />
             </div>
@@ -57,7 +57,7 @@
                                   Label="City"
                                   OnSearch="SearchCities"
                                   ElementSize="ElementSize.Regular"
-                                  StartIcon="lni lni-map-marker"
+                                          StartIcon="lni lni-gears-3"
                                   Width="w-full" />
                 <ValidationMessage For="@(() => _formSampleModel.City)" />
             </div>
@@ -77,7 +77,7 @@
                                   Label="Language"
                                   OnSearch="SearchLanguages"
                                   ElementSize="ElementSize.Large"
-                                  StartIcon="lni lni-comments"
+                                          StartIcon="lni lni-gears-3"
                                   Width="w-full" />
                 <ValidationMessage For="@(() => _formSampleModel.Language)" />
             </div>
@@ -107,7 +107,7 @@
                                   Label="Department"
                                   OnSearch="SearchDepartments"
                                   Disabled="true"
-                                  StartIcon="lni lni-briefcase"
+                                          StartIcon="lni lni-gears-3"
                                   Width="w-full" />
                 <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
                     User cannot interact with disabled autocomplete
@@ -129,7 +129,7 @@
                                   Label="Job Role"
                                   OnSearch="SearchJobRoles"
                                   Readonly="true"
-                                  StartIcon="lni lni-user"
+                                          StartIcon="lni lni-gears-3"
                                   Width="w-full" />
                 <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
                     Value is visible but not searchable
@@ -150,7 +150,7 @@
                                   @bind-Value="_formSampleModel.Skill"
                                   Label="Skills"
                                   OnSearch="SearchSkills"
-                                  StartIcon="lni lni-code"
+                                          StartIcon="lni lni-gears-3"
                                   Width="w-full" />
                 <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
                     Fully interactive autocomplete
@@ -183,7 +183,7 @@
                                   OnSearch="SearchCountryObjects"
                                   ItemTextSelector="@(c => c.Name)"
                                   OnValueSelected="HandleCountryInfoSelected"
-                                  StartIcon="lni lni-world"
+                                          StartIcon="lni lni-gears-3"
                                   Width="w-full" />
                 <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
                     Selected: @(_selectedCountryInfo?.Name ?? "None") (@(_selectedCountryInfo?.Code ?? "N/A"))
@@ -207,7 +207,7 @@
                                   OnSearch="SearchUsers"
                                   ItemTextSelector="@(u => u.Name)"
                                   OnValueSelected="HandleUserSelected"
-                                  StartIcon="lni lni-users"
+                                          StartIcon="lni lni-gears-3"
                                   Width="w-full">
                     <ItemTemplate Context="user">
                         <div class="flex items-center gap-3">
@@ -244,7 +244,7 @@
                                   OnSearch="SearchProducts"
                                   ItemTextSelector="@(p => $"{p.Name} - ${p.Price}")"
                                   MinSearchLength="2"
-                                  StartIcon="lni lni-cart"
+                                          StartIcon="lni lni-gears-3"
                                   Width="w-full" />
                 <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
                     Min 2 characters to search
@@ -276,7 +276,7 @@
                                   Label="Fast Debounce"
                                   OnSearch="SearchCities"
                                   DebounceDelay="100"
-                                  StartIcon="lni lni-bolt"
+                                          StartIcon="lni lni-gears-3"
                                   Width="w-full" />
                 <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
                     100ms debounce - very responsive
@@ -297,7 +297,7 @@
                                   @bind-Value="_formSampleModel.DefaultSearch"
                                   Label="Default Debounce"
                                   OnSearch="SearchCities"
-                                  StartIcon="lni lni-timer"
+                                          StartIcon="lni lni-gears-3"
                                   Width="w-full" />
                 <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
                     300ms debounce - balanced
@@ -319,7 +319,7 @@
                                   Label="Slow Debounce"
                                   OnSearch="SearchCities"
                                   DebounceDelay="600"
-                                  StartIcon="lni lni-hourglass"
+                                  StartIcon="lni lni-gears-3"
                                   Width="w-full" />
                 <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
                     600ms debounce - reduces API calls
@@ -341,7 +341,7 @@
                                   Label="Max 5 Results"
                                   OnSearch="SearchCities"
                                   MaxDisplayItems="5"
-                                  StartIcon="lni lni-list"
+                                          StartIcon="lni lni-gears-3"
                                   Width="w-full" />
                 <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
                     Shows max 5 results
@@ -363,7 +363,7 @@
                                   Label="Min 3 Chars"
                                   OnSearch="SearchCities"
                                   MinSearchLength="3"
-                                  StartIcon="lni lni-keyword-research"
+                                          StartIcon="lni lni-gears-3"
                                   Width="w-full" />
                 <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
                     Requires 3+ characters
@@ -385,7 +385,7 @@
                                   Label="Tags"
                                   OnSearch="SearchSkills"
                                   ClearOnSelect="true"
-                                  StartIcon="lni lni-tag"
+                                          StartIcon="lni lni-gears-3"
                                   Width="w-full" />
                 <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
                     Clears input after selection
@@ -417,7 +417,7 @@
                                   Label="Custom Message"
                                   OnSearch="SearchCities"
                                   NoResultsText="😔 No cities found matching your search"
-                                  StartIcon="lni lni-search-alt"
+                                          StartIcon="lni lni-gears-3"
                                   Width="w-full" />
                 <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
                     Try searching for "xyz" to see custom message
@@ -439,7 +439,7 @@
                                   Label="Email"
                                   OnSearch="SearchEmails"
                                   HelperText="Start typing to search from your contacts"
-                                  StartIcon="lni lni-envelope"
+                                  StartIcon="lni lni-gears-3"
                                   Width="w-full" />
             </div>
             <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
@@ -458,7 +458,7 @@
                                   Label="Country"
                                   OnSearch="SearchCountries"
                                   Required="true"
-                                  StartIcon="lni lni-world"
+                                  StartIcon="lni lni-gears-3"
                                   Width="w-full" />
                 <ValidationMessage For="@(() => _formSampleModel.Country)" />
             </div>
@@ -478,7 +478,7 @@
                                   Label="Technology"
                                   OnSearch="SearchTechnologies"
                                   OnValueSelected="HandleTechnologySelected"
-                                  StartIcon="lni lni-rocket"
+                                          StartIcon="lni lni-gears-3"
                                   Width="w-full" />
                 <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
                     Last selection: @_lastTechnologySelection
@@ -510,7 +510,7 @@
                                   Label="Primary Theme"
                                   OnSearch="SearchCities"
                                   ThemeColorScheme="ThemeColorScheme.Primary"
-                                  StartIcon="lni lni-star"
+                                          StartIcon="lni lni-gears-3"
                                   Width="w-full" />
             </div>
             <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
@@ -529,7 +529,7 @@
                                   Label="Secondary Theme"
                                   OnSearch="SearchCities"
                                   ThemeColorScheme="ThemeColorScheme.Secondary"
-                                  StartIcon="lni lni-star-empty"
+                                          StartIcon="lni lni-gears-3"
                                   Width="w-full" />
             </div>
             <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
@@ -548,7 +548,7 @@
                                   Label="Success Theme"
                                   OnSearch="SearchCities"
                                   ThemeColorScheme="ThemeColorScheme.Success"
-                                  StartIcon="lni lni-checkmark"
+                                          StartIcon="lni lni-gears-3"
                                   Width="w-full" />
             </div>
             <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
@@ -567,7 +567,7 @@
                                   Label="Alert Theme"
                                   OnSearch="SearchCities"
                                   ThemeColorScheme="ThemeColorScheme.Alert"
-                                  StartIcon="lni lni-close"
+                                          StartIcon="lni lni-gears-3"
                                   Width="w-full" />
             </div>
             <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
@@ -586,7 +586,7 @@
                                   Label="Warning Theme"
                                   OnSearch="SearchCities"
                                   ThemeColorScheme="ThemeColorScheme.Warning"
-                                  StartIcon="lni lni-warning"
+                                          StartIcon="lni lni-gears-3"
                                   Width="w-full" />
             </div>
             <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
@@ -605,7 +605,7 @@
                                   Label="Info Theme"
                                   OnSearch="SearchCities"
                                   ThemeColorScheme="ThemeColorScheme.Info"
-                                  StartIcon="lni lni-information"
+                                          StartIcon="lni lni-gears-3"
                                   Width="w-full" />
             </div>
             <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
