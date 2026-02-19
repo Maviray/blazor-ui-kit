@@ -1,0 +1,134 @@
+﻿@page "/PageMaviSlider"
+@using Maviray.Blazor.Components.Core.Models
+@inherits SamplePageBase
+
+<PageTitle>MaviSlider</PageTitle>
+
+
+<div class="p-8 space-y-8">
+    <h3>Slider Demo</h3>
+
+    <div class="space-y-8 p-4">
+        <div>
+            <h4>Primary Slider - Small</h4>
+            <MaviSlider @bind-Value="small"
+                        Size="ElementSize.Small"
+                        Color="ThemeColorScheme.Primary"
+                        SliderValueChanged="HandleSliderValueChange" />
+            <p>Value: @small</p>
+        </div>
+        <div>
+            <h4>Primary Slider - Regular</h4>
+            <MaviSlider @bind-Value="regular"
+                        Size="ElementSize.Regular"
+                        Color="ThemeColorScheme.Primary"
+                        SliderValueChanged="HandleSliderValueChange" />
+            <p>Value: @regular</p>
+        </div>
+        <div>
+            <h4>Primary Slider - Large</h4>
+            <MaviSlider @bind-Value="large"
+                        Size="ElementSize.Large"
+                        Color="ThemeColorScheme.Primary"
+                        SliderValueChanged="HandleSliderValueChange" />
+            <p>Value: @large</p>
+        </div>
+        <div>
+            <h4>Default Slider - Regular</h4>
+            <MaviSlider @bind-Value="primary"
+                        Size="ElementSize.Regular"
+                        Color="ThemeColorScheme.Default"
+                        SliderValueChanged="HandleSliderValueChange" />
+            <p>Value: @primary</p>
+        </div>
+        <div>
+            <h4>Primary Slider - Regular</h4>
+            <MaviSlider @bind-Value="secondary"
+                        Size="ElementSize.Regular"
+                        Color="ThemeColorScheme.Primary"
+                        SliderValueChanged="HandleSliderValueChange" />
+            <p>Value: @secondary</p>
+        </div>
+        <div>
+            <h4>Secondary Slider - Regular</h4>
+            <MaviSlider @bind-Value="defaultColor"
+                        Size="ElementSize.Regular"
+                        Color="ThemeColorScheme.Secondary"
+                        SliderValueChanged="HandleSliderValueChange" />
+            <p>Value: @defaultColor</p>
+        </div>
+
+        <div>
+            <h4>Success Slider - Regular</h4>
+            <MaviSlider @bind-Value="success"
+                        Size="ElementSize.Regular"
+                        Color="ThemeColorScheme.Success"
+                        SliderValueChanged="HandleSliderValueChange" />
+            <p>Value: @success</p>
+        </div>
+        <div>
+            <h4>Alert Slider - Regular</h4>
+            <MaviSlider @bind-Value="alert"
+                        Size="ElementSize.Regular"
+                        Color="ThemeColorScheme.Alert"
+                        SliderValueChanged="HandleSliderValueChange" />
+            <p>Value: @alert</p>
+        </div>
+        <div>
+            <h4>Warning Slider - Regular</h4>
+            <MaviSlider @bind-Value="warning"
+                        Size="ElementSize.Regular"
+                        Color="ThemeColorScheme.Warning"
+                        SliderValueChanged="HandleSliderValueChange" />
+            <p>Value: @warning</p>
+        </div>
+
+
+        <div>
+            <h4>Info Slider - Regular</h4>
+            <MaviSlider @bind-Value="info"
+                        Size="ElementSize.Regular"
+                        Color="ThemeColorScheme.Info"
+                        SliderValueChanged="HandleSliderValueChange" />
+            <p>Value: @info</p>
+        </div>
+        <div>
+            <h4>Dark Slider - Regular</h4>
+            <MaviSlider @bind-Value="dark"
+                        Size="ElementSize.Regular"
+                        Color="ThemeColorScheme.Dark"
+                        SliderValueChanged="HandleSliderValueChange" />
+            <p>Value: @dark</p>
+        </div>
+        <div>
+            <h4>Light Slider - Regular</h4>
+            <MaviSlider @bind-Value="lite"
+                        Size="ElementSize.Regular"
+                        Color="ThemeColorScheme.Light"
+                        SliderValueChanged="HandleSliderValueChange" />
+            <p>Value: @lite</p>
+        </div>
+    </div>
+</div>
+
+@code {
+    private double small = 25;
+    private double regular = 50;
+    private double large = 75;
+
+    private double primary = 5;
+    private double secondary = 5;
+    private double defaultColor = 5;
+    private double success = 5;
+    private double alert = 5;
+    private double warning = 5;
+    private double info = 5;
+    private double dark = 5;
+    private double lite = 5;
+
+    private Task HandleSliderValueChange(ValueChangedCallbackParameters<double> args)
+    {
+        Logger?.LogInformation("Slider: {SliderId} Value: {Value}", args.ElementId, args.Value);
+        return Task.CompletedTask;
+    }
+}
