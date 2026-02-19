@@ -4,7 +4,6 @@ using Maviray.Blazor.Components.Core.EventArgs;
 using Maviray.Blazor.Components.Core.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using Microsoft.Extensions.Logging;
 
 namespace Maviray.Blazor.Components.Material.Components.Inputs
 {
@@ -41,7 +40,6 @@ namespace Maviray.Blazor.Components.Material.Components.Inputs
             {
                 if (IsLoading)
                 {
-                    Logger?.LogInformation("delegate executing. will quit.");
                     return;
                 }
 
