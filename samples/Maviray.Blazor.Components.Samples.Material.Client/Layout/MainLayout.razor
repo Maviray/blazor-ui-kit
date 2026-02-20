@@ -1,5 +1,6 @@
 ﻿@using Maviray.Blazor.Components.Core.Utilities
 @using Maviray.Blazor.Components.Material.Components.Inputs
+@using Maviray.Blazor.Components.Material.Components.DataDisplay
 @inherits LayoutComponentBase
 
 <div class="min-h-screen flex flex-col">
@@ -268,6 +269,13 @@
                           Label="MaviAlert"
                           Title="MaviAlert">
             </MaviLink>
+            <MaviLink Href="/PageMaviToastr"
+                      ThemeColorScheme="ThemeColorScheme.Default"
+                      ElementSize="ElementSize.Large"
+                      ElementVariant="ElementVariant.Text"
+                      Label="MaviToastr"
+                      Title="MaviToastr">
+            </MaviLink>
             </nav>
         </aside>
 
@@ -279,3 +287,5 @@
         </main>
     </div>
 </div>
+
+<MaviToastrHost />

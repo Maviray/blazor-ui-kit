@@ -1,0 +1,260 @@
+@using Maviray.Blazor.Components.Core.Models.Toastr
+@using Maviray.Blazor.Components.Core.Enums
+@using Maviray.Blazor.Components.Material.Constants
+@implements IDisposable
+
+<style>
+    @@keyframes mavi-toast-shrink {
+        from { width: 100%; }
+        to   { width: 0%; }
+    }
+</style>
+
+<div class="@GetToastClasses() pointer-events-auto" role="alert" aria-live="assertive">
+    <div class="flex items-start gap-3">
+
+        @* Icon *@
+        <div class="flex-shrink-0 text-xl rounded-full size-7 flex items-center justify-center">
+            <i class="@GetIconClass()"></i>
+        </div>
+
+        @* Content *@
+        <div class="flex-1 min-w-0">
+            @if (!string.IsNullOrEmpty(Toast.Title))
+            {
+                <div class="@Tailwind.Theme.Typography.TITLE_SMALL font-semibold mb-0.5">
+                    @Toast.Title
+                </div>
+            }
+            <div class="@GetBodyTypography()">
+                @Toast.Message
+            </div>
+        </div>
+
+        @* Dismiss Button *@
+        <button type="button"
+                class="@GetDismissButtonClass()"
+                @onclick="HandleDismiss"
+                aria-label="Close">
+            <i class="lni lni-xmark"></i>
+        </button>
+    </div>
+
+    @* Progress Bar *@
+    @if (!Toast.IsSticky)
+    {
+        <div class="mt-2 h-1 w-full overflow-hidden rounded-full opacity-60">
+            <div class="h-full @GetProgressBarClass()"
+                 style="animation: mavi-toast-shrink @(Toast.Duration)ms linear forwards;"></div>
+        </div>
+    }
+</div>
+
+@code {
+
+    [Parameter, EditorRequired] public ToastItem Toast { get; set; } = default!;
+
+    [Parameter] public EventCallback<Guid> OnDismiss { get; set; }
+
+    private System.Threading.Timer? _dismissTimer;
+
+    protected override void OnInitialized()
+    {
+        if (!Toast.IsSticky)
+        {
+            _dismissTimer = new System.Threading.Timer(
+                _ => InvokeAsync(() => HandleDismiss()),
+                null,
+                Toast.Duration,
+                System.Threading.Timeout.Infinite);
+        }
+    }
+
+    private async Task HandleDismiss()
+    {
+        await OnDismiss.InvokeAsync(Toast.Id);
+    }
+
+    private string GetToastClasses()
+    {
+        var baseClasses = "rounded-md shadow-lg overflow-hidden w-full";
+        var sizeClasses = GetSizeClasses(Toast.Size);
+        var colorClasses = GetColorClasses(Toast.Variant, Toast.ColorScheme);
+        return $"{baseClasses} {sizeClasses} {colorClasses}";
+    }
+
+    private static string GetSizeClasses(ElementSize size) => size switch
+    {
+        ElementSize.Small => "p-2.5 " + Tailwind.Theme.Typography.BODY_SMALL,
+        ElementSize.Large => "p-5 " + Tailwind.Theme.Typography.BODY_LARGE,
+        _ => "p-4 " + Tailwind.Theme.Typography.BODY_MEDIUM
+    };
+
+    private string GetBodyTypography() => Toast.Size switch
+    {
+        ElementSize.Small => Tailwind.Theme.Typography.BODY_SMALL,
+        ElementSize.Large => Tailwind.Theme.Typography.BODY_LARGE,
+        _ => Tailwind.Theme.Typography.BODY_MEDIUM
+    };
+
+    private static string GetColorClasses(ElementVariant variant, ThemeColorScheme scheme) =>
+        variant switch
+        {
+            ElementVariant.Filled => GetFilledClasses(scheme),
+            ElementVariant.Outlined => GetOutlinedClasses(scheme),
+            _ => GetTextClasses(scheme)
+        };
+
+    private static string GetFilledClasses(ThemeColorScheme scheme)
+    {
+        var bg = scheme switch
+        {
+            ThemeColorScheme.Primary => Tailwind.Theme.Colors.Background.THEME_PRIMARY_NINE_BG,
+            ThemeColorScheme.Secondary => Tailwind.Theme.Colors.Background.THEME_SECONDARY_NINE_BG,
+            ThemeColorScheme.Success => Tailwind.Theme.Colors.Background.THEME_SUCCESS_NINE_BG,
+            ThemeColorScheme.Alert => Tailwind.Theme.Colors.Background.THEME_ALERT_NINE_BG,
+            ThemeColorScheme.Warning => Tailwind.Theme.Colors.Background.THEME_WARNING_NINE_BG,
+            ThemeColorScheme.Info => Tailwind.Theme.Colors.Background.THEME_INFO_EIGHT_BG,
+            ThemeColorScheme.Dark => Tailwind.Theme.Colors.Background.THEME_DARK_NINE_BG,
+            ThemeColorScheme.Light => Tailwind.Theme.Colors.Background.THEME_LIGHT_EIGHT_BG,
+            _ => Tailwind.Theme.Colors.Background.THEME_DEFAULT_NINE_BG
+        };
+        return $"{bg} text-white";
+    }
+
+    private static string GetOutlinedClasses(ThemeColorScheme scheme)
+    {
+        var border = scheme switch
+        {
+            ThemeColorScheme.Primary => Tailwind.Theme.Colors.Border.THEME_PRIMARY_SIX_BORDER,
+            ThemeColorScheme.Secondary => Tailwind.Theme.Colors.Border.THEME_SECONDARY_SIX_BORDER,
+            ThemeColorScheme.Success => Tailwind.Theme.Colors.Border.THEME_SUCCESS_SIX_BORDER,
+            ThemeColorScheme.Alert => Tailwind.Theme.Colors.Border.THEME_ALERT_SIX_BORDER,
+            ThemeColorScheme.Warning => Tailwind.Theme.Colors.Border.THEME_WARNING_SIX_BORDER,
+            ThemeColorScheme.Info => Tailwind.Theme.Colors.Border.THEME_INFO_SIX_BORDER,
+            ThemeColorScheme.Dark => Tailwind.Theme.Colors.Border.THEME_DARK_SIX_BORDER,
+            ThemeColorScheme.Light => Tailwind.Theme.Colors.Border.THEME_LIGHT_SIX_BORDER,
+            _ => Tailwind.Theme.Colors.Border.THEME_DEFAULT_SIX_BORDER
+        };
+        var text = scheme switch
+        {
+            ThemeColorScheme.Primary => Tailwind.Theme.Colors.Text.THEME_PRIMARY_NINE_TEXT,
+            ThemeColorScheme.Secondary => Tailwind.Theme.Colors.Text.THEME_SECONDARY_NINE_TEXT,
+            ThemeColorScheme.Success => Tailwind.Theme.Colors.Text.THEME_SUCCESS_NINE_TEXT,
+            ThemeColorScheme.Alert => Tailwind.Theme.Colors.Text.THEME_ALERT_NINE_TEXT,
+            ThemeColorScheme.Warning => Tailwind.Theme.Colors.Text.THEME_WARNING_NINE_TEXT,
+            ThemeColorScheme.Info => Tailwind.Theme.Colors.Text.THEME_INFO_NINE_TEXT,
+            ThemeColorScheme.Dark => Tailwind.Theme.Colors.Text.THEME_DARK_NINE_TEXT,
+            ThemeColorScheme.Light => Tailwind.Theme.Colors.Text.THEME_LIGHT_NINE_TEXT,
+            _ => Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT
+        };
+        return $"border-2 {border} {text} bg-white";
+    }
+
+    private static string GetTextClasses(ThemeColorScheme scheme)
+    {
+        var bg = scheme switch
+        {
+            ThemeColorScheme.Primary => Tailwind.Theme.Colors.Background.THEME_PRIMARY_ONE_BG,
+            ThemeColorScheme.Secondary => Tailwind.Theme.Colors.Background.THEME_SECONDARY_ONE_BG,
+            ThemeColorScheme.Success => Tailwind.Theme.Colors.Background.THEME_SUCCESS_ONE_BG,
+            ThemeColorScheme.Alert => Tailwind.Theme.Colors.Background.THEME_ALERT_ONE_BG,
+            ThemeColorScheme.Warning => Tailwind.Theme.Colors.Background.THEME_WARNING_ONE_BG,
+            ThemeColorScheme.Info => Tailwind.Theme.Colors.Background.THEME_INFO_ONE_BG,
+            ThemeColorScheme.Dark => Tailwind.Theme.Colors.Background.THEME_DARK_ONE_BG,
+            ThemeColorScheme.Light => Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG,
+            _ => Tailwind.Theme.Colors.Background.THEME_DEFAULT_ONE_BG
+        };
+        var text = scheme switch
+        {
+            ThemeColorScheme.Primary => Tailwind.Theme.Colors.Text.THEME_PRIMARY_NINE_TEXT,
+            ThemeColorScheme.Secondary => Tailwind.Theme.Colors.Text.THEME_SECONDARY_NINE_TEXT,
+            ThemeColorScheme.Success => Tailwind.Theme.Colors.Text.THEME_SUCCESS_NINE_TEXT,
+            ThemeColorScheme.Alert => Tailwind.Theme.Colors.Text.THEME_ALERT_NINE_TEXT,
+            ThemeColorScheme.Warning => Tailwind.Theme.Colors.Text.THEME_WARNING_NINE_TEXT,
+            ThemeColorScheme.Info => Tailwind.Theme.Colors.Text.THEME_INFO_NINE_TEXT,
+            ThemeColorScheme.Dark => Tailwind.Theme.Colors.Text.THEME_DARK_NINE_TEXT,
+            ThemeColorScheme.Light => Tailwind.Theme.Colors.Text.THEME_LIGHT_NINE_TEXT,
+            _ => Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT
+        };
+        return $"{bg} {text}";
+    }
+
+    private string GetProgressBarClass()
+    {
+        return Toast.Variant == ElementVariant.Filled
+            ? "bg-white/50"
+            : Toast.ColorScheme switch
+            {
+                ThemeColorScheme.Primary => Tailwind.Theme.Colors.Background.THEME_PRIMARY_SIX_BG,
+                ThemeColorScheme.Secondary => Tailwind.Theme.Colors.Background.THEME_SECONDARY_SIX_BG,
+                ThemeColorScheme.Success => Tailwind.Theme.Colors.Background.THEME_SUCCESS_SIX_BG,
+                ThemeColorScheme.Alert => Tailwind.Theme.Colors.Background.THEME_ALERT_SIX_BG,
+                ThemeColorScheme.Warning => Tailwind.Theme.Colors.Background.THEME_WARNING_SIX_BG,
+                ThemeColorScheme.Info => Tailwind.Theme.Colors.Background.THEME_INFO_SIX_BG,
+                ThemeColorScheme.Dark => Tailwind.Theme.Colors.Background.THEME_DARK_SIX_BG,
+                ThemeColorScheme.Light => Tailwind.Theme.Colors.Background.THEME_LIGHT_SIX_BG,
+                _ => Tailwind.Theme.Colors.Background.THEME_DEFAULT_SIX_BG
+            };
+    }
+
+    private string GetIconClass()
+    {
+        if (!string.IsNullOrEmpty(Toast.Icon))
+            return Toast.Icon;
+
+        return Toast.ColorScheme switch
+        {
+            ThemeColorScheme.Success => "lni lni-check-circle-1",
+            ThemeColorScheme.Info => "lni lni-bulb-4",
+            ThemeColorScheme.Warning => "lni lni-flag-1",
+            ThemeColorScheme.Alert => "lni lni-bell-1",
+            ThemeColorScheme.Primary => "lni lni-check-circle-1",
+            ThemeColorScheme.Dark => "lni lni-check",
+            _ => "lni lni-check"
+        };
+    }
+
+    private string GetDismissButtonClass()
+    {
+        var baseClass = "flex-shrink-0 -mt-1 -mr-1 p-1 rounded-full hover:opacity-70 transition-opacity focus:outline-none cursor-pointer text-xl size-7 flex items-center justify-center";
+
+        if (Toast.Variant == ElementVariant.Filled)
+        {
+            var hoverClass = Toast.ColorScheme switch
+            {
+                ThemeColorScheme.Primary => Tailwind.Theme.Colors.Background.Hover.THEME_PRIMARY_SIX_BG_HOVER,
+                ThemeColorScheme.Secondary => Tailwind.Theme.Colors.Background.Hover.THEME_SECONDARY_SIX_BG_HOVER,
+                ThemeColorScheme.Success => Tailwind.Theme.Colors.Background.Hover.THEME_SUCCESS_SIX_BG_HOVER,
+                ThemeColorScheme.Alert => Tailwind.Theme.Colors.Background.Hover.THEME_ALERT_SIX_BG_HOVER,
+                ThemeColorScheme.Warning => Tailwind.Theme.Colors.Background.Hover.THEME_WARNING_SIX_BG_HOVER,
+                ThemeColorScheme.Info => Tailwind.Theme.Colors.Background.Hover.THEME_INFO_SIX_BG_HOVER,
+                ThemeColorScheme.Dark => Tailwind.Theme.Colors.Background.Hover.THEME_DARK_SIX_BG_HOVER,
+                ThemeColorScheme.Light => Tailwind.Theme.Colors.Background.Hover.THEME_LIGHT_SIX_BG_HOVER,
+                _ => Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_SIX_BG_HOVER
+            };
+            return $"{baseClass} {hoverClass}";
+        }
+        else
+        {
+            var hoverClass = Toast.ColorScheme switch
+            {
+                ThemeColorScheme.Primary => Tailwind.Theme.Colors.Background.Hover.THEME_PRIMARY_TWO_BG_HOVER,
+                ThemeColorScheme.Secondary => Tailwind.Theme.Colors.Background.Hover.THEME_SECONDARY_TWO_BG_HOVER,
+                ThemeColorScheme.Success => Tailwind.Theme.Colors.Background.Hover.THEME_SUCCESS_TWO_BG_HOVER,
+                ThemeColorScheme.Alert => Tailwind.Theme.Colors.Background.Hover.THEME_ALERT_TWO_BG_HOVER,
+                ThemeColorScheme.Warning => Tailwind.Theme.Colors.Background.Hover.THEME_WARNING_TWO_BG_HOVER,
+                ThemeColorScheme.Info => Tailwind.Theme.Colors.Background.Hover.THEME_INFO_TWO_BG_HOVER,
+                ThemeColorScheme.Dark => Tailwind.Theme.Colors.Background.Hover.THEME_DARK_TWO_BG_HOVER,
+                ThemeColorScheme.Light => Tailwind.Theme.Colors.Background.Hover.THEME_LIGHT_TWO_BG_HOVER,
+                _ => Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER
+            };
+            return $"{baseClass} {hoverClass}";
+        }
+    }
+
+    public void Dispose()
+    {
+        _dismissTimer?.Dispose();
+    }
+}

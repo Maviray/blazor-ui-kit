@@ -1,0 +1,167 @@
+@page "/PageMaviToastr"
+@using Maviray.Blazor.Components.Core.Services
+@using Maviray.Blazor.Components.Material.Components.DataDisplay
+@using Maviray.Blazor.Components.Core.Models.Toastr
+@inherits SamplePageBase
+
+@inject IMaviToastrService ToastrService
+
+<PageTitle>MaviToastr</PageTitle>
+
+<div class="p-8 max-w-7xl mx-auto space-y-12">
+
+    <!-- Page Header -->
+    <div class="space-y-2">
+        <h1 class="@Tailwind.Theme.Typography.DISPLAY_MEDIUM">MaviToastr</h1>
+        <p class="@Tailwind.Theme.Typography.BODY_LARGE text-gray-600">
+            A Blazor-native toast notification system with configurable positions, color schemes, variants, sizes, and auto-dismiss.
+        </p>
+    </div>
+
+    <!-- Color Schemes -->
+    <section class="space-y-4">
+        <h2 class="@Tailwind.Theme.Typography.TITLE_LARGE">Color Schemes</h2>
+        <div class="flex flex-wrap gap-2">
+            @foreach (var scheme in Enum.GetValues<ThemeColorScheme>())
+            {
+                <MaviButton Label="@scheme.ToString()"
+                            ThemeColorScheme="@scheme"
+                            ElementVariant="ElementVariant.Filled"
+                            ElementSize="ElementSize.Small"
+                            OnClick="@(() => ShowScheme(scheme))" />
+            }
+        </div>
+    </section>
+
+    <!-- Variants -->
+    <section class="space-y-4">
+        <h2 class="@Tailwind.Theme.Typography.TITLE_LARGE">Variants</h2>
+        <div class="flex flex-wrap gap-2">
+            @foreach (var variant in Enum.GetValues<ElementVariant>())
+            {
+                <MaviButton Label="@variant.ToString()"
+                            ThemeColorScheme="ThemeColorScheme.Primary"
+                            ElementVariant="@variant"
+                            ElementSize="ElementSize.Small"
+                            OnClick="@(() => ShowVariant(variant))" />
+            }
+        </div>
+    </section>
+
+    <!-- Positions -->
+    <section class="space-y-4">
+        <h2 class="@Tailwind.Theme.Typography.TITLE_LARGE">Positions</h2>
+        <div class="flex flex-wrap gap-2">
+            @foreach (var pos in Enum.GetValues<ToastrPosition>())
+            {
+                <MaviButton Label="@pos.ToString()"
+                            ThemeColorScheme="ThemeColorScheme.Info"
+                            ElementVariant="ElementVariant.Outlined"
+                            ElementSize="ElementSize.Small"
+                            OnClick="@(() => ShowPosition(pos))" />
+            }
+        </div>
+    </section>
+
+    <!-- Sticky Toast -->
+    <section class="space-y-4">
+        <h2 class="@Tailwind.Theme.Typography.TITLE_LARGE">Sticky Toast</h2>
+        <div class="flex flex-wrap gap-2">
+            <MaviButton Label="Show Sticky"
+                        ThemeColorScheme="ThemeColorScheme.Warning"
+                        ElementVariant="ElementVariant.Filled"
+                        ElementSize="ElementSize.Regular"
+                        OnClick="ShowSticky" />
+            <MaviButton Label="Dismiss All"
+                        ThemeColorScheme="ThemeColorScheme.Alert"
+                        ElementVariant="ElementVariant.Outlined"
+                        ElementSize="ElementSize.Regular"
+                        OnClick="@(() => ToastrService.DismissAll())" />
+        </div>
+    </section>
+
+    <!-- Sizes -->
+    <section class="space-y-4">
+        <h2 class="@Tailwind.Theme.Typography.TITLE_LARGE">Sizes</h2>
+        <div class="flex flex-wrap gap-2">
+            @foreach (var size in Enum.GetValues<ElementSize>())
+            {
+                <MaviButton Label="@size.ToString()"
+                            ThemeColorScheme="ThemeColorScheme.Success"
+                            ElementVariant="ElementVariant.Filled"
+                            ElementSize="@size"
+                            OnClick="@(() => ShowSize(size))" />
+            }
+        </div>
+    </section>
+
+</div>
+
+@code {
+
+    private void ShowScheme(ThemeColorScheme scheme)
+    {
+        ToastrService.Show(new ToastItem
+        {
+            Title = scheme.ToString(),
+            Message = $"This is a {scheme} toast notification.",
+            ColorScheme = scheme,
+            Variant = ElementVariant.Filled,
+            Duration = 3000,
+            Position = ToastrPosition.CenterTop
+        });
+    }
+
+    private void ShowVariant(ElementVariant variant)
+    {
+        ToastrService.Show(new ToastItem
+        {
+            Title = variant.ToString(),
+            Message = $"This is a {variant} toast notification.",
+            ColorScheme = ThemeColorScheme.Primary,
+            Variant = variant,
+            Duration = 3000,
+            Position = ToastrPosition.CenterTop
+        });
+    }
+
+    private void ShowPosition(ToastrPosition position)
+    {
+        ToastrService.Show(new ToastItem
+        {
+            Title = position.ToString(),
+            Message = $"Toast at {position}.",
+            ColorScheme = ThemeColorScheme.Info,
+            Variant = ElementVariant.Filled,
+            Duration = 3000,
+            Position = position
+        });
+    }
+
+    private void ShowSticky()
+    {
+        ToastrService.Show(new ToastItem
+        {
+            Title = "Sticky Toast",
+            Message = "This toast stays until you dismiss it manually.",
+            ColorScheme = ThemeColorScheme.Warning,
+            Variant = ElementVariant.Filled,
+            Duration = 0,
+            Position = ToastrPosition.CenterTop
+        });
+    }
+
+    private void ShowSize(ElementSize size)
+    {
+        ToastrService.Show(new ToastItem
+        {
+            Title = size.ToString(),
+            Message = $"This is a {size} sized toast.",
+            ColorScheme = ThemeColorScheme.Success,
+            Variant = ElementVariant.Filled,
+            Size = size,
+            Duration = 3000,
+            Position = ToastrPosition.CenterTop
+        });
+    }
+}

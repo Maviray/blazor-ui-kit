@@ -1,0 +1,70 @@
+@using Maviray.Blazor.Components.Core.Models.Toastr
+@using Maviray.Blazor.Components.Core.Services
+@using Maviray.Blazor.Components.Core.Enums
+@using Maviray.Blazor.Components.Material.Constants
+@implements IDisposable
+
+@inject IMaviToastrService ToastrService
+
+@foreach (var group in GetGroupedToasts())
+{
+    <div class="@GetContainerClasses(group.Key)" aria-live="polite" aria-atomic="false">
+        @foreach (var toast in group.Value)
+        {
+            <MaviToastrItem Toast="toast" OnDismiss="HandleDismiss" />
+        }
+    </div>
+}
+
+@code {
+
+    protected override void OnInitialized()
+    {
+        ToastrService.OnChanged += HandleChanged;
+    }
+
+    private void HandleChanged()
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void HandleDismiss(Guid id)
+    {
+        ToastrService.Dismiss(id);
+    }
+
+    private Dictionary<ToastrPosition, List<ToastItem>> GetGroupedToasts()
+    {
+        var result = new Dictionary<ToastrPosition, List<ToastItem>>();
+        foreach (var toast in ToastrService.ActiveToasts)
+        {
+            if (!result.TryGetValue(toast.Position, out var list))
+            {
+                list = [];
+                result[toast.Position] = list;
+            }
+            list.Add(toast);
+        }
+        return result;
+    }
+
+    private static string GetContainerClasses(ToastrPosition position)
+    {
+        var baseClasses = "fixed z-50 flex flex-col gap-2 pointer-events-none max-w-sm w-full";
+        var positionClasses = position switch
+        {
+            ToastrPosition.TopLeft => "top-4 left-4",
+            ToastrPosition.TopRight => "top-4 right-4",
+            ToastrPosition.BottomLeft => "bottom-4 left-4",
+            ToastrPosition.BottomRight => "bottom-4 right-4",
+            ToastrPosition.CenterBottom => "bottom-4 left-1/2 -translate-x-1/2",
+            _ => "top-4 left-1/2 -translate-x-1/2"  // CenterTop default
+        };
+        return $"{baseClasses} {positionClasses}";
+    }
+
+    public void Dispose()
+    {
+        ToastrService.OnChanged -= HandleChanged;
+    }
+}
