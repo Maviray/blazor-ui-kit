@@ -1,0 +1,613 @@
+﻿@using System.Diagnostics.CodeAnalysis
+@using Maviray.Blazor.Components.Core.Constants
+@using System.ComponentModel.DataAnnotations
+@using System.Reflection
+@using Microsoft.Extensions.Logging
+@typeparam TItem
+@inherits MaviMaterialInputBase<TItem>
+@inject IJSRuntime JsRuntime
+
+<div class="@Width">
+    <!-- Floating Label Input Container -->
+    <div class="@GetContainerClass()" @ref="_inputContainerRef">
+        <!-- Input Field -->
+        <input value="@GetDisplayText()"
+               @oninput="HandleInput"
+               @onchange="HandleChange"
+               @onkeydown="HandleKeyDown"
+               type="text"
+               id="@Id"
+               maxlength="@MaxLength"
+               disabled="@Disabled"
+               readonly="@Readonly"
+               autocomplete="off"
+               class="@BuildInputClass()"
+               style="@Style"
+               title="@GetTitle()"
+               aria-describedby="@GetAriaDescribedByString()"
+               aria-invalid="@GetAreaInvalidValue()"
+               aria-label="@Label"
+               aria-required="@Required.ToString().ToLowerInvariant()"
+               aria-expanded="@_isDropdownOpen.ToString().ToLowerInvariant()"
+               aria-autocomplete="list"
+               aria-controls="@($"{Id}-listbox")"
+               data-val="@(!Disabled && !Readonly ? "true" : "false")"
+               @onfocus="OnFocus"
+               @onblur="OnBlur"
+               @attributes="AdditionalAttributes" />
+
+        <!-- Floating Label -->
+        @if (!string.IsNullOrEmpty(Label))
+        {
+            <label for="@Id"
+                   class="@BuildLabelClass()"
+                   title="@Title">
+                @Label
+                @if (Required && !Disabled && !Readonly)
+                {
+                    <span class="@BuildRequiredAsteriskClass()">*</span>
+                }
+            </label>
+        }
+
+        <!-- Start Icon -->
+        @if (!string.IsNullOrEmpty(StartIcon))
+        {
+            <div class="@GetStartIconClass()">
+                <i class="@StartIcon text-xl"></i>
+            </div>
+        }
+
+        <!-- End Icon (Search/Clear) or Loading Spinner -->
+        @if (!string.IsNullOrEmpty(EndIcon))
+        {
+            @if (_isEndIconLoading)
+            {
+                <!-- Loading Spinner -->
+                <div class="@GetEndIconLoadingClass()"
+                     aria-label="Loading"
+                     role="status">
+                    <div class="animate-spin rounded-full border-2 border-solid border-current border-r-transparent"
+                         style="@GetLoadingSpinnerSize()"></div>
+                </div>
+            }
+            else
+            {
+                <!-- End Icon Button -->
+                <button type="button"
+                        class="@GetEndIconClass()"
+                        @onclick="HandleEndIconClick"
+                        disabled="@(Disabled || EndIconDisabled)"
+                        title="@ButtonLabel"
+                        aria-label="@ButtonLabel"
+                        tabindex="-1">
+                    <i class="@GetCurrentEndIcon() text-xl"></i>
+                </button>
+            }
+        }
+
+        <!-- Fieldset for Outlined Border -->
+        <fieldset aria-hidden="true" class="@BuildFieldsetClass()">
+            <legend class="@BuildLegendClass()">
+                <span class="@(string.IsNullOrEmpty(Label) || Disabled || Readonly ? "" : "px-2")">@Label@((Required && !Disabled && !Readonly) ? " *" : "")</span>
+            </legend>
+        </fieldset>
+    </div>
+
+    <!-- Dropdown List -->
+    @if (_isDropdownOpen && _options != null && _options.Any())
+    {
+        <div class="@GetDropdownClass()"
+             style="@GetDropdownStyle()"
+             id="@($"{Id}-listbox")"
+             role="listbox"
+             aria-label="@($"{Label} options")"
+             @onmousedown:preventDefault>
+            @foreach (var (option, index) in _options.Select((o, i) => (o, i)))
+            {
+                <div class="@GetOptionClass(index)"
+                     role="option"
+                     aria-selected="@(index == _highlightedIndex).ToString().ToLowerInvariant()"
+                     @onclick="() => SelectOption(option)"
+                     @onmouseenter="() => _highlightedIndex = index">
+                    @if (ItemTemplate != null)
+                    {
+                        @ItemTemplate(option)
+                    }
+                    else
+                    {
+                        <span>@GetItemText(option)</span>
+                    }
+                </div>
+            }
+        </div>
+    }
+
+    <!-- No Results Message -->
+    @if (_isDropdownOpen && _options != null && !_options.Any() && !string.IsNullOrWhiteSpace(_searchText))
+    {
+        <div class="@GetDropdownClass()"
+             style="@GetDropdownStyle()">
+            <div class="px-4 py-3 text-sm text-(--theme-default-seven)">
+                @NoResultsText
+            </div>
+        </div>
+    }
+
+    <!-- Helper Text -->
+    @if (!string.IsNullOrEmpty(HelperText))
+    {
+        <div class="mt-1.5 px-3.5 text-xs leading-tight text-black/60" id="@($"{Id}-helper")">
+            @HelperText
+        </div>
+    }
+</div>
+
+@code {
+    private ElementReference _inputContainerRef;
+    private List<TItem>? _options;
+    private bool _isDropdownOpen;
+    private int _highlightedIndex = -1;
+    private string? _searchText;
+    private TItem? _selectedItem;
+    private bool _isEndIconLoading;
+    private CancellationTokenSource? _debounceTokenSource;
+    private double _dropdownWidth;
+
+    #region AutoComplete-Specific Parameters
+
+    /// <summary>
+    /// Delegate to fetch options based on search text.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public Func<string, Task<IEnumerable<TItem>>>? OnSearch { get; set; }
+
+    /// <summary>
+    /// Function to extract display text from an item.
+    /// </summary>
+    [Parameter]
+    public Func<TItem, string>? ItemTextSelector { get; set; }
+
+    /// <summary>
+    /// Template for rendering each option in the dropdown.
+    /// </summary>
+    [Parameter]
+    public RenderFragment<TItem>? ItemTemplate { get; set; }
+
+    /// <summary>
+    /// Event callback when a value is selected from the dropdown.
+    /// </summary>
+    [Parameter]
+    public EventCallback<TItem> OnValueSelected { get; set; }
+
+    /// <summary>
+    /// Minimum number of characters before triggering search.
+    /// Default is 1.
+    /// </summary>
+    [Parameter]
+    public int MinSearchLength { get; set; } = 1;
+
+    /// <summary>
+    /// Text to display when no results are found.
+    /// Default is "No results found".
+    /// </summary>
+    [Parameter]
+    public string NoResultsText { get; set; } = "No results found";
+
+    /// <summary>
+    /// Debounce delay in milliseconds for search.
+    /// Default is 300ms.
+    /// </summary>
+    [Parameter]
+    public int DebounceDelay { get; set; } = 300;
+
+    /// <summary>
+    /// Maximum number of characters allowed in the input.
+    /// Can be automatically inferred from [MaxLength] or [StringLength] attributes.
+    /// </summary>
+    [Parameter]
+    public int MaxLength { get; set; } = FormatConstants.DEFAULT_MAX_STRING_INPUT_LIMIT;
+
+    /// <summary>
+    /// Whether to clear the input when an option is selected.
+    /// Default is false.
+    /// </summary>
+    [Parameter]
+    public bool ClearOnSelect { get; set; }
+
+    /// <summary>
+    /// Maximum number of options to display in the dropdown.
+    /// Set to 0 for unlimited. Default is 0.
+    /// </summary>
+    [Parameter]
+    public int MaxDisplayItems { get; set; } = 0;
+
+    #endregion
+
+    #region Lifecycle Methods
+
+    protected override void OnInitialized()
+    {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
+        base.OnInitialized();
+
+        // Set default end icon if not specified
+        if (string.IsNullOrEmpty(EndIcon))
+        {
+            EndIcon = "material-symbols:search";
+        }
+
+        if (string.IsNullOrEmpty(ButtonLabel))
+        {
+            ButtonLabel = "Search";
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
+        base.OnParametersSet();
+
+        // Initialize search text from current value if available
+        if (CurrentValue != null && string.IsNullOrEmpty(_searchText))
+        {
+            _searchText = GetItemText(CurrentValue);
+            _selectedItem = CurrentValue;
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (_isDropdownOpen && _dropdownWidth == 0)
+        {
+            await UpdateDropdownWidth();
+        }
+
+        Logger?.Information($"OnAfterRenderAsync finished for component ID: {Id}");
+    }
+
+    #endregion
+
+    #region Overrides
+
+    protected override bool HasValue => _selectedItem != null || !string.IsNullOrWhiteSpace(_searchText);
+
+    protected override bool TryParseValueFromString(
+        string? value,
+        out TItem? result,
+        [NotNullWhen(false)] out string? validationErrorMessage)
+    {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
+        result = default;
+        validationErrorMessage = null;
+        return true;
+    }
+
+    protected override async Task HandleInput(ChangeEventArgs e)
+    {
+        if (Disabled || Readonly)
+            return;
+
+        var inputValue = e.Value?.ToString();
+        _searchText = inputValue;
+        _selectedItem = default;
+
+        // Automatically trigger search after user stops typing (debounced)
+        await PerformSearch();
+    }
+
+    protected override Task HandleChange(ChangeEventArgs e)
+    {
+        // Validation happens on blur or selection
+        return Task.CompletedTask;
+    }
+
+    protected override async Task HandleEndIconClick(MouseEventArgs args)
+    {
+        if (HasValue && !string.IsNullOrWhiteSpace(_searchText))
+        {
+            // Clear functionality
+            await ClearInput();
+        }
+        else if (!string.IsNullOrWhiteSpace(_searchText))
+        {
+            // Search functionality - trigger immediate search
+            await PerformSearch(immediate: true);
+        }
+
+        await base.HandleEndIconClick(args);
+    }
+
+    protected async Task OnBlur(FocusEventArgs e)
+    {
+        // Delay to allow click on dropdown to register
+        await Task.Delay(200);
+        CloseDropdown();
+    }
+
+    protected override void InferTypeSpecificAttributes(PropertyInfo propertyInfo)
+    {
+        // Infer MaxLength if still at default value
+        if (MaxLength != FormatConstants.DEFAULT_MAX_STRING_INPUT_LIMIT) return;
+
+        var maxLengthAttr = propertyInfo.GetCustomAttribute<MaxLengthAttribute>();
+        var stringLengthAttr = propertyInfo.GetCustomAttribute<StringLengthAttribute>();
+
+        var inferredMaxLength = maxLengthAttr?.Length ?? stringLengthAttr?.MaximumLength;
+
+        if (inferredMaxLength.HasValue)
+        {
+            MaxLength = inferredMaxLength.Value;
+        }
+    }
+
+    #endregion
+
+    #region AutoComplete-Specific Methods
+
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (Disabled || Readonly)
+            return;
+
+        switch (e.Key)
+        {
+            case "Enter":
+                if (_isDropdownOpen && _highlightedIndex >= 0 && _options != null && _highlightedIndex < _options.Count)
+                {
+                    // Select the highlighted option
+                    await SelectOption(_options[_highlightedIndex]);
+                }
+                else if (!_isDropdownOpen && !string.IsNullOrWhiteSpace(_searchText))
+                {
+                    // Trigger immediate search when Enter is pressed
+                    await PerformSearch(immediate: true);
+                }
+                break;
+
+            case "ArrowDown":
+                if (_isDropdownOpen && _options != null && _options.Any())
+                {
+                    // Navigate down in the list
+                    _highlightedIndex = Math.Min(_highlightedIndex + 1, _options.Count - 1);
+                    StateHasChanged();
+                }
+                break;
+
+            case "ArrowUp":
+                if (_isDropdownOpen && _highlightedIndex > 0)
+                {
+                    // Navigate up in the list
+                    _highlightedIndex--;
+                    StateHasChanged();
+                }
+                break;
+
+            case "Escape":
+                CloseDropdown();
+                break;
+
+            case "Tab":
+                // Allow tab to close dropdown and move focus
+                CloseDropdown();
+                break;
+        }
+    }
+
+    private async Task PerformSearch(bool immediate = false)
+    {
+        if (OnSearch == null || string.IsNullOrEmpty(_searchText) || _searchText.Length < MinSearchLength)
+        {
+            CloseDropdown();
+            return;
+        }
+
+        // Cancel previous search
+        if (_debounceTokenSource != null)
+        {
+            await _debounceTokenSource.CancelAsync();
+        }
+        
+        _debounceTokenSource = new CancellationTokenSource();
+        var token = _debounceTokenSource.Token;
+
+        try
+        {
+            // Debounce - wait for user to stop typing (unless immediate search is requested)
+            if (!immediate && DebounceDelay > 0)
+            {
+                await Task.Delay(DebounceDelay, token);
+            }
+
+            if (token.IsCancellationRequested)
+                return;
+
+            _isEndIconLoading = true;
+            StateHasChanged();
+
+            var results = await OnSearch(_searchText);
+
+            _options = MaxDisplayItems > 0
+                ? results?.Take(MaxDisplayItems).ToList()
+                : results?.ToList();
+
+            _options ??= [];
+
+            _highlightedIndex = _options.Any() ? 0 : -1;
+            _isDropdownOpen = true;
+            _dropdownWidth = 0;
+        }
+        catch (OperationCanceledException)
+        {
+            // Expected when debouncing
+        }
+        catch (Exception ex)
+        {
+            Logger?.LogError(ex, "Error performing search for autocomplete {Id}", Id);
+            _options = [];
+            _isDropdownOpen = false;
+        }
+        finally
+        {
+            _isEndIconLoading = false;
+            StateHasChanged();
+            Logger?.Information($"PerformSearch finally block for component ID: {Id}");
+        }
+    }
+
+    private async Task SelectOption(TItem option)
+    {
+        _selectedItem = option;
+        _searchText = ClearOnSelect ? string.Empty : GetItemText(option);
+        _isDropdownOpen = false;
+        _highlightedIndex = -1;
+
+        CurrentValue = option;
+
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+        EditContext?.NotifyFieldChanged(FieldIdentifier);
+
+        await OnValueSelected.InvokeAsync(option);
+        StateHasChanged();
+    }
+
+    private async Task ClearInput()
+    {
+        _searchText = string.Empty;
+        _selectedItem = default;
+        _options = null;
+        _isDropdownOpen = false;
+        _highlightedIndex = -1;
+
+        CurrentValue = default;
+
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+        EditContext?.NotifyFieldChanged(FieldIdentifier);
+
+        StateHasChanged();
+        await Task.CompletedTask;
+    }
+
+    private void CloseDropdown()
+    {
+        _isDropdownOpen = false;
+        _highlightedIndex = -1;
+        _dropdownWidth = 0;
+        StateHasChanged();
+    }
+
+    private async Task UpdateDropdownWidth()
+    {
+        try
+        {
+            _dropdownWidth = await JsRuntime.InvokeAsync<double>(
+                "eval",
+                $"document.getElementById('{Id}').parentElement.offsetWidth"
+            );
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Logger?.LogWarning(ex, "Failed to get dropdown width for autocomplete {Id}", Id);
+        }
+    }
+
+    private string GetItemText(TItem item)
+    {
+        if (item == null)
+            return string.Empty;
+
+        if (ItemTextSelector != null)
+            return ItemTextSelector(item);
+
+        return item.ToString() ?? string.Empty;
+    }
+
+    private string GetDisplayText()
+    {
+        return _searchText ?? string.Empty;
+    }
+
+    private string GetCurrentEndIcon()
+    {
+        if (HasValue && !string.IsNullOrWhiteSpace(_searchText))
+        {
+            return "lni lni-xmark"; // Clear icon
+        }
+
+        return EndIcon ?? "lni lni-search-2"; // Search icon
+    }
+
+    #endregion
+
+    #region CSS Class Builders
+
+    private static string GetDropdownClass()
+    {
+        return "absolute z-50 mt-1 max-h-60 overflow-auto rounded bg-white shadow-lg border border-(--theme-default-three) focus:outline-none";
+    }
+
+    private string GetDropdownStyle()
+    {
+        return _dropdownWidth > 0 ? $"width: {_dropdownWidth}px;" : string.Empty;
+    }
+
+    private string GetOptionClass(int index)
+    {
+        const string baseClass = "px-4 py-2 cursor-pointer transition-colors duration-150 text-sm";
+        const string hoverClass = "hover:bg-(--theme-primary-one)";
+
+        var selectedClass = index == _highlightedIndex
+            ? "bg-(--theme-primary-two) text-(--theme-primary-nine)"
+            : "text-(--theme-default-nine)";
+
+        return $"{baseClass} {hoverClass} {selectedClass}";
+    }
+
+    protected override string GetEndIconLoadingClass()
+    {
+        return "absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-(--theme-primary-six)";
+    }
+
+    protected override string GetLoadingSpinnerSize()
+    {
+        return "width: 20px; height: 20px;";
+    }
+
+    #endregion
+
+    #region Disposal
+
+    public override void Dispose()
+    {
+        if (ComponentOptions is { EnableLifecycleLogging: true })
+        {
+            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+        }
+
+        _debounceTokenSource?.Cancel();
+        _debounceTokenSource?.Dispose();
+        base.Dispose();
+    }
+
+    #endregion
+}

@@ -1,0 +1,155 @@
+﻿@page "/PageMaviAlert"
+@using Maviray.Blazor.Components.Material.Components.DataDisplay
+@inherits SamplePageBase
+
+<PageTitle>MaviAlert</PageTitle>
+
+<div class="p-8 max-w-7xl mx-auto space-y-12">
+
+    <!-- Page Header -->
+    <div class="space-y-2">
+        <h1 class="@Tailwind.Theme.Typography.DISPLAY_MEDIUM">MaviAlert</h1>
+        <p class="@Tailwind.Theme.Typography.BODY_LARGE text-gray-600">
+            Display messages with various styles, colors, and optional dismiss functionality. Display alert messages and text programmatically.
+        </p>
+    </div>
+    
+    <div>
+        <EditForm Model="@_sampleSelectVariantsModel" OnValidSubmit="OnValidFormSubmit">
+            <DataAnnotationsValidator />
+            <div class="flex flex-col gap-2">
+                <div class="flex flex-col 2xl:flex-row gap-2">
+                    <div class="basis-1/2 flex flex-col">
+                        <MaviDropdown TItem="ElementVariant" TValue="ElementVariant"
+                                      @bind-Value="_sampleSelectVariantsModel.ElementVariant"
+                                      Items="_elementVariants"
+                                      ElementSize="ElementSize.Small"
+                                      StartIcon="lni lni-gears-3"
+                                      Width="w-full" />
+                    </div>
+                    <div class="basis-1/2 flex flex-col gap-2">
+                        <MaviDropdown TItem="ThemeColorScheme" TValue="ThemeColorScheme"
+                                      @bind-Value="_sampleSelectVariantsModel.ThemeColorScheme"
+                                      Items="_colorSchemes"
+                                      ElementSize="ElementSize.Small"
+                                      StartIcon="lni lni-gears-3"
+                                      Width="w-full" />
+                    </div>
+                </div>
+                <div class="flex flex-col 2xl:flex-row gap-2">
+                    <div class="basis-1/3 flex flex-col">
+                        <MaviInputStringNullable @bind-Value="_sampleSelectVariantsModel.Title"
+                                                 ElementSize="ElementSize.Regular"
+                                                 StartIcon="lni lni-android-old"
+                                                 Width="w-full" />
+                    </div>
+                    <div class="basis-2/3 flex flex-col gap-2">
+                        <MaviInputStringNullable @bind-Value="_sampleSelectVariantsModel.Text"
+                                                 ElementSize="ElementSize.Regular"
+                                                 StartIcon="lni lni-android-old"
+                                                 Width="w-full" />
+                    </div>
+                </div>
+            </div>
+           
+            <div class="p-2">
+                <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                            ElementSize="ElementSize.Regular"
+                            Title="Display"
+                            ButtonRole="ButtonRole.Submit"
+                            ElementVariant="ElementVariant.Outlined"
+                            TextTransform="TextTransform.Capitalize">
+
+                </MaviButton>
+                <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
+                            ElementSize="ElementSize.Regular"
+                            Title="Hide"
+                            ButtonRole="ButtonRole.Button"
+                            ElementVariant="ElementVariant.Outlined"
+                            TextTransform="TextTransform.Capitalize"
+                            OnClick="HideAlertProgrammatically">
+
+                </MaviButton>
+            </div>
+        </EditForm>
+    </div>
+
+    <!-- Section 1: Default (Text) Variant -->
+    <section class="space-y-6">
+        <div class="space-y-2">
+            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">MaviAlert</h2>
+            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+                Configurable ElementVariant and ThemeColorScheme parameters
+            </p>
+        </div>
+
+        <div class="space-y-4">
+            <MaviAlert @ref="_alert"
+                       ThemeColorScheme="ThemeColorScheme.Default"
+                       ElementVariant="ElementVariant.Filled"
+                       Title="Initial Title Value"
+                       Text="Initial Title Text"
+                       Dismissible="true"
+                       OnDismiss="OnAlertDismiss">
+                
+            </MaviAlert>
+        </div>
+
+        <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4")">
+            <code class="text-purple-600">
+                &lt;MaviAlert<br />
+                ThemeColorScheme="_sampleSelectVariantsModel.ThemeColorScheme"<br />
+                ElementVariant="_sampleSelectVariantsModel.ElementVariant"<br />
+                Title="Initial Title Value"<br />
+                Text="Initial Title Text"<br/>
+                Dismissible="true"<br />
+                OnDismiss="OnAlertDismiss"&gt;<br />
+                &lt;/MaviAlert&gt;
+            </code>
+        </div>
+    </section>
+</div>
+
+@code {
+
+    private MaviAlert? _alert;
+    private readonly SampleSelectVariantsModel _sampleSelectVariantsModel = new();
+    
+    private readonly IEnumerable<ElementVariant> _elementVariants = Enum.GetValues<ElementVariant>();
+    private readonly IEnumerable<ThemeColorScheme> _colorSchemes = Enum.GetValues<ThemeColorScheme>();
+
+    private async Task OnValidFormSubmit(EditContext context)
+    {
+        try
+        {
+            if (_alert != null)
+            {
+                await _alert.Display(_sampleSelectVariantsModel.Title, _sampleSelectVariantsModel.Text, _sampleSelectVariantsModel.ElementVariant, _sampleSelectVariantsModel.ThemeColorScheme);
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger?.LogError(ex, ex.Message);
+        }
+    }
+
+    private void OnAlertDismiss(string alertId)
+    {
+        Logger?.LogInformation("Alert ID: {id} dismissed", alertId);
+    }
+
+    private async Task HideAlertProgrammatically(MouseClickEventArgs args)
+    {
+        try
+        {
+            if (_alert != null)
+            {
+                await _alert.Hide();
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger?.LogError(ex, ex.Message);
+        }
+    }
+}

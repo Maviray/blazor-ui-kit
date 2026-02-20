@@ -347,7 +347,7 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
 
     #region CSS Class Builders (Shared Across All Components)
 
-    protected string GetContainerClass()
+    protected virtual string GetContainerClass()
     {
         var heightClass = ElementSize switch
         {
@@ -359,7 +359,7 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
         return $"relative mt-[2px] {heightClass}";
     }
 
-    protected string BuildInputClass()
+    protected virtual string BuildInputClass()
     {
         var classes = new List<string>
         {
@@ -423,7 +423,7 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
         return (padding, fontSize, lineHeight);
     }
 
-    protected string BuildLabelClass()
+    protected virtual string BuildLabelClass()
     {
         var classes = new List<string>
         {
@@ -500,7 +500,7 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
         return string.Join(" ", classes);
     }
 
-    protected string GetLabelAsPlaceholderTopOffset()
+    protected virtual string GetLabelAsPlaceholderTopOffset()
     {
         var topOffset = ElementSize switch
         {
@@ -512,7 +512,7 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
         return topOffset;
     }
 
-    protected string BuildFieldsetClass()
+    protected virtual string BuildFieldsetClass()
     {
         var classes = new List<string>
         {
@@ -558,7 +558,7 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
         return string.Join(" ", classes);
     }
 
-    protected string BuildLegendClass()
+    protected virtual string BuildLegendClass()
     {
         var classes = new List<string>
         {
@@ -571,12 +571,12 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
         return string.Join(" ", classes);
     }
 
-    protected string BuildRequiredAsteriskClass()
+    protected virtual string BuildRequiredAsteriskClass()
     {
         return $"ml-0.5 {TextAlertColor}";
     }
 
-    protected string GetStartIconClass()
+    protected virtual string GetStartIconClass()
     {
         var classes = new List<string>
         {
@@ -608,7 +608,7 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
         return string.Join(" ", classes);
     }
 
-    protected string GetEndIconClass()
+    protected virtual string GetEndIconClass()
     {
         var classes = new List<string>
         {
@@ -654,7 +654,7 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
         return string.Join(" ", classes);
     }
 
-    protected string GetEndIconLoadingClass()
+    protected virtual string GetEndIconLoadingClass()
     {
         var classes = new List<string>
         {
@@ -679,7 +679,7 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
         return string.Join(" ", classes);
     }
 
-    protected string GetLoadingSpinnerSize()
+    protected virtual string GetLoadingSpinnerSize()
     {
         var size = ElementSize switch
         {
@@ -691,7 +691,7 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
         return size;
     }
 
-    protected string GetIconTopOffset()
+    protected virtual string GetIconTopOffset()
     {
         var topOffset = ElementSize switch
         {
@@ -707,9 +707,9 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
 
     #region Accessibility Helpers
 
-   
 
-    protected string? GetTitle()
+
+    protected virtual string? GetTitle()
     {
         return !string.IsNullOrEmpty(Title) ? Title : HelperText;
     }
@@ -718,7 +718,7 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
 
     #region Theming
 
-    protected void SetThemeColors()
+    protected virtual void SetThemeColors()
     {
         var colorName = ThemeColorScheme switch
         {
@@ -745,7 +745,7 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
 
     #region Private Helpers
 
-    protected void DetachValidationStateChangedListener()
+    protected virtual void DetachValidationStateChangedListener()
     {
         if (PreviousEditContext != null)
         {
