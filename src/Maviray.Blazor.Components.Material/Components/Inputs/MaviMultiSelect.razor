@@ -142,7 +142,7 @@
                             <div class="@GetCheckboxClass(isSelected)">
                                 @if (isSelected)
                                 {
-                                    <i class="lni lni-checkmark text-xs"></i>
+                                    <i class="lni lni-check text-xs"></i>
                                 }
                             </div>
 
@@ -657,12 +657,12 @@
         var baseClasses = CssManager.Combine(
             "flex-shrink-0 w-5 h-5 rounded border-2",
             "flex items-center justify-center",
-            "transition-all duration-150"
+            "transition-all duration-150 bg-transparent"
         );
 
         var stateClasses = isSelected
-            ? CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_LIGHT_FIVE_BG, ThemeBorderDarkColor, "text-white")
-            : "border-black/[0.54] bg-transparent";
+            ? CssManager.Combine(ThemeBorderDarkColor, ThemeTextDarkColor)
+            : "border-black/[0.54]";
 
         return CssManager.Combine(baseClasses, stateClasses);
     }

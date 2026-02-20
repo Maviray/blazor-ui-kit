@@ -1,0 +1,264 @@
+﻿@namespace Maviray.Blazor.Components.Material.Components.Display
+@using Maviray.Blazor.Components.Material.Constants
+@inherits MaviComponentBase
+
+<div class="@GetChipClasses()" id="@Id" title="@Text">
+    @if (!string.IsNullOrEmpty(StartIcon))
+    {
+        <span class="@GetIconClasses()">
+            <i class="@StartIcon"></i>
+        </span>
+    }
+
+    <span class="@GetTextClasses()">
+        @Text
+    </span>
+
+    @if (!string.IsNullOrEmpty(EndIcon))
+    {
+        <span class="@GetIconClasses()">
+            <i class="@EndIcon"></i>
+        </span>
+    }
+</div>
+
+@code {
+    /// <summary>
+    /// The text content displayed in the chip
+    /// </summary>
+    [Parameter]
+    public string Text { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Optional icon displayed at the start (left) of the chip text
+    /// </summary>
+    [Parameter]
+    public string? StartIcon { get; set; }
+
+    /// <summary>
+    /// Optional icon displayed at the end (right) of the chip text
+    /// </summary>
+    [Parameter]
+    public string? EndIcon { get; set; }
+
+    /// <summary>
+    /// Size variant: Small, Regular, or Large
+    /// </summary>
+    [Parameter]
+    public ElementSize ElementSize { get; set; } = ElementSize.Regular;
+
+    /// <summary>
+    /// Visual style variant: Filled or Outlined
+    /// </summary>
+    [Parameter]
+    public ElementVariant ElementVariant { get; set; } = ElementVariant.Filled;
+
+    /// <summary>
+    /// Color scheme for the chip
+    /// </summary>
+    [Parameter]
+    public ThemeColorScheme ThemeColorScheme { get; set; } = ThemeColorScheme.Default;
+
+    /// <summary>
+    /// Additional CSS classes to apply to the chip
+    /// </summary>
+    [Parameter]
+    public string? CssClass { get; set; }
+
+    private string GetChipClasses()
+    {
+        var classes = new List<string>
+        {
+            "inline-flex",
+            "items-center",
+            "justify-center",
+            "gap-1",
+            "rounded-full",
+            "font-medium",
+            "transition-all",
+            "duration-200",
+            // Add size classes
+            GetSizeClasses()
+        };
+
+        // Add variant and color classes
+        classes.AddRange(GetVariantClasses());
+
+        // Add custom classes
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+
+        return string.Join(" ", classes.Where(c => !string.IsNullOrEmpty(c)));
+    }
+
+    private string GetSizeClasses()
+    {
+        return ElementSize switch
+        {
+            ElementSize.Small => "h-6 px-2 text-xs gap-1",
+            ElementSize.Large => "h-10 px-4 text-base gap-2",
+            _ => "h-8 px-3 text-sm gap-1.5" // Regular
+        };
+    }
+
+    private List<string> GetVariantClasses()
+    {
+        var classes = new List<string>();
+
+        switch (ElementVariant)
+        {
+            case ElementVariant.Filled:
+                classes.AddRange(GetFilledVariantClasses());
+                break;
+
+            case ElementVariant.Outlined:
+                classes.AddRange(GetOutlinedVariantClasses());
+                break;
+        }
+
+        return classes;
+    }
+
+    private List<string> GetFilledVariantClasses()
+    {
+        var classes = new List<string>();
+
+        switch (ThemeColorScheme)
+        {
+            case ThemeColorScheme.Default:
+                classes.Add(Tailwind.Theme.Colors.Background.THEME_DEFAULT_TWO_BG);
+                classes.Add(Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT);
+                break;
+
+            case ThemeColorScheme.Primary:
+                classes.Add(Tailwind.Theme.Colors.Background.THEME_PRIMARY_SIX_BG);
+                classes.Add(Tailwind.Theme.Colors.Text.THEME_LIGHT_ONE_TEXT);
+                break;
+
+            case ThemeColorScheme.Secondary:
+                classes.Add(Tailwind.Theme.Colors.Background.THEME_SECONDARY_SIX_BG);
+                classes.Add(Tailwind.Theme.Colors.Text.THEME_LIGHT_ONE_TEXT);
+                break;
+
+            case ThemeColorScheme.Success:
+                classes.Add(Tailwind.Theme.Colors.Background.THEME_SUCCESS_SIX_BG);
+                classes.Add(Tailwind.Theme.Colors.Text.THEME_LIGHT_ONE_TEXT);
+                break;
+
+            case ThemeColorScheme.Alert:
+                classes.Add(Tailwind.Theme.Colors.Background.THEME_ALERT_SIX_BG);
+                classes.Add(Tailwind.Theme.Colors.Text.THEME_LIGHT_ONE_TEXT);
+                break;
+
+            case ThemeColorScheme.Warning:
+                classes.Add(Tailwind.Theme.Colors.Background.THEME_WARNING_SIX_BG);
+                classes.Add(Tailwind.Theme.Colors.Text.THEME_DARK_NINE_TEXT);
+                break;
+
+            case ThemeColorScheme.Info:
+                classes.Add(Tailwind.Theme.Colors.Background.THEME_INFO_SIX_BG);
+                classes.Add(Tailwind.Theme.Colors.Text.THEME_LIGHT_ONE_TEXT);
+                break;
+
+            case ThemeColorScheme.Dark:
+                classes.Add(Tailwind.Theme.Colors.Background.THEME_DARK_EIGHT_BG);
+                classes.Add(Tailwind.Theme.Colors.Text.THEME_LIGHT_ONE_TEXT);
+                break;
+
+            case ThemeColorScheme.Light:
+                classes.Add(Tailwind.Theme.Colors.Background.THEME_LIGHT_THREE_BG);
+                classes.Add(Tailwind.Theme.Colors.Text.THEME_DARK_NINE_TEXT);
+                break;
+        }
+
+        return classes;
+    }
+
+    private List<string> GetOutlinedVariantClasses()
+    {
+        var classes = new List<string> { "border" };
+
+        switch (ThemeColorScheme)
+        {
+            case ThemeColorScheme.Default:
+                classes.Add(Tailwind.Theme.Colors.Border.THEME_DEFAULT_FIVE_BORDER);
+                classes.Add(Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT);
+                classes.Add("bg-transparent");
+                break;
+
+            case ThemeColorScheme.Primary:
+                classes.Add(Tailwind.Theme.Colors.Border.THEME_PRIMARY_SIX_BORDER);
+                classes.Add(Tailwind.Theme.Colors.Text.THEME_PRIMARY_SIX_TEXT);
+                classes.Add("bg-transparent");
+                break;
+
+            case ThemeColorScheme.Secondary:
+                classes.Add(Tailwind.Theme.Colors.Border.THEME_SECONDARY_SIX_BORDER);
+                classes.Add(Tailwind.Theme.Colors.Text.THEME_SECONDARY_SIX_TEXT);
+                classes.Add("bg-transparent");
+                break;
+
+            case ThemeColorScheme.Success:
+                classes.Add(Tailwind.Theme.Colors.Border.THEME_SUCCESS_SIX_BORDER);
+                classes.Add(Tailwind.Theme.Colors.Text.THEME_SUCCESS_SIX_TEXT);
+                classes.Add("bg-transparent");
+                break;
+
+            case ThemeColorScheme.Alert:
+                classes.Add(Tailwind.Theme.Colors.Border.THEME_ALERT_SIX_BORDER);
+                classes.Add(Tailwind.Theme.Colors.Text.THEME_ALERT_SIX_TEXT);
+                classes.Add("bg-transparent");
+                break;
+
+            case ThemeColorScheme.Warning:
+                classes.Add(Tailwind.Theme.Colors.Border.THEME_WARNING_SIX_BORDER);
+                classes.Add(Tailwind.Theme.Colors.Text.THEME_WARNING_SEVEN_TEXT);
+                classes.Add("bg-transparent");
+                break;
+
+            case ThemeColorScheme.Info:
+                classes.Add(Tailwind.Theme.Colors.Border.THEME_INFO_SIX_BORDER);
+                classes.Add(Tailwind.Theme.Colors.Text.THEME_INFO_SIX_TEXT);
+                classes.Add("bg-transparent");
+                break;
+
+            case ThemeColorScheme.Dark:
+                classes.Add(Tailwind.Theme.Colors.Border.THEME_DARK_EIGHT_BORDER);
+                classes.Add(Tailwind.Theme.Colors.Text.THEME_DARK_EIGHT_TEXT);
+                classes.Add("bg-transparent");
+                break;
+
+            case ThemeColorScheme.Light:
+                classes.Add(Tailwind.Theme.Colors.Border.THEME_LIGHT_FIVE_BORDER);
+                classes.Add(Tailwind.Theme.Colors.Text.THEME_DARK_NINE_TEXT);
+                classes.Add("bg-transparent");
+                break;
+        }
+
+        return classes;
+    }
+
+    private string GetIconClasses()
+    {
+        var iconSize = ElementSize switch
+        {
+            ElementSize.Small => "text-xs",
+            ElementSize.Large => "text-lg",
+            _ => "text-sm"
+        };
+
+        return $"inline-flex items-center {iconSize}";
+    }
+
+    private string GetTextClasses()
+    {
+        return ElementSize switch
+        {
+            ElementSize.Small => Tailwind.Theme.Typography.LABEL_SMALL,
+            ElementSize.Large => Tailwind.Theme.Typography.LABEL_LARGE,
+            _ => Tailwind.Theme.Typography.LABEL_MEDIUM
+        };
+    }
+}

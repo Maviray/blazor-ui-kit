@@ -1,0 +1,214 @@
+﻿@namespace Maviray.Blazor.Components.Material.Components.Inputs
+@using Maviray.Blazor.Components.Core.Models
+@inherits MaviComponentBase
+
+<div class="relative w-full flex items-center">
+    <div class="@GetContainerClass()">
+        <!-- Background track (inactive) -->
+        <div class="absolute inset-0 flex items-center">
+            <div class="@GetTrackClass()"></div>
+        </div>
+
+        <!-- Active track (progress) -->
+        <div class="absolute inset-0 flex items-center pointer-events-none">
+            <div class="@GetActiveTrackClass()" style="width: @GetPercentage()%"></div>
+        </div>
+
+        <!-- Actual input -->
+        <input id="@Id"
+               type="range"
+               min="@Min"
+               max="@Max"
+               step="@Step"
+               value="@Value"
+               title="@Title"
+               @oninput="HandleInput"
+               @onchange="HandleChange"
+               disabled="@Disabled"
+               class="@GetSliderClasses()"
+               aria-valuemin="@Min"
+               aria-valuemax="@Max"
+               aria-valuenow="@Value" />
+    </div>
+</div>
+
+@code {
+    [Parameter] public override string? Id { get; set; } = $"slider_{Guid.NewGuid()}";
+    [Parameter] public double Min { get; set; } = 0;
+    [Parameter] public double Max { get; set; } = 100;
+    [Parameter] public double Step { get; set; } = 1;
+    [Parameter] public double Value { get; set; } = 0;
+    [Parameter] public EventCallback<double> ValueChanged { get; set; }
+    [Parameter] public EventCallback<ValueChangedCallbackParameters<double>> SliderValueChanged { get; set; }
+    [Parameter] public ElementSize Size { get; set; } = ElementSize.Regular;
+    [Parameter] public ThemeColorScheme Color { get; set; } = ThemeColorScheme.Primary;
+    [Parameter] public bool Disabled { get; set; } = false;
+
+    private async Task HandleInput(ChangeEventArgs e)
+    {
+        if (double.TryParse(e.Value?.ToString(), out var newValue))
+        {
+            Value = newValue;
+            await ValueChanged.InvokeAsync(Value);
+            await SliderValueChanged.InvokeAsync(new() { ElementId = Id, Value = Value });
+        }
+    }
+
+    private async Task HandleChange(ChangeEventArgs e)
+    {
+        if (double.TryParse(e.Value?.ToString(), out var newValue))
+        {
+            Value = newValue;
+
+            await ValueChanged.InvokeAsync(Value);
+            await SliderValueChanged.InvokeAsync(new() { ElementId = Id, Value = Value });
+        }
+    }
+
+    private double GetPercentage()
+    {
+        return Max > Min ? ((Value - Min) / (Max - Min)) * 100 : 0;
+    }
+
+    private string GetContainerClass()
+    {
+        return $"{GetContainerSizeClass()} relative w-full flex items-center";
+    }
+
+    private string GetContainerSizeClass()
+    {
+        return Size switch
+        {
+            ElementSize.Small => "h-5",
+            ElementSize.Large => "h-7",
+            _ => "h-6"
+        };
+    }
+
+    private string GetSliderClasses()
+    {
+        var classes = new List<string>
+        {
+            "relative",
+            "w-full",
+            "appearance-none",
+            "bg-transparent",
+            "focus:outline-none",
+            "z-10",
+            // Size-specific thumb classes
+            GetThumbSizeClass()
+        };
+
+        // Disabled state
+        if (Disabled)
+        {
+            classes.Add("cursor-not-allowed");
+            classes.Add("opacity-38");
+        }
+        else
+        {
+            classes.Add("cursor-pointer");
+        }
+
+        if (!string.IsNullOrWhiteSpace(Class))
+        {
+            classes.Add(Class);
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetThumbSizeClass()
+    {
+        var sizeClass = Size switch
+        {
+            ElementSize.Small => "slider-thumb-small",
+            ElementSize.Large => "slider-thumb-large",
+            _ => "slider-thumb-regular"
+        };
+
+        var colorClass = GetThumbColorClass();
+
+        return $"{sizeClass} {colorClass}";
+    }
+
+    private string GetThumbColorClass()
+    {
+        return Color switch
+        {
+            ThemeColorScheme.Primary => "slider-thumb-primary",
+            ThemeColorScheme.Secondary => "slider-thumb-secondary",
+            ThemeColorScheme.Success => "slider-thumb-success",
+            ThemeColorScheme.Alert => "slider-thumb-alert",
+            ThemeColorScheme.Warning => "slider-thumb-warning",
+            ThemeColorScheme.Info => "slider-thumb-info",
+            ThemeColorScheme.Dark => "slider-thumb-dark",
+            ThemeColorScheme.Light => "slider-thumb-light",
+            _ => "slider-thumb-default"
+        };
+    }
+
+    private string GetTrackClass()
+    {
+        var classes = new List<string>
+        {
+            "w-full",
+            "rounded-full",
+            // Size-specific track height
+            Size switch
+            {
+                ElementSize.Small => "h-0.5",
+                ElementSize.Large => "h-1.5",
+                _ => "h-1"
+            },
+            // Inactive track color (lighter shade)
+            Color switch
+            {
+                ThemeColorScheme.Primary => "bg-(--theme-primary-two)",
+                ThemeColorScheme.Secondary => "bg-(--theme-secondary-two)",
+                ThemeColorScheme.Success => "bg-(--theme-success-two)",
+                ThemeColorScheme.Alert => "bg-(--theme-alert-two)",
+                ThemeColorScheme.Warning => "bg-(--theme-warning-two)",
+                ThemeColorScheme.Info => "bg-(--theme-info-two)",
+                ThemeColorScheme.Dark => "bg-(--theme-dark-two)",
+                ThemeColorScheme.Light => "bg-(--theme-light-two)",
+                _ => "bg-(--theme-default-two)"
+            }
+        };
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetActiveTrackClass()
+    {
+        var classes = new List<string>
+        {
+            "rounded-full",
+            "transition-all",
+            "duration-150",
+            "ease-out",
+            // Size-specific track height
+            Size switch
+            {
+                ElementSize.Small => "h-0.5",
+                ElementSize.Large => "h-1.5",
+                _ => "h-1"
+            },
+            // Active track color (darker shade) - SAME as thumb color
+            Color switch
+            {
+                ThemeColorScheme.Primary => "bg-(--theme-primary-six)",
+                ThemeColorScheme.Secondary => "bg-(--theme-secondary-six)",
+                ThemeColorScheme.Success => "bg-(--theme-success-six)",
+                ThemeColorScheme.Alert => "bg-(--theme-alert-six)",
+                ThemeColorScheme.Warning => "bg-(--theme-warning-six)",
+                ThemeColorScheme.Info => "bg-(--theme-info-six)",
+                ThemeColorScheme.Dark => "bg-(--theme-dark-six)",
+                ThemeColorScheme.Light => "bg-(--theme-light-six)",
+                _ => "bg-(--theme-default-six)"
+            }
+        };
+
+        return string.Join(" ", classes);
+    }
+}
