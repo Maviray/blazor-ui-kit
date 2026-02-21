@@ -1,0 +1,39 @@
+﻿@page "/PageScreenSizes"
+@inherits SamplePageBase
+
+<PageTitle>Screen Sizes</PageTitle>
+
+<!-- Responsive div that changes size and border color -->
+<div class="w-full h-full p-2
+        border-4 border-red-500
+        sm:border-orange-500
+        md:border-yellow-500
+        lg:border-green-500
+        xl:border-blue-500
+        2xl:border-purple-500
+        3xl:border-sky-500
+        4xl:border-lime-500
+        5xl:border-indigo-500
+        6xl:border-emerald-500
+        7xl:border-cyan-500
+        flex items-center justify-center
+        transition-all duration-300
+        rounded-lg
+        shadow-lg">
+    <div class="text-center p-4">
+        <p class="font-bold text-lg mb-2">Resize your browser!</p>
+        <div class="text-sm text-gray-700">
+            <p class="block sm:hidden! text-red-500">📱 Mobile (red)</p>
+            <p class="hidden sm:block! md:hidden! text-orange-500">📱 40rem SM (orange)</p>
+            <p class="hidden md:block! lg:hidden! text-yellow-500">💻 48rem MD (yellow)</p>
+            <p class="hidden lg:block! xl:hidden! text-green-500">💻 64rem LG (green)</p>
+            <p class="hidden xl:block! 2xl:hidden! text-blue-500">🖥️ 80rem XL (blue)</p>
+            <p class="hidden 2xl:block! 3xl:hidden! text-purple-500">🖥️ 96rem 2XL (purple)</p>
+            <p class="hidden 3xl:block! 4xl:hidden! text-sky-500">🖥️ 112rem 3XL (sky)</p>
+            <p class="hidden 4xl:block! 5xl:hidden! text-lime-500">🖥️ 128rem 4XL (lime)</p>
+            <p class="hidden 5xl:block! 6xl:hidden! text-indigo-500">🖥️ 144rem 5XL (indigo)</p>
+            <p class="hidden 6xl:block! 7xl:hidden! text-emerald-500">🖥️ 160rem 6XL (emerald)</p>
+            <p class="hidden 7xl:block! text-cyan-500">🖥️ 176rem 7XL (cyan)</p>
+        </div>
+    </div>
+</div>

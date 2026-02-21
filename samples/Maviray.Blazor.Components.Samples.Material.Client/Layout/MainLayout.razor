@@ -26,13 +26,20 @@
                 <div class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, Tailwind.Theme.Colors.Text.THEME_DARK_FIVE_TEXT, "px-3 py-2")">
                     Base
                 </div>
-                <MaviLink Href="/PageCustomColors"
-                          ThemeColorScheme="ThemeColorScheme.Default"
-                          ElementSize="ElementSize.Large"
-                          ElementVariant="ElementVariant.Text"
-                          Label="Custom Theme Colors"
-                          Title="Custom Theme Colors">
-                </MaviLink>
+            <MaviLink Href="/PageCustomColors"
+                      ThemeColorScheme="ThemeColorScheme.Default"
+                      ElementSize="ElementSize.Large"
+                      ElementVariant="ElementVariant.Text"
+                      Label="Custom Theme Colors"
+                      Title="Custom Theme Colors">
+            </MaviLink>
+                <MaviLink Href="/PageScreenSizes"
+                      ThemeColorScheme="ThemeColorScheme.Default"
+                      ElementSize="ElementSize.Large"
+                      ElementVariant="ElementVariant.Text"
+                          Label="Screen Sizes"
+                          Title="Screen Sizes">
+            </MaviLink>
                 <MaviLink Href="/PageIconsMini"
                           ThemeColorScheme="ThemeColorScheme.Default"
                           ElementSize="ElementSize.Large"
@@ -273,9 +280,7 @@
 
         <!-- Main Content Area -->
         <main class="flex-1 overflow-y-auto">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                @Body
-            </div>
+            @Body
         </main>
     </div>
 </div>

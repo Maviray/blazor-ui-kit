@@ -3383,7 +3383,7 @@ public static class Tailwind
             #region Button Variant Colors
 
             public const string BUTTON_FILLED_DEFAULT =
-                "bg-(--theme-light-six) text-(--theme-default-nine) hover:bg-(--theme-default-seven) hover:shadow-lg focus:ring-(--theme-default-eight) active:bg-(--theme-default-eight)";
+                "bg-(--theme-light-six) text-neutral-900 hover:bg-(--theme-default-seven) hover:shadow-lg focus:ring-(--theme-default-eight) active:bg-(--theme-default-eight)";
 
             public const string BUTTON_FILLED_PRIMARY = 
                 "bg-(--theme-primary-eight) text-white hover:bg-(--theme-primary-nine) hover:shadow-lg focus:ring-(--theme-primary-nine) active:bg-(--theme-primary-four)";
