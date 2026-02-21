@@ -8,7 +8,8 @@ public class SampleToastrDemoModel
     public ThemeColorScheme ThemeColorScheme { get; set; }
     public ElementVariant ElementVariant  { get; set; }
     public ElementSize ElementSize { get; set; }
-    public string? Title { get; set; }
-    public string? Text { get; set; }
+    public string? Title { get; set; } = "Saved!";
+    public string? Text { get; set; } = "Your changes were saved successfully.";
     public int Duration { get; set; } = 60;
+    public bool ShowProgress { get; set; } = true;
 }

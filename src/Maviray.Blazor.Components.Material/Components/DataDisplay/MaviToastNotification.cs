@@ -5,7 +5,7 @@ namespace Maviray.Blazor.Components.Material.Components.DataDisplay;
 public sealed record MaviToastNotification(
     string Id,
     string? Title,
-    string Message,
+    string? Message,
     ThemeColorScheme ThemeColorScheme = ThemeColorScheme.Default,
     ElementVariant ElementVariant = ElementVariant.Filled,
     ElementSize ElementSize = ElementSize.Regular,
