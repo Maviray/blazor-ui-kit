@@ -1,0 +1,157 @@
+﻿@using Maviray.Blazor.Components.Core.Enums
+@using Maviray.Blazor.Components.Material.Constants
+
+<div class="@RootClass"
+     style="@Style"
+     role="status"
+     aria-live="polite"
+     aria-label="@AriaLabel"
+     @attributes="AdditionalAttributes">
+    <div class="@WaveClass">
+        @for (var i = 0; i < Lines; i++)
+        {
+            <span class="@GetLineClass(i)"
+                  style="@GetLineStyle(i)"></span>
+        }
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(Label))
+    {
+        <span class="@LabelClass">@Label</span>
+    }
+</div>
+
+@code
+{
+    [Parameter] public ElementSize ElementSize { get; set; } = ElementSize.Regular;
+    [Parameter] public ThemeColorScheme ThemeColorScheme { get; set; } = ThemeColorScheme.Default;
+
+    /// <summary>Number of vertical lines in the equalizer wave.</summary>
+    [Parameter] public int Lines { get; set; } = 7;
+
+    /// <summary>Optional text shown next to the spinner.</summary>
+    [Parameter] public string? Label { get; set; }
+
+    /// <summary>Accessible label for screen readers.</summary>
+    [Parameter] public string AriaLabel { get; set; } = "Loading";
+
+    [Parameter] public string? Class { get; set; }
+    [Parameter] public string? Style { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string RootClass =>
+        CssManager.Combine(
+            "inline-flex flex-col items-center gap-2 select-none",
+            Class);
+
+    private string WaveClass =>
+        CssManager.Combine(
+            "mavi-spinner-wave inline-flex items-end justify-center",
+            GetWaveSizeClass());
+
+    private string LabelClass =>
+        CssManager.Combine(
+            Tailwind.Theme.Typography.LABEL_MEDIUM,
+            GetLabelTypographyClass(),
+            // keep label subtle; color follows scheme
+            GetTextColorClass());
+
+    private string GetLineClass(int index)
+    {
+        // clamp lines to reasonable range (avoid huge DOM)
+        var safeIndex = index < 0 ? 0 : index;
+
+        // distance from center (symmetrical)
+        var center = (Lines - 1) / 2.0;
+        var distance = Math.Abs(safeIndex - center); // 0 in center, grows toward sides
+
+        // Wave phase: center peaks while sides are lower, and vice - versa.
+        // Negative delay sets the initial phase without needing multiple keyframes.
+        const int stepMs = 120;
+        var delayMs = (int)Math.Round(distance * stepMs);
+
+        return CssManager.Combine(
+            "mavi-spinner-line rounded-full origin-bottom",
+            GetLineSizeClass(),
+            GetBgColorClass(),
+            "animate-[mavi-eq_1.1s_ease-in-out_infinite]",
+            $"[animation-delay:-{delayMs}ms]"
+        );
+    }
+
+    private string GetLineStyle(int index)
+    {
+        var center = (Lines - 1) / 2.0;
+        var distance = Math.Abs(index - center);
+
+        // Normalize: 0 at center, 1 at far edge
+        var maxDistance = Math.Max(center, 1.0);
+        var t = Math.Clamp(distance / maxDistance, 0.0, 1.0);
+
+        // Height profile: center = 1.0, edges = 0.55 (tweak these)
+        var profile = 1.0 - (t * 0.45);
+
+        // Base height depends on ElementSize (in px)
+        var baseHeightPx = ElementSize switch
+        {
+            ElementSize.Small => 12.0,
+            ElementSize.Large => 24.0,
+            _ => 18.0
+        };
+
+        var h = baseHeightPx * profile;
+
+        return $"height: {h:0.#}px;";
+    }
+
+    private string GetWaveSizeClass() => ElementSize switch
+    {
+        ElementSize.Small => "gap-1",
+        ElementSize.Large => "gap-1.5",
+        _ => "gap-1.25"
+    };
+
+    private string GetLineSizeClass() => ElementSize switch
+    {
+        ElementSize.Small => "w-0.5 h-3",     // base height; animation scales it
+        ElementSize.Large => "w-1 h-6",
+        _ => "w-0.75 h-4.5"
+    };
+
+    private string GetLabelTypographyClass() => ElementSize switch
+    {
+        ElementSize.Small => Tailwind.Theme.Typography.LABEL_SMALL,
+        ElementSize.Large => Tailwind.Theme.Typography.LABEL_LARGE,
+        _ => Tailwind.Theme.Typography.LABEL_MEDIUM
+    };
+
+    /// <summary>
+    /// Background color for the bars. Uses Tailwind theme constants.
+    /// Prefer Text colors as "ink" for spinners.
+    /// </summary>
+    private string GetBgColorClass() => ThemeColorScheme switch
+    {
+        ThemeColorScheme.Primary => Tailwind.Theme.Colors.Background.THEME_PRIMARY_SIX_BG,
+        ThemeColorScheme.Secondary => Tailwind.Theme.Colors.Background.THEME_SECONDARY_SIX_BG,
+        ThemeColorScheme.Success => Tailwind.Theme.Colors.Background.THEME_SUCCESS_SIX_BG,
+        ThemeColorScheme.Alert => Tailwind.Theme.Colors.Background.THEME_ALERT_SIX_BG,
+        ThemeColorScheme.Warning => Tailwind.Theme.Colors.Background.THEME_WARNING_SIX_BG,
+        ThemeColorScheme.Info => Tailwind.Theme.Colors.Background.THEME_INFO_SIX_BG,
+        ThemeColorScheme.Dark => Tailwind.Theme.Colors.Background.THEME_DARK_SIX_BG,
+        ThemeColorScheme.Light => Tailwind.Theme.Colors.Background.THEME_LIGHT_SIX_BG,
+        _ => Tailwind.Theme.Colors.Background.THEME_DEFAULT_SIX_BG
+    };
+
+    private string GetTextColorClass() => ThemeColorScheme switch
+    {
+        ThemeColorScheme.Primary => Tailwind.Theme.Colors.Text.THEME_PRIMARY_SEVEN_TEXT,
+        ThemeColorScheme.Secondary => Tailwind.Theme.Colors.Text.THEME_SECONDARY_SEVEN_TEXT,
+        ThemeColorScheme.Success => Tailwind.Theme.Colors.Text.THEME_SUCCESS_SEVEN_TEXT,
+        ThemeColorScheme.Alert => Tailwind.Theme.Colors.Text.THEME_ALERT_SEVEN_TEXT,
+        ThemeColorScheme.Warning => Tailwind.Theme.Colors.Text.THEME_WARNING_SEVEN_TEXT,
+        ThemeColorScheme.Info => Tailwind.Theme.Colors.Text.THEME_INFO_SEVEN_TEXT,
+        ThemeColorScheme.Dark => Tailwind.Theme.Colors.Text.THEME_DARK_SEVEN_TEXT,
+        ThemeColorScheme.Light => Tailwind.Theme.Colors.Text.THEME_LIGHT_SEVEN_TEXT,
+        _ => Tailwind.Theme.Colors.Text.THEME_DEFAULT_SEVEN_TEXT
+    };
+}

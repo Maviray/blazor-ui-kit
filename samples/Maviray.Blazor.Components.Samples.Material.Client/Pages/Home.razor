@@ -1,4 +1,24 @@
 ﻿@page "/"
+@using Maviray.Blazor.Components.Material.Components.Spinner
 @inherits SamplePageBase
 
 <PageTitle>Home</PageTitle>
+
+<div class="flex flex-col gap-4 p-4">
+    <div>
+        <MaviSpinnerStar></MaviSpinnerStar>
+    </div>
+    <div class="flex flex-col gap-4">
+        <MaviSpinner ThemeColorScheme="ThemeColorScheme.Primary"
+                     ElementSize="ElementSize.Regular"
+                     Lines="9"
+                     Label="Loading..."/>
+
+        <MaviSpinner ThemeColorScheme="ThemeColorScheme.Success"
+                     ElementSize="ElementSize.Small"/>
+
+        <MaviSpinner ThemeColorScheme="ThemeColorScheme.Dark"
+                     ElementSize="ElementSize.Large"
+                     AriaLabel="Submitting form"/>
+    </div>
+</div>

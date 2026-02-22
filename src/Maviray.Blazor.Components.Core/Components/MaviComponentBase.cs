@@ -5,7 +5,7 @@ using Maviray.Blazor.Components.Core.Extensions;
 
 namespace Maviray.Blazor.Components.Core.Components;
 
-public class MaviComponentBase : ComponentBase
+public abstract class MaviComponentBase : ComponentBase
 {
     private ILogger? _logger;
 
