@@ -153,17 +153,17 @@
     --theme-dark-ten: #000000;
 }
 
-@keyframes pulseFadeStarSpinner {
+@keyframes mavi-spinner-pulse {
     0%, 80%, 100% {
-        background-color: #d9d9d9; /* base light */
+        opacity: 0.25; /* light */
     }
 
     40%, 60% {
-        background-color: #2d2d2d; /* dark pulse */
+        opacity: 1; /* dark */
     }
 }
 
-@keyframes mavi-eq {
+@keyframes mavi-loader-equalizer {
     0%, 100% {
         transform: scaleY(0.35);
         opacity: 0.65;
@@ -172,5 +172,35 @@
     50% {
         transform: scaleY(1.0);
         opacity: 1.0;
+    }
+}
+
+@keyframes mavi-loader-grid {
+    0%, 100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+@keyframes mavi-spinner-start-rotate {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes mavi-spinner-roller {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
     }
 }

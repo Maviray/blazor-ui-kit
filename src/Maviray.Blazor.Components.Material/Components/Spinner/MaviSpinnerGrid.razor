@@ -1,0 +1,41 @@
+﻿@using Maviray.Blazor.Components.Material.Constants
+@inherits MaviSpinnerBase
+<!-- courtesy https://loading.io/ -->
+
+<div id="@Id" class="@GetContainerCss()">
+
+    <div class="absolute top-[8px] left-[8px] w-4 h-4 rounded-full bg-current animate-[mavi-loader-grid_1.2s_linear_infinite]"></div>
+    <div class="absolute top-[8px] left-[32px] w-4 h-4 rounded-full bg-current animate-[mavi-loader-grid_1.2s_linear_infinite] [animation-delay:-0.4s]"></div>
+    <div class="absolute top-[8px] left-[56px] w-4 h-4 rounded-full bg-current animate-[mavi-loader-grid_1.2s_linear_infinite] [animation-delay:-0.8s]"></div>
+
+    <div class="absolute top-[32px] left-[8px] w-4 h-4 rounded-full bg-current animate-[mavi-loader-grid_1.2s_linear_infinite] [animation-delay:-0.4s]"></div>
+    <div class="absolute top-[32px] left-[32px] w-4 h-4 rounded-full bg-current animate-[mavi-loader-grid_1.2s_linear_infinite] [animation-delay:-0.8s]"></div>
+    <div class="absolute top-[32px] left-[56px] w-4 h-4 rounded-full bg-current animate-[mavi-loader-grid_1.2s_linear_infinite] [animation-delay:-1.2s]"></div>
+
+    <div class="absolute top-[56px] left-[8px] w-4 h-4 rounded-full bg-current animate-[mavi-loader-grid_1.2s_linear_infinite] [animation-delay:-0.8s]"></div>
+    <div class="absolute top-[56px] left-[32px] w-4 h-4 rounded-full bg-current animate-[mavi-loader-grid_1.2s_linear_infinite] [animation-delay:-1.2s]"></div>
+    <div class="absolute top-[56px] left-[56px] w-4 h-4 rounded-full bg-current animate-[mavi-loader-grid_1.2s_linear_infinite] [animation-delay:-1.6s]"></div>
+
+</div>
+
+    @code
+    {
+        private string GetBackgroundColor() => ThemeColorScheme switch
+        {
+            ThemeColorScheme.Primary => Tailwind.Theme.Colors.Text.THEME_PRIMARY_SIX_TEXT,
+        ThemeColorScheme.Secondary => Tailwind.Theme.Colors.Text.THEME_SECONDARY_SIX_TEXT,
+        ThemeColorScheme.Success => Tailwind.Theme.Colors.Text.THEME_SUCCESS_SIX_TEXT,
+        ThemeColorScheme.Alert => Tailwind.Theme.Colors.Text.THEME_ALERT_SIX_TEXT,
+        ThemeColorScheme.Warning => Tailwind.Theme.Colors.Text.THEME_WARNING_SIX_TEXT,
+        ThemeColorScheme.Info => Tailwind.Theme.Colors.Text.THEME_INFO_SIX_TEXT,
+        ThemeColorScheme.Dark => Tailwind.Theme.Colors.Text.THEME_DARK_SIX_TEXT,
+        ThemeColorScheme.Light => Tailwind.Theme.Colors.Text.THEME_LIGHT_SIX_TEXT,
+        _ => Tailwind.Theme.Colors.Text.THEME_DEFAULT_SIX_TEXT
+        };
+
+        private string GetContainerCss()
+        {
+            var textColor = GetBackgroundColor();
+            return $"inline-block relative w-20 h-20 {textColor}";
+        }
+    }
