@@ -1,8 +1,7 @@
 ﻿@using Maviray.Blazor.Components.Material.Constants
 @inherits MaviSpinnerBase
-<!-- courtesy https://loading.io/ -->
 
-<div id="@Id" class="@GetContainerCss()">
+<div id="@Id" class="@GetContainerCss()" style="transform: scale(@ScaleElement); transform-origin: center;">
     <!-- 1 -->
     <div class="absolute inset-0 [transform-origin:40px_40px] rotate-0   animate-[mavi-spinner-start-rotate_1.2s_linear_infinite] [animation-delay:-1.1s]">
         <div class="absolute top-[3.2px] left-[36.8px] w-[6.4px] h-[17.6px] rounded-[20%] bg-current"></div>

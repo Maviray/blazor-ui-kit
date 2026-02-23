@@ -1,0 +1,77 @@
+﻿@inherits MaviComponentBase
+
+<div id="@Id" class="@RootClass" style="@Style" @onclick="HandleClick" role="presentation">
+    @if (Opacity != BackdropOpacity.None)
+    {
+        <div class="@OverlayClass"></div>
+    }
+
+    <div class="@ContentClass" @onclick:stopPropagation="true">
+        @ChildContent
+    </div>
+</div>
+
+@code {
+
+    public bool Active { get; private set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>None = no overlay, Darken = black overlay, Lighten = white overlay.</summary>
+    [Parameter] public BackdropOpacity Opacity { get; set; } = BackdropOpacity.Darken;
+
+    /// <summary>If true, clicking on the backdrop (outside content) triggers OnBackdropClick.</summary>
+    [Parameter] public bool CloseOnBackdropClick { get; set; }
+
+    [Parameter] public EventCallback OnBackdropClick { get; set; }
+
+    /// <summary>Center content (default true). If false, content will just stack normally.</summary>
+    [Parameter] public bool CenterContent { get; set; } = true;
+
+    /// <summary>Optional: set z-index (e.g., 50, 100). If null, uses z-50.</summary>
+    [Parameter] public ZIndex ZIndex { get; set; }
+
+    private string RootClass =>
+        Active
+            ? $"absolute inset-0 {ZIndex.ToTailwindZIndexClass()} {(CenterContent ? "grid place-items-center" : "")} {Class}".Trim()
+            : "hidden";
+
+    private string OverlayClass => Opacity switch
+    {
+        BackdropOpacity.Darken => $"absolute inset-0 bg-black/30",
+        BackdropOpacity.Lighten => $"absolute inset-0 bg-white/70",
+        _ => "hidden"
+    };
+
+    // Keep content above overlay
+    private string ContentClass => "relative";
+
+    private async Task HandleClick()
+    {
+        if (OnBackdropClick.HasDelegate)
+            await OnBackdropClick.InvokeAsync();
+
+        if (!CloseOnBackdropClick)
+            return;
+
+        await Hide();
+    }
+
+    public async Task Display()
+    {
+        if (!Active)
+        {
+            Active = true;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    public async Task Hide()
+    {
+        if (Active)
+        {
+            Active = false;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+}

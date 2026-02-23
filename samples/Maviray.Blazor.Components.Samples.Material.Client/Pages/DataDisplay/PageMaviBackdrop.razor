@@ -1,0 +1,91 @@
+﻿@page "/PageMaviBackdrop"
+@using Maviray.Blazor.Components.Material.Components.DataDisplay
+@inherits SamplePageBase
+
+<PageTitle>MaviBackdrop</PageTitle>
+
+
+<div>
+    <EditForm Model="@_sampleOverlayDemoModel" OnValidSubmit="OnValidFormSubmit">
+        <DataAnnotationsValidator />
+        <div class="flex flex-col gap-2">
+            <div class="flex flex-col 2xl:flex-row gap-2">
+                <div class="basis-1/2 flex flex-col">
+                    <MaviDropdown TItem="BackdropOpacity" TValue="BackdropOpacity"
+                                  @bind-Value="_sampleOverlayDemoModel.BackdropOpacity"
+                                  Items="_backdropOpacities"
+                                  ElementSize="ElementSize.Small"
+                                  StartIcon="lni lni-gears-3"
+                                  Width="w-full" />
+                </div>
+                <div class="basis-1/2 flex flex-col gap-2">
+                    <MaviDropdown TItem="ZIndex" TValue="ZIndex"
+                                  @bind-Value="_sampleOverlayDemoModel.ZIndex"
+                                  Items="_zIndexes"
+                                  ElementSize="ElementSize.Small"
+                                  StartIcon="lni lni-gears-3"
+                                  Width="w-full" />
+                </div>
+            </div>
+        </div>
+
+        <div class="p-2">
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                        ElementSize="ElementSize.Regular"
+                        Title="Display"
+                        ButtonRole="ButtonRole.Submit"
+                        ElementVariant="ElementVariant.Outlined"
+                        TextTransform="TextTransform.Capitalize">
+
+            </MaviButton>
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
+                        ElementSize="ElementSize.Regular"
+                        Title="Hide"
+                        ButtonRole="ButtonRole.Button"
+                        ElementVariant="ElementVariant.Outlined"
+                        TextTransform="TextTransform.Capitalize"
+                        OnClick="HideBackDrop">
+
+            </MaviButton>
+        </div>
+    </EditForm>
+</div>
+<div class="relative h-full w-full p-2 border rounded-md overflow-hidden flex items-center justify-center">
+    <div>
+        Sample content to show behind the backdrop. Adjust backdrop opacity and z-index using the controls above, then click "Display" to show the backdrop and "Hide" to hide it. Click on the backdrop to see a console message.
+    </div>
+    <MaviBackdrop @ref="_maviBackdrop"
+                  Opacity="_sampleOverlayDemoModel.BackdropOpacity"
+                  ZIndex="_sampleOverlayDemoModel.ZIndex"
+                  CloseOnBackdropClick="true"
+                  OnBackdropClick="@(() => Console.WriteLine("Backdrop clicked"))">
+        <div class="rounded-2xl bg-white p-6 shadow-lg">
+            <div class="text-lg font-semibold">Modal-like content</div>
+            <div class="mt-2 text-sm text-zinc-600">Anything can go here.</div>
+        </div>
+    </MaviBackdrop>
+</div>
+
+@code
+{
+    private MaviBackdrop? _maviBackdrop;
+    private readonly SampleOverlayDemoModel _sampleOverlayDemoModel = new();
+    private readonly IEnumerable<BackdropOpacity> _backdropOpacities = Enum.GetValues<BackdropOpacity>();
+    private readonly IEnumerable<ZIndex> _zIndexes = Enum.GetValues<ZIndex>();
+
+    private async Task OnValidFormSubmit(EditContext context)
+    {
+        if (_maviBackdrop != null)
+        {
+            await _maviBackdrop.Display();
+        }
+    }
+
+    private async Task HideBackDrop(MouseClickEventArgs args)
+    {
+        if (_maviBackdrop != null)
+        {
+            await _maviBackdrop.Hide();
+        }
+    }
+}
