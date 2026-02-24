@@ -96,6 +96,11 @@
 
             _ = ScheduleDismissAsync(toast);
         }
+
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle( Id, GetType());
+        }
     }
 
     private IEnumerable<MaviToastNotification> OrderToasts(IEnumerable<MaviToastNotification> toasts)
@@ -126,8 +131,18 @@
         }
     }
 
-    private Task RequestCloseAsync(string id)
-        => OnClose.HasDelegate ? OnClose.InvokeAsync(id) : Task.CompletedTask;
+    private async Task RequestCloseAsync(string id)
+    {
+        if (OnClose.HasDelegate)
+        {
+            await OnClose.InvokeAsync(id);
+        }
+        
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle( Id, GetType());
+        }
+    }
 
     private static bool ShouldShowProgress(MaviToastNotification toast)
         => toast is { ShowProgress: true, Duration: not null };

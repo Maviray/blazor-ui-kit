@@ -127,9 +127,9 @@
         [MaybeNullWhen(false)] out string result,
         [NotNullWhen(false)] out string? validationErrorMessage)
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         result = value ?? string.Empty;
@@ -166,9 +166,9 @@
 
     protected override async Task HandleEndIconClick(MouseEventArgs args)
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         if (Disabled || EndIconDisabled || IsEndIconLoading)

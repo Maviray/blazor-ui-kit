@@ -1,2 +1,102 @@
-﻿@using Maviray.Blazor.Components.Material.Constants
+﻿@using Maviray.Blazor.Components.Material.Components.Inputs
+@using Maviray.Blazor.Components.Material.Constants
 @inherits MaviDialogBase
+
+<div id="@Id" class="@GetContainerCssClasses()" style="@Style">
+    <div class="@GetDivideCssClasses()">
+        <div class="px-6 py-4 flex items-center justify-between">
+            <div>
+                @Title
+            </div>
+            @if (MaviDialogBaseParameters.DisplayCloseButton)
+            {
+                <div>
+
+                    <MaviButtonIcon Icon="lni lni-xmark"
+                                    ElementVariant="ElementVariant.Text"
+                                    ThemeColorScheme="MaviDialogBaseParameters.ThemeColorScheme"
+                                    ElementSize="ElementSize.Regular"
+                                    OnClick="async (e) => { await HandleButtonClick(e, Core.Enums.DialogButtonClick.Close); }"
+                                    Title="@MaviDialogBaseParameters.CloseButtonTitle" />
+                </div>
+
+            }
+        </div>
+        <div class="px-6 py-4">
+            @ChildContent
+        </div>
+        @if (MaviDialogBaseParameters.DisplayConfirmButton || MaviDialogBaseParameters.DisplayCancelButton)
+        {
+            <div class="px-6 py-4 flex justify-end items-center gap-3">
+                @if (MaviDialogBaseParameters.DisplayConfirmButton)
+                {
+                    <MaviButton ThemeColorScheme="MaviDialogBaseParameters.ThemeColorScheme"
+                                ElementSize="ElementSize.Regular"
+                                Title="@MaviDialogBaseParameters.ConfirmButtonTitle"
+                                TextTransform="TextTransform.UpperCase"
+                                OnClick="async (e) => { await HandleButtonClick(e, Core.Enums.DialogButtonClick.Confirm); }">
+                    </MaviButton>
+                }
+                @if (MaviDialogBaseParameters.DisplayCancelButton)
+                {
+                    <MaviButton ThemeColorScheme="MaviDialogBaseParameters.ThemeColorScheme"
+                                ElementVariant="ElementVariant.Outlined"
+                                ElementSize="ElementSize.Regular"
+                                Title="@MaviDialogBaseParameters.CancelButtonTitle"
+                                TextTransform="TextTransform.UpperCase"
+                                OnClick="async (e) => { await HandleButtonClick(e, Core.Enums.DialogButtonClick.Cancel); }">
+                    </MaviButton>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@code
+{
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string GetContainerCssClasses()
+    {
+        if (!Visible)
+        {
+            return "hidden";
+        }
+
+        var borderColorClass = MaviDialogBaseParameters.ThemeColorScheme switch
+        {
+            ThemeColorScheme.Default => Tailwind.Theme.Colors.Border.THEME_DEFAULT_TWO_BORDER,
+            ThemeColorScheme.Primary => Tailwind.Theme.Colors.Border.THEME_PRIMARY_TWO_BORDER,
+            ThemeColorScheme.Secondary => Tailwind.Theme.Colors.Border.THEME_SECONDARY_TWO_BORDER,
+            ThemeColorScheme.Success => Tailwind.Theme.Colors.Border.THEME_SUCCESS_TWO_BORDER,
+            ThemeColorScheme.Alert => Tailwind.Theme.Colors.Border.THEME_ALERT_TWO_BORDER,
+            ThemeColorScheme.Warning => Tailwind.Theme.Colors.Border.THEME_WARNING_TWO_BORDER,
+            ThemeColorScheme.Info => Tailwind.Theme.Colors.Border.THEME_INFO_TWO_BORDER,
+            ThemeColorScheme.Dark => Tailwind.Theme.Colors.Border.THEME_DARK_TWO_BORDER,
+            ThemeColorScheme.Light => Tailwind.Theme.Colors.Border.THEME_LIGHT_TWO_BORDER,
+            _ => Tailwind.Theme.Colors.Border.THEME_DEFAULT_TWO_BORDER
+        };
+
+        return $"overflow-hidden border rounded-md bg-white shadow-sm {borderColorClass} {MaviDialogBaseParameters.Width} {MaviDialogBaseParameters.ZIndex.ToTailwindZIndexClass()}";
+    }
+
+
+    private string GetDivideCssClasses()
+    {
+        var divideColorClass = MaviDialogBaseParameters.ThemeColorScheme switch
+        {
+            ThemeColorScheme.Default => Tailwind.Theme.Colors.Divide.THEME_DEFAULT_ONE_DIVIDE,
+            ThemeColorScheme.Primary => Tailwind.Theme.Colors.Divide.THEME_PRIMARY_ONE_DIVIDE,
+            ThemeColorScheme.Secondary => Tailwind.Theme.Colors.Divide.THEME_SECONDARY_ONE_DIVIDE,
+            ThemeColorScheme.Success => Tailwind.Theme.Colors.Divide.THEME_SUCCESS_ONE_DIVIDE,
+            ThemeColorScheme.Alert => Tailwind.Theme.Colors.Divide.THEME_ALERT_ONE_DIVIDE,
+            ThemeColorScheme.Warning => Tailwind.Theme.Colors.Divide.THEME_WARNING_ONE_DIVIDE,
+            ThemeColorScheme.Info => Tailwind.Theme.Colors.Divide.THEME_INFO_ONE_DIVIDE,
+            ThemeColorScheme.Dark => Tailwind.Theme.Colors.Divide.THEME_DARK_ONE_DIVIDE,
+            ThemeColorScheme.Light => Tailwind.Theme.Colors.Divide.THEME_LIGHT_ONE_DIVIDE,
+            _ => Tailwind.Theme.Colors.Divide.THEME_DEFAULT_ONE_DIVIDE
+        };
+
+        return $"divide-y {divideColorClass}";
+    }
+}

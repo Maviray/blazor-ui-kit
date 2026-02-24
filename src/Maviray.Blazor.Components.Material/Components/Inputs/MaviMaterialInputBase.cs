@@ -84,9 +84,9 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
 
     protected override void OnParametersSet()
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         base.OnParametersSet();
@@ -124,9 +124,9 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
 
     protected override void OnAfterRender(bool firstRender)
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         base.OnAfterRender(firstRender);
@@ -139,9 +139,9 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
 
     public virtual void Dispose()
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         DetachValidationStateChangedListener();
@@ -156,9 +156,9 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
     /// </summary>
     protected void OnValidationStateChanged(object? sender, ValidationStateChangedEventArgs e)
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         // Clear validation for disabled/readonly fields
@@ -187,9 +187,9 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
     /// </summary>
     protected virtual async Task HandleEndIconClick(MouseEventArgs args)
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         if (Disabled || EndIconDisabled || IsEndIconLoading)
@@ -242,9 +242,9 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
 
     protected void OnFocus()
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         IsFocused = true;
@@ -253,9 +253,9 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
 
     protected virtual void OnBlur()
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         IsFocused = false;

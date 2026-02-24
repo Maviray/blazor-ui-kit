@@ -86,6 +86,11 @@
         {
             await ToggleStatusChange.InvokeAsync(new() { ElementId = Id, Value = CurrentValue });
         }
+
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle( Id, GetType());
+        }
     }
 
     private async Task HandleKeyDown(KeyboardEventArgs e)

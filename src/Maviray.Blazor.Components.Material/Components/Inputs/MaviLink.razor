@@ -51,6 +51,8 @@
 
     [Parameter] public EventCallback<MouseClickEventArgs> OnClick { get; set; }
 
+    private bool _enableLifeCycleLogging;
+
     private ILogger? _logger;
 
     [Inject] private ILoggerFactory? LoggerFactory { get; set; }
@@ -58,6 +60,16 @@
     [Inject] protected IMaviComponentOptions? ComponentOptions { get; set; }
 
     private ILogger? Logger => _logger ??= LoggerFactory?.CreateLogger(GetType());
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        if (ComponentOptions != null)
+        {
+            _enableLifeCycleLogging = ComponentOptions.EnableLifecycleLogging;
+        }
+    }
 
     private string GetCssClass()
     {
@@ -155,9 +167,9 @@
 
     private async Task HandleClick(MouseEventArgs args)
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (_enableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         if (OnClick.HasDelegate)

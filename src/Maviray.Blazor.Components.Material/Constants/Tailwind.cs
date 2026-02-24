@@ -3172,6 +3172,610 @@ public static class Tailwind
                     #endregion
                 }
             }
+
+            public static class Divide
+            {
+                #region Divide Colors
+
+                // Default - Divide
+                public const string THEME_DEFAULT_ONE_DIVIDE = "divide-(--theme-default-one)";
+                public const string THEME_DEFAULT_TWO_DIVIDE = "divide-(--theme-default-two)";
+                public const string THEME_DEFAULT_THREE_DIVIDE = "divide-(--theme-default-three)";
+                public const string THEME_DEFAULT_FOUR_DIVIDE = "divide-(--theme-default-four)";
+                public const string THEME_DEFAULT_FIVE_DIVIDE = "divide-(--theme-default-five)";
+                public const string THEME_DEFAULT_SIX_DIVIDE = "divide-(--theme-default-six)";
+                public const string THEME_DEFAULT_SEVEN_DIVIDE = "divide-(--theme-default-seven)";
+                public const string THEME_DEFAULT_EIGHT_DIVIDE = "divide-(--theme-default-eight)";
+                public const string THEME_DEFAULT_NINE_DIVIDE = "divide-(--theme-default-nine)";
+                public const string THEME_DEFAULT_TEN_DIVIDE = "divide-(--theme-default-ten)";
+
+                // Primary - Divide
+                public const string THEME_PRIMARY_ONE_DIVIDE = "divide-(--theme-primary-one)";
+                public const string THEME_PRIMARY_TWO_DIVIDE = "divide-(--theme-primary-two)";
+                public const string THEME_PRIMARY_THREE_DIVIDE = "divide-(--theme-primary-three)";
+                public const string THEME_PRIMARY_FOUR_DIVIDE = "divide-(--theme-primary-four)";
+                public const string THEME_PRIMARY_FIVE_DIVIDE = "divide-(--theme-primary-five)";
+                public const string THEME_PRIMARY_SIX_DIVIDE = "divide-(--theme-primary-six)";
+                public const string THEME_PRIMARY_SEVEN_DIVIDE = "divide-(--theme-primary-seven)";
+                public const string THEME_PRIMARY_EIGHT_DIVIDE = "divide-(--theme-primary-eight)";
+                public const string THEME_PRIMARY_NINE_DIVIDE = "divide-(--theme-primary-nine)";
+                public const string THEME_PRIMARY_TEN_DIVIDE = "divide-(--theme-primary-ten)";
+
+                // Secondary - Divide
+                public const string THEME_SECONDARY_ONE_DIVIDE = "divide-(--theme-secondary-one)";
+                public const string THEME_SECONDARY_TWO_DIVIDE = "divide-(--theme-secondary-two)";
+                public const string THEME_SECONDARY_THREE_DIVIDE = "divide-(--theme-secondary-three)";
+                public const string THEME_SECONDARY_FOUR_DIVIDE = "divide-(--theme-secondary-four)";
+                public const string THEME_SECONDARY_FIVE_DIVIDE = "divide-(--theme-secondary-five)";
+                public const string THEME_SECONDARY_SIX_DIVIDE = "divide-(--theme-secondary-six)";
+                public const string THEME_SECONDARY_SEVEN_DIVIDE = "divide-(--theme-secondary-seven)";
+                public const string THEME_SECONDARY_EIGHT_DIVIDE = "divide-(--theme-secondary-eight)";
+                public const string THEME_SECONDARY_NINE_DIVIDE = "divide-(--theme-secondary-nine)";
+                public const string THEME_SECONDARY_TEN_DIVIDE = "divide-(--theme-secondary-ten)";
+
+                // Tertiary - Divide
+                public const string THEME_TERTIARY_ONE_DIVIDE = "divide-(--theme-tertiary-one)";
+                public const string THEME_TERTIARY_TWO_DIVIDE = "divide-(--theme-tertiary-two)";
+                public const string THEME_TERTIARY_THREE_DIVIDE = "divide-(--theme-tertiary-three)";
+                public const string THEME_TERTIARY_FOUR_DIVIDE = "divide-(--theme-tertiary-four)";
+                public const string THEME_TERTIARY_FIVE_DIVIDE = "divide-(--theme-tertiary-five)";
+                public const string THEME_TERTIARY_SIX_DIVIDE = "divide-(--theme-tertiary-six)";
+                public const string THEME_TERTIARY_SEVEN_DIVIDE = "divide-(--theme-tertiary-seven)";
+                public const string THEME_TERTIARY_EIGHT_DIVIDE = "divide-(--theme-tertiary-eight)";
+                public const string THEME_TERTIARY_NINE_DIVIDE = "divide-(--theme-tertiary-nine)";
+                public const string THEME_TERTIARY_TEN_DIVIDE = "divide-(--theme-tertiary-ten)";
+
+                // Accent - Divide
+                public const string THEME_ACCENT_ONE_DIVIDE = "divide-(--theme-accent-one)";
+                public const string THEME_ACCENT_TWO_DIVIDE = "divide-(--theme-accent-two)";
+                public const string THEME_ACCENT_THREE_DIVIDE = "divide-(--theme-accent-three)";
+                public const string THEME_ACCENT_FOUR_DIVIDE = "divide-(--theme-accent-four)";
+                public const string THEME_ACCENT_FIVE_DIVIDE = "divide-(--theme-accent-five)";
+                public const string THEME_ACCENT_SIX_DIVIDE = "divide-(--theme-accent-six)";
+                public const string THEME_ACCENT_SEVEN_DIVIDE = "divide-(--theme-accent-seven)";
+                public const string THEME_ACCENT_EIGHT_DIVIDE = "divide-(--theme-accent-eight)";
+                public const string THEME_ACCENT_NINE_DIVIDE = "divide-(--theme-accent-nine)";
+                public const string THEME_ACCENT_TEN_DIVIDE = "divide-(--theme-accent-ten)";
+
+                // Highlight - Divide
+                public const string THEME_HIGHLIGHT_ONE_DIVIDE = "divide-(--theme-highlight-one)";
+                public const string THEME_HIGHLIGHT_TWO_DIVIDE = "divide-(--theme-highlight-two)";
+                public const string THEME_HIGHLIGHT_THREE_DIVIDE = "divide-(--theme-highlight-three)";
+                public const string THEME_HIGHLIGHT_FOUR_DIVIDE = "divide-(--theme-highlight-four)";
+                public const string THEME_HIGHLIGHT_FIVE_DIVIDE = "divide-(--theme-highlight-five)";
+                public const string THEME_HIGHLIGHT_SIX_DIVIDE = "divide-(--theme-highlight-six)";
+                public const string THEME_HIGHLIGHT_SEVEN_DIVIDE = "divide-(--theme-highlight-seven)";
+                public const string THEME_HIGHLIGHT_EIGHT_DIVIDE = "divide-(--theme-highlight-eight)";
+                public const string THEME_HIGHLIGHT_NINE_DIVIDE = "divide-(--theme-highlight-nine)";
+                public const string THEME_HIGHLIGHT_TEN_DIVIDE = "divide-(--theme-highlight-ten)";
+
+                // Alert - Divide
+                public const string THEME_ALERT_ONE_DIVIDE = "divide-(--theme-alert-one)";
+                public const string THEME_ALERT_TWO_DIVIDE = "divide-(--theme-alert-two)";
+                public const string THEME_ALERT_THREE_DIVIDE = "divide-(--theme-alert-three)";
+                public const string THEME_ALERT_FOUR_DIVIDE = "divide-(--theme-alert-four)";
+                public const string THEME_ALERT_FIVE_DIVIDE = "divide-(--theme-alert-five)";
+                public const string THEME_ALERT_SIX_DIVIDE = "divide-(--theme-alert-six)";
+                public const string THEME_ALERT_SEVEN_DIVIDE = "divide-(--theme-alert-seven)";
+                public const string THEME_ALERT_EIGHT_DIVIDE = "divide-(--theme-alert-eight)";
+                public const string THEME_ALERT_NINE_DIVIDE = "divide-(--theme-alert-nine)";
+                public const string THEME_ALERT_TEN_DIVIDE = "divide-(--theme-alert-ten)";
+
+                // Warning - Divide
+                public const string THEME_WARNING_ONE_DIVIDE = "divide-(--theme-warning-one)";
+                public const string THEME_WARNING_TWO_DIVIDE = "divide-(--theme-warning-two)";
+                public const string THEME_WARNING_THREE_DIVIDE = "divide-(--theme-warning-three)";
+                public const string THEME_WARNING_FOUR_DIVIDE = "divide-(--theme-warning-four)";
+                public const string THEME_WARNING_FIVE_DIVIDE = "divide-(--theme-warning-five)";
+                public const string THEME_WARNING_SIX_DIVIDE = "divide-(--theme-warning-six)";
+                public const string THEME_WARNING_SEVEN_DIVIDE = "divide-(--theme-warning-seven)";
+                public const string THEME_WARNING_EIGHT_DIVIDE = "divide-(--theme-warning-eight)";
+                public const string THEME_WARNING_NINE_DIVIDE = "divide-(--theme-warning-nine)";
+                public const string THEME_WARNING_TEN_DIVIDE = "divide-(--theme-warning-ten)";
+
+                // Info - Divide
+                public const string THEME_INFO_ONE_DIVIDE = "divide-(--theme-info-one)";
+                public const string THEME_INFO_TWO_DIVIDE = "divide-(--theme-info-two)";
+                public const string THEME_INFO_THREE_DIVIDE = "divide-(--theme-info-three)";
+                public const string THEME_INFO_FOUR_DIVIDE = "divide-(--theme-info-four)";
+                public const string THEME_INFO_FIVE_DIVIDE = "divide-(--theme-info-five)";
+                public const string THEME_INFO_SIX_DIVIDE = "divide-(--theme-info-six)";
+                public const string THEME_INFO_SEVEN_DIVIDE = "divide-(--theme-info-seven)";
+                public const string THEME_INFO_EIGHT_DIVIDE = "divide-(--theme-info-eight)";
+                public const string THEME_INFO_NINE_DIVIDE = "divide-(--theme-info-nine)";
+                public const string THEME_INFO_TEN_DIVIDE = "divide-(--theme-info-ten)";
+
+                // Success - Divide
+                public const string THEME_SUCCESS_ONE_DIVIDE = "divide-(--theme-success-one)";
+                public const string THEME_SUCCESS_TWO_DIVIDE = "divide-(--theme-success-two)";
+                public const string THEME_SUCCESS_THREE_DIVIDE = "divide-(--theme-success-three)";
+                public const string THEME_SUCCESS_FOUR_DIVIDE = "divide-(--theme-success-four)";
+                public const string THEME_SUCCESS_FIVE_DIVIDE = "divide-(--theme-success-five)";
+                public const string THEME_SUCCESS_SIX_DIVIDE = "divide-(--theme-success-six)";
+                public const string THEME_SUCCESS_SEVEN_DIVIDE = "divide-(--theme-success-seven)";
+                public const string THEME_SUCCESS_EIGHT_DIVIDE = "divide-(--theme-success-eight)";
+                public const string THEME_SUCCESS_NINE_DIVIDE = "divide-(--theme-success-nine)";
+                public const string THEME_SUCCESS_TEN_DIVIDE = "divide-(--theme-success-ten)";
+
+                // Light - Divide
+                public const string THEME_LIGHT_ONE_DIVIDE = "divide-(--theme-light-one)";
+                public const string THEME_LIGHT_TWO_DIVIDE = "divide-(--theme-light-two)";
+                public const string THEME_LIGHT_THREE_DIVIDE = "divide-(--theme-light-three)";
+                public const string THEME_LIGHT_FOUR_DIVIDE = "divide-(--theme-light-four)";
+                public const string THEME_LIGHT_FIVE_DIVIDE = "divide-(--theme-light-five)";
+                public const string THEME_LIGHT_SIX_DIVIDE = "divide-(--theme-light-six)";
+                public const string THEME_LIGHT_SEVEN_DIVIDE = "divide-(--theme-light-seven)";
+                public const string THEME_LIGHT_EIGHT_DIVIDE = "divide-(--theme-light-eight)";
+                public const string THEME_LIGHT_NINE_DIVIDE = "divide-(--theme-light-nine)";
+                public const string THEME_LIGHT_TEN_DIVIDE = "divide-(--theme-light-ten)";
+
+                // Dark - Divide
+                public const string THEME_DARK_ONE_DIVIDE = "divide-(--theme-dark-one)";
+                public const string THEME_DARK_TWO_DIVIDE = "divide-(--theme-dark-two)";
+                public const string THEME_DARK_THREE_DIVIDE = "divide-(--theme-dark-three)";
+                public const string THEME_DARK_FOUR_DIVIDE = "divide-(--theme-dark-four)";
+                public const string THEME_DARK_FIVE_DIVIDE = "divide-(--theme-dark-five)";
+                public const string THEME_DARK_SIX_DIVIDE = "divide-(--theme-dark-six)";
+                public const string THEME_DARK_SEVEN_DIVIDE = "divide-(--theme-dark-seven)";
+                public const string THEME_DARK_EIGHT_DIVIDE = "divide-(--theme-dark-eight)";
+                public const string THEME_DARK_NINE_DIVIDE = "divide-(--theme-dark-nine)";
+                public const string THEME_DARK_TEN_DIVIDE = "divide-(--theme-dark-ten)";
+
+                #endregion
+
+                public static class Hover
+                {
+                    #region Divide Hover Colors
+
+                    // Default - Divide - Hover
+                    public const string THEME_DEFAULT_ONE_DIVIDE_HOVER = "hover:divide-(--theme-default-one)";
+                    public const string THEME_DEFAULT_TWO_DIVIDE_HOVER = "hover:divide-(--theme-default-two)";
+                    public const string THEME_DEFAULT_THREE_DIVIDE_HOVER = "hover:divide-(--theme-default-three)";
+                    public const string THEME_DEFAULT_FOUR_DIVIDE_HOVER = "hover:divide-(--theme-default-four)";
+                    public const string THEME_DEFAULT_FIVE_DIVIDE_HOVER = "hover:divide-(--theme-default-five)";
+                    public const string THEME_DEFAULT_SIX_DIVIDE_HOVER = "hover:divide-(--theme-default-six)";
+                    public const string THEME_DEFAULT_SEVEN_DIVIDE_HOVER = "hover:divide-(--theme-default-seven)";
+                    public const string THEME_DEFAULT_EIGHT_DIVIDE_HOVER = "hover:divide-(--theme-default-eight)";
+                    public const string THEME_DEFAULT_NINE_DIVIDE_HOVER = "hover:divide-(--theme-default-nine)";
+                    public const string THEME_DEFAULT_TEN_DIVIDE_HOVER = "hover:divide-(--theme-default-ten)";
+
+                    // Primary - Divide - Hover
+                    public const string THEME_PRIMARY_ONE_DIVIDE_HOVER = "hover:divide-(--theme-primary-one)";
+                    public const string THEME_PRIMARY_TWO_DIVIDE_HOVER = "hover:divide-(--theme-primary-two)";
+                    public const string THEME_PRIMARY_THREE_DIVIDE_HOVER = "hover:divide-(--theme-primary-three)";
+                    public const string THEME_PRIMARY_FOUR_DIVIDE_HOVER = "hover:divide-(--theme-primary-four)";
+                    public const string THEME_PRIMARY_FIVE_DIVIDE_HOVER = "hover:divide-(--theme-primary-five)";
+                    public const string THEME_PRIMARY_SIX_DIVIDE_HOVER = "hover:divide-(--theme-primary-six)";
+                    public const string THEME_PRIMARY_SEVEN_DIVIDE_HOVER = "hover:divide-(--theme-primary-seven)";
+                    public const string THEME_PRIMARY_EIGHT_DIVIDE_HOVER = "hover:divide-(--theme-primary-eight)";
+                    public const string THEME_PRIMARY_NINE_DIVIDE_HOVER = "hover:divide-(--theme-primary-nine)";
+                    public const string THEME_PRIMARY_TEN_DIVIDE_HOVER = "hover:divide-(--theme-primary-ten)";
+
+                    // Secondary - Divide - Hover
+                    public const string THEME_SECONDARY_ONE_DIVIDE_HOVER = "hover:divide-(--theme-secondary-one)";
+                    public const string THEME_SECONDARY_TWO_DIVIDE_HOVER = "hover:divide-(--theme-secondary-two)";
+                    public const string THEME_SECONDARY_THREE_DIVIDE_HOVER = "hover:divide-(--theme-secondary-three)";
+                    public const string THEME_SECONDARY_FOUR_DIVIDE_HOVER = "hover:divide-(--theme-secondary-four)";
+                    public const string THEME_SECONDARY_FIVE_DIVIDE_HOVER = "hover:divide-(--theme-secondary-five)";
+                    public const string THEME_SECONDARY_SIX_DIVIDE_HOVER = "hover:divide-(--theme-secondary-six)";
+                    public const string THEME_SECONDARY_SEVEN_DIVIDE_HOVER = "hover:divide-(--theme-secondary-seven)";
+                    public const string THEME_SECONDARY_EIGHT_DIVIDE_HOVER = "hover:divide-(--theme-secondary-eight)";
+                    public const string THEME_SECONDARY_NINE_DIVIDE_HOVER = "hover:divide-(--theme-secondary-nine)";
+                    public const string THEME_SECONDARY_TEN_DIVIDE_HOVER = "hover:divide-(--theme-secondary-ten)";
+
+                    // Tertiary - Divide - Hover
+                    public const string THEME_TERTIARY_ONE_DIVIDE_HOVER = "hover:divide-(--theme-tertiary-one)";
+                    public const string THEME_TERTIARY_TWO_DIVIDE_HOVER = "hover:divide-(--theme-tertiary-two)";
+                    public const string THEME_TERTIARY_THREE_DIVIDE_HOVER = "hover:divide-(--theme-tertiary-three)";
+                    public const string THEME_TERTIARY_FOUR_DIVIDE_HOVER = "hover:divide-(--theme-tertiary-four)";
+                    public const string THEME_TERTIARY_FIVE_DIVIDE_HOVER = "hover:divide-(--theme-tertiary-five)";
+                    public const string THEME_TERTIARY_SIX_DIVIDE_HOVER = "hover:divide-(--theme-tertiary-six)";
+                    public const string THEME_TERTIARY_SEVEN_DIVIDE_HOVER = "hover:divide-(--theme-tertiary-seven)";
+                    public const string THEME_TERTIARY_EIGHT_DIVIDE_HOVER = "hover:divide-(--theme-tertiary-eight)";
+                    public const string THEME_TERTIARY_NINE_DIVIDE_HOVER = "hover:divide-(--theme-tertiary-nine)";
+                    public const string THEME_TERTIARY_TEN_DIVIDE_HOVER = "hover:divide-(--theme-tertiary-ten)";
+
+                    // Accent - Divide - Hover
+                    public const string THEME_ACCENT_ONE_DIVIDE_HOVER = "hover:divide-(--theme-accent-one)";
+                    public const string THEME_ACCENT_TWO_DIVIDE_HOVER = "hover:divide-(--theme-accent-two)";
+                    public const string THEME_ACCENT_THREE_DIVIDE_HOVER = "hover:divide-(--theme-accent-three)";
+                    public const string THEME_ACCENT_FOUR_DIVIDE_HOVER = "hover:divide-(--theme-accent-four)";
+                    public const string THEME_ACCENT_FIVE_DIVIDE_HOVER = "hover:divide-(--theme-accent-five)";
+                    public const string THEME_ACCENT_SIX_DIVIDE_HOVER = "hover:divide-(--theme-accent-six)";
+                    public const string THEME_ACCENT_SEVEN_DIVIDE_HOVER = "hover:divide-(--theme-accent-seven)";
+                    public const string THEME_ACCENT_EIGHT_DIVIDE_HOVER = "hover:divide-(--theme-accent-eight)";
+                    public const string THEME_ACCENT_NINE_DIVIDE_HOVER = "hover:divide-(--theme-accent-nine)";
+                    public const string THEME_ACCENT_TEN_DIVIDE_HOVER = "hover:divide-(--theme-accent-ten)";
+
+                    // Highlight - Divide - Hover
+                    public const string THEME_HIGHLIGHT_ONE_DIVIDE_HOVER = "hover:divide-(--theme-highlight-one)";
+                    public const string THEME_HIGHLIGHT_TWO_DIVIDE_HOVER = "hover:divide-(--theme-highlight-two)";
+                    public const string THEME_HIGHLIGHT_THREE_DIVIDE_HOVER = "hover:divide-(--theme-highlight-three)";
+                    public const string THEME_HIGHLIGHT_FOUR_DIVIDE_HOVER = "hover:divide-(--theme-highlight-four)";
+                    public const string THEME_HIGHLIGHT_FIVE_DIVIDE_HOVER = "hover:divide-(--theme-highlight-five)";
+                    public const string THEME_HIGHLIGHT_SIX_DIVIDE_HOVER = "hover:divide-(--theme-highlight-six)";
+                    public const string THEME_HIGHLIGHT_SEVEN_DIVIDE_HOVER = "hover:divide-(--theme-highlight-seven)";
+                    public const string THEME_HIGHLIGHT_EIGHT_DIVIDE_HOVER = "hover:divide-(--theme-highlight-eight)";
+                    public const string THEME_HIGHLIGHT_NINE_DIVIDE_HOVER = "hover:divide-(--theme-highlight-nine)";
+                    public const string THEME_HIGHLIGHT_TEN_DIVIDE_HOVER = "hover:divide-(--theme-highlight-ten)";
+
+                    // Alert - Divide - Hover
+                    public const string THEME_ALERT_ONE_DIVIDE_HOVER = "hover:divide-(--theme-alert-one)";
+                    public const string THEME_ALERT_TWO_DIVIDE_HOVER = "hover:divide-(--theme-alert-two)";
+                    public const string THEME_ALERT_THREE_DIVIDE_HOVER = "hover:divide-(--theme-alert-three)";
+                    public const string THEME_ALERT_FOUR_DIVIDE_HOVER = "hover:divide-(--theme-alert-four)";
+                    public const string THEME_ALERT_FIVE_DIVIDE_HOVER = "hover:divide-(--theme-alert-five)";
+                    public const string THEME_ALERT_SIX_DIVIDE_HOVER = "hover:divide-(--theme-alert-six)";
+                    public const string THEME_ALERT_SEVEN_DIVIDE_HOVER = "hover:divide-(--theme-alert-seven)";
+                    public const string THEME_ALERT_EIGHT_DIVIDE_HOVER = "hover:divide-(--theme-alert-eight)";
+                    public const string THEME_ALERT_NINE_DIVIDE_HOVER = "hover:divide-(--theme-alert-nine)";
+                    public const string THEME_ALERT_TEN_DIVIDE_HOVER = "hover:divide-(--theme-alert-ten)";
+
+                    // Warning - Divide - Hover
+                    public const string THEME_WARNING_ONE_DIVIDE_HOVER = "hover:divide-(--theme-warning-one)";
+                    public const string THEME_WARNING_TWO_DIVIDE_HOVER = "hover:divide-(--theme-warning-two)";
+                    public const string THEME_WARNING_THREE_DIVIDE_HOVER = "hover:divide-(--theme-warning-three)";
+                    public const string THEME_WARNING_FOUR_DIVIDE_HOVER = "hover:divide-(--theme-warning-four)";
+                    public const string THEME_WARNING_FIVE_DIVIDE_HOVER = "hover:divide-(--theme-warning-five)";
+                    public const string THEME_WARNING_SIX_DIVIDE_HOVER = "hover:divide-(--theme-warning-six)";
+                    public const string THEME_WARNING_SEVEN_DIVIDE_HOVER = "hover:divide-(--theme-warning-seven)";
+                    public const string THEME_WARNING_EIGHT_DIVIDE_HOVER = "hover:divide-(--theme-warning-eight)";
+                    public const string THEME_WARNING_NINE_DIVIDE_HOVER = "hover:divide-(--theme-warning-nine)";
+                    public const string THEME_WARNING_TEN_DIVIDE_HOVER = "hover:divide-(--theme-warning-ten)";
+
+                    // Info - Divide - Hover
+                    public const string THEME_INFO_ONE_DIVIDE_HOVER = "hover:divide-(--theme-info-one)";
+                    public const string THEME_INFO_TWO_DIVIDE_HOVER = "hover:divide-(--theme-info-two)";
+                    public const string THEME_INFO_THREE_DIVIDE_HOVER = "hover:divide-(--theme-info-three)";
+                    public const string THEME_INFO_FOUR_DIVIDE_HOVER = "hover:divide-(--theme-info-four)";
+                    public const string THEME_INFO_FIVE_DIVIDE_HOVER = "hover:divide-(--theme-info-five)";
+                    public const string THEME_INFO_SIX_DIVIDE_HOVER = "hover:divide-(--theme-info-six)";
+                    public const string THEME_INFO_SEVEN_DIVIDE_HOVER = "hover:divide-(--theme-info-seven)";
+                    public const string THEME_INFO_EIGHT_DIVIDE_HOVER = "hover:divide-(--theme-info-eight)";
+                    public const string THEME_INFO_NINE_DIVIDE_HOVER = "hover:divide-(--theme-info-nine)";
+                    public const string THEME_INFO_TEN_DIVIDE_HOVER = "hover:divide-(--theme-info-ten)";
+
+                    // Success - Divide - Hover
+                    public const string THEME_SUCCESS_ONE_DIVIDE_HOVER = "hover:divide-(--theme-success-one)";
+                    public const string THEME_SUCCESS_TWO_DIVIDE_HOVER = "hover:divide-(--theme-success-two)";
+                    public const string THEME_SUCCESS_THREE_DIVIDE_HOVER = "hover:divide-(--theme-success-three)";
+                    public const string THEME_SUCCESS_FOUR_DIVIDE_HOVER = "hover:divide-(--theme-success-four)";
+                    public const string THEME_SUCCESS_FIVE_DIVIDE_HOVER = "hover:divide-(--theme-success-five)";
+                    public const string THEME_SUCCESS_SIX_DIVIDE_HOVER = "hover:divide-(--theme-success-six)";
+                    public const string THEME_SUCCESS_SEVEN_DIVIDE_HOVER = "hover:divide-(--theme-success-seven)";
+                    public const string THEME_SUCCESS_EIGHT_DIVIDE_HOVER = "hover:divide-(--theme-success-eight)";
+                    public const string THEME_SUCCESS_NINE_DIVIDE_HOVER = "hover:divide-(--theme-success-nine)";
+                    public const string THEME_SUCCESS_TEN_DIVIDE_HOVER = "hover:divide-(--theme-success-ten)";
+
+                    // Light - Divide - Hover
+                    public const string THEME_LIGHT_ONE_DIVIDE_HOVER = "hover:divide-(--theme-light-one)";
+                    public const string THEME_LIGHT_TWO_DIVIDE_HOVER = "hover:divide-(--theme-light-two)";
+                    public const string THEME_LIGHT_THREE_DIVIDE_HOVER = "hover:divide-(--theme-light-three)";
+                    public const string THEME_LIGHT_FOUR_DIVIDE_HOVER = "hover:divide-(--theme-light-four)";
+                    public const string THEME_LIGHT_FIVE_DIVIDE_HOVER = "hover:divide-(--theme-light-five)";
+                    public const string THEME_LIGHT_SIX_DIVIDE_HOVER = "hover:divide-(--theme-light-six)";
+                    public const string THEME_LIGHT_SEVEN_DIVIDE_HOVER = "hover:divide-(--theme-light-seven)";
+                    public const string THEME_LIGHT_EIGHT_DIVIDE_HOVER = "hover:divide-(--theme-light-eight)";
+                    public const string THEME_LIGHT_NINE_DIVIDE_HOVER = "hover:divide-(--theme-light-nine)";
+                    public const string THEME_LIGHT_TEN_DIVIDE_HOVER = "hover:divide-(--theme-light-ten)";
+
+                    // Dark - Divide - Hover
+                    public const string THEME_DARK_ONE_DIVIDE_HOVER = "hover:divide-(--theme-dark-one)";
+                    public const string THEME_DARK_TWO_DIVIDE_HOVER = "hover:divide-(--theme-dark-two)";
+                    public const string THEME_DARK_THREE_DIVIDE_HOVER = "hover:divide-(--theme-dark-three)";
+                    public const string THEME_DARK_FOUR_DIVIDE_HOVER = "hover:divide-(--theme-dark-four)";
+                    public const string THEME_DARK_FIVE_DIVIDE_HOVER = "hover:divide-(--theme-dark-five)";
+                    public const string THEME_DARK_SIX_DIVIDE_HOVER = "hover:divide-(--theme-dark-six)";
+                    public const string THEME_DARK_SEVEN_DIVIDE_HOVER = "hover:divide-(--theme-dark-seven)";
+                    public const string THEME_DARK_EIGHT_DIVIDE_HOVER = "hover:divide-(--theme-dark-eight)";
+                    public const string THEME_DARK_NINE_DIVIDE_HOVER = "hover:divide-(--theme-dark-nine)";
+                    public const string THEME_DARK_TEN_DIVIDE_HOVER = "hover:divide-(--theme-dark-ten)";
+
+                    #endregion
+                }
+
+                public static class Focus
+                {
+                    #region Divide Focus Colors
+
+                    // Default - Divide - Focus
+                    public const string THEME_DEFAULT_ONE_DIVIDE_FOCUS = "focus:divide-(--theme-default-one)";
+                    public const string THEME_DEFAULT_TWO_DIVIDE_FOCUS = "focus:divide-(--theme-default-two)";
+                    public const string THEME_DEFAULT_THREE_DIVIDE_FOCUS = "focus:divide-(--theme-default-three)";
+                    public const string THEME_DEFAULT_FOUR_DIVIDE_FOCUS = "focus:divide-(--theme-default-four)";
+                    public const string THEME_DEFAULT_FIVE_DIVIDE_FOCUS = "focus:divide-(--theme-default-five)";
+                    public const string THEME_DEFAULT_SIX_DIVIDE_FOCUS = "focus:divide-(--theme-default-six)";
+                    public const string THEME_DEFAULT_SEVEN_DIVIDE_FOCUS = "focus:divide-(--theme-default-seven)";
+                    public const string THEME_DEFAULT_EIGHT_DIVIDE_FOCUS = "focus:divide-(--theme-default-eight)";
+                    public const string THEME_DEFAULT_NINE_DIVIDE_FOCUS = "focus:divide-(--theme-default-nine)";
+                    public const string THEME_DEFAULT_TEN_DIVIDE_FOCUS = "focus:divide-(--theme-default-ten)";
+
+                    // Primary - Divide - Focus
+                    public const string THEME_PRIMARY_ONE_DIVIDE_FOCUS = "focus:divide-(--theme-primary-one)";
+                    public const string THEME_PRIMARY_TWO_DIVIDE_FOCUS = "focus:divide-(--theme-primary-two)";
+                    public const string THEME_PRIMARY_THREE_DIVIDE_FOCUS = "focus:divide-(--theme-primary-three)";
+                    public const string THEME_PRIMARY_FOUR_DIVIDE_FOCUS = "focus:divide-(--theme-primary-four)";
+                    public const string THEME_PRIMARY_FIVE_DIVIDE_FOCUS = "focus:divide-(--theme-primary-five)";
+                    public const string THEME_PRIMARY_SIX_DIVIDE_FOCUS = "focus:divide-(--theme-primary-six)";
+                    public const string THEME_PRIMARY_SEVEN_DIVIDE_FOCUS = "focus:divide-(--theme-primary-seven)";
+                    public const string THEME_PRIMARY_EIGHT_DIVIDE_FOCUS = "focus:divide-(--theme-primary-eight)";
+                    public const string THEME_PRIMARY_NINE_DIVIDE_FOCUS = "focus:divide-(--theme-primary-nine)";
+                    public const string THEME_PRIMARY_TEN_DIVIDE_FOCUS = "focus:divide-(--theme-primary-ten)";
+
+                    // Secondary - Divide - Focus
+                    public const string THEME_SECONDARY_ONE_DIVIDE_FOCUS = "focus:divide-(--theme-secondary-one)";
+                    public const string THEME_SECONDARY_TWO_DIVIDE_FOCUS = "focus:divide-(--theme-secondary-two)";
+                    public const string THEME_SECONDARY_THREE_DIVIDE_FOCUS = "focus:divide-(--theme-secondary-three)";
+                    public const string THEME_SECONDARY_FOUR_DIVIDE_FOCUS = "focus:divide-(--theme-secondary-four)";
+                    public const string THEME_SECONDARY_FIVE_DIVIDE_FOCUS = "focus:divide-(--theme-secondary-five)";
+                    public const string THEME_SECONDARY_SIX_DIVIDE_FOCUS = "focus:divide-(--theme-secondary-six)";
+                    public const string THEME_SECONDARY_SEVEN_DIVIDE_FOCUS = "focus:divide-(--theme-secondary-seven)";
+                    public const string THEME_SECONDARY_EIGHT_DIVIDE_FOCUS = "focus:divide-(--theme-secondary-eight)";
+                    public const string THEME_SECONDARY_NINE_DIVIDE_FOCUS = "focus:divide-(--theme-secondary-nine)";
+                    public const string THEME_SECONDARY_TEN_DIVIDE_FOCUS = "focus:divide-(--theme-secondary-ten)";
+
+                    // Tertiary - Divide - Focus
+                    public const string THEME_TERTIARY_ONE_DIVIDE_FOCUS = "focus:divide-(--theme-tertiary-one)";
+                    public const string THEME_TERTIARY_TWO_DIVIDE_FOCUS = "focus:divide-(--theme-tertiary-two)";
+                    public const string THEME_TERTIARY_THREE_DIVIDE_FOCUS = "focus:divide-(--theme-tertiary-three)";
+                    public const string THEME_TERTIARY_FOUR_DIVIDE_FOCUS = "focus:divide-(--theme-tertiary-four)";
+                    public const string THEME_TERTIARY_FIVE_DIVIDE_FOCUS = "focus:divide-(--theme-tertiary-five)";
+                    public const string THEME_TERTIARY_SIX_DIVIDE_FOCUS = "focus:divide-(--theme-tertiary-six)";
+                    public const string THEME_TERTIARY_SEVEN_DIVIDE_FOCUS = "focus:divide-(--theme-tertiary-seven)";
+                    public const string THEME_TERTIARY_EIGHT_DIVIDE_FOCUS = "focus:divide-(--theme-tertiary-eight)";
+                    public const string THEME_TERTIARY_NINE_DIVIDE_FOCUS = "focus:divide-(--theme-tertiary-nine)";
+                    public const string THEME_TERTIARY_TEN_DIVIDE_FOCUS = "focus:divide-(--theme-tertiary-ten)";
+
+                    // Accent - Divide - Focus
+                    public const string THEME_ACCENT_ONE_DIVIDE_FOCUS = "focus:divide-(--theme-accent-one)";
+                    public const string THEME_ACCENT_TWO_DIVIDE_FOCUS = "focus:divide-(--theme-accent-two)";
+                    public const string THEME_ACCENT_THREE_DIVIDE_FOCUS = "focus:divide-(--theme-accent-three)";
+                    public const string THEME_ACCENT_FOUR_DIVIDE_FOCUS = "focus:divide-(--theme-accent-four)";
+                    public const string THEME_ACCENT_FIVE_DIVIDE_FOCUS = "focus:divide-(--theme-accent-five)";
+                    public const string THEME_ACCENT_SIX_DIVIDE_FOCUS = "focus:divide-(--theme-accent-six)";
+                    public const string THEME_ACCENT_SEVEN_DIVIDE_FOCUS = "focus:divide-(--theme-accent-seven)";
+                    public const string THEME_ACCENT_EIGHT_DIVIDE_FOCUS = "focus:divide-(--theme-accent-eight)";
+                    public const string THEME_ACCENT_NINE_DIVIDE_FOCUS = "focus:divide-(--theme-accent-nine)";
+                    public const string THEME_ACCENT_TEN_DIVIDE_FOCUS = "focus:divide-(--theme-accent-ten)";
+
+                    // Highlight - Divide - Focus
+                    public const string THEME_HIGHLIGHT_ONE_DIVIDE_FOCUS = "focus:divide-(--theme-highlight-one)";
+                    public const string THEME_HIGHLIGHT_TWO_DIVIDE_FOCUS = "focus:divide-(--theme-highlight-two)";
+                    public const string THEME_HIGHLIGHT_THREE_DIVIDE_FOCUS = "focus:divide-(--theme-highlight-three)";
+                    public const string THEME_HIGHLIGHT_FOUR_DIVIDE_FOCUS = "focus:divide-(--theme-highlight-four)";
+                    public const string THEME_HIGHLIGHT_FIVE_DIVIDE_FOCUS = "focus:divide-(--theme-highlight-five)";
+                    public const string THEME_HIGHLIGHT_SIX_DIVIDE_FOCUS = "focus:divide-(--theme-highlight-six)";
+                    public const string THEME_HIGHLIGHT_SEVEN_DIVIDE_FOCUS = "focus:divide-(--theme-highlight-seven)";
+                    public const string THEME_HIGHLIGHT_EIGHT_DIVIDE_FOCUS = "focus:divide-(--theme-highlight-eight)";
+                    public const string THEME_HIGHLIGHT_NINE_DIVIDE_FOCUS = "focus:divide-(--theme-highlight-nine)";
+                    public const string THEME_HIGHLIGHT_TEN_DIVIDE_FOCUS = "focus:divide-(--theme-highlight-ten)";
+
+                    // Alert - Divide - Focus
+                    public const string THEME_ALERT_ONE_DIVIDE_FOCUS = "focus:divide-(--theme-alert-one)";
+                    public const string THEME_ALERT_TWO_DIVIDE_FOCUS = "focus:divide-(--theme-alert-two)";
+                    public const string THEME_ALERT_THREE_DIVIDE_FOCUS = "focus:divide-(--theme-alert-three)";
+                    public const string THEME_ALERT_FOUR_DIVIDE_FOCUS = "focus:divide-(--theme-alert-four)";
+                    public const string THEME_ALERT_FIVE_DIVIDE_FOCUS = "focus:divide-(--theme-alert-five)";
+                    public const string THEME_ALERT_SIX_DIVIDE_FOCUS = "focus:divide-(--theme-alert-six)";
+                    public const string THEME_ALERT_SEVEN_DIVIDE_FOCUS = "focus:divide-(--theme-alert-seven)";
+                    public const string THEME_ALERT_EIGHT_DIVIDE_FOCUS = "focus:divide-(--theme-alert-eight)";
+                    public const string THEME_ALERT_NINE_DIVIDE_FOCUS = "focus:divide-(--theme-alert-nine)";
+                    public const string THEME_ALERT_TEN_DIVIDE_FOCUS = "focus:divide-(--theme-alert-ten)";
+
+                    // Warning - Divide - Focus
+                    public const string THEME_WARNING_ONE_DIVIDE_FOCUS = "focus:divide-(--theme-warning-one)";
+                    public const string THEME_WARNING_TWO_DIVIDE_FOCUS = "focus:divide-(--theme-warning-two)";
+                    public const string THEME_WARNING_THREE_DIVIDE_FOCUS = "focus:divide-(--theme-warning-three)";
+                    public const string THEME_WARNING_FOUR_DIVIDE_FOCUS = "focus:divide-(--theme-warning-four)";
+                    public const string THEME_WARNING_FIVE_DIVIDE_FOCUS = "focus:divide-(--theme-warning-five)";
+                    public const string THEME_WARNING_SIX_DIVIDE_FOCUS = "focus:divide-(--theme-warning-six)";
+                    public const string THEME_WARNING_SEVEN_DIVIDE_FOCUS = "focus:divide-(--theme-warning-seven)";
+                    public const string THEME_WARNING_EIGHT_DIVIDE_FOCUS = "focus:divide-(--theme-warning-eight)";
+                    public const string THEME_WARNING_NINE_DIVIDE_FOCUS = "focus:divide-(--theme-warning-nine)";
+                    public const string THEME_WARNING_TEN_DIVIDE_FOCUS = "focus:divide-(--theme-warning-ten)";
+
+                    // Info - Divide - Focus
+                    public const string THEME_INFO_ONE_DIVIDE_FOCUS = "focus:divide-(--theme-info-one)";
+                    public const string THEME_INFO_TWO_DIVIDE_FOCUS = "focus:divide-(--theme-info-two)";
+                    public const string THEME_INFO_THREE_DIVIDE_FOCUS = "focus:divide-(--theme-info-three)";
+                    public const string THEME_INFO_FOUR_DIVIDE_FOCUS = "focus:divide-(--theme-info-four)";
+                    public const string THEME_INFO_FIVE_DIVIDE_FOCUS = "focus:divide-(--theme-info-five)";
+                    public const string THEME_INFO_SIX_DIVIDE_FOCUS = "focus:divide-(--theme-info-six)";
+                    public const string THEME_INFO_SEVEN_DIVIDE_FOCUS = "focus:divide-(--theme-info-seven)";
+                    public const string THEME_INFO_EIGHT_DIVIDE_FOCUS = "focus:divide-(--theme-info-eight)";
+                    public const string THEME_INFO_NINE_DIVIDE_FOCUS = "focus:divide-(--theme-info-nine)";
+                    public const string THEME_INFO_TEN_DIVIDE_FOCUS = "focus:divide-(--theme-info-ten)";
+
+                    // Success - Divide - Focus
+                    public const string THEME_SUCCESS_ONE_DIVIDE_FOCUS = "focus:divide-(--theme-success-one)";
+                    public const string THEME_SUCCESS_TWO_DIVIDE_FOCUS = "focus:divide-(--theme-success-two)";
+                    public const string THEME_SUCCESS_THREE_DIVIDE_FOCUS = "focus:divide-(--theme-success-three)";
+                    public const string THEME_SUCCESS_FOUR_DIVIDE_FOCUS = "focus:divide-(--theme-success-four)";
+                    public const string THEME_SUCCESS_FIVE_DIVIDE_FOCUS = "focus:divide-(--theme-success-five)";
+                    public const string THEME_SUCCESS_SIX_DIVIDE_FOCUS = "focus:divide-(--theme-success-six)";
+                    public const string THEME_SUCCESS_SEVEN_DIVIDE_FOCUS = "focus:divide-(--theme-success-seven)";
+                    public const string THEME_SUCCESS_EIGHT_DIVIDE_FOCUS = "focus:divide-(--theme-success-eight)";
+                    public const string THEME_SUCCESS_NINE_DIVIDE_FOCUS = "focus:divide-(--theme-success-nine)";
+                    public const string THEME_SUCCESS_TEN_DIVIDE_FOCUS = "focus:divide-(--theme-success-ten)";
+
+                    // Light - Divide - Focus
+                    public const string THEME_LIGHT_ONE_DIVIDE_FOCUS = "focus:divide-(--theme-light-one)";
+                    public const string THEME_LIGHT_TWO_DIVIDE_FOCUS = "focus:divide-(--theme-light-two)";
+                    public const string THEME_LIGHT_THREE_DIVIDE_FOCUS = "focus:divide-(--theme-light-three)";
+                    public const string THEME_LIGHT_FOUR_DIVIDE_FOCUS = "focus:divide-(--theme-light-four)";
+                    public const string THEME_LIGHT_FIVE_DIVIDE_FOCUS = "focus:divide-(--theme-light-five)";
+                    public const string THEME_LIGHT_SIX_DIVIDE_FOCUS = "focus:divide-(--theme-light-six)";
+                    public const string THEME_LIGHT_SEVEN_DIVIDE_FOCUS = "focus:divide-(--theme-light-seven)";
+                    public const string THEME_LIGHT_EIGHT_DIVIDE_FOCUS = "focus:divide-(--theme-light-eight)";
+                    public const string THEME_LIGHT_NINE_DIVIDE_FOCUS = "focus:divide-(--theme-light-nine)";
+                    public const string THEME_LIGHT_TEN_DIVIDE_FOCUS = "focus:divide-(--theme-light-ten)";
+
+                    // Dark - Divide - Focus
+                    public const string THEME_DARK_ONE_DIVIDE_FOCUS = "focus:divide-(--theme-dark-one)";
+                    public const string THEME_DARK_TWO_DIVIDE_FOCUS = "focus:divide-(--theme-dark-two)";
+                    public const string THEME_DARK_THREE_DIVIDE_FOCUS = "focus:divide-(--theme-dark-three)";
+                    public const string THEME_DARK_FOUR_DIVIDE_FOCUS = "focus:divide-(--theme-dark-four)";
+                    public const string THEME_DARK_FIVE_DIVIDE_FOCUS = "focus:divide-(--theme-dark-five)";
+                    public const string THEME_DARK_SIX_DIVIDE_FOCUS = "focus:divide-(--theme-dark-six)";
+                    public const string THEME_DARK_SEVEN_DIVIDE_FOCUS = "focus:divide-(--theme-dark-seven)";
+                    public const string THEME_DARK_EIGHT_DIVIDE_FOCUS = "focus:divide-(--theme-dark-eight)";
+                    public const string THEME_DARK_NINE_DIVIDE_FOCUS = "focus:divide-(--theme-dark-nine)";
+                    public const string THEME_DARK_TEN_DIVIDE_FOCUS = "focus:divide-(--theme-dark-ten)";
+
+                    #endregion
+                }
+
+                public static class Active
+                {
+                    #region Divide Active Colors
+
+                    // Default - Divide - Active
+                    public const string THEME_DEFAULT_ONE_DIVIDE_ACTIVE = "active:divide-(--theme-default-one)";
+                    public const string THEME_DEFAULT_TWO_DIVIDE_ACTIVE = "active:divide-(--theme-default-two)";
+                    public const string THEME_DEFAULT_THREE_DIVIDE_ACTIVE = "active:divide-(--theme-default-three)";
+                    public const string THEME_DEFAULT_FOUR_DIVIDE_ACTIVE = "active:divide-(--theme-default-four)";
+                    public const string THEME_DEFAULT_FIVE_DIVIDE_ACTIVE = "active:divide-(--theme-default-five)";
+                    public const string THEME_DEFAULT_SIX_DIVIDE_ACTIVE = "active:divide-(--theme-default-six)";
+                    public const string THEME_DEFAULT_SEVEN_DIVIDE_ACTIVE = "active:divide-(--theme-default-seven)";
+                    public const string THEME_DEFAULT_EIGHT_DIVIDE_ACTIVE = "active:divide-(--theme-default-eight)";
+                    public const string THEME_DEFAULT_NINE_DIVIDE_ACTIVE = "active:divide-(--theme-default-nine)";
+                    public const string THEME_DEFAULT_TEN_DIVIDE_ACTIVE = "active:divide-(--theme-default-ten)";
+
+                    // Primary - Divide - Active
+                    public const string THEME_PRIMARY_ONE_DIVIDE_ACTIVE = "active:divide-(--theme-primary-one)";
+                    public const string THEME_PRIMARY_TWO_DIVIDE_ACTIVE = "active:divide-(--theme-primary-two)";
+                    public const string THEME_PRIMARY_THREE_DIVIDE_ACTIVE = "active:divide-(--theme-primary-three)";
+                    public const string THEME_PRIMARY_FOUR_DIVIDE_ACTIVE = "active:divide-(--theme-primary-four)";
+                    public const string THEME_PRIMARY_FIVE_DIVIDE_ACTIVE = "active:divide-(--theme-primary-five)";
+                    public const string THEME_PRIMARY_SIX_DIVIDE_ACTIVE = "active:divide-(--theme-primary-six)";
+                    public const string THEME_PRIMARY_SEVEN_DIVIDE_ACTIVE = "active:divide-(--theme-primary-seven)";
+                    public const string THEME_PRIMARY_EIGHT_DIVIDE_ACTIVE = "active:divide-(--theme-primary-eight)";
+                    public const string THEME_PRIMARY_NINE_DIVIDE_ACTIVE = "active:divide-(--theme-primary-nine)";
+                    public const string THEME_PRIMARY_TEN_DIVIDE_ACTIVE = "active:divide-(--theme-primary-ten)";
+
+                    // Secondary - Divide - Active
+                    public const string THEME_SECONDARY_ONE_DIVIDE_ACTIVE = "active:divide-(--theme-secondary-one)";
+                    public const string THEME_SECONDARY_TWO_DIVIDE_ACTIVE = "active:divide-(--theme-secondary-two)";
+                    public const string THEME_SECONDARY_THREE_DIVIDE_ACTIVE = "active:divide-(--theme-secondary-three)";
+                    public const string THEME_SECONDARY_FOUR_DIVIDE_ACTIVE = "active:divide-(--theme-secondary-four)";
+                    public const string THEME_SECONDARY_FIVE_DIVIDE_ACTIVE = "active:divide-(--theme-secondary-five)";
+                    public const string THEME_SECONDARY_SIX_DIVIDE_ACTIVE = "active:divide-(--theme-secondary-six)";
+                    public const string THEME_SECONDARY_SEVEN_DIVIDE_ACTIVE = "active:divide-(--theme-secondary-seven)";
+                    public const string THEME_SECONDARY_EIGHT_DIVIDE_ACTIVE = "active:divide-(--theme-secondary-eight)";
+                    public const string THEME_SECONDARY_NINE_DIVIDE_ACTIVE = "active:divide-(--theme-secondary-nine)";
+                    public const string THEME_SECONDARY_TEN_DIVIDE_ACTIVE = "active:divide-(--theme-secondary-ten)";
+
+                    // Tertiary - Divide - Active
+                    public const string THEME_TERTIARY_ONE_DIVIDE_ACTIVE = "active:divide-(--theme-tertiary-one)";
+                    public const string THEME_TERTIARY_TWO_DIVIDE_ACTIVE = "active:divide-(--theme-tertiary-two)";
+                    public const string THEME_TERTIARY_THREE_DIVIDE_ACTIVE = "active:divide-(--theme-tertiary-three)";
+                    public const string THEME_TERTIARY_FOUR_DIVIDE_ACTIVE = "active:divide-(--theme-tertiary-four)";
+                    public const string THEME_TERTIARY_FIVE_DIVIDE_ACTIVE = "active:divide-(--theme-tertiary-five)";
+                    public const string THEME_TERTIARY_SIX_DIVIDE_ACTIVE = "active:divide-(--theme-tertiary-six)";
+                    public const string THEME_TERTIARY_SEVEN_DIVIDE_ACTIVE = "active:divide-(--theme-tertiary-seven)";
+                    public const string THEME_TERTIARY_EIGHT_DIVIDE_ACTIVE = "active:divide-(--theme-tertiary-eight)";
+                    public const string THEME_TERTIARY_NINE_DIVIDE_ACTIVE = "active:divide-(--theme-tertiary-nine)";
+                    public const string THEME_TERTIARY_TEN_DIVIDE_ACTIVE = "active:divide-(--theme-tertiary-ten)";
+
+                    // Accent - Divide - Active
+                    public const string THEME_ACCENT_ONE_DIVIDE_ACTIVE = "active:divide-(--theme-accent-one)";
+                    public const string THEME_ACCENT_TWO_DIVIDE_ACTIVE = "active:divide-(--theme-accent-two)";
+                    public const string THEME_ACCENT_THREE_DIVIDE_ACTIVE = "active:divide-(--theme-accent-three)";
+                    public const string THEME_ACCENT_FOUR_DIVIDE_ACTIVE = "active:divide-(--theme-accent-four)";
+                    public const string THEME_ACCENT_FIVE_DIVIDE_ACTIVE = "active:divide-(--theme-accent-five)";
+                    public const string THEME_ACCENT_SIX_DIVIDE_ACTIVE = "active:divide-(--theme-accent-six)";
+                    public const string THEME_ACCENT_SEVEN_DIVIDE_ACTIVE = "active:divide-(--theme-accent-seven)";
+                    public const string THEME_ACCENT_EIGHT_DIVIDE_ACTIVE = "active:divide-(--theme-accent-eight)";
+                    public const string THEME_ACCENT_NINE_DIVIDE_ACTIVE = "active:divide-(--theme-accent-nine)";
+                    public const string THEME_ACCENT_TEN_DIVIDE_ACTIVE = "active:divide-(--theme-accent-ten)";
+
+                    // Highlight - Divide - Active
+                    public const string THEME_HIGHLIGHT_ONE_DIVIDE_ACTIVE = "active:divide-(--theme-highlight-one)";
+                    public const string THEME_HIGHLIGHT_TWO_DIVIDE_ACTIVE = "active:divide-(--theme-highlight-two)";
+                    public const string THEME_HIGHLIGHT_THREE_DIVIDE_ACTIVE = "active:divide-(--theme-highlight-three)";
+                    public const string THEME_HIGHLIGHT_FOUR_DIVIDE_ACTIVE = "active:divide-(--theme-highlight-four)";
+                    public const string THEME_HIGHLIGHT_FIVE_DIVIDE_ACTIVE = "active:divide-(--theme-highlight-five)";
+                    public const string THEME_HIGHLIGHT_SIX_DIVIDE_ACTIVE = "active:divide-(--theme-highlight-six)";
+                    public const string THEME_HIGHLIGHT_SEVEN_DIVIDE_ACTIVE = "active:divide-(--theme-highlight-seven)";
+                    public const string THEME_HIGHLIGHT_EIGHT_DIVIDE_ACTIVE = "active:divide-(--theme-highlight-eight)";
+                    public const string THEME_HIGHLIGHT_NINE_DIVIDE_ACTIVE = "active:divide-(--theme-highlight-nine)";
+                    public const string THEME_HIGHLIGHT_TEN_DIVIDE_ACTIVE = "active:divide-(--theme-highlight-ten)";
+
+                    // Alert - Divide - Active
+                    public const string THEME_ALERT_ONE_DIVIDE_ACTIVE = "active:divide-(--theme-alert-one)";
+                    public const string THEME_ALERT_TWO_DIVIDE_ACTIVE = "active:divide-(--theme-alert-two)";
+                    public const string THEME_ALERT_THREE_DIVIDE_ACTIVE = "active:divide-(--theme-alert-three)";
+                    public const string THEME_ALERT_FOUR_DIVIDE_ACTIVE = "active:divide-(--theme-alert-four)";
+                    public const string THEME_ALERT_FIVE_DIVIDE_ACTIVE = "active:divide-(--theme-alert-five)";
+                    public const string THEME_ALERT_SIX_DIVIDE_ACTIVE = "active:divide-(--theme-alert-six)";
+                    public const string THEME_ALERT_SEVEN_DIVIDE_ACTIVE = "active:divide-(--theme-alert-seven)";
+                    public const string THEME_ALERT_EIGHT_DIVIDE_ACTIVE = "active:divide-(--theme-alert-eight)";
+                    public const string THEME_ALERT_NINE_DIVIDE_ACTIVE = "active:divide-(--theme-alert-nine)";
+                    public const string THEME_ALERT_TEN_DIVIDE_ACTIVE = "active:divide-(--theme-alert-ten)";
+
+                    // Warning - Divide - Active
+                    public const string THEME_WARNING_ONE_DIVIDE_ACTIVE = "active:divide-(--theme-warning-one)";
+                    public const string THEME_WARNING_TWO_DIVIDE_ACTIVE = "active:divide-(--theme-warning-two)";
+                    public const string THEME_WARNING_THREE_DIVIDE_ACTIVE = "active:divide-(--theme-warning-three)";
+                    public const string THEME_WARNING_FOUR_DIVIDE_ACTIVE = "active:divide-(--theme-warning-four)";
+                    public const string THEME_WARNING_FIVE_DIVIDE_ACTIVE = "active:divide-(--theme-warning-five)";
+                    public const string THEME_WARNING_SIX_DIVIDE_ACTIVE = "active:divide-(--theme-warning-six)";
+                    public const string THEME_WARNING_SEVEN_DIVIDE_ACTIVE = "active:divide-(--theme-warning-seven)";
+                    public const string THEME_WARNING_EIGHT_DIVIDE_ACTIVE = "active:divide-(--theme-warning-eight)";
+                    public const string THEME_WARNING_NINE_DIVIDE_ACTIVE = "active:divide-(--theme-warning-nine)";
+                    public const string THEME_WARNING_TEN_DIVIDE_ACTIVE = "active:divide-(--theme-warning-ten)";
+
+                    // Info - Divide - Active
+                    public const string THEME_INFO_ONE_DIVIDE_ACTIVE = "active:divide-(--theme-info-one)";
+                    public const string THEME_INFO_TWO_DIVIDE_ACTIVE = "active:divide-(--theme-info-two)";
+                    public const string THEME_INFO_THREE_DIVIDE_ACTIVE = "active:divide-(--theme-info-three)";
+                    public const string THEME_INFO_FOUR_DIVIDE_ACTIVE = "active:divide-(--theme-info-four)";
+                    public const string THEME_INFO_FIVE_DIVIDE_ACTIVE = "active:divide-(--theme-info-five)";
+                    public const string THEME_INFO_SIX_DIVIDE_ACTIVE = "active:divide-(--theme-info-six)";
+                    public const string THEME_INFO_SEVEN_DIVIDE_ACTIVE = "active:divide-(--theme-info-seven)";
+                    public const string THEME_INFO_EIGHT_DIVIDE_ACTIVE = "active:divide-(--theme-info-eight)";
+                    public const string THEME_INFO_NINE_DIVIDE_ACTIVE = "active:divide-(--theme-info-nine)";
+                    public const string THEME_INFO_TEN_DIVIDE_ACTIVE = "active:divide-(--theme-info-ten)";
+
+                    // Success - Divide - Active
+                    public const string THEME_SUCCESS_ONE_DIVIDE_ACTIVE = "active:divide-(--theme-success-one)";
+                    public const string THEME_SUCCESS_TWO_DIVIDE_ACTIVE = "active:divide-(--theme-success-two)";
+                    public const string THEME_SUCCESS_THREE_DIVIDE_ACTIVE = "active:divide-(--theme-success-three)";
+                    public const string THEME_SUCCESS_FOUR_DIVIDE_ACTIVE = "active:divide-(--theme-success-four)";
+                    public const string THEME_SUCCESS_FIVE_DIVIDE_ACTIVE = "active:divide-(--theme-success-five)";
+                    public const string THEME_SUCCESS_SIX_DIVIDE_ACTIVE = "active:divide-(--theme-success-six)";
+                    public const string THEME_SUCCESS_SEVEN_DIVIDE_ACTIVE = "active:divide-(--theme-success-seven)";
+                    public const string THEME_SUCCESS_EIGHT_DIVIDE_ACTIVE = "active:divide-(--theme-success-eight)";
+                    public const string THEME_SUCCESS_NINE_DIVIDE_ACTIVE = "active:divide-(--theme-success-nine)";
+                    public const string THEME_SUCCESS_TEN_DIVIDE_ACTIVE = "active:divide-(--theme-success-ten)";
+
+                    // Light - Divide - Active
+                    public const string THEME_LIGHT_ONE_DIVIDE_ACTIVE = "active:divide-(--theme-light-one)";
+                    public const string THEME_LIGHT_TWO_DIVIDE_ACTIVE = "active:divide-(--theme-light-two)";
+                    public const string THEME_LIGHT_THREE_DIVIDE_ACTIVE = "active:divide-(--theme-light-three)";
+                    public const string THEME_LIGHT_FOUR_DIVIDE_ACTIVE = "active:divide-(--theme-light-four)";
+                    public const string THEME_LIGHT_FIVE_DIVIDE_ACTIVE = "active:divide-(--theme-light-five)";
+                    public const string THEME_LIGHT_SIX_DIVIDE_ACTIVE = "active:divide-(--theme-light-six)";
+                    public const string THEME_LIGHT_SEVEN_DIVIDE_ACTIVE = "active:divide-(--theme-light-seven)";
+                    public const string THEME_LIGHT_EIGHT_DIVIDE_ACTIVE = "active:divide-(--theme-light-eight)";
+                    public const string THEME_LIGHT_NINE_DIVIDE_ACTIVE = "active:divide-(--theme-light-nine)";
+                    public const string THEME_LIGHT_TEN_DIVIDE_ACTIVE = "active:divide-(--theme-light-ten)";
+
+                    // Dark - Divide - Active
+                    public const string THEME_DARK_ONE_DIVIDE_ACTIVE = "active:divide-(--theme-dark-one)";
+                    public const string THEME_DARK_TWO_DIVIDE_ACTIVE = "active:divide-(--theme-dark-two)";
+                    public const string THEME_DARK_THREE_DIVIDE_ACTIVE = "active:divide-(--theme-dark-three)";
+                    public const string THEME_DARK_FOUR_DIVIDE_ACTIVE = "active:divide-(--theme-dark-four)";
+                    public const string THEME_DARK_FIVE_DIVIDE_ACTIVE = "active:divide-(--theme-dark-five)";
+                    public const string THEME_DARK_SIX_DIVIDE_ACTIVE = "active:divide-(--theme-dark-six)";
+                    public const string THEME_DARK_SEVEN_DIVIDE_ACTIVE = "active:divide-(--theme-dark-seven)";
+                    public const string THEME_DARK_EIGHT_DIVIDE_ACTIVE = "active:divide-(--theme-dark-eight)";
+                    public const string THEME_DARK_NINE_DIVIDE_ACTIVE = "active:divide-(--theme-dark-nine)";
+                    public const string THEME_DARK_TEN_DIVIDE_ACTIVE = "active:divide-(--theme-dark-ten)";
+
+                    #endregion
+                }
+            }
         }
 
         public static class Typography
@@ -3469,6 +4073,18 @@ public static class Tailwind
             public const string BUTTON_SMALL = "h-[30px] px-2.5 py-1 gap-1";
             public const string BUTTON_REGULAR = "h-9 px-4 py-1.5 gap-2";
             public const string BUTTON_LARGE = "h-[42px] px-5 py-2 gap-2";
+        }
+
+        public static class Dialog
+        {
+
+            public const string WIDTH_SMALL = "w-xl";
+            public const string WIDTH_MEDIUM = "w-4xl";
+            public const string WIDTH_LARGE = "w-7xl";
+
+            public const string WIDTH_SMALL_FLUID = "min-w-md max-w-xl";
+            public const string WIDTH_MEDIUM_FLUID = "min-w-md max-w-4xl";
+            public const string WIDTH_LARGE_FLUID = "min-w-md max-w-7xl";
         }
     }
 }

@@ -72,9 +72,9 @@ public abstract class MaviInputDateBase<TValue, TComponent> : MaviMaterialInputB
     #endregion
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         await base.OnAfterRenderAsync(firstRender);
@@ -103,9 +103,9 @@ public abstract class MaviInputDateBase<TValue, TComponent> : MaviMaterialInputB
 
     public async ValueTask DisposeAsync()
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         if (_jsModule != null)
@@ -123,9 +123,9 @@ public abstract class MaviInputDateBase<TValue, TComponent> : MaviMaterialInputB
 
     protected override Task HandleInput(ChangeEventArgs e)
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         // Don't update value for disabled/readonly fields
@@ -146,9 +146,9 @@ public abstract class MaviInputDateBase<TValue, TComponent> : MaviMaterialInputB
 
     protected void HandleInputClick()
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         if (UseCalendarPicker && !Disabled && !Readonly)
@@ -167,9 +167,9 @@ public abstract class MaviInputDateBase<TValue, TComponent> : MaviMaterialInputB
 
     protected override void OnBlur()
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         base.OnBlur();

@@ -48,9 +48,9 @@
     {
         if (OnClick.HasDelegate) await OnClick.InvokeAsync();
 
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
     }
 }

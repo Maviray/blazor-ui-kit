@@ -54,6 +54,11 @@
         if (!CloseOnBackdropClick)
             return;
 
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle(Id, GetType());
+        }
+
         await Hide();
     }
 
@@ -63,6 +68,11 @@
         {
             Active = true;
             await InvokeAsync(StateHasChanged);
+
+            if (EnableLifeCycleLogging)
+            {
+                Logger?.LogDebugLifeCycle(Id, GetType());
+            }
         }
     }
 
@@ -72,6 +82,11 @@
         {
             Active = false;
             await InvokeAsync(StateHasChanged);
+
+            if (EnableLifeCycleLogging)
+            {
+                Logger?.LogDebugLifeCycle(Id, GetType());
+            }
         }
     }
 }

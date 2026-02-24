@@ -7,6 +7,8 @@ namespace Maviray.Blazor.Components.Core.Components;
 
 public abstract class MaviComponentBase : ComponentBase
 {
+    protected bool EnableLifeCycleLogging { get; private set; }
+
     private ILogger? _logger;
 
     [Inject] private ILoggerFactory? LoggerFactory { get; set; }
@@ -25,11 +27,21 @@ public abstract class MaviComponentBase : ComponentBase
 
     protected bool HasRendered { get; private set; }
 
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        if (ComponentOptions != null)
+        {
+            EnableLifeCycleLogging = ComponentOptions.EnableLifecycleLogging;
+        }
+    }
+
     protected override void OnAfterRender(bool firstRender)
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         base.OnAfterRender(firstRender);

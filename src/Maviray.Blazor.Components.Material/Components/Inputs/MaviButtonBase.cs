@@ -31,9 +31,9 @@ namespace Maviray.Blazor.Components.Material.Components.Inputs
 
         protected async Task HandleButtonClick(MouseEventArgs args)
         {
-            if (ComponentOptions is { EnableLifecycleLogging: true })
+            if (EnableLifeCycleLogging)
             {
-                Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+                Logger?.LogDebugLifeCycle( Id, GetType());
             }
 
             if (OnClick.HasDelegate)

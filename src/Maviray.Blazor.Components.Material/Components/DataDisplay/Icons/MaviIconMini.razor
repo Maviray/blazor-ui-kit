@@ -21,7 +21,7 @@
 
     [Parameter]
     public IconSize IconSize { get; set; }
-   
+      
 
     private string EffectiveCss
     {
@@ -49,9 +49,9 @@
 
     private async Task HandleClick()
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         if (OnClick.HasDelegate) await OnClick.InvokeAsync();

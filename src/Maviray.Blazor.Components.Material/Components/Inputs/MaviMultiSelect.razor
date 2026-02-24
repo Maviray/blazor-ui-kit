@@ -233,9 +233,9 @@
         [MaybeNullWhen(false)] out List<TValue> result,
         [NotNullWhen(false)] out string? validationErrorMessage)
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         // Multi-select doesn't parse from string directly
@@ -324,9 +324,9 @@
         _isOpen = !_isOpen;
         IsFocused = _isOpen;
 
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         StateHasChanged();

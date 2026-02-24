@@ -14,6 +14,8 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>
     [Inject] private ILoggerFactory? LoggerFactory { get; set; }
     [Inject] protected IMaviComponentOptions? ComponentOptions { get; set; }
 
+    protected bool EnableLifeCycleLogging { get; private set; }
+
     public bool HasRendered { get; protected set; }
 
     protected ILogger? Logger => field ??= LoggerFactory?.CreateLogger(GetType());
@@ -82,6 +84,16 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>
     protected bool HasError => EditContext != null && !Disabled && !Readonly && EditContext.GetValidationMessages(FieldIdentifier).Any();
 
     protected abstract bool HasValue { get; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        if (ComponentOptions != null)
+        {
+            EnableLifeCycleLogging = ComponentOptions.EnableLifecycleLogging;
+        }
+    }
 
     protected virtual string GetAriaDescribedByString()
     {
