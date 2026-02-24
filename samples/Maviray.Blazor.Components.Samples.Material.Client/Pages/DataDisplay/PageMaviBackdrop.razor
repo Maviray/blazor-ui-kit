@@ -1,5 +1,6 @@
 ﻿@page "/PageMaviBackdrop"
 @using Maviray.Blazor.Components.Material.Components.DataDisplay
+@using Maviray.Blazor.Components.Material.Components.Spinner
 @inherits SamplePageBase
 
 <PageTitle>MaviBackdrop</PageTitle>
@@ -59,9 +60,8 @@
                   ZIndex="_sampleOverlayDemoModel.ZIndex"
                   CloseOnBackdropClick="true"
                   OnBackdropClick="@(() => Console.WriteLine("Backdrop clicked"))">
-        <div class="rounded-2xl bg-white p-6 shadow-lg">
-            <div class="text-lg font-semibold">Modal-like content</div>
-            <div class="mt-2 text-sm text-zinc-600">Anything can go here.</div>
+        <div>
+            <MaviSpinnerStarRotate ThemeColorScheme="ThemeColorScheme.Primary" ElementSize="ElementSize.Large" />
         </div>
     </MaviBackdrop>
 </div>
