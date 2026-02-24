@@ -1,0 +1,112 @@
+﻿@page "/PageMaviDialog"
+@using Maviray.Blazor.Components.Material.Components.DataDisplay
+@inherits SamplePageBase
+
+<PageTitle>MaviDialog</PageTitle>
+
+<div class="relative h-full w-full">
+    <MaviDialog @ref="_dialog" DialogButtonClick="ReactToDialogButtonClick" MaviDialogBaseParameters="_dialogParameters"></MaviDialog>
+    <div class="mx-auto max-w-7xl flex flex-col p-4 h-full">
+        <EditForm FormName="DemoMaviToastr" Model="@_dialogParameters" OnValidSubmit="DisplayDialog">
+            <DataAnnotationsValidator/>
+            <div class="flex flex-col gap-4">
+                <div>
+                    <MaviInputStringNullable @bind-Value="_dialogParameters.Title"
+                                             ElementSize="ElementSize.Small"
+                                             Width="w-96" />
+                    <ValidationMessage For="@(() => _dialogParameters.Title)" />
+                </div>
+                <div class="flex flex-col lg:flex-row! gap-2">
+                    <div class="basis-1/3 flex flex-col">
+                        <MaviCheckbox @bind-Value="_dialogParameters.DisplayConfirmButton" ElementSize="ElementSize.Large" Label="Display Confirm Button"/>
+                    </div>
+                    <div class="basis-1/3 flex flex-col">
+                        <MaviCheckbox @bind-Value="_dialogParameters.DisplayCancelButton" ElementSize="ElementSize.Large" Label="Display Cancel Button"/>
+                    </div>
+                    <div class="basis-1/3 flex flex-col">
+                        <MaviCheckbox @bind-Value="_dialogParameters.DisplayCloseButton" ElementSize="ElementSize.Large" Label="Display Close Button"/>
+                    </div>
+                </div>
+                <div class="flex flex-col lg:flex-row! gap-2">
+                    <MaviDropdown TItem="ThemeColorScheme" TValue="ThemeColorScheme"
+                                  @bind-Value="_dialogParameters.ThemeColorScheme"
+                                  Items="_colorSchemes"
+                                  ElementSize="ElementSize.Small"
+                                  StartIcon="lni lni-gears-3"
+                                  Width="w-full"/>
+
+                    <MaviDropdown TItem="BackdropOpacity" TValue="BackdropOpacity"
+                                  @bind-Value="_dialogParameters.BackdropOpacity"
+                                  Items="_opacityOptions"
+                                  ElementSize="ElementSize.Small"
+                                  StartIcon="lni lni-gears-3"
+                                  Width="w-full"/>
+
+                    <MaviDropdown TItem="string" TValue="string"
+                                  @bind-Value="_dialogParameters.Width"
+                                  Items="@_sizes"
+                                  ElementSize="ElementSize.Small"
+                                  StartIcon="lni lni-gears-3"
+                                  Width="w-full" />
+                  
+                </div>
+                <div class="flex flex-col lg:flex-row! gap-2">
+                    <MaviDropdown TItem="ComponentRelativePosition" TValue="ComponentRelativePosition"
+                                  @bind-Value="_dialogParameters.ComponentRelativePosition"
+                                  Items="_relativePosition"
+                                  ElementSize="ElementSize.Small"
+                                  StartIcon="lni lni-gears-3"
+                                  Width="w-full" />
+
+                    <MaviDropdown TItem="ZIndex" TValue="ZIndex"
+                                  @bind-Value="_dialogParameters.ZIndex"
+                                  Items="_zIndexes"
+                                  ElementSize="ElementSize.Small"
+                                  StartIcon="lni lni-gears-3"
+                                  Width="w-full" />
+                </div>
+                <div>
+                    <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                                ElementSize="ElementSize.Regular"
+                                Title="Display"
+                                ButtonRole="ButtonRole.Submit"
+                                ElementVariant="ElementVariant.Outlined"
+                                TextTransform="TextTransform.Capitalize">
+
+                    </MaviButton>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code
+{
+    private readonly MaviDialogBaseParameters _dialogParameters = new()
+    {
+        Width = Tailwind.Theme.Dialog.WIDTH_SMALL_FLUID,
+        CloseOnBackdropClick = true
+    };
+
+    private MaviDialog? _dialog;
+
+    private readonly IEnumerable<ThemeColorScheme> _colorSchemes = Enum.GetValues<ThemeColorScheme>();
+    private readonly IEnumerable<BackdropOpacity> _opacityOptions = Enum.GetValues<BackdropOpacity>();
+    private readonly IEnumerable<ComponentRelativePosition> _relativePosition = Enum.GetValues<ComponentRelativePosition>();
+    private readonly IEnumerable<ZIndex> _zIndexes = Enum.GetValues<ZIndex>();
+
+    private readonly IEnumerable<string> _sizes = [Tailwind.Theme.Dialog.WIDTH_SMALL, Tailwind.Theme.Dialog.WIDTH_MEDIUM, Tailwind.Theme.Dialog.WIDTH_LARGE];
+
+    private async Task DisplayDialog(EditContext context)
+    {
+        if (_dialog != null)
+        {
+            await _dialog.Display();
+        }
+    }
+
+    private async Task ReactToDialogButtonClick(DialogButtonClickEventArgs args)
+    {
+        Logger?.LogInformation($"Dialog ID: {args.ComponentId}. Button Id: {args.MouseEventArgs.ButtonId}. Click Type: {args.ButtonClicked}");
+    }
+}

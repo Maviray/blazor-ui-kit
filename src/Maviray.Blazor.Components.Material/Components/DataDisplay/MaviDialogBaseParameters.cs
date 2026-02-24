@@ -8,6 +8,10 @@ public class MaviDialogBaseParameters
     public string? Title { get; set; }
     public ThemeColorScheme ThemeColorScheme { get; set; }
     public ZIndex ZIndex { get; set; } = ZIndex.Forty;
+    public BackdropOpacity BackdropOpacity { get; set; } = BackdropOpacity.Darken;
+    public ComponentRelativePosition ComponentRelativePosition { get; set; } = ComponentRelativePosition.Center;
+
+    public bool CloseOnBackdropClick { get; set; }
 
     public bool DisplayConfirmButton { get; set; } = true;
     public bool DisplayCancelButton { get; set; } = true;

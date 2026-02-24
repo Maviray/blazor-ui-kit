@@ -4086,5 +4086,29 @@ public static class Tailwind
             public const string WIDTH_MEDIUM_FLUID = "min-w-md max-w-4xl";
             public const string WIDTH_LARGE_FLUID = "min-w-md max-w-7xl";
         }
+
+        public static class ZIndex
+        {
+            public const string ZERO = "z-0";
+            public const string FIVE = "z-5";
+            public const string TEN = "z-10";
+            public const string TWENTY = "z-20";
+            public const string THIRTY = "z-30";
+            public const string FOURTY = "z-40";
+            public const string FIFTY = "z-[50]";
+            public const string SIXTY = "z-[60]";
+            public const string SEVENTY = "z-[70]";
+            public const string EIGHTY = "z-[80]";
+            public const string NINETY = "z-[90]";
+            public const string ONEHUNDRED = "z-[100]";
+            public const string TWOHUNDRED = "z-[200]";
+            public const string THREEHUNDRED = "z-[300]";
+            public const string FOURHUNDRED = "z-[400]";
+            public const string FIVEHUNDRED = "z-[500]";
+            public const string ONETHOURSAND = "z-[1000]";
+            public const string TWOTHOURSAND = "z-[2000]";
+            public const string THREETHOURSAND = "z-[3000]";
+        }
+
     }
 }

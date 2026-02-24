@@ -37,4 +37,31 @@ public static class EnumExtensions
             ? $"z-{value}"
             : $"z-[{value}]";
     }
+
+    public static string BringForward(this ZIndex zIndex)
+    {
+        var value = zIndex switch
+        {
+            ZIndex.Zero => 5,
+            ZIndex.Five => 10,
+            ZIndex.Ten => 20,
+            ZIndex.Twenty => 30,
+            ZIndex.Thirty => 40,
+            ZIndex.Forty => 50,
+            ZIndex.Fifty => 60,
+            ZIndex.Sixty => 70,
+            ZIndex.Seventy => 80,
+            ZIndex.Eighty => 90,
+            ZIndex.Ninety => 100,
+            ZIndex.OneHundred => 200,
+            ZIndex.TwoHundred => 300,
+            ZIndex.ThreeHundred => 400,
+            ZIndex.FourHundred => 500,
+            ZIndex.FiveHundred => 1000,
+            ZIndex.Thousand => 2000,
+            _ => 3000
+        };
+
+        return value.ToTailwindZIndexClass();
+    }
 }
