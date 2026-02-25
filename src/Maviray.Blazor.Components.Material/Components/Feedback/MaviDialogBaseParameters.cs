@@ -1,7 +1,7 @@
 ﻿using Maviray.Blazor.Components.Core.Enums;
 using Microsoft.AspNetCore.Components;
 
-namespace Maviray.Blazor.Components.Material.Components.DataDisplay;
+namespace Maviray.Blazor.Components.Material.Components.Feedback;
 
 public class MaviDialogBaseParameters
 {

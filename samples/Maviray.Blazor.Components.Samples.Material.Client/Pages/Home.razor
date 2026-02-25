@@ -1,3 +1,44 @@
 ﻿@page "/"
+@using Maviray.Blazor.Components.Material.Components.Feedback
 
 @inherits SamplePageBase
+
+<div class="w-full p-4 flex">
+    <div class="basis-1/5 flex flex-col gap-1">
+        <MaviSkeleton Variant="SkeletonVariant.Circular"
+                      Width="48px"
+                      Height="48px"
+                      Animation="SkeletonAnimation.Wave"/>
+        
+        <MaviSkeleton Variant="SkeletonVariant.Text"
+                      Lines="3"
+                      FullWidth="true"
+                      LastLineWidth="70%"
+                      Animation="SkeletonAnimation.Wave"/>
+
+    </div>
+    <div class="basis-1/5">
+        <MaviSkeleton Variant="SkeletonVariant.Text" Width="18rem"/>
+
+    </div>
+    <div class="basis-1/5">
+        <MaviSkeleton Variant="SkeletonVariant.Text"
+                      Lines="3"
+                      FullWidth="true"
+                      LastLineWidth="70%"
+                      Animation="SkeletonAnimation.Wave"/>
+    </div>
+    <div class="basis-1/5">
+
+        <MaviSkeleton Variant="SkeletonVariant.Rectangular"
+                      Width="100%"
+                      Height="220px"
+                      Animation="SkeletonAnimation.Pulse"/>
+    </div>
+    <div class="basis-1/5">
+        <MaviSkeleton Variant="SkeletonVariant.Circular"
+                      Width="48px"
+                      Height="48px"
+                      Animation="SkeletonAnimation.Wave"/>
+    </div>
+</div>

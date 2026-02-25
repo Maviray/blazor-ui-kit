@@ -4,7 +4,7 @@ using Maviray.Blazor.Components.Core.EventArgs;
 using Maviray.Blazor.Components.Core.Extensions;
 using Microsoft.AspNetCore.Components;
 
-namespace Maviray.Blazor.Components.Material.Components.DataDisplay;
+namespace Maviray.Blazor.Components.Material.Components.Feedback;
 
 public abstract class MaviDialogBase : MaviComponentBase
 {

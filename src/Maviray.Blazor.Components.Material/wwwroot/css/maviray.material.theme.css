@@ -204,3 +204,9 @@
         transform: rotate(360deg);
     }
 }
+
+@keyframes mavi-skeleton-wave {
+    100% {
+        transform: translateX(100%);
+    }
+}
