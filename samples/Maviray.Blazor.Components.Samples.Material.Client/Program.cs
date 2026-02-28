@@ -10,7 +10,7 @@ namespace Maviray.Blazor.Components.Samples.Material.Client
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
             // Configure Maviray components
-            builder.Services.AddMaviComponents(options => options.EnableLifecycleLogging = true);
+            builder.Services.AddMaviComponents(options => options.EnableLifecycleLogging = false);
 
             await builder.Build().RunAsync();
         }
