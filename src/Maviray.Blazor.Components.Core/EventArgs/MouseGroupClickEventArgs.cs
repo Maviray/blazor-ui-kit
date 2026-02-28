@@ -1,6 +1,18 @@
-﻿namespace Maviray.Blazor.Components.Core.EventArgs;
+﻿using Microsoft.AspNetCore.Components.Web;
 
-public class MouseGroupClickEventArgs(string? buttonGroupId, string? buttonId) : MouseClickEventArgs(buttonId)
+namespace Maviray.Blazor.Components.Core.EventArgs;
+
+public class MouseGroupClickEventArgs : MouseClickEventArgs
 {
-    public string? ButtonGroupId { get; init; } = buttonGroupId;
+    public string? ButtonGroupId { get; init; }
+
+    public MouseGroupClickEventArgs(string? buttonGroupId, string? buttonId) : base(buttonId)
+    {
+        ButtonGroupId = buttonGroupId;
+    }
+
+    public MouseGroupClickEventArgs(string? buttonGroupId, string? buttonId, MouseEventArgs args) : base(buttonId, args)
+    {
+        ButtonGroupId = buttonGroupId;
+    }
 }

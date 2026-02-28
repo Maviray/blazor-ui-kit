@@ -289,7 +289,7 @@
 
     protected override bool TryParseValueFromString(
         string? value,
-        out TItem? result,
+        out TItem result,
         [NotNullWhen(false)] out string? validationErrorMessage)
     {
         if (EnableLifeCycleLogging)
@@ -297,7 +297,7 @@
             Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
-        result = default;
+        result = default!;
         validationErrorMessage = null;
         return true;
     }

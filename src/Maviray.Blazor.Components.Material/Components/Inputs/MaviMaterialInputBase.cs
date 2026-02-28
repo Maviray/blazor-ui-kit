@@ -209,25 +209,7 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
             // Invoke custom callback
             if (OnEndIconClick.HasDelegate)
             {
-                var customArgs = new MouseClickEventArgs(Id)
-                {
-                    AltKey = args.AltKey,
-                    Button = args.Button,
-                    Buttons = args.Buttons,
-                    ClientX = args.ClientX,
-                    ClientY = args.ClientY,
-                    CtrlKey = args.CtrlKey,
-                    Detail = args.Detail,
-                    MetaKey = args.MetaKey,
-                    OffsetX = args.OffsetX,
-                    OffsetY = args.OffsetY,
-                    PageX = args.PageX,
-                    PageY = args.PageY,
-                    ScreenX = args.ScreenX,
-                    ScreenY = args.ScreenY,
-                    ShiftKey = args.ShiftKey,
-                    Type = args.Type
-                };
+                var customArgs = new MouseClickEventArgs(Id, args);
 
                 await OnEndIconClick.InvokeAsync(customArgs);
             }
