@@ -1,6 +1,6 @@
 ﻿namespace Maviray.Blazor.Components.Core.Enums;
 
-public enum MaviIconOnlineType
+public enum IconOnlineType
 {
     AcademicCapOnline,
     AdjustmentsHorizontalOnline,

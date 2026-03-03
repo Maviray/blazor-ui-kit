@@ -1,6 +1,6 @@
 ﻿namespace Maviray.Blazor.Components.Core.Enums;
 
-public enum MaviIconSolidType
+public enum IconSolidType
 {
     AcademicCapSolid,
     AdjustmentsHorizontalSolid,

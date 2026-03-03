@@ -1,7 +1,7 @@
 ﻿@using Maviray.Blazor.Components.Core.Extensions
 @inherits MaviComponentBase
 
-<svg id="@Id" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="@IconColorCss" class="@EffectiveCss" @onclick="HandleClick">
+<svg id="@Id" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="@IconColorCss" class="@EffectiveCss" title="@Title" style="@Style" @onclick="HandleClick">
     @foreach (var path in IconPaths)
     {
         @((MarkupString)path)
@@ -12,7 +12,7 @@
 @code {
 
     [Parameter]
-    public MaviIconOnlineType MaviIconOnlineType { get; set; }
+    public IconOnlineType IconOnlineType { get; set; }
 
     [Parameter]
     public IconColor IconColor { get; set; }
@@ -39,7 +39,7 @@
         }
     }
 
-    private IEnumerable<string> IconPaths => MaviIconOnlinePaths.GetIconPaths(MaviIconOnlineType);
+    private IEnumerable<string> IconPaths => MaviIconOnlinePaths.GetIconPaths(IconOnlineType);
 
     [Parameter]
     public EventCallback OnClick { get; set; }

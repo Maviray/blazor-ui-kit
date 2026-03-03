@@ -1,3 +1,76 @@
 ﻿@page "/"
-
+@using Maviray.Blazor.Components.Core.Extensions
+@using Maviray.Blazor.Components.Core.Models.Tables
+@using Maviray.Blazor.Components.Material.Components.Tables
+@using Maviray.Blazor.Components.Samples.Material.Client.Enums
 @inherits SamplePageBase
+
+<div>
+    <MaviInMemoryTable FetchData="FetchData"
+               ConstructContextMenu="ConstructContextMenu"
+               OnMainContextMenuClick="OnGridContextMenuClick"
+               OnRowClick="OnRowClick"
+               Parameters="_parameters"
+               OnRowContextMenuClick="RowContextMenuClick">
+    </MaviInMemoryTable>
+</div>
+
+@code{
+
+    private TableParameters _parameters = new();
+
+    private static Task<TableDataCollection> FetchData()
+    {
+        var collection = new List<SampleTableCollectionItemModel>();
+
+        for(var i = 0; i < 100; i++)
+        {
+            var guid = System.Guid.NewGuid().ToString("N");
+
+            collection.Add(new()
+            {
+                Id = i,
+                Guid = guid,
+                SampleEnum = GetRandomSampleEnum(i),
+                SampleBoolean = i % 2 == 0,
+                SampleInteger = i,
+                SampleString = guid,
+                SampleDecimal = i + 0.5m,
+                SampleDouble = i + 0.5,
+                SampleDateTime = DateTime.Now.AddDays(i)
+            });
+        }
+
+        return Task.FromResult(TableDataCollectionFactory.FromDataSource(collection));
+    }
+
+    private Task<IEnumerable<MaviTableContextMenuItem>> ConstructContextMenu()
+    {
+        var emptyCollection = Enumerable.Empty<MaviTableContextMenuItem>();
+        return Task.FromResult(emptyCollection);
+    }
+
+    private Task OnGridContextMenuClick(MaviTableContextMenuItem item)
+    {
+        return Task.CompletedTask;
+    }
+
+    private Task OnRowClick(TableClickData item)
+    {
+        return Task.CompletedTask;
+    }
+
+    private Task RowContextMenuClick(MaviTableRowContextMenuItem menuItem)
+    {
+        return Task.CompletedTask;
+    }
+
+    public static SampleEnum GetRandomSampleEnum(int seed)
+    {
+        var random = new Random(seed);
+
+        var value = random.Next(0, 11);
+
+        return (SampleEnum)value;
+    }
+}
