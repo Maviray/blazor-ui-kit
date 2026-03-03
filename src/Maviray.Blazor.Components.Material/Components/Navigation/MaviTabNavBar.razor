@@ -1,0 +1,82 @@
+﻿@inherits MaviComponentBase
+@using Maviray.Blazor.Components.Material.Constants
+@implements IDisposable
+
+<div id="@Id" class="@GetContainerCss()" style="@Style">
+    <CascadingValue Value="@Context">
+        @ChildContent
+    </CascadingValue>
+</div>
+
+@code {
+
+    public readonly MaviTabContext Context = new();
+
+    [Parameter] public override string? Id { get; set; } = $"mavi-tab-nav-bar-{Guid.NewGuid():N}";
+
+    [Parameter]
+    [EditorRequired]
+    public RenderFragment ChildContent { get; init; }
+
+    [Parameter] public string? InitialActiveTabId { get; set; }
+    
+    [Parameter] public ElementSize ElementSize { get; set; } = ElementSize.Regular;
+    [Parameter] public ThemeColorScheme ThemeColorScheme { get; set; } = ThemeColorScheme.Default;
+
+    [Parameter] public EventCallback<TabClickEventArgs> OnTabClick { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        Context.NavBarId = Id;
+        Context.ElementSize = ElementSize;
+        Context.ThemeColorScheme = ThemeColorScheme;  
+        Context.OnTabClicked += HandleTabClicked;
+
+        if (string.IsNullOrWhiteSpace(Context.SelectedTabId))
+        {
+            Context.SelectedTabId = InitialActiveTabId;
+        }
+
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle( Id, GetType());
+        }
+    }
+
+    private void HandleTabClicked(object? sender, TabClickEventArgs args)
+    {
+        if (OnTabClick.HasDelegate)
+        {
+            _ = OnTabClick.InvokeAsync(args);
+        }
+
+        InvokeAsync(StateHasChanged);
+
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle( Id, GetType());
+        }
+    }
+
+    private static string GetContainerCss()
+    {
+        return $"relative flex w-full items-center border-b {Tailwind.Theme.Colors.Border.THEME_DEFAULT_FOUR_BORDER}";
+    }
+
+    private bool _disposed;
+
+    public void Dispose()
+    {
+        if (_disposed)
+            return;
+
+        _disposed = true;
+
+        Context.OnTabClicked -= HandleTabClicked;
+
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle( Id, GetType());
+        }
+    }
+}

@@ -127,9 +127,9 @@
         [MaybeNullWhen(false)] out string result,
         [NotNullWhen(false)] out string? validationErrorMessage)
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         result = value ?? string.Empty;
@@ -166,9 +166,9 @@
 
     protected override async Task HandleEndIconClick(MouseEventArgs args)
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         if (Disabled || EndIconDisabled || IsEndIconLoading)
@@ -195,25 +195,7 @@
             // Invoke custom callback
             if (OnEndIconClick.HasDelegate)
             {
-                var customArgs = new MouseClickEventArgs(Id)
-                {
-                    AltKey = args.AltKey,
-                    Button = args.Button,
-                    Buttons = args.Buttons,
-                    ClientX = args.ClientX,
-                    ClientY = args.ClientY,
-                    CtrlKey = args.CtrlKey,
-                    Detail = args.Detail,
-                    MetaKey = args.MetaKey,
-                    OffsetX = args.OffsetX,
-                    OffsetY = args.OffsetY,
-                    PageX = args.PageX,
-                    PageY = args.PageY,
-                    ScreenX = args.ScreenX,
-                    ScreenY = args.ScreenY,
-                    ShiftKey = args.ShiftKey,
-                    Type = args.Type
-                };
+                var customArgs = new MouseClickEventArgs(Id, args);
 
                 await OnEndIconClick.InvokeAsync(customArgs);
             }

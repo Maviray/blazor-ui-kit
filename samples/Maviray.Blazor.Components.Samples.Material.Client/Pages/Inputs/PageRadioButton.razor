@@ -1,0 +1,79 @@
+﻿@page "/PageRadioButton"
+@using Maviray.Blazor.Components.Core.Models
+@inherits SamplePageBase
+
+<PageTitle>RadioButton</PageTitle>
+
+
+
+<div class="flex flex-col gap-4">
+    <div>
+        <!-- Basic checkbox -->
+        <MaviRadioButton @bind-Value="_buttonSmallChecked" ElementSize="ElementSize.Small" RadioStatusChange="HandleButtonValueChange" />
+        <!-- Basic checkbox -->
+        <MaviRadioButton @bind-Value="_buttonMediumChecked" ElementSize="ElementSize.Regular" RadioStatusChange="HandleButtonValueChange" />
+        <!-- Basic checkbox -->
+        <MaviRadioButton @bind-Value="_buttonLargeChecked" ElementSize="ElementSize.Large" RadioStatusChange="HandleButtonValueChange" />
+    </div>
+    <div>
+        <!-- Basic checkbox -->
+        <MaviRadioButton @bind-Value="_buttonPrimaryChecked" ElementSize="ElementSize.Small" ThemeColorScheme="ThemeColorScheme.Primary" RadioStatusChange="HandleButtonValueChange" />
+        <!-- Basic checkbox -->
+        <MaviRadioButton @bind-Value="_buttonSecondaryChecked" ElementSize="ElementSize.Regular" ThemeColorScheme="ThemeColorScheme.Secondary" RadioStatusChange="HandleButtonValueChange" />
+        <!-- Basic checkbox -->
+        <MaviRadioButton @bind-Value="_buttonSuccessChecked" ElementSize="ElementSize.Large" ThemeColorScheme="ThemeColorScheme.Success" RadioStatusChange="HandleButtonValueChange" />
+        <!-- Basic checkbox -->
+        <MaviRadioButton @bind-Value="_buttonAlertChecked" ElementSize="ElementSize.Small" ThemeColorScheme="ThemeColorScheme.Alert" RadioStatusChange="HandleButtonValueChange" />
+        <!-- Basic checkbox -->
+        <MaviRadioButton @bind-Value="_buttonWarningChecked" ElementSize="ElementSize.Regular" ThemeColorScheme="ThemeColorScheme.Warning" RadioStatusChange="HandleButtonValueChange" />
+        <!-- Basic checkbox -->
+        <MaviRadioButton @bind-Value="_buttonInfoChecked" ElementSize="ElementSize.Large" ThemeColorScheme="ThemeColorScheme.Info" RadioStatusChange="HandleButtonValueChange" />
+    </div>
+    <div class="flex gap-4">
+        <!-- Basic checkbox -->
+        <MaviRadioButton @bind-Value="_buttonOneChecked" Label="Accept terms" />
+
+        <!-- Checkbox with theme and size -->
+        <MaviRadioButton @bind-Value="_buttonTwoChecked"
+                         Label="Enable notifications"
+                         ThemeColorScheme="ThemeColorScheme.Primary"
+                         ElementSize="ElementSize.Large" RadioStatusChange="HandleButtonValueChange" />
+
+        <!-- Required checkbox with helper text -->
+        <MaviRadioButton @bind-Value="_buttonThreeChecked"
+                         Label="I agree"
+                         Required="true"
+                         ElementSize="ElementSize.Regular"
+                         HelperText="You must accept to continue" RadioStatusChange="HandleButtonValueChange" />
+
+        <!-- Disabled checkbox -->
+        <MaviRadioButton @bind-Value="_buttonFourChecked"
+                         ElementSize="ElementSize.Regular"
+                         Disabled="true"
+                         Label="Disabled Radio Button" RadioStatusChange="HandleButtonValueChange" />
+
+    </div>
+</div>
+@code {
+    private bool _buttonOneChecked = false;
+    private bool _buttonTwoChecked = false;
+    private bool _buttonThreeChecked = false;
+    private bool _buttonFourChecked = false;
+
+    private bool _buttonSmallChecked = false;
+    private bool _buttonMediumChecked = false;
+    private bool _buttonLargeChecked = false;
+
+    private bool _buttonPrimaryChecked = false;
+    private bool _buttonSecondaryChecked = false;
+    private bool _buttonSuccessChecked = false;
+    private bool _buttonAlertChecked = false;
+    private bool _buttonWarningChecked = false;
+    private bool _buttonInfoChecked = false;
+
+    private Task HandleButtonValueChange(ValueChangedCallbackParameters<bool> args)
+    {
+        Logger?.LogInformation("CheckBox: {ButtonId} Status: {Status}", args.ElementId, args.Value);
+        return Task.CompletedTask;
+    }
+}

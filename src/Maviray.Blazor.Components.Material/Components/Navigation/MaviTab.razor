@@ -1,0 +1,317 @@
+﻿@inherits MaviComponentBase
+@using Maviray.Blazor.Components.Material.Constants
+@implements IDisposable
+
+<button id="@Id"
+        class="@GetButtonCss()"
+        title="@Title"
+        style="@Style"
+        @onclick="@OnClick"
+        disabled="@Disabled">
+
+    @if (!string.IsNullOrWhiteSpace(Icon))
+    {
+        <div class="@GetIconSizeCss()">
+            <i class="@Icon"></i>
+        </div>
+    }
+    <div class="@GetTitleCss()">
+        <span>@Title</span>
+    </div>
+
+</button>
+
+@code {
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public string? Icon { get; set; }
+    [Parameter] public ScreenSizeBreakpoint ShowTitleOnBreakpoint { get; set; }
+    [CascadingParameter] internal MaviTabContext? Context { get; set; }
+
+    private bool Selected =>
+        EqualityComparer<string?>.Default.Equals(Id, Context?.SelectedTabId);
+
+    protected override void OnParametersSet()
+    {
+        if (Context is not null)
+            Context.OnTabClicked += HandleTabClicked;
+
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle(Id, GetType());
+        }
+    }
+
+    private Task OnClick(MouseEventArgs args)
+    {
+        Context?.OnTabClick(new(Id, args));
+
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle(Id, GetType());
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private void HandleTabClicked(object? sender, TabClickEventArgs? args)
+    {
+        InvokeAsync(StateHasChanged);
+
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle(Id, GetType());
+        }
+    }
+
+    private string GetButtonCss()
+    {
+        // ---- Base (Material-like outline tab) ----
+        var baseCss = @"
+            cursor-pointer
+            relative -mb-px
+            inline-flex items-center justify-center
+            select-none
+            transition-colors
+            focus-visible:outline-none
+            focus-visible:ring-2
+            focus-visible:ring-offset-2
+        ";
+
+        // ---- Size (from context, fallback Regular) ----
+        var size = Context?.ElementSize ?? ElementSize.Regular;
+
+        var paddingHorizontal = ShowTitleOnBreakpoint switch
+        {
+            ScreenSizeBreakpoint.Small => "hidden sm:flex",
+            ScreenSizeBreakpoint.Medium => "hidden md:flex",
+            ScreenSizeBreakpoint.Large => "hidden lg:flex",
+            ScreenSizeBreakpoint.ExtraLarge => "hidden xl:flex",
+            ScreenSizeBreakpoint.TwoExtraLarge => "hidden 2xl:flex",
+            ScreenSizeBreakpoint.ThreeExtraLarge => "hidden 3xl:flex",
+            ScreenSizeBreakpoint.FourExtraLarge => "hidden 4xl:flex",
+            ScreenSizeBreakpoint.FiveExtraLarge => "hidden 5xl:flex",
+            ScreenSizeBreakpoint.SixExtraLarge => "hidden 6xl:flex",
+            ScreenSizeBreakpoint.SevenExtraLarge => "hidden 7xl:flex",
+            _ => "flex"
+        };
+
+        var dimensions = GetButtonPadding(size);
+
+        var fontSize = size switch
+        {
+            ElementSize.Small => Tailwind.Theme.Typography.LABEL_SMALL,
+            ElementSize.Large => Tailwind.Theme.Typography.LABEL_LARGE,
+            _ => Tailwind.Theme.Typography.LABEL_MEDIUM
+        };
+
+        // ---- Theme (from context, fallback Default) ----
+        var theme = Context?.ThemeColorScheme ?? ThemeColorScheme.Default;
+
+        // Selected (indicator + text) uses the "eight" shade as base accent.
+        var accentText = theme switch
+        {
+            ThemeColorScheme.Primary => "text-[color:var(--theme-primary-eight)]",
+            ThemeColorScheme.Secondary => "text-[color:var(--theme-secondary-eight)]",
+            ThemeColorScheme.Success => "text-[color:var(--theme-success-eight)]",
+            ThemeColorScheme.Alert => "text-[color:var(--theme-alert-eight)]",
+            ThemeColorScheme.Warning => "text-[color:var(--theme-warning-nine)]",
+            ThemeColorScheme.Info => "text-[color:var(--theme-info-eight)]",
+            ThemeColorScheme.Dark => "text-[color:var(--theme-dark-eight)]",
+            ThemeColorScheme.Light => "text-[color:var(--theme-light-ten)]",
+            _ => "text-[color:var(--theme-default-ten)]"
+        };
+
+        var accentBgHover = theme switch
+        {
+            ThemeColorScheme.Primary => "hover:bg-[color:var(--theme-primary-one)]",
+            ThemeColorScheme.Secondary => "hover:bg-[color:var(--theme-secondary-one)]",
+            ThemeColorScheme.Success => "hover:bg-[color:var(--theme-success-one)]",
+            ThemeColorScheme.Alert => "hover:bg-[color:var(--theme-alert-one)]",
+            ThemeColorScheme.Warning => "hover:bg-[color:var(--theme-warning-one)]",
+            ThemeColorScheme.Info => "hover:bg-[color:var(--theme-info-one)]",
+            ThemeColorScheme.Dark => "hover:bg-[color:var(--theme-dark-one)]",
+            ThemeColorScheme.Light => "hover:bg-[color:var(--theme-light-two)]",
+            _ => "hover:bg-[color:var(--theme-default-two)]"
+        };
+
+        var accentRing = theme switch
+        {
+            ThemeColorScheme.Primary => "focus-visible:ring-[color:var(--theme-primary-four)]",
+            ThemeColorScheme.Secondary => "focus-visible:ring-[color:var(--theme-secondary-four)]",
+            ThemeColorScheme.Success => "focus-visible:ring-[color:var(--theme-success-four)]",
+            ThemeColorScheme.Alert => "focus-visible:ring-[color:var(--theme-alert-four)]",
+            ThemeColorScheme.Warning => "focus-visible:ring-[color:var(--theme-warning-four)]",
+            ThemeColorScheme.Info => "focus-visible:ring-[color:var(--theme-info-four)]",
+            ThemeColorScheme.Dark => "focus-visible:ring-[color:var(--theme-dark-six)]",
+            ThemeColorScheme.Light => "focus-visible:ring-[color:var(--theme-light-six)]",
+            _ => "focus-visible:ring-[color:var(--theme-default-six)]"
+        };
+
+        var ringOffset = theme switch
+        {
+            ThemeColorScheme.Dark => "focus-visible:ring-offset-[color:var(--theme-dark-one)]",
+            ThemeColorScheme.Light => "focus-visible:ring-offset-[color:var(--theme-light-one)]",
+            _ => "focus-visible:ring-offset-[color:var(--theme-default-one)]"
+        };
+
+        // Non-selected text
+        var idleText = theme switch
+        {
+            ThemeColorScheme.Dark => "text-[color:var(--theme-dark-eight)]",
+            ThemeColorScheme.Light => "text-[color:var(--theme-light-nine)]",
+            _ => "text-[color:var(--theme-default-eight)]"
+        };
+
+        // Indicator (underline) color follows accent
+        var indicator = theme switch
+        {
+            ThemeColorScheme.Primary => "after:bg-[color:var(--theme-primary-eight)]",
+            ThemeColorScheme.Secondary => "after:bg-[color:var(--theme-secondary-eight)]",
+            ThemeColorScheme.Success => "after:bg-[color:var(--theme-success-eight)]",
+            ThemeColorScheme.Alert => "after:bg-[color:var(--theme-alert-eight)]",
+            ThemeColorScheme.Warning => "after:bg-[color:var(--theme-warning-nine)]",
+            ThemeColorScheme.Info => "after:bg-[color:var(--theme-info-eight)]",
+            ThemeColorScheme.Dark => "after:bg-[color:var(--theme-dark-eight)]",
+            ThemeColorScheme.Light => "after:bg-[color:var(--theme-light-ten)]",
+            _ => "after:bg-[color:var(--theme-default-ten)]"
+        };
+
+        // ---- State ----
+        var stateCss = Selected
+            ? $@"
+        {accentText}
+                after:content-['']
+                after:absolute after:left-0 after:right-0 after:bottom-0
+                after:h-[2px]
+        {indicator}
+            "
+            : $@"
+        {idleText}
+        {accentBgHover}
+            ";
+
+        // ---- Disabled ----
+        var disabledCss = Disabled
+            ? "opacity-50 pointer-events-none"
+            : string.Empty;
+
+        return $"{baseCss} {accentRing} {ringOffset} {dimensions} {fontSize} {stateCss} {disabledCss}";
+    }
+
+    private string GetIconSizeCss()
+    {
+        var textSize = Context?.ElementSize switch
+        {
+            ElementSize.Small => "text-[13px]",
+            ElementSize.Large => "text-[18px]",
+            _ => "text-[15px]"
+        };
+
+        return $"flex items-center justify-center {textSize}";
+    }
+
+    private string GetTitleCss()
+    {
+        var displayClass = ShowTitleOnBreakpoint switch
+        {
+            ScreenSizeBreakpoint.Small => "hidden sm:flex",
+            ScreenSizeBreakpoint.Medium => "hidden md:flex",
+            ScreenSizeBreakpoint.Large => "hidden lg:flex",
+            ScreenSizeBreakpoint.ExtraLarge => "hidden xl:flex",
+            ScreenSizeBreakpoint.TwoExtraLarge => "hidden 2xl:flex",
+            ScreenSizeBreakpoint.ThreeExtraLarge => "hidden 3xl:flex",
+            ScreenSizeBreakpoint.FourExtraLarge => "hidden 4xl:flex",
+            ScreenSizeBreakpoint.FiveExtraLarge => "hidden 5xl:flex",
+            ScreenSizeBreakpoint.SixExtraLarge => "hidden 6xl:flex",
+            ScreenSizeBreakpoint.SevenExtraLarge => "hidden 7xl:flex",
+            _ => "flex"
+        };
+
+        return $"px-2.5 flex justify-center items-center gap-2.5 whitespace-nowrap {displayClass}";
+    }
+
+    private string GetButtonPadding(ElementSize size) => size switch
+    {
+        ElementSize.Small => GetPaddingSmall(),
+        ElementSize.Large => GetPaddingLarge(),
+        _ => GetPaddingMedium()
+    };
+
+    private string GetPaddingSmall()
+    {
+        var horizontalPadding = ShowTitleOnBreakpoint switch
+        {
+            ScreenSizeBreakpoint.Small => "px-1.5 sm:px-3",
+            ScreenSizeBreakpoint.Medium => "px-1.5 md:px-3",
+            ScreenSizeBreakpoint.Large => "px-1.5 lg:px-3",
+            ScreenSizeBreakpoint.ExtraLarge => "px-1.5 xl:px-3",
+            ScreenSizeBreakpoint.TwoExtraLarge => "px-1.5 2xl:px-3",
+            ScreenSizeBreakpoint.ThreeExtraLarge => "px-1.5 3xl:px-3",
+            ScreenSizeBreakpoint.FourExtraLarge => "px-1.5 4xl:px-3",
+            ScreenSizeBreakpoint.FiveExtraLarge => "px-1.5 5xl:px-3",
+            ScreenSizeBreakpoint.SixExtraLarge => "px-1.5 6xl:px-3",
+            ScreenSizeBreakpoint.SevenExtraLarge => "px-1.5 7xl:px-3",
+            _ => "px-3"
+        };
+
+        return $"py-2 min-h-8 {horizontalPadding}";
+    }
+
+    private string GetPaddingMedium()
+    {
+        var horizontalPadding = ShowTitleOnBreakpoint switch
+        {
+            ScreenSizeBreakpoint.Small => "px-3 sm:px-6",
+            ScreenSizeBreakpoint.Medium => "px-3 md:px-6",
+            ScreenSizeBreakpoint.Large => "px-3 lg:px-6",
+            ScreenSizeBreakpoint.ExtraLarge => "px-3 xl:px-6",
+            ScreenSizeBreakpoint.TwoExtraLarge => "px-3 2xl:px-6",
+            ScreenSizeBreakpoint.ThreeExtraLarge => "px-3 3xl:px-6",
+            ScreenSizeBreakpoint.FourExtraLarge => "px-3 4xl:px-6",
+            ScreenSizeBreakpoint.FiveExtraLarge => "px-3 5xl:px-6",
+            ScreenSizeBreakpoint.SixExtraLarge => "px-3 6xl:px-6",
+            ScreenSizeBreakpoint.SevenExtraLarge => "px-3 7xl:px-6",
+            _ => "px-6"
+        };
+
+        return $"py-3 min-h-10 {horizontalPadding}";
+    }
+
+    private string GetPaddingLarge()
+    {
+        var horizontalPadding = ShowTitleOnBreakpoint switch
+        {
+            ScreenSizeBreakpoint.Small => "px-4 sm:px-8",
+            ScreenSizeBreakpoint.Medium => "px-4 md:px-8",
+            ScreenSizeBreakpoint.Large => "px-4 lg:px-8",
+            ScreenSizeBreakpoint.ExtraLarge => "px-4 xl:px-8",
+            ScreenSizeBreakpoint.TwoExtraLarge => "px-4 2xl:px-8",
+            ScreenSizeBreakpoint.ThreeExtraLarge => "px-4 3xl:px-8",
+            ScreenSizeBreakpoint.FourExtraLarge => "px-4 4xl:px-8",
+            ScreenSizeBreakpoint.FiveExtraLarge => "px-4 5xl:px-8",
+            ScreenSizeBreakpoint.SixExtraLarge => "px-4 6xl:px-8",
+            ScreenSizeBreakpoint.SevenExtraLarge => "px-4 7xl:px-8",
+            _ => "px-8"
+        };
+
+        return $"py-4 min-h-12 {horizontalPadding}";
+    }
+
+    private bool _disposed;
+
+    public void Dispose()
+    {
+        if (_disposed)
+            return;
+
+        _disposed = true;
+
+        if (Context is not null)
+            Context.OnTabClicked -= HandleTabClicked;
+
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle(Id, GetType());
+        }
+    }
+}

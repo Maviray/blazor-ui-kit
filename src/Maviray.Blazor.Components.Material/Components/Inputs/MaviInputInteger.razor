@@ -122,9 +122,9 @@
         out int result,
         [NotNullWhen(false)] out string? validationErrorMessage)
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         if (string.IsNullOrWhiteSpace(value))

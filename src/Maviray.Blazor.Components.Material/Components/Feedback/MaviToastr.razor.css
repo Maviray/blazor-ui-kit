@@ -1,0 +1,16 @@
+﻿@keyframes mavi_toast_progress_shrink {
+    from {
+        transform: scaleX(1);
+    }
+
+    to {
+        transform: scaleX(0);
+    }
+}
+
+.mavi-toast-progress {
+    transform-origin: left;
+    animation-name: mavi_toast_progress_shrink;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}

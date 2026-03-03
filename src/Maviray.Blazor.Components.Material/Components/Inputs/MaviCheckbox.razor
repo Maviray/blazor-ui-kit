@@ -19,20 +19,18 @@
 
         <!-- Custom Checkbox Visual -->
         <div class="@GetCheckboxClass()">
-            @if (CurrentValue)
-            {
-                <!-- Checkmark Icon -->
-                <svg class="@GetCheckmarkClass()" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M13.3334 4L6.00002 11.3333L2.66669 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-            }
-            else if (Indeterminate)
-            {
-                <!-- Indeterminate Icon (dash) -->
-                <svg class="@GetCheckmarkClass()" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3 8H13" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                </svg>
-            }
+            <!-- Check icon: always rendered -->
+            <svg class="@GetCheckmarkClass() @GetCheckIconStateClass()"
+                 viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M13.3334 4L6.00002 11.3333L2.66669 8"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+
+            <!-- Dash icon: always rendered (absolute overlay) -->
+            <svg class="@GetCheckmarkClass() @GetIndeterminateIconStateClass()"
+                 viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M3 8H13" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
         </div>
 
         <!-- Label Text -->
@@ -67,9 +65,9 @@
     
     protected async Task HandleChange(ChangeEventArgs e)
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         if (Disabled || Readonly) return;
@@ -119,6 +117,8 @@
         var baseClasses = new List<string>
         {
             sizeClass,
+            "relative",   // NEW
+            "shrink-0",   // NEW
             "flex",
             "items-center",
             "justify-center",
@@ -296,14 +296,46 @@
         };
     }
 
+    private string GetCheckIconStateClass()
+    {
+        // show only when checked AND not indeterminate
+        var state = (CurrentValue && !Indeterminate) ? "opacity-100 scale-100" : "opacity-0 scale-0";
+
+        return string.Join(" ", new[]
+        {
+            "absolute inset-0 m-auto",   // overlay centered
+            "transition",
+            "duration-150",
+            "ease-in-out",
+            "transform-gpu",
+            state
+        });
+    }
+
+    private string GetIndeterminateIconStateClass()
+    {
+        // show only when indeterminate
+        var state = Indeterminate ? "opacity-100 scale-100" : "opacity-0 scale-0";
+
+        return string.Join(" ", new[]
+        {
+            "absolute inset-0 m-auto",
+            "transition",
+            "duration-150",
+            "ease-in-out",
+            "transform-gpu",
+            state
+        });
+    }
+
     #endregion
 
-    protected override bool TryParseValueFromString(string? value, out bool result, out string? validationErrorMessage)
+    protected override bool TryParseValueFromString(string? value, out bool result, out string validationErrorMessage)
     {
         if (bool.TryParse(value, out var parsedValue))
         {
             result = parsedValue;
-            validationErrorMessage = null;
+            validationErrorMessage = string.Empty;
             return true;
         }
 

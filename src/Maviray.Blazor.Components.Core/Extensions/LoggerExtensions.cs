@@ -22,25 +22,6 @@ public static class LoggerExtensions
             }
         }
 
-        public void Information(string message,
-            object?[] args,
-            [CallerMemberName] string memberName = "",
-            [CallerLineNumber] int lineNumber = 0)
-        {
-            if (!logger.IsEnabled(LogLevel.Information))
-            {
-                return;
-            }
-
-            var enhancedMessage = $"[{{MemberName}}:{{LineNumber}}] {message}";
-            var enhancedArgs = new object?[args.Length + 2];
-            enhancedArgs[0] = memberName;
-            enhancedArgs[1] = lineNumber;
-            Array.Copy(args, 0, enhancedArgs, 2, args.Length);
-
-            logger.LogInformation(enhancedMessage, enhancedArgs);
-        }
-
         public void Warning(string message,
             [CallerMemberName] string memberName = "",
             [CallerLineNumber] int lineNumber = 0)
@@ -56,25 +37,6 @@ public static class LoggerExtensions
                 memberName,
                 lineNumber,
                 message);
-        }
-
-        public void Warning(string message,
-            object?[] args,
-            [CallerMemberName] string memberName = "",
-            [CallerLineNumber] int lineNumber = 0)
-        {
-            if (!logger.IsEnabled(LogLevel.Warning))
-            {
-                return;
-            }
-
-            var enhancedMessage = $"[{{MemberName}}:{{LineNumber}}] {message}";
-            var enhancedArgs = new object?[args.Length + 2];
-            enhancedArgs[0] = memberName;
-            enhancedArgs[1] = lineNumber;
-            Array.Copy(args, 0, enhancedArgs, 2, args.Length);
-
-            logger.LogWarning(enhancedMessage, enhancedArgs);
         }
 
         public void Error(Exception? exception,
@@ -93,26 +55,6 @@ public static class LoggerExtensions
                 memberName,
                 lineNumber,
                 message);
-        }
-
-        public void Error(Exception? exception,
-            string message,
-            object?[] args,
-            [CallerMemberName] string memberName = "",
-            [CallerLineNumber] int lineNumber = 0)
-        {
-            if (!logger.IsEnabled(LogLevel.Error))
-            {
-                return;
-            }
-
-            var enhancedMessage = $"[{{MemberName}}:{{LineNumber}}] {message}";
-            var enhancedArgs = new object?[args.Length + 2];
-            enhancedArgs[0] = memberName;
-            enhancedArgs[1] = lineNumber;
-            Array.Copy(args, 0, enhancedArgs, 2, args.Length);
-
-            logger.LogError(exception, enhancedMessage, enhancedArgs);
         }
 
         public void Error(string message,
@@ -137,15 +79,15 @@ public static class LoggerExtensions
         /// <param name="componentOptions">Component options for log level filtering (optional)</param>
         /// <param name="callerType">The type of the calling class</param>
         /// <param name="level">The log level</param>
+        /// <param name="id">id of the executing component</param>
         /// <param name="message">The log message</param>
-        /// <param name="args">Optional message format arguments</param>
         /// <param name="memberName">caller member name</param>
         /// <param name="sourceLineNumber">source line number</param>
         public void LogIfEnabled(IMaviComponentOptions? componentOptions,
+            string? id,
             Type callerType,
             LogLevel level,
             string message,
-            object?[]? args = null,
             [CallerMemberName] string memberName = "",
             [CallerLineNumber] int sourceLineNumber = 0)
         {
@@ -155,119 +97,50 @@ public static class LoggerExtensions
             // If component options are provided, respect the configured log level
             if (level < componentOptions.ComponentLogLevel) return;
 
-            // Format: [ComponentType.MethodName] Message
-            var enrichedMessage = $"[{callerType.Name}.{memberName}][{sourceLineNumber}] {message}";
-
-            if (args != null && args.Length > 0)
-            {
-                logger.Log(level, enrichedMessage, args);
-            }
-            else
-            {
-                logger.Log(level, enrichedMessage);
-            }
+            logger.LogInformation(
+                "[{Component}.{Member}][{Line}]-[{Id}]: {Message}",
+                callerType.Name,
+                memberName,
+                sourceLineNumber,
+                id, message);
         }
 
         /// <summary>
         /// Logs a message if the configured log level allows it as per IMaviComponentOptions
         /// </summary>
-        /// <param name="componentOptions">Component options for log level filtering (optional)</param>
+        /// <param name="callerType">The type of the calling class</param>
+        /// <param name="id">id of the executing component</param>
+        /// <param name="memberName">caller member name</param>
+        /// <param name="sourceLineNumber">source line number</param>
+        public void LogDebugLifeCycle(string? id, Type callerType, [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            // Format: $"[{callerType.Name}.{memberName}][{sourceLineNumber}]-[{id}];
+
+            logger.Log(LogLevel.Information, "[{Component}.{Member}][{Line}]-[{Id}]",
+                callerType.Name,
+                memberName,
+                sourceLineNumber,
+                id);
+        }
+
+        /// <summary>
+        /// Logs a message if the configured log level allows it as per IMaviComponentOptions
+        /// </summary>
         /// <param name="callerType">The type of the calling class</param>
         /// <param name="id">id of the executing component</param>
         /// <param name="message">The log message</param>
-        /// <param name="args">Optional message format arguments</param>
         /// <param name="memberName">caller member name</param>
         /// <param name="sourceLineNumber">source line number</param>
-        public void LogDebugLifeCycle(IMaviComponentOptions? componentOptions,
-            Type callerType,
-            string? id,
-            string message,
-            object?[]? args = null,
-            [CallerMemberName] string memberName = "",
-            [CallerLineNumber] int sourceLineNumber = 0)
+        public void LogDebugLifeCycle(Type callerType, string? id, string message, [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
         {
-            if (componentOptions == null) return;
+            // Format: $"[{callerType.Name}.{memberName}][{sourceLineNumber}]-[{id}]: {message}";
 
-            // If component options are provided, respect the configured log level
-            if (!componentOptions.EnableLifecycleLogging) return;
-
-            // Format: [ComponentType.MethodName] Message
-            var enrichedMessage = $"[{callerType.Name}.{memberName}][{sourceLineNumber}]-[{id}]: {message}";
-
-            if (args != null && args.Length > 0)
-            {
-                logger.Log(LogLevel.Information, enrichedMessage, args);
-            }
-            else
-            {
-                logger.Log(LogLevel.Information, enrichedMessage);
-            }
-        }
-
-        /// <summary>
-        /// Logs a message if the configured log level allows it as per IMaviComponentOptions
-        /// </summary>
-        /// <param name="componentOptions">Component options for log level filtering (optional)</param>
-        /// <param name="callerType">The type of the calling class</param>
-        /// <param name="args">Optional message format arguments</param>
-        /// <param name="memberName">caller member name</param>
-        /// <param name="sourceLineNumber">source line number</param>
-        public void LogDebugLifeCycle(IMaviComponentOptions? componentOptions,
-            Type callerType,
-            object?[]? args = null,
-            [CallerMemberName] string memberName = "",
-            [CallerLineNumber] int sourceLineNumber = 0)
-        {
-            if (componentOptions == null) return;
-
-            // If component options are provided, respect the configured log level
-            if (!componentOptions.EnableLifecycleLogging) return;
-
-            // Format: [ComponentType.MethodName] Message
-            var enrichedMessage = $"[Executing: {callerType.Name}.{memberName}][{sourceLineNumber}]";
-
-            if (args != null && args.Length > 0)
-            {
-                logger.Log(LogLevel.Information, enrichedMessage, args);
-            }
-            else
-            {
-                logger.Log(LogLevel.Information, enrichedMessage);
-            }
-        }
-
-        /// <summary>
-        /// Logs a message if the configured log level allows it as per IMaviComponentOptions
-        /// </summary>
-        /// <param name="componentOptions">Component options for log level filtering (optional)</param>
-        /// <param name="id">id of the executing component</param>
-        /// <param name="callerType">The type of the calling class</param>
-        /// <param name="args">Optional message format arguments</param>
-        /// <param name="memberName">caller member name</param>
-        /// <param name="sourceLineNumber">source line number</param>
-        public void LogDebugLifeCycle(IMaviComponentOptions? componentOptions,
-            string? id,
-            Type callerType,
-            object?[]? args = null,
-            [CallerMemberName] string memberName = "",
-            [CallerLineNumber] int sourceLineNumber = 0)
-        {
-            if (componentOptions == null) return;
-
-            // If component options are provided, respect the configured log level
-            if (!componentOptions.EnableLifecycleLogging) return;
-
-            // Format: [ComponentType.MethodName] Message
-            var enrichedMessage = $"[Executing: {callerType.Name}.{memberName}][{sourceLineNumber}]-[{id}]";
-
-            if (args != null && args.Length > 0)
-            {
-                logger.Log(LogLevel.Information, enrichedMessage, args);
-            }
-            else
-            {
-                logger.Log(LogLevel.Information, enrichedMessage);
-            }
+            logger.Log(LogLevel.Information, "[{Component}.{Member}][{Line}]-[{Id}]: {Message}",
+                callerType.Name,
+                memberName,
+                sourceLineNumber,
+                id,
+                message);
         }
     }
 }

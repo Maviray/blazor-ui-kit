@@ -1,0 +1,296 @@
+﻿@using Maviray.Blazor.Components.Material.Constants
+
+@inherits MaviComponentBase
+@typeparam TValue
+
+<label class="@GetLabelContainerClass()" for="@Id">
+    <input type="radio"
+           id="@Id"
+           name="@ElementId"
+           checked="@IsChecked"
+           @onchange="HandleChange"
+           disabled="@IsDisabled"
+           class="sr-only peer"
+           aria-label="@Label"
+           @attributes="AdditionalAttributes" />
+
+    <div class="@GetRadioClass()">
+        <div class="@GetRadioDotClass()"></div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Label))
+    {
+        <span class="@GetLabelTextClass()">@Label</span>
+    }
+</label>
+
+@code {
+    [CascadingParameter] public RadioGroupContext<TValue>? Group { get; set; }
+
+    // Identity / UI
+    [Parameter] public override string? Id { get; set; } = $"mavi-radio-item-{Guid.NewGuid():N}";
+    [Parameter] public string? Label { get; set; }
+
+    // Radio option value
+    [Parameter] public TValue? OptionValue { get; set; }
+
+    // Standalone (no group) binding
+    [Parameter] public TValue? Value { get; set; }
+    [Parameter] public EventCallback<TValue?> ValueChanged { get; set; }
+
+    // Standalone (no group) state + styling
+    [Parameter] public bool Disabled { get; set; }
+   
+    [Parameter] public ElementSize ElementSize { get; set; } = ElementSize.Regular;
+    [Parameter] public ThemeColorScheme ThemeColorScheme { get; set; } = ThemeColorScheme.Default;
+
+    // Extra attributes
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string ElementId => Group?.GroupId ?? Id ?? $"mavi-radio-item-{Guid.NewGuid():N}";
+    private bool EffectiveDisabled => (Group?.Disabled ?? false) || Disabled;
+    private bool EffectiveReadonly => Group?.Readonly ?? false;
+    private ElementSize EffectiveSize => Group?.ElementSize ?? ElementSize;
+    private ThemeColorScheme EffectiveScheme => Group?.ThemeColorScheme ?? ThemeColorScheme;
+    private TValue? EffectiveValue => Group != null ? Group.GetValue() : Value;
+
+    private bool IsDisabled => EffectiveDisabled || EffectiveReadonly;
+
+    private bool IsChecked =>
+        EqualityComparer<TValue?>.Default.Equals(EffectiveValue, OptionValue);
+        
+    private async Task HandleChange(ChangeEventArgs _)
+    {
+        if (IsDisabled) return;
+
+        if (Group != null)
+        {
+            await Group.SetValueAsync(OptionValue);
+            return;
+        }
+
+        // Standalone mode: update Value binding
+        Value = OptionValue;
+
+        if (ValueChanged.HasDelegate)
+        {
+            await ValueChanged.InvokeAsync(Value);
+        }
+    }
+
+    private string GetLabelContainerClass()
+    {
+        var classes = new List<string>
+        {
+            "inline-flex",
+            "items-center",
+            "gap-2",
+            "cursor-pointer",
+            "select-none"
+        };
+
+        if (IsDisabled)
+        {
+            classes.Add("cursor-not-allowed");
+        }
+
+        if (EffectiveDisabled)
+        {
+            classes.Add("opacity-40");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetRadioClass()
+    {
+        var sizeClass = EffectiveSize switch
+        {
+            ElementSize.Small => "w-4 h-4",
+            ElementSize.Large => "w-6 h-6",
+            _ => "w-5 h-5"
+        };
+
+        var baseClasses = new List<string>
+        {
+            sizeClass,
+            "shrink-0",
+            "flex",
+            "items-center",
+            "justify-center",
+            "border-2",
+            "rounded-full",
+            "transition-all",
+            "duration-200",
+            "ease-in-out",
+            "bg-transparent"
+        };
+
+        if (!IsChecked)
+        {
+            baseClasses.Add(GetUncheckedBorderColor());
+
+            if (!IsDisabled)
+            {
+                baseClasses.Add(GetUncheckedHoverColor());
+            }
+        }
+        else
+        {
+            baseClasses.Add(GetCheckedBorderColor());
+
+            if (!IsDisabled)
+            {
+                baseClasses.Add(GetCheckedHoverColor());
+            }
+        }
+
+        if (!IsDisabled)
+        {
+            baseClasses.Add("peer-focus-visible:ring-2");
+            baseClasses.Add("peer-focus-visible:ring-offset-2");
+            baseClasses.Add(GetFocusRingColor());
+        }
+
+        return string.Join(" ", baseClasses);
+    }
+
+    private string GetRadioDotClass()
+    {
+        var dotSize = EffectiveSize switch
+        {
+            ElementSize.Small => "w-2 h-2",
+            ElementSize.Large => "w-3.5 h-3.5",
+            _ => "w-2.5 h-2.5"
+        };
+
+        // Always rendered => no layout jump, only visual change
+        var state = IsChecked ? "opacity-100 scale-100" : "opacity-0 scale-0";
+
+        return string.Join(" ", new[]
+        {
+            dotSize,
+            "rounded-full",
+            "transition",
+            "duration-150",
+            "ease-in-out",
+            "transform-gpu",
+            state,
+            GetCheckedDotColor()
+        });
+    }
+
+    private string GetLabelTextClass()
+    {
+        var typo = EffectiveSize switch
+        {
+            ElementSize.Small => Tailwind.Theme.Typography.LABEL_SMALL,
+            ElementSize.Large => Tailwind.Theme.Typography.LABEL_LARGE,
+            _ => Tailwind.Theme.Typography.LABEL_MEDIUM
+        };
+
+        var color = EffectiveDisabled ? "text-(--theme-default-six)" : "text-(--theme-default-nine)";
+        return $"{typo} {color}";
+    }
+
+    #region Color Helpers (use EffectiveScheme)
+
+    private string GetUncheckedBorderColor()
+    {
+        return EffectiveScheme switch
+        {
+            ThemeColorScheme.Primary => "border-(--theme-primary-six)",
+            ThemeColorScheme.Secondary => "border-(--theme-secondary-six)",
+            ThemeColorScheme.Success => "border-(--theme-success-seven)",
+            ThemeColorScheme.Alert => "border-(--theme-alert-seven)",
+            ThemeColorScheme.Warning => "border-(--theme-warning-seven)",
+            ThemeColorScheme.Info => "border-(--theme-info-six)",
+            ThemeColorScheme.Dark => "border-(--theme-dark-eight)",
+            ThemeColorScheme.Light => "border-(--theme-light-six)",
+            _ => "border-(--theme-default-seven)"
+        };
+    }
+
+    private string GetUncheckedHoverColor()
+    {
+        return EffectiveScheme switch
+        {
+            ThemeColorScheme.Primary => "hover:bg-(--theme-primary-one) hover:border-(--theme-primary-seven)",
+            ThemeColorScheme.Secondary => "hover:bg-(--theme-secondary-one) hover:border-(--theme-secondary-seven)",
+            ThemeColorScheme.Success => "hover:bg-(--theme-success-one) hover:border-(--theme-success-eight)",
+            ThemeColorScheme.Alert => "hover:bg-(--theme-alert-one) hover:border-(--theme-alert-eight)",
+            ThemeColorScheme.Warning => "hover:bg-(--theme-warning-one) hover:border-(--theme-warning-eight)",
+            ThemeColorScheme.Info => "hover:bg-(--theme-info-one) hover:border-(--theme-info-seven)",
+            ThemeColorScheme.Dark => "hover:bg-(--theme-dark-one) hover:border-(--theme-dark-nine)",
+            ThemeColorScheme.Light => "hover:bg-(--theme-light-one) hover:border-(--theme-light-seven)",
+            _ => "hover:bg-(--theme-default-one) hover:border-(--theme-default-eight)"
+        };
+    }
+
+    private string GetCheckedBorderColor()
+    {
+        return EffectiveScheme switch
+        {
+            ThemeColorScheme.Primary => "border-(--theme-primary-eight)",
+            ThemeColorScheme.Secondary => "border-(--theme-secondary-six)",
+            ThemeColorScheme.Success => "border-(--theme-success-seven)",
+            ThemeColorScheme.Alert => "border-(--theme-alert-seven)",
+            ThemeColorScheme.Warning => "border-(--theme-warning-seven)",
+            ThemeColorScheme.Info => "border-(--theme-info-six)",
+            ThemeColorScheme.Dark => "border-(--theme-dark-eight)",
+            ThemeColorScheme.Light => "border-(--theme-light-six)",
+            _ => "border-(--theme-default-seven)"
+        };
+    }
+
+    private string GetCheckedDotColor()
+    {
+        return EffectiveScheme switch
+        {
+            ThemeColorScheme.Primary => "bg-(--theme-primary-eight)",
+            ThemeColorScheme.Secondary => "bg-(--theme-secondary-six)",
+            ThemeColorScheme.Success => "bg-(--theme-success-seven)",
+            ThemeColorScheme.Alert => "bg-(--theme-alert-seven)",
+            ThemeColorScheme.Warning => "bg-(--theme-warning-seven)",
+            ThemeColorScheme.Info => "bg-(--theme-info-six)",
+            ThemeColorScheme.Dark => "bg-(--theme-dark-eight)",
+            ThemeColorScheme.Light => "bg-(--theme-light-six)",
+            _ => "bg-(--theme-default-seven)"
+        };
+    }
+
+    private string GetCheckedHoverColor()
+    {
+        return EffectiveScheme switch
+        {
+            ThemeColorScheme.Primary => "hover:bg-(--theme-primary-one)",
+            ThemeColorScheme.Secondary => "hover:bg-(--theme-secondary-one)",
+            ThemeColorScheme.Success => "hover:bg-(--theme-success-one)",
+            ThemeColorScheme.Alert => "hover:bg-(--theme-alert-one)",
+            ThemeColorScheme.Warning => "hover:bg-(--theme-warning-one)",
+            ThemeColorScheme.Info => "hover:bg-(--theme-info-one)",
+            ThemeColorScheme.Dark => "hover:bg-(--theme-dark-one)",
+            ThemeColorScheme.Light => "hover:bg-(--theme-light-one)",
+            _ => "hover:bg-(--theme-default-one)"
+        };
+    }
+
+    private string GetFocusRingColor()
+    {
+        return EffectiveScheme switch
+        {
+            ThemeColorScheme.Primary => "peer-focus-visible:ring-(--theme-primary-six)",
+            ThemeColorScheme.Secondary => "peer-focus-visible:ring-(--theme-secondary-six)",
+            ThemeColorScheme.Success => "peer-focus-visible:ring-(--theme-success-seven)",
+            ThemeColorScheme.Alert => "peer-focus-visible:ring-(--theme-alert-seven)",
+            ThemeColorScheme.Warning => "peer-focus-visible:ring-(--theme-warning-seven)",
+            ThemeColorScheme.Info => "peer-focus-visible:ring-(--theme-info-six)",
+            ThemeColorScheme.Dark => "peer-focus-visible:ring-(--theme-dark-eight)",
+            ThemeColorScheme.Light => "peer-focus-visible:ring-(--theme-light-six)",
+            _ => "peer-focus-visible:ring-(--theme-default-seven)"
+        };
+    }
+
+    #endregion
+}

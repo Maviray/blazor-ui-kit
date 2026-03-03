@@ -1,0 +1,319 @@
+﻿@using Maviray.Blazor.Components.Core.Models
+@using Maviray.Blazor.Components.Material.Constants
+@inherits MaviInputBase<bool>
+
+<div class="@CssManager.Combine(Width, "inline-flex items-center")">
+    <label class="@GetLabelContainerClass()" for="@Id">
+        <!-- Hidden native checkbox (keeps toggle behavior) -->
+        <input type="checkbox"
+               id="@Id"
+               checked="@CurrentValue"
+               @onchange="HandleChange"
+               disabled="@Disabled"
+               class="sr-only peer"
+               aria-describedby="@GetAriaDescribedByString()"
+               aria-invalid="@GetAreaInvalidValue()"
+               aria-label="@Label"
+               aria-required="@Required.ToString().ToLowerInvariant()"
+               @attributes="AdditionalAttributes" />
+
+        <!-- Custom Radio Visual -->
+        <div class="@GetRadioClass()">
+            <div class="@GetRadioClass()">
+                <div class="@GetRadioDotClass()"></div>
+            </div>
+        </div>
+
+        <!-- Label Text -->
+        @if (!string.IsNullOrEmpty(Label))
+        {
+            <span class="@GetLabelTextClass()">
+                @Label
+                @if (Required && !Disabled)
+                {
+                    <span class="@Tailwind.Theme.Colors.Text.THEME_ALERT_EIGHT_TEXT ml-0.5">*</span>
+                }
+            </span>
+        }
+    </label>
+
+    <!-- Helper Text -->
+    @if (!string.IsNullOrEmpty(HelperText))
+    {
+        <div class="@GetHelperTextClass()" id="@($"{Id}-helper")">
+            @HelperText
+        </div>
+    }
+</div>
+
+@code {
+    /// <summary>
+    /// Event callback invoked when the selection changes.
+    /// </summary>
+    [Parameter] public EventCallback<ValueChangedCallbackParameters<bool>> RadioStatusChange { get; set; }
+
+    protected async Task HandleChange(ChangeEventArgs e)
+    {
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle(Id, GetType());
+        }
+
+        if (Disabled || Readonly) return;
+
+        var newValue = e.Value is bool boolValue && boolValue;
+        CurrentValue = newValue;
+
+        if (ValueChanged.HasDelegate)
+        {
+            await ValueChanged.InvokeAsync(newValue);
+        }
+
+        if (RadioStatusChange.HasDelegate)
+        {
+            await RadioStatusChange.InvokeAsync(new() { ElementId = Id, Value = CurrentValue });
+        }
+    }
+
+    private string GetLabelContainerClass()
+    {
+        var classes = new List<string>
+        {
+            "inline-flex",
+            "items-center",
+            "gap-2",
+            "cursor-pointer",
+            "select-none"
+        };
+
+        if (Disabled)
+        {
+            classes.Add("cursor-not-allowed opacity-40");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetRadioClass()
+    {
+        var sizeClass = ElementSize switch
+        {
+            ElementSize.Small => "w-4 h-4",
+            ElementSize.Large => "w-6 h-6",
+            _ => "w-5 h-5"
+        };
+
+        var baseClasses = new List<string>
+        {
+            sizeClass,
+            "flex",
+            "items-center",
+            "justify-center",
+            "border-2",
+            "rounded-full",
+            "transition-all",
+            "duration-200",
+            "ease-in-out",
+            "bg-transparent"
+        };
+
+        if (!CurrentValue)
+        {
+            baseClasses.Add(GetUncheckedBorderColor());
+
+            if (!Disabled)
+            {
+                baseClasses.Add(GetUncheckedHoverColor());
+            }
+        }
+        else
+        {
+            baseClasses.Add(GetCheckedBorderColor());
+
+            if (!Disabled)
+            {
+                baseClasses.Add(GetCheckedHoverColor());
+            }
+        }
+
+        if (!Disabled)
+        {
+            baseClasses.Add("peer-focus-visible:ring-2");
+            baseClasses.Add("peer-focus-visible:ring-offset-2");
+            baseClasses.Add(GetFocusRingColor());
+        }
+
+        baseClasses.Add("shrink-0");
+
+        return string.Join(" ", baseClasses);
+    }
+
+    private string GetRadioDotClass()
+    {
+        var dotSize = ElementSize switch
+        {
+            ElementSize.Small => "w-2 h-2",
+            ElementSize.Large => "w-3.5 h-3.5",
+            _ => "w-2.5 h-2.5"
+        };
+
+        var state = CurrentValue
+            ? "opacity-100 scale-100"
+            : "opacity-0 scale-0";
+
+        return string.Join(" ", new[]
+        {
+            dotSize,
+            "rounded-full",
+            "transition",
+            "duration-150",
+            "ease-in-out",
+            "transform-gpu",
+            state,
+            GetCheckedDotColor()
+        });
+    }
+
+    private string GetLabelTextClass()
+    {
+        var classes = new List<string>();
+
+        classes.Add(ElementSize switch
+        {
+            ElementSize.Small => Tailwind.Theme.Typography.LABEL_SMALL,
+            ElementSize.Large => Tailwind.Theme.Typography.LABEL_LARGE,
+            _ => Tailwind.Theme.Typography.LABEL_MEDIUM
+        });
+
+        classes.Add(Disabled ? "text-(--theme-default-six)" : "text-(--theme-default-nine)");
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetHelperTextClass()
+    {
+        // slightly smaller left indent than checkbox because radio is circular
+        return CssManager.Combine(
+            "ml-7 mt-1 text-xs",
+            Disabled ? "text-(--theme-default-five)" : "text-(--theme-default-seven)"
+        );
+    }
+
+    #region Color Helpers
+
+    private string GetUncheckedBorderColor()
+    {
+        return ThemeColorScheme switch
+        {
+            ThemeColorScheme.Primary => "border-(--theme-primary-six)",
+            ThemeColorScheme.Secondary => "border-(--theme-secondary-six)",
+            ThemeColorScheme.Success => "border-(--theme-success-seven)",
+            ThemeColorScheme.Alert => "border-(--theme-alert-seven)",
+            ThemeColorScheme.Warning => "border-(--theme-warning-seven)",
+            ThemeColorScheme.Info => "border-(--theme-info-six)",
+            ThemeColorScheme.Dark => "border-(--theme-dark-eight)",
+            ThemeColorScheme.Light => "border-(--theme-light-six)",
+            _ => "border-(--theme-default-seven)"
+        };
+    }
+
+    private string GetUncheckedHoverColor()
+    {
+        // Material-ish: subtle halo on hover
+        return ThemeColorScheme switch
+        {
+            ThemeColorScheme.Primary => "hover:bg-(--theme-primary-one) hover:border-(--theme-primary-seven)",
+            ThemeColorScheme.Secondary => "hover:bg-(--theme-secondary-one) hover:border-(--theme-secondary-seven)",
+            ThemeColorScheme.Success => "hover:bg-(--theme-success-one) hover:border-(--theme-success-eight)",
+            ThemeColorScheme.Alert => "hover:bg-(--theme-alert-one) hover:border-(--theme-alert-eight)",
+            ThemeColorScheme.Warning => "hover:bg-(--theme-warning-one) hover:border-(--theme-warning-eight)",
+            ThemeColorScheme.Info => "hover:bg-(--theme-info-one) hover:border-(--theme-info-seven)",
+            ThemeColorScheme.Dark => "hover:bg-(--theme-dark-one) hover:border-(--theme-dark-nine)",
+            ThemeColorScheme.Light => "hover:bg-(--theme-light-one) hover:border-(--theme-light-seven)",
+            _ => "hover:bg-(--theme-default-one) hover:border-(--theme-default-eight)"
+        };
+    }
+
+    private string GetCheckedBorderColor()
+    {
+        return ThemeColorScheme switch
+        {
+            ThemeColorScheme.Primary => "border-(--theme-primary-eight)",
+            ThemeColorScheme.Secondary => "border-(--theme-secondary-six)",
+            ThemeColorScheme.Success => "border-(--theme-success-seven)",
+            ThemeColorScheme.Alert => "border-(--theme-alert-seven)",
+            ThemeColorScheme.Warning => "border-(--theme-warning-seven)",
+            ThemeColorScheme.Info => "border-(--theme-info-six)",
+            ThemeColorScheme.Dark => "border-(--theme-dark-eight)",
+            ThemeColorScheme.Light => "border-(--theme-light-six)",
+            _ => "border-(--theme-default-seven)"
+        };
+    }
+
+    private string GetCheckedDotColor()
+    {
+        return ThemeColorScheme switch
+        {
+            ThemeColorScheme.Primary => "bg-(--theme-primary-eight)",
+            ThemeColorScheme.Secondary => "bg-(--theme-secondary-six)",
+            ThemeColorScheme.Success => "bg-(--theme-success-seven)",
+            ThemeColorScheme.Alert => "bg-(--theme-alert-seven)",
+            ThemeColorScheme.Warning => "bg-(--theme-warning-seven)",
+            ThemeColorScheme.Info => "bg-(--theme-info-six)",
+            ThemeColorScheme.Dark => "bg-(--theme-dark-eight)",
+            ThemeColorScheme.Light => "bg-(--theme-light-six)",
+            _ => "bg-(--theme-default-seven)"
+        };
+    }
+
+    private string GetCheckedHoverColor()
+    {
+        // keep hover halo even when checked
+        return ThemeColorScheme switch
+        {
+            ThemeColorScheme.Primary => "hover:bg-(--theme-primary-one)",
+            ThemeColorScheme.Secondary => "hover:bg-(--theme-secondary-one)",
+            ThemeColorScheme.Success => "hover:bg-(--theme-success-one)",
+            ThemeColorScheme.Alert => "hover:bg-(--theme-alert-one)",
+            ThemeColorScheme.Warning => "hover:bg-(--theme-warning-one)",
+            ThemeColorScheme.Info => "hover:bg-(--theme-info-one)",
+            ThemeColorScheme.Dark => "hover:bg-(--theme-dark-one)",
+            ThemeColorScheme.Light => "hover:bg-(--theme-light-one)",
+            _ => "hover:bg-(--theme-default-one)"
+        };
+    }
+
+    private string GetFocusRingColor()
+    {
+        return ThemeColorScheme switch
+        {
+            ThemeColorScheme.Primary => "peer-focus-visible:ring-(--theme-primary-six)",
+            ThemeColorScheme.Secondary => "peer-focus-visible:ring-(--theme-secondary-six)",
+            ThemeColorScheme.Success => "peer-focus-visible:ring-(--theme-success-seven)",
+            ThemeColorScheme.Alert => "peer-focus-visible:ring-(--theme-alert-seven)",
+            ThemeColorScheme.Warning => "peer-focus-visible:ring-(--theme-warning-seven)",
+            ThemeColorScheme.Info => "peer-focus-visible:ring-(--theme-info-six)",
+            ThemeColorScheme.Dark => "peer-focus-visible:ring-(--theme-dark-eight)",
+            ThemeColorScheme.Light => "peer-focus-visible:ring-(--theme-light-six)",
+            _ => "peer-focus-visible:ring-(--theme-default-seven)"
+        };
+    }
+
+    #endregion
+
+    protected override bool TryParseValueFromString(string? value, out bool result, out string validationErrorMessage)
+    {
+        if (bool.TryParse(value, out var parsedValue))
+        {
+            result = parsedValue;
+            validationErrorMessage = string.Empty;
+            return true;
+        }
+
+        result = false;
+        validationErrorMessage = $"The {FieldIdentifier.FieldName} field must be a valid boolean.";
+        return false;
+    }
+
+    protected override bool HasValue => CurrentValue;
+}

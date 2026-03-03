@@ -1,6 +1,6 @@
 ﻿namespace Maviray.Blazor.Components.Core.Enums;
 
-public enum MaviIconMiniType
+public enum IconMiniType
 {
     AcademicCapMini,
     AdjustmentsHorizontalMini,

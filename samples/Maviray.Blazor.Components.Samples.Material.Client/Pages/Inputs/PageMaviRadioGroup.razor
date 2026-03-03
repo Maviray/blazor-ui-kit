@@ -1,0 +1,176 @@
+﻿@page "/PageMaviRadioGroup"
+@using Maviray.Blazor.Components.Core.Models
+@inherits SamplePageBase
+
+<PageTitle>MaviRadioGroup</PageTitle>
+
+
+<h3 class="text-lg font-semibold mb-4">MaviRadioGroup usage</h3>
+
+<div class="p-4 flex flex-col gap-4">
+    <div class="flex gap-4">
+        @foreach (ElementSize size in Enum.GetValues(typeof(ElementSize)))
+        {
+            <div class="flex flex-col">
+                <MaviRadioGroup Id="@size.ToString()"
+                                TValue="string"
+                                Value="@_sizeGroups[size.ToString()]"
+                                ValueChanged="SizeListValueChanged"
+                                ThemeColorScheme="ThemeColorScheme.Primary"
+                                ElementSize="size"
+                                HelperText="Choose your payment method">
+
+                    @foreach (var option in _options)
+                    {
+                        <MaviRadioGroupItem TValue="string" OptionValue="@option" Label="@option" />
+                    }
+                </MaviRadioGroup>
+
+                <div class="mt-4 text-sm">
+                    Selected: <span class="font-mono">@_sizeGroups[size.ToString()]</span>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="flex gap-2">
+        @foreach (ThemeColorScheme themeColorScheme in Enum.GetValues(typeof(ThemeColorScheme)))
+        {
+            <div class="flex flex-col">
+                <MaviRadioGroup Id="@themeColorScheme.ToString()"
+                                TValue="string"
+                                Value="@_schemeGroups[themeColorScheme.ToString()]"
+                                ValueChanged="ColorSchemeListValueChanged"
+                                ThemeColorScheme="themeColorScheme"
+                                ElementSize="ElementSize.Regular"
+                                HelperText="Choose your payment method">
+
+                    @foreach (var option in _options)
+                    {
+                        <MaviRadioGroupItem TValue="string" OptionValue="@option" Label="@option" />
+                    }
+                </MaviRadioGroup>
+
+                <div class="mt-4 text-sm">
+                    Selected: <span class="font-mono">@_schemeGroups[themeColorScheme.ToString()]</span>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="flex gap-4">
+        <div class="flex flex-col">
+            <MaviRadioGroup TValue="string"
+                            Value="@_horizontalAlignmentGroup"
+                            ValueChanged="(parameters) => { _horizontalAlignmentGroup = parameters.Value; }"
+                            ThemeColorScheme="ThemeColorScheme.Primary"
+                            ElementSize="ElementSize.Regular"
+                            HelperText="Choose your payment method">
+
+                <div class="flex gap-1">
+                    @foreach (var option in _options)
+                    {
+                        <MaviRadioGroupItem TValue="string" OptionValue="@option" Label="@option" />
+                    }
+                </div>
+            </MaviRadioGroup>
+
+            <div class="mt-4 text-sm">
+                Selected: <span class="font-mono">@_horizontalAlignmentGroup</span>
+            </div>
+        </div>
+        <div class="flex flex-col">
+            <MaviRadioGroup TValue="string"
+                            Value="@_disabledGroupItem"
+                            ValueChanged="(parameters) => { _disabledGroupItem = parameters.Value; }"
+                            ThemeColorScheme="ThemeColorScheme.Primary"
+                            ElementSize="ElementSize.Regular"
+                            HelperText="Choose your payment method">
+
+                @foreach (var option in _options)
+                {
+                    <MaviRadioGroupItem TValue="string" OptionValue="@option" Label="@option" Disabled="OptionDisabled(option)" />
+                }
+            </MaviRadioGroup>
+
+            <div class="mt-4 text-sm">
+                Selected: <span class="font-mono">@_disabledGroupItem</span>
+            </div>
+        </div>
+        <div class="flex flex-col">
+            <MaviRadioGroup TValue="string"
+                            Disabled="true"
+                            Value="@_disabledGroup"
+                            ValueChanged="(parameters) => { _disabledGroup = parameters.Value; }"
+                            ThemeColorScheme="ThemeColorScheme.Primary"
+                            ElementSize="ElementSize.Regular"
+                            HelperText="Choose your payment method">
+
+                @foreach (var option in _options)
+                {
+                    <MaviRadioGroupItem TValue="string" OptionValue="@option" Label="@option" />
+                }
+            </MaviRadioGroup>
+
+            <div class="mt-4 text-sm">
+                Selected: <span class="font-mono">@_disabledGroup</span>
+            </div>
+        </div>
+        <div class="flex flex-col">
+            <MaviRadioGroup TValue="string"
+                            Readonly="true"
+                            Value="@_readonlyGroup"
+                            ValueChanged="(parameters) => { _readonlyGroup = parameters.Value; }"
+                            ThemeColorScheme="ThemeColorScheme.Primary"
+                            ElementSize="ElementSize.Regular"
+                            HelperText="Choose your payment method">
+
+                @foreach (var option in _options)
+                {
+                    <MaviRadioGroupItem TValue="string" OptionValue="@option" Label="@option" />
+                }
+            </MaviRadioGroup>
+
+            <div class="mt-4 text-sm">
+                Selected: <span class="font-mono">@_readonlyGroup</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string? _horizontalAlignmentGroup;
+    private string? _disabledGroupItem;
+    private string? _disabledGroup;
+    private string? _readonlyGroup = "Cash";
+
+    private readonly IEnumerable<string?> _options = ["Card", "Cash", "Bank Transfer"];
+
+    private readonly Dictionary<string, string> _sizeGroups = Enum.GetValues(typeof(ElementSize))
+        .Cast<ElementSize>()
+        .ToDictionary(scheme => scheme.ToString(), scheme => string.Empty);
+
+    private readonly Dictionary<string, string> _schemeGroups = Enum.GetValues(typeof(ThemeColorScheme))
+        .Cast<ThemeColorScheme>()
+    .ToDictionary(scheme => scheme.ToString(), scheme => string.Empty);
+
+    private Task SizeListValueChanged(ValueChangedCallbackParameters<string?> parameters)
+    {
+        if (!string.IsNullOrWhiteSpace(parameters.ElementId))
+        {
+            _sizeGroups[parameters.ElementId] = parameters.Value ?? string.Empty;
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private Task ColorSchemeListValueChanged(ValueChangedCallbackParameters<string?> parameters)
+    {
+        if (!string.IsNullOrWhiteSpace(parameters.ElementId))
+        {
+            _schemeGroups[parameters.ElementId] = parameters.Value ?? string.Empty;
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private bool OptionDisabled(string? option) => option == "Cash";
+}

@@ -166,9 +166,9 @@
         [MaybeNullWhen(false)] out DateTime? result,
         [NotNullWhen(false)] out string? validationErrorMessage)
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         if (string.IsNullOrWhiteSpace(value))
@@ -206,9 +206,9 @@
 
     protected override Task HandleInput(ChangeEventArgs e)
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         // Don't update value for disabled/readonly fields
@@ -229,9 +229,9 @@
 
     protected override async Task HandleChange(ChangeEventArgs e)  // Changed from void to async Task
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         // Don't update value or validate disabled/readonly fields

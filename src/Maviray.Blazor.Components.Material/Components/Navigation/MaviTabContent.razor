@@ -1,0 +1,23 @@
+﻿@inherits MaviComponentBase
+
+<div id="@Id" class="@GetContainerCss()" style="@Style">
+    @ChildContent
+</div>
+
+@code {
+
+    [Parameter] public string? BoundToTabId { get; set; }
+
+    [Parameter] public MaviTabContext? Context { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; init; }
+
+    private bool Visible => Context?.SelectedTabId == BoundToTabId;
+
+    private string? GetContainerCss()
+    {
+        
+        return Visible ? Class : "hidden";
+    }
+}

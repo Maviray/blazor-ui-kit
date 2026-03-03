@@ -1497,7 +1497,7 @@ internal static class MaviIconMiniPaths
 
     #endregion
 
-    public static IEnumerable<string> GetIconPaths(MaviIconMiniType iconType)
+    public static IEnumerable<string> GetIconPaths(IconMiniType iconType)
     {
         var type = typeof(MaviIconMiniPaths);
 

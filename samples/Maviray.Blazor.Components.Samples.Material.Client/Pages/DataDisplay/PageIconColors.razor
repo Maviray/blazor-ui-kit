@@ -1,4 +1,5 @@
 ﻿@page "/PageIconColors"
+@inherits SamplePageBase
 
 <PageTitle>Icon Colors</PageTitle>
 
@@ -10,9 +11,9 @@
         {
             <div class="flex flex-col justify-center items-center p-4 border rounded-lg hover:shadow-lg transition-shadow bg-white min-h-[140px]">
                 <div class="flex p-4 gap-2">
-                    <MaviIconMini MaviIconMiniType="MaviIconMiniType.XCircleMini" IconColor="@iconColor" IconSize="IconSize.Medium"></MaviIconMini>
-                    <MaviIconOnline MaviIconOnlineType="MaviIconOnlineType.XCircleOnline" IconColor="@iconColor" IconSize="IconSize.Medium"></MaviIconOnline>
-                    <MaviIconSolid MaviIconSolidType="MaviIconSolidType.XCircleSolid" IconColor="@iconColor" IconSize="IconSize.Medium"></MaviIconSolid>
+                    <MaviIconMini IconMiniType="IconMiniType.XCircleMini" IconColor="@iconColor" IconSize="IconSize.Medium"></MaviIconMini>
+                    <MaviIconOnline IconOnlineType="IconOnlineType.XCircleOnline" IconColor="@iconColor" IconSize="IconSize.Medium"></MaviIconOnline>
+                    <MaviIconSolid IconSolidType="IconSolidType.XCircleSolid" IconColor="@iconColor" IconSize="IconSize.Medium"></MaviIconSolid>
                 </div>
                 <span class="mt-2 text-sm text-center text-gray-700"><span class="font-semibold">IconColor.</span>@iconColor</span>
             </div>
