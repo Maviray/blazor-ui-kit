@@ -1513,7 +1513,7 @@ public static class MaviIconSolidPaths
 
     #endregion
 
-    public static IEnumerable<string> GetIconPaths(MaviIconSolidType iconType)
+    public static IEnumerable<string> GetIconPaths(IconSolidType iconType)
     {
         var type = typeof(MaviIconSolidPaths);
 

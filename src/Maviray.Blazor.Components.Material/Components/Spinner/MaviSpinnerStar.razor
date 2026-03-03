@@ -1,0 +1,85 @@
+﻿@using Maviray.Blazor.Components.Material.Constants
+@inherits MaviSpinnerBase
+
+<div id="@Id" class="size-12 relative" style="transform: scale(@ScaleElement); transform-origin: center;">
+    <div class="@GetItemOne()"></div>
+    <div class="@GetItemTwo()"></div>
+    <div class="@GetItemThree()"></div>
+    <div class="@GetItemFour()"></div>
+    <div class="@GetItemFive()"></div>
+    <div class="@GetItemSix()"></div>
+    <div class="@GetItemSeven()"></div>
+    <div class="@GetItemEight()"></div>
+</div>
+
+@code
+{
+    private string GetBackgroundColor() => ThemeColorScheme switch
+    {
+        ThemeColorScheme.Primary => Tailwind.Theme.Colors.Background.THEME_PRIMARY_SIX_BG,
+        ThemeColorScheme.Secondary => Tailwind.Theme.Colors.Background.THEME_SECONDARY_SIX_BG,
+        ThemeColorScheme.Success => Tailwind.Theme.Colors.Background.THEME_SUCCESS_SIX_BG,
+        ThemeColorScheme.Alert => Tailwind.Theme.Colors.Background.THEME_ALERT_SIX_BG,
+        ThemeColorScheme.Warning => Tailwind.Theme.Colors.Background.THEME_WARNING_SIX_BG,
+        ThemeColorScheme.Info => Tailwind.Theme.Colors.Background.THEME_INFO_SIX_BG,
+        ThemeColorScheme.Dark => Tailwind.Theme.Colors.Background.THEME_DARK_SIX_BG,
+        ThemeColorScheme.Light => Tailwind.Theme.Colors.Background.THEME_LIGHT_SIX_BG,
+        _ => Tailwind.Theme.Colors.Background.THEME_DEFAULT_SIX_BG
+    };
+
+    private string GetItemOne()
+    {
+        var backgroundColor = GetBackgroundColor();
+
+        return $"w-1 h-3 left-[22px] top-0 absolute {backgroundColor} rounded-[900px] animate-[mavi-spinner-pulse_1s_linear_infinite] [animation-delay:0s]";
+    }
+
+    private string GetItemTwo()
+    {
+        var backgroundColor = GetBackgroundColor();
+
+        return $"w-1 h-3 left-[22px] top-[36px] absolute {backgroundColor} rounded-[900px] animate-[mavi-spinner-pulse_1s_linear_infinite] [animation-delay:0.125s]";
+    }
+
+    private string GetItemThree()
+    {
+        var backgroundColor = GetBackgroundColor();
+
+        return $"w-1 h-3 left-0 top-[26px] absolute origin-top-left -rotate-90 {backgroundColor} rounded-[900px] animate-[mavi-spinner-pulse_1s_linear_infinite] [animation-delay:0.25s]";
+    }
+
+    private string GetItemFour()
+    {
+        var backgroundColor = GetBackgroundColor();
+
+        return $"w-1 h-3 left-[36px] top-[26px] absolute origin-top-left -rotate-90 {backgroundColor} rounded-[900px] animate-[mavi-spinner-pulse_1s_linear_infinite] [animation-delay:0.375s]";
+    }
+
+    private string GetItemFive()
+    {
+        var backgroundColor = GetBackgroundColor();
+
+        return $"w-3 h-1 left-[31px] top-[14.10px] absolute origin-top-left -rotate-45 {backgroundColor} rounded-[900px] animate-[mavi-spinner-pulse_1s_linear_infinite] [animation-delay:0.5s]";
+    }
+
+    private string GetItemSix()
+    {
+        var backgroundColor = GetBackgroundColor();
+
+        return $"w-3 h-1 left-[7px] top-[39.56px] absolute origin-top-left -rotate-45 {backgroundColor} rounded-[900px] animate-[mavi-spinner-pulse_1s_linear_infinite] [animation-delay:0.625s]";
+    }
+
+    private string GetItemSeven()
+    {
+        var backgroundColor = GetBackgroundColor();
+
+        return $"w-3 h-1 left-[39px] top-[42.38px] absolute origin-top-left rotate-[-135deg] {backgroundColor} rounded-[900px] animate-[mavi-spinner-pulse_1s_linear_infinite] [animation-delay:0.75s]";
+    }
+
+    private string GetItemEight()
+    {
+        var backgroundColor = GetBackgroundColor();
+
+        return $"w-3 h-1 left-[14px] top-[16.93px] absolute origin-top-left rotate-[-135deg] {backgroundColor} rounded-[900px] animate-[mavi-spinner-pulse_1s_linear_infinite] [animation-delay:0.875s]";
+    }
+}

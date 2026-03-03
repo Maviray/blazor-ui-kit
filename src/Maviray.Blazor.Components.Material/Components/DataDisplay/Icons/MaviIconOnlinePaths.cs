@@ -1451,7 +1451,7 @@ public static class MaviIconOnlinePaths
 
     #endregion
 
-    public static IEnumerable<string> GetIconPaths(MaviIconOnlineType iconType)
+    public static IEnumerable<string> GetIconPaths(IconOnlineType iconType)
     {
         var type = typeof(MaviIconOnlinePaths);
 

@@ -1,0 +1,116 @@
+﻿@page "/PageMaviToastr"
+@using Maviray.Blazor.Components.Material.Components.DataDisplay
+@using Maviray.Blazor.Components.Material.Components.DataDisplay.MaviToastr
+@inherits SamplePageBase
+
+<PageTitle>MaviToastr</PageTitle>
+
+
+<MaviToastr Notifications="_toasts"
+            Position="_sampleToastrDemoModel.ElementRelativePosition"
+            AutoDismiss="true"
+            MaxVisible="5"
+            OnClose="HandleClose" />
+            
+            
+<div class="mx-auto max-w-7xl flex flex-col p-4">
+    <EditForm FormName="DemoMaviToastr" Model="@_sampleToastrDemoModel" OnValidSubmit="OnValidFormSubmit">
+        <DataAnnotationsValidator />
+        <div class="flex flex-col gap-4">
+            <div class="flex flex-col lg:flex-row! gap-2">
+                <div class="basis-1/3 flex flex-col">
+                    <MaviInputStringNullable @bind-Value="_sampleToastrDemoModel.Title"
+                                             ElementSize="ElementSize.Regular"
+                                             StartIcon="lni lni-android-old"
+                                             Width="w-full" />
+                </div>
+                <div class="basis-2/3 flex flex-col gap-2">
+                    <MaviInputStringNullable @bind-Value="_sampleToastrDemoModel.Text"
+                                             ElementSize="ElementSize.Regular"
+                                             StartIcon="lni lni-android-old"
+                                             Width="w-full" />
+                </div>
+            </div>
+            <div class="flex flex-col lg:flex-row! gap-2">
+                <MaviDropdown TItem="ElementVariant" TValue="ElementVariant"
+                              @bind-Value="_sampleToastrDemoModel.ElementVariant"
+                              Items="_elementVariants"
+                              ElementSize="ElementSize.Small"
+                              StartIcon="lni lni-gears-3"
+                              Width="w-full"/>
+
+                <MaviDropdown TItem="ThemeColorScheme" TValue="ThemeColorScheme"
+                              @bind-Value="_sampleToastrDemoModel.ThemeColorScheme"
+                              Items="_colorSchemes"
+                              ElementSize="ElementSize.Small"
+                              StartIcon="lni lni-gears-3"
+                              Width="w-full"/>
+
+                <MaviDropdown TItem="ElementSize" TValue="ElementSize"
+                              @bind-Value="_sampleToastrDemoModel.ElementSize"
+                              Items="_size"
+                              ElementSize="ElementSize.Small"
+                              StartIcon="lni lni-gears-3"
+                              Width="w-full"/>
+            </div>
+            <div class="flex flex-col lg:flex-row! gap-2">
+                <MaviDropdown TItem="ElementRelativePosition" TValue="ElementRelativePosition"
+                              @bind-Value="_sampleToastrDemoModel.ElementRelativePosition"
+                              Items="_relativePosition"
+                              ElementSize="ElementSize.Small"
+                              StartIcon="lni lni-gears-3"
+                              Width="w-full" />
+
+                <MaviInputInteger @bind-Value="_sampleToastrDemoModel.Duration"
+                                  ElementSize="ElementSize.Small"
+                                  StartIcon="lni lni-android-old"
+                                  Width="w-full" />
+                <MaviCheckbox @bind-Value="_sampleToastrDemoModel.ShowProgress" ElementSize="ElementSize.Large" Label="Show Progress" />
+            </div>
+            <div>
+                <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                            ElementSize="ElementSize.Regular"
+                            Title="Display"
+                            ButtonRole="ButtonRole.Submit"
+                            ElementVariant="ElementVariant.Outlined"
+                            TextTransform="TextTransform.Capitalize">
+
+                </MaviButton>
+            </div>
+        </div>
+    </EditForm>
+</div>
+
+@code {
+
+    private readonly SampleToastrDemoModel _sampleToastrDemoModel = new();
+
+    private List<MaviToastNotification> _toasts = [];
+
+    private readonly IEnumerable<ElementVariant> _elementVariants = Enum.GetValues<ElementVariant>();
+    private readonly IEnumerable<ThemeColorScheme> _colorSchemes = Enum.GetValues<ThemeColorScheme>();
+    private readonly IEnumerable<ElementSize> _size = Enum.GetValues<ElementSize>();
+    private readonly IEnumerable<ElementRelativePosition> _relativePosition = Enum.GetValues<ElementRelativePosition>();
+
+    private void OnValidFormSubmit(EditContext context)
+    {
+        var id = Guid.NewGuid().ToString("N");
+        _toasts.Insert(0, new MaviToastNotification(
+            Id: id,
+            Title: _sampleToastrDemoModel.Title,
+            Message: _sampleToastrDemoModel.Text,
+            ThemeColorScheme: _sampleToastrDemoModel.ThemeColorScheme,
+            ElementVariant: _sampleToastrDemoModel.ElementVariant,
+            ElementSize: _sampleToastrDemoModel.ElementSize,
+            CreatedAt: DateTimeOffset.UtcNow,
+            Duration: TimeSpan.FromSeconds(_sampleToastrDemoModel.Duration),
+            ShowProgress: _sampleToastrDemoModel.ShowProgress
+        ));
+    }
+
+    private Task HandleClose(string id)
+    {
+        _toasts = _toasts.Where(t => t.Id != id).ToList();
+        return Task.CompletedTask;
+    }
+}

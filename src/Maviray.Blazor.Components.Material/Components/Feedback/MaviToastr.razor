@@ -1,0 +1,377 @@
+﻿@using Maviray.Blazor.Components.Material.Constants
+@namespace Maviray.Blazor.Components.Material.Components.DataDisplay.MaviToastr
+@inherits MaviComponentBase
+
+<div id="@Id" class="@ContainerClass" role="region" aria-live="polite" aria-relevant="additions removals">
+    @foreach (var toast in VisibleToasts)
+    {
+        var colors = GetColorClasses(toast.ThemeColorScheme, toast.ElementVariant);
+        var typography = GetTypographyClasses(toast.ElementSize);
+        var spacing = GetSpacingClasses(toast.ElementSize);
+        var closeBtn = GetCloseButtonClasses(toast.ThemeColorScheme, toast.ElementVariant, toast.ElementSize);
+        var progress = GetProgressBarClasses(toast.ThemeColorScheme, toast.ElementVariant);
+
+        <div class="@($"pointer-events-auto w-[min(28rem,calc(100vw-2rem))] rounded-sm shadow-lg overflow-hidden {colors} {spacing}")"
+             @key="toast.Id"
+             role="status">
+            <div class="flex items-start gap-3">
+                <div class="min-w-0 flex-1">
+                    @if (!string.IsNullOrWhiteSpace(toast.Title))
+                    {
+                        <div class="@($"{typography.Title} mb-1")">@toast.Title</div>
+                    }
+                    <div class="@($"{typography.Body} break-words")">@toast.Message</div>
+                </div>
+
+                @if (toast.Closable)
+                {
+                    <button type="button"
+                            class="@closeBtn"
+                            aria-label="Close notification"
+                            @onclick="() => RequestCloseAsync(toast.Id)">
+                        <span aria-hidden="true">✕</span>
+                    </button>
+                }
+            </div>
+
+            @if (ShouldShowProgress(toast))
+            {
+                var ms = Math.Max(1, (int)toast.Duration!.Value.TotalMilliseconds);
+                <div class="mt-3 h-1 w-full bg-black/10">
+                    <div class="@($"h-1 w-full {progress} mavi-toast-progress")"
+                         style="animation-duration: @(ms)ms;">
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public IReadOnlyList<MaviToastNotification> Notifications { get; set; } = Array.Empty<MaviToastNotification>();
+
+    [Parameter]
+    public ElementRelativePosition Position { get; set; } = ElementRelativePosition.CenterTop;
+
+    /// <summary>
+    /// If true, component schedules dismissal for items with Duration != null.
+    /// Parent is still responsible for actually removing the notification from the list when OnClose fires.
+    /// </summary>
+    [Parameter]
+    public bool AutoDismiss { get; set; } = true;
+
+    [Parameter]
+    public bool NewestOnTop { get; set; } = true;
+
+    [Parameter]
+    public int MaxVisible { get; set; } = 5;
+
+    /// <summary>
+    /// Fired when user closes or when auto-dismiss timer elapses. Parent should remove the item.
+    /// </summary>
+    [Parameter]
+    public EventCallback<string> OnClose { get; set; }
+
+    // Track which IDs already have an auto-dismiss scheduled, to avoid re-scheduling on re-render.
+    private readonly HashSet<string> _scheduled = new(StringComparer.Ordinal);
+
+    private IReadOnlyList<MaviToastNotification> VisibleToasts =>
+        OrderToasts(Notifications)
+            .Take(MaxVisible <= 0 ? int.MaxValue : MaxVisible)
+            .ToArray();
+
+    protected override void OnParametersSet()
+    {
+        if (!AutoDismiss || !OnClose.HasDelegate)
+            return;
+
+        foreach (var toast in Notifications)
+        {
+            if (toast.Duration is null)
+                continue;
+
+            if (!_scheduled.Add(toast.Id))
+                continue;
+
+            _ = ScheduleDismissAsync(toast);
+        }
+
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle( Id, GetType());
+        }
+    }
+
+    private IEnumerable<MaviToastNotification> OrderToasts(IEnumerable<MaviToastNotification> toasts)
+    {
+        return NewestOnTop
+            ? toasts.OrderByDescending(t => t.CreatedAtOrNow).ThenByDescending(t => t.Id, StringComparer.Ordinal)
+            : toasts.OrderBy(t => t.CreatedAtOrNow).ThenBy(t => t.Id, StringComparer.Ordinal);
+    }
+
+    private async Task ScheduleDismissAsync(MaviToastNotification toast)
+    {
+        try
+        {
+            // Defensive: Duration exists here
+            await Task.Delay(toast.Duration!.Value);
+
+            // Item might already be removed by parent; we still fire OnClose (idempotent in parent).
+            await RequestCloseAsync(toast.Id);
+        }
+        catch
+        {
+            // no-op: avoid throwing on unobserved task
+        }
+        finally
+        {
+            // If parent keeps same ID and reuses it later, allow rescheduling.
+            _scheduled.Remove(toast.Id);
+        }
+    }
+
+    private async Task RequestCloseAsync(string id)
+    {
+        if (OnClose.HasDelegate)
+        {
+            await OnClose.InvokeAsync(id);
+        }
+        
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle( Id, GetType());
+        }
+    }
+
+    private static bool ShouldShowProgress(MaviToastNotification toast)
+        => toast is { ShowProgress: true, Duration: not null };
+
+    private string ContainerClass =>
+        Position switch
+        {
+            ElementRelativePosition.TopLeft => "fixed top-4 left-4 z-[9999] pointer-events-none flex flex-col gap-3 items-start",
+            ElementRelativePosition.TopRight => "fixed top-4 right-4 z-[9999] pointer-events-none flex flex-col gap-3 items-end",
+            ElementRelativePosition.BottomLeft => "fixed bottom-4 left-4 z-[9999] pointer-events-none flex flex-col gap-3 items-start",
+            ElementRelativePosition.BottomRight => "fixed bottom-4 right-4 z-[9999] pointer-events-none flex flex-col gap-3 items-end",
+            ElementRelativePosition.CenterBottom => "fixed bottom-4 left-1/2 -translate-x-1/2 z-[9999] pointer-events-none flex flex-col gap-3 items-center",
+            _ => "fixed top-4 left-1/2 -translate-x-1/2 z-[9999] pointer-events-none flex flex-col gap-3 items-center",
+        };
+
+    private static (string Title, string Body) GetTypographyClasses(ElementSize size)
+        => size switch
+        {
+            ElementSize.Small => (Tailwind.Theme.Typography.LABEL_MEDIUM, Tailwind.Theme.Typography.BODY_SMALL),
+            ElementSize.Large => (Tailwind.Theme.Typography.TITLE_MEDIUM, Tailwind.Theme.Typography.BODY_LARGE),
+            _ => (Tailwind.Theme.Typography.LABEL_LARGE, Tailwind.Theme.Typography.BODY_MEDIUM),
+        };
+
+    private static string GetSpacingClasses(ElementSize size)
+        => size switch
+        {
+            ElementSize.Small => "px-3 py-2",
+            ElementSize.Large => "px-5 py-4",
+            _ => "px-4 py-3",
+        };
+
+    private static string GetColorClasses(ThemeColorScheme scheme, ElementVariant variant)
+    {
+        return variant switch
+        {
+            ElementVariant.Filled => Combine(
+                "border",
+                GetFilledBackground(scheme),
+                GetFilledText(scheme),
+                GetFilledBorder(scheme)
+            ),
+
+            ElementVariant.Outlined => Combine(
+                "border bg-neutral-50",
+                GetOutlinedBorder(scheme),
+                GetOutlinedText(scheme)
+            ),
+
+            ElementVariant.Text => Combine(
+                "border",
+                GetTextVariantBackgroundTint(scheme),
+                GetTextVariantDarkText(scheme),
+                GetTextVariantSubtleBorder(scheme)
+            ),
+
+            _ => "border bg-white text-black"
+        };
+    }
+
+    private static string GetCloseButtonClasses(ThemeColorScheme scheme, ElementVariant variant, ElementSize size)
+    {
+        const string baseClass = "flex items-center justify-center rounded-full p-2 transition-colors cursor-pointer";
+
+        if (scheme == ThemeColorScheme.Dark && variant == ElementVariant.Filled)
+        {
+            return $"hover:bg-white/5 text-current {baseClass} {GetCloseButtonSize(size)}";
+        }
+        else
+        {
+            return $"hover:bg-black/5 text-current {baseClass} {GetCloseButtonSize(size)}";
+        }
+    }
+
+    private static string GetCloseButtonSize(ElementSize size)
+    {
+        return size switch
+        {
+            ElementSize.Large => "w-10 h-10 text-base",
+            ElementSize.Small => "w-6 h-6 text-xs",
+            _ => "w-8 h-8 text-sm"
+        };
+    }
+
+    private static string GetProgressBarClasses(ThemeColorScheme scheme, ElementVariant variant)
+    {
+        return variant switch
+        {
+            ElementVariant.Filled => GetProgressAccentFilled(scheme),
+            ElementVariant.Outlined => GetProgressAccentOutlined(scheme),
+            _ => GetProgressAccentText(scheme)
+        };
+    }
+
+    private static string Combine(params string?[] classes)
+        => string.Join(" ", classes.Where(s => !string.IsNullOrWhiteSpace(s)));
+        
+    private static string GetFilledBackground(ThemeColorScheme scheme) => scheme switch
+    {
+        ThemeColorScheme.Primary => "bg-(--theme-primary-six)",
+        ThemeColorScheme.Secondary => "bg-(--theme-secondary-six)",
+        ThemeColorScheme.Success => "bg-(--theme-success-six)",
+        ThemeColorScheme.Alert => "bg-(--theme-alert-six)",
+        ThemeColorScheme.Warning => "bg-(--theme-warning-six)",
+        ThemeColorScheme.Info => "bg-(--theme-info-six)",
+        ThemeColorScheme.Dark => "bg-(--theme-dark-nine)",
+        ThemeColorScheme.Light => "bg-(--theme-light-one)",
+        _ => "bg-(--theme-default-nine)",
+    };
+
+    private static string GetFilledText(ThemeColorScheme scheme) => scheme switch
+    {
+        ThemeColorScheme.Light => "text-(--theme-dark-nine)",
+        _ => "text-white",
+    };
+
+    private static string GetFilledBorder(ThemeColorScheme scheme) => scheme switch
+    {
+        ThemeColorScheme.Primary => "border-(--theme-primary-seven)",
+        ThemeColorScheme.Secondary => "border-(--theme-secondary-seven)",
+        ThemeColorScheme.Success => "border-(--theme-success-seven)",
+        ThemeColorScheme.Alert => "border-(--theme-alert-seven)",
+        ThemeColorScheme.Warning => "border-(--theme-warning-seven)",
+        ThemeColorScheme.Info => "border-(--theme-info-seven)",
+        ThemeColorScheme.Dark => "border-(--theme-dark-seven)",
+        ThemeColorScheme.Light => "border-(--theme-light-seven)",
+        _ => "border-(--theme-default-seven)"
+    };
+
+    private static string GetOutlinedBorder(ThemeColorScheme scheme) => scheme switch
+    {
+        ThemeColorScheme.Primary => "border-(--theme-primary-six)",
+        ThemeColorScheme.Secondary => "border-(--theme-secondary-six)",
+        ThemeColorScheme.Success => "border-(--theme-success-six)",
+        ThemeColorScheme.Alert => "border-(--theme-alert-six)",
+        ThemeColorScheme.Warning => "border-(--theme-warning-six)",
+        ThemeColorScheme.Info => "border-(--theme-info-six)",
+        ThemeColorScheme.Dark => "border-(--theme-dark-six)",
+        ThemeColorScheme.Light => "border-(--theme-light-four)",
+        _ => "border-(--theme-default-four)"
+    };
+
+    private static string GetOutlinedText(ThemeColorScheme scheme) => scheme switch
+    {
+        ThemeColorScheme.Primary => "text-(--theme-primary-nine)",
+        ThemeColorScheme.Secondary => "text-(--theme-secondary-nine)",
+        ThemeColorScheme.Success => "text-(--theme-success-nine)",
+        ThemeColorScheme.Alert => "text-(--theme-alert-nine)",
+        ThemeColorScheme.Warning => "text-(--theme-warning-nine)",
+        ThemeColorScheme.Info => "text-(--theme-info-nine)",
+        ThemeColorScheme.Dark => "text-(--theme-dark-nine)",
+        ThemeColorScheme.Light => "text-(--theme-light-nine)",
+        _ => "text-(--theme-default-nine)"
+    };
+
+    private static string GetTextVariantBackgroundTint(ThemeColorScheme scheme) => scheme switch
+    {
+        ThemeColorScheme.Primary => "bg-(--theme-primary-one)",
+        ThemeColorScheme.Secondary => "bg-(--theme-secondary-one)",
+        ThemeColorScheme.Success => "bg-(--theme-success-one)",
+        ThemeColorScheme.Alert => "bg-(--theme-alert-one)",
+        ThemeColorScheme.Warning => "bg-(--theme-warning-one)",
+        ThemeColorScheme.Info => "bg-(--theme-info-one)",
+        ThemeColorScheme.Dark => "bg-(--theme-dark-one)",
+        ThemeColorScheme.Light => "bg-(--theme-light-one)",
+        _ => "bg-(--theme-default-one)",
+    };
+
+    private static string GetTextVariantDarkText(ThemeColorScheme scheme) => scheme switch
+    {
+        ThemeColorScheme.Primary => "text-(--theme-primary-nine)",
+        ThemeColorScheme.Secondary => "text-(--theme-secondary-nine)",
+        ThemeColorScheme.Success => "text-(--theme-success-nine)",
+        ThemeColorScheme.Alert => "text-(--theme-alert-nine)",
+        ThemeColorScheme.Warning => "text-(--theme-warning-nine)",
+        ThemeColorScheme.Info => "text-(--theme-info-nine)",
+        ThemeColorScheme.Dark => "text-(--theme-dark-nine)",
+        ThemeColorScheme.Light => "text-(--theme-light-nine)",
+        _ => "text-(--theme-default-nine)",
+    };
+
+    private static string GetTextVariantSubtleBorder(ThemeColorScheme scheme) => scheme switch
+    {
+        ThemeColorScheme.Primary => "border-(--theme-primary-two)",
+        ThemeColorScheme.Secondary => "border-(--theme-secondary-two)",
+        ThemeColorScheme.Success => "border-(--theme-success-two)",
+        ThemeColorScheme.Alert => "border-(--theme-alert-two)",
+        ThemeColorScheme.Warning => "border-(--theme-warning-two)",
+        ThemeColorScheme.Info => "border-(--theme-info-two)",
+        ThemeColorScheme.Dark => "border-(--theme-dark-two)",
+        ThemeColorScheme.Light => "border-(--theme-light-two)",
+        _ => "border-(--theme-default-two)"
+    };
+
+    private static string GetProgressAccentFilled(ThemeColorScheme scheme) => scheme switch
+    {
+        ThemeColorScheme.Primary => "bg-(--theme-primary-two)",
+        ThemeColorScheme.Secondary => "bg-(--theme-secondary-two)",
+        ThemeColorScheme.Success => "bg-(--theme-success-two)",
+        ThemeColorScheme.Alert => "bg-(--theme-alert-two)",
+        ThemeColorScheme.Warning => "bg-(--theme-warning-two)",
+        ThemeColorScheme.Info => "bg-(--theme-info-two)",
+        ThemeColorScheme.Dark => "bg-(--theme-dark-two)",
+        ThemeColorScheme.Light => "bg-(--theme-dark-nine)",
+        _ => "bg-(--theme-default-two)",
+    };
+
+    private static string GetProgressAccentOutlined(ThemeColorScheme scheme) => scheme switch
+    {
+        ThemeColorScheme.Primary => "bg-(--theme-primary-six)",
+        ThemeColorScheme.Secondary => "bg-(--theme-secondary-six)",
+        ThemeColorScheme.Success => "bg-(--theme-success-six)",
+        ThemeColorScheme.Alert => "bg-(--theme-alert-six)",
+        ThemeColorScheme.Warning => "bg-(--theme-warning-six)",
+        ThemeColorScheme.Info => "bg-(--theme-info-six)",
+        ThemeColorScheme.Dark => "bg-(--theme-dark-six)",
+        ThemeColorScheme.Light => "bg-(--theme-dark-six)",
+        _ => "bg-(--theme-default-six)",
+    };
+
+    private static string GetProgressAccentText(ThemeColorScheme scheme) => scheme switch
+    {
+        ThemeColorScheme.Primary => "bg-(--theme-primary-six)",
+        ThemeColorScheme.Secondary => "bg-(--theme-secondary-six)",
+        ThemeColorScheme.Success => "bg-(--theme-success-six)",
+        ThemeColorScheme.Alert => "bg-(--theme-alert-six)",
+        ThemeColorScheme.Warning => "bg-(--theme-warning-six)",
+        ThemeColorScheme.Info => "bg-(--theme-info-six)",
+        ThemeColorScheme.Dark => "bg-(--theme-dark-six)",
+        ThemeColorScheme.Light => "bg-(--theme-dark-six)",
+        _ => "bg-(--theme-default-six)",
+    };
+}

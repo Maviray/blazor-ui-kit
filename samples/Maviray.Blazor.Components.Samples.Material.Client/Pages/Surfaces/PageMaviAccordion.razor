@@ -1,0 +1,61 @@
+﻿@page "/PageMaviAccordion"
+@using Maviray.Blazor.Components.Material.Components.Surfaces
+@inherits SamplePageBase
+
+<PageTitle>MaviAccordion</PageTitle>
+
+
+<div class="p-4 flex flex-col gap-2">
+    @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
+    {
+        <MaviAccordion ColorScheme="colorScheme" AllowMultiple="false" Dividers="true">
+            <MaviAccordionItem Title="General" SubTitle="This is a subtitle." IsFirst="true">
+                Content 1
+            </MaviAccordionItem>
+
+            <MaviAccordionItem Title="Security" SubTitle="This is a subtitle.">
+                Content 2
+            </MaviAccordionItem>
+
+            <MaviAccordionItem Title="Advanced" SubTitle="This is a subtitle." IsLast="true">
+                Content 3
+            </MaviAccordionItem>
+        </MaviAccordion>
+    }
+    
+    <MaviAccordion ColorScheme="ThemeColorScheme.Default" AllowMultiple="false" Dividers="true">
+        <MaviAccordionItem Title="General" SubTitle="This is a subtitle." IsFirst="true">
+            <Summary>
+                <div class="flex items-center gap-3">
+                    using summary instead of item title and subtitle
+                </div>
+            </Summary>
+            <ChildContent>
+                Content 1
+            </ChildContent>
+        </MaviAccordionItem>
+
+        <MaviAccordionItem Title="Security" SubTitle="This is a subtitle.">
+            <Summary>
+                <div class="flex items-center gap-3">
+                    using summary instead of item title and subtitle
+                </div>
+            </Summary>
+            <ChildContent>
+                Content 2
+            </ChildContent>
+        </MaviAccordionItem>
+
+        <MaviAccordionItem Title="Advanced" SubTitle="This is a subtitle." IsLast="true">
+            <Summary>
+                <div class="flex items-center gap-3">
+                    using summary instead of item title and subtitle
+                </div>
+            </Summary>
+            <ChildContent>
+                Content 3
+            </ChildContent>
+        </MaviAccordionItem>
+    </MaviAccordion>
+   
+</div>

@@ -1,0 +1,110 @@
+﻿@using Maviray.Blazor.Components.Core.Models.Tables
+@using Maviray.Blazor.Components.Material.Components.DataDisplay.Icons
+@using Maviray.Blazor.Components.Material.Components.Inputs
+@inherits MaviInMemoryTableBase
+
+<div class="w-full rounded-lg">
+    <table id="@Id" class="@Class" style="@Style">
+        <thead>
+            <tr>
+                @foreach (var column in Collection?.Columns.Where(c => c.Visible).OrderBy(c => c.Sequence) ?? Enumerable.Empty<MaviTableColumn>())
+                {
+                    <th class="px-4 py-4 font-normal!">
+                        <div class="flex items-center justify-start gap-2 text-gray-800">
+                            <div class="whitespace-nowrap cursor-pointer truncate" @onclick="() => SortByColumn(column.Key)">
+                                @column.Title
+                                @if (Collection?.SortColumnKey == column.Key)
+                                {
+                                    if (Collection?.SortOrder == SortOrder.Ascending)
+                                    {
+                                        <i class="ml-1 fa-solid fa-caret-up"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="ml-1 fa-solid fa-caret-down"></i>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </th>
+                }
+
+                <th class="px-4 py-2 w-0">
+                    @if (MainMenuItems is not null && MainMenuItems.Any())
+                    {
+                        <div class="relative">
+                            <!-- Btn Toggle Context Menu Dropdown -->
+                            <MaviButtonIcon Icon="lni lni-alarm-1"
+                                            ElementVariant="ElementVariant.Text"
+                                            ThemeColorScheme="ThemeColorScheme.Default"
+                                            ElementSize="ElementSize.Regular"
+                                            OnClick="ToggleContextMenuDropDown"
+                                            Title="@Parameters?.ContentMenuTitle" />
+
+                            <!-- Context Menu Dropdown -->
+                            <div id="@($"context-menu-{Id}")" class="absolute right-0 w-64 bg-white border border-gray-200 rounded shadow-lg z-50 p-3">
+                                @foreach (var contextMenuButton in MainMenuItems)
+                                {
+                                    <button class="block w-full px-4 py-2 text-left hover:bg-gray-100 cursor-pointer font-barlow text-[13px] leading-[18px] text-gray-800 font-normal"
+                                            disabled="@contextMenuButton?.Disabled"
+                                            @onclick="async () => { await ContextMenuClick(contextMenuButton); }">
+                                        @contextMenuButton?.Title
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                </th>
+            </tr>
+        </thead>
+    </table>
+    <tbody>
+        @if (Collection != null && Collection.GetCurrentPageRows().Any())
+        {
+            @foreach (var row in Collection.GetCurrentPageRows())
+            {
+                <tr class="@GetRowCss(row)">
+                    @foreach (var column in Collection.Columns.Where(c => c.Visible).OrderBy(c => c.Sequence))
+                    {
+                        var cell = row.Cells.FirstOrDefault(c => c.ColumnKey == column.Key);
+
+                        <td class="px-4 py-4">
+                            <div class="@GetCellTextCss(column)" title="@cell?.Value" @onclick="async () => { await RowClick(row, column); }">@cell?.Value.TrimToLengthWithDots(40)</div>
+                        </td>
+                    }
+                    <td class="px-4 py-2 flex items-center justify-end">
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="100%" class="h-[107px] p-4 text-gray-800 text-center">@Parameters?.NoDataAvailableTitle</td>
+            </tr>
+        }
+    </tbody>
+</div>
+
+<!-- Pagination -->
+<div id="@($"pagination-{Id}")" class="w-full flex justify-end items-center gap-2 p-2 bg-white border-t rounded-b-lg border-gray-300">
+    <div class="flex items-center">
+        <span class="text-gray-600">@Parameters?.RowsPerPageText</span>
+        <select id="@($"select-row-number-{Id}")" class="ml-2 px-1 py-0.5 focus:outline-none focus:ring-0 cursor-pointer" @onchange="UpdatePageSize" title="@Parameters?.SelectNumberOfRowsToDisplayText">
+            <option value="10" selected="@(Collection?.PageSize == 10)">10</option>
+            <option value="25" selected="@(Collection?.PageSize == 25)">25</option>
+            <option value="50" selected="@(Collection?.PageSize == 50)">50</option>
+            <option value="100" selected="@(Collection?.PageSize == 100)">100</option>
+        </select>
+    </div>
+    <div class="flex items-center gap-2">
+        <span class="text-gray-600 ml-2 ">@Collection?.FirstRowIndex–@Collection?.LastRowIndex of @Collection?.TotalRows</span>
+        <MaviIconOnline IconOnlineType="IconOnlineType.ChevronLeftOnline" IconColor="IconColor.DimGrey" IconSize="IconSize.Medium" OnClick="PrevPage"></MaviIconOnline>
+        <MaviIconOnline IconOnlineType="IconOnlineType.ChevronRightOnline" IconColor="IconColor.DimGrey" IconSize="IconSize.Medium" OnClick="NextPage"></MaviIconOnline>
+    </div>
+</div>
+
+@code {
+
+}

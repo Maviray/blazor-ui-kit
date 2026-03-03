@@ -84,9 +84,9 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
 
     protected override void OnParametersSet()
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         base.OnParametersSet();
@@ -124,9 +124,9 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
 
     protected override void OnAfterRender(bool firstRender)
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         base.OnAfterRender(firstRender);
@@ -139,9 +139,9 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
 
     public virtual void Dispose()
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         DetachValidationStateChangedListener();
@@ -156,9 +156,9 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
     /// </summary>
     protected void OnValidationStateChanged(object? sender, ValidationStateChangedEventArgs e)
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         // Clear validation for disabled/readonly fields
@@ -187,9 +187,9 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
     /// </summary>
     protected virtual async Task HandleEndIconClick(MouseEventArgs args)
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         if (Disabled || EndIconDisabled || IsEndIconLoading)
@@ -209,25 +209,7 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
             // Invoke custom callback
             if (OnEndIconClick.HasDelegate)
             {
-                var customArgs = new MouseClickEventArgs(Id)
-                {
-                    AltKey = args.AltKey,
-                    Button = args.Button,
-                    Buttons = args.Buttons,
-                    ClientX = args.ClientX,
-                    ClientY = args.ClientY,
-                    CtrlKey = args.CtrlKey,
-                    Detail = args.Detail,
-                    MetaKey = args.MetaKey,
-                    OffsetX = args.OffsetX,
-                    OffsetY = args.OffsetY,
-                    PageX = args.PageX,
-                    PageY = args.PageY,
-                    ScreenX = args.ScreenX,
-                    ScreenY = args.ScreenY,
-                    ShiftKey = args.ShiftKey,
-                    Type = args.Type
-                };
+                var customArgs = new MouseClickEventArgs(Id, args);
 
                 await OnEndIconClick.InvokeAsync(customArgs);
             }
@@ -242,9 +224,9 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
 
     protected void OnFocus()
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         IsFocused = true;
@@ -253,9 +235,9 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
 
     protected virtual void OnBlur()
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         IsFocused = false;

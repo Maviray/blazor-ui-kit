@@ -1,0 +1,86 @@
+﻿@using Maviray.Blazor.Components.Material.Constants
+@inherits MaviSpinnerBase
+
+<div id="@Id" class="@GetContainerCss()" style="transform: scale(@ScaleElement); transform-origin: center;">
+    <!-- 1 -->
+    <div class="absolute inset-0 [transform-origin:40px_40px] rotate-0   animate-[mavi-spinner-start-rotate_1.2s_linear_infinite] [animation-delay:-1.1s]">
+        <div class="absolute top-[3.2px] left-[36.8px] w-[6.4px] h-[17.6px] rounded-[20%] bg-current"></div>
+    </div>
+
+    <!-- 2 -->
+    <div class="absolute inset-0 [transform-origin:40px_40px] rotate-[30deg]  animate-[mavi-spinner-start-rotate_1.2s_linear_infinite] [animation-delay:-1s]">
+        <div class="absolute top-[3.2px] left-[36.8px] w-[6.4px] h-[17.6px] rounded-[20%] bg-current"></div>
+    </div>
+
+    <!-- 3 -->
+    <div class="absolute inset-0 [transform-origin:40px_40px] rotate-[60deg]  animate-[mavi-spinner-start-rotate_1.2s_linear_infinite] [animation-delay:-0.9s]">
+        <div class="absolute top-[3.2px] left-[36.8px] w-[6.4px] h-[17.6px] rounded-[20%] bg-current"></div>
+    </div>
+
+    <!-- 4 -->
+    <div class="absolute inset-0 [transform-origin:40px_40px] rotate-90  animate-[mavi-spinner-start-rotate_1.2s_linear_infinite] [animation-delay:-0.8s]">
+        <div class="absolute top-[3.2px] left-[36.8px] w-[6.4px] h-[17.6px] rounded-[20%] bg-current"></div>
+    </div>
+
+    <!-- 5 -->
+    <div class="absolute inset-0 [transform-origin:40px_40px] rotate-[120deg] animate-[mavi-spinner-start-rotate_1.2s_linear_infinite] [animation-delay:-0.7s]">
+        <div class="absolute top-[3.2px] left-[36.8px] w-[6.4px] h-[17.6px] rounded-[20%] bg-current"></div>
+    </div>
+
+    <!-- 6 -->
+    <div class="absolute inset-0 [transform-origin:40px_40px] rotate-[150deg] animate-[mavi-spinner-start-rotate_1.2s_linear_infinite] [animation-delay:-0.6s]">
+        <div class="absolute top-[3.2px] left-[36.8px] w-[6.4px] h-[17.6px] rounded-[20%] bg-current"></div>
+    </div>
+
+    <!-- 7 -->
+    <div class="absolute inset-0 [transform-origin:40px_40px] rotate-180 animate-[mavi-spinner-start-rotate_1.2s_linear_infinite] [animation-delay:-0.5s]">
+        <div class="absolute top-[3.2px] left-[36.8px] w-[6.4px] h-[17.6px] rounded-[20%] bg-current"></div>
+    </div>
+
+    <!-- 8 -->
+    <div class="absolute inset-0 [transform-origin:40px_40px] rotate-[210deg] animate-[mavi-spinner-start-rotate_1.2s_linear_infinite] [animation-delay:-0.4s]">
+        <div class="absolute top-[3.2px] left-[36.8px] w-[6.4px] h-[17.6px] rounded-[20%] bg-current"></div>
+    </div>
+
+    <!-- 9 -->
+    <div class="absolute inset-0 [transform-origin:40px_40px] rotate-[240deg] animate-[mavi-spinner-start-rotate_1.2s_linear_infinite] [animation-delay:-0.3s]">
+        <div class="absolute top-[3.2px] left-[36.8px] w-[6.4px] h-[17.6px] rounded-[20%] bg-current"></div>
+    </div>
+
+    <!-- 10 -->
+    <div class="absolute inset-0 [transform-origin:40px_40px] rotate-[270deg] animate-[mavi-spinner-start-rotate_1.2s_linear_infinite] [animation-delay:-0.2s]">
+        <div class="absolute top-[3.2px] left-[36.8px] w-[6.4px] h-[17.6px] rounded-[20%] bg-current"></div>
+    </div>
+
+    <!-- 11 -->
+    <div class="absolute inset-0 [transform-origin:40px_40px] rotate-[300deg] animate-[mavi-spinner-start-rotate_1.2s_linear_infinite] [animation-delay:-0.1s]">
+        <div class="absolute top-[3.2px] left-[36.8px] w-[6.4px] h-[17.6px] rounded-[20%] bg-current"></div>
+    </div>
+
+    <!-- 12 -->
+    <div class="absolute inset-0 [transform-origin:40px_40px] rotate-[330deg] animate-[mavi-spinner-start-rotate_1.2s_linear_infinite] [animation-delay:0s]">
+        <div class="absolute top-[3.2px] left-[36.8px] w-[6.4px] h-[17.6px] rounded-[20%] bg-current"></div>
+    </div>
+</div>
+
+    @code {
+
+        private string GetBackgroundColor() => ThemeColorScheme switch
+        {
+            ThemeColorScheme.Primary => Tailwind.Theme.Colors.Text.THEME_PRIMARY_SIX_TEXT,
+            ThemeColorScheme.Secondary => Tailwind.Theme.Colors.Text.THEME_SECONDARY_SIX_TEXT,
+            ThemeColorScheme.Success => Tailwind.Theme.Colors.Text.THEME_SUCCESS_SIX_TEXT,
+            ThemeColorScheme.Alert => Tailwind.Theme.Colors.Text.THEME_ALERT_SIX_TEXT,
+            ThemeColorScheme.Warning => Tailwind.Theme.Colors.Text.THEME_WARNING_SIX_TEXT,
+            ThemeColorScheme.Info => Tailwind.Theme.Colors.Text.THEME_INFO_SIX_TEXT,
+            ThemeColorScheme.Dark => Tailwind.Theme.Colors.Text.THEME_DARK_SIX_TEXT,
+            ThemeColorScheme.Light => Tailwind.Theme.Colors.Text.THEME_LIGHT_SIX_TEXT,
+            _ => Tailwind.Theme.Colors.Text.THEME_DEFAULT_SIX_TEXT
+        };
+
+        private string GetContainerCss()
+        {
+            var textColor = GetBackgroundColor();
+            return $"inline-block relative w-20 h-20 {textColor}";
+        }
+    }

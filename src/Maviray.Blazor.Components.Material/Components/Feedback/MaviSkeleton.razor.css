@@ -1,0 +1,13 @@
+﻿/* Wave animation similar to MUI Skeleton wave */
+.mavi-skeleton-wave::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient( 90deg, transparent, rgba(255, 255, 255, 0.35), transparent );
+    animation: mavi-skeleton-wave 1.6s ease-in-out infinite;
+}
+
+:host-context(.dark) .mavi-skeleton-wave::after {
+    background: linear-gradient( 90deg, transparent, rgba(255, 255, 255, 0.18), transparent );
+}

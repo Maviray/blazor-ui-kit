@@ -1,0 +1,118 @@
+﻿@using Microsoft.AspNetCore.Components
+
+<div class="@RootClass" style="@RootStyle" role="status" aria-busy="true" aria-live="polite">
+    @if (Variant == SkeletonVariant.Text && Lines > 1)
+    {
+        @for (var i = 0; i < Lines; i++)
+        {
+            var isLast = i == Lines - 1;
+            var lineWidth = isLast && LastLineWidth != null ? LastLineWidth : "100%";
+
+            <div class="@LineClass"
+                 style="@BuildLineStyle(lineWidth)">
+            </div>
+        }
+    }
+</div>
+
+@code
+{
+    [Parameter] public SkeletonVariant Variant { get; set; } = SkeletonVariant.Text;
+    [Parameter] public SkeletonAnimation Animation { get; set; } = SkeletonAnimation.Pulse;
+
+    // Size
+    [Parameter] public string? Width { get; set; }          // e.g. "240px", "100%", "12rem"
+    [Parameter] public string? Height { get; set; }         // e.g. "16px", "3rem"
+    [Parameter] public string? MinWidth { get; set; }
+    [Parameter] public string? MinHeight { get; set; }
+    [Parameter] public string? MaxWidth { get; set; }
+    [Parameter] public string? MaxHeight { get; set; }
+
+    // Text skeleton (multiline)
+    [Parameter] public int Lines { get; set; } = 1;          // for Variant=Text
+    [Parameter] public string LineHeight { get; set; } = "0.9rem";
+    [Parameter] public string LineGap { get; set; } = "0.5rem";
+    [Parameter] public string? LastLineWidth { get; set; } = "60%"; // only when Lines > 1
+
+    // Shape
+    [Parameter] public string? BorderRadius { get; set; }    // overrides default
+    [Parameter] public bool FullWidth { get; set; }          // quick "w-full"
+
+    // Styling hooks
+    [Parameter] public string? Class { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    // Defaults approximating Material UI
+    private string DefaultBorderRadius => Variant switch
+    {
+        SkeletonVariant.Circular => "9999px",
+        SkeletonVariant.Rounded => "0.75rem",
+        _ => "0.5rem", // Rectangular/Text
+    };
+
+    private string EffectiveHeight => Variant switch
+    {
+        SkeletonVariant.Text => Height ?? LineHeight,
+        SkeletonVariant.Circular => Height ?? Width ?? "2.5rem",
+        _ => Height ?? "2.5rem"
+    };
+
+    private string EffectiveWidth => Variant switch
+    {
+        SkeletonVariant.Text when Lines <= 1 => Width ?? (FullWidth ? "100%" : "10rem"),
+        SkeletonVariant.Circular => Width ?? Height ?? "2.5rem",
+        _ => Width ?? (FullWidth ? "100%" : "12rem")
+    };
+
+    private string AnimationClass => Animation switch
+    {
+        SkeletonAnimation.None => "",
+        SkeletonAnimation.Pulse => "animate-pulse",
+        SkeletonAnimation.Wave => "mavi-skeleton-wave",
+        _ => "animate-pulse"
+    };
+
+    // Material-like neutral surface: slightly darker than background
+    // Works well on light/dark themes because it uses currentColor + opacity.
+    // If you have theme tokens, swap these classes to your own variables.
+    private string BaseFillClass => Variant == SkeletonVariant.Text && Animation == SkeletonAnimation.Wave && Lines > 1 ?
+        "dark:bg-current/15 text-black dark:text-white" : "bg-current/10 dark:bg-current/15 text-black dark:text-white";
+
+    private string RootClass =>
+        string.Join(" ",
+            "relative overflow-hidden select-none",
+            BaseFillClass,
+            AnimationClass,
+            Variant == SkeletonVariant.Text && Lines > 1 ? "flex flex-col" : "",
+            Variant == SkeletonVariant.Text && Lines > 1 ? "" : "block",
+            Class ?? ""
+        ).Trim();
+
+    private string LineClass =>
+        string.Join(" ",
+            "block",
+            "bg-current/10 dark:bg-current/15 text-black dark:text-white",
+            AnimationClass
+        ).Trim();
+
+    private string RootStyle =>
+        string.Join("; ",
+            // For multiline Text, the container itself should not force height
+            Variant == SkeletonVariant.Text && Lines > 1 ? "" : $"width:{EffectiveWidth}",
+            Variant == SkeletonVariant.Text && Lines > 1 ? "" : $"height:{EffectiveHeight}",
+            $"border-radius:{BorderRadius ?? DefaultBorderRadius}",
+            MinWidth != null ? $"min-width:{MinWidth}" : "",
+            MinHeight != null ? $"min-height:{MinHeight}" : "",
+            MaxWidth != null ? $"max-width:{MaxWidth}" : "",
+            MaxHeight != null ? $"max-height:{MaxHeight}" : "",
+            Variant == SkeletonVariant.Text && Lines > 1 ? $"gap:{LineGap}" : "",
+            Style ?? ""
+        ).Trim().TrimEnd(';');
+
+    private string BuildLineStyle(string width) =>
+        string.Join("; ",
+            $"width:{(FullWidth ? "100%" : width)}",
+            $"height:{LineHeight}",
+            $"border-radius:{BorderRadius ?? "0.375rem"}"
+        );
+}

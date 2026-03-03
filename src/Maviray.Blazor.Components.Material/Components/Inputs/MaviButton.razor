@@ -55,9 +55,9 @@
         return string.IsNullOrEmpty(Class) ? allClasses : $"{allClasses} {Class}";
     }
 
-    private static string GetButtonClass(ElementVariant ElementVariant, ThemeColorScheme buttonType)
+    private static string GetButtonClass(ElementVariant elementVariant, ThemeColorScheme buttonType)
     {
-        return ElementVariant switch
+        return elementVariant switch
         {
             ElementVariant.Filled => GetFilledButtonClass(buttonType),
             ElementVariant.Outlined => GetOutlinedButtonClass(buttonType),
@@ -68,7 +68,7 @@
 
     private static string GetFilledButtonClass(ThemeColorScheme buttonType)
     {
-        var ElementVariant = buttonType switch
+        var elementVariant = buttonType switch
         {
             ThemeColorScheme.Default => Tailwind.Theme.Button.BUTTON_FILLED_DEFAULT,
             ThemeColorScheme.Primary => Tailwind.Theme.Button.BUTTON_FILLED_PRIMARY,
@@ -82,12 +82,12 @@
             _ => Tailwind.Theme.Button.BUTTON_FILLED_DEFAULT
         };
 
-        return $"{Tailwind.Theme.Button.BUTTON_FILLED} {ElementVariant}";
+        return $"{Tailwind.Theme.Button.BUTTON_FILLED} {elementVariant}";
     }
 
     private static string GetTextButtonClass(ThemeColorScheme buttonType)
     {
-        var ElementVariant = buttonType switch
+        var elementVariant = buttonType switch
         {
             ThemeColorScheme.Default => Tailwind.Theme.Button.BUTTON_TEXT_DEFAULT,
             ThemeColorScheme.Primary => Tailwind.Theme.Button.BUTTON_TEXT_PRIMARY,
@@ -101,12 +101,12 @@
             _ => Tailwind.Theme.Button.BUTTON_TEXT_DEFAULT
         };
 
-        return $"{Tailwind.Theme.Button.BUTTON_TEXT} {ElementVariant}";
+        return $"{Tailwind.Theme.Button.BUTTON_TEXT} {elementVariant}";
     }
 
     private static string GetOutlinedButtonClass(ThemeColorScheme buttonType)
     {
-        var ElementVariant = buttonType switch
+        var elementVariant = buttonType switch
         {
             ThemeColorScheme.Default => Tailwind.Theme.Button.BUTTON_OUTLINED_DEFAULT,
             ThemeColorScheme.Primary => Tailwind.Theme.Button.BUTTON_OUTLINED_PRIMARY,
@@ -120,7 +120,7 @@
             _ => Tailwind.Theme.Button.BUTTON_OUTLINED_DEFAULT
         };
 
-        return $"{Tailwind.Theme.Button.BUTTON_OUTLINED} {ElementVariant}";
+        return $"{Tailwind.Theme.Button.BUTTON_OUTLINED} {elementVariant}";
     }
 
     private static string GetTextTransformClass(TextTransform textTransform)

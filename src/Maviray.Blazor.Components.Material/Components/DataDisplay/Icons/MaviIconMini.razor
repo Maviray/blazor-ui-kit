@@ -1,7 +1,7 @@
 ﻿@using Maviray.Blazor.Components.Core.Extensions
 @inherits MaviComponentBase
 
-<svg id="@Id" xmlns="http://www.w3.org/2000/svg" viewBox="@ViewBox" fill="@IconColorCss" class="@EffectiveCss" @onclick="HandleClick">
+<svg id="@Id" xmlns="http://www.w3.org/2000/svg" viewBox="@ViewBox" fill="@IconColorCss" class="@EffectiveCss" title="@Title" style="@Style" @onclick="HandleClick">
     @foreach (var path in IconPaths)
     {
         @((MarkupString)path)
@@ -12,7 +12,7 @@
 @code {
 
     [Parameter]
-    public MaviIconMiniType MaviIconMiniType { get; set; }
+    public IconMiniType IconMiniType { get; set; }
 
     [Parameter]
     public IconColor IconColor { get; set; }
@@ -21,7 +21,7 @@
 
     [Parameter]
     public IconSize IconSize { get; set; }
-   
+      
 
     private string EffectiveCss
     {
@@ -40,18 +40,18 @@
         }
     }
 
-    private string ViewBox => MaviIconMiniType == MaviIconMiniType.SaveMini ? "0 0 30 30" : "0 0 20 20";
+    private string ViewBox => IconMiniType == IconMiniType.SaveMini ? "0 0 30 30" : "0 0 20 20";
 
     [Parameter]
     public EventCallback OnClick { get; set; }
 
-    private IEnumerable<string> IconPaths => MaviIconMiniPaths.GetIconPaths(MaviIconMiniType);
+    private IEnumerable<string> IconPaths => MaviIconMiniPaths.GetIconPaths(IconMiniType);
 
     private async Task HandleClick()
     {
-        if (ComponentOptions is { EnableLifecycleLogging: true })
+        if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle(ComponentOptions, Id, GetType());
+            Logger?.LogDebugLifeCycle( Id, GetType());
         }
 
         if (OnClick.HasDelegate) await OnClick.InvokeAsync();
