@@ -121,7 +121,7 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase
 
     protected virtual void PrevPage()
     {
-        if (Collection is not null)
+        if (Collection is not null && Collection.CurrentPage > 1)
         {
             Collection.CurrentPage--;
         }
@@ -129,7 +129,7 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase
 
     protected virtual void NextPage()
     {
-        if (Collection is not null)
+        if (Collection is not null && Collection.CurrentPage < Collection.TotalPages)
         {
             Collection.CurrentPage++;
         }
