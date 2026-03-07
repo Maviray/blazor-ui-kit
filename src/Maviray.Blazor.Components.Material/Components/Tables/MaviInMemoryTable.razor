@@ -4,9 +4,9 @@
 @using Maviray.Blazor.Components.Material.Constants
 @inherits MaviInMemoryTableBase
 
-<div class="w-full overflow-hidden rounded-lg border @Tailwind.Theme.Colors.Border.THEME_DEFAULT_THREE_BORDER">
-    <table id="@Id" class="@Class w-full border-collapse" style="@Style">
-        <thead class="@Tailwind.Theme.Colors.Background.THEME_DEFAULT_ONE_BG border-b @Tailwind.Theme.Colors.Border.THEME_DEFAULT_THREE_BORDER">
+<div class="w-full rounded-lg outline outline-solid outline-offset-0 relative @Tailwind.Theme.Colors.Outline.THEME_DEFAULT_THREE_OUTLINE">
+    <table id="@Id" class="@Class min-w-full border-collapse divide-y @Tailwind.Theme.Colors.Divide.THEME_DEFAULT_THREE_DIVIDE" style="@Style">
+        <thead class="@Tailwind.Theme.Colors.Background.THEME_DEFAULT_ONE_BG">
         <tr>
             @foreach (var column in Collection?.Columns.Where(c => c.Visible).OrderBy(c => c.Sequence) ?? Enumerable.Empty<MaviTableColumn>())
             {
@@ -40,18 +40,17 @@
             <th class="px-4 py-2 w-0">
                 @if (MainMenuItems is not null && MainMenuItems.Any())
                 {
-                    <div class="relative">
+                        <div id="@ContextMenuId" class="relative">
                         <!-- Btn Toggle Context Menu Dropdown -->
                             <MaviButtonIcon Icon="lni lni-menu-hamburger-1"
                                         ElementVariant="ElementVariant.Text"
                                         ThemeColorScheme="ThemeColorScheme.Default"
                                         ElementSize="ElementSize.Regular"
-                                        OnClick="ToggleContextMenuDropDown"
+                                        OnClick="ToggleMainContextMenuDropDown"
                                         Title="@Parameters?.ContentMenuTitle" />
 
                         <!-- Context Menu Dropdown -->
-                        <div id="@($"context-menu-{Id}")"
-                             class="@GetMainContextMenuCss()">
+                        <div class="@GetMainContextMenuCss()">
                             @foreach (var contextMenuButton in MainMenuItems)
                             {
                                 <button class="@Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER block w-full px-4 py-2.5 text-left rounded-md transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
@@ -85,6 +84,47 @@
                         </td>
                     }
                     <td class="px-4 py-2 flex items-center justify-end">
+                            @if (row.ContextActions.Any())
+                            {
+                                if (TableRowContextMenuDisplayStyle == TableRowContextMenuDisplayStyle.DropDown)
+                                {
+                                    <div id="@row.ContextMenuId" class="absolute right-0 mt-2 w-64 bg-white border border-gray-300 rounded shadow-lg z-50 p-3">
+                                        @foreach (var rowContextMenuButton in row.ContextActions)
+                                        {
+                                            <button class="block w-full px-4 py-2 text-sm text-left hover:bg-gray-100 cursor-pointer"
+                                                    @onclick="async (e) => { await RowContextMenuItemClick(e, rowContextMenuButton); }"
+                                                    disabled="@rowContextMenuButton.Disabled">
+                                                @rowContextMenuButton.Title
+                                            </button>
+                                        }
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div id="@row.ContextMenuId" class="relative">
+                                        <!-- Btn Toggle Context Menu Dropdown -->
+                                        <MaviButtonIcon Icon="lni lni-menu-hamburger-1"
+                                                        ElementVariant="ElementVariant.Text"
+                                                        ThemeColorScheme="ThemeColorScheme.Default"
+                                                        ElementSize="ElementSize.Regular"
+                                                        OnClick="(e) => { ToggleRowContextMenuDropDown(row, e); }"
+                                                        Title="@Parameters?.ContentMenuTitle" />
+
+                                        <!-- Row Context Menu Dropdown -->
+                                        <div class="@GetRowContextMenuCss(row.ContextMenuVisible)">
+                                            @foreach (var rowContextMenuButton in row.ContextActions)
+                                            {
+                                                <button class="@Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER block w-full px-4 py-2.5 text-left rounded-md transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                                                        disabled="@rowContextMenuButton?.Disabled"
+                                                        @onclick="async (e) => { await RowContextMenuItemClick(e, rowContextMenuButton); }">
+                                                    @rowContextMenuButton?.Title
+                                                </button>
+                                            }
+                                        </div>
+                                    </div>
+                                    
+                                }
+                            }
                     </td>
                 </tr>
             }
@@ -138,8 +178,15 @@
 
 @code {
 
+    private string ContextMenuDropDownCss => $"{Tailwind.Theme.Colors.Background.THEME_DEFAULT_ONE_BG} absolute right-0 w-64 border {Tailwind.Theme.Colors.Border.THEME_DEFAULT_THREE_BORDER} rounded-lg shadow-lg z-50 p-2";
+
     private string GetMainContextMenuCss()
     {
-        return _contextMenuVisible ? $"{Tailwind.Theme.Colors.Background.THEME_DEFAULT_ONE_BG} absolute right-0 w-64 border {Tailwind.Theme.Colors.Border.THEME_DEFAULT_THREE_BORDER} rounded-lg shadow-lg z-50 p-2" : "hidden";
+        return ContextMenuVisible ? ContextMenuDropDownCss : "hidden";
+    }
+
+    private string GetRowContextMenuCss(bool rowContextMenuVisible)
+    {
+        return rowContextMenuVisible ? ContextMenuDropDownCss : "hidden";
     }
 }

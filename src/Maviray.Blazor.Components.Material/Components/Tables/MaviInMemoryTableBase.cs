@@ -1,18 +1,22 @@
 ﻿using Maviray.Blazor.Components.Core.Components;
+using Maviray.Blazor.Components.Core.Constants;
 using Maviray.Blazor.Components.Core.Enums;
 using Maviray.Blazor.Components.Core.EventArgs;
 using Maviray.Blazor.Components.Core.Extensions;
 using Maviray.Blazor.Components.Core.Models.Tables;
-using Maviray.Blazor.Components.Material.Constants;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 
 namespace Maviray.Blazor.Components.Material.Components.Tables;
 
-public abstract class MaviInMemoryTableBase : MaviComponentBase
+public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposable
 {
     protected TableDataCollection? Collection;
     protected IEnumerable<MaviTableContextMenuItem>? MainMenuItems;
-    protected bool _contextMenuVisible;
+    protected bool ContextMenuVisible;
+
+    private DotNetObjectReference<MaviInMemoryTableBase>? _dotNetRef;
 
     [Parameter]
     public Func<Task<TableDataCollection>>? FetchData { get; set; }
@@ -32,7 +36,13 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase
     [Parameter]
     public EventCallback<MaviTableRowContextMenuItem> OnRowContextMenuClick { get; set; }
 
-   // public List<MaviTableRow> Rows => DataCollection?.Rows;
+    [Inject]
+    protected IJSRuntime? JsRuntime { get; set; }
+
+    public TableRowContextMenuDisplayStyle TableRowContextMenuDisplayStyle => Parameters?.TableRowContextMenuDisplayStyle ?? TableRowContextMenuDisplayStyle.DropDown;
+    public string ContextMenuId => $"context-menu-{Id}";
+
+    // public List<MaviTableRow> Rows => DataCollection?.Rows;
 
     protected override async Task OnInitializedAsync()
     {
@@ -43,7 +53,7 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase
     {
         if (firstRender)
         {
-           // process JsRuntime initialization
+            await SubscribeElements();
         }
     }
 
@@ -151,9 +161,14 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase
         Collection.CurrentPage = 1;
     }
 
-    protected virtual void ToggleContextMenuDropDown(MouseClickEventArgs mouseEventArgs)
+    protected virtual void ToggleMainContextMenuDropDown(MouseClickEventArgs mouseEventArgs)
     {
-        _contextMenuVisible = !_contextMenuVisible;
+        ContextMenuVisible = !ContextMenuVisible;
+    }
+
+    protected virtual void ToggleRowContextMenuDropDown(MaviTableRow row, MouseClickEventArgs mouseEventArgs)
+    {
+        row.ContextMenuVisible = !row.ContextMenuVisible;
     }
 
     protected virtual async Task ContextMenuClick(MaviTableContextMenuItem? item)
@@ -163,7 +178,7 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase
             await OnMainContextMenuClick.InvokeAsync(item);
         }
 
-        _contextMenuVisible = false;
+        ContextMenuVisible = false;
     }
 
     protected virtual async Task RowClick(MaviTableRow row, MaviTableColumn column)
@@ -174,11 +189,107 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase
         }
     }
 
-    protected virtual async Task RowContextMenuItemClick(MaviTableRowContextMenuItem action)
+    protected virtual async Task RowContextMenuItemClick(MouseEventArgs args, MaviTableRowContextMenuItem? action)
     {
         if (OnRowContextMenuClick.HasDelegate)
         {
             await OnRowContextMenuClick.InvokeAsync(action);
         }
     }
+
+    #region handle outside click
+
+    private async Task SubscribeElements()
+    {
+        try
+        {
+            const string handleOutsideClickMethodTitle = "HandleOutsideClick";
+
+            _dotNetRef = DotNetObjectReference.Create(this);
+
+            if (JsRuntime != null)
+            {
+                await JsRuntime.InvokeVoidAsync(JsInteropConstants.REGISTER_OUT_OF_FOCUS_CALLBACK_LISTENER, ContextMenuId, _dotNetRef, handleOutsideClickMethodTitle);
+
+                if (Collection != null)
+                {
+                    foreach (var row in Collection.GetCurrentPageRows())
+                    {
+                        await JsRuntime.InvokeVoidAsync(JsInteropConstants.REGISTER_OUT_OF_FOCUS_CALLBACK_LISTENER, row.ContextMenuId, _dotNetRef, handleOutsideClickMethodTitle);
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger?.Error(ex, ex.Message);
+        }
+    }
+
+    [JSInvokable]
+    public void HandleOutsideClick(string elementId)
+    {
+        try
+        {
+            if (elementId == ContextMenuId)
+            {
+                ContextMenuVisible = false;
+            }
+
+            var row = Collection?.GetCurrentPageRows().FirstOrDefault(r => r.ContextMenuId == elementId);
+            row?.ContextMenuVisible = false;
+
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Logger?.Error(ex, ex.Message);
+        }
+    }
+
+    private bool _disposed;
+
+    public async ValueTask DisposeAsync()
+    {
+        await DisposeAsync(true);
+
+        GC.SuppressFinalize(this);
+    }
+
+    private async ValueTask DisposeAsync(bool disposing)
+    {
+        try
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                if (JsRuntime != null)
+                {
+                    await JsRuntime.InvokeVoidAsync(JsInteropConstants.UN_REGISTER_OUT_OF_FOCUS_CALLBACK_LISTENER, ContextMenuId);
+
+                    if (Collection != null)
+                    {
+                        foreach (var row in Collection.GetCurrentPageRows())
+                        {
+                            await JsRuntime.InvokeVoidAsync(JsInteropConstants.UN_REGISTER_OUT_OF_FOCUS_CALLBACK_LISTENER, row.ContextMenuId);
+                        }
+                    }
+                }
+
+                _dotNetRef?.Dispose();
+            }
+
+            _disposed = true;
+        }
+        catch (Exception ex)
+        {
+            Logger?.Error(ex, ex.Message);
+        }
+    }
+
+    #endregion
 }
