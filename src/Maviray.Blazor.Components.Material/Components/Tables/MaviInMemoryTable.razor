@@ -51,7 +51,7 @@
 
                         <!-- Context Menu Dropdown -->
                         <div id="@($"context-menu-{Id}")"
-                             class="@Tailwind.Theme.Colors.Background.THEME_DEFAULT_ONE_BG absolute right-0 w-64 border @Tailwind.Theme.Colors.Border.THEME_DEFAULT_THREE_BORDER rounded-lg shadow-lg z-50 p-2 hidden">
+                             class="@GetMainContextMenuCss()">
                             @foreach (var contextMenuButton in MainMenuItems)
                             {
                                 <button class="@Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER block w-full px-4 py-2.5 text-left rounded-md transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
@@ -138,4 +138,8 @@
 
 @code {
 
+    private string GetMainContextMenuCss()
+    {
+        return _contextMenuVisible ? $"{Tailwind.Theme.Colors.Background.THEME_DEFAULT_ONE_BG} absolute right-0 w-64 border {Tailwind.Theme.Colors.Border.THEME_DEFAULT_THREE_BORDER} rounded-lg shadow-lg z-50 p-2" : "hidden";
+    }
 }
