@@ -1,11 +1,10 @@
 ﻿@page "/"
-@using Maviray.Blazor.Components.Core.Extensions
 @using Maviray.Blazor.Components.Core.Models.Tables
 @using Maviray.Blazor.Components.Material.Components.Tables
 @using Maviray.Blazor.Components.Samples.Material.Client.Enums
 @inherits SamplePageBase
 
-<div>
+<div class="p-4">
     <MaviInMemoryTable FetchData="FetchData"
                ConstructContextMenu="ConstructContextMenu"
                OnMainContextMenuClick="OnGridContextMenuClick"
@@ -17,7 +16,7 @@
 
 @code{
 
-    private TableParameters _parameters = new();
+    private readonly TableParameters _parameters = new();
 
     private static Task<TableDataCollection> FetchData()
     {
@@ -37,7 +36,24 @@
                 SampleString = guid,
                 SampleDecimal = i + 0.5m,
                 SampleDouble = i + 0.5,
-                SampleDateTime = DateTime.Now.AddDays(i)
+                SampleDateTime = DateTime.Now.AddDays(i),
+                ContextMenu = new List<MaviTableRowContextMenuItem>
+                {
+                    new()
+                    {
+                        Title = "Action 1"
+                    },
+                    new()
+                    {
+                        Title = "Action 2",
+                        Disabled = true
+                    },
+                    new()
+                    {
+                        Title = "Action 3"
+                    }
+                }
+
             });
         }
 
@@ -46,8 +62,14 @@
 
     private Task<IEnumerable<MaviTableContextMenuItem>> ConstructContextMenu()
     {
-        var emptyCollection = Enumerable.Empty<MaviTableContextMenuItem>();
-        return Task.FromResult(emptyCollection);
+        IEnumerable<MaviTableContextMenuItem> menu = new List<MaviTableContextMenuItem>()
+        {
+            new MaviTableContextMenuItem() { Id = System.Guid.NewGuid().ToString(), Title = "Main Context Action One" },
+            new MaviTableContextMenuItem() { Id = System.Guid.NewGuid().ToString(), Title = "Main Context Action Two" },
+            new MaviTableContextMenuItem() { Id = System.Guid.NewGuid().ToString(), Title = "Main Context Action Three" },
+        };
+       
+        return Task.FromResult(menu);
     }
 
     private Task OnGridContextMenuClick(MaviTableContextMenuItem item)
