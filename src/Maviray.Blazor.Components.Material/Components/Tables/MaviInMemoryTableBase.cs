@@ -197,6 +197,20 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
         }
     }
 
+    protected virtual void UpdateColumnFilter(string columnKey, ChangeEventArgs args)
+    {
+        var filterValue = args.Value?.ToString() ?? string.Empty;
+
+        if (string.IsNullOrWhiteSpace(filterValue))
+        {
+            Collection?.ColumnFilters.Remove(columnKey);
+        }
+        else
+        {
+            Collection?.ColumnFilters[columnKey] = filterValue;
+        }
+    }
+
     #region handle outside click
 
     private async Task SubscribeElements()

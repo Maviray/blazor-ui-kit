@@ -10,5 +10,7 @@ public class TableParameters
     public string? SelectNumberOfRowsToDisplayText { get; set; } = "Select number of rows to display";
     public string? GoToPreviousPageText { get; set; } = "Go to previous page";
     public string? GoToNextPageText { get; set; } = "Go to next page";
+    public string? FilterPlaceholderText { get; set; } = "Search...";
     public TableRowContextMenuDisplayStyle TableRowContextMenuDisplayStyle { get; set; }
+    public bool EnableFilters { get; set; }
 }

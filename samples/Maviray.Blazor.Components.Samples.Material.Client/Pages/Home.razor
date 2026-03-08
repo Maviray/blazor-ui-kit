@@ -16,7 +16,7 @@
 
 @code{
 
-    private readonly TableParameters _parameters = new() { TableRowContextMenuDisplayStyle = TableRowContextMenuDisplayStyle.Icons };
+    private readonly TableParameters _parameters = new() { TableRowContextMenuDisplayStyle = TableRowContextMenuDisplayStyle.Icons, EnableFilters = true };
 
     private static Task<TableDataCollection> FetchData()
     {

@@ -24,7 +24,7 @@ public class TableDataCollection
 
     public List<MaviTableColumn> Columns { get; set; } = [];
     public List<MaviTableRow> Rows { get; set; } = [];
-    public Dictionary<string, string> SimpleColumnFilters { get; set; } = new(); // column key -> filter string
+    public Dictionary<string, string> ColumnFilters { get; set; } = new(); // column key -> filter string
 
     public IEnumerable<KeyValuePair<string, string>> ColumnSelectOptions =>
         Columns.Select(column => new KeyValuePair<string, string>(column.Title, column.Title)).ToList();
@@ -49,7 +49,7 @@ public class TableDataCollection
         }
 
         // Simple column filters 
-        foreach (var (columnKey, text) in SimpleColumnFilters)
+        foreach (var (columnKey, text) in ColumnFilters)
         {
             result = result.Where(row =>
             {

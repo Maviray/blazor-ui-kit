@@ -12,21 +12,21 @@
             {
                 <th class="px-6 py-4 text-left">
                     <div class="@Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT flex items-center justify-start">
-                            <div class="@Tailwind.Theme.Typography.LABEL_MEDIUM cursor-pointer select-none transition-colors @Tailwind.Theme.Colors.Text.Hover.THEME_DEFAULT_TEN_TEXT_HOVER flex items-center gap-2"
+                        <div class="@Tailwind.Theme.Typography.LABEL_LARGE cursor-pointer select-none transition-colors @Tailwind.Theme.Colors.Text.Hover.THEME_DEFAULT_TEN_TEXT_HOVER flex items-center gap-2"
                              @onclick="() => SortByColumn(column.Key)">
                             <span>@column.Title</span>
                             @if (Collection?.SortColumnKey == column.Key)
                             {
                                 if (Collection?.SortOrder == SortOrder.Ascending)
                                 {
-                                        <MaviIconMini IconMiniType="IconMiniType.ChevronDownMini"
-                                                    IconColor="IconColor.DimGrey"
-                                                    IconSize="IconSize.Small"
-                                                    OnClick="NextPage" />
+                                    <MaviIconMini IconMiniType="IconMiniType.ChevronDownMini"
+                                                  IconColor="IconColor.DimGrey"
+                                                  IconSize="IconSize.Small"
+                                                  OnClick="NextPage" />
                                 }
                                 else
                                 {
-                                        <MaviIconMini IconMiniType="IconMiniType.ChevronUpMini"
+                                    <MaviIconMini IconMiniType="IconMiniType.ChevronUpMini"
                                                   IconColor="IconColor.DimGrey"
                                                   IconSize="IconSize.Small"
                                                   OnClick="NextPage" />
@@ -40,9 +40,9 @@
             <th class="px-4 py-2 w-0">
                 @if (MainMenuItems is not null && MainMenuItems.Any())
                 {
-                        <div id="@ContextMenuId" class="relative">
+                    <div id="@ContextMenuId" class="relative">
                         <!-- Btn Toggle Context Menu Dropdown -->
-                            <MaviButtonIcon Icon="lni lni-menu-meatballs-1"
+                        <MaviButtonIcon Icon="lni lni-menu-meatballs-1"
                                         ElementVariant="ElementVariant.Text"
                                         ThemeColorScheme="ThemeColorScheme.Default"
                                         ElementSize="ElementSize.Regular"
@@ -64,6 +64,29 @@
                 }
             </th>
         </tr>
+        
+        @if (Parameters is { EnableFilters: true })
+        {
+            <tr>
+                @foreach (var column in Collection?.Columns.Where(c => c.Visible).OrderBy(c => c.Sequence) ?? Enumerable.Empty<MaviTableColumn>())
+                {
+                    <th>
+                        <div class="px-2 py-1">
+                            <input type="text"
+                                   class="@Tailwind.Theme.Typography.BODY_SMALL 
+                                            @Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT                                                    
+                                            @Tailwind.Theme.Colors.Border.THEME_DEFAULT_THREE_BORDER bg-white border rounded-md px-2 py-1 w-full focus:outline-none focus:ring-2
+                                            @Tailwind.Theme.Colors.Ring.Focus.THEME_PRIMARY_SIX_RING_FOCUS transition-shadow"
+                                   placeholder="@Parameters?.FilterPlaceholderText"
+                                   @oninput="(e) => UpdateColumnFilter(column.Key, e)" />
+                        </div>
+                    </th>
+                }
+                
+                <th></th>
+            </tr>
+        }
+       
         </thead>
         <tbody class="bg-white">
         @if (Collection != null && Collection.GetCurrentPageRows().Any())
