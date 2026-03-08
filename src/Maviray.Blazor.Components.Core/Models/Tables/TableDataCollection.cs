@@ -4,7 +4,13 @@ namespace Maviray.Blazor.Components.Core.Models.Tables;
 
 public class TableDataCollection
 {
-    public int PageSize { get; set; } = 10;
+    private readonly Dictionary<string, string> _columnFilters = new(); // column key -> filter string
+    private List<MaviTableRow>? _cachedFilteredRows;
+    private bool _filterCacheDirty = true;
+
+    private IEnumerable<MaviTableRow>? _cachedPageRows;
+    private int _lastPageNumber;
+
     public int CurrentPage { get; set; } = 1;
     public int TotalRows => FilteredRows.Count;
     public int TotalPages => (TotalRows + PageSize - 1) / PageSize;
@@ -24,7 +30,37 @@ public class TableDataCollection
 
     public List<MaviTableColumn> Columns { get; set; } = [];
     public List<MaviTableRow> Rows { get; set; } = [];
-    public Dictionary<string, string> ColumnFilters { get; set; } = new(); // column key -> filter string
+    public List<MaviTableRow> FilteredRows
+    {
+        get
+        {
+            if (!_filterCacheDirty && _cachedFilteredRows != null)
+            {
+                return _cachedFilteredRows;
+            }
+
+            _cachedFilteredRows = FilterAndSort();
+            _filterCacheDirty = false;
+            return _cachedFilteredRows;
+        }
+    }
+
+    // Invalidate cache when filters/sorting changes
+    private int _pageSize = 10;
+    public int PageSize
+    {
+        get => _pageSize;
+        set
+        {
+            if (_pageSize == value)
+            {
+                return;
+            }
+
+            _pageSize = value;
+            _filterCacheDirty = true;
+        }
+    }
 
     public IEnumerable<KeyValuePair<string, string>> ColumnSelectOptions =>
         Columns.Select(column => new KeyValuePair<string, string>(column.Title, column.Title)).ToList();
@@ -32,8 +68,6 @@ public class TableDataCollection
     public string? SortColumnKey { get; set; }
 
     public SortOrder SortOrder { get; set; } = SortOrder.Ascending;
-
-    public List<MaviTableRow> FilteredRows => FilterAndSort();
 
     private List<MaviTableRow> FilterAndSort()
     {
@@ -49,7 +83,7 @@ public class TableDataCollection
         }
 
         // Simple column filters 
-        foreach (var (columnKey, text) in ColumnFilters)
+        foreach (var (columnKey, text) in _columnFilters)
         {
             result = result.Where(row =>
             {
@@ -74,15 +108,7 @@ public class TableDataCollection
 
         return result.ToList();
     }
-
-    public IEnumerable<MaviTableRow> GetCurrentPageRows()
-    {
-        var filtered = GetFilteredRows();
-        return filtered
-            .Skip((CurrentPage - 1) * PageSize)
-            .Take(PageSize);
-    }
-
+    
     public void ResetColumnVisibility()
     {
         foreach (var column in Columns)
@@ -91,9 +117,36 @@ public class TableDataCollection
         }
     }
 
-    public List<MaviTableRow> GetFilteredRows() => FilteredRows;
+    public IEnumerable<MaviTableRow> GetCurrentPageRows()
+    {
+        if (_cachedPageRows != null && _lastPageNumber == CurrentPage && !_filterCacheDirty)
+        {
+            return _cachedPageRows;
+        }
+
+        _cachedPageRows = FilteredRows
+            .Skip((CurrentPage - 1) * PageSize)
+            .Take(PageSize)
+            .ToList(); // Materialize to prevent re-enumeration
+        _lastPageNumber = CurrentPage;
+        return _cachedPageRows;
+    }
 
     public string GetColumnKey(string title) => Columns.FirstOrDefault(c => c.Title == title)?.Key ?? string.Empty;
 
     public MaviTableColumn? GetColumnByKey(string columnKey) => Columns.FirstOrDefault(c => c.Key == columnKey);
+
+    public void SetColumnFilter(string columnKey, string filterText)
+    {
+        if (string.IsNullOrWhiteSpace(filterText))
+        {
+            _columnFilters.Remove(columnKey);
+        }
+        else
+        {
+            _columnFilters[columnKey] = filterText;
+        }
+
+        _filterCacheDirty = true;
+    }
 }

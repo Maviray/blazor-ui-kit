@@ -11,6 +11,8 @@ public class MaviTableRow
     public string ContextMenuId => $"context-menu-{Guid}";
     public List<MaviTableCell> Cells { get; set; } = [];
 
+    public bool HasContextActions => ContextActions.Count > 0;
+
     public List<MaviTableRowContextMenuItem> ContextActions { get; set; } = [];
 
     public object? GetCellValue(string columnKey)

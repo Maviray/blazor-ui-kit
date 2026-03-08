@@ -1,5 +1,4 @@
-﻿@using Maviray.Blazor.Components.Core.Models.Tables
-@using Maviray.Blazor.Components.Material.Components.DataDisplay.Icons
+﻿@using Maviray.Blazor.Components.Material.Components.DataDisplay.Icons
 @using Maviray.Blazor.Components.Material.Components.Inputs
 @using Maviray.Blazor.Components.Material.Constants
 @inherits MaviInMemoryTableBase
@@ -8,9 +7,9 @@
     <table id="@Id" class="@Class min-w-full border-collapse divide-y @Tailwind.Theme.Colors.Divide.THEME_DEFAULT_THREE_DIVIDE" style="@Style">
         <thead class="@Tailwind.Theme.Colors.Background.THEME_DEFAULT_ONE_BG">
         <tr>
-            @foreach (var column in Collection?.Columns.Where(c => c.Visible).OrderBy(c => c.Sequence) ?? Enumerable.Empty<MaviTableColumn>())
+            @foreach (var column in VisibleColumns)
             {
-                <th class="px-6 py-4 text-left">
+                <th class="px-6 py-4 text-left" @key="column.Key">
                     <div class="@Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT flex items-center justify-start">
                         <div class="@Tailwind.Theme.Typography.LABEL_LARGE cursor-pointer select-none transition-colors @Tailwind.Theme.Colors.Text.Hover.THEME_DEFAULT_TEN_TEXT_HOVER flex items-center gap-2"
                              @onclick="() => SortByColumn(column.Key)">
@@ -68,7 +67,7 @@
         @if (Parameters is { EnableFilters: true })
         {
             <tr>
-                @foreach (var column in Collection?.Columns.Where(c => c.Visible).OrderBy(c => c.Sequence) ?? Enumerable.Empty<MaviTableColumn>())
+                @foreach (var column in VisibleColumns)
                 {
                     <th>
                         <div class="px-2 py-1">
@@ -91,7 +90,7 @@
         {
             @foreach (var row in Collection.GetCurrentPageRows())
             {
-                <tr class="@GetRowCss(row) border-b @Tailwind.Theme.Colors.Border.THEME_DEFAULT_TWO_BORDER @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_ONE_BG_HOVER transition-colors">
+                <tr @key="row.Guid" class="@GetRowCss(row) border-b @Tailwind.Theme.Colors.Border.THEME_DEFAULT_TWO_BORDER @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_ONE_BG_HOVER transition-colors">
                     @foreach (var column in Collection.Columns.Where(c => c.Visible).OrderBy(c => c.Sequence))
                     {
                         var cell = row.Cells.FirstOrDefault(c => c.ColumnKey == column.Key);
@@ -105,7 +104,7 @@
                         </td>
                     }
                     <td class="px-4 py-2 flex items-center justify-end">
-                        @if (row.ContextActions.Any())
+                        @if (row.HasContextActions)
                         {
                             if (TableRowContextMenuDisplayStyle == TableRowContextMenuDisplayStyle.DropDown)
                             {
@@ -203,6 +202,8 @@
 
 @code {
 
+    private string? _cachedPaginationCss;
+    private ElementHorizontalAlignment? _lastPaginationAlignment;
     private string ContextMenuDropDownCss => $"{Tailwind.Theme.Colors.Background.THEME_DEFAULT_ONE_BG} absolute right-0 w-64 border {Tailwind.Theme.Colors.Border.THEME_DEFAULT_THREE_BORDER} rounded-lg shadow-lg z-50 p-2";
 
     private string GetMainContextMenuCss()
@@ -215,16 +216,6 @@
         return rowContextMenuVisible ? ContextMenuDropDownCss : "hidden";
     }
 
-    private string GetPaginationCss()
-    {
-        return Parameters?.PaginationHorizontalAlignment switch
-        {
-            ElementHorizontalAlignment.Left => $"flex justify-start items-center gap-4 px-4 py-3 grow {Tailwind.Theme.Colors.Background.THEME_DEFAULT_ONE_BG}",
-            ElementHorizontalAlignment.Center => $"flex justify-center items-center gap-4 px-4 py-3 grow {Tailwind.Theme.Colors.Background.THEME_DEFAULT_ONE_BG}",
-            _ => $"flex justify-end items-center gap-4 px-4 py-3 grow {Tailwind.Theme.Colors.Background.THEME_DEFAULT_ONE_BG}"
-        };
-    }
-
     private string GetSearchInputCss()
     {
         return Tailwind.Theme.Typography.BODY_SMALL +
@@ -233,5 +224,23 @@
                Tailwind.Theme.Colors.Ring.Focus.THEME_PRIMARY_SIX_RING_FOCUS + 
                " bg-white border px-2 py-1 w-full focus:outline-none focus:ring-2";
 
+    }
+
+    private string GetPaginationCss()
+    {
+        var currentAlignment = Parameters?.PaginationHorizontalAlignment;
+    
+        if (_cachedPaginationCss == null || _lastPaginationAlignment != currentAlignment)
+        {
+            _cachedPaginationCss = currentAlignment switch
+            {
+                ElementHorizontalAlignment.Left => $"flex justify-start items-center gap-4 px-4 py-3 grow {Tailwind.Theme.Colors.Background.THEME_DEFAULT_ONE_BG}",
+                ElementHorizontalAlignment.Center => $"flex justify-center items-center gap-4 px-4 py-3 grow {Tailwind.Theme.Colors.Background.THEME_DEFAULT_ONE_BG}",
+                _ => $"flex justify-end items-center gap-4 px-4 py-3 grow {Tailwind.Theme.Colors.Background.THEME_DEFAULT_ONE_BG}"
+            };
+            _lastPaginationAlignment = currentAlignment;
+        }
+    
+        return _cachedPaginationCss;
     }
 }

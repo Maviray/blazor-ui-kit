@@ -16,6 +16,8 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
     protected IEnumerable<MaviTableContextMenuItem>? MainMenuItems;
     protected bool ContextMenuVisible;
 
+    private System.Threading.Timer? _filterDebounceTimer;
+
     private DotNetObjectReference<MaviInMemoryTableBase>? _dotNetRef;
 
     [Parameter]
@@ -41,6 +43,10 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
 
     public TableRowContextMenuDisplayStyle TableRowContextMenuDisplayStyle => Parameters?.TableRowContextMenuDisplayStyle ?? TableRowContextMenuDisplayStyle.DropDown;
     public string ContextMenuId => $"context-menu-{Id}";
+
+    protected IEnumerable<MaviTableColumn> VisibleColumns =>
+        Collection?.Columns.Where(c => c.Visible).OrderBy(c => c.Sequence)
+        ?? Enumerable.Empty<MaviTableColumn>();
 
     public virtual int TotalEffectiveColumnsNumber
     {
@@ -245,15 +251,23 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
 
     protected virtual void UpdateColumnFilter(string columnKey, ChangeEventArgs args)
     {
-        var filterValue = args.Value?.ToString() ?? string.Empty;
+        _filterDebounceTimer?.Dispose();
 
-        if (string.IsNullOrWhiteSpace(filterValue))
+        _filterDebounceTimer = new (_ =>
         {
-            Collection?.ColumnFilters.Remove(columnKey);
-        }
-        else
+            InvokeAsync(() =>
+            {
+                var filterText = args.Value?.ToString() ?? string.Empty;
+
+                Collection?.SetColumnFilter(columnKey, filterText);
+
+                StateHasChanged();
+            });
+        }, null, 300, Timeout.Infinite);
+
+        if (EnableLifeCycleLogging)
         {
-            Collection?.ColumnFilters[columnKey] = filterValue;
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
     }
 
@@ -341,6 +355,11 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
                 }
 
                 _dotNetRef?.Dispose();
+            }
+
+            if (_filterDebounceTimer != null)
+            {
+                await _filterDebounceTimer.DisposeAsync();
             }
 
             _disposed = true;
