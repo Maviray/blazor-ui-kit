@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using Maviray.Blazor.Components.Core.Extensions
 @using Maviray.Blazor.Components.Core.Models.Tables
 @using Maviray.Blazor.Components.Material.Components.Tables
 @using Maviray.Blazor.Components.Samples.Material.Client.Enums
@@ -16,7 +17,12 @@
 
 @code{
 
-    private readonly TableParameters _parameters = new();
+    private readonly TableParameters _parameters = new()
+    {
+        TableRowContextMenuDisplayStyle = TableRowContextMenuDisplayStyle.Icons, 
+        EnableFilters = true,
+        PaginationHorizontalAlignment = ElementHorizontalAlignment.Center
+    };
 
     private static Task<TableDataCollection> FetchData()
     {
@@ -39,21 +45,10 @@
                 SampleDateTime = DateTime.Now.AddDays(i),
                 ContextMenu = new List<MaviTableRowContextMenuItem>
                 {
-                    new()
-                    {
-                        Title = "Action 1"
-                    },
-                    new()
-                    {
-                        Title = "Action 2",
-                        Disabled = true
-                    },
-                    new()
-                    {
-                        Title = "Action 3"
-                    }
+                    new() { Id = 1, Key = "edit", Title = "Edit", Icon = "lni lni-android-old", ElementVariant = ElementVariant.Text, ThemeColorScheme = ThemeColorScheme.Info, ElementSize = ElementSize.Small },
+                    new() { Id = 2, Key = "delete", Title = "Delete", Icon = "lni lni-arc-browser", ElementVariant = ElementVariant.Text, ThemeColorScheme = ThemeColorScheme.Secondary, ElementSize = ElementSize.Small },
+                    new() { Id = 2, Key = "details", Title = "Details", Icon = "lni lni-app-store", ElementVariant = ElementVariant.Text, ThemeColorScheme = ThemeColorScheme.Warning, ElementSize = ElementSize.Small }
                 }
-
             });
         }
 
@@ -74,16 +69,20 @@
 
     private Task OnGridContextMenuClick(MaviTableContextMenuItem item)
     {
+        Logger?.Information($"Context menu click: {item.Id}");
+
         return Task.CompletedTask;
     }
 
     private Task OnRowClick(TableClickData item)
     {
+        Logger?.Information($"Row click. Column: {item.Column?.ColumnType} Row: {item.Row?.Id}");
         return Task.CompletedTask;
     }
 
     private Task RowContextMenuClick(MaviTableRowContextMenuItem menuItem)
     {
+        Logger?.Information($"Row context menu click: {menuItem.Title}");
         return Task.CompletedTask;
     }
 
