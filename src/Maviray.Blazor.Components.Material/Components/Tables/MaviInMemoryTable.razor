@@ -1,32 +1,31 @@
-﻿@using Maviray.Blazor.Components.Core.Models.Tables
-@using Maviray.Blazor.Components.Material.Components.DataDisplay.Icons
+﻿@using Maviray.Blazor.Components.Material.Components.DataDisplay.Icons
 @using Maviray.Blazor.Components.Material.Components.Inputs
 @using Maviray.Blazor.Components.Material.Constants
 @inherits MaviInMemoryTableBase
 
-<div class="w-full overflow-hidden rounded-lg border @Tailwind.Theme.Colors.Border.THEME_DEFAULT_THREE_BORDER">
-    <table id="@Id" class="@Class w-full border-collapse" style="@Style">
-        <thead class="@Tailwind.Theme.Colors.Background.THEME_DEFAULT_ONE_BG border-b @Tailwind.Theme.Colors.Border.THEME_DEFAULT_THREE_BORDER">
+<div class="w-full rounded-lg outline outline-solid outline-offset-0 relative overflow-x-auto @Tailwind.Theme.Colors.Outline.THEME_DEFAULT_THREE_OUTLINE">
+    <table id="@Id" class="@Class min-w-full border-collapse divide-y @Tailwind.Theme.Colors.Divide.THEME_DEFAULT_THREE_DIVIDE" style="@Style">
+        <thead class="@Tailwind.Theme.Colors.Background.THEME_DEFAULT_ONE_BG">
         <tr>
-            @foreach (var column in Collection?.Columns.Where(c => c.Visible).OrderBy(c => c.Sequence) ?? Enumerable.Empty<MaviTableColumn>())
+            @foreach (var column in VisibleColumns)
             {
-                <th class="px-6 py-4 text-left">
+                <th class="px-6 py-4 text-left" @key="column.Key">
                     <div class="@Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT flex items-center justify-start">
-                            <div class="@Tailwind.Theme.Typography.LABEL_MEDIUM cursor-pointer select-none transition-colors @Tailwind.Theme.Colors.Text.Hover.THEME_DEFAULT_TEN_TEXT_HOVER flex items-center gap-2"
+                        <div class="@Tailwind.Theme.Typography.LABEL_LARGE cursor-pointer select-none transition-colors @Tailwind.Theme.Colors.Text.Hover.THEME_DEFAULT_TEN_TEXT_HOVER flex items-center gap-2"
                              @onclick="() => SortByColumn(column.Key)">
                             <span>@column.Title</span>
                             @if (Collection?.SortColumnKey == column.Key)
                             {
                                 if (Collection?.SortOrder == SortOrder.Ascending)
                                 {
-                                        <MaviIconMini IconMiniType="IconMiniType.ChevronUpMini"
-                                                    IconColor="IconColor.DimGrey"
-                                                    IconSize="IconSize.Small"
-                                                    OnClick="NextPage" />
+                                    <MaviIconMini IconMiniType="IconMiniType.ChevronDownMini"
+                                                  IconColor="IconColor.DimGrey"
+                                                  IconSize="IconSize.Small"
+                                                  OnClick="NextPage" />
                                 }
                                 else
                                 {
-                                        <MaviIconMini IconMiniType="IconMiniType.ChevronDownMini"
+                                    <MaviIconMini IconMiniType="IconMiniType.ChevronUpMini"
                                                   IconColor="IconColor.DimGrey"
                                                   IconSize="IconSize.Small"
                                                   OnClick="NextPage" />
@@ -40,18 +39,17 @@
             <th class="px-4 py-2 w-0">
                 @if (MainMenuItems is not null && MainMenuItems.Any())
                 {
-                    <div class="relative">
+                    <div id="@ContextMenuId" class="relative">
                         <!-- Btn Toggle Context Menu Dropdown -->
-                            <MaviButtonIcon Icon="lni lni-menu-hamburger-1"
+                        <MaviButtonIcon Icon="lni lni-menu-meatballs-1"
                                         ElementVariant="ElementVariant.Text"
                                         ThemeColorScheme="ThemeColorScheme.Default"
                                         ElementSize="ElementSize.Regular"
-                                        OnClick="ToggleContextMenuDropDown"
+                                        OnClick="ToggleMainContextMenuDropDown"
                                         Title="@Parameters?.ContentMenuTitle" />
 
                         <!-- Context Menu Dropdown -->
-                        <div id="@($"context-menu-{Id}")"
-                             class="@Tailwind.Theme.Colors.Background.THEME_DEFAULT_ONE_BG absolute right-0 w-64 border @Tailwind.Theme.Colors.Border.THEME_DEFAULT_THREE_BORDER rounded-lg shadow-lg z-50 p-2 hidden">
+                        <div class="@GetMainContextMenuCss()">
                             @foreach (var contextMenuButton in MainMenuItems)
                             {
                                 <button class="@Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER block w-full px-4 py-2.5 text-left rounded-md transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
@@ -65,13 +63,34 @@
                 }
             </th>
         </tr>
+        
+        @if (Parameters is { EnableFilters: true })
+        {
+            <tr>
+                @foreach (var column in VisibleColumns)
+                {
+                    <th>
+                        <div class="px-2 py-1">
+                            <input type="text"
+                                   id="@($"filter-{column.Key}-{Id}")"
+                                   class="@GetSearchInputCss()"
+                                   placeholder="@Parameters?.FilterPlaceholderText"
+                                   @oninput="(e) => UpdateColumnFilter(column.Key, e)" />
+                        </div>
+                    </th>
+                }
+                
+                <th></th>
+            </tr>
+        }
+       
         </thead>
         <tbody class="bg-white">
         @if (Collection != null && Collection.GetCurrentPageRows().Any())
         {
             @foreach (var row in Collection.GetCurrentPageRows())
             {
-                <tr class="@GetRowCss(row) border-b @Tailwind.Theme.Colors.Border.THEME_DEFAULT_TWO_BORDER @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_ONE_BG_HOVER transition-colors">
+                <tr @key="row.Guid" class="@GetRowCss(row) border-b @Tailwind.Theme.Colors.Border.THEME_DEFAULT_TWO_BORDER @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_ONE_BG_HOVER transition-colors">
                     @foreach (var column in Collection.Columns.Where(c => c.Visible).OrderBy(c => c.Sequence))
                     {
                         var cell = row.Cells.FirstOrDefault(c => c.ColumnKey == column.Key);
@@ -85,6 +104,47 @@
                         </td>
                     }
                     <td class="px-4 py-2 flex items-center justify-end">
+                        @if (row.HasContextActions)
+                        {
+                            if (TableRowContextMenuDisplayStyle == TableRowContextMenuDisplayStyle.DropDown)
+                            {
+                                <div id="@row.ContextMenuId" class="absolute right-0 mt-2 w-64 bg-white border border-gray-300 rounded shadow-lg z-50 p-3">
+                                    @foreach (var rowContextMenuButton in row.ContextActions)
+                                    {
+                                        <button class="block w-full px-4 py-2 text-sm text-left hover:bg-gray-100 cursor-pointer"
+                                                @onclick="async (e) => { await RowContextMenuItemClick(e, row, rowContextMenuButton); }"
+                                                disabled="@rowContextMenuButton.Disabled">
+                                            @rowContextMenuButton.Title
+                                        </button>
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                <div id="@row.ContextMenuId" class="relative">
+                                    <!-- Btn Toggle Context Menu Dropdown -->
+                                    <MaviButtonIcon Icon="lni lni-menu-meatballs-1"
+                                                    ElementVariant="ElementVariant.Text"
+                                                    ThemeColorScheme="ThemeColorScheme.Default"
+                                                    ElementSize="ElementSize.Regular"
+                                                    OnClick="(e) => { ToggleRowContextMenuDropDown(row, e); }"
+                                                    Title="@Parameters?.ContentMenuTitle" />
+
+                                    <!-- Row Context Menu Dropdown -->
+                                    <div class="@GetRowContextMenuCss(row.ContextMenuVisible)">
+                                        @foreach (var rowContextMenuButton in row.ContextActions)
+                                        {
+                                            <button class="@Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER block w-full px-4 py-2.5 text-left rounded-md transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                                                    disabled="@rowContextMenuButton?.Disabled"
+                                                    @onclick="async (e) => { await RowContextMenuItemClick(e, row, rowContextMenuButton); }">
+                                                @rowContextMenuButton?.Title
+                                            </button>
+                                        }
+                                    </div>
+                                </div>
+                                    
+                            }
+                        }
                     </td>
                 </tr>
             }
@@ -98,44 +158,89 @@
             </tr>
         }
         </tbody>
-    </table>
-    
-    <!-- Pagination -->
-    <div id="@($"pagination-{Id}")"
-         class="@Tailwind.Theme.Colors.Background.THEME_DEFAULT_ONE_BG w-full flex justify-end items-center gap-4 px-4 py-3">
-        <div class="flex items-center gap-2">
-            <span class="@Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_EIGHT_TEXT">@Parameters?.RowsPerPageText</span>
-            <select id="@($"select-row-number-{Id}")"
-                    class="@Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT @Tailwind.Theme.Colors.Background.THEME_DEFAULT_ONE_BG @Tailwind.Theme.Colors.Border.THEME_DEFAULT_THREE_BORDER border rounded-md px-2 py-1 cursor-pointer focus:outline-none focus:ring-2 @Tailwind.Theme.Colors.Ring.Focus.THEME_PRIMARY_SIX_RING_FOCUS transition-shadow w-[70px]"
-                    @onchange="UpdatePageSize"
-                    title="@Parameters?.SelectNumberOfRowsToDisplayText">
-                <option value="10" selected="@(Collection?.PageSize == 10)">10</option>
-                <option value="25" selected="@(Collection?.PageSize == 25)">25</option>
-                <option value="50" selected="@(Collection?.PageSize == 50)">50</option>
-                <option value="100" selected="@(Collection?.PageSize == 100)">100</option>
-            </select>
-        </div>
+        <tfoot>
+            <tr>
+                <td colspan="@TotalEffectiveColumnsNumber">
+                    <!-- Pagination -->
+                    <div id="@($"pagination-{Id}")" class="@GetPaginationCss()">
+                        <div class="flex items-center gap-2">
+                            <span class="@Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_EIGHT_TEXT">@Parameters?.RowsPerPageText</span>
+                            <select id="@($"select-row-number-{Id}")"
+                                    class="@Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT @Tailwind.Theme.Colors.Background.THEME_DEFAULT_ONE_BG @Tailwind.Theme.Colors.Border.THEME_DEFAULT_THREE_BORDER border rounded-md px-2 py-1 cursor-pointer focus:outline-none focus:ring-2 @Tailwind.Theme.Colors.Ring.Focus.THEME_PRIMARY_SIX_RING_FOCUS transition-shadow w-[70px]"
+                                    @onchange="UpdatePageSize"
+                                    title="@Parameters?.SelectNumberOfRowsToDisplayText">
+                                <option value="10" selected="@(Collection?.PageSize == 10)">10</option>
+                                <option value="25" selected="@(Collection?.PageSize == 25)">25</option>
+                                <option value="50" selected="@(Collection?.PageSize == 50)">50</option>
+                                <option value="100" selected="@(Collection?.PageSize == 100)">100</option>
+                            </select>
+                        </div>
 
-        <div class="flex items-center gap-3">
-            <div class="rounded-full p-1 @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER @Tailwind.Theme.Colors.Background.Active.THEME_DEFAULT_THREE_BG_ACTIVE">
-                <MaviIconOnline IconOnlineType="IconOnlineType.ChevronLeftOnline"
-                                IconColor="IconColor.DimGrey"
-                                IconSize="IconSize.Small"
-                                OnClick="PrevPage" />
-            </div>
-            <span class="@Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_EIGHT_TEXT">
-                @Collection?.FirstRowIndex–@Collection?.LastRowIndex of @Collection?.TotalRows
-            </span>
-            <div class="rounded-full p-1 @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER @Tailwind.Theme.Colors.Background.Active.THEME_DEFAULT_THREE_BG_ACTIVE">
-                <MaviIconOnline IconOnlineType="IconOnlineType.ChevronRightOnline"
-                                IconColor="IconColor.DimGrey"
-                                IconSize="IconSize.Small"
-                                OnClick="NextPage" />
-            </div>
-        </div>
-    </div>
+                        <div class="flex items-center gap-3">
+                            <div class="rounded-full p-1 @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER @Tailwind.Theme.Colors.Background.Active.THEME_DEFAULT_THREE_BG_ACTIVE">
+                                <MaviIconOnline IconOnlineType="IconOnlineType.ChevronLeftOnline"
+                                                IconColor="IconColor.DimGrey"
+                                                IconSize="IconSize.Small"
+                                                OnClick="PrevPage" />
+                            </div>
+                            <span class="@Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_EIGHT_TEXT">
+                                @Collection?.FirstRowIndex–@Collection?.LastRowIndex of @Collection?.TotalRows
+                            </span>
+                            <div class="rounded-full p-1 @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER @Tailwind.Theme.Colors.Background.Active.THEME_DEFAULT_THREE_BG_ACTIVE">
+                                <MaviIconOnline IconOnlineType="IconOnlineType.ChevronRightOnline"
+                                                IconColor="IconColor.DimGrey"
+                                                IconSize="IconSize.Small"
+                                                OnClick="NextPage" />
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
 </div>
 
 @code {
 
+    private string? _cachedPaginationCss;
+    private ElementHorizontalAlignment? _lastPaginationAlignment;
+    private string ContextMenuDropDownCss => $"{Tailwind.Theme.Colors.Background.THEME_DEFAULT_ONE_BG} absolute right-0 w-64 border {Tailwind.Theme.Colors.Border.THEME_DEFAULT_THREE_BORDER} rounded-lg shadow-lg z-50 p-2";
+
+    private string GetMainContextMenuCss()
+    {
+        return ContextMenuVisible ? ContextMenuDropDownCss : "hidden";
+    }
+
+    private string GetRowContextMenuCss(bool rowContextMenuVisible)
+    {
+        return rowContextMenuVisible ? ContextMenuDropDownCss : "hidden";
+    }
+
+    private string GetSearchInputCss()
+    {
+        return Tailwind.Theme.Typography.BODY_SMALL +
+               Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT +
+               Tailwind.Theme.Colors.Border.THEME_DEFAULT_THREE_BORDER +
+               Tailwind.Theme.Colors.Ring.Focus.THEME_PRIMARY_SIX_RING_FOCUS + 
+               " bg-white border px-2 py-1 w-full focus:outline-none focus:ring-2";
+
+    }
+
+    private string GetPaginationCss()
+    {
+        var currentAlignment = Parameters?.PaginationHorizontalAlignment;
+    
+        if (_cachedPaginationCss == null || _lastPaginationAlignment != currentAlignment)
+        {
+            _cachedPaginationCss = currentAlignment switch
+            {
+                ElementHorizontalAlignment.Left => $"flex justify-start items-center gap-4 px-4 py-3 grow {Tailwind.Theme.Colors.Background.THEME_DEFAULT_ONE_BG}",
+                ElementHorizontalAlignment.Center => $"flex justify-center items-center gap-4 px-4 py-3 grow {Tailwind.Theme.Colors.Background.THEME_DEFAULT_ONE_BG}",
+                _ => $"flex justify-end items-center gap-4 px-4 py-3 grow {Tailwind.Theme.Colors.Background.THEME_DEFAULT_ONE_BG}"
+            };
+            _lastPaginationAlignment = currentAlignment;
+        }
+    
+        return _cachedPaginationCss;
+    }
 }

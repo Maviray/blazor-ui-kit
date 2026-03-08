@@ -1,18 +1,24 @@
 ﻿using Maviray.Blazor.Components.Core.Components;
+using Maviray.Blazor.Components.Core.Constants;
 using Maviray.Blazor.Components.Core.Enums;
 using Maviray.Blazor.Components.Core.EventArgs;
 using Maviray.Blazor.Components.Core.Extensions;
 using Maviray.Blazor.Components.Core.Models.Tables;
-using Maviray.Blazor.Components.Material.Constants;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 
 namespace Maviray.Blazor.Components.Material.Components.Tables;
 
-public abstract class MaviInMemoryTableBase : MaviComponentBase
+public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposable
 {
     protected TableDataCollection? Collection;
     protected IEnumerable<MaviTableContextMenuItem>? MainMenuItems;
-    protected bool _contextMenuVisible;
+    protected bool ContextMenuVisible;
+
+    private System.Threading.Timer? _filterDebounceTimer;
+
+    private DotNetObjectReference<MaviInMemoryTableBase>? _dotNetRef;
 
     [Parameter]
     public Func<Task<TableDataCollection>>? FetchData { get; set; }
@@ -32,18 +38,47 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase
     [Parameter]
     public EventCallback<MaviTableRowContextMenuItem> OnRowContextMenuClick { get; set; }
 
-   // public List<MaviTableRow> Rows => DataCollection?.Rows;
+    [Inject]
+    protected IJSRuntime? JsRuntime { get; set; }
+
+    public TableRowContextMenuDisplayStyle TableRowContextMenuDisplayStyle => Parameters?.TableRowContextMenuDisplayStyle ?? TableRowContextMenuDisplayStyle.DropDown;
+    public string ContextMenuId => $"context-menu-{Id}";
+
+    protected IEnumerable<MaviTableColumn> VisibleColumns =>
+        Collection?.Columns.Where(c => c.Visible).OrderBy(c => c.Sequence)
+        ?? Enumerable.Empty<MaviTableColumn>();
+
+    public virtual int TotalEffectiveColumnsNumber
+    {
+        get
+        {
+            var collectionColumns = Collection?.Columns.Count(c => c.Visible) ?? 0;
+            return collectionColumns + 1; // +1 for action column
+        }
+    }
+
+    // public List<MaviTableRow> Rows => DataCollection?.Rows;
 
     protected override async Task OnInitializedAsync()
     {
         await RefreshTable();
+
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle(Id, GetType());
+        }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-           // process JsRuntime initialization
+            await SubscribeElements();
+        }
+
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
     }
 
@@ -51,6 +86,11 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase
     {
         base.OnParametersSet();
         Parameters ??= new();
+
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle(Id, GetType());
+        }
     }
 
     public virtual async Task Refresh()
@@ -63,6 +103,11 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase
     {
         await BuildCollection();
         await BuildContextMenu();
+
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle(Id, GetType());
+        }
     }
 
     protected virtual async Task BuildCollection()
@@ -151,9 +196,14 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase
         Collection.CurrentPage = 1;
     }
 
-    protected virtual void ToggleContextMenuDropDown(MouseClickEventArgs mouseEventArgs)
+    protected virtual void ToggleMainContextMenuDropDown(MouseClickEventArgs mouseEventArgs)
     {
-        _contextMenuVisible = !_contextMenuVisible;
+        ContextMenuVisible = !ContextMenuVisible;
+    }
+
+    protected virtual void ToggleRowContextMenuDropDown(MaviTableRow row, MouseClickEventArgs mouseEventArgs)
+    {
+        row.ContextMenuVisible = !row.ContextMenuVisible;
     }
 
     protected virtual async Task ContextMenuClick(MaviTableContextMenuItem? item)
@@ -163,7 +213,12 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase
             await OnMainContextMenuClick.InvokeAsync(item);
         }
 
-        _contextMenuVisible = false;
+        ContextMenuVisible = false;
+
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle(Id, GetType());
+        }
     }
 
     protected virtual async Task RowClick(MaviTableRow row, MaviTableColumn column)
@@ -172,13 +227,153 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase
         {
             await OnRowClick.InvokeAsync(new(row, column));
         }
+
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle(Id, GetType());
+        }
     }
 
-    protected virtual async Task RowContextMenuItemClick(MaviTableRowContextMenuItem action)
+    protected virtual async Task RowContextMenuItemClick(MouseEventArgs args, MaviTableRow row, MaviTableRowContextMenuItem? action)
     {
+        row.ContextMenuVisible = false;
+
         if (OnRowContextMenuClick.HasDelegate)
         {
             await OnRowContextMenuClick.InvokeAsync(action);
         }
+
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle(Id, GetType());
+        }
     }
+
+    protected virtual void UpdateColumnFilter(string columnKey, ChangeEventArgs args)
+    {
+        _filterDebounceTimer?.Dispose();
+
+        _filterDebounceTimer = new (_ =>
+        {
+            InvokeAsync(() =>
+            {
+                var filterText = args.Value?.ToString() ?? string.Empty;
+
+                Collection?.SetColumnFilter(columnKey, filterText);
+
+                StateHasChanged();
+            });
+        }, null, 300, Timeout.Infinite);
+
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle(Id, GetType());
+        }
+    }
+
+    #region handle outside click
+
+    private async Task SubscribeElements()
+    {
+        try
+        {
+            const string handleOutsideClickMethodTitle = "HandleOutsideClick";
+
+            _dotNetRef = DotNetObjectReference.Create(this);
+
+            if (JsRuntime != null)
+            {
+                await JsRuntime.InvokeVoidAsync(JsInteropConstants.REGISTER_OUT_OF_FOCUS_CALLBACK_LISTENER, ContextMenuId, _dotNetRef, handleOutsideClickMethodTitle);
+
+                if (Collection != null)
+                {
+                    foreach (var row in Collection.GetCurrentPageRows())
+                    {
+                        await JsRuntime.InvokeVoidAsync(JsInteropConstants.REGISTER_OUT_OF_FOCUS_CALLBACK_LISTENER, row.ContextMenuId, _dotNetRef, handleOutsideClickMethodTitle);
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger?.Error(ex, ex.Message);
+        }
+    }
+
+    [JSInvokable]
+    public void HandleOutsideClick(string elementId)
+    {
+        try
+        {
+            if (elementId == ContextMenuId)
+            {
+                ContextMenuVisible = false;
+            }
+
+            var row = Collection?.GetCurrentPageRows().FirstOrDefault(r => r.ContextMenuId == elementId);
+            row?.ContextMenuVisible = false;
+
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Logger?.Error(ex, ex.Message);
+        }
+    }
+
+    private bool _disposed;
+
+    public async ValueTask DisposeAsync()
+    {
+        await DisposeAsync(true);
+
+        GC.SuppressFinalize(this);
+    }
+
+    private async ValueTask DisposeAsync(bool disposing)
+    {
+        try
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                if (JsRuntime != null)
+                {
+                    await JsRuntime.InvokeVoidAsync(JsInteropConstants.UN_REGISTER_OUT_OF_FOCUS_CALLBACK_LISTENER, ContextMenuId);
+
+                    if (Collection != null)
+                    {
+                        foreach (var row in Collection.GetCurrentPageRows())
+                        {
+                            await JsRuntime.InvokeVoidAsync(JsInteropConstants.UN_REGISTER_OUT_OF_FOCUS_CALLBACK_LISTENER, row.ContextMenuId);
+                        }
+                    }
+                }
+
+                _dotNetRef?.Dispose();
+            }
+
+            if (_filterDebounceTimer != null)
+            {
+                await _filterDebounceTimer.DisposeAsync();
+            }
+
+            _disposed = true;
+
+            if (EnableLifeCycleLogging)
+            {
+                Logger?.LogDebugLifeCycle(Id, GetType());
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger?.Error(ex, ex.Message);
+        }
+    }
+
+    #endregion
 }
