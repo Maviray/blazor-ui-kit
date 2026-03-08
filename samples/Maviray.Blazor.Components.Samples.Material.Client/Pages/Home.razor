@@ -16,7 +16,12 @@
 
 @code{
 
-    private readonly TableParameters _parameters = new() { TableRowContextMenuDisplayStyle = TableRowContextMenuDisplayStyle.Icons, EnableFilters = true };
+    private readonly TableParameters _parameters = new()
+    {
+        TableRowContextMenuDisplayStyle = TableRowContextMenuDisplayStyle.Icons, 
+        EnableFilters = true,
+        PaginationHorizontalAlignment = ElementHorizontalAlignment.Center
+    };
 
     private static Task<TableDataCollection> FetchData()
     {

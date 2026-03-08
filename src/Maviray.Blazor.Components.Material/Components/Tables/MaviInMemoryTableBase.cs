@@ -42,6 +42,15 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
     public TableRowContextMenuDisplayStyle TableRowContextMenuDisplayStyle => Parameters?.TableRowContextMenuDisplayStyle ?? TableRowContextMenuDisplayStyle.DropDown;
     public string ContextMenuId => $"context-menu-{Id}";
 
+    public virtual int TotalEffectiveColumnsNumber
+    {
+        get
+        {
+            var collectionColumns = Collection?.Columns.Count(c => c.Visible) ?? 0;
+            return collectionColumns + 1; // +1 for action column
+        }
+    }
+
     // public List<MaviTableRow> Rows => DataCollection?.Rows;
 
     protected override async Task OnInitializedAsync()

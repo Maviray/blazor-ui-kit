@@ -13,4 +13,5 @@ public class TableParameters
     public string? FilterPlaceholderText { get; set; } = "Search...";
     public TableRowContextMenuDisplayStyle TableRowContextMenuDisplayStyle { get; set; }
     public bool EnableFilters { get; set; }
+    public ElementHorizontalAlignment PaginationHorizontalAlignment { get; set; } = ElementHorizontalAlignment.Right;
 }
