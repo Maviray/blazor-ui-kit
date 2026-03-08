@@ -113,7 +113,7 @@
                                     @foreach (var rowContextMenuButton in row.ContextActions)
                                     {
                                         <button class="block w-full px-4 py-2 text-sm text-left hover:bg-gray-100 cursor-pointer"
-                                                @onclick="async (e) => { await RowContextMenuItemClick(e, rowContextMenuButton); }"
+                                                @onclick="async (e) => { await RowContextMenuItemClick(e, row, rowContextMenuButton); }"
                                                 disabled="@rowContextMenuButton.Disabled">
                                             @rowContextMenuButton.Title
                                         </button>
@@ -137,7 +137,7 @@
                                         {
                                             <button class="@Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER block w-full px-4 py-2.5 text-left rounded-md transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                                                     disabled="@rowContextMenuButton?.Disabled"
-                                                    @onclick="async (e) => { await RowContextMenuItemClick(e, rowContextMenuButton); }">
+                                                    @onclick="async (e) => { await RowContextMenuItemClick(e, row, rowContextMenuButton); }">
                                                 @rowContextMenuButton?.Title
                                             </button>
                                         }

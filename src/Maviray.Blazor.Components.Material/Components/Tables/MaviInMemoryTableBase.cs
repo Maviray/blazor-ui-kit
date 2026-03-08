@@ -56,6 +56,11 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
     protected override async Task OnInitializedAsync()
     {
         await RefreshTable();
+
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle(Id, GetType());
+        }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -64,12 +69,22 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
         {
             await SubscribeElements();
         }
+
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle(Id, GetType());
+        }
     }
 
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
         Parameters ??= new();
+
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle(Id, GetType());
+        }
     }
 
     public virtual async Task Refresh()
@@ -82,6 +97,11 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
     {
         await BuildCollection();
         await BuildContextMenu();
+
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle(Id, GetType());
+        }
     }
 
     protected virtual async Task BuildCollection()
@@ -188,6 +208,11 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
         }
 
         ContextMenuVisible = false;
+
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle(Id, GetType());
+        }
     }
 
     protected virtual async Task RowClick(MaviTableRow row, MaviTableColumn column)
@@ -196,13 +221,25 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
         {
             await OnRowClick.InvokeAsync(new(row, column));
         }
+
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle(Id, GetType());
+        }
     }
 
-    protected virtual async Task RowContextMenuItemClick(MouseEventArgs args, MaviTableRowContextMenuItem? action)
+    protected virtual async Task RowContextMenuItemClick(MouseEventArgs args, MaviTableRow row, MaviTableRowContextMenuItem? action)
     {
+        row.ContextMenuVisible = false;
+
         if (OnRowContextMenuClick.HasDelegate)
         {
             await OnRowContextMenuClick.InvokeAsync(action);
+        }
+
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
     }
 
@@ -307,6 +344,11 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
             }
 
             _disposed = true;
+
+            if (EnableLifeCycleLogging)
+            {
+                Logger?.LogDebugLifeCycle(Id, GetType());
+            }
         }
         catch (Exception ex)
         {

@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using Maviray.Blazor.Components.Core.Extensions
 @using Maviray.Blazor.Components.Core.Models.Tables
 @using Maviray.Blazor.Components.Material.Components.Tables
 @using Maviray.Blazor.Components.Samples.Material.Client.Enums
@@ -68,16 +69,20 @@
 
     private Task OnGridContextMenuClick(MaviTableContextMenuItem item)
     {
+        Logger?.Information($"Context menu click: {item.Id}");
+
         return Task.CompletedTask;
     }
 
     private Task OnRowClick(TableClickData item)
     {
+        Logger?.Information($"Row click. Column: {item.Column?.ColumnType} Row: {item.Row?.Id}");
         return Task.CompletedTask;
     }
 
     private Task RowContextMenuClick(MaviTableRowContextMenuItem menuItem)
     {
+        Logger?.Information($"Row context menu click: {menuItem.Title}");
         return Task.CompletedTask;
     }
 
