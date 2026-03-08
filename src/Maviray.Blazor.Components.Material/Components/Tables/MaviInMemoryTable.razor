@@ -4,7 +4,7 @@
 @using Maviray.Blazor.Components.Material.Constants
 @inherits MaviInMemoryTableBase
 
-<div class="w-full rounded-lg outline outline-solid outline-offset-0 relative @Tailwind.Theme.Colors.Outline.THEME_DEFAULT_THREE_OUTLINE">
+<div class="w-full rounded-lg outline outline-solid outline-offset-0 relative overflow-x-auto @Tailwind.Theme.Colors.Outline.THEME_DEFAULT_THREE_OUTLINE">
     <table id="@Id" class="@Class min-w-full border-collapse divide-y @Tailwind.Theme.Colors.Divide.THEME_DEFAULT_THREE_DIVIDE" style="@Style">
         <thead class="@Tailwind.Theme.Colors.Background.THEME_DEFAULT_ONE_BG">
         <tr>
@@ -19,14 +19,14 @@
                             {
                                 if (Collection?.SortOrder == SortOrder.Ascending)
                                 {
-                                        <MaviIconMini IconMiniType="IconMiniType.ChevronUpMini"
+                                        <MaviIconMini IconMiniType="IconMiniType.ChevronDownMini"
                                                     IconColor="IconColor.DimGrey"
                                                     IconSize="IconSize.Small"
                                                     OnClick="NextPage" />
                                 }
                                 else
                                 {
-                                        <MaviIconMini IconMiniType="IconMiniType.ChevronDownMini"
+                                        <MaviIconMini IconMiniType="IconMiniType.ChevronUpMini"
                                                   IconColor="IconColor.DimGrey"
                                                   IconSize="IconSize.Small"
                                                   OnClick="NextPage" />
