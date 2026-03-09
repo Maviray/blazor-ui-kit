@@ -37,28 +37,30 @@
                 </th>
             }
 
-            <th class="px-4 py-2 w-0">
+            <th class="w-0">
                 @if (MainMenuItems is not null && MainMenuItems.Any())
                 {
-                    <div id="@ContextMenuId" class="relative">
-                        <!-- Btn Toggle Context Menu Dropdown -->
-                        <MaviButtonIcon Icon="lni lni-menu-meatballs-1"
-                                        ElementVariant="ElementVariant.Text"
-                                        ThemeColorScheme="ThemeColorScheme.Default"
-                                        ElementSize="ElementSize.Regular"
-                                        OnClick="ToggleMainContextMenuDropDown"
-                                        Title="@Parameters?.ContentMenuTitle" />
+                    <div class="px-4 py-2">
+                        <div id="@ContextMenuId" class="relative flex justify-end">
+                            <!-- Btn Toggle Context Menu Dropdown -->
+                            <MaviButtonIcon Icon="lni lni-menu-meatballs-1"
+                                            ElementVariant="ElementVariant.Text"
+                                            ThemeColorScheme="ThemeColorScheme.Default"
+                                            ElementSize="ElementSize.Regular"
+                                            OnClick="ToggleMainContextMenuDropDown"
+                                            Title="@Parameters?.ContentMenuTitle" />
 
-                        <!-- Context Menu Dropdown -->
-                        <div class="@GetMainContextMenuCss()">
-                            @foreach (var contextMenuButton in MainMenuItems)
-                            {
-                                <button class="@Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER block w-full px-4 py-2.5 text-left rounded-md transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-                                        disabled="@contextMenuButton?.Disabled"
-                                        @onclick="async () => { await ContextMenuClick(contextMenuButton); }">
-                                    @contextMenuButton?.Title
-                                </button>
-                            }
+                            <!-- Context Menu Dropdown -->
+                            <div class="@GetMainContextMenuCss()">
+                                @foreach (var contextMenuButton in MainMenuItems)
+                                {
+                                    <button class="@Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER block w-full px-4 py-2.5 text-left rounded-md transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                                            disabled="@contextMenuButton?.Disabled"
+                                            @onclick="async () => { await ContextMenuClick(contextMenuButton); }">
+                                        @contextMenuButton?.Title
+                                    </button>
+                                }
+                            </div>
                         </div>
                     </div>
                 }
@@ -104,14 +106,15 @@
                             </div>
                         </td>
                     }
-                    <td class="px-4 py-2 flex items-center justify-end">
+                    <td class="w-0">
                         @if (row.HasContextActions)
                         {
-                            if (TableRowContextMenuDisplayStyle == TableRowContextMenuDisplayStyle.Icons)
-                            {
-                                <div id="@row.ContextMenuId" class="flex items-center gap-1">
-                                    @foreach (var rowContextMenuButton in row.ContextActions)
+                                <div class="w-full px-4 py-2 flex items-center justify-end">
+                                    @if (TableRowContextMenuDisplayStyle == TableRowContextMenuDisplayStyle.Icons)
                                     {
+                                    <div id="@row.ContextMenuId" class="flex items-center gap-1">
+                                        @foreach (var rowContextMenuButton in row.ContextActions)
+                                        {
                                             <MaviButtonIcon Icon="@rowContextMenuButton.Icon"
                                                             ElementVariant="rowContextMenuButton.ElementVariant"
                                                             ThemeColorScheme="rowContextMenuButton.ThemeColorScheme"
@@ -119,34 +122,35 @@
                                                             Disabled="@rowContextMenuButton.Disabled"
                                                             OnClick="async (e) => { await RowContextMenuItemClick(e, row, rowContextMenuButton); }"
                                                             Title="@rowContextMenuButton.Title" />
-                                    }
-                                </div>
-                            }
-                            else
-                            {
-                                <div id="@row.ContextMenuId" class="relative">
-                                    <!-- Btn Toggle Context Menu Dropdown -->
-                                    <MaviButtonIcon Icon="lni lni-menu-meatballs-1"
-                                                    ElementVariant="ElementVariant.Text"
-                                                    ThemeColorScheme="ThemeColorScheme.Default"
-                                                    ElementSize="ElementSize.Regular"
-                                                    OnClick="(e) => { ToggleRowContextMenuDropDown(row, e); }"
-                                                    Title="@Parameters?.ContentMenuTitle" />
-
-                                    <!-- Row Context Menu Dropdown -->
-                                    <div class="@GetRowContextMenuCss(row, rowIndex)">
-                                        @foreach (var rowContextMenuButton in row.ContextActions)
-                                        {
-                                            <button class="@Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER block w-full px-4 py-2.5 text-left rounded-md transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-                                                    disabled="@rowContextMenuButton?.Disabled"
-                                                    @onclick="async (e) => { await RowContextMenuItemClick(e, row, rowContextMenuButton); }">
-                                                @rowContextMenuButton?.Title
-                                            </button>
                                         }
                                     </div>
+                                    }
+                                    else
+                                    {
+                                    <div id="@row.ContextMenuId" class="relative">
+                                        <!-- Btn Toggle Context Menu Dropdown -->
+                                        <MaviButtonIcon Icon="lni lni-menu-meatballs-1"
+                                                        ElementVariant="ElementVariant.Text"
+                                                        ThemeColorScheme="ThemeColorScheme.Default"
+                                                        ElementSize="ElementSize.Regular"
+                                                        OnClick="(e) => { ToggleRowContextMenuDropDown(row, e); }"
+                                                        Title="@Parameters?.ContentMenuTitle" />
+
+                                        <!-- Row Context Menu Dropdown -->
+                                        <div class="@GetRowContextMenuCss(row, rowIndex)">
+                                            @foreach (var rowContextMenuButton in row.ContextActions)
+                                            {
+                                                <button class="@Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER block w-full px-4 py-2.5 text-left rounded-md transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                                                        disabled="@rowContextMenuButton?.Disabled"
+                                                        @onclick="async (e) => { await RowContextMenuItemClick(e, row, rowContextMenuButton); }">
+                                                    @rowContextMenuButton?.Title
+                                                </button>
+                                            }
+                                        </div>
+                                    </div>
+
+                                    }
                                 </div>
-                                    
-                            }
                         }
                     </td>
                 </tr>
