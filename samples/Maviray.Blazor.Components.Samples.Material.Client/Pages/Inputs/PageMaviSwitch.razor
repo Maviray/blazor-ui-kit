@@ -148,7 +148,6 @@
                                 SwitchStatusChange="HandleSwitchChange" />
                     <span class="text-xs text-gray-500">ElementSize.Small</span>
                 </div>
-
                 <div class="flex flex-col items-center gap-2">
                     <MaviSwitch @bind-Value="_sizeRegular"
                                 Label="Regular"
@@ -159,12 +158,6 @@
                 </div>
 
                 <div class="flex flex-col items-center gap-2">
-                    <MaviSwitch @bind-Value="_sizeLarge"
-                                Label="I agree to the terms"
-                                ThemeColorScheme="ThemeColorScheme.Primary"
-                                ElementSize="ElementSize.Large"
-                                SwitchStatusChange="HandleButtonValueChange" />
-
                     <MaviSwitch @bind-Value="_sizeLarge"
                                 Label="Large"
                                 ThemeColorScheme="ThemeColorScheme.Primary"
