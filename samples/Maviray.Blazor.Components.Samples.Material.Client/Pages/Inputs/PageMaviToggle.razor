@@ -3,138 +3,445 @@
 @using Maviray.Blazor.Components.Material.Components
 @inherits SamplePageBase
 
-<PageTitle>MaviToggle</PageTitle>
+<PageTitle>MaviToggle - Component Demo</PageTitle>
 
-<div class="flex flex-col gap-2">
-    <div class="flex gap-2">
-        <MaviToggle @bind-Value="_medium"
-                    Label="Dark mode"
-                    ThemeColorScheme="ThemeColorScheme.Dark"
-                    ElementSize="ElementSize.Small"
-                    ToggleStatusChange="HandleButtonValueChange" />
+<div class="flex flex-col gap-8 p-4">
 
-        <MaviToggle @bind-Value="_small"
-                    Label="Enable notifications"
-                    ThemeColorScheme="ThemeColorScheme.Primary"
-                    ElementSize="ElementSize.Regular"
-                    ToggleStatusChange="HandleButtonValueChange" />
-
-        <MaviToggle @bind-Value="_large"
-                    Label="I agree to the terms"
-                    ElementSize="ElementSize.Large"
-                    ToggleStatusChange="HandleButtonValueChange" />
+    <!-- Header Section -->
+    <div class="flex flex-col gap-2">
+        <h1 class="text-3xl font-bold">MaviToggle Component</h1>
+        <p class="text-gray-600">A versatile toggle switch component for Blazor applications with support for various sizes, colors, and states.</p>
     </div>
-    <div class="flex gap-2">
-        <MaviToggle @bind-Value="_primary"
-                    Title="Enable notifications"
-                    ThemeColorScheme="ThemeColorScheme.Primary"
-                    ElementSize="ElementSize.Regular"
-                    ToggleStatusChange="HandleButtonValueChange" />
 
-        <MaviToggle @bind-Value="_secondary"
-                    Title="Enable notifications"
-                    ThemeColorScheme="ThemeColorScheme.Secondary"
-                    ElementSize="ElementSize.Regular"
-                    ToggleStatusChange="HandleButtonValueChange" />
+    <!-- Basic Usage -->
+    <section class="flex flex-col gap-4">
+        <h2 class="text-2xl font-semibold border-b pb-2">Basic Usage</h2>
+        <p class="text-sm text-gray-600">Simple toggle switches with labels demonstrating default behavior.</p>
 
-        <MaviToggle @bind-Value="_success"
-                    Title="Enable notifications"
-                    ThemeColorScheme="ThemeColorScheme.Success"
-                    ElementSize="ElementSize.Regular"
-                    ToggleStatusChange="HandleButtonValueChange" />
+        <div class="flex gap-4 items-center p-4 bg-gray-50 rounded">
+            <MaviToggle @bind-Value="_basicToggle"
+                        Label="Enable feature"
+                        ToggleStatusChange="HandleToggleChange" />
 
-        <MaviToggle @bind-Value="_alert"
-                    Title="Enable notifications"
-                    ThemeColorScheme="ThemeColorScheme.Alert"
-                    ElementSize="ElementSize.Regular"
-                    ToggleStatusChange="HandleButtonValueChange" />
+            <span class="text-sm">Status: <strong>@(_basicToggle ? "ON" : "OFF")</strong></span>
+        </div>
 
-        <MaviToggle @bind-Value="_warning"
-                    Title="Enable notifications"
-                    ThemeColorScheme="ThemeColorScheme.Warning"
-                    ElementSize="ElementSize.Regular"
-                    ToggleStatusChange="HandleButtonValueChange" />
+        <div class="bg-gray-100 p-3 rounded text-sm font-mono">
+            &lt;MaviToggle @@bind-Value="_basicToggle"<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Label="Enable feature"<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ToggleStatusChange="HandleToggleChange" /&gt;
+        </div>
+    </section>
 
-        <MaviToggle @bind-Value="_info"
-                    Title="Enable notifications"
-                    ThemeColorScheme="ThemeColorScheme.Info"
-                    ElementSize="ElementSize.Regular"
-                    ToggleStatusChange="HandleButtonValueChange" />
+    <!-- Size Variants -->
+    <section class="flex flex-col gap-4">
+        <h2 class="text-2xl font-semibold border-b pb-2">Size Variants</h2>
+        <p class="text-sm text-gray-600">The <code class="bg-gray-200 px-1 rounded">ElementSize</code> parameter controls the toggle size: Small, Regular (default), or Large.</p>
 
-        <MaviToggle @bind-Value="_dark"
-                    Title="Enable notifications"
-                    ThemeColorScheme="ThemeColorScheme.Dark"
-                    ElementSize="ElementSize.Regular"
-                    ToggleStatusChange="HandleButtonValueChange" />
+        <div class="flex gap-6 items-center p-4 bg-gray-50 rounded">
+            <div class="flex flex-col gap-2">
+                <MaviToggle @bind-Value="_small"
+                            Label="Small"
+                            ElementSize="ElementSize.Small"
+                            ToggleStatusChange="HandleToggleChange" />
+                <span class="text-xs text-gray-500">ElementSize.Small</span>
+            </div>
 
-        <MaviToggle @bind-Value="_lite"
-                    Title="Enable notifications"
-                    ThemeColorScheme="ThemeColorScheme.Light"
-                    ElementSize="ElementSize.Regular"
-                    ToggleStatusChange="HandleButtonValueChange" />
-    </div>
-    <div class="flex gap-2">
-        <MaviToggle @bind-Value="_disabled"
-                    Label="Disabled"
-                    Disabled="true"
-                    ThemeColorScheme="ThemeColorScheme.Primary"
-                    ElementSize="ElementSize.Small"
-                    ToggleStatusChange="HandleButtonValueChange" />
+            <div class="flex flex-col gap-2">
+                <MaviToggle @bind-Value="_medium"
+                            Label="Regular (Default)"
+                            ElementSize="ElementSize.Regular"
+                            ToggleStatusChange="HandleToggleChange" />
+                <span class="text-xs text-gray-500">ElementSize.Regular</span>
+            </div>
 
-        <MaviToggle @bind-Value="_disabledTwo"
-                    Label="Disabled"
-                    Disabled="true"
-                    ThemeColorScheme="ThemeColorScheme.Primary"
-                    ElementSize="ElementSize.Small"
-                    ToggleStatusChange="HandleButtonValueChange" />
+            <div class="flex flex-col gap-2">
+                <MaviToggle @bind-Value="_large"
+                            Label="Large"
+                            ElementSize="ElementSize.Large"
+                            ToggleStatusChange="HandleToggleChange" />
+                <span class="text-xs text-gray-500">ElementSize.Large</span>
+            </div>
+        </div>
+    </section>
 
-        <MaviToggle @bind-Value="_reaedonly"
-                    Label="Readonly"
-                    Readonly="true"
-                    ThemeColorScheme="ThemeColorScheme.Primary"
-                    ElementSize="ElementSize.Regular"
-                    ToggleStatusChange="HandleButtonValueChange" />
+    <!-- Color Schemes -->
+    <section class="flex flex-col gap-4">
+        <h2 class="text-2xl font-semibold border-b pb-2">Theme Color Schemes</h2>
+        <p class="text-sm text-gray-600">The <code class="bg-gray-200 px-1 rounded">ThemeColorScheme</code> parameter allows customization with different color themes.</p>
 
-        <MaviToggle @bind-Value="_reaedonlyTwo"
-                    Label="Readonly"
-                    Readonly="true"
-                    ThemeColorScheme="ThemeColorScheme.Primary"
-                    ElementSize="ElementSize.Regular"
-                    ToggleStatusChange="HandleButtonValueChange" />
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-gray-50 rounded">
+            <div class="flex flex-col gap-2">
+                <MaviToggle @bind-Value="_primary"
+                            Label="Primary"
+                            ThemeColorScheme="ThemeColorScheme.Primary"
+                            ElementSize="ElementSize.Regular"
+                            ToggleStatusChange="HandleToggleChange" />
+            </div>
 
-        <MaviToggle @bind-Value="_active"
-                    Label="Enabled"
-                    ElementSize="ElementSize.Large"
-                    ToggleStatusChange="HandleButtonValueChange" />
-    </div>
+            <div class="flex flex-col gap-2">
+                <MaviToggle @bind-Value="_secondary"
+                            Label="Secondary"
+                            ThemeColorScheme="ThemeColorScheme.Secondary"
+                            ElementSize="ElementSize.Regular"
+                            ToggleStatusChange="HandleToggleChange" />
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <MaviToggle @bind-Value="_success"
+                            Label="Success"
+                            ThemeColorScheme="ThemeColorScheme.Success"
+                            ElementSize="ElementSize.Regular"
+                            ToggleStatusChange="HandleToggleChange" />
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <MaviToggle @bind-Value="_alert"
+                            Label="Alert"
+                            ThemeColorScheme="ThemeColorScheme.Alert"
+                            ElementSize="ElementSize.Regular"
+                            ToggleStatusChange="HandleToggleChange" />
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <MaviToggle @bind-Value="_warning"
+                            Label="Warning"
+                            ThemeColorScheme="ThemeColorScheme.Warning"
+                            ElementSize="ElementSize.Regular"
+                            ToggleStatusChange="HandleToggleChange" />
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <MaviToggle @bind-Value="_info"
+                            Label="Info"
+                            ThemeColorScheme="ThemeColorScheme.Info"
+                            ElementSize="ElementSize.Regular"
+                            ToggleStatusChange="HandleToggleChange" />
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <MaviToggle @bind-Value="_dark"
+                            Label="Dark"
+                            ThemeColorScheme="ThemeColorScheme.Dark"
+                            ElementSize="ElementSize.Regular"
+                            ToggleStatusChange="HandleToggleChange" />
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <MaviToggle @bind-Value="_lite"
+                            Label="Light"
+                            ThemeColorScheme="ThemeColorScheme.Light"
+                            ElementSize="ElementSize.Regular"
+                            ToggleStatusChange="HandleToggleChange" />
+            </div>
+        </div>
+    </section>
+
+    <!-- Label vs Title -->
+    <section class="flex flex-col gap-4">
+        <h2 class="text-2xl font-semibold border-b pb-2">Label vs Title</h2>
+        <p class="text-sm text-gray-600">Use <code class="bg-gray-200 px-1 rounded">Label</code> for visible text or <code class="bg-gray-200 px-1 rounded">Title</code> for tooltip/accessibility text.</p>
+
+        <div class="flex gap-6 items-center p-4 bg-gray-50 rounded">
+            <div class="flex flex-col gap-2">
+                <MaviToggle @bind-Value="_withLabel"
+                            Label="Visible Label"
+                            ThemeColorScheme="ThemeColorScheme.Primary"
+                            ToggleStatusChange="HandleToggleChange" />
+                <span class="text-xs text-gray-500">Using Label parameter</span>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <MaviToggle @bind-Value="_withTitle"
+                            Title="Hover to see title"
+                            ThemeColorScheme="ThemeColorScheme.Secondary"
+                            ToggleStatusChange="HandleToggleChange" />
+                <span class="text-xs text-gray-500">Using Title parameter (hover)</span>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <MaviToggle @bind-Value="_withBoth"
+                            Label="Has Both"
+                            Title="This is a tooltip"
+                            ThemeColorScheme="ThemeColorScheme.Success"
+                            ToggleStatusChange="HandleToggleChange" />
+                <span class="text-xs text-gray-500">Both Label and Title</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- States: Disabled and Readonly -->
+    <section class="flex flex-col gap-4">
+        <h2 class="text-2xl font-semibold border-b pb-2">Component States</h2>
+        <p class="text-sm text-gray-600">Toggles can be disabled or set to readonly mode using the <code class="bg-gray-200 px-1 rounded">Disabled</code> and <code class="bg-gray-200 px-1 rounded">Readonly</code> parameters.</p>
+
+        <div class="flex flex-col gap-6 p-4 bg-gray-50 rounded">
+            <div>
+                <h3 class="font-semibold mb-3">Disabled State</h3>
+                <div class="flex gap-4 items-center">
+                    <MaviToggle @bind-Value="_disabled"
+                                Label="Disabled (OFF)"
+                                Disabled="true"
+                                ThemeColorScheme="ThemeColorScheme.Primary"
+                                ElementSize="ElementSize.Regular"
+                                ToggleStatusChange="HandleToggleChange" />
+
+                    <MaviToggle @bind-Value="_disabledOn"
+                                Label="Disabled (ON)"
+                                Disabled="true"
+                                ThemeColorScheme="ThemeColorScheme.Primary"
+                                ElementSize="ElementSize.Regular"
+                                ToggleStatusChange="HandleToggleChange" />
+
+                    <span class="text-sm text-gray-600">User cannot interact</span>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="font-semibold mb-3">Readonly State</h3>
+                <div class="flex gap-4 items-center">
+                    <MaviToggle @bind-Value="_readonly"
+                                Label="Readonly (OFF)"
+                                Readonly="true"
+                                ThemeColorScheme="ThemeColorScheme.Success"
+                                ElementSize="ElementSize.Regular"
+                                ToggleStatusChange="HandleToggleChange" />
+
+                    <MaviToggle @bind-Value="_readonlyOn"
+                                Label="Readonly (ON)"
+                                Readonly="true"
+                                ThemeColorScheme="ThemeColorScheme.Success"
+                                ElementSize="ElementSize.Regular"
+                                ToggleStatusChange="HandleToggleChange" />
+
+                    <span class="text-sm text-gray-600">Visible but not editable</span>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="font-semibold mb-3">Active/Enabled State</h3>
+                <div class="flex gap-4 items-center">
+                    <MaviToggle @bind-Value="_active"
+                                Label="Fully Interactive"
+                                ThemeColorScheme="ThemeColorScheme.Info"
+                                ElementSize="ElementSize.Regular"
+                                ToggleStatusChange="HandleToggleChange" />
+
+                    <span class="text-sm text-gray-600">Normal, interactive state</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Event Handling -->
+    <section class="flex flex-col gap-4">
+        <h2 class="text-2xl font-semibold border-b pb-2">Event Handling</h2>
+        <p class="text-sm text-gray-600">Use the <code class="bg-gray-200 px-1 rounded">ToggleStatusChange</code> callback to handle value changes.</p>
+
+        <div class="flex flex-col gap-4 p-4 bg-gray-50 rounded">
+            <div class="flex gap-4 items-center">
+                <MaviToggle @bind-Value="_eventToggle"
+                            Label="Toggle with event logging"
+                            ThemeColorScheme="ThemeColorScheme.Primary"
+                            ToggleStatusChange="HandleEventToggleChange" />
+            </div>
+
+            <div class="bg-white p-3 rounded border">
+                <h4 class="font-semibold text-sm mb-2">Event Log:</h4>
+                <div class="text-sm font-mono text-gray-700">@_lastEventLog</div>
+            </div>
+        </div>
+
+        <div class="bg-gray-100 p-3 rounded text-sm font-mono">
+            @@code {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;private Task HandleEventToggleChange(ValueChangedCallbackParameters&lt;bool&gt; args)<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;{<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Logger?.LogInformation("Toggle: {ElementId} Status: {Status}", args.ElementId, args.Value);<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Task.CompletedTask;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+            }
+        </div>
+    </section>
+
+    <!-- Real-World Examples -->
+    <section class="flex flex-col gap-4">
+        <h2 class="text-2xl font-semibold border-b pb-2">Real-World Examples</h2>
+        <p class="text-sm text-gray-600">Practical use cases for the MaviToggle component.</p>
+
+        <div class="grid md:grid-cols-2 gap-4">
+            <div class="p-4 bg-white border rounded">
+                <h3 class="font-semibold mb-3">User Preferences</h3>
+                <div class="flex flex-col gap-3">
+                    <MaviToggle @bind-Value="_darkMode"
+                                Label="Dark mode"
+                                ThemeColorScheme="ThemeColorScheme.Dark"
+                                ElementSize="ElementSize.Small"
+                                ToggleStatusChange="HandleToggleChange" />
+
+                    <MaviToggle @bind-Value="_notifications"
+                                Label="Enable notifications"
+                                ThemeColorScheme="ThemeColorScheme.Info"
+                                ElementSize="ElementSize.Small"
+                                ToggleStatusChange="HandleToggleChange" />
+
+                    <MaviToggle @bind-Value="_emailUpdates"
+                                Label="Email updates"
+                                ThemeColorScheme="ThemeColorScheme.Primary"
+                                ElementSize="ElementSize.Small"
+                                ToggleStatusChange="HandleToggleChange" />
+                </div>
+            </div>
+
+            <div class="p-4 bg-white border rounded">
+                <h3 class="font-semibold mb-3">Feature Flags</h3>
+                <div class="flex flex-col gap-3">
+                    <MaviToggle @bind-Value="_betaFeatures"
+                                Label="Enable beta features"
+                                ThemeColorScheme="ThemeColorScheme.Warning"
+                                ElementSize="ElementSize.Small"
+                                ToggleStatusChange="HandleToggleChange" />
+
+                    <MaviToggle @bind-Value="_analytics"
+                                Label="Analytics tracking"
+                                ThemeColorScheme="ThemeColorScheme.Success"
+                                ElementSize="ElementSize.Small"
+                                ToggleStatusChange="HandleToggleChange" />
+
+                    <MaviToggle @bind-Value="_debugMode"
+                                Label="Debug mode"
+                                ThemeColorScheme="ThemeColorScheme.Alert"
+                                ElementSize="ElementSize.Small"
+                                ToggleStatusChange="HandleToggleChange" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Parameter Reference -->
+    <section class="flex flex-col gap-4">
+        <h2 class="text-2xl font-semibold border-b pb-2">Parameter Reference</h2>
+
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white border text-sm">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="px-4 py-2 border text-left font-semibold">Parameter</th>
+                        <th class="px-4 py-2 border text-left font-semibold">Type</th>
+                        <th class="px-4 py-2 border text-left font-semibold">Default</th>
+                        <th class="px-4 py-2 border text-left font-semibold">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="px-4 py-2 border font-mono">Value</td>
+                        <td class="px-4 py-2 border font-mono">bool</td>
+                        <td class="px-4 py-2 border">false</td>
+                        <td class="px-4 py-2 border">The current state of the toggle (ON/OFF). Use with @@bind-Value for two-way binding.</td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                        <td class="px-4 py-2 border font-mono">Label</td>
+                        <td class="px-4 py-2 border font-mono">string?</td>
+                        <td class="px-4 py-2 border">null</td>
+                        <td class="px-4 py-2 border">Visible text label displayed next to the toggle switch.</td>
+                    </tr>
+                    <tr>
+                        <td class="px-4 py-2 border font-mono">Title</td>
+                        <td class="px-4 py-2 border font-mono">string?</td>
+                        <td class="px-4 py-2 border">null</td>
+                        <td class="px-4 py-2 border">Tooltip text shown on hover, used for accessibility.</td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                        <td class="px-4 py-2 border font-mono">ThemeColorScheme</td>
+                        <td class="px-4 py-2 border font-mono">ThemeColorScheme</td>
+                        <td class="px-4 py-2 border">Primary</td>
+                        <td class="px-4 py-2 border">Color theme: Primary, Secondary, Success, Alert, Warning, Info, Dark, Light.</td>
+                    </tr>
+                    <tr>
+                        <td class="px-4 py-2 border font-mono">ElementSize</td>
+                        <td class="px-4 py-2 border font-mono">ElementSize</td>
+                        <td class="px-4 py-2 border">Regular</td>
+                        <td class="px-4 py-2 border">Size of the toggle: Small, Regular, or Large.</td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                        <td class="px-4 py-2 border font-mono">Disabled</td>
+                        <td class="px-4 py-2 border font-mono">bool</td>
+                        <td class="px-4 py-2 border">false</td>
+                        <td class="px-4 py-2 border">When true, toggle is grayed out and cannot be interacted with.</td>
+                    </tr>
+                    <tr>
+                        <td class="px-4 py-2 border font-mono">Readonly</td>
+                        <td class="px-4 py-2 border font-mono">bool</td>
+                        <td class="px-4 py-2 border">false</td>
+                        <td class="px-4 py-2 border">When true, toggle is visible but cannot be modified by user.</td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                        <td class="px-4 py-2 border font-mono">ToggleStatusChange</td>
+                        <td class="px-4 py-2 border font-mono">EventCallback</td>
+                        <td class="px-4 py-2 border">-</td>
+                        <td class="px-4 py-2 border">Callback event fired when toggle value changes. Receives ValueChangedCallbackParameters&lt;bool&gt;.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
 </div>
 
 @code
 {
+    // Basic usage
+    private bool _basicToggle = false;
+
+    // Size variants
     private bool _small = false;
     private bool _medium = false;
     private bool _large = false;
 
+    // Color schemes
     private bool _primary = false;
     private bool _secondary = false;
     private bool _success = false;
-
     private bool _alert = false;
     private bool _warning = false;
     private bool _info = false;
-
     private bool _dark = false;
     private bool _lite = false;
 
+    // Label vs Title
+    private bool _withLabel = false;
+    private bool _withTitle = false;
+    private bool _withBoth = false;
+
+    // States
     private bool _disabled = false;
-    private bool _disabledTwo = true;
-    private bool _reaedonly = false;
-    private bool _reaedonlyTwo = true;
+    private bool _disabledOn = true;
+    private bool _readonly = false;
+    private bool _readonlyOn = true;
     private bool _active = false;
 
-    private Task HandleButtonValueChange(ValueChangedCallbackParameters<bool> args)
+    // Event handling
+    private bool _eventToggle = false;
+    private string _lastEventLog = "No events yet";
+
+    // Real-world examples
+    private bool _darkMode = false;
+    private bool _notifications = true;
+    private bool _emailUpdates = false;
+    private bool _betaFeatures = false;
+    private bool _analytics = true;
+    private bool _debugMode = false;
+
+    private Task HandleToggleChange(ValueChangedCallbackParameters<bool> args)
     {
-        Logger?.LogInformation("CheckBox: {ButtonId} Status: {Status}", args.ElementId, args.Value);
+        Logger?.LogInformation("Toggle: {ElementId} Status: {Status}", args.ElementId, args.Value);
+        return Task.CompletedTask;
+    }
+
+    private Task HandleEventToggleChange(ValueChangedCallbackParameters<bool> args)
+    {
+        _lastEventLog = $"Element ID: {args.ElementId}, New Value: {args.Value}, Changed at: {DateTime.Now:HH:mm:ss}";
+        Logger?.LogInformation("Toggle event: {ElementId} changed to {Status}", args.ElementId, args.Value);
+        StateHasChanged();
         return Task.CompletedTask;
     }
 }
