@@ -3,139 +3,498 @@
 @using Maviray.Blazor.Components.Material.Components
 @inherits SamplePageBase
 
-<PageTitle>MaviSwitch</PageTitle>
+<PageTitle>MaviSwitch - Component Showcase</PageTitle>
 
+<div class="container mx-auto p-6 space-y-8">
 
-<div class="flex flex-col gap-4">
-    <div class="flex gap-4">
-        <MaviSwitch @bind-Value="_medium"
-                    Label="Dark mode"
-                    ThemeColorScheme="ThemeColorScheme.Dark"
-                    ElementSize="ElementSize.Small"
-                    SwitchStatusChange="HandleButtonValueChange" />
-
-        <MaviSwitch @bind-Value="_small"
-                    Label="Enable notifications"
-                    ThemeColorScheme="ThemeColorScheme.Primary"
-                    ElementSize="ElementSize.Regular"
-                    SwitchStatusChange="HandleButtonValueChange" />
-
-        <MaviSwitch @bind-Value="_large"
-                    Label="I agree to the terms"
-                    ElementSize="ElementSize.Large"
-                    SwitchStatusChange="HandleButtonValueChange" />
+    <!-- Header Section -->
+    <div class="border-b pb-4">
+        <h1 class="text-4xl font-bold mb-2">MaviSwitch Component</h1>
+        <p class="text-gray-600 text-lg">
+            A versatile toggle switch component for Blazor applications with customizable themes, sizes, and states.
+        </p>
     </div>
-    <div class="flex gap-4">
-        <MaviSwitch @bind-Value="_primary"
-                    Title="Enable notifications"
-                    ThemeColorScheme="ThemeColorScheme.Primary"
-                    ElementSize="ElementSize.Regular"
-                    SwitchStatusChange="HandleButtonValueChange" />
 
-        <MaviSwitch @bind-Value="_secondary"
-                    Title="Enable notifications"
-                    ThemeColorScheme="ThemeColorScheme.Secondary"
-                    ElementSize="ElementSize.Regular"
-                    SwitchStatusChange="HandleButtonValueChange" />
+    <!-- Quick Start Section -->
+    <section class="bg-gray-50 p-6 rounded-lg">
+        <h2 class="text-2xl font-semibold mb-4">Quick Start</h2>
+        <div class="bg-white p-4 rounded border">
+            <pre class="text-sm"><code>&lt;MaviSwitch @@bind-Value="_isEnabled"
+            Label="Enable Feature"
+            ThemeColorScheme="ThemeColorScheme.Primary"
+            ElementSize="ElementSize.Regular"
+            SwitchStatusChange="HandleStatusChange" /&gt;</code></pre>
+        </div>
+    </section>
 
-        <MaviSwitch @bind-Value="_success"
-                    Title="Enable notifications"
-                    ThemeColorScheme="ThemeColorScheme.Success"
-                    ElementSize="ElementSize.Regular"
-                    SwitchStatusChange="HandleButtonValueChange" />
+    <!-- Size Variants Section -->
+    <section>
+        <h2 class="text-2xl font-semibold mb-4">Size Variants</h2>
+        <p class="text-gray-600 mb-4">
+            MaviSwitch supports three size options: <code>Small</code>, <code>Regular</code>, and <code>Large</code>.
+        </p>
+        <div class="bg-white p-6 rounded-lg border">
+            <div class="flex items-center gap-8">
+                <div class="flex flex-col items-center gap-2">
+                    <MaviSwitch @bind-Value="_sizeSmall"
+                                Label="Small"
+                                ThemeColorScheme="ThemeColorScheme.Primary"
+                                ElementSize="ElementSize.Small"
+                                SwitchStatusChange="HandleSwitchChange" />
+                    <span class="text-xs text-gray-500">ElementSize.Small</span>
+                </div>
 
-        <MaviSwitch @bind-Value="_alert"
-                    Title="Enable notifications"
-                    ThemeColorScheme="ThemeColorScheme.Alert"
-                    ElementSize="ElementSize.Regular"
-                    SwitchStatusChange="HandleButtonValueChange" />
+                <div class="flex flex-col items-center gap-2">
+                    <MaviSwitch @bind-Value="_sizeRegular"
+                                Label="Regular"
+                                ThemeColorScheme="ThemeColorScheme.Primary"
+                                ElementSize="ElementSize.Regular"
+                                SwitchStatusChange="HandleSwitchChange" />
+                    <span class="text-xs text-gray-500">ElementSize.Regular</span>
+                </div>
 
-        <MaviSwitch @bind-Value="_warning"
-                    Title="Enable notifications"
-                    ThemeColorScheme="ThemeColorScheme.Warning"
-                    ElementSize="ElementSize.Regular"
-                    SwitchStatusChange="HandleButtonValueChange" />
+                <div class="flex flex-col items-center gap-2">
+                    <MaviSwitch @bind-Value="_sizeLarge"
+                                Label="Large"
+                                ThemeColorScheme="ThemeColorScheme.Primary"
+                                ElementSize="ElementSize.Large"
+                                SwitchStatusChange="HandleSwitchChange" />
+                    <span class="text-xs text-gray-500">ElementSize.Large</span>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <MaviSwitch @bind-Value="_info"
-                    Title="Enable notifications"
-                    ThemeColorScheme="ThemeColorScheme.Info"
-                    ElementSize="ElementSize.Regular"
-                    SwitchStatusChange="HandleButtonValueChange" />
+    <!-- Color Themes Section -->
+    <section>
+        <h2 class="text-2xl font-semibold mb-4">Theme Color Schemes</h2>
+        <p class="text-gray-600 mb-4">
+            Choose from multiple theme colors to match your application's design system.
+        </p>
+        <div class="bg-white p-6 rounded-lg border">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="flex flex-col gap-2">
+                    <MaviSwitch @bind-Value="_themePrimary"
+                                Title="Primary Theme"
+                                ThemeColorScheme="ThemeColorScheme.Primary"
+                                ElementSize="ElementSize.Regular"
+                                SwitchStatusChange="HandleSwitchChange" />
+                    <span class="text-xs font-semibold text-blue-600">Primary</span>
+                </div>
 
-        <MaviSwitch @bind-Value="_dark"
-                    Title="Enable notifications"
-                    ThemeColorScheme="ThemeColorScheme.Dark"
-                    ElementSize="ElementSize.Regular"
-                    SwitchStatusChange="HandleButtonValueChange" />
+                <div class="flex flex-col gap-2">
+                    <MaviSwitch @bind-Value="_themeSecondary"
+                                Title="Secondary Theme"
+                                ThemeColorScheme="ThemeColorScheme.Secondary"
+                                ElementSize="ElementSize.Regular"
+                                SwitchStatusChange="HandleSwitchChange" />
+                    <span class="text-xs font-semibold text-purple-600">Secondary</span>
+                </div>
 
-        <MaviSwitch @bind-Value="_lite"
-                    Title="Enable notifications"
-                    ThemeColorScheme="ThemeColorScheme.Light"
-                    ElementSize="ElementSize.Regular"
-                    SwitchStatusChange="HandleButtonValueChange" />
-    </div>
-    <div class="flex gap-4">
-        <MaviSwitch @bind-Value="_disabled"
-                    Label="Disabled"
-                    Disabled="true"
-                    ThemeColorScheme="ThemeColorScheme.Dark"
-                    ElementSize="ElementSize.Small"
-                    SwitchStatusChange="HandleButtonValueChange" />
+                <div class="flex flex-col gap-2">
+                    <MaviSwitch @bind-Value="_themeSuccess"
+                                Title="Success Theme"
+                                ThemeColorScheme="ThemeColorScheme.Success"
+                                ElementSize="ElementSize.Regular"
+                                SwitchStatusChange="HandleSwitchChange" />
+                    <span class="text-xs font-semibold text-green-600">Success</span>
+                </div>
 
-        <MaviSwitch @bind-Value="_disabledTwo"
-                    Label="Disabled"
-                    Disabled="true"
-                    ThemeColorScheme="ThemeColorScheme.Dark"
-                    ElementSize="ElementSize.Small"
-                    SwitchStatusChange="HandleButtonValueChange" />
+                <div class="flex flex-col gap-2">
+                    <MaviSwitch @bind-Value="_themeAlert"
+                                Title="Alert Theme"
+                                ThemeColorScheme="ThemeColorScheme.Alert"
+                                ElementSize="ElementSize.Regular"
+                                SwitchStatusChange="HandleSwitchChange" />
+                    <span class="text-xs font-semibold text-red-600">Alert</span>
+                </div>
 
-        <MaviSwitch @bind-Value="_reaedonly"
-                    Label="Readonly"
-                    Readonly="true"
-                    ThemeColorScheme="ThemeColorScheme.Primary"
-                    ElementSize="ElementSize.Regular"
-                    SwitchStatusChange="HandleButtonValueChange" />
+                <div class="flex flex-col gap-2">
+                    <MaviSwitch @bind-Value="_themeWarning"
+                                Title="Warning Theme"
+                                ThemeColorScheme="ThemeColorScheme.Warning"
+                                ElementSize="ElementSize.Regular"
+                                SwitchStatusChange="HandleSwitchChange" />
+                    <span class="text-xs font-semibold text-yellow-600">Warning</span>
+                </div>
 
-        <MaviSwitch @bind-Value="_reaedonlyTwo"
-                    Label="Readonly"
-                    Readonly="true"
-                    ThemeColorScheme="ThemeColorScheme.Primary"
-                    ElementSize="ElementSize.Regular"
-                    SwitchStatusChange="HandleButtonValueChange" />
+                <div class="flex flex-col gap-2">
+                    <MaviSwitch @bind-Value="_themeInfo"
+                                Title="Info Theme"
+                                ThemeColorScheme="ThemeColorScheme.Info"
+                                ElementSize="ElementSize.Regular"
+                                SwitchStatusChange="HandleSwitchChange" />
+                    <span class="text-xs font-semibold text-cyan-600">Info</span>
+                </div>
 
-        <MaviSwitch @bind-Value="_active"
-                    Label="Enabled"
-                    ElementSize="ElementSize.Large"
-                    SwitchStatusChange="HandleButtonValueChange" />
-    </div>
+                <div class="flex flex-col gap-2">
+                    <MaviSwitch @bind-Value="_themeDark"
+                                Title="Dark Theme"
+                                ThemeColorScheme="ThemeColorScheme.Dark"
+                                ElementSize="ElementSize.Regular"
+                                SwitchStatusChange="HandleSwitchChange" />
+                    <span class="text-xs font-semibold text-gray-800">Dark</span>
+                </div>
+
+                <div class="flex flex-col gap-2">
+                    <MaviSwitch @bind-Value="_themeLight"
+                                Title="Light Theme"
+                                ThemeColorScheme="ThemeColorScheme.Light"
+                                ElementSize="ElementSize.Regular"
+                                SwitchStatusChange="HandleSwitchChange" />
+                    <span class="text-xs font-semibold text-gray-400">Light</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Label vs Title Section -->
+    <section>
+        <h2 class="text-2xl font-semibold mb-4">Label vs Title</h2>
+        <p class="text-gray-600 mb-4">
+            Use <code>Label</code> for visible text labels or <code>Title</code> for accessibility and tooltips.
+        </p>
+        <div class="bg-white p-6 rounded-lg border">
+            <div class="flex gap-8">
+                <div class="flex flex-col gap-2">
+                    <MaviSwitch @bind-Value="_withLabel"
+                                Label="With Label"
+                                ThemeColorScheme="ThemeColorScheme.Primary"
+                                ElementSize="ElementSize.Regular"
+                                SwitchStatusChange="HandleSwitchChange" />
+                    <span class="text-xs text-gray-500">Uses Label property</span>
+                </div>
+
+                <div class="flex flex-col gap-2">
+                    <MaviSwitch @bind-Value="_withTitle"
+                                Title="Hover for title tooltip"
+                                ThemeColorScheme="ThemeColorScheme.Secondary"
+                                ElementSize="ElementSize.Regular"
+                                SwitchStatusChange="HandleSwitchChange" />
+                    <span class="text-xs text-gray-500">Uses Title property (hover me)</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- States Section -->
+    <section>
+        <h2 class="text-2xl font-semibold mb-4">Component States</h2>
+        <p class="text-gray-600 mb-4">
+            MaviSwitch supports disabled and readonly states for different interaction scenarios.
+        </p>
+        <div class="bg-white p-6 rounded-lg border">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                    <h3 class="font-semibold text-lg">Disabled State</h3>
+                    <p class="text-sm text-gray-600">Prevents user interaction completely.</p>
+                    <div class="flex gap-4">
+                        <MaviSwitch @bind-Value="_disabledOff"
+                                    Label="Disabled (Off)"
+                                    Disabled="true"
+                                    ThemeColorScheme="ThemeColorScheme.Primary"
+                                    ElementSize="ElementSize.Regular"
+                                    SwitchStatusChange="HandleSwitchChange" />
+
+                        <MaviSwitch @bind-Value="_disabledOn"
+                                    Label="Disabled (On)"
+                                    Disabled="true"
+                                    ThemeColorScheme="ThemeColorScheme.Primary"
+                                    ElementSize="ElementSize.Regular"
+                                    SwitchStatusChange="HandleSwitchChange" />
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <h3 class="font-semibold text-lg">Readonly State</h3>
+                    <p class="text-sm text-gray-600">Shows state but prevents changes.</p>
+                    <div class="flex gap-4">
+                        <MaviSwitch @bind-Value="_readonlyOff"
+                                    Label="Readonly (Off)"
+                                    Readonly="true"
+                                    ThemeColorScheme="ThemeColorScheme.Success"
+                                    ElementSize="ElementSize.Regular"
+                                    SwitchStatusChange="HandleSwitchChange" />
+
+                        <MaviSwitch @bind-Value="_readonlyOn"
+                                    Label="Readonly (On)"
+                                    Readonly="true"
+                                    ThemeColorScheme="ThemeColorScheme.Success"
+                                    ElementSize="ElementSize.Regular"
+                                    SwitchStatusChange="HandleSwitchChange" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases Section -->
+    <section>
+        <h2 class="text-2xl font-semibold mb-4">Common Use Cases</h2>
+        <div class="bg-white p-6 rounded-lg border space-y-6">
+            <div class="border-b pb-4">
+                <h3 class="font-semibold mb-3">Settings Panel</h3>
+                <div class="space-y-3">
+                    <MaviSwitch @bind-Value="_settingDarkMode"
+                                Label="Enable dark mode"
+                                ThemeColorScheme="ThemeColorScheme.Dark"
+                                ElementSize="ElementSize.Regular"
+                                SwitchStatusChange="HandleSwitchChange" />
+
+                    <MaviSwitch @bind-Value="_settingNotifications"
+                                Label="Push notifications"
+                                ThemeColorScheme="ThemeColorScheme.Info"
+                                ElementSize="ElementSize.Regular"
+                                SwitchStatusChange="HandleSwitchChange" />
+
+                    <MaviSwitch @bind-Value="_settingAutoSave"
+                                Label="Auto-save changes"
+                                ThemeColorScheme="ThemeColorScheme.Success"
+                                ElementSize="ElementSize.Regular"
+                                SwitchStatusChange="HandleSwitchChange" />
+                </div>
+            </div>
+
+            <div class="border-b pb-4">
+                <h3 class="font-semibold mb-3">Feature Toggles</h3>
+                <div class="space-y-3">
+                    <MaviSwitch @bind-Value="_featureBeta"
+                                Label="Enable beta features"
+                                ThemeColorScheme="ThemeColorScheme.Warning"
+                                ElementSize="ElementSize.Regular"
+                                SwitchStatusChange="HandleSwitchChange" />
+
+                    <MaviSwitch @bind-Value="_featureAnalytics"
+                                Label="Analytics tracking"
+                                ThemeColorScheme="ThemeColorScheme.Secondary"
+                                ElementSize="ElementSize.Regular"
+                                SwitchStatusChange="HandleSwitchChange" />
+                </div>
+            </div>
+
+            <div>
+                <h3 class="font-semibold mb-3">Form Agreements</h3>
+                <div class="space-y-3">
+                    <MaviSwitch @bind-Value="_agreeTerms"
+                                Label="I agree to the terms and conditions"
+                                ThemeColorScheme="ThemeColorScheme.Primary"
+                                ElementSize="ElementSize.Large"
+                                SwitchStatusChange="HandleSwitchChange" />
+
+                    <MaviSwitch @bind-Value="_agreeMarketing"
+                                Label="I consent to receive marketing emails"
+                                ThemeColorScheme="ThemeColorScheme.Primary"
+                                ElementSize="ElementSize.Regular"
+                                SwitchStatusChange="HandleSwitchChange" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Parameters Documentation -->
+    <section>
+        <h2 class="text-2xl font-semibold mb-4">Component Parameters</h2>
+        <div class="bg-white rounded-lg border overflow-hidden">
+            <table class="w-full text-sm">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="text-left p-4 font-semibold">Parameter</th>
+                        <th class="text-left p-4 font-semibold">Type</th>
+                        <th class="text-left p-4 font-semibold">Default</th>
+                        <th class="text-left p-4 font-semibold">Description</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y">
+                    <tr>
+                        <td class="p-4 font-mono text-xs">Value</td>
+                        <td class="p-4 font-mono text-xs">bool</td>
+                        <td class="p-4 font-mono text-xs">false</td>
+                        <td class="p-4">The switch state (on/off). Use with @@bind-Value for two-way binding.</td>
+                    </tr>
+                    <tr>
+                        <td class="p-4 font-mono text-xs">Label</td>
+                        <td class="p-4 font-mono text-xs">string?</td>
+                        <td class="p-4 font-mono text-xs">null</td>
+                        <td class="p-4">Visible text label displayed next to the switch.</td>
+                    </tr>
+                    <tr>
+                        <td class="p-4 font-mono text-xs">Title</td>
+                        <td class="p-4 font-mono text-xs">string?</td>
+                        <td class="p-4 font-mono text-xs">null</td>
+                        <td class="p-4">HTML title attribute for accessibility and tooltips.</td>
+                    </tr>
+                    <tr>
+                        <td class="p-4 font-mono text-xs">ThemeColorScheme</td>
+                        <td class="p-4 font-mono text-xs">ThemeColorScheme</td>
+                        <td class="p-4 font-mono text-xs">Primary</td>
+                        <td class="p-4">Color theme: Primary, Secondary, Success, Alert, Warning, Info, Dark, Light.</td>
+                    </tr>
+                    <tr>
+                        <td class="p-4 font-mono text-xs">ElementSize</td>
+                        <td class="p-4 font-mono text-xs">ElementSize</td>
+                        <td class="p-4 font-mono text-xs">Regular</td>
+                        <td class="p-4">Size variant: Small, Regular, or Large.</td>
+                    </tr>
+                    <tr>
+                        <td class="p-4 font-mono text-xs">Disabled</td>
+                        <td class="p-4 font-mono text-xs">bool</td>
+                        <td class="p-4 font-mono text-xs">false</td>
+                        <td class="p-4">When true, prevents all user interaction with the switch.</td>
+                    </tr>
+                    <tr>
+                        <td class="p-4 font-mono text-xs">Readonly</td>
+                        <td class="p-4 font-mono text-xs">bool</td>
+                        <td class="p-4 font-mono text-xs">false</td>
+                        <td class="p-4">When true, displays the switch state but prevents changes.</td>
+                    </tr>
+                    <tr>
+                        <td class="p-4 font-mono text-xs">SwitchStatusChange</td>
+                        <td class="p-4 font-mono text-xs">EventCallback</td>
+                        <td class="p-4 font-mono text-xs">-</td>
+                        <td class="p-4">Event fired when the switch state changes. Receives ValueChangedCallbackParameters&lt;bool&gt;.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Event Handling Section -->
+    <section>
+        <h2 class="text-2xl font-semibold mb-4">Event Handling</h2>
+        <p class="text-gray-600 mb-4">
+            Monitor switch state changes using the <code>SwitchStatusChange</code> callback.
+        </p>
+        <div class="bg-white p-6 rounded-lg border">
+            <div class="space-y-4">
+                <MaviSwitch @bind-Value="_eventDemo"
+                            Label="Toggle me to see events"
+                            ThemeColorScheme="ThemeColorScheme.Primary"
+                            ElementSize="ElementSize.Large"
+                            SwitchStatusChange="HandleEventDemo" />
+
+                @if (!string.IsNullOrEmpty(_lastEvent))
+                {
+                    <div class="bg-blue-50 border border-blue-200 rounded p-4">
+                        <p class="text-sm font-mono">@_lastEvent</p>
+                    </div>
+                }
+
+                <div class="bg-gray-50 p-4 rounded">
+                    <pre class="text-xs"><code>private Task HandleEventDemo(ValueChangedCallbackParameters&lt;bool&gt; args)
+{
+    Logger?.LogInformation("Switch ID: {ElementId}, New Value: {Value}", 
+        args.ElementId, args.Value);
+    return Task.CompletedTask;
+}</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Code Examples Section -->
+    <section>
+        <h2 class="text-2xl font-semibold mb-4">Code Examples</h2>
+        <div class="space-y-4">
+            <div class="bg-white p-6 rounded-lg border">
+                <h3 class="font-semibold mb-3">Basic Usage</h3>
+                <pre class="bg-gray-50 p-4 rounded text-xs overflow-x-auto"><code>&lt;MaviSwitch @@bind-Value="_isEnabled" 
+            Label="Enable Feature" /&gt;
+
+@@code {
+    private bool _isEnabled = false;
+}</code></pre>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg border">
+                <h3 class="font-semibold mb-3">With Theme and Size</h3>
+                <pre class="bg-gray-50 p-4 rounded text-xs overflow-x-auto"><code>&lt;MaviSwitch @@bind-Value="_darkMode"
+            Label="Dark Mode"
+            ThemeColorScheme="ThemeColorScheme.Dark"
+            ElementSize="ElementSize.Large" /&gt;</code></pre>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg border">
+                <h3 class="font-semibold mb-3">With Event Handler</h3>
+                <pre class="bg-gray-50 p-4 rounded text-xs overflow-x-auto"><code>&lt;MaviSwitch @@bind-Value="_notifications"
+            Label="Push Notifications"
+            ThemeColorScheme="ThemeColorScheme.Info"
+            SwitchStatusChange="HandleNotificationChange" /&gt;
+
+@@code {
+    private bool _notifications = false;
+
+    private async Task HandleNotificationChange(ValueChangedCallbackParameters&lt;bool&gt; args)
+    {
+        if (args.Value)
+        {
+            await EnableNotifications();
+        }
+        else
+        {
+            await DisableNotifications();
+        }
+    }
+}</code></pre>
+            </div>
+        </div>
+    </section>
+
 </div>
 
 @code
 {
-    private bool _small = false;
-    private bool _medium = false;
-    private bool _large = false;
+    // Size variants
+    private bool _sizeSmall = true;
+    private bool _sizeRegular = true;
+    private bool _sizeLarge = true;
 
-    private bool _primary = false;
-    private bool _secondary = false;
-    private bool _success = false;
+    // Theme colors
+    private bool _themePrimary = true;
+    private bool _themeSecondary = true;
+    private bool _themeSuccess = true;
+    private bool _themeAlert = true;
+    private bool _themeWarning = true;
+    private bool _themeInfo = true;
+    private bool _themeDark = true;
+    private bool _themeLight = true;
 
-    private bool _alert = false;
-    private bool _warning = false;
-    private bool _info = false;
+    // Label vs Title
+    private bool _withLabel = false;
+    private bool _withTitle = false;
 
-    private bool _dark = false;
-    private bool _lite = false;
+    // States
+    private bool _disabledOff = false;
+    private bool _disabledOn = true;
+    private bool _readonlyOff = false;
+    private bool _readonlyOn = true;
 
-    private bool _disabled = false;
-    private bool _disabledTwo = true;
-    private bool _reaedonly = false;
-    private bool _reaedonlyTwo = true;
-    private bool _active = false;
+    // Use cases - Settings
+    private bool _settingDarkMode = false;
+    private bool _settingNotifications = true;
+    private bool _settingAutoSave = true;
 
-    private Task HandleButtonValueChange(ValueChangedCallbackParameters<bool> args)
+    // Use cases - Features
+    private bool _featureBeta = false;
+    private bool _featureAnalytics = true;
+
+    // Use cases - Agreements
+    private bool _agreeTerms = false;
+    private bool _agreeMarketing = false;
+
+    // Event demo
+    private bool _eventDemo = false;
+    private string _lastEvent = string.Empty;
+
+    private Task HandleSwitchChange(ValueChangedCallbackParameters<bool> args)
     {
-        Logger?.LogInformation("CheckBox: {ButtonId} Status: {Status}", args.ElementId, args.Value);
+        Logger?.LogInformation("Switch ID: {ElementId}, Value: {Value}", args.ElementId, args.Value);
+        return Task.CompletedTask;
+    }
+
+    private Task HandleEventDemo(ValueChangedCallbackParameters<bool> args)
+    {
+        _lastEvent = $"Event fired at {DateTime.Now:HH:mm:ss} - Element ID: {args.ElementId}, New Value: {args.Value}";
+        Logger?.LogInformation("Event Demo - Switch ID: {ElementId}, Value: {Value}", args.ElementId, args.Value);
         return Task.CompletedTask;
     }
 }
