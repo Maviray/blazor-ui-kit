@@ -1,9 +1,10 @@
-﻿@using Maviray.Blazor.Components.Material.Components.DataDisplay.Icons
+﻿@using Maviray.Blazor.Components.Core.Models.Tables
+@using Maviray.Blazor.Components.Material.Components.DataDisplay.Icons
 @using Maviray.Blazor.Components.Material.Components.Inputs
 @using Maviray.Blazor.Components.Material.Constants
 @inherits MaviInMemoryTableBase
 
-<div class="w-full rounded-lg outline outline-solid outline-offset-0 relative overflow-x-auto @Tailwind.Theme.Colors.Outline.THEME_DEFAULT_THREE_OUTLINE">
+<div class="w-full rounded-lg outline outline-solid outline-offset-0 relative overflow-y-hidden @Tailwind.Theme.Colors.Outline.THEME_DEFAULT_THREE_OUTLINE">
     <table id="@Id" class="@Class min-w-full border-collapse divide-y @Tailwind.Theme.Colors.Divide.THEME_DEFAULT_THREE_DIVIDE" style="@Style">
         <thead class="@Tailwind.Theme.Colors.Background.THEME_DEFAULT_ONE_BG">
         <tr>
@@ -88,7 +89,7 @@
         <tbody class="bg-white">
         @if (Collection != null && Collection.GetCurrentPageRows().Any())
         {
-            @foreach (var row in Collection.GetCurrentPageRows())
+            @foreach (var (row, rowIndex) in Collection.GetCurrentPageRows().Select((r, i) => (r, i)))
             {
                 <tr @key="row.Guid" class="@GetRowCss(row) border-b @Tailwind.Theme.Colors.Border.THEME_DEFAULT_TWO_BORDER @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_ONE_BG_HOVER transition-colors">
                     @foreach (var column in Collection.Columns.Where(c => c.Visible).OrderBy(c => c.Sequence))
@@ -106,16 +107,18 @@
                     <td class="px-4 py-2 flex items-center justify-end">
                         @if (row.HasContextActions)
                         {
-                            if (TableRowContextMenuDisplayStyle == TableRowContextMenuDisplayStyle.DropDown)
+                            if (TableRowContextMenuDisplayStyle == TableRowContextMenuDisplayStyle.Icons)
                             {
-                                <div id="@row.ContextMenuId" class="absolute right-0 mt-2 w-64 bg-white border border-gray-300 rounded shadow-lg z-50 p-3">
+                                <div id="@row.ContextMenuId" class="flex items-center gap-1">
                                     @foreach (var rowContextMenuButton in row.ContextActions)
                                     {
-                                        <button class="block w-full px-4 py-2 text-sm text-left hover:bg-gray-100 cursor-pointer"
-                                                @onclick="async (e) => { await RowContextMenuItemClick(e, row, rowContextMenuButton); }"
-                                                disabled="@rowContextMenuButton.Disabled">
-                                            @rowContextMenuButton.Title
-                                        </button>
+                                            <MaviButtonIcon Icon="@rowContextMenuButton.Icon"
+                                                            ElementVariant="rowContextMenuButton.ElementVariant"
+                                                            ThemeColorScheme="rowContextMenuButton.ThemeColorScheme"
+                                                            ElementSize="rowContextMenuButton.ElementSize"
+                                                            Disabled="@rowContextMenuButton.Disabled"
+                                                            OnClick="async (e) => { await RowContextMenuItemClick(e, row, rowContextMenuButton); }"
+                                                            Title="@rowContextMenuButton.Title" />
                                     }
                                 </div>
                             }
@@ -131,7 +134,7 @@
                                                     Title="@Parameters?.ContentMenuTitle" />
 
                                     <!-- Row Context Menu Dropdown -->
-                                    <div class="@GetRowContextMenuCss(row.ContextMenuVisible)">
+                                    <div class="@GetRowContextMenuCss(row, rowIndex)">
                                         @foreach (var rowContextMenuButton in row.ContextActions)
                                         {
                                             <button class="@Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER block w-full px-4 py-2.5 text-left rounded-md transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
@@ -204,16 +207,44 @@
 
     private string? _cachedPaginationCss;
     private ElementHorizontalAlignment? _lastPaginationAlignment;
-    private string ContextMenuDropDownCss => $"{Tailwind.Theme.Colors.Background.THEME_DEFAULT_ONE_BG} absolute right-0 w-64 border {Tailwind.Theme.Colors.Border.THEME_DEFAULT_THREE_BORDER} rounded-lg shadow-lg z-50 p-2";
+    private string ContextMenuDropDownCss => Tailwind.Theme.Colors.Background.THEME_DEFAULT_ONE_BG + " " +
+                                             Tailwind.Theme.Colors.Border.THEME_DEFAULT_THREE_BORDER +
+                                             " absolute right-0 w-64 border rounded-lg shadow-lg z-50 p-2";
 
     private string GetMainContextMenuCss()
     {
         return ContextMenuVisible ? ContextMenuDropDownCss : "hidden";
     }
 
-    private string GetRowContextMenuCss(bool rowContextMenuVisible)
+    private string GetRowContextMenuCss(MaviTableRow? row, int rowIndex)
     {
-        return rowContextMenuVisible ? ContextMenuDropDownCss : "hidden";
+        if (row is not { ContextMenuVisible: true })
+        {
+            return "hidden";
+        }
+
+        var pageSize = Collection?.PageSize ?? 0;
+
+        if (pageSize <= 0 || rowIndex <= pageSize / 2)
+        {
+            return ContextMenuDropDownCss;
+        }
+
+        var contextMenuItemsCount = row.ContextActions?.Count() ?? 0;
+
+        if (contextMenuItemsCount <= 0)
+        {
+            return ContextMenuDropDownCss;
+        }
+
+        var offset = pageSize - contextMenuItemsCount;
+
+        if(rowIndex >= offset)
+        {
+            return ContextMenuDropDownCss + " bottom-full"; 
+        }
+        
+        return ContextMenuDropDownCss;
     }
 
     private string GetSearchInputCss()
