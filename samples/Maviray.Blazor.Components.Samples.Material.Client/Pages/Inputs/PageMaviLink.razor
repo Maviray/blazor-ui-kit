@@ -1,177 +1,573 @@
 ﻿@page "/PageMaviLink"
+@using Maviray.Blazor.Components.Material.Components.DataDisplay.Icons
 @inherits SamplePageBase
 
-<PageTitle>PageMaviLink</PageTitle>
+<PageTitle>MaviLink Component</PageTitle>
 
-<div class="flex flex-col gap-2 p-4">
-    <div class="flex gap-2">
-        @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
-        {
-            <MaviLink Href="/"
-                      ThemeColorScheme="colorScheme"
-                      ElementSize="ElementSize.Small"
-                      ElementVariant="ElementVariant.Outlined"
-                      OnClick="OnButtonClickAsync"
-                      Label="Outlined Small"
-                      Title="Outlined Small">
-            </MaviLink>
-        }
-    </div>
-    <div class="flex gap-2">
-        @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
-        {
-            <MaviLink Href="/"
-                      ThemeColorScheme="colorScheme"
-                      ElementSize="ElementSize.Regular"
-                      ElementVariant="ElementVariant.Outlined"
-                      OnClick="OnButtonClickAsync"
-                      Label="Outlined Regular"
-                      Title="Outlined Regular">
-            </MaviLink>
-        }
-    </div>
-    <div class="flex gap-2">
-        @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
-        {
-            <MaviLink Href="/"
-                      ThemeColorScheme="colorScheme"
-                      ElementSize="ElementSize.Large"
-                      ElementVariant="ElementVariant.Outlined"
-                      OnClick="OnButtonClickAsync"
-                      Label="Outlined Large"
-                      Title="Outlined Large">
-            </MaviLink>
-        }
-    </div>
-    <div class="flex gap-2">
-        @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
-        {
-            <MaviLink Href="/"
-                      ThemeColorScheme="colorScheme"
-                      ElementSize="ElementSize.Small"
-                      ElementVariant="ElementVariant.Text"
-                      OnClick="OnButtonClickAsync"
-                      Label="Text Small"
-                      Title="Text Small">
-            </MaviLink>
-        }
-    </div>
-    <div class="flex gap-2">
-        @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
-        {
-            <MaviLink Href="/"
-                      ThemeColorScheme="colorScheme"
-                      ElementSize="ElementSize.Regular"
-                      ElementVariant="ElementVariant.Text"
-                      OnClick="OnButtonClickAsync"
-                      Label="Text Regular"
-                      Title="Text Regular">
-            </MaviLink>
-        }
-    </div>
-    <div class="flex gap-2">
-        @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
-        {
-            <MaviLink Href="/"
-                      ThemeColorScheme="colorScheme"
-                      ElementSize="ElementSize.Large"
-                      ElementVariant="ElementVariant.Text"
-                      OnClick="OnButtonClickAsync"
-                      Label="Text Large"
-                      Title="Text Large">
-            </MaviLink>
-        }
-    </div>
-    <div class="flex gap-2">
-        @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
-        {
-            <MaviLink Href="/"
-                      ThemeColorScheme="colorScheme"
-                      ElementSize="ElementSize.Small"
-                      ElementVariant="ElementVariant.Filled" 
-                      OnClick="OnButtonClickAsync"
-                      Label="Filled Small"
-                      Title="Filled Small">
-            </MaviLink>
-        }
-    </div>
-    <div class="flex gap-2">
-        @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
-        {
-            <MaviLink Href="/"
-                      ThemeColorScheme="colorScheme"
-                      ElementSize="ElementSize.Regular"
-                      ElementVariant="ElementVariant.Filled"
-                      OnClick="OnButtonClickAsync"
-                      Label="Filled Regular"
-                      Title="Filled Regular">
-            </MaviLink>
-        }
-    </div>
-    <div class="flex gap-2">
-        @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
-        {
-            <MaviLink Href="/"
-                      ThemeColorScheme="colorScheme"
-                      ElementSize="ElementSize.Large"
-                      ElementVariant="ElementVariant.Filled"
-                      OnClick="OnButtonClickAsync"
-                      Label="Filled Large"
-                      Title="Filled Large">
-            </MaviLink>
-        }
-    </div>
+<div class="flex flex-col gap-8 p-6 max-w-7xl mx-auto">
     
-    <div class="flex gap-2">
-        @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
-        {
-            <MaviLink Href="/"
-                      ThemeColorScheme="colorScheme"
-                      ElementSize="ElementSize.Large"
-                      ElementVariant="ElementVariant.Outlined"
-                      OnClick="OnButtonClickAsync"
-                      Disabled="true"
-                      Label="Outlined Large"
-                      Title="Outlined Large">
-            </MaviLink>
-        }
-    </div>
-    <div class="flex gap-2">
-        @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
-        {
-            <MaviLink Href="/"
-                      ThemeColorScheme="colorScheme"
-                      ElementSize="ElementSize.Large"
+    <!-- Header Section -->
+    <section class="space-y-2">
+        <h1 class="@Tailwind.Theme.Typography.DISPLAY_SMALL">MaviLink Component</h1>
+        <p class="@Tailwind.Theme.Typography.BODY_LARGE text-gray-600">
+            A versatile link component with support for multiple variants, sizes, colors, icons, and states.
+        </p>
+    </section>
+
+    <!-- Section: Variants -->
+    <section class="space-y-4">
+        <div class="space-y-2">
+            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Variants</h2>
+            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+                Three style variants: Outlined, Filled, and Text.
+            </p>
+        </div>
+
+        <!-- Outlined Variant -->
+        <div class="space-y-3">
+            <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE">Outlined Variant</h3>
+            
+            <div class="space-y-2">
+                <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Small Size</h4>
+                <div class="flex gap-2 flex-wrap">
+                    @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
+                    {
+                        <MaviLink Href="/PageMaviLink"
+                                  ThemeColorScheme="colorScheme"
+                                  ElementSize="ElementSize.Small"
+                                  ElementVariant="ElementVariant.Outlined"
+                                  OnClick="OnLinkClickAsync"
+                                  Label="@colorScheme.ToString()"
+                                  Title="@($"Outlined Small - {colorScheme}")">
+                        </MaviLink>
+                    }
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Regular Size</h4>
+                <div class="flex gap-2 flex-wrap">
+                    @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
+                    {
+                        <MaviLink Href="/PageMaviLink"
+                                  ThemeColorScheme="colorScheme"
+                                  ElementSize="ElementSize.Regular"
+                                  ElementVariant="ElementVariant.Outlined"
+                                  OnClick="OnLinkClickAsync"
+                                  Label="@colorScheme.ToString()"
+                                  Title="@($"Outlined Regular - {colorScheme}")">
+                        </MaviLink>
+                    }
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Large Size</h4>
+                <div class="flex gap-2 flex-wrap">
+                    @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
+                    {
+                        <MaviLink Href="/PageMaviLink"
+                                  ThemeColorScheme="colorScheme"
+                                  ElementSize="ElementSize.Large"
+                                  ElementVariant="ElementVariant.Outlined"
+                                  OnClick="OnLinkClickAsync"
+                                  Label="@colorScheme.ToString()"
+                                  Title="@($"Outlined Large - {colorScheme}")">
+                        </MaviLink>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Filled Variant -->
+        <div class="space-y-3">
+            <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE">Filled Variant</h3>
+            
+            <div class="space-y-2">
+                <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Small Size</h4>
+                <div class="flex gap-2 flex-wrap">
+                    @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
+                    {
+                        <MaviLink Href="/PageMaviLink"
+                                  ThemeColorScheme="colorScheme"
+                                  ElementSize="ElementSize.Small"
+                                  ElementVariant="ElementVariant.Filled"
+                                  OnClick="OnLinkClickAsync"
+                                  Label="@colorScheme.ToString()"
+                                  Title="@($"Filled Small - {colorScheme}")">
+                        </MaviLink>
+                    }
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Regular Size</h4>
+                <div class="flex gap-2 flex-wrap">
+                    @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
+                    {
+                        <MaviLink Href="/PageMaviLink"
+                                  ThemeColorScheme="colorScheme"
+                                  ElementSize="ElementSize.Regular"
+                                  ElementVariant="ElementVariant.Filled"
+                                  OnClick="OnLinkClickAsync"
+                                  Label="@colorScheme.ToString()"
+                                  Title="@($"Filled Regular - {colorScheme}")">
+                        </MaviLink>
+                    }
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Large Size</h4>
+                <div class="flex gap-2 flex-wrap">
+                    @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
+                    {
+                        <MaviLink Href="/PageMaviLink"
+                                  ThemeColorScheme="colorScheme"
+                                  ElementSize="ElementSize.Large"
+                                  ElementVariant="ElementVariant.Filled"
+                                  OnClick="OnLinkClickAsync"
+                                  Label="@colorScheme.ToString()"
+                                  Title="@($"Filled Large - {colorScheme}")">
+                        </MaviLink>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Text Variant -->
+        <div class="space-y-3">
+            <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE">Text Variant</h3>
+            
+            <div class="space-y-2">
+                <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Small Size</h4>
+                <div class="flex gap-2 flex-wrap">
+                    @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
+                    {
+                        <MaviLink Href="/PageMaviLink"
+                                  ThemeColorScheme="colorScheme"
+                                  ElementSize="ElementSize.Small"
+                                  ElementVariant="ElementVariant.Text"
+                                  OnClick="OnLinkClickAsync"
+                                  Label="@colorScheme.ToString()"
+                                  Title="@($"Text Small - {colorScheme}")">
+                        </MaviLink>
+                    }
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Regular Size</h4>
+                <div class="flex gap-2 flex-wrap">
+                    @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
+                    {
+                        <MaviLink Href="/PageMaviLink"
+                                  ThemeColorScheme="colorScheme"
+                                  ElementSize="ElementSize.Regular"
+                                  ElementVariant="ElementVariant.Text"
+                                  OnClick="OnLinkClickAsync"
+                                  Label="@colorScheme.ToString()"
+                                  Title="@($"Text Regular - {colorScheme}")">
+                        </MaviLink>
+                    }
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Large Size</h4>
+                <div class="flex gap-2 flex-wrap">
+                    @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
+                    {
+                        <MaviLink Href="/PageMaviLink"
+                                  ThemeColorScheme="colorScheme"
+                                  ElementSize="ElementSize.Large"
+                                  ElementVariant="ElementVariant.Text"
+                                  OnClick="OnLinkClickAsync"
+                                  Label="@colorScheme.ToString()"
+                                  Title="@($"Text Large - {colorScheme}")">
+                        </MaviLink>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Disabled State -->
+    <section class="space-y-4">
+        <div class="space-y-2">
+            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Disabled State</h2>
+            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+                All variants support disabled state which prevents click events and applies disabled styling.
+            </p>
+        </div>
+
+        <div class="space-y-3">
+            <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE">Outlined - Disabled</h3>
+            <div class="flex gap-2 flex-wrap">
+                @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
+                {
+                    <MaviLink Href="/PageMaviLink"
+                              ThemeColorScheme="colorScheme"
+                              ElementSize="ElementSize.Large"
+                              ElementVariant="ElementVariant.Outlined"
+                              OnClick="OnLinkClickAsync"
+                              Disabled="true"
+                              Label="@colorScheme.ToString()"
+                              Title="@($"Outlined Disabled - {colorScheme}")">
+                    </MaviLink>
+                }
+            </div>
+        </div>
+
+        <div class="space-y-3">
+            <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE">Filled - Disabled</h3>
+            <div class="flex gap-2 flex-wrap">
+                @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
+                {
+                    <MaviLink Href="/PageMaviLink"
+                              ThemeColorScheme="colorScheme"
+                              ElementSize="ElementSize.Large"
+                              ElementVariant="ElementVariant.Filled"
+                              OnClick="OnLinkClickAsync"
+                              Disabled="true"
+                              Label="@colorScheme.ToString()"
+                              Title="@($"Filled Disabled - {colorScheme}")">
+                    </MaviLink>
+                }
+            </div>
+        </div>
+
+        <div class="space-y-3">
+            <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE">Text - Disabled</h3>
+            <div class="flex gap-2 flex-wrap">
+                @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
+                {
+                    <MaviLink Href="/PageMaviLink"
+                              ThemeColorScheme="colorScheme"
+                              ElementSize="ElementSize.Large"
+                              ElementVariant="ElementVariant.Text"
+                              OnClick="OnLinkClickAsync"
+                              Disabled="true"
+                              Label="@colorScheme.ToString()"
+                              Title="@($"Text Disabled - {colorScheme}")">
+                    </MaviLink>
+                }
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: With Icons -->
+    <section class="space-y-4">
+        <div class="space-y-2">
+            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">With Icons</h2>
+            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+                Links can have left and/or right icons using RenderFragment parameters.
+            </p>
+        </div>
+
+        <div class="space-y-3">
+            <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE">Left Icon</h3>
+            <div class="flex gap-2 flex-wrap">
+                <MaviLink Href="/PageMaviLink"
+                          ThemeColorScheme="ThemeColorScheme.Primary"
+                          ElementSize="ElementSize.Regular"
+                          ElementVariant="ElementVariant.Filled"
+                          OnClick="OnLinkClickAsync"
+                          Label="Home"
+                          Title="Home Link">
+                    <LeftIcon>
+                        <MaviIconMini IconMiniType="IconMiniType.ClipboardDocumentCheckMini" IconSize="IconSize.Small" IconColor="IconColor.DarkGrey" />
+                    </LeftIcon>
+                </MaviLink>
+
+                <MaviLink Href="/PageMaviLink"
+                          ThemeColorScheme="ThemeColorScheme.Success"
+                          ElementSize="ElementSize.Regular"
+                          ElementVariant="ElementVariant.Outlined"
+                          OnClick="OnLinkClickAsync"
+                          Label="Settings"
+                          Title="Settings Link">
+                    <LeftIcon>
+                        <MaviIconMini IconMiniType="IconMiniType.ExclamationCircleMini" IconSize="IconSize.Small" IconColor="IconColor.DarkGrey" />
+                    </LeftIcon>
+                </MaviLink>
+
+                <MaviLink Href="/PageMaviLink"
+                          ThemeColorScheme="ThemeColorScheme.Info"
+                          ElementSize="ElementSize.Regular"
+                          ElementVariant="ElementVariant.Text"
+                          OnClick="OnLinkClickAsync"
+                          Label="Profile"
+                          Title="Profile Link">
+                    <LeftIcon>
+                        <MaviIconMini IconMiniType="IconMiniType.FingerPrintMini" IconSize="IconSize.Small" IconColor="IconColor.DarkGrey" />
+                    </LeftIcon>
+                </MaviLink>
+            </div>
+        </div>
+
+        <div class="space-y-3">
+            <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE">Right Icon</h3>
+            <div class="flex gap-2 flex-wrap">
+                <MaviLink Href="/PageMaviLink"
+                          ThemeColorScheme="ThemeColorScheme.Primary"
+                          ElementSize="ElementSize.Regular"
+                          ElementVariant="ElementVariant.Filled"
+                          OnClick="OnLinkClickAsync"
+                          Label="Next"
+                          Title="Next Link">
+                    <RightIcon>
+                        <MaviIconMini IconMiniType="IconMiniType.ClipboardDocumentCheckMini" IconSize="IconSize.Small" IconColor="IconColor.DarkGrey" />
+                    </RightIcon>
+                </MaviLink>
+
+                <MaviLink Href="/PageMaviLink"
+                          ThemeColorScheme="ThemeColorScheme.Warning"
+                          ElementSize="ElementSize.Regular"
+                          ElementVariant="ElementVariant.Outlined"
+                          OnClick="OnLinkClickAsync"
+                          Label="External"
+                          Title="External Link">
+                    <RightIcon>
+                        <MaviIconMini IconMiniType="IconMiniType.ExclamationCircleMini" IconSize="IconSize.Small" IconColor="IconColor.DarkGrey" />
+                    </RightIcon>
+                </MaviLink>
+            </div>
+        </div>
+
+        <div class="space-y-3">
+            <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE">Both Icons</h3>
+            <div class="flex gap-2 flex-wrap">
+                <MaviLink Href="/PageMaviLink"
+                          ThemeColorScheme="ThemeColorScheme.Secondary"
+                          ElementSize="ElementSize.Large"
+                          ElementVariant="ElementVariant.Filled"
+                          OnClick="OnLinkClickAsync"
+                          Label="Download"
+                          Title="Download Link">
+                    <LeftIcon>
+                        <MaviIconMini IconMiniType="IconMiniType.ChevronLeftMini" IconSize="IconSize.Small" IconColor="IconColor.DarkGrey" />
+                    </LeftIcon>
+                    <RightIcon>
+                        <MaviIconMini IconMiniType="IconMiniType.ChevronRightMini" IconSize="IconSize.Small" IconColor="IconColor.DarkGrey" />
+                    </RightIcon>
+                </MaviLink>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section: Custom Width -->
+    <section class="space-y-4">
+        <div class="space-y-2">
+            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Custom Width</h2>
+            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+                The Width parameter allows customizing the minimum width (default: "min-w-16").
+            </p>
+        </div>
+
+        <div class="flex flex-col gap-2">
+            <MaviLink Href="/PageMaviLink"
+                      ThemeColorScheme="ThemeColorScheme.Primary"
+                      ElementSize="ElementSize.Regular"
                       ElementVariant="ElementVariant.Filled"
-                      OnClick="OnButtonClickAsync"
-                      Disabled="true"
-                      Label="Filled Large"
-                      Title="Filled Large">
+                      OnClick="OnLinkClickAsync"
+                      Label="Default Width (w-full)"
+                      Title="Default Width Link">
             </MaviLink>
-        }
-    </div>
-    <div class="flex gap-2">
-        @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
-        {
-            <MaviLink Href="/"
-                      ThemeColorScheme="colorScheme"
-                      ElementSize="ElementSize.Large"
-                      ElementVariant="ElementVariant.Text"
-                      OnClick="OnButtonClickAsync"
-                      Disabled="true"
-                      Label="Text Large"
-                      Title="Text Large">
+
+            <MaviLink Href="/PageMaviLink"
+                      ThemeColorScheme="ThemeColorScheme.Secondary"
+                      ElementSize="ElementSize.Regular"
+                      ElementVariant="ElementVariant.Filled"
+                      OnClick="OnLinkClickAsync"
+                      Width="min-w-32 max-w-64"
+                      Label="Range Width (min-w-32 max-w-64)"
+                      Title="Custom Width Link">
             </MaviLink>
-        }
-    </div>
+
+            <MaviLink Href="/PageMaviLink"
+                      ThemeColorScheme="ThemeColorScheme.Info"
+                      ElementSize="ElementSize.Regular"
+                      ElementVariant="ElementVariant.Filled"
+                      OnClick="OnLinkClickAsync"
+                      Width="w-80"
+                      Label="Fixed Width (w-80)"
+                      Title="Full Width Link">
+            </MaviLink>
+        </div>
+    </section>
+    
+    <!-- Section: Component Parameters -->
+    <section class="space-y-6">
+        <div class="space-y-2">
+            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Component Parameters</h2>
+            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+                All available parameters for MaviLink component.
+            </p>
+        </div>
+
+        <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+            <table class="min-w-full">
+                <thead class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_LIGHT_FOUR_BG)">
+                    <tr>
+                        <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Parameter</th>
+                        <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Type</th>
+                        <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Default</th>
+                        <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Description</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    <tr>
+                        <td class="px-6 py-4">Id</td>
+                        <td class="px-6 py-4">string?</td>
+                        <td class="px-6 py-4">link_[Guid]</td>
+                        <td class="px-6 py-4">Unique identifier for the link element</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4">Href</td>
+                        <td class="px-6 py-4">string</td>
+                        <td class="px-6 py-4">""</td>
+                        <td class="px-6 py-4">URL that the link points to</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4">Label</td>
+                        <td class="px-6 py-4">string?</td>
+                        <td class="px-6 py-4">null</td>
+                        <td class="px-6 py-4">Text content displayed in the link</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4">Title</td>
+                        <td class="px-6 py-4">string?</td>
+                        <td class="px-6 py-4">null</td>
+                        <td class="px-6 py-4">Tooltip text shown on hover</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4">ThemeColorScheme</td>
+                        <td class="px-6 py-4">ThemeColorScheme</td>
+                        <td class="px-6 py-4">Default</td>
+                        <td class="px-6 py-4">Color scheme: Default, Primary, Secondary, Success, Alert, Warning, Info, Dark, Light</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4">ElementSize</td>
+                        <td class="px-6 py-4">ElementSize</td>
+                        <td class="px-6 py-4">Regular</td>
+                        <td class="px-6 py-4">Size of the link: Small, Regular, Large</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4">ElementVariant</td>
+                        <td class="px-6 py-4">ElementVariant</td>
+                        <td class="px-6 py-4">Text</td>
+                        <td class="px-6 py-4">Visual style variant: Filled, Outlined, Text</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4">LeftIcon</td>
+                        <td class="px-6 py-4">RenderFragment?</td>
+                        <td class="px-6 py-4">null</td>
+                        <td class="px-6 py-4">Icon displayed on the left side of the label</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4">RightIcon</td>
+                        <td class="px-6 py-4">RenderFragment?</td>
+                        <td class="px-6 py-4">null</td>
+                        <td class="px-6 py-4">Icon displayed on the right side of the label</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4">Badge</td>
+                        <td class="px-6 py-4">string?</td>
+                        <td class="px-6 py-4">null</td>
+                        <td class="px-6 py-4">Badge content displayed on the link (data-badge attribute)</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4">Width</td>
+                        <td class="px-6 py-4">string</td>
+                        <td class="px-6 py-4">min-w-16</td>
+                        <td class="px-6 py-4">CSS width classes for the link element</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4">Disabled</td>
+                        <td class="px-6 py-4">bool</td>
+                        <td class="px-6 py-4">false</td>
+                        <td class="px-6 py-4">Whether the link is disabled (prevents click events)</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4">Class</td>
+                        <td class="px-6 py-4">string?</td>
+                        <td class="px-6 py-4">null</td>
+                        <td class="px-6 py-4">Additional CSS classes to apply to the link</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4">Style</td>
+                        <td class="px-6 py-4">string?</td>
+                        <td class="px-6 py-4">null</td>
+                        <td class="px-6 py-4">Inline styles to apply to the link</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4">OnClick</td>
+                        <td class="px-6 py-4">EventCallback&lt;MouseClickEventArgs&gt;</td>
+                        <td class="px-6 py-4">-</td>
+                        <td class="px-6 py-4">Event callback triggered when the link is clicked</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Section: Usage Examples -->
+    <section class="space-y-4">
+        <div class="space-y-2">
+            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Usage Examples</h2>
+            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+                Code examples for common use cases.
+            </p>
+        </div>
+
+        <div class="space-y-4 bg-gray-50 p-6 rounded-lg">
+            <div class="space-y-2">
+                <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Basic Link</h3>
+                <pre class="bg-white p-4 rounded border overflow-x-auto"><code>&lt;MaviLink Href="/home"
+          Label="Go to Home"
+          ThemeColorScheme="ThemeColorScheme.Primary"
+          ElementVariant="ElementVariant.Filled" /&gt;</code></pre>
+            </div>
+
+            <div class="space-y-2">
+                <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Link with Icon</h3>
+                <pre class="bg-white p-4 rounded border overflow-x-auto"><code>&lt;MaviLink Href="/settings"
+          Label="Settings"
+          ThemeColorScheme="ThemeColorScheme.Secondary"
+          ElementVariant="ElementVariant.Outlined"&gt;
+    &lt;LeftIcon&gt;
+        &lt;MaviIcon Icon="MaviIconType.CogSixToothMini" Size="IconSize.Small" /&gt;
+    &lt;/LeftIcon&gt;
+&lt;/MaviLink&gt;</code></pre>
+            </div>
+
+            <div class="space-y-2">
+                <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Link with Click Handler</h3>
+                <pre class="bg-white p-4 rounded border overflow-x-auto"><code>&lt;MaviLink Href="/action"
+          Label="Click Me"
+          OnClick="HandleLinkClick"
+          ThemeColorScheme="ThemeColorScheme.Success"
+          ElementVariant="ElementVariant.Filled" /&gt;
+
+@@code {
+    private Task HandleLinkClick(MouseClickEventArgs args)
+    {
+        // Your logic here
+        return Task.CompletedTask;
+    }
+}</code></pre>
+            </div>
+        </div>
+    </section>
+
 </div>
 
 @code
 {
-
-    private Task OnButtonClickAsync(MouseClickEventArgs mouseEventArgs)
+    private Task OnLinkClickAsync(MouseClickEventArgs mouseEventArgs)
     {
-        Logger?.LogInformation("NavLink Click! ID: {ButtonId}.", mouseEventArgs.ButtonId);
+        Logger?.LogInformation("MaviLink Click! ID: {LinkId}.", mouseEventArgs.ButtonId);
         return Task.CompletedTask;
     }
 }
