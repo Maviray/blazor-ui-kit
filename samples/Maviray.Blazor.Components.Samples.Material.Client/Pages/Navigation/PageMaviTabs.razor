@@ -2,119 +2,469 @@
 @using Maviray.Blazor.Components.Material.Components.Navigation
 @inherits SamplePageBase
 
-<PageTitle>Tabs</PageTitle>
 
+<PageTitle>Tabs - Component Documentation</PageTitle>
 
-<div class="p-4 flex flex-col gap-4">
-    <div class="flex flex-col">
-        <MaviTabNavBar @ref="_tabNavBar" OnTabClick="OnTabClick" ThemeColorScheme="ThemeColorScheme.Primary" ElementSize="ElementSize.Regular">
-            <MaviTab Title="Tab One" Icon="lni lni-alarm-1" Id="SampleTabOne" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Large"></MaviTab>
-            <MaviTab Title="Tab Two" Icon="lni lni-android-old" Id="SampleTabTwo" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Large"></MaviTab>
-            <MaviTab Title="Tab Three" Icon="lni lni-angle-double-right" Id="SampleTabThree" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Large"></MaviTab>
-            <MaviTab Title="Tab Four" Icon="lni lni-home-2" Id="SampleTabFour" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Large"></MaviTab>
-        </MaviTabNavBar>
-        <div>
-            <MaviTabContent BoundToTabId="SampleTabOne" Context="_tabNavBar?.Context">
-               TAB ONE
-            </MaviTabContent>
-            <MaviTabContent BoundToTabId="SampleTabTwo" Context="_tabNavBar?.Context">
-                TAB  TWO
-            </MaviTabContent>
-            <MaviTabContent BoundToTabId="SampleTabThree" Context="_tabNavBar?.Context">
-                TAB THREE
-            </MaviTabContent>
-            <MaviTabContent BoundToTabId="SampleTabFour" Context="_tabNavBar?.Context">
-                TAB  FOUR
-            </MaviTabContent>
+<div class="p-4 flex flex-col gap-8">
+
+    <!-- Component Overview -->
+    <section class="flex flex-col gap-4">
+        <h1 class="@Tailwind.Theme.Typography.DISPLAY_MEDIUM">MaviTabs Component Documentation</h1>
+        <p class="@Tailwind.Theme.Typography.BODY_LARGE text-gray-600">
+            The MaviTabs component system consists of three main components:
+            <strong>MaviTabNavBar</strong>, <strong>MaviTab</strong>, and <strong>MaviTabContent</strong>.
+            Together they provide a flexible and customizable tab navigation system.
+        </p>
+    </section>
+    
+    <!-- Example 1: Basic Usage with Tab Content -->
+    <section class="flex flex-col gap-4 border border-gray-200 p-4 rounded bg-gray-50">
+        <h2 class="text-2xl font-semibold">Example 1: Basic Usage with Tab Content</h2>
+        <p class="text-sm text-gray-600">
+            Demonstrates basic tab navigation with content panels. Click tabs to switch between content.
+        </p>
+
+        <div class="flex flex-col">
+            <MaviTabNavBar @ref="_tabNavBar"
+                           OnTabClick="OnTabClick"
+                           ThemeColorScheme="ThemeColorScheme.Primary"
+                           ElementSize="ElementSize.Regular">
+                <MaviTab Title="Tab One"
+                         Icon="lni lni-alarm-1"
+                         Id="SampleTabOne"
+                         ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Large"></MaviTab>
+                <MaviTab Title="Tab Two"
+                         Icon="lni lni-android-old"
+                         Id="SampleTabTwo"
+                         ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Large"></MaviTab>
+                <MaviTab Title="Tab Three"
+                         Icon="lni lni-angle-double-right"
+                         Id="SampleTabThree"
+                         ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Large"></MaviTab>
+                <MaviTab Title="Tab Four"
+                         Icon="lni lni-home-2"
+                         Id="SampleTabFour"
+                         ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Large"></MaviTab>
+            </MaviTabNavBar>
+
+            <div class="p-4">
+                <MaviTabContent BoundToTabId="SampleTabOne" Context="_tabNavBar?.Context">
+                    <div class="text-xl">TAB ONE CONTENT</div>
+                    <p>This is the content for tab one. The title appears on large screens and above.</p>
+                </MaviTabContent>
+                <MaviTabContent BoundToTabId="SampleTabTwo" Context="_tabNavBar?.Context">
+                    <div class="text-xl">TAB TWO CONTENT</div>
+                    <p>This is the content for tab two.</p>
+                </MaviTabContent>
+                <MaviTabContent BoundToTabId="SampleTabThree" Context="_tabNavBar?.Context">
+                    <div class="text-xl">TAB THREE CONTENT</div>
+                    <p>This is the content for tab three.</p>
+                </MaviTabContent>
+                <MaviTabContent BoundToTabId="SampleTabFour" Context="_tabNavBar?.Context">
+                    <div class="text-xl">TAB FOUR CONTENT</div>
+                    <p>This is the content for tab four.</p>
+                </MaviTabContent>
+            </div>
         </div>
-    </div>
 
-    <MaviTabNavBar @ref="_tabNavBarPrimarySmall" OnTabClick="OnTabClick" ThemeColorScheme="ThemeColorScheme.Primary" ElementSize="ElementSize.Small">
-        <MaviTab Title="Tab One" Icon="lni lni-alarm-1"></MaviTab>
-        <MaviTab Title="Tab Two" Icon="lni lni-android-old"></MaviTab>
-        <MaviTab Title="Tab Three" Icon="lni lni-angle-double-right"></MaviTab>
-        <MaviTab Title="Tab Four" Icon="lni lni-home-2"></MaviTab>
-    </MaviTabNavBar>
+        <details class="mt-2">
+            <summary class="cursor-pointer font-semibold">View Code</summary>
+            <pre class="bg-gray-800 text-white p-4 rounded mt-2 overflow-x-auto"><code>@@page "/PageMaviTabs"
+@@using Maviray.Blazor.Components.Material.Components.Navigation
 
-    <MaviTabNavBar @ref="_tabNavBarPrimaryRegular" OnTabClick="OnTabClick" ThemeColorScheme="ThemeColorScheme.Primary" ElementSize="ElementSize.Regular">
-        <MaviTab Title="Tab One" Icon="lni lni-alarm-1"></MaviTab>
-        <MaviTab Title="Tab Two" Icon="lni lni-android-old"></MaviTab>
-        <MaviTab Title="Tab Three" Icon="lni lni-angle-double-right"></MaviTab>
-        <MaviTab Title="Tab Four" Icon="lni lni-home-2"></MaviTab>
-    </MaviTabNavBar>
+&lt;MaviTabNavBar @@ref="_tabNavBar" 
+               OnTabClick="OnTabClick" 
+               ThemeColorScheme="ThemeColorScheme.Primary" 
+               ElementSize="ElementSize.Regular"&gt;
+    &lt;MaviTab Title="Tab One" 
+             Icon="lni lni-alarm-1" 
+             Id="SampleTabOne" 
+             ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Large"&gt;&lt;/MaviTab&gt;
+    &lt;MaviTab Title="Tab Two" 
+             Icon="lni lni-android-old" 
+             Id="SampleTabTwo" 
+             ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Large"&gt;&lt;/MaviTab&gt;
+&lt;/MaviTabNavBar&gt;
 
-    <MaviTabNavBar @ref="_tabNavBarPrimaryLarge" OnTabClick="OnTabClick" ThemeColorScheme="ThemeColorScheme.Primary" ElementSize="ElementSize.Large">
-        <MaviTab Title="Tab One" Icon="lni lni-alarm-1"></MaviTab>
-        <MaviTab Title="Tab Two" Icon="lni lni-android-old"></MaviTab>
-        <MaviTab Title="Tab Three" Icon="lni lni-angle-double-right"></MaviTab>
-        <MaviTab Title="Tab Four" Icon="lni lni-home-2"></MaviTab>
-    </MaviTabNavBar>
+&lt;MaviTabContent BoundToTabId="SampleTabOne" Context="_tabNavBar?.Context"&gt;
+    TAB ONE CONTENT
+&lt;/MaviTabContent&gt;
+&lt;MaviTabContent BoundToTabId="SampleTabTwo" Context="_tabNavBar?.Context"&gt;
+    TAB TWO CONTENT
+&lt;/MaviTabContent&gt;
 
-    <MaviTabNavBar @ref="_tabNavBarPrimarySecondary"
-                   OnTabClick="OnTabClick"
-                   ThemeColorScheme="ThemeColorScheme.Secondary"
-                   ElementSize="ElementSize.Regular"
-                   InitialActiveTabId="InitialTabId">
-        <MaviTab Id="InitialTabId" Title="Tab One" Icon="lni lni-alarm-1"></MaviTab>
-        <MaviTab Title="Tab Two" Icon="lni lni-android-old"></MaviTab>
-        <MaviTab Title="Tab Three" Icon="lni lni-angle-double-right"></MaviTab>
-        <MaviTab Title="Tab Four" Icon="lni lni-home-2"></MaviTab>
-    </MaviTabNavBar>
+@@code {
+    private MaviTabNavBar? _tabNavBar;
+    
+    private Task OnTabClick(TabClickEventArgs args)
+    {
+        Logger?.LogInformation("Tab clicked: {ButtonId}", args.ButtonId);
+        return Task.CompletedTask;
+    }
+}</code></pre>
+        </details>
+    </section>
 
-    <MaviTabNavBar @ref="_tabNavBarPrimarySuccess" OnTabClick="OnTabClick"
-                   ThemeColorScheme="ThemeColorScheme.Success"
-                   ElementSize="ElementSize.Regular">
+    <!-- Example 2: Element Sizes -->
+    <section class="flex flex-col gap-4 border border-gray-200 p-4 rounded bg-gray-50">
+        <h2 class="text-2xl font-semibold">Example 2: Element Sizes</h2>
+        <p class="text-sm text-gray-600">
+            The <code>ElementSize</code> parameter controls the size of the tabs: Small, Regular, or Large.
+        </p>
 
-        <MaviTab Title="Tab One" Icon="lni lni-alarm-1" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Small"></MaviTab>
-        <MaviTab Title="Tab Two" Icon="lni lni-android-old" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Small"></MaviTab>
-        <MaviTab Title="Tab Three" Icon="lni lni-angle-double-right" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Small"></MaviTab>
-        <MaviTab Title="Tab Four" Icon="lni lni-home-2" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Small"></MaviTab>
-    </MaviTabNavBar>
-    <MaviTabNavBar @ref="_tabNavBarPrimaryWarning" OnTabClick="OnTabClick"
-                   ThemeColorScheme="ThemeColorScheme.Warning"
-                   ElementSize="ElementSize.Regular">
+        <div class="flex flex-col gap-4">
+            <div>
+                <h3 class="font-semibold mb-2">Small Size</h3>
+                <MaviTabNavBar @ref="_tabNavBarPrimarySmall"
+                               OnTabClick="OnTabClick"
+                               ThemeColorScheme="ThemeColorScheme.Primary"
+                               ElementSize="ElementSize.Small">
+                    <MaviTab Title="Tab One" Icon="lni lni-alarm-1"></MaviTab>
+                    <MaviTab Title="Tab Two" Icon="lni lni-android-old"></MaviTab>
+                    <MaviTab Title="Tab Three" Icon="lni lni-angle-double-right"></MaviTab>
+                    <MaviTab Title="Tab Four" Icon="lni lni-home-2"></MaviTab>
+                </MaviTabNavBar>
+            </div>
 
-        <MaviTab Title="Tab One" Icon="lni lni-alarm-1" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Large"></MaviTab>
-        <MaviTab Title="Tab Two" Icon="lni lni-android-old" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Large"></MaviTab>
-        <MaviTab Title="Tab Three" Icon="lni lni-angle-double-right" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Large"></MaviTab>
-        <MaviTab Title="Tab Four" Icon="lni lni-home-2" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Large"></MaviTab>
-    </MaviTabNavBar>
-    <MaviTabNavBar @ref="_tabNavBarPrimaryAlert" OnTabClick="OnTabClick"
-                   ThemeColorScheme="ThemeColorScheme.Alert"
-                   ElementSize="ElementSize.Regular">
+            <div>
+                <h3 class="font-semibold mb-2">Regular Size (Default)</h3>
+                <MaviTabNavBar @ref="_tabNavBarPrimaryRegular"
+                               OnTabClick="OnTabClick"
+                               ThemeColorScheme="ThemeColorScheme.Primary"
+                               ElementSize="ElementSize.Regular">
+                    <MaviTab Title="Tab One" Icon="lni lni-alarm-1"></MaviTab>
+                    <MaviTab Title="Tab Two" Icon="lni lni-android-old"></MaviTab>
+                    <MaviTab Title="Tab Three" Icon="lni lni-angle-double-right"></MaviTab>
+                    <MaviTab Title="Tab Four" Icon="lni lni-home-2"></MaviTab>
+                </MaviTabNavBar>
+            </div>
 
-        <MaviTab Title="Tab One" Icon="lni lni-alarm-1" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.ExtraLarge"></MaviTab>
-        <MaviTab Title="Tab Two" Icon="lni lni-android-old" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.ExtraLarge"></MaviTab>
-        <MaviTab Title="Tab Three" Icon="lni lni-angle-double-right" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.ExtraLarge"></MaviTab>
-        <MaviTab Title="Tab Four" Icon="lni lni-home-2" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.ExtraLarge"></MaviTab>
-    </MaviTabNavBar>
-    <MaviTabNavBar @ref="_tabNavBarPrimaryInfo" OnTabClick="OnTabClick"
-                   ThemeColorScheme="ThemeColorScheme.Info"
-                   ElementSize="ElementSize.Regular">
+            <div>
+                <h3 class="font-semibold mb-2">Large Size</h3>
+                <MaviTabNavBar @ref="_tabNavBarPrimaryLarge"
+                               OnTabClick="OnTabClick"
+                               ThemeColorScheme="ThemeColorScheme.Primary"
+                               ElementSize="ElementSize.Large">
+                    <MaviTab Title="Tab One" Icon="lni lni-alarm-1"></MaviTab>
+                    <MaviTab Title="Tab Two" Icon="lni lni-android-old"></MaviTab>
+                    <MaviTab Title="Tab Three" Icon="lni lni-angle-double-right"></MaviTab>
+                    <MaviTab Title="Tab Four" Icon="lni lni-home-2"></MaviTab>
+                </MaviTabNavBar>
+            </div>
+        </div>
 
-        <MaviTab Title="Tab One" Icon="lni lni-alarm-1" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.TwoExtraLarge"></MaviTab>
-        <MaviTab Title="Tab Two" Icon="lni lni-android-old" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.TwoExtraLarge"></MaviTab>
-        <MaviTab Title="Tab Three" Icon="lni lni-angle-double-right" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.TwoExtraLarge"></MaviTab>
-        <MaviTab Title="Tab Four" Icon="lni lni-home-2" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.TwoExtraLarge"></MaviTab>
-    </MaviTabNavBar>
-    <MaviTabNavBar @ref="_tabNavBarPrimaryDark" OnTabClick="OnTabClick"
-                   ThemeColorScheme="ThemeColorScheme.Dark"
-                   ElementSize="ElementSize.Regular">
+        <details class="mt-2">
+            <summary class="cursor-pointer font-semibold">View Code</summary>
+            <pre class="bg-gray-800 text-white p-4 rounded mt-2 overflow-x-auto"><code>&lt;MaviTabNavBar ElementSize="ElementSize.Small"&gt;...&lt;/MaviTabNavBar&gt;
+&lt;MaviTabNavBar ElementSize="ElementSize.Regular"&gt;...&lt;/MaviTabNavBar&gt;
+&lt;MaviTabNavBar ElementSize="ElementSize.Large"&gt;...&lt;/MaviTabNavBar&gt;</code></pre>
+        </details>
+    </section>
 
-        <MaviTab Title="Tab One" Icon="lni lni-alarm-1" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Small"></MaviTab>
-        <MaviTab Title="Tab Two" Icon="lni lni-android-old" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Medium"></MaviTab>
-        <MaviTab Title="Tab Three" Icon="lni lni-angle-double-right" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Large"></MaviTab>
-        <MaviTab Title="Tab Four" Icon="lni lni-home-2" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.ExtraLarge"></MaviTab>
-    </MaviTabNavBar>
-    <MaviTabNavBar @ref="_tabNavBarPrimaryLight" OnTabClick="OnTabClick"
-                   ThemeColorScheme="ThemeColorScheme.Light"
-                   ElementSize="ElementSize.Regular">
+    <!-- Example 3: Initial Active Tab -->
+    <section class="flex flex-col gap-4 border border-gray-200 p-4 rounded bg-gray-50">
+        <h2 class="text-2xl font-semibold">Example 3: Initial Active Tab</h2>
+        <p class="text-sm text-gray-600">
+            Use <code>InitialActiveTabId</code> to set which tab is active on load.
+        </p>
 
-        <MaviTab Title="Tab One" Icon="lni lni-alarm-1"></MaviTab>
-        <MaviTab Title="Tab Two" Icon="lni lni-android-old"></MaviTab>
-        <MaviTab Title="Tab Three" Icon="lni lni-angle-double-right"></MaviTab>
-        <MaviTab Title="Tab Four" Icon="lni lni-home-2"></MaviTab>
-    </MaviTabNavBar>
+        <MaviTabNavBar @ref="_tabNavBarPrimarySecondary"
+                       OnTabClick="OnTabClick"
+                       ThemeColorScheme="ThemeColorScheme.Secondary"
+                       ElementSize="ElementSize.Regular"
+                       InitialActiveTabId="InitialTabId">
+            <MaviTab Id="InitialTabId" Title="Tab One" Icon="lni lni-alarm-1"></MaviTab>
+            <MaviTab Title="Tab Two" Icon="lni lni-android-old"></MaviTab>
+            <MaviTab Title="Tab Three" Icon="lni lni-angle-double-right"></MaviTab>
+            <MaviTab Title="Tab Four" Icon="lni lni-home-2"></MaviTab>
+        </MaviTabNavBar>
+
+        <details class="mt-2">
+            <summary class="cursor-pointer font-semibold">View Code</summary>
+            <pre class="bg-gray-800 text-white p-4 rounded mt-2 overflow-x-auto"><code>&lt;MaviTabNavBar InitialActiveTabId="InitialTabId"&gt;
+    &lt;MaviTab Id="InitialTabId" Title="Tab One" Icon="lni lni-alarm-1"&gt;&lt;/MaviTab&gt;
+    &lt;MaviTab Title="Tab Two" Icon="lni lni-android-old"&gt;&lt;/MaviTab&gt;
+&lt;/MaviTabNavBar&gt;</code></pre>
+        </details>
+    </section>
+
+    <!-- Example 4: Theme Color Schemes -->
+    <section class="flex flex-col gap-4 border border-gray-200 p-4 rounded bg-gray-50">
+        <h2 class="text-2xl font-semibold">Example 4: Theme Color Schemes</h2>
+        <p class="text-sm text-gray-600">
+            The <code>ThemeColorScheme</code> parameter provides various color options.
+        </p>
+
+        <div class="flex flex-col gap-4">
+            <div>
+                <h3 class="font-semibold mb-2">Success Theme</h3>
+                <MaviTabNavBar @ref="_tabNavBarPrimarySuccess"
+                               OnTabClick="OnTabClick"
+                               ThemeColorScheme="ThemeColorScheme.Success"
+                               ElementSize="ElementSize.Regular">
+                    <MaviTab Title="Tab One" Icon="lni lni-alarm-1"></MaviTab>
+                    <MaviTab Title="Tab Two" Icon="lni lni-android-old"></MaviTab>
+                    <MaviTab Title="Tab Three" Icon="lni lni-angle-double-right"></MaviTab>
+                    <MaviTab Title="Tab Four" Icon="lni lni-home-2"></MaviTab>
+                </MaviTabNavBar>
+            </div>
+
+            <div>
+                <h3 class="font-semibold mb-2">Warning Theme</h3>
+                <MaviTabNavBar @ref="_tabNavBarPrimaryWarning"
+                               OnTabClick="OnTabClick"
+                               ThemeColorScheme="ThemeColorScheme.Warning"
+                               ElementSize="ElementSize.Regular">
+                    <MaviTab Title="Tab One" Icon="lni lni-alarm-1"></MaviTab>
+                    <MaviTab Title="Tab Two" Icon="lni lni-android-old"></MaviTab>
+                    <MaviTab Title="Tab Three" Icon="lni lni-angle-double-right"></MaviTab>
+                    <MaviTab Title="Tab Four" Icon="lni lni-home-2"></MaviTab>
+                </MaviTabNavBar>
+            </div>
+
+            <div>
+                <h3 class="font-semibold mb-2">Alert Theme</h3>
+                <MaviTabNavBar @ref="_tabNavBarPrimaryAlert"
+                               OnTabClick="OnTabClick"
+                               ThemeColorScheme="ThemeColorScheme.Alert"
+                               ElementSize="ElementSize.Regular">
+                    <MaviTab Title="Tab One" Icon="lni lni-alarm-1"></MaviTab>
+                    <MaviTab Title="Tab Two" Icon="lni lni-android-old"></MaviTab>
+                    <MaviTab Title="Tab Three" Icon="lni lni-angle-double-right"></MaviTab>
+                    <MaviTab Title="Tab Four" Icon="lni lni-home-2"></MaviTab>
+                </MaviTabNavBar>
+            </div>
+
+            <div>
+                <h3 class="font-semibold mb-2">Info Theme</h3>
+                <MaviTabNavBar @ref="_tabNavBarPrimaryInfo"
+                               OnTabClick="OnTabClick"
+                               ThemeColorScheme="ThemeColorScheme.Info"
+                               ElementSize="ElementSize.Regular">
+                    <MaviTab Title="Tab One" Icon="lni lni-alarm-1"></MaviTab>
+                    <MaviTab Title="Tab Two" Icon="lni lni-android-old"></MaviTab>
+                    <MaviTab Title="Tab Three" Icon="lni lni-angle-double-right"></MaviTab>
+                    <MaviTab Title="Tab Four" Icon="lni lni-home-2"></MaviTab>
+                </MaviTabNavBar>
+            </div>
+
+            <div>
+                <h3 class="font-semibold mb-2">Dark Theme</h3>
+                <MaviTabNavBar @ref="_tabNavBarPrimaryDark"
+                               OnTabClick="OnTabClick"
+                               ThemeColorScheme="ThemeColorScheme.Dark"
+                               ElementSize="ElementSize.Regular">
+                    <MaviTab Title="Tab One" Icon="lni lni-alarm-1"></MaviTab>
+                    <MaviTab Title="Tab Two" Icon="lni lni-android-old"></MaviTab>
+                    <MaviTab Title="Tab Three" Icon="lni lni-angle-double-right"></MaviTab>
+                    <MaviTab Title="Tab Four" Icon="lni lni-home-2"></MaviTab>
+                </MaviTabNavBar>
+            </div>
+
+            <div>
+                <h3 class="font-semibold mb-2">Light Theme</h3>
+                <MaviTabNavBar @ref="_tabNavBarPrimaryLight"
+                               OnTabClick="OnTabClick"
+                               ThemeColorScheme="ThemeColorScheme.Light"
+                               ElementSize="ElementSize.Regular">
+                    <MaviTab Title="Tab One" Icon="lni lni-alarm-1"></MaviTab>
+                    <MaviTab Title="Tab Two" Icon="lni lni-android-old"></MaviTab>
+                    <MaviTab Title="Tab Three" Icon="lni lni-angle-double-right"></MaviTab>
+                    <MaviTab Title="Tab Four" Icon="lni lni-home-2"></MaviTab>
+                </MaviTabNavBar>
+            </div>
+        </div>
+
+        <details class="mt-2">
+            <summary class="cursor-pointer font-semibold">View Code</summary>
+            <pre class="bg-gray-800 text-white p-4 rounded mt-2 overflow-x-auto"><code>&lt;MaviTabNavBar ThemeColorScheme="ThemeColorScheme.Success"&gt;...&lt;/MaviTabNavBar&gt;
+&lt;MaviTabNavBar ThemeColorScheme="ThemeColorScheme.Warning"&gt;...&lt;/MaviTabNavBar&gt;
+&lt;MaviTabNavBar ThemeColorScheme="ThemeColorScheme.Alert"&gt;...&lt;/MaviTabNavBar&gt;
+&lt;MaviTabNavBar ThemeColorScheme="ThemeColorScheme.Info"&gt;...&lt;/MaviTabNavBar&gt;
+&lt;MaviTabNavBar ThemeColorScheme="ThemeColorScheme.Dark"&gt;...&lt;/MaviTabNavBar&gt;
+&lt;MaviTabNavBar ThemeColorScheme="ThemeColorScheme.Light"&gt;...&lt;/MaviTabNavBar&gt;</code></pre>
+        </details>
+    </section>
+
+    <!-- Example 5: Responsive Title Display -->
+    <section class="flex flex-col gap-4 border border-gray-200 p-4 rounded bg-gray-50">
+        <h2 class="text-2xl font-semibold">Example 5: Responsive Title Display</h2>
+        <p class="text-sm text-gray-600">
+            Use <code>ShowTitleOnBreakpoint</code> to control when tab titles appear based on screen size.
+            Resize your browser to see the effect.
+        </p>
+
+        <div class="flex flex-col gap-4">
+            <div>
+                <h3 class="font-semibold mb-2">Show Title on Small and Above</h3>
+                <MaviTabNavBar @ref="_tabNavBarResponsiveSmall"
+                               OnTabClick="OnTabClick"
+                               ThemeColorScheme="ThemeColorScheme.Primary"
+                               ElementSize="ElementSize.Regular">
+                    <MaviTab Title="Dashboard" Icon="lni lni-alarm-1" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Small"></MaviTab>
+                    <MaviTab Title="Settings" Icon="lni lni-android-old" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Small"></MaviTab>
+                    <MaviTab Title="Profile" Icon="lni lni-angle-double-right" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Small"></MaviTab>
+                    <MaviTab Title="Help" Icon="lni lni-home-2" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Small"></MaviTab>
+                </MaviTabNavBar>
+            </div>
+
+            <div>
+                <h3 class="font-semibold mb-2">Show Title on Large and Above</h3>
+                <MaviTabNavBar @ref="_tabNavBarResponsiveLarge"
+                               OnTabClick="OnTabClick"
+                               ThemeColorScheme="ThemeColorScheme.Secondary"
+                               ElementSize="ElementSize.Regular">
+                    <MaviTab Title="Dashboard" Icon="lni lni-alarm-1" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Large"></MaviTab>
+                    <MaviTab Title="Settings" Icon="lni lni-android-old" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Large"></MaviTab>
+                    <MaviTab Title="Profile" Icon="lni lni-angle-double-right" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Large"></MaviTab>
+                    <MaviTab Title="Help" Icon="lni lni-home-2" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Large"></MaviTab>
+                </MaviTabNavBar>
+            </div>
+
+            <div>
+                <h3 class="font-semibold mb-2">Mixed Breakpoints</h3>
+                <MaviTabNavBar @ref="_tabNavBarResponsiveMixed"
+                               OnTabClick="OnTabClick"
+                               ThemeColorScheme="ThemeColorScheme.Info"
+                               ElementSize="ElementSize.Regular">
+                    <MaviTab Title="Always Hidden" Icon="lni lni-alarm-1" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Small"></MaviTab>
+                    <MaviTab Title="Show on Medium" Icon="lni lni-android-old" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Medium"></MaviTab>
+                    <MaviTab Title="Show on Large" Icon="lni lni-angle-double-right" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Large"></MaviTab>
+                    <MaviTab Title="Show on XL" Icon="lni lni-home-2" ShowTitleOnBreakpoint="ScreenSizeBreakpoint.ExtraLarge"></MaviTab>
+                </MaviTabNavBar>
+            </div>
+        </div>
+
+        <details class="mt-2">
+            <summary class="cursor-pointer font-semibold">View Code</summary>
+            <pre class="bg-gray-800 text-white p-4 rounded mt-2 overflow-x-auto"><code>&lt;MaviTab Title="Dashboard" 
+         Icon="lni lni-alarm-1" 
+         ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Small"&gt;&lt;/MaviTab&gt;
+
+&lt;MaviTab Title="Settings" 
+         Icon="lni lni-android-old" 
+         ShowTitleOnBreakpoint="ScreenSizeBreakpoint.Large"&gt;&lt;/MaviTab&gt;
+
+&lt;!-- Available breakpoints:
+     Small, Medium, Large, ExtraLarge, TwoExtraLarge, 
+     ThreeExtraLarge, FourExtraLarge, FiveExtraLarge, 
+     SixExtraLarge, SevenExtraLarge --&gt;</code></pre>
+        </details>
+    </section>
+
+    <!-- Example 6: Disabled Tabs -->
+    <section class="flex flex-col gap-4 border border-gray-200 p-4 rounded bg-gray-50">
+        <h2 class="text-2xl font-semibold">Example 6: Disabled Tabs</h2>
+        <p class="text-sm text-gray-600">
+            Use the <code>Disabled</code> parameter to make tabs non-clickable.
+        </p>
+
+        <MaviTabNavBar @ref="_tabNavBarDisabled"
+                       OnTabClick="OnTabClick"
+                       ThemeColorScheme="ThemeColorScheme.Primary"
+                       ElementSize="ElementSize.Regular">
+            <MaviTab Title="Active Tab" Icon="lni lni-alarm-1" Disabled="false"></MaviTab>
+            <MaviTab Title="Disabled Tab" Icon="lni lni-android-old" Disabled="true"></MaviTab>
+            <MaviTab Title="Another Active" Icon="lni lni-angle-double-right" Disabled="false"></MaviTab>
+            <MaviTab Title="Also Disabled" Icon="lni lni-home-2" Disabled="true"></MaviTab>
+        </MaviTabNavBar>
+
+        <details class="mt-2">
+            <summary class="cursor-pointer font-semibold">View Code</summary>
+            <pre class="bg-gray-800 text-white p-4 rounded mt-2 overflow-x-auto"><code>&lt;MaviTab Title="Active Tab" Icon="lni lni-alarm-1" Disabled="false"&gt;&lt;/MaviTab&gt;
+&lt;MaviTab Title="Disabled Tab" Icon="lni lni-android-old" Disabled="true"&gt;&lt;/MaviTab&gt;</code></pre>
+        </details>
+    </section>
+
+    <!-- Example 7: Event Handling -->
+    <section class="flex flex-col gap-4 border border-gray-200 p-4 rounded bg-gray-50">
+        <h2 class="text-2xl font-semibold">Example 7: Event Handling</h2>
+        <p class="text-sm text-gray-600">
+            Handle tab clicks with the <code>OnTabClick</code> event callback.
+        </p>
+
+        <div>
+            <MaviTabNavBar @ref="_tabNavBarEvents"
+                           OnTabClick="OnTabClickWithNotification"
+                           ThemeColorScheme="ThemeColorScheme.Info"
+                           ElementSize="ElementSize.Regular">
+                <MaviTab Id="event-tab-1" Title="Click Me" Icon="lni lni-alarm-1"></MaviTab>
+                <MaviTab Id="event-tab-2" Title="Or Me" Icon="lni lni-android-old"></MaviTab>
+                <MaviTab Id="event-tab-3" Title="Or This" Icon="lni lni-angle-double-right"></MaviTab>
+            </MaviTabNavBar>
+
+            @if (!string.IsNullOrEmpty(_lastClickedTab))
+            {
+                <div class="mt-4 p-4 bg-blue-100 border border-blue-300 rounded">
+                    <strong>Last clicked tab:</strong> @_lastClickedTab
+                </div>
+            }
+        </div>
+
+        <details class="mt-2">
+            <summary class="cursor-pointer font-semibold">View Code</summary>
+            <pre class="bg-gray-800 text-white p-4 rounded mt-2 overflow-x-auto"><code>&lt;MaviTabNavBar OnTabClick="OnTabClickWithNotification"&gt;
+    &lt;MaviTab Id="event-tab-1" Title="Click Me" Icon="lni lni-alarm-1"&gt;&lt;/MaviTab&gt;
+    &lt;MaviTab Id="event-tab-2" Title="Or Me" Icon="lni lni-android-old"&gt;&lt;/MaviTab&gt;
+&lt;/MaviTabNavBar&gt;
+
+@@code {
+    private string _lastClickedTab = string.Empty;
+
+    private Task OnTabClickWithNotification(TabClickEventArgs args)
+    {
+        _lastClickedTab = $"Tab ID: {args.ButtonId}, NavBar: {args.TabNavBarId}";
+        Logger?.LogInformation("Tab clicked: {ButtonId} (NavBar: {TabNavBarId})", 
+            args.ButtonId, args.TabNavBarId);
+        return Task.CompletedTask;
+    }
+}</code></pre>
+        </details>
+    </section>
+    
+
+    <!-- MaviTabNavBar Parameters -->
+    <section class="flex flex-col gap-4 border border-gray-200 p-4 rounded">
+        <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">MaviTabNavBar Parameters</h2>
+        <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "grid gap-2")">
+            <div><strong>Id:</strong> <code>string?</code> - Unique identifier for the navbar (auto-generated if not provided)</div>
+            <div><strong>ChildContent:</strong> <code>RenderFragment</code> - Required. Container for MaviTab components</div>
+            <div><strong>InitialActiveTabId:</strong> <code>string?</code> - Sets the initially active tab by its Id</div>
+            <div><strong>ElementSize:</strong> <code>ElementSize</code> - Size of tabs (Small, Regular, Large). Default: Regular</div>
+            <div><strong>ThemeColorScheme:</strong> <code>ThemeColorScheme</code> - Color scheme (Primary, Secondary, Success, Warning, Alert, Info, Dark, Light, Default). Default: Default</div>
+            <div><strong>OnTabClick:</strong> <code>EventCallback&lt;TabClickEventArgs&gt;</code> - Event fired when a tab is clicked</div>
+            <div><strong>Class:</strong> <code>string?</code> - Additional CSS classes (inherited from base)</div>
+            <div><strong>Style:</strong> <code>string?</code> - Inline styles (inherited from base)</div>
+        </div>
+    </section>
+
+    <!-- MaviTab Parameters -->
+    <section class="flex flex-col gap-4 border border-gray-200 p-4 rounded">
+        <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">MaviTab Parameters</h2>
+        <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "grid gap-2")">
+            <div><strong>Id:</strong> <code>string?</code> - Unique identifier for the tab (auto-generated if not provided)</div>
+            <div><strong>Title:</strong> <code>string?</code> - Tab title text (inherited from base)</div>
+            <div><strong>Icon:</strong> <code>string?</code> - Icon CSS class (e.g., "lni lni-home-2")</div>
+            <div><strong>Disabled:</strong> <code>bool</code> - Whether the tab is disabled. Default: false</div>
+            <div><strong>ShowTitleOnBreakpoint:</strong> <code>ScreenSizeBreakpoint</code> - Responsive breakpoint for showing title (Small, Medium, Large, ExtraLarge, TwoExtraLarge, etc.)</div>
+            <div><strong>Class:</strong> <code>string?</code> - Additional CSS classes (inherited from base)</div>
+            <div><strong>Style:</strong> <code>string?</code> - Inline styles (inherited from base)</div>
+        </div>
+    </section>
+
+    <!-- MaviTabContent Parameters -->
+    <section class="flex flex-col gap-4 border border-gray-200 p-4 rounded">
+        <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">MaviTabContent Parameters</h2>
+        <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "grid gap-2")">
+            <div><strong>Id:</strong> <code>string?</code> - Unique identifier (inherited from base)</div>
+            <div><strong>BoundToTabId:</strong> <code>string?</code> - Id of the tab this content is associated with</div>
+            <div><strong>Context:</strong> <code>MaviTabContext?</code> - The context from the parent MaviTabNavBar</div>
+            <div><strong>ChildContent:</strong> <code>RenderFragment?</code> - The content to display when the tab is active</div>
+            <div><strong>Class:</strong> <code>string?</code> - Additional CSS classes (inherited from base)</div>
+            <div><strong>Style:</strong> <code>string?</code> - Inline styles (inherited from base)</div>
+        </div>
+    </section>
+
 </div>
 
 @code
@@ -133,8 +483,24 @@
     private MaviTabNavBar? _tabNavBarPrimaryDark;
     private MaviTabNavBar? _tabNavBarPrimaryLight;
 
+    private MaviTabNavBar? _tabNavBarResponsiveSmall;
+    private MaviTabNavBar? _tabNavBarResponsiveLarge;
+    private MaviTabNavBar? _tabNavBarResponsiveMixed;
+
+    private MaviTabNavBar? _tabNavBarDisabled;
+    private MaviTabNavBar? _tabNavBarEvents;
+
+    private string _lastClickedTab = string.Empty;
+
     private Task OnTabClick(TabClickEventArgs args)
     {
+        Logger?.LogInformation("Tab clicked: {ButtonId} (NavBar: {TabNavBarId})", args.ButtonId, args.TabNavBarId);
+        return Task.CompletedTask;
+    }
+
+    private Task OnTabClickWithNotification(TabClickEventArgs args)
+    {
+        _lastClickedTab = $"Tab ID: {args.ButtonId}, NavBar: {args.TabNavBarId}";
         Logger?.LogInformation("Tab clicked: {ButtonId} (NavBar: {TabNavBarId})", args.ButtonId, args.TabNavBarId);
         return Task.CompletedTask;
     }
