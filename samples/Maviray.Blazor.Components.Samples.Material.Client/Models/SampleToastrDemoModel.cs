@@ -10,6 +10,6 @@ public class SampleToastrDemoModel
     public ElementSize ElementSize { get; set; }
     public string? Title { get; set; } = "Saved!";
     public string? Text { get; set; } = "Your changes were saved successfully.";
-    public int Duration { get; set; } = 60;
+    public int Duration { get; set; } = 4;
     public bool ShowProgress { get; set; } = true;
 }
