@@ -34,6 +34,29 @@
                              ElementSize="ElementSize.Large"
                              RadioStatusChange="HandleRadioValueChange" />
         </div>
+        <details class="mt-2">
+            <summary class="cursor-pointer font-semibold">View Code</summary>
+            <pre class="bg-gray-800 text-white p-4 rounded mt-2 overflow-x-auto">
+                <code>
+
+                &lt;MaviRadioButton @@bind-Value="_radioSmall"
+                                 Label="Small"
+                                 ElementSize="ElementSize.Small"
+                                 RadioStatusChange="HandleRadioValueChange" /&gt;
+
+                &lt;MaviRadioButton @@bind-Value="_radioMedium"
+                                 Label="Regular"
+                                 ElementSize="ElementSize.Regular"
+                                 RadioStatusChange="HandleRadioValueChange" /&gt;
+
+                &lt;MaviRadioButton @@bind-Value="_radioLarge"
+                                 Label="Large"
+                                 ElementSize="ElementSize.Large"
+                                 RadioStatusChange="HandleRadioValueChange" /&gt;
+
+                </code>
+            </pre>
+        </details>
     </div>
 
     <!-- Color Themes -->
@@ -146,6 +169,39 @@
                              ElementSize="ElementSize.Regular"
                              RadioStatusChange="HandleRadioValueChange" />
         </div>
+        <details class="mt-2">
+            <summary class="cursor-pointer font-semibold">View Code</summary>
+            <pre class="bg-gray-800 text-white p-4 rounded mt-2 overflow-x-auto">
+            <code>
+            &lt;MaviRadioButton @@bind-Value="_radioDisabledOff"
+                             Label="Disabled (Unchecked)"
+                             Disabled="true"
+                             ElementSize="ElementSize.Regular"
+                                 RadioStatusChange="HandleRadioValueChange" /&gt;
+
+            &lt;MaviRadioButton @@bind-Value="_radioDisabledOn"
+                             Label="Disabled (Checked)"
+                             Disabled="true"
+                             ThemeColorScheme="ThemeColorScheme.Primary"
+                             ElementSize="ElementSize.Regular"
+                             RadioStatusChange="HandleRadioValueChange" /&gt;
+
+           &lt;MaviRadioButton @@bind-Value="_radioReadonlyOff"
+                             Label="Readonly (Unchecked)"
+                             Readonly="true"
+                             ElementSize="ElementSize.Regular"
+                             RadioStatusChange="HandleRadioValueChange" /&gt;
+
+            &lt;MaviRadioButton @@bind-Value="_radioReadonlyOn"
+                             Label="Readonly (Checked)"
+                             Readonly="true"
+                             ThemeColorScheme="ThemeColorScheme.Primary"
+                             ElementSize="ElementSize.Regular"
+                             RadioStatusChange="HandleRadioValueChange" /&gt;
+
+                </code>
+            </pre>
+        </details>
     </div>
 
     <!-- Required Field -->
@@ -225,6 +281,49 @@
                              ThemeColorScheme="ThemeColorScheme.Info"
                              RadioStatusChange="HandleRadioValueChange" />
         </div>
+        <details class="mt-2">
+            <summary class="cursor-pointer font-semibold">View Code</summary>
+            <pre class="bg-gray-800 text-white p-4 rounded mt-2 overflow-x-auto">
+            <code>
+            &lt;MaviRadioButton @@bind-Value="_comboPrimarySmall"
+                             Label="Primary Small"
+                             ElementSize="ElementSize.Small"
+                             ThemeColorScheme="ThemeColorScheme.Primary"
+                             RadioStatusChange="HandleRadioValueChange" /&gt;
+
+            &lt;MaviRadioButton @@bind-Value="_comboSecondaryRegular"
+                             Label="Secondary Regular"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Secondary"
+                             RadioStatusChange="HandleRadioValueChange" /&gt;
+
+            &lt;MaviRadioButton @@bind-Value="_comboSuccessLarge"
+                             Label="Success Large"
+                             ElementSize="ElementSize.Large"
+                             ThemeColorScheme="ThemeColorScheme.Success"
+                             RadioStatusChange="HandleRadioValueChange" /&gt;
+
+            &lt;MaviRadioButton @@bind-Value="_comboAlertSmall"
+                             Label="Alert Small"
+                             ElementSize="ElementSize.Small"
+                             ThemeColorScheme="ThemeColorScheme.Alert"
+                             RadioStatusChange="HandleRadioValueChange" /&gt;
+
+            &lt;MaviRadioButton @@bind-Value="_comboWarningRegular"
+                             Label="Warning Regular"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Warning"
+                             RadioStatusChange="HandleRadioValueChange" /&gt;
+
+            &lt;MaviRadioButton @@bind-Value="_comboInfoLarge"
+                             Label="Info Large"
+                             ElementSize="ElementSize.Large"
+                             ThemeColorScheme="ThemeColorScheme.Info"
+                             RadioStatusChange="HandleRadioValueChange" /&gt;
+
+                </code>
+            </pre>
+        </details>
     </div>
 
     <!-- Practical Examples -->

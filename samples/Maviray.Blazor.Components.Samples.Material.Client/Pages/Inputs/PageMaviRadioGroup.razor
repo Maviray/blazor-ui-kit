@@ -5,7 +5,7 @@
 <PageTitle>MaviRadioGroup</PageTitle>
 
 
-<div class="flex flex-col gap-8">
+<div class="flex flex-col gap-8 p-4">
     <!-- Basic Radio Group -->
     <div class="flex flex-col gap-2">
         <h3 class="text-lg font-semibold">Basic Radio Group</h3>
@@ -19,7 +19,22 @@
         </MaviRadioGroup>
         <div class="text-sm">Selected: <strong>@(_selectedOption ?? "None")</strong></div>
     </div>
+    
+    <details>
+        <summary class="cursor-pointer font-semibold">View Code</summary>
+        <pre class="bg-gray-800 text-white p-4 rounded mt-2 overflow-x-auto">
+            <code>
+        &lt;MaviRadioGroup TValue="string"
+                        Value=" @@_selectedOption"
+                        ValueChanged="(parameters) => { _selectedOption = parameters.Value; HandleOptionChange(parameters); }" /&gt;
+        &lt;MaviRadioGroupItem TValue="string" OptionValue=" @@("option1")" Label="Option 1" /&gt;
+        &lt;MaviRadioGroupItem TValue="string" OptionValue=" @@("option2")" Label="Option 2" /&gt;
+        &lt;MaviRadioGroupItem TValue="string" OptionValue=" @@("option3")" Label="Option 3" /&gt;
+        &lt;/MaviRadioGroup&gt;
 
+                </code>
+            </pre>
+    </details>
     <!-- Radio Group with Integer Values -->
     <div class="flex flex-col gap-2">
         <h3 class="text-lg font-semibold">Radio Group with Integer Values</h3>
@@ -33,6 +48,21 @@
         </MaviRadioGroup>
         <div class="text-sm">Selected number: <strong>@(_selectedNumber?.ToString() ?? "None")</strong></div>
     </div>
+    
+    <details>
+        <summary class="cursor-pointer font-semibold">View Code</summary>
+        <pre class="bg-gray-800 text-white p-4 rounded mt-2 overflow-x-auto">
+            <code>
+        &lt;MaviRadioGroup TValue="int?"
+                        Value="@@_selectedNumber"
+                        ValueChanged="(parameters) => { _selectedNumber = parameters.Value; HandleNumberChange(parameters); }"&gt;
+        &lt;MaviRadioGroupItem TValue="int?" OptionValue="1" Label="One" /&gt;
+        &lt;MaviRadioGroupItem TValue="int?" OptionValue="2" Label="Two" /&gt;
+        &lt;MaviRadioGroupItem TValue="int?" OptionValue="3" Label="Three" /&gt;
+        &lt;/MaviRadioGroup&gt;
+                </code>
+            </pre>
+    </details>
 
     <!-- Radio Group with Different Sizes -->
     <div class="flex flex-col gap-2">
@@ -77,6 +107,42 @@
             </div>
         </div>
     </div>
+    
+    <details>
+        <summary class="cursor-pointer font-semibold">View Code</summary>
+        <pre class="bg-gray-800 text-white p-4 rounded mt-2 overflow-x-auto">
+            <code>
+            &lt;MaviRadioGroup TValue="string"
+                            Value="@@_selectedSizeSmall"
+                            ValueChanged="(parameters) => { _selectedSizeSmall = parameters.Value; }"
+                            ElementSize="ElementSize.Small"&gt;
+            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("s1")" Label="Small 1" /&gt;
+            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("s2")" Label="Small 2" /&gt;
+            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("s3")" Label="Small 3" /&gt;
+            &lt;/MaviRadioGroup&gt;
+            </code>
+            <code>
+            &lt;MaviRadioGroup TValue="string"
+                            Value="@_selectedSizeRegular"
+                            ValueChanged="(parameters) => { _selectedSizeRegular = parameters.Value; }"
+                            ElementSize="ElementSize.Regular"&gt;
+            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("r1")" Label="Regular 1" /&gt;
+            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("r2")" Label="Regular 2" /&gt;
+            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("r3")" Label="Regular 3" /&gt;
+                    &lt;/MaviRadioGroup&gt;
+            </code>
+            <code>
+            &lt;MaviRadioGroup TValue="string"
+                            Value="@_selectedSizeLarge"
+                            ValueChanged="(parameters) => { _selectedSizeLarge = parameters.Value; }"
+                            ElementSize="ElementSize.Large"&gt;
+            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("l1")" Label="Large 1" /&gt;
+            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("l2")" Label="Large 2" /&gt;
+            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("l3")" Label="Large 3" /&gt;
+                    &lt;/MaviRadioGroup&gt;
+             </code>
+        </pre>
+    </details>
 
     <!-- Radio Group with Different Color Schemes -->
     <div class="flex flex-col gap-2">
@@ -162,6 +228,45 @@
             </div>
         </div>
     </div>
+    
+    <details>
+        <summary class="cursor-pointer font-semibold">View Code</summary>
+        <pre class="bg-gray-800 text-white p-4 rounded mt-2 overflow-x-auto">
+        <code>
+            &lt;MaviRadioGroup TValue="string"
+                            Value="@@_selectedSizeSmall"
+                            ValueChanged="(parameters) => { _selectedSizeSmall = parameters.Value; }"
+                            ThemeColorScheme="ThemeColorScheme.Default"
+                            ElementSize="ElementSize.Small"&gt;
+            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("s1")" Label="Small 1" /&gt;
+            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("s2")" Label="Small 2" /&gt;
+            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("s3")" Label="Small 3" /&gt;
+            &lt;/MaviRadioGroup&gt;
+        </code>
+        <code>
+            &lt;MaviRadioGroup TValue="string"
+                            Value="@_selectedSizeRegular"
+                            ValueChanged="(parameters) => { _selectedSizeRegular = parameters.Value; }"
+                            ThemeColorScheme="ThemeColorScheme.Primary"
+                            ElementSize="ElementSize.Regular"&gt;
+            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("r1")" Label="Regular 1" /&gt;
+            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("r2")" Label="Regular 2" /&gt;
+            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("r3")" Label="Regular 3" /&gt;
+            &lt;/MaviRadioGroup&gt;
+            </code>
+        <code>
+            &lt;MaviRadioGroup TValue="string"
+                            Value="@_selectedSizeLarge"
+                            ValueChanged="(parameters) => { _selectedSizeLarge = parameters.Value; }"
+                            ThemeColorScheme="ThemeColorScheme.Success"
+                            ElementSize="ElementSize.Large"&gt;
+            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("l1")" Label="Large 1" /&gt;
+            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("l2")" Label="Large 2" /&gt;
+            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("l3")" Label="Large 3" /&gt;
+            &lt;/MaviRadioGroup&gt;
+        </code>
+        </pre>
+    </details>
 
     <!-- Radio Group with Helper Text -->
     <div class="flex flex-col gap-2">
