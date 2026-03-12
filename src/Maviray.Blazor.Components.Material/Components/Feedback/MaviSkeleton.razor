@@ -75,7 +75,7 @@
     // Material-like neutral surface: slightly darker than background
     // Works well on light/dark themes because it uses currentColor + opacity.
     // If you have theme tokens, swap these classes to your own variables.
-    private string BaseFillClass => Variant == SkeletonVariant.Text && Animation == SkeletonAnimation.Wave && Lines > 1 ?
+    private string BaseFillClass => Variant == SkeletonVariant.Text && Lines > 1 ?
         "dark:bg-current/15 text-black dark:text-white" : "bg-current/10 dark:bg-current/15 text-black dark:text-white";
 
     private string RootClass =>
