@@ -27,13 +27,24 @@
         </p>
 
         <div class="bg-white  p-4">
-            <MaviInMemoryTable FetchData="FetchDataFullFeatures"
+            <MaviInMemoryTable @ref="_maviInMemoryTable" 
+                               FetchData="FetchDataFullFeatures"
                                ConstructContextMenu="ConstructMainContextMenu"
                                OnMainContextMenuClick="OnMainContextMenuClick"
                                OnRowClick="OnRowClick"
                                Parameters="_fullFeaturedParameters"
                                OnRowContextMenuClick="OnRowContextMenuClick">
             </MaviInMemoryTable>
+        </div>
+        
+        <div>
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                        ElementVariant="ElementVariant.Outlined"
+                        ElementSize="ElementSize.Regular"
+                        Title="Simulate Table Data Load"
+                        TextTransform="TextTransform.UpperCase"
+                        OnClick="SimulateDataLoad">
+            </MaviButton>
         </div>
 
         <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-4 rounded-md mt-4")">
@@ -482,6 +493,19 @@ private Task OnRowContextMenuClick(MaviTableRowContextMenuItem menuItem)
         <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
             How to configure your data model with TableColumn attributes
         </p>
+        
+        <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6 mt-2")">
+            I have made a conscious decision to avoid making some components generic, including this table. I find in a lot of cases that generic - inevitably leads to overcomplicated components. Hence this table ultimately is a collection of MaviTableCell elements with Value property of string type. Ultimately it boils down to displaying value as a string in the cell so lets not get too fancy about it. 
+        </p>
+        
+        <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6 mt-2")">
+            Ultimately the table expects to receive a TableDataCollection object. You are welcome to consume your own implementation of constructing that object and its nice to have full flexibility of how to achieve it but there is a default method provided as part of this library where TableDataCollectionFactory type will construct TableDataCollection for you inferring values from standard primitive types. my experience is it covers vast majority of real-world day-to-day scenarios. TableDataCollectionFactory expects to receive a collection of ITableDataItem items with relevant properties decorated with TableColumn attribute.
+        </p>
+        
+        <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6 mt-2")">
+            Typically you would use your DTO models or alternatively map the DTOs to intermediate model. You then pass the collection of ITableDataItem objects to TableDataCollectionFactory.FromDataSource method. Here is sample implementation of ITableDataItem
+
+        </p>
 
         <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-4 rounded-md")">
             <code class="text-xs block whitespace-pre-wrap">
@@ -534,6 +558,8 @@ private Task&lt;TableDataCollection&gt; FetchData()
 </div>
 
 @code {
+
+    private MaviInMemoryTable? _maviInMemoryTable;
     // Full-featured table
     private readonly TableParameters _fullFeaturedParameters = new()
     {
@@ -685,8 +711,10 @@ private Task&lt;TableDataCollection&gt; FetchData()
         return GenerateTableData(20);
     }
 
-    private Task<TableDataCollection> GenerateTableData(int count, bool includeContextMenu = true)
+    private async Task<TableDataCollection> GenerateTableData(int count, bool includeContextMenu = true)
     {
+        await Task.Delay(3000);
+
         var collection = new List<SampleTableCollectionItemModel>();
 
         for (var i = 0; i < count; i++)
@@ -742,7 +770,7 @@ private Task&lt;TableDataCollection&gt; FetchData()
             });
         }
 
-        return Task.FromResult(TableDataCollectionFactory.FromDataSource(collection));
+        return TableDataCollectionFactory.FromDataSource(collection);
     }
 
     private Task<IEnumerable<MaviTableContextMenuItem>> ConstructMainContextMenu()
@@ -799,5 +827,13 @@ private Task&lt;TableDataCollection&gt; FetchData()
         var random = new Random(seed);
         var value = random.Next(0, 11);
         return (SampleEnum)value;
+    }
+
+    private async Task SimulateDataLoad(MouseClickEventArgs args)
+    {
+        if (_maviInMemoryTable != null)
+        {
+            await _maviInMemoryTable.Refresh();
+        }
     }
 }

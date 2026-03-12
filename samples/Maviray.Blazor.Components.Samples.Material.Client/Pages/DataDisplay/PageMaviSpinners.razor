@@ -4,100 +4,502 @@
 
 <PageTitle>Spinners</PageTitle>
 
+<div class="flex flex-col gap-8 p-6 max-w-7xl mx-auto">
 
-<div class="flex flex-col gap-4 p-4">
-    <div class="flex gap-4">
-        @foreach (var colorScheme in (ThemeColorScheme[])Enum.GetValues(typeof(ThemeColorScheme)))
-        {
-            <MaviSpinnerStar ThemeColorScheme="colorScheme" ElementSize="ElementSize.Small"></MaviSpinnerStar>
-        }
-       
-    </div>
-    <div class="flex gap-4">
-        @foreach (var colorScheme in (ThemeColorScheme[])Enum.GetValues(typeof(ThemeColorScheme)))
-        {
-            <MaviSpinnerStar ThemeColorScheme="colorScheme"></MaviSpinnerStar>
-        }
-       
-    </div>
-    <div class="flex gap-4">
-        @foreach (var colorScheme in (ThemeColorScheme[])Enum.GetValues(typeof(ThemeColorScheme)))
-        {
-            <MaviSpinnerStar ThemeColorScheme="colorScheme" ElementSize="ElementSize.Large"></MaviSpinnerStar>
-        }
-       
-    </div>
-    <div class="flex flex-col gap-2">
-        @foreach (var colorScheme in (ThemeColorScheme[])Enum.GetValues(typeof(ThemeColorScheme)))
-        {
-            <div class="flex gap-4">
-                <MaviSpinnerEqualizer ThemeColorScheme="colorScheme"
-                                      ElementSize="ElementSize.Small"/>
+    <!-- MaviSpinnerStar Section -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-gray-800">MaviSpinnerStar</h2>
+        <p class="text-gray-600">A star-shaped loading spinner with pulsing animation.</p>
 
-                <MaviSpinnerEqualizer ThemeColorScheme="colorScheme"
-                                      ElementSize="ElementSize.Regular"
-                                      Lines="9"
-                                      Label="Loading..."/>
+        <!-- Parameters Table -->
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Parameter</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Default</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-purple-600">ElementSize</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">ElementSize</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Regular</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">Size of the spinner: Small, Regular, or Large</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-purple-600">ThemeColorScheme</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">ThemeColorScheme</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Default</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">Color theme: Default, Primary, Secondary, Success, Alert, Warning, Info, Dark, Light</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-purple-600">Scale</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">double</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">0</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">Custom scale value (0-1). When 0, uses ElementSize. 0.5 = half size, 1 = full size</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-                <MaviSpinnerEqualizer ThemeColorScheme="colorScheme"
-                                      ElementSize="ElementSize.Large"
-                                      AriaLabel="Submitting form"/>
+        <!-- Code Example -->
+        <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+            <pre class="text-green-400 text-sm"><code>&lt;MaviSpinnerStar ThemeColorScheme="ThemeColorScheme.Primary" 
+                 ElementSize="ElementSize.Small" /&gt;
+
+&lt;MaviSpinnerStar ThemeColorScheme="ThemeColorScheme.Success" /&gt;
+
+&lt;MaviSpinnerStar ThemeColorScheme="ThemeColorScheme.Alert" 
+                 ElementSize="ElementSize.Large" /&gt;
+
+&lt;MaviSpinnerStar Scale="0.75" /&gt;</code></pre>
+        </div>
+
+        <!-- Visual Examples -->
+        <div class="space-y-4">
+            <h3 class="text-lg font-semibold text-gray-700">Small</h3>
+            <div class="flex gap-4 flex-wrap">
+                @foreach (var colorScheme in (ThemeColorScheme[])Enum.GetValues(typeof(ThemeColorScheme)))
+                {
+                    <MaviSpinnerStar ThemeColorScheme="colorScheme" ElementSize="ElementSize.Small" />
+                }
             </div>
-        }
-        
-    </div>
-    <div class="flex gap-4">
-        @foreach (var colorScheme in (ThemeColorScheme[])Enum.GetValues(typeof(ThemeColorScheme)))
-        {
-            <MaviSpinnerGrid ThemeColorScheme="colorScheme" ElementSize="ElementSize.Small" />
-        }
-    </div>
-    <div class="flex gap-4">
-        @foreach (var colorScheme in (ThemeColorScheme[])Enum.GetValues(typeof(ThemeColorScheme)))
-        {
-            <MaviSpinnerGrid ThemeColorScheme="colorScheme" />
-        }
-    </div>
-    <div class="flex gap-4">
-        @foreach (var colorScheme in (ThemeColorScheme[])Enum.GetValues(typeof(ThemeColorScheme)))
-        {
-            <MaviSpinnerGrid ThemeColorScheme="colorScheme" ElementSize="ElementSize.Large" />
-        }
-    </div>
-    <div class="flex gap-4">
-        @foreach (var colorScheme in (ThemeColorScheme[])Enum.GetValues(typeof(ThemeColorScheme)))
-        {
-            <MaviSpinnerStarRotate ThemeColorScheme="colorScheme" ElementSize="ElementSize.Small" />
-        }
-    </div>
-    <div class="flex gap-4">
-        @foreach (var colorScheme in (ThemeColorScheme[])Enum.GetValues(typeof(ThemeColorScheme)))
-        {
-            <MaviSpinnerStarRotate ThemeColorScheme="colorScheme" />
-        }
-    </div>
-    <div class="flex gap-4">
-        @foreach (var colorScheme in (ThemeColorScheme[])Enum.GetValues(typeof(ThemeColorScheme)))
-        {
-            <MaviSpinnerStarRotate ThemeColorScheme="colorScheme" ElementSize="ElementSize.Large" />
-        }
-    </div>
-    <div class="flex gap-4">
-        @foreach (var colorScheme in (ThemeColorScheme[])Enum.GetValues(typeof(ThemeColorScheme)))
-        {
-            <MaviSpinnerRoller ThemeColorScheme="colorScheme" ElementSize="ElementSize.Small" />
-        }
-    </div>
-    <div class="flex gap-4">
-        @foreach (var colorScheme in (ThemeColorScheme[])Enum.GetValues(typeof(ThemeColorScheme)))
-        {
-            <MaviSpinnerRoller ThemeColorScheme="colorScheme" />
-        }
-    </div> 
-    <div class="flex gap-4">
-        @foreach (var colorScheme in (ThemeColorScheme[])Enum.GetValues(typeof(ThemeColorScheme)))
-        {
-            <MaviSpinnerRoller ThemeColorScheme="colorScheme" ElementSize="ElementSize.Large" />
-        }
-    </div>
+
+            <h3 class="text-lg font-semibold text-gray-700">Regular</h3>
+            <div class="flex gap-4 flex-wrap">
+                @foreach (var colorScheme in (ThemeColorScheme[])Enum.GetValues(typeof(ThemeColorScheme)))
+                {
+                    <MaviSpinnerStar ThemeColorScheme="colorScheme" />
+                }
+            </div>
+
+            <h3 class="text-lg font-semibold text-gray-700">Large</h3>
+            <div class="flex gap-4 flex-wrap">
+                @foreach (var colorScheme in (ThemeColorScheme[])Enum.GetValues(typeof(ThemeColorScheme)))
+                {
+                    <MaviSpinnerStar ThemeColorScheme="colorScheme" ElementSize="ElementSize.Large" />
+                }
+            </div>
+        </div>
+    </section>
+
+    <hr class="border-gray-300" />
+
+    <!-- MaviSpinnerEqualizer Section -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-gray-800">MaviSpinnerEqualizer</h2>
+        <p class="text-gray-600">An equalizer-style loading spinner with vertical waving bars.</p>
+
+        <!-- Parameters Table -->
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Parameter</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Default</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-purple-600">Lines</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">int</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">7</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">Number of vertical lines in the equalizer wave</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-purple-600">Label</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">string?</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">null</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">Optional text shown next to the spinner</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-purple-600">AriaLabel</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">string</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">"Loading"</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">Accessible label for screen readers</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-purple-600">ElementSize</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">ElementSize</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Regular</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">Size of the spinner: Small, Regular, or Large</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-purple-600">ThemeColorScheme</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">ThemeColorScheme</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Default</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">Color theme for the spinner</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-purple-600">Scale</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">double</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">0</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">Custom scale value (0-1) to override default size</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Code Example -->
+        <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+            <pre class="text-green-400 text-sm"><code>&lt;MaviSpinnerEqualizer ThemeColorScheme="ThemeColorScheme.Primary" 
+                      ElementSize="ElementSize.Small" /&gt;
+
+&lt;MaviSpinnerEqualizer ThemeColorScheme="ThemeColorScheme.Info" 
+                      Lines="9" 
+                      Label="Loading..." /&gt;
+
+&lt;MaviSpinnerEqualizer ThemeColorScheme="ThemeColorScheme.Success" 
+                      ElementSize="ElementSize.Large"
+                      AriaLabel="Submitting form" /&gt;</code></pre>
+        </div>
+
+        <!-- Visual Examples -->
+        <div class="space-y-4">
+            @foreach (var colorScheme in (ThemeColorScheme[])Enum.GetValues(typeof(ThemeColorScheme)))
+            {
+                <div class="flex gap-4 items-center flex-wrap">
+                    <MaviSpinnerEqualizer ThemeColorScheme="colorScheme"
+                                          ElementSize="ElementSize.Small" />
+
+                    <MaviSpinnerEqualizer ThemeColorScheme="colorScheme"
+                                          ElementSize="ElementSize.Regular"
+                                          Lines="9"
+                                          Label="Loading..." />
+
+                    <MaviSpinnerEqualizer ThemeColorScheme="colorScheme"
+                                          ElementSize="ElementSize.Large"
+                                          AriaLabel="Submitting form" />
+                </div>
+            }
+        </div>
+    </section>
+
+    <hr class="border-gray-300" />
+
+    <!-- MaviSpinnerGrid Section -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-gray-800">MaviSpinnerGrid</h2>
+        <p class="text-gray-600">A 3x3 grid loading spinner with sequential pulsing dots.</p>
+
+        <!-- Parameters Table -->
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Parameter</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Default</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-purple-600">ElementSize</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">ElementSize</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Regular</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">Size of the spinner: Small, Regular, or Large</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-purple-600">ThemeColorScheme</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">ThemeColorScheme</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Default</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">Color theme for the spinner</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-purple-600">Scale</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">double</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">0</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">Custom scale value (0-1) to override default size</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Code Example -->
+        <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+            <pre class="text-green-400 text-sm"><code>&lt;MaviSpinnerGrid ThemeColorScheme="ThemeColorScheme.Primary" 
+                 ElementSize="ElementSize.Small" /&gt;
+
+&lt;MaviSpinnerGrid ThemeColorScheme="ThemeColorScheme.Warning" /&gt;
+
+&lt;MaviSpinnerGrid ThemeColorScheme="ThemeColorScheme.Dark" 
+                 ElementSize="ElementSize.Large" /&gt;</code></pre>
+        </div>
+
+        <!-- Visual Examples -->
+        <div class="space-y-4">
+            <h3 class="text-lg font-semibold text-gray-700">Small</h3>
+            <div class="flex gap-4 flex-wrap">
+                @foreach (var colorScheme in (ThemeColorScheme[])Enum.GetValues(typeof(ThemeColorScheme)))
+                {
+                    <MaviSpinnerGrid ThemeColorScheme="colorScheme" ElementSize="ElementSize.Small" />
+                }
+            </div>
+
+            <h3 class="text-lg font-semibold text-gray-700">Regular</h3>
+            <div class="flex gap-4 flex-wrap">
+                @foreach (var colorScheme in (ThemeColorScheme[])Enum.GetValues(typeof(ThemeColorScheme)))
+                {
+                    <MaviSpinnerGrid ThemeColorScheme="colorScheme" />
+                }
+            </div>
+
+            <h3 class="text-lg font-semibold text-gray-700">Large</h3>
+            <div class="flex gap-4 flex-wrap">
+                @foreach (var colorScheme in (ThemeColorScheme[])Enum.GetValues(typeof(ThemeColorScheme)))
+                {
+                    <MaviSpinnerGrid ThemeColorScheme="colorScheme" ElementSize="ElementSize.Large" />
+                }
+            </div>
+        </div>
+    </section>
+
+    <hr class="border-gray-300" />
+
+    <!-- MaviSpinnerStarRotate Section -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-gray-800">MaviSpinnerStarRotate</h2>
+        <p class="text-gray-600">A rotating star-shaped loading spinner with 12 radiating bars.</p>
+
+        <!-- Parameters Table -->
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Parameter</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Default</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-purple-600">ElementSize</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">ElementSize</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Regular</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">Size of the spinner: Small, Regular, or Large</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-purple-600">ThemeColorScheme</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">ThemeColorScheme</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Default</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">Color theme for the spinner</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-purple-600">Scale</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">double</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">0</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">Custom scale value (0-1) to override default size</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Code Example -->
+        <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+            <pre class="text-green-400 text-sm"><code>&lt;MaviSpinnerStarRotate ThemeColorScheme="ThemeColorScheme.Secondary" 
+                       ElementSize="ElementSize.Small" /&gt;
+
+&lt;MaviSpinnerStarRotate ThemeColorScheme="ThemeColorScheme.Info" /&gt;
+
+&lt;MaviSpinnerStarRotate ThemeColorScheme="ThemeColorScheme.Success" 
+                       ElementSize="ElementSize.Large" /&gt;</code></pre>
+        </div>
+
+        <!-- Visual Examples -->
+        <div class="space-y-4">
+            <h3 class="text-lg font-semibold text-gray-700">Small</h3>
+            <div class="flex gap-4 flex-wrap">
+                @foreach (var colorScheme in (ThemeColorScheme[])Enum.GetValues(typeof(ThemeColorScheme)))
+                {
+                    <MaviSpinnerStarRotate ThemeColorScheme="colorScheme" ElementSize="ElementSize.Small" />
+                }
+            </div>
+
+            <h3 class="text-lg font-semibold text-gray-700">Regular</h3>
+            <div class="flex gap-4 flex-wrap">
+                @foreach (var colorScheme in (ThemeColorScheme[])Enum.GetValues(typeof(ThemeColorScheme)))
+                {
+                    <MaviSpinnerStarRotate ThemeColorScheme="colorScheme" />
+                }
+            </div>
+
+            <h3 class="text-lg font-semibold text-gray-700">Large</h3>
+            <div class="flex gap-4 flex-wrap">
+                @foreach (var colorScheme in (ThemeColorScheme[])Enum.GetValues(typeof(ThemeColorScheme)))
+                {
+                    <MaviSpinnerStarRotate ThemeColorScheme="colorScheme" ElementSize="ElementSize.Large" />
+                }
+            </div>
+        </div>
+    </section>
+
+    <hr class="border-gray-300" />
+
+    <!-- MaviSpinnerRoller Section -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-gray-800">MaviSpinnerRoller</h2>
+        <p class="text-gray-600">A circular roller loading spinner with orbiting dots.</p>
+
+        <!-- Parameters Table -->
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Parameter</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Default</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-purple-600">ElementSize</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">ElementSize</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Regular</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">Size of the spinner: Small, Regular, or Large</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-purple-600">ThemeColorScheme</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">ThemeColorScheme</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Default</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">Color theme for the spinner</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-purple-600">Scale</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">double</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">0</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">Custom scale value (0-1) to override default size</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Code Example -->
+        <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+            <pre class="text-green-400 text-sm"><code>&lt;MaviSpinnerRoller ThemeColorScheme="ThemeColorScheme.Primary" 
+                   ElementSize="ElementSize.Small" /&gt;
+
+&lt;MaviSpinnerRoller ThemeColorScheme="ThemeColorScheme.Alert" /&gt;
+
+&lt;MaviSpinnerRoller ThemeColorScheme="ThemeColorScheme.Info" 
+                   ElementSize="ElementSize.Large" /&gt;</code></pre>
+        </div>
+
+        <!-- Visual Examples -->
+        <div class="space-y-4">
+            <h3 class="text-lg font-semibold text-gray-700">Small</h3>
+            <div class="flex gap-4 flex-wrap">
+                @foreach (var colorScheme in (ThemeColorScheme[])Enum.GetValues(typeof(ThemeColorScheme)))
+                {
+                    <MaviSpinnerRoller ThemeColorScheme="colorScheme" ElementSize="ElementSize.Small" />
+                }
+            </div>
+
+            <h3 class="text-lg font-semibold text-gray-700">Regular</h3>
+            <div class="flex gap-4 flex-wrap">
+                @foreach (var colorScheme in (ThemeColorScheme[])Enum.GetValues(typeof(ThemeColorScheme)))
+                {
+                    <MaviSpinnerRoller ThemeColorScheme="colorScheme" />
+                }
+            </div>
+
+            <h3 class="text-lg font-semibold text-gray-700">Large</h3>
+            <div class="flex gap-4 flex-wrap">
+                @foreach (var colorScheme in (ThemeColorScheme[])Enum.GetValues(typeof(ThemeColorScheme)))
+                {
+                    <MaviSpinnerRoller ThemeColorScheme="colorScheme" ElementSize="ElementSize.Large" />
+                }
+            </div>
+        </div>
+    </section>
+
+    <hr class="border-gray-300" />
+
+    <!-- MaviSpinner Section -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-gray-800">MaviSpinner</h2>
+        <p class="text-gray-600">A circular loading spinner with 12 rotating dots arranged in a clock pattern.</p>
+
+        <!-- Parameters Table -->
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Parameter</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Default</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-purple-600">ElementSize</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">ElementSize</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Regular</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">Size of the spinner: Small, Regular, or Large</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-purple-600">ThemeColorScheme</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">ThemeColorScheme</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Default</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">Color theme for the spinner</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-purple-600">Scale</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">double</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">0</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">Custom scale value (0-1) to override default size</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Code Example -->
+        <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+            <pre class="text-green-400 text-sm"><code>&lt;MaviSpinner ThemeColorScheme="ThemeColorScheme.Primary" 
+             ElementSize="ElementSize.Small" /&gt;
+
+&lt;MaviSpinner ThemeColorScheme="ThemeColorScheme.Success" /&gt;
+
+&lt;MaviSpinner ThemeColorScheme="ThemeColorScheme.Dark" 
+             ElementSize="ElementSize.Large" /&gt;
+
+&lt;MaviSpinner Scale="0.6" /&gt;</code></pre>
+        </div>
+
+        <!-- Visual Examples -->
+        <div class="space-y-4">
+            <h3 class="text-lg font-semibold text-gray-700">Small</h3>
+            <div class="flex gap-4 flex-wrap">
+                @foreach (var colorScheme in (ThemeColorScheme[])Enum.GetValues(typeof(ThemeColorScheme)))
+                {
+                    <MaviSpinner ThemeColorScheme="colorScheme" ElementSize="ElementSize.Small" />
+                }
+            </div>
+
+            <h3 class="text-lg font-semibold text-gray-700">Regular</h3>
+            <div class="flex gap-4 flex-wrap">
+                @foreach (var colorScheme in (ThemeColorScheme[])Enum.GetValues(typeof(ThemeColorScheme)))
+                {
+                    <MaviSpinner ThemeColorScheme="colorScheme" />
+                }
+            </div>
+
+            <h3 class="text-lg font-semibold text-gray-700">Large</h3>
+            <div class="flex gap-4 flex-wrap">
+                @foreach (var colorScheme in (ThemeColorScheme[])Enum.GetValues(typeof(ThemeColorScheme)))
+                {
+                    <MaviSpinner ThemeColorScheme="colorScheme" ElementSize="ElementSize.Large" />
+                }
+            </div>
+        </div>
+    </section>
+
 </div>
