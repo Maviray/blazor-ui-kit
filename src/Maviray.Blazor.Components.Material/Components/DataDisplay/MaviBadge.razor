@@ -1,0 +1,55 @@
+﻿@inherits MaviComponentBase
+
+<div id="@Id" class="@GetContainerSize()" style="@Style" @onclick="@HandleButtonClick" title="@Title">
+    <i class="@Icon"></i>
+    @if (!string.IsNullOrWhiteSpace(Text))
+    {
+        <span class="@GetSideTextCss()" aria-hidden="true">@Text</span>
+    }
+</div>
+@code {
+    [Parameter] public string? Icon { get; set; }
+    [Parameter] public string? Text { get; set; }
+    [Parameter] public ElementSize ElementSize { get; set; }
+    [Parameter] public EventCallback<MouseClickEventArgs> OnClick { get; set; }
+
+    protected async Task HandleButtonClick(MouseEventArgs args)
+    {
+        var customArgs = new MouseClickEventArgs(Id, args);
+
+        await OnClick.InvokeAsync(customArgs);
+    }
+
+    private string GetContainerSize()
+    {
+        return $"relative mx-px p-1.5 cursor-pointer rounded-full hover:bg-neutral-50 {Class} {GetContainerTextSize()}";
+    }
+
+    private string GetSideTextCss()
+    {
+        return $"absolute top-0 right-0 block h-2.5 w-2.5 {GetSideTextSize()}";
+    }
+
+    private string GetContainerTextSize()
+    {
+        return ElementSize switch
+        {
+            ElementSize.Small => "text-xs",
+            ElementSize.Regular => "text-base",
+            ElementSize.Large => "text-xl",
+            _ => "text-base"
+        };
+    }
+
+    private string GetSideTextSize()
+    {
+        return ElementSize switch
+        {
+            ElementSize.Small => "text-[7px]",
+            ElementSize.Regular => "text-[8px]",
+            ElementSize.Large => "text-[9px]",
+            _ => "text-[8px]"
+        };
+    }
+
+}

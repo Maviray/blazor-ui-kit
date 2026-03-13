@@ -1,0 +1,50 @@
+﻿@page "/PageMaviBadge"
+@using Maviray.Blazor.Components.Material.Components.DataDisplay
+@inherits SamplePageBase
+
+<PageTitle>MaviBadge</PageTitle>
+
+<div class="w-full p-4 flex flex-col gap-2">
+
+    <div class="flex gap-2">
+        <MaviBadge Icon="lni lni-home-2" Text="11" ElementSize="ElementSize.Small"></MaviBadge>
+
+        <MaviBadge Icon="lni lni-paint-roller-1" Text="Ab" ElementSize="ElementSize.Small"></MaviBadge>
+
+        <MaviBadge Icon="lni lni-bike" Text="T" ElementSize="ElementSize.Small"></MaviBadge>
+
+        <MaviBadge Icon="lni lni-books-2" Text="22,33" ElementSize="ElementSize.Small"></MaviBadge>
+    </div>
+
+    <div class="flex gap-2">
+        <MaviBadge Icon="lni lni-home-2" Text="11" ElementSize="ElementSize.Regular"></MaviBadge>
+
+        <MaviBadge Icon="lni lni-paint-roller-1" Text="Ab" ElementSize="ElementSize.Regular"></MaviBadge>
+
+        <MaviBadge Icon="lni lni-bike" Text="T" ElementSize="ElementSize.Regular"></MaviBadge>
+
+        <MaviBadge Icon="lni lni-books-2" Text="22,33" ElementSize="ElementSize.Regular"></MaviBadge>
+    </div>
+    <div class="flex gap-2">
+        <MaviBadge Icon="lni lni-home-2" Text="11" ElementSize="ElementSize.Large"></MaviBadge>
+
+        <MaviBadge Icon="lni lni-paint-roller-1" Text="Ab" ElementSize="ElementSize.Large"></MaviBadge>
+
+        <MaviBadge Icon="lni lni-bike" Text="T" ElementSize="ElementSize.Large"></MaviBadge>
+
+        <MaviBadge Icon="lni lni-books-2" Text="22,33" ElementSize="ElementSize.Large"></MaviBadge>
+    </div>
+    <div class="flex gap-2">
+        <MaviBadge Icon="lni lni-home-2" Text="11" ElementSize="ElementSize.Large" Class="text-sky-600"></MaviBadge>
+
+        <MaviBadge Icon="lni lni-paint-roller-1" Text="Ab" ElementSize="ElementSize.Large" Class="text-orange-600"></MaviBadge>
+
+        <MaviBadge Icon="lni lni-bike" Text="T" ElementSize="ElementSize.Large" Class="text-cyan-600"></MaviBadge>
+
+        <MaviBadge Icon="lni lni-books-2" Text="22,33" ElementSize="ElementSize.Large" Class="text-green-600"></MaviBadge>
+    </div>
+</div>
+
+@code {
+
+}
