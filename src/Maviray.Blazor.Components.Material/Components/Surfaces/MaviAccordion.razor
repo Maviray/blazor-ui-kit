@@ -1,5 +1,7 @@
-﻿<CascadingValue Value="this" IsFixed="true">
-    <div class="@RootClass" role="presentation">
+﻿@inherits MaviComponentBase
+
+<CascadingValue Value="this" IsFixed="true">
+    <div id="@Id" class="@RootClass" role="presentation">
         @ChildContent
     </div>
 </CascadingValue>
@@ -14,9 +16,6 @@
     [Parameter] public bool Dividers { get; set; } = true;
 
     [Parameter] public ThemeColorScheme ColorScheme { get; set; } = ThemeColorScheme.Default;
-
-    /// <summary>Optional additional classes for the root container.</summary>
-    [Parameter] public string? Class { get; set; }
 
     private readonly HashSet<string> _open = new(StringComparer.Ordinal);
 
@@ -51,9 +50,9 @@
         // Material-ish: subtle rounding on the whole stack
         var rounding = (isFirst, isLast) switch
         {
-            (true, true) => "rounded-xl",
-            (true, false) => "rounded-t-xl",
-            (false, true) => "rounded-b-xl",
+            (true, true) => "rounded-sm",
+            (true, false) => "rounded-t-sm",
+            (false, true) => "rounded-b-sm",
             _ => "rounded-none"
         };
 
@@ -168,7 +167,7 @@
         => string.Join(" ", new[]
         {
             "w-full",
-            "rounded-xl",
+            "rounded-sm",
             "border",
             GetDividerBorderClass(),
             "shadow-sm",                  // Material-ish elevation 1

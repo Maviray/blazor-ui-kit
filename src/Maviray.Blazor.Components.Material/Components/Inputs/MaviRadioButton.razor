@@ -176,16 +176,16 @@
 
     private string GetLabelTextClass()
     {
-        var classes = new List<string>();
-
-        classes.Add(ElementSize switch
+        var classes = new List<string>
         {
-            ElementSize.Small => Tailwind.Theme.Typography.LABEL_SMALL,
-            ElementSize.Large => Tailwind.Theme.Typography.LABEL_LARGE,
-            _ => Tailwind.Theme.Typography.LABEL_MEDIUM
-        });
-
-        classes.Add(Disabled ? "text-(--theme-default-six)" : "text-(--theme-default-nine)");
+            ElementSize switch
+            {
+                ElementSize.Small => Tailwind.Theme.Typography.LABEL_SMALL,
+                ElementSize.Large => Tailwind.Theme.Typography.LABEL_LARGE,
+                _ => Tailwind.Theme.Typography.LABEL_MEDIUM
+            },
+            Disabled ? "text-(--theme-default-six)" : "text-(--theme-default-nine)"
+        };
 
         return string.Join(" ", classes);
     }

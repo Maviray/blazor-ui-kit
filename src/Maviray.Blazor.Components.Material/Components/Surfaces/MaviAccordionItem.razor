@@ -1,11 +1,13 @@
-﻿<div class="@ItemFrameClass">
+﻿@inherits MaviComponentBase
+
+<div id="@Id" class="@ItemFrameClass">
     <h3 class="m-0">
         <button type="button"
                 class="@SummaryButtonClass"
                 @onclick="OnToggle"
                 aria-expanded="@IsExpanded"
-                aria-controls="@_panelId"
-                id="@_headerId"
+                aria-controls="@PanelId"
+                id="@HeaderId"
                 disabled="@Disabled">
 
             <span class="min-w-0 flex-1 text-left">
@@ -33,9 +35,9 @@
 
     @if (IsExpanded)
     {
-        <div id="@_panelId"
+        <div id="@PanelId"
              role="region"
-             aria-labelledby="@_headerId"
+             aria-labelledby="@HeaderId"
              class="@ExpandedDetailsClass">
 
             <div class="@DetailsInnerClass">
@@ -47,11 +49,7 @@
 
 @code {
     [CascadingParameter] internal MaviAccordion? Owner { get; set; }
-
-    /// <summary>Unique id for this item within the accordion.</summary>
-    [Parameter] public string Id { get; set; } = Guid.NewGuid().ToString("N");
-
-    [Parameter] public string? Title { get; set; }
+ 
     [Parameter] public string? SubTitle { get; set; }
 
     /// <summary>Custom summary markup instead of Title/SubTitle.</summary>
@@ -71,8 +69,8 @@
     [Parameter] public bool IsFirst { get; set; }
     [Parameter] public bool IsLast { get; set; }
 
-    private string _panelId => $"acc-panel-{Id}";
-    private string _headerId => $"acc-header-{Id}";
+    private string PanelId => $"acc-panel-{Id}";
+    private string HeaderId => $"acc-header-{Id}";
 
     protected override void OnInitialized()
     {
