@@ -151,6 +151,7 @@
     --theme-dark-eight: #333333;
     --theme-dark-nine: #1A1A1A;
     --theme-dark-ten: #000000;
+    --animate-mavi-swing-rotate: mavi-swing-rotate 1.35s linear infinite;
 }
 
 @keyframes mavi-spinner-pulse {
@@ -208,5 +209,15 @@
 @keyframes mavi-skeleton-wave {
     100% {
         transform: translateX(100%);
+    }
+}
+
+@keyframes mavi-swing-rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
     }
 }

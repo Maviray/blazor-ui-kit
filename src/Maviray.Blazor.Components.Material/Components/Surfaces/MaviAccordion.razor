@@ -47,19 +47,19 @@
 
     internal string GetItemFrameClasses(bool isFirst, bool isLast)
     {
-        // Material-ish: subtle rounding on the whole stack
-        var rounding = (isFirst, isLast) switch
-        {
-            (true, true) => "rounded-sm",
-            (true, false) => "rounded-t-sm",
-            (false, true) => "rounded-b-sm",
-            _ => "rounded-none"
-        };
+        // // Material-ish: subtle rounding on the whole stack
+        // var rounding = (isFirst, isLast) switch
+        // {
+        //     (true, true) => "rounded-sm",
+        //     (true, false) => "rounded-t-sm",
+        //     (false, true) => "rounded-b-sm",
+        //     _ => "rounded-none"
+        // };
 
         var border = Dividers ? $"border-b {GetDividerBorderClass()}" : "";
         if (isLast) border = ""; // no divider on last
 
-        return $"overflow-hidden {rounding} {border}";
+        return $"overflow-hidden {border}";
     }
 
     internal (string summaryBg, string summaryHoverBg, string summaryText, string border, string detailsBg, string iconText, string focusRing)
