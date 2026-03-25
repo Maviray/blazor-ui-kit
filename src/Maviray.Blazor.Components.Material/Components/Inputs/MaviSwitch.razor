@@ -192,6 +192,8 @@
             baseClasses.Add(GetFocusRingClass());
         }
 
+        baseClasses.Add("isolation-isolate");
+
         return string.Join(" ", baseClasses);
     }
 
@@ -215,8 +217,7 @@
             "before:scale-0",
             "group-hover:before:scale-[2]",
             "before:opacity-0",
-            "group-hover:before:opacity-20",
-            "before:-z-10"
+            "group-hover:before:opacity-20"
         };
 
         // Thumb background color

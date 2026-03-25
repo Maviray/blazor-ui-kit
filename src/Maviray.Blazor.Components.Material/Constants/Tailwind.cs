@@ -3857,7 +3857,7 @@ public static class Tailwind
                 "flex items-center shrink-0 w-5 h-5";
 
             // Base styles shared across all variants
-            public const string BASE = "inline-flex items-center transition-all duration-200 relative active:font-semibold";
+            public const string BASE = "inline-flex gap-2 items-center transition-all duration-200 relative active:font-semibold";
 
             public const string SURROUND = "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 overflow-hidden";
 

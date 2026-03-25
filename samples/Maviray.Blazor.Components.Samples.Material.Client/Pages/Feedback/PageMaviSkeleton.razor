@@ -2,45 +2,555 @@
 @using Maviray.Blazor.Components.Material.Components.Feedback
 @inherits SamplePageBase
 
+
 <PageTitle>MaviSkeleton</PageTitle>
 
+<div class="p-8 max-w-7xl mx-auto space-y-12">
 
-<div class="w-full p-4 flex">
-    <div class="basis-1/5 flex flex-col gap-1">
-        <MaviSkeleton Variant="SkeletonVariant.Circular"
-                      Width="48px"
-                      Height="48px"
-                      Animation="SkeletonAnimation.Wave"/>
-        
-        <MaviSkeleton Variant="SkeletonVariant.Text"
-                      Lines="3"
-                      FullWidth="true"
-                      LastLineWidth="70%"
-                      Animation="SkeletonAnimation.Wave"/>
+    <!-- Page Header -->
+    <div class="space-y-2">
+        <h1 class="@Tailwind.Theme.Typography.DISPLAY_MEDIUM">MaviSkeleton</h1>
+        <p class="@Tailwind.Theme.Typography.BODY_LARGE text-gray-600">
+            A Material-inspired skeleton loader component for Blazor. Use it as a placeholder
+            while content is loading to improve perceived performance and reduce layout shift.
+        </p>
+    </div>
 
-    </div>
-    <div class="basis-1/5">
-        <MaviSkeleton Variant="SkeletonVariant.Text" Width="18rem"/>
+    <!-- ═══════════════════════════════════════════════════════════
+         SECTION 1 – Variants
+    ════════════════════════════════════════════════════════════ -->
+    <section class="space-y-6">
+        <div class="space-y-1">
+            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">1. Variants</h2>
+            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+                <code class="text-purple-600">Variant</code> controls the overall shape of the skeleton.
+                Accepts <code class="text-purple-600">SkeletonVariant.Text</code> (default),
+                <code class="text-purple-600">Rectangular</code>,
+                <code class="text-purple-600">Rounded</code>, or
+                <code class="text-purple-600">Circular</code>.
+            </p>
+        </div>
 
-    </div>
-    <div class="basis-1/5">
-        <MaviSkeleton Variant="SkeletonVariant.Text"
-                      Lines="3"
-                      FullWidth="true"
-                      LastLineWidth="70%"
-                      Animation="SkeletonAnimation.Wave"/>
-    </div>
-    <div class="basis-1/5">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
 
-        <MaviSkeleton Variant="SkeletonVariant.Rectangular"
-                      Width="100%"
-                      Height="220px"
-                      Animation="SkeletonAnimation.Pulse"/>
-    </div>
-    <div class="basis-1/5">
-        <MaviSkeleton Variant="SkeletonVariant.Circular"
-                      Width="48px"
-                      Height="48px"
-                      Animation="SkeletonAnimation.Wave"/>
-    </div>
+            <!-- Text -->
+            <div class="space-y-3">
+                <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Text (default)</h3>
+                <MaviSkeleton Variant="SkeletonVariant.Text" Width="10rem" />
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                    <pre>
+                        <code class="text-xs text-purple-600 whitespace-pre-wrap">&lt;MaviSkeleton Variant="SkeletonVariant.Text" Width="10rem" /&gt; </code>
+                    </pre>
+                </div>
+            </div>
+
+            <!-- Rectangular -->
+            <div class="space-y-3">
+                <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Rectangular</h3>
+                <MaviSkeleton Variant="SkeletonVariant.Rectangular"
+                              Width="100%"
+                              Height="80px" />
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                    <pre>
+                    <code class="text-xs text-purple-600 whitespace-pre-wrap">&lt;MaviSkeleton Variant="SkeletonVariant.Rectangular" Width="100%" Height="80px" /&gt;
+                    </code>
+</pre>
+                    
+                </div>
+            </div>
+
+            <!-- Rounded -->
+            <div class="space-y-3">
+                <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Rounded</h3>
+                <MaviSkeleton Variant="SkeletonVariant.Rounded"
+                              Width="100%"
+                              Height="80px" />
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                    <code class="text-xs text-purple-600 whitespace-pre-wrap">&lt;MaviSkeleton Variant="SkeletonVariant.Rounded" Width="100%" Height="80px" /&gt; </code>
+                </div>
+            </div>
+
+            <!-- Circular -->
+            <div class="space-y-3">
+                <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Circular</h3>
+                <MaviSkeleton Variant="SkeletonVariant.Circular"
+                              Width="56px"
+                              Height="56px" />
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                    <code class="text-xs text-purple-600 whitespace-pre-wrap">&lt;MaviSkeleton Variant="SkeletonVariant.Circular" Width="56px" Height="56px" /&gt; </code>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SECTION 2 – Animations
+    ════════════════════════════════════════════════════════════ -->
+    <section class="space-y-6">
+        <div class="space-y-1">
+            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">2. Animations</h2>
+            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+                <code class="text-purple-600">Animation</code> sets the loading effect.
+                Accepts <code class="text-purple-600">SkeletonAnimation.Pulse</code> (default),
+                <code class="text-purple-600">Wave</code>, or
+                <code class="text-purple-600">None</code>.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+            <!-- Pulse -->
+            <div class="space-y-3">
+                <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Pulse (default)</h3>
+                <MaviSkeleton Variant="SkeletonVariant.Rectangular"
+                              Width="100%"
+                              Height="64px"
+                              Animation="SkeletonAnimation.Pulse" />
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                    <code class="text-xs text-purple-600 whitespace-pre-wrap">Animation="SkeletonAnimation.Pulse" </code>
+                </div>
+            </div>
+
+            <!-- Wave -->
+            <div class="space-y-3">
+                <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Wave</h3>
+                <MaviSkeleton Variant="SkeletonVariant.Rectangular"
+                              Width="100%"
+                              Height="64px"
+                              Animation="SkeletonAnimation.Wave" />
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                    <code class="text-xs text-purple-600 whitespace-pre-wrap">Animation="SkeletonAnimation.Wave"</code>
+                </div>
+            </div>
+
+            <!-- None -->
+            <div class="space-y-3">
+                <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">None</h3>
+                <MaviSkeleton Variant="SkeletonVariant.Rectangular"
+                              Width="100%"
+                              Height="64px"
+                              Animation="SkeletonAnimation.None" />
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                    <code class="text-xs text-purple-600 whitespace-pre-wrap">Animation="SkeletonAnimation.None"</code>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SECTION 3 – Text / Multiline
+    ════════════════════════════════════════════════════════════ -->
+    <section class="space-y-6">
+        <div class="space-y-1">
+            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">3. Text &amp; Multiline Parameters</h2>
+            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+                These parameters are relevant when <code class="text-purple-600">Variant="SkeletonVariant.Text"</code>:
+            </p>
+            <ul class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600 list-disc list-inside space-y-1 mt-2">
+                <li><code class="text-purple-600">Lines</code> — number of text lines to render (default: <strong>1</strong>)</li>
+                <li><code class="text-purple-600">LineHeight</code> — height of each line (default: <strong>"0.9rem"</strong>)</li>
+                <li><code class="text-purple-600">LineGap</code> — gap between lines (default: <strong>"0.5rem"</strong>)</li>
+                <li><code class="text-purple-600">LastLineWidth</code> — width of the last line, giving a natural paragraph feel (default: <strong>"60%"</strong>)</li>
+                <li><code class="text-purple-600">FullWidth</code> — shorthand to make the skeleton fill its container width (default: <strong>false</strong>)</li>
+            </ul>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+            <!-- Single line -->
+            <div class="space-y-3">
+                <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Single line</h3>
+                <MaviSkeleton Variant="SkeletonVariant.Text"
+                              Width="14rem" />
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                    <code class="text-xs text-purple-600 whitespace-pre-wrap">&lt;MaviSkeleton Variant="SkeletonVariant.Text" Width="14rem" /&gt; </code>
+                </div>
+            </div>
+
+            <!-- Multiline paragraph -->
+            <div class="space-y-3">
+                <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Multiline paragraph</h3>
+                <MaviSkeleton Variant="SkeletonVariant.Text"
+                              Lines="4"
+                              FullWidth="true"
+                              LastLineWidth="55%"
+                              LineHeight="0.85rem"
+                              LineGap="0.45rem"
+                              Animation="SkeletonAnimation.Wave" />
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                    <code class="text-xs text-purple-600 whitespace-pre-wrap">&lt;MaviSkeleton Variant="SkeletonVariant.Text" Lines="4" FullWidth="true" LastLineWidth="55%" LineHeight="0.85rem" LineGap="0.45rem" Animation="SkeletonAnimation.Wave" /&gt;</code>
+                </div>
+            </div>
+
+            <!-- Custom last-line width -->
+            <div class="space-y-3">
+                <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Custom last-line width</h3>
+                <MaviSkeleton Variant="SkeletonVariant.Text"
+                              Lines="3"
+                              FullWidth="true"
+                              LastLineWidth="30%"
+                              Animation="SkeletonAnimation.Pulse" />
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                    <code class="text-xs text-purple-600 whitespace-pre-wrap">&lt;MaviSkeleton Variant="SkeletonVariant.Text" Lines="3" FullWidth="true" LastLineWidth="30%" Animation="SkeletonAnimation.Pulse" /&gt; </code>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SECTION 4 – Sizing
+    ════════════════════════════════════════════════════════════ -->
+    <section class="space-y-6">
+        <div class="space-y-1">
+            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">4. Sizing Parameters</h2>
+            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+                All sizing parameters accept any valid CSS length value (e.g. <code class="text-purple-600">"240px"</code>,
+                <code class="text-purple-600">"100%"</code>, <code class="text-purple-600">"12rem"</code>).
+            </p>
+            <ul class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600 list-disc list-inside space-y-1 mt-2">
+                <li><code class="text-purple-600">Width</code> / <code class="text-purple-600">Height</code> — explicit dimensions</li>
+                <li><code class="text-purple-600">MinWidth</code> / <code class="text-purple-600">MinHeight</code> — minimum constraints</li>
+                <li><code class="text-purple-600">MaxWidth</code> / <code class="text-purple-600">MaxHeight</code> — maximum constraints</li>
+            </ul>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+            <!-- Explicit dimensions -->
+            <div class="space-y-3">
+                <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Explicit Width &amp; Height</h3>
+                <MaviSkeleton Variant="SkeletonVariant.Rectangular"
+                              Width="160px"
+                              Height="96px" />
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                    <code class="text-xs text-purple-600 whitespace-pre-wrap">Width="160px" Height="96px" </code>
+                </div>
+            </div>
+
+            <!-- Min / Max width -->
+            <div class="space-y-3">
+                <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">MinWidth / MaxWidth</h3>
+                <MaviSkeleton Variant="SkeletonVariant.Rectangular"
+                              Height="56px"
+                              MinWidth="120px"
+                              MaxWidth="260px"
+                              Width="100%" />
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                    <code class="text-xs text-purple-600 whitespace-pre-wrap">Width="100%" MinWidth="120px" MaxWidth="260px" Height="56px" </code>
+                </div>
+            </div>
+
+            <!-- FullWidth shorthand -->
+            <div class="space-y-3">
+                <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">FullWidth shorthand</h3>
+                <MaviSkeleton Variant="SkeletonVariant.Rectangular"
+                              FullWidth="true"
+                              Height="56px" />
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                    <code class="text-xs text-purple-600 whitespace-pre-wrap">FullWidth="true" Height="56px" </code>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SECTION 5 – BorderRadius override
+    ════════════════════════════════════════════════════════════ -->
+    <section class="space-y-6">
+        <div class="space-y-1">
+            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">5. BorderRadius</h2>
+            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+                <code class="text-purple-600">BorderRadius</code> overrides the variant's default corner rounding.
+                Default values per variant: <strong>Text/Rectangular → 0.5rem</strong>,
+                <strong>Rounded → 0.75rem</strong>, <strong>Circular → 9999px</strong>.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+            <!-- Default (no override) -->
+            <div class="space-y-3">
+                <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Default radius</h3>
+                <MaviSkeleton Variant="SkeletonVariant.Rectangular"
+                              Width="100%"
+                              Height="64px" />
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                    <code class="text-xs text-purple-600 whitespace-pre-wrap">&lt;!-- BorderRadius not set; defaults to "0.5rem" for Rectangular --&gt; </code>
+                </div>
+            </div>
+
+            <!-- Large radius -->
+            <div class="space-y-3">
+                <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Custom: 1.5rem</h3>
+                <MaviSkeleton Variant="SkeletonVariant.Rectangular"
+                              Width="100%"
+                              Height="64px"
+                              BorderRadius="1.5rem" />
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                    <code class="text-xs text-purple-600 whitespace-pre-wrap">BorderRadius="1.5rem" </code>
+                </div>
+            </div>
+
+            <!-- Sharp radius -->
+            <div class="space-y-3">
+                <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Sharp: 0px</h3>
+                <MaviSkeleton Variant="SkeletonVariant.Rectangular"
+                              Width="100%"
+                              Height="64px"
+                              BorderRadius="0px" />
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                    <code class="text-xs text-purple-600 whitespace-pre-wrap">BorderRadius="0px" </code>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SECTION 6 – Custom Class & Style hooks
+    ════════════════════════════════════════════════════════════ -->
+    <section class="space-y-6">
+        <div class="space-y-1">
+            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">6. Class &amp; Style Hooks</h2>
+            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+                <code class="text-purple-600">Class</code> appends extra Tailwind / CSS classes to the root element.
+                <code class="text-purple-600">Style</code> appends inline CSS, merged after all computed styles.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+            <!-- Extra class -->
+            <div class="space-y-3">
+                <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Custom Class</h3>
+                <MaviSkeleton Variant="SkeletonVariant.Rectangular"
+                              Width="100%"
+                              Height="64px"
+                              Class="opacity-50" />
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                    <code class="text-xs text-purple-600 whitespace-pre-wrap">Class="opacity-50"</code>
+                </div>
+            </div>
+
+            <!-- Inline style -->
+            <div class="space-y-3">
+                <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Custom Style</h3>
+                <MaviSkeleton Variant="SkeletonVariant.Rectangular"
+                              Width="100%"
+                              Height="64px"
+                              Style="background-color: #d1fae5;" />
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                    <code class="text-xs text-purple-600 whitespace-pre-wrap">Style="background-color: #d1fae5;"</code>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SECTION 7 – Real-world Composition Examples
+    ════════════════════════════════════════════════════════════ -->
+    <section class="space-y-6">
+        <div class="space-y-1">
+            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">7. Real-world Composition Examples</h2>
+            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+                Compose multiple skeletons to mimic real UI layouts while content loads.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+
+            <!-- User profile card -->
+            <div class="space-y-3">
+                <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">User Profile Card</h3>
+                <div class="flex items-center gap-3 p-4 border border-gray-300 rounded-xl">
+                    <MaviSkeleton Variant="SkeletonVariant.Circular"
+                                  Width="48px"
+                                  Height="48px"
+                                  Animation="SkeletonAnimation.Wave" />
+                    <div class="flex flex-col gap-1 flex-1">
+                        <MaviSkeleton Variant="SkeletonVariant.Text"
+                                      Width="60%"
+                                      Animation="SkeletonAnimation.Wave" />
+                        <MaviSkeleton Variant="SkeletonVariant.Text"
+                                      Width="40%"
+                                      Animation="SkeletonAnimation.Wave" />
+                    </div>
+                </div>
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                    <code class="text-xs text-purple-600 whitespace-pre-wrap">&lt;MaviSkeleton Variant="Circular" Width="48px" Height="48px" /&gt; &lt;MaviSkeleton Variant="Text" Width="60%" /&gt; &lt;MaviSkeleton Variant="Text" Width="40%" /&gt; </code>
+                </div>
+            </div>
+
+            <!-- Article / blog preview -->
+            <div class="space-y-3">
+                <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Article Preview</h3>
+                <div class="flex flex-col gap-2 p-4 border border-gray-300 rounded-xl">
+                    <MaviSkeleton Variant="SkeletonVariant.Rectangular"
+                                  FullWidth="true"
+                                  Height="120px"
+                                  Animation="SkeletonAnimation.Wave" />
+                    <MaviSkeleton Variant="SkeletonVariant.Text"
+                                  Width="80%"
+                                  Animation="SkeletonAnimation.Wave" />
+                    <MaviSkeleton Variant="SkeletonVariant.Text"
+                                  Lines="3"
+                                  FullWidth="true"
+                                  LastLineWidth="65%"
+                                  Animation="SkeletonAnimation.Wave" />
+                </div>
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                    <code class="text-xs text-purple-600 whitespace-pre-wrap">&lt;MaviSkeleton Variant="Rectangular" FullWidth="true" Height="120px" /&gt; &lt;MaviSkeleton Variant="Text" Width="80%" /&gt; &lt;MaviSkeleton Variant="Text" Lines="3" FullWidth="true" LastLineWidth="65%" /&gt; </code>
+                </div>
+            </div>
+
+            <!-- Data table row -->
+            <div class="space-y-3">
+                <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Table Row</h3>
+                <div class="flex flex-col gap-2 p-4 border border-gray-300 rounded-xl">
+                    @for (int i = 0; i < 4; i++)
+                    {
+                        <div class="flex gap-4 items-center">
+                            <MaviSkeleton Variant="SkeletonVariant.Circular"
+                                          Width="28px"
+                                          Height="28px"
+                                          Animation="SkeletonAnimation.Pulse" />
+                            <MaviSkeleton Variant="SkeletonVariant.Text"
+                                          FullWidth="true"
+                                          Animation="SkeletonAnimation.Pulse" />
+                            <MaviSkeleton Variant="SkeletonVariant.Text"
+                                          Width="5rem"
+                                          Animation="SkeletonAnimation.Pulse" />
+                        </div>
+                    }
+                </div>
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                    <code class="text-xs text-purple-600 whitespace-pre-wrap"> @("@for (int i = 0; i < 4; i++)") { &lt;MaviSkeleton Variant="Circular" Width="28px" Height="28px" /&gt; &lt;MaviSkeleton Variant="Text" FullWidth="true" /&gt; &lt;MaviSkeleton Variant="Text" Width="5rem" /&gt; } </code>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SECTION 8 – Parameters Reference Table
+    ════════════════════════════════════════════════════════════ -->
+    <section class="space-y-4">
+        <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">8. Parameters Reference</h2>
+        <div class="overflow-x-auto rounded-xl border border-gray-200">
+            <table class="w-full text-sm text-left">
+                <thead class="bg-gray-100 text-gray-700">
+                    <tr>
+                        <th class="px-4 py-3 font-semibold">Parameter</th>
+                        <th class="px-4 py-3 font-semibold">Type</th>
+                        <th class="px-4 py-3 font-semibold">Default</th>
+                        <th class="px-4 py-3 font-semibold">Description</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 font-mono text-purple-600">Variant</td>
+                        <td class="px-4 py-3 text-gray-600">SkeletonVariant</td>
+                        <td class="px-4 py-3 text-gray-500">Text</td>
+                        <td class="px-4 py-3 text-gray-700">Shape of the skeleton: Text, Rectangular, Rounded, Circular.</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 font-mono text-purple-600">Animation</td>
+                        <td class="px-4 py-3 text-gray-600">SkeletonAnimation</td>
+                        <td class="px-4 py-3 text-gray-500">Pulse</td>
+                        <td class="px-4 py-3 text-gray-700">Loading animation: Pulse, Wave, or None.</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 font-mono text-purple-600">Width</td>
+                        <td class="px-4 py-3 text-gray-600">string?</td>
+                        <td class="px-4 py-3 text-gray-500">—</td>
+                        <td class="px-4 py-3 text-gray-700">Explicit width, e.g. "240px", "100%", "12rem".</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 font-mono text-purple-600">Height</td>
+                        <td class="px-4 py-3 text-gray-600">string?</td>
+                        <td class="px-4 py-3 text-gray-500">—</td>
+                        <td class="px-4 py-3 text-gray-700">Explicit height, e.g. "16px", "3rem".</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 font-mono text-purple-600">MinWidth</td>
+                        <td class="px-4 py-3 text-gray-600">string?</td>
+                        <td class="px-4 py-3 text-gray-500">—</td>
+                        <td class="px-4 py-3 text-gray-700">CSS min-width constraint.</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 font-mono text-purple-600">MinHeight</td>
+                        <td class="px-4 py-3 text-gray-600">string?</td>
+                        <td class="px-4 py-3 text-gray-500">—</td>
+                        <td class="px-4 py-3 text-gray-700">CSS min-height constraint.</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 font-mono text-purple-600">MaxWidth</td>
+                        <td class="px-4 py-3 text-gray-600">string?</td>
+                        <td class="px-4 py-3 text-gray-500">—</td>
+                        <td class="px-4 py-3 text-gray-700">CSS max-width constraint.</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 font-mono text-purple-600">MaxHeight</td>
+                        <td class="px-4 py-3 text-gray-600">string?</td>
+                        <td class="px-4 py-3 text-gray-500">—</td>
+                        <td class="px-4 py-3 text-gray-700">CSS max-height constraint.</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 font-mono text-purple-600">FullWidth</td>
+                        <td class="px-4 py-3 text-gray-600">bool</td>
+                        <td class="px-4 py-3 text-gray-500">false</td>
+                        <td class="px-4 py-3 text-gray-700">Shorthand to make the skeleton fill 100% of its container width.</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 font-mono text-purple-600">Lines</td>
+                        <td class="px-4 py-3 text-gray-600">int</td>
+                        <td class="px-4 py-3 text-gray-500">1</td>
+                        <td class="px-4 py-3 text-gray-700">Number of text lines (Variant=Text only). &gt;1 enables multiline mode.</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 font-mono text-purple-600">LineHeight</td>
+                        <td class="px-4 py-3 text-gray-600">string</td>
+                        <td class="px-4 py-3 text-gray-500">"0.9rem"</td>
+                        <td class="px-4 py-3 text-gray-700">Height of each text line bar (Variant=Text only).</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 font-mono text-purple-600">LineGap</td>
+                        <td class="px-4 py-3 text-gray-600">string</td>
+                        <td class="px-4 py-3 text-gray-500">"0.5rem"</td>
+                        <td class="px-4 py-3 text-gray-700">Vertical gap between text lines in multiline mode.</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 font-mono text-purple-600">LastLineWidth</td>
+                        <td class="px-4 py-3 text-gray-600">string?</td>
+                        <td class="px-4 py-3 text-gray-500">"60%"</td>
+                        <td class="px-4 py-3 text-gray-700">Width of the last line in multiline mode — simulates natural paragraph ending.</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 font-mono text-purple-600">BorderRadius</td>
+                        <td class="px-4 py-3 text-gray-600">string?</td>
+                        <td class="px-4 py-3 text-gray-500">Per variant</td>
+                        <td class="px-4 py-3 text-gray-700">Overrides the default corner radius for the skeleton or its lines.</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 font-mono text-purple-600">Class</td>
+                        <td class="px-4 py-3 text-gray-600">string?</td>
+                        <td class="px-4 py-3 text-gray-500">—</td>
+                        <td class="px-4 py-3 text-gray-700">Additional CSS / Tailwind classes appended to the root element.</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 font-mono text-purple-600">Style</td>
+                        <td class="px-4 py-3 text-gray-600">string?</td>
+                        <td class="px-4 py-3 text-gray-500">—</td>
+                        <td class="px-4 py-3 text-gray-700">Additional inline CSS merged after all computed styles on the root element.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
 </div>

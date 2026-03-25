@@ -5,7 +5,26 @@
 <PageTitle>MaviAccordion</PageTitle>
 
 
-<div class="p-4 flex flex-col gap-2">
+<div class="p-4 flex flex-col gap-4">
+    
+    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-2 rounded-md")">
+        <code class="text-xs whitespace-pre">
+            &lt;MaviAccordion ColorScheme="colorScheme" AllowMultiple="false" Dividers="true"&gt;
+                &lt;MaviAccordionItem Title="General" SubTitle="This is a subtitle." IsFirst="true"&gt;
+                    Content 1
+                &lt;/MaviAccordionItem&gt;
+
+                &lt;MaviAccordionItem Title="Security" SubTitle="This is a subtitle."&gt;
+                    Content 2
+                &lt;/MaviAccordionItem&gt;
+
+                &lt;MaviAccordionItem Title="Advanced" SubTitle="This is a subtitle." IsLast="true"&gt;
+                    Content 3
+                &lt;/MaviAccordionItem & gt;
+            &lt;/MaviAccordion&gt;
+        </code>
+    </div>
+
     @foreach (var colorScheme in Enum.GetValues<ThemeColorScheme>())
     {
         <MaviAccordion ColorScheme="colorScheme" AllowMultiple="false" Dividers="true">
@@ -22,7 +41,7 @@
             </MaviAccordionItem>
         </MaviAccordion>
     }
-    
+
     <MaviAccordion ColorScheme="ThemeColorScheme.Default" AllowMultiple="false" Dividers="true">
         <MaviAccordionItem Title="General" SubTitle="This is a subtitle." IsFirst="true">
             <Summary>
@@ -57,5 +76,5 @@
             </ChildContent>
         </MaviAccordionItem>
     </MaviAccordion>
-   
+
 </div>

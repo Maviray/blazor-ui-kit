@@ -5,80 +5,576 @@
 
 <PageTitle>MaviToastr</PageTitle>
 
-
 <MaviToastr Notifications="_toasts"
             Position="_sampleToastrDemoModel.ElementRelativePosition"
             AutoDismiss="true"
             MaxVisible="5"
             OnClose="HandleClose" />
-            
-            
-<div class="mx-auto max-w-7xl flex flex-col p-4">
-    <EditForm FormName="DemoMaviToastr" Model="@_sampleToastrDemoModel" OnValidSubmit="OnValidFormSubmit">
-        <DataAnnotationsValidator />
-        <div class="flex flex-col gap-4">
-            <div class="flex flex-col lg:flex-row! gap-2">
-                <div class="basis-1/3 flex flex-col">
-                    <MaviInputStringNullable @bind-Value="_sampleToastrDemoModel.Title"
-                                             ElementSize="ElementSize.Regular"
-                                             StartIcon="lni lni-android-old"
-                                             Width="w-full" />
+
+<div class="mx-auto max-w-7xl flex flex-col p-4 space-y-8">
+
+    <!-- Interactive Demo Section -->
+    <section class="space-y-4">
+        <div class="space-y-2">
+            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Interactive Demo</h2>
+            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+                Configure and test the MaviToastr component with different parameters.
+            </p>
+        </div>
+
+        <EditForm FormName="DemoMaviToastr" Model="@_sampleToastrDemoModel" OnValidSubmit="OnValidFormSubmit">
+            <DataAnnotationsValidator />
+            <div class="flex flex-col gap-4">
+                <div class="flex flex-col lg:flex-row! gap-2">
+                    <div class="basis-1/3 flex flex-col">
+                        <MaviInputStringNullable @bind-Value="_sampleToastrDemoModel.Title"
+                                                 ElementSize="ElementSize.Regular"
+                                                 StartIcon="lni lni-android-old"
+                                                 Width="w-full" />
+                    </div>
+                    <div class="basis-2/3 flex flex-col gap-2">
+                        <MaviInputStringNullable @bind-Value="_sampleToastrDemoModel.Text"
+                                                 ElementSize="ElementSize.Regular"
+                                                 StartIcon="lni lni-android-old"
+                                                 Width="w-full" />
+                    </div>
                 </div>
-                <div class="basis-2/3 flex flex-col gap-2">
-                    <MaviInputStringNullable @bind-Value="_sampleToastrDemoModel.Text"
-                                             ElementSize="ElementSize.Regular"
-                                             StartIcon="lni lni-android-old"
-                                             Width="w-full" />
-                </div>
-            </div>
-            <div class="flex flex-col lg:flex-row! gap-2">
-                <MaviDropdown TItem="ElementVariant" TValue="ElementVariant"
-                              @bind-Value="_sampleToastrDemoModel.ElementVariant"
-                              Items="_elementVariants"
-                              ElementSize="ElementSize.Small"
-                              StartIcon="lni lni-gears-3"
-                              Width="w-full"/>
-
-                <MaviDropdown TItem="ThemeColorScheme" TValue="ThemeColorScheme"
-                              @bind-Value="_sampleToastrDemoModel.ThemeColorScheme"
-                              Items="_colorSchemes"
-                              ElementSize="ElementSize.Small"
-                              StartIcon="lni lni-gears-3"
-                              Width="w-full"/>
-
-                <MaviDropdown TItem="ElementSize" TValue="ElementSize"
-                              @bind-Value="_sampleToastrDemoModel.ElementSize"
-                              Items="_size"
-                              ElementSize="ElementSize.Small"
-                              StartIcon="lni lni-gears-3"
-                              Width="w-full"/>
-            </div>
-            <div class="flex flex-col lg:flex-row! gap-2">
-                <MaviDropdown TItem="ElementRelativePosition" TValue="ElementRelativePosition"
-                              @bind-Value="_sampleToastrDemoModel.ElementRelativePosition"
-                              Items="_relativePosition"
-                              ElementSize="ElementSize.Small"
-                              StartIcon="lni lni-gears-3"
-                              Width="w-full" />
-
-                <MaviInputInteger @bind-Value="_sampleToastrDemoModel.Duration"
+                <div class="flex flex-col lg:flex-row! gap-2">
+                    <MaviDropdown TItem="ElementVariant" TValue="ElementVariant"
+                                  @bind-Value="_sampleToastrDemoModel.ElementVariant"
+                                  Items="_elementVariants"
                                   ElementSize="ElementSize.Small"
-                                  StartIcon="lni lni-android-old"
+                                  StartIcon="lni lni-gears-3"
                                   Width="w-full" />
-                <MaviCheckbox @bind-Value="_sampleToastrDemoModel.ShowProgress" ElementSize="ElementSize.Large" Label="Show Progress" />
-            </div>
-            <div>
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
-                            ElementSize="ElementSize.Regular"
-                            Title="Display"
-                            ButtonRole="ButtonRole.Submit"
-                            ElementVariant="ElementVariant.Outlined"
-                            TextTransform="TextTransform.Capitalize">
 
-                </MaviButton>
+                    <MaviDropdown TItem="ThemeColorScheme" TValue="ThemeColorScheme"
+                                  @bind-Value="_sampleToastrDemoModel.ThemeColorScheme"
+                                  Items="_colorSchemes"
+                                  ElementSize="ElementSize.Small"
+                                  StartIcon="lni lni-gears-3"
+                                  Width="w-full" />
+
+                    <MaviDropdown TItem="ElementSize" TValue="ElementSize"
+                                  @bind-Value="_sampleToastrDemoModel.ElementSize"
+                                  Items="_size"
+                                  ElementSize="ElementSize.Small"
+                                  StartIcon="lni lni-gears-3"
+                                  Width="w-full" />
+                </div>
+                <div class="flex flex-col lg:flex-row! gap-2">
+                    <MaviDropdown TItem="ElementRelativePosition" TValue="ElementRelativePosition"
+                                  @bind-Value="_sampleToastrDemoModel.ElementRelativePosition"
+                                  Items="_relativePosition"
+                                  ElementSize="ElementSize.Small"
+                                  StartIcon="lni lni-gears-3"
+                                  Width="w-full" />
+
+                    <MaviInputInteger @bind-Value="_sampleToastrDemoModel.Duration"
+                                      ElementSize="ElementSize.Small"
+                                      StartIcon="lni lni-android-old"
+                                      Width="w-full" />
+                    <MaviCheckbox @bind-Value="_sampleToastrDemoModel.ShowProgress" ElementSize="ElementSize.Large" Label="Show Progress" />
+                </div>
+                <div>
+                    <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                                ElementSize="ElementSize.Regular"
+                                Title="Display Toast"
+                                ButtonRole="ButtonRole.Submit"
+                                ElementVariant="ElementVariant.Outlined"
+                                TextTransform="TextTransform.Capitalize">
+                    </MaviButton>
+                </div>
+            </div>
+        </EditForm>
+    </section>
+
+    <!-- Component Parameters Section -->
+    <section class="space-y-6">
+        <div class="space-y-2">
+            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Component Parameters</h2>
+            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+                Complete list of all available parameters and their descriptions for the MaviToastr component.
+            </p>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
+                            Parameter
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
+                            Type
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
+                            Default
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
+                            Description
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                            Notifications
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            IReadOnlyList&lt;MaviToastNotification&gt;
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            Required
+                        </td>
+                        <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            The list of notifications to display. This parameter is required.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                            Position
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            ElementRelativePosition
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            CenterTop
+                        </td>
+                        <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            Screen position where toasts appear (TopLeft, TopRight, CenterTop, CenterBottom, BottomLeft, BottomRight).
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                            AutoDismiss
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            bool
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            true
+                        </td>
+                        <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            If true, toasts with a Duration will automatically close after the specified time. Parent must handle OnClose to remove items.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                            NewestOnTop
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            bool
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            true
+                        </td>
+                        <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            If true, newer notifications appear at the top of the stack. If false, they appear at the bottom.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                            MaxVisible
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            int
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            5
+                        </td>
+                        <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            Maximum number of toasts to display at once. Older toasts beyond this limit won't be shown.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                            OnClose
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            EventCallback&lt;string&gt;
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            -
+                        </td>
+                        <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            Event fired when a toast is closed (via user click or auto-dismiss). Receives the toast ID. Parent should remove the notification from the list.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- MaviToastNotification Record Parameters Section -->
+    <section class="space-y-6">
+        <div class="space-y-2">
+            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">MaviToastNotification Record</h2>
+            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+                Parameters for individual toast notifications.
+            </p>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
+                            Property
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
+                            Type
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
+                            Default
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
+                            Description
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                            Id
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            string
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            Required
+                        </td>
+                        <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            Unique identifier for the toast notification.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                            Title
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            string?
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            null
+                        </td>
+                        <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            Optional title displayed at the top of the toast.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                            Message
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            string?
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            null
+                        </td>
+                        <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            Main message content of the toast.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                            ThemeColorScheme
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            ThemeColorScheme
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            Default
+                        </td>
+                        <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            Color scheme for the toast (Default, Primary, Secondary, Success, Warning, Error, Info).
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                            ElementVariant
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            ElementVariant
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            Filled
+                        </td>
+                        <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            Visual style variant (Filled, Outlined, Text).
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                            ElementSize
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            ElementSize
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            Regular
+                        </td>
+                        <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            Size of the toast (Small, Regular, Large).
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                            CreatedAt
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            DateTimeOffset
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            default
+                        </td>
+                        <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            Timestamp when the notification was created. Defaults to UtcNow if not specified.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                            Duration
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            TimeSpan?
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            null
+                        </td>
+                        <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            How long the toast should display before auto-dismissing (if AutoDismiss is true). Null means no auto-dismiss.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                            Closable
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            bool
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            true
+                        </td>
+                        <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            Whether to show the close button on the toast.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                            ShowProgress
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            bool
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            true
+                        </td>
+                        <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                            Whether to display a progress bar indicating time remaining (only shown if Duration is set).
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Code Examples Section -->
+    <section class="space-y-6">
+        <div class="space-y-2">
+            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Code Examples</h2>
+            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+                Sample code snippets demonstrating common usage patterns.
+            </p>
+        </div>
+
+        <!-- Basic Usage Example -->
+        <div class="space-y-3">
+            <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE">Basic Usage</h3>
+            <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+                <pre class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-100"><code>&lt;MaviToastr Notifications="_toasts"
+            Position="ElementRelativePosition.CenterTop"
+            AutoDismiss="true"
+            MaxVisible="5"
+            OnClose="HandleClose" /&gt;
+
+@@code {
+    private List&lt;MaviToastNotification&gt; _toasts = [];
+
+    private Task HandleClose(string id)
+    {
+        _toasts = _toasts.Where(t =&gt; t.Id != id).ToList();
+        return Task.CompletedTask;
+    }
+}</code></pre>
             </div>
         </div>
-    </EditForm>
+
+        <!-- Success Notification Example -->
+        <div class="space-y-3">
+            <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE">Success Notification</h3>
+            <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+                <pre class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-100"><code>private void ShowSuccess()
+{
+    var id = Guid.NewGuid().ToString("N");
+    _toasts.Add(new MaviToastNotification(
+        Id: id,
+        Title: "Success!",
+        Message: "Your operation completed successfully.",
+        ThemeColorScheme: ThemeColorScheme.Success,
+        ElementVariant: ElementVariant.Filled,
+        Duration: TimeSpan.FromSeconds(5)
+    ));
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- Error Notification Example -->
+        <div class="space-y-3">
+            <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE">Error Notification</h3>
+            <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+                <pre class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-100"><code>private void ShowError()
+{
+    var id = Guid.NewGuid().ToString("N");
+    _toasts.Add(new MaviToastNotification(
+        Id: id,
+        Title: "Error",
+        Message: "Something went wrong. Please try again.",
+        ThemeColorScheme: ThemeColorScheme.Error,
+        ElementVariant: ElementVariant.Outlined,
+        Duration: TimeSpan.FromSeconds(10),
+        ShowProgress: true
+    ));
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- Warning Notification Example -->
+        <div class="space-y-3">
+            <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE">Warning Notification</h3>
+            <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+                <pre class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-100"><code>private void ShowWarning()
+{
+    var id = Guid.NewGuid().ToString("N");
+    _toasts.Add(new MaviToastNotification(
+        Id: id,
+        Title: "Warning",
+        Message: "Please review your input before proceeding.",
+        ThemeColorScheme: ThemeColorScheme.Warning,
+        ElementVariant: ElementVariant.Filled,
+        ElementSize: ElementSize.Large,
+        Duration: TimeSpan.FromSeconds(7)
+    ));
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- Info Notification (No Auto-Dismiss) Example -->
+        <div class="space-y-3">
+            <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE">Info Notification (Manual Dismiss Only)</h3>
+            <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+                <pre class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-100"><code>private void ShowInfo()
+{
+    var id = Guid.NewGuid().ToString("N");
+    _toasts.Add(new MaviToastNotification(
+        Id: id,
+        Title: "Important Information",
+        Message: "This notification requires manual dismissal.",
+        ThemeColorScheme: ThemeColorScheme.Info,
+        ElementVariant: ElementVariant.Outlined,
+        ElementSize: ElementSize.Regular,
+        Duration: null, // No auto-dismiss
+        Closable: true
+    ));
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- Custom Position Example -->
+        <div class="space-y-3">
+            <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE">Custom Position Configuration</h3>
+            <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+                <pre class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-100"><code>&lt;!-- Top Right Position --&gt;
+&lt;MaviToastr Notifications="_toasts"
+            Position="ElementRelativePosition.TopRight"
+            AutoDismiss="true"
+            NewestOnTop="false"
+            MaxVisible="3"
+            OnClose="HandleClose" /&gt;
+
+&lt;!-- Bottom Left Position --&gt;
+&lt;MaviToastr Notifications="_toasts"
+            Position="ElementRelativePosition.BottomLeft"
+            AutoDismiss="true"
+            OnClose="HandleClose" /&gt;</code></pre>
+            </div>
+        </div>
+
+        <!-- Multiple Toasts Example -->
+        <div class="space-y-3">
+            <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE">Adding Multiple Toasts at Once</h3>
+            <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+                <pre class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-100"><code>private void ShowMultipleNotifications()
+{
+    var notifications = new[]
+    {
+        new MaviToastNotification(
+            Id: Guid.NewGuid().ToString("N"),
+            Message: "Processing started...",
+            ThemeColorScheme: ThemeColorScheme.Info,
+            Duration: TimeSpan.FromSeconds(3)
+        ),
+        new MaviToastNotification(
+            Id: Guid.NewGuid().ToString("N"),
+            Message: "Upload in progress...",
+            ThemeColorScheme: ThemeColorScheme.Primary,
+            Duration: TimeSpan.FromSeconds(5)
+        ),
+        new MaviToastNotification(
+            Id: Guid.NewGuid().ToString("N"),
+            Title: "Complete",
+            Message: "All tasks finished successfully!",
+            ThemeColorScheme: ThemeColorScheme.Success,
+            Duration: TimeSpan.FromSeconds(4)
+        )
+    };
+
+    _toasts.AddRange(notifications);
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- Different Sizes Example -->
+        <div class="space-y-3">
+            <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE">Different Toast Sizes</h3>
+            <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+                <pre class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-100"><code>// Small size toast
+_toasts.Add(new MaviToastNotification(
+    Id: Guid.NewGuid().ToString("N"),
+    Message: "Small toast notification",
+    ElementSize: ElementSize.Small,
+    Duration: TimeSpan.FromSeconds(3)
+));
+
+// Regular size toast (default)
+_toasts.Add(new MaviToastNotification(
+    Id: Guid.NewGuid().ToString("N"),
+    Title: "Regular Toast",
+    Message: "This is a regular-sized notification",
+    ElementSize: ElementSize.Regular,
+    Duration: TimeSpan.FromSeconds(5)
+));
+
+// Large size toast
+_toasts.Add(new MaviToastNotification(
+    Id: Guid.NewGuid().ToString("N"),
+    Title: "Large Important Notice",
+    Message: "This is a large notification with more emphasis",
+    ElementSize: ElementSize.Large,
+    Duration: TimeSpan.FromSeconds(7)
+));</code></pre>
+            </div>
+        </div>
+    </section>
 </div>
 
 @code {

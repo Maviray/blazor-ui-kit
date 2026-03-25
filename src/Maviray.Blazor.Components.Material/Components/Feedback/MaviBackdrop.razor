@@ -31,6 +31,8 @@
     /// <summary>Optional: set z-index (e.g., 50, 100). If null, uses z-50.</summary>
     [Parameter] public ZIndex ZIndex { get; set; }
 
+    [Parameter] public bool InitiallyActive { get; set; }
+
     private string RootClass =>
         Active
             ? $"absolute inset-0 {ZIndex.ToTailwindZIndexClass()} {(CenterContent ? "grid place-items-center" : "")} {Class}".Trim()
@@ -45,6 +47,16 @@
 
     // Keep content above overlay
     private string ContentClass => "relative";
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        if (InitiallyActive)
+        {
+            Active = true;
+        }
+    }
 
     private async Task HandleClick()
     {
