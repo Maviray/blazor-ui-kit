@@ -12,6 +12,8 @@ namespace Maviray.Blazor.Components.Material.Components.Tables;
 
 public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposable
 {
+    const string HANDLE_OUTSIDE_CLICK_METHOD_TITLE = "HandleOutsideClick";
+
     protected TableDataCollection? Collection;
     protected IEnumerable<MaviTableContextMenuItem>? MainMenuItems;
     protected bool ContextMenuVisible;
@@ -61,7 +63,11 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
 
     protected override async Task OnInitializedAsync()
     {
+        await UnSubscribeCurrentRows();
+
         await RefreshTable();
+
+        await SubscribeCurrentRows();
 
         if (EnableLifeCycleLogging)
         {
@@ -164,24 +170,34 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
         }
     }
 
-    protected virtual void PrevPage()
+    protected virtual async Task PrevPage()
     {
+        await UnSubscribeCurrentRows();
+
         if (Collection is not null && Collection.CurrentPage > 1)
         {
             Collection.CurrentPage--;
         }
+
+        await SubscribeCurrentRows();
     }
 
-    protected virtual void NextPage()
+    protected virtual async Task NextPage()
     {
+        await UnSubscribeCurrentRows();
+
         if (Collection is not null && Collection.CurrentPage < Collection.TotalPages)
         {
             Collection.CurrentPage++;
         }
+
+        await SubscribeCurrentRows();
     }
 
-    protected virtual void UpdatePageSize(ChangeEventArgs e)
+    protected virtual async Task UpdatePageSize(ChangeEventArgs e)
     {
+        await UnSubscribeCurrentRows();
+
         if (Collection == null)
         {
             return;
@@ -194,6 +210,8 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
 
         Collection.PageSize = newSize;
         Collection.CurrentPage = 1;
+
+        await SubscribeCurrentRows();
     }
 
     protected virtual void ToggleMainContextMenuDropDown(MouseClickEventArgs mouseEventArgs)
@@ -273,23 +291,59 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
 
     #region handle outside click
 
-    private async Task SubscribeElements()
+    protected async Task SubscribeElements()
     {
         try
         {
-            const string handleOutsideClickMethodTitle = "HandleOutsideClick";
+            
 
             _dotNetRef = DotNetObjectReference.Create(this);
 
             if (JsRuntime != null)
             {
-                await JsRuntime.InvokeVoidAsync(JsInteropConstants.REGISTER_OUT_OF_FOCUS_CALLBACK_LISTENER, ContextMenuId, _dotNetRef, handleOutsideClickMethodTitle);
+                await JsRuntime.InvokeVoidAsync(JsInteropConstants.REGISTER_OUT_OF_FOCUS_CALLBACK_LISTENER, ContextMenuId, _dotNetRef, HANDLE_OUTSIDE_CLICK_METHOD_TITLE);
 
+                await SubscribeCurrentRows();
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger?.Error(ex, ex.Message);
+        }
+    }
+
+    protected async Task SubscribeCurrentRows()
+    {
+        try
+        {
+            if (JsRuntime != null)
+            {
                 if (Collection != null)
                 {
                     foreach (var row in Collection.GetCurrentPageRows())
                     {
-                        await JsRuntime.InvokeVoidAsync(JsInteropConstants.REGISTER_OUT_OF_FOCUS_CALLBACK_LISTENER, row.ContextMenuId, _dotNetRef, handleOutsideClickMethodTitle);
+                        await JsRuntime.InvokeVoidAsync(JsInteropConstants.REGISTER_OUT_OF_FOCUS_CALLBACK_LISTENER, row.ContextMenuId, _dotNetRef, HANDLE_OUTSIDE_CLICK_METHOD_TITLE);
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger?.Error(ex, ex.Message);
+        }
+    }
+
+    protected async Task UnSubscribeCurrentRows()
+    {
+        try
+        {
+            if (JsRuntime != null)
+            {
+                if (Collection != null)
+                {
+                    foreach (var row in Collection.GetCurrentPageRows())
+                    {
+                        await JsRuntime.InvokeVoidAsync(JsInteropConstants.UN_REGISTER_OUT_OF_FOCUS_CALLBACK_LISTENER, row.ContextMenuId);
                     }
                 }
             }
@@ -345,13 +399,7 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
                 {
                     await JsRuntime.InvokeVoidAsync(JsInteropConstants.UN_REGISTER_OUT_OF_FOCUS_CALLBACK_LISTENER, ContextMenuId);
 
-                    if (Collection != null)
-                    {
-                        foreach (var row in Collection.GetCurrentPageRows())
-                        {
-                            await JsRuntime.InvokeVoidAsync(JsInteropConstants.UN_REGISTER_OUT_OF_FOCUS_CALLBACK_LISTENER, row.ContextMenuId);
-                        }
-                    }
+                    await UnSubscribeCurrentRows();
                 }
 
                 _dotNetRef?.Dispose();
