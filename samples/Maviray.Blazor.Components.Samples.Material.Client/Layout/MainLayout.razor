@@ -1,22 +1,20 @@
-﻿@using Maviray.Blazor.Components.Core.Utilities
-@using Maviray.Blazor.Components.Material.Components.Inputs
+﻿@using Maviray.Blazor.Components.Material.Components.NavBars
 @inherits LayoutComponentBase
 
 <div class="min-h-screen flex flex-col">
     <!-- Header -->
-    <header class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG, Tailwind.Theme.Colors.Border.THEME_LIGHT_THREE_BORDER, "border-b sticky top-0 z-50")">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center">
-                    <h1 class="@CssManager.Combine(Tailwind.Theme.Typography.TITLE_LARGE, Tailwind.Theme.Colors.Text.THEME_DARK_NINE_TEXT)">Maviray Blazor UI Kit</h1>
-                </div>
-                <nav class="flex gap-4">
-                    <a href="/" class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, Tailwind.Theme.Colors.Text.THEME_DARK_SIX_TEXT, Tailwind.Theme.Colors.Text.Hover.THEME_DARK_NINE_TEXT_HOVER, "px-3 py-2 rounded-md")">Home</a>
-                    <a href="/components" class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, Tailwind.Theme.Colors.Text.THEME_DARK_SIX_TEXT, Tailwind.Theme.Colors.Text.Hover.THEME_DARK_NINE_TEXT_HOVER, "px-3 py-2 rounded-md")">Components</a>
-                    <a href="/about" class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, Tailwind.Theme.Colors.Text.THEME_DARK_SIX_TEXT, Tailwind.Theme.Colors.Text.Hover.THEME_DARK_NINE_TEXT_HOVER, "px-3 py-2 rounded-md")">About</a>
-                </nav>
-            </div>
-        </div>
+    <header class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG)">
+        <TopNavBar>
+            <LeftContent>
+                <h1 class="@CssManager.Combine(Tailwind.Theme.Typography.TITLE_LARGE, Tailwind.Theme.Colors.Text.THEME_DARK_NINE_TEXT)">Maviray Blazor UI Kit</h1>
+            </LeftContent>
+            <CenterContent>
+                <div>Center</div>
+            </CenterContent>
+            <RightContent>
+                <div>Right</div>
+            </RightContent>
+        </TopNavBar>
     </header>
 
     <div class="flex flex-1">

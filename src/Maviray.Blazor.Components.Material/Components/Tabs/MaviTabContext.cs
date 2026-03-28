@@ -1,7 +1,7 @@
 ﻿using Maviray.Blazor.Components.Core.Enums;
 using Maviray.Blazor.Components.Core.EventArgs;
 
-namespace Maviray.Blazor.Components.Material.Components.Navigation;
+namespace Maviray.Blazor.Components.Material.Components.Tabs;
 
 public class MaviTabContext
 {
