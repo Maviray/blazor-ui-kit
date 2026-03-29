@@ -9,12 +9,12 @@
     <MaviErrorHandler>
         <CascadingValue Value="@(this)">
             <!-- 1) Left side nav -->
-            <aside class="w-64 shrink-0 border-r flex flex-col bg-(--theme-dark-eight) text-(--theme-light-two)">
+            <aside class="@GetSideNavContainerCss()">
                 <div class="h-[48px] flex items-center justify-center">
                     <div>UIK</div>
                 </div>
-                <div>
-                    <MaviMenuVertical PullMenuItems="GetMenuItems" InitiallyExpanded="true" ElementSize="ElementSize.Large" ItemClicked="ItemClicked" DarkMode="true" />
+                <div class="h-[80dvh] overflow-y-auto overflow-x-hidden">
+                    <MaviMenuVertical @ref="_maviMenuVertical" PullMenuItems="GetMenuItems" ElementSize="ElementSize.Large" ItemClicked="ItemClicked" DarkMode="true" />
                 </div>
             </aside>
 
@@ -65,6 +65,8 @@
 
 @code
 {
+    private MaviMenuVertical? _maviMenuVertical;
+
     private Task OnHamburgerButtonClick(MouseClickEventArgs args)
     {
         CircuitStateService?.ReportClick(args.ButtonId);
@@ -75,7 +77,7 @@
     {
         if (CircuitStateService != null)
         {
-            await CircuitStateService.GetMenuItems();
+            return await CircuitStateService.GetMenuItems();
         }
 
         return Enumerable.Empty<IMenuItem>();
@@ -91,5 +93,18 @@
         NavigationManager?.NavigateTo(item.NavigateTo, item.RequireFullPageReload);
 
         return Task.CompletedTask;
+    }
+
+    private string GetSideNavContainerCss()
+    {
+        var expanded = true;
+
+        if (_maviMenuVertical is not null)
+        {
+            expanded = _maviMenuVertical.Expanded;
+        }
+        var width = expanded ? "w-64" : "w-[64px]";
+
+        return $"{width} shrink-0 flex flex-col bg-(--theme-dark-eight) text-(--theme-light-two)";
     }
 }

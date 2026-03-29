@@ -10,14 +10,14 @@
     @foreach (var item in _menuItems)
     {
         <div class="@GetItemContainerCss(item)">
-            <div class="@GetItemBoxCss(item)">
-                <div class="@GetItemIconContainerCss(item)" @onclick="async () => { await ItemClick(item); }">
+            <div class="@GetItemBoxCss(item)" @onclick="async () => { await ItemClick(item); }">
+                <div class="@GetItemIconContainerCss(item)">
                     <i class="@item.Icon" title="@item.Title"></i>
                 </div>
                
-                @if (_expanded)
+                @if (Expanded)
                 {
-                    <div class="@GetItemTitleCss(item)" @onclick="async () => { await ItemClick(item); }">@item.Title</div>
+                    <div class="@GetItemTitleCss(item)">@item.Title</div>
                     @if (!string.IsNullOrWhiteSpace(item.BadgeText))
                     {
                         <div class="@GetBadgeCss(item)">@item.BadgeText</div>
@@ -30,14 +30,14 @@
                 <div class="@GetItemGroupContainerCss()">
                     @foreach (var subItem in menuGroup.Items)
                     {
-                        <div class="@GetItemBoxCss(subItem)">
-                            <div class="@GetItemIconContainerCss(subItem)" @onclick="async () => { await ItemClick(subItem); }">
+                        <div class="@GetItemBoxCss(subItem)" @onclick="async () => { await ItemClick(subItem); }">
+                            <div class="@GetItemIconContainerCss(subItem)">
                                 <i class="@subItem.Icon" title="@subItem.Title"></i>
                             </div>
                
-                            @if (_expanded)
+                            @if (Expanded)
                             {
-                                <div class="@GetItemTitleCss(subItem)" @onclick="async () => { await ItemClick(subItem); }">@subItem.Title</div>
+                                <div class="@GetItemTitleCss(subItem)">@subItem.Title</div>
                                 @if (!string.IsNullOrWhiteSpace(subItem.BadgeText))
                                 {
                                     <div class="@GetBadgeCss(subItem)">@subItem.BadgeText</div>
@@ -54,15 +54,12 @@
 
 @code {
 
-    private bool _expanded;
+    public bool Expanded { get; set; } = true;
 
     private IEnumerable<IMenuItem> _menuItems = [];
 
     [Parameter]
     public Func<Task<IEnumerable<IMenuItem>>>? PullMenuItems { get; set; }
-
-    [Parameter]
-    public bool InitiallyExpanded { get; set; }
 
     [Parameter]
     public ElementSize ElementSize { get; set; }
@@ -72,25 +69,12 @@
 
     [Parameter] public EventCallback<MenuItem> ItemClicked { get; set; }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        base.OnInitialized();
-
-        if (InitiallyExpanded)
-        {
-            _expanded = true;
-        }
+        await base.OnInitializedAsync();
 
         SubscribeToCircuitState();
 
-        if (EnableLifeCycleLogging)
-        {
-            Logger?.LogDebugLifeCycle(Id, GetType());
-        }
-    }
-
-    protected override async Task OnParametersSetAsync()
-    {
         await LoadMenuItems();
 
         if (EnableLifeCycleLogging)
@@ -119,13 +103,13 @@
     {
         if (args.ComponentId != ElementConstants.Button.TOGGLE_SIDE_NAV_BAR) return;
 
-        _expanded = !_expanded;
+        Expanded = !Expanded;
         StateHasChanged();
     }
 
     private string GetRootContainerCss()
     {
-        var width = _expanded ? "w-full" : "w-[54px]";
+        var width = Expanded ? "w-full" : "w-[54px]";
 
         return DarkMode ? $"flex flex-col bg-(--theme-dark-eight) {width}" : $"flex flex-col {width}";
     }
