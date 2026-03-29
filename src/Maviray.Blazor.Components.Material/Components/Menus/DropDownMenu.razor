@@ -1,0 +1,202 @@
+﻿@using Maviray.Blazor.Components.Core.Constants
+@inherits MenuBase
+@implements IAsyncDisposable
+
+<div id="@Id" class="@GetContainerCss()" style="Style">
+    <button id="@ButtonId" type="button" role="button" class="@GetButtonCss()" @onclick=ToggleDropDown>
+        <div>@Title</div>
+        @if (DisplayIcons)
+        {
+            <i class="@GetIconCss()"></i>
+        }
+    </button>
+    <div class="@GetDropDownCss()">
+        @if (MenuItems != null)
+        {
+            foreach (var item in MenuItems)
+            {
+                <div class="@GetDropDownItemCss(item)" title="@item.Title" @onclick="async () => { await ItemClick(item); }">@item.Title?.TrimToLengthWithDots(TrimToLength)</div>
+            }
+        }
+    </div>
+</div>
+
+@code {
+
+    const string HANDLE_OUTSIDE_CLICK_METHOD_TITLE = "HandleOutsideClick";
+
+    private const string ICON_CHEVRON_DOWN = "lni lni-chevron-down";
+    private const string ICON_MINUS = "lni lni-minus";
+
+    private string ButtonId => $"{Id}-dropdown-toggle-button";
+
+    private bool _expanded;
+
+    private DotNetObjectReference<DropDownMenu>? _dotNetRef;
+
+    [Parameter]
+    [EditorRequired]
+    public IEnumerable<MenuItem>? MenuItems { get; set; }
+
+    [Parameter]
+    public string Width { get; set; } = "w-48";
+
+    [Parameter]
+    public string DropDownWidth { get; set; } = "w-64";
+
+    [Parameter]
+    public bool DisplayIcons { get; set; }
+
+    [Parameter]
+    public string IconCollapsed { get; set; } = ICON_MINUS;
+
+    [Parameter]
+    public string IconExpanded { get; set; } = ICON_CHEVRON_DOWN;
+
+    [Parameter]
+    public int TrimToLength { get; set; } = 30;
+
+    [Parameter]
+    public ElementHorizontalAlignment DropDownHorizontalAlightment { get; set; } = ElementHorizontalAlignment.Left;
+
+    [Parameter] public EventCallback<MenuItem> ItemClicked { get; set; }
+
+    [Inject]
+    protected IJSRuntime? JsRuntime { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await SubscribeElement();
+        }
+
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle(Id, GetType());
+        }
+    }
+
+    private void ToggleDropDown()
+    {
+        _expanded = !_expanded;
+    }
+
+    private string GetContainerCss()
+    {
+        return $"relative {Width} {Class}";
+    }
+
+    private string GetButtonCss()
+    {
+        return "cursor-pointer relative flex items-center gap-2 text-sm font-medium hover:font-semibold leading-none font-ui";
+    }
+
+    private string GetIconCss() => _expanded ? IconExpanded : IconCollapsed;
+
+    private string GetDropDownCss()
+    {
+        var alignmentCss = DropDownHorizontalAlightment switch
+        {
+            ElementHorizontalAlignment.Left => "left-0",
+            ElementHorizontalAlignment.Center => "left-1/2 transform -translate-x-1/2",
+            ElementHorizontalAlignment.Right => "right-0",
+            _ => "left-0"
+        };
+
+        return _expanded ? $"absolute top-full z-10 mt-3 rounded-md bg-white p-2 shadow-lg ring-1 ring-gray-900/5 flex flex-col {DropDownWidth} {alignmentCss}" : "hidden";
+    }
+
+    private string GetDropDownItemCss(MenuItem item) => "block cursor-pointer rounded-sm px-3 py-2 text-sm font-medium leading-none font-ui text-(--theme-default-eight) hover:bg-(--theme-default-one) whitespace-nowrap";
+
+    protected async Task SubscribeElement()
+    {
+        try
+        {
+
+
+            _dotNetRef = DotNetObjectReference.Create(this);
+
+            if (JsRuntime != null)
+            {
+                await JsRuntime.InvokeVoidAsync(JsInteropConstants.REGISTER_OUT_OF_FOCUS_CALLBACK_LISTENER, Id, _dotNetRef, HANDLE_OUTSIDE_CLICK_METHOD_TITLE);
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger?.Error(ex, ex.Message);
+        }
+    }
+
+    private async Task ItemClick(MenuItem item)
+    {
+        _expanded = false;
+
+        if (ItemClicked.HasDelegate)
+        {
+            await ItemClicked.InvokeAsync(item);
+        }
+    }
+
+    [JSInvokable]
+    public void HandleOutsideClick(string elementId)
+    {
+        try
+        {
+            if (elementId == Id)
+            {
+                _expanded = false;
+            }
+
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Logger?.Error(ex, ex.Message);
+        }
+    }
+
+    #region dispose
+    private bool _disposed;
+
+    public async ValueTask DisposeAsync()
+    {
+        await DisposeAsync(true);
+
+        GC.SuppressFinalize(this);
+    }
+
+    private async ValueTask DisposeAsync(bool disposing)
+    {
+        try
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                if (JsRuntime != null)
+                {
+                    await JsRuntime.InvokeVoidAsync(JsInteropConstants.UN_REGISTER_OUT_OF_FOCUS_CALLBACK_LISTENER, Id);
+                }
+
+                _dotNetRef?.Dispose();
+            }
+
+            _disposed = true;
+
+            if (EnableLifeCycleLogging)
+            {
+                Logger?.LogDebugLifeCycle(Id, GetType());
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger?.Error(ex, ex.Message);
+        }
+    }
+
+    #endregion
+}

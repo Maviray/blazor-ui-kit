@@ -63,11 +63,7 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
 
     protected override async Task OnInitializedAsync()
     {
-        await UnSubscribeCurrentRows();
-
         await RefreshTable();
-
-        await SubscribeCurrentRows();
 
         if (EnableLifeCycleLogging)
         {
@@ -82,10 +78,7 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
             await SubscribeElements();
         }
 
-        if (EnableLifeCycleLogging)
-        {
-            Logger?.LogDebugLifeCycle(Id, GetType());
-        }
+        await base.OnAfterRenderAsync(firstRender);
     }
 
     protected override void OnParametersSet()
@@ -107,8 +100,18 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
 
     protected virtual async Task RefreshTable()
     {
+        if (HasRendered)
+        {
+            await UnSubscribeCurrentRows();
+        }
+
         await BuildCollection();
         await BuildContextMenu();
+
+        if (HasRendered)
+        {
+            await SubscribeCurrentRows();
+        }
 
         if (EnableLifeCycleLogging)
         {
@@ -295,8 +298,6 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
     {
         try
         {
-            
-
             _dotNetRef = DotNetObjectReference.Create(this);
 
             if (JsRuntime != null)
