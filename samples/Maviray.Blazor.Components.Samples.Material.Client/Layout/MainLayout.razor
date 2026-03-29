@@ -1,18 +1,28 @@
 ﻿@using Maviray.Blazor.Components.Material.Components.NavBars
-@inherits LayoutComponentBase
+@using Maviray.Blazor.Components.Core.Components
+@inherits MavirayLayoutBase
 
 <div class="min-h-screen flex flex-col">
     <!-- Header -->
     <header class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG)">
         <TopNavBar>
             <LeftContent>
-                <h1 class="@CssManager.Combine(Tailwind.Theme.Typography.TITLE_LARGE, Tailwind.Theme.Colors.Text.THEME_DARK_NINE_TEXT)">Maviray Blazor UI Kit</h1>
+                <MaviButtonIcon Icon="lni lni-menu-hamburger-1"
+                                ElementSize="ElementSize.Regular" 
+                                ElementVariant="ElementVariant.Text"
+                                Title="Toggle Side Nav Bar"/>
             </LeftContent>
             <CenterContent>
-                <div>Center</div>
+                <h1 class="@CssManager.Combine(Tailwind.Theme.Typography.TITLE_LARGE, Tailwind.Theme.Colors.Text.THEME_DARK_NINE_TEXT)">Blazor UI Kit</h1>
             </CenterContent>
             <RightContent>
-                <div>Right</div>
+                <MaviLink Href="/"
+                          ThemeColorScheme="ThemeColorScheme.Default"
+                          ElementSize="ElementSize.Large"
+                          ElementVariant="ElementVariant.Text"
+                          Label="Home"
+                          Title="Home">
+                </MaviLink>
             </RightContent>
         </TopNavBar>
     </header>

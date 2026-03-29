@@ -380,13 +380,6 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
 
     public async ValueTask DisposeAsync()
     {
-        await DisposeAsync(true);
-
-        GC.SuppressFinalize(this);
-    }
-
-    private async ValueTask DisposeAsync(bool disposing)
-    {
         try
         {
             if (_disposed)
@@ -394,17 +387,14 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
                 return;
             }
 
-            if (disposing)
+            if (JsRuntime != null)
             {
-                if (JsRuntime != null)
-                {
-                    await JsRuntime.InvokeVoidAsync(JsInteropConstants.UN_REGISTER_OUT_OF_FOCUS_CALLBACK_LISTENER, ContextMenuId);
+                await JsRuntime.InvokeVoidAsync(JsInteropConstants.UN_REGISTER_OUT_OF_FOCUS_CALLBACK_LISTENER, ContextMenuId);
 
-                    await UnSubscribeCurrentRows();
-                }
-
-                _dotNetRef?.Dispose();
+                await UnSubscribeCurrentRows();
             }
+
+            _dotNetRef?.Dispose();
 
             if (_filterDebounceTimer != null)
             {
