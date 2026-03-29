@@ -1,5 +1,6 @@
 using Maviray.Blazor.Components.Core.Extensions;
 using Maviray.Blazor.Components.Core.Services;
+using Maviray.Blazor.Components.Samples.Material.Client.Services;
 using Maviray.Blazor.Components.Samples.Material.Components;
 
 namespace Maviray.Blazor.Components.Samples.Material
@@ -17,7 +18,7 @@ namespace Maviray.Blazor.Components.Samples.Material
             // Configure Maviray components
             builder.Services.AddMaviComponents();
 
-            builder.Services.AddScoped<ICircuitStateService, CircuitStateService>();
+            builder.Services.AddScoped<ICircuitStateService, SampleCircuitStateService>();
 
             var app = builder.Build();
 

@@ -1,6 +1,6 @@
 ﻿using Maviray.Blazor.Components.Core.Enums;
 
-namespace Maviray.Blazor.Components.Material.Components.Menus;
+namespace Maviray.Blazor.Components.Core.Interfaces;
 
 public interface IMenuItem
 {
@@ -11,6 +11,8 @@ public interface IMenuItem
     public bool Disabled { get; set; }
     public bool Selected { get; set; }
     public string? BadgeText { get; set; }
+    public string? NavigateTo { get; set; }
+    public bool RequireFullPageReload { get; set; }
     public ThemeColorScheme BadgeColor { get; set; }
 
     void MarkActive(string? guid);

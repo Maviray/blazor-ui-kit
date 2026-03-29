@@ -1,5 +1,6 @@
 using Maviray.Blazor.Components.Core.Extensions;
 using Maviray.Blazor.Components.Core.Services;
+using Maviray.Blazor.Components.Samples.Material.Client.Services;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
 namespace Maviray.Blazor.Components.Samples.Material.Client
@@ -12,7 +13,7 @@ namespace Maviray.Blazor.Components.Samples.Material.Client
 
             // Configure Maviray components
             builder.Services.AddMaviComponents(options => options.EnableLifecycleLogging = false);
-            builder.Services.AddScoped<ICircuitStateService, CircuitStateService>();
+            builder.Services.AddScoped<ICircuitStateService, SampleCircuitStateService>();
 
             await builder.Build().RunAsync();
         }

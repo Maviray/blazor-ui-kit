@@ -1,16 +1,17 @@
 ﻿@using Maviray.Blazor.Components.Core.Constants
+@using Maviray.Blazor.Components.Core.Interfaces
 @using Maviray.Blazor.Components.Core.Services
 @using Maviray.Blazor.Components.Material.Constants
 @inherits MenuBase
 @inject ICircuitStateService CircuitStateService
 @implements IDisposable
 
-<div id="@Id" class="flex flex-col">
+<div id="@Id" class="@GetRootContainerCss()">
     @foreach (var item in _menuItems)
     {
         <div class="@GetItemContainerCss(item)">
             <div class="@GetItemBoxCss(item)">
-                <div class="@GetItemIconContainerCss()" @onclick="async () => { await ItemClick(item); }">
+                <div class="@GetItemIconContainerCss(item)" @onclick="async () => { await ItemClick(item); }">
                     <i class="@item.Icon" title="@item.Title"></i>
                 </div>
                
@@ -29,8 +30,8 @@
                 <div class="@GetItemGroupContainerCss()">
                     @foreach (var subItem in menuGroup.Items)
                     {
-                        <div class="@GetItemBoxCss(item)">
-                            <div class="@GetItemIconContainerCss()" @onclick="async () => { await ItemClick(subItem); }">
+                        <div class="@GetItemBoxCss(subItem)">
+                            <div class="@GetItemIconContainerCss(subItem)" @onclick="async () => { await ItemClick(subItem); }">
                                 <i class="@subItem.Icon" title="@subItem.Title"></i>
                             </div>
                
@@ -66,6 +67,9 @@
     [Parameter]
     public ElementSize ElementSize { get; set; }
 
+    [Parameter]
+    public bool DarkMode { get; set; }
+
     [Parameter] public EventCallback<MenuItem> ItemClicked { get; set; }
 
     protected override void OnInitialized()
@@ -95,6 +99,12 @@
         }
     }
 
+    public async Task Refresh()
+    {
+        await LoadMenuItems();
+        StateHasChanged();
+    }
+
     private void SubscribeToCircuitState() => CircuitStateService?.ButtonClicked += OnButtonClick;
 
     private async Task LoadMenuItems()
@@ -113,9 +123,27 @@
         StateHasChanged();
     }
 
+    private string GetRootContainerCss()
+    {
+        var width = _expanded ? "w-full" : "w-[54px]";
+
+        return DarkMode ? $"flex flex-col bg-(--theme-dark-eight) {width}" : $"flex flex-col {width}";
+    }
+
     private string GetItemContainerCss(IMenuItem item) => item is MenuItemGroup { Expanded: true } ? GetBorderCss() : string.Empty;
 
-    private static string GetItemBoxCss(IMenuItem item) => item is MenuItemGroup { Expanded: true } ? "flex gap-2 items-center cursor-pointer bg-(--theme-light-one)" : "flex gap-2 items-center cursor-pointer";
+    private string GetItemBoxCss(IMenuItem item)
+    {
+        var hoverColor = DarkMode ? "hover:bg-(--theme-dark-nine)" : "hover:bg-(--theme-light-two)";
+
+
+        if (item is MenuItemGroup { Expanded: true })
+        {
+            return DarkMode ? $"p-1 flex gap-2 items-center cursor-pointer bg-(--theme-dark-seven) {hoverColor}" : $"p-1 flex gap-2 items-center cursor-pointer bg-(--theme-light-one) {hoverColor}";
+        }
+
+        return $"p-1 flex gap-2 items-center cursor-pointer {hoverColor}";
+    }
 
     private string GetBadgeCss(IMenuItem item)
     {
@@ -143,7 +171,7 @@
         return $"{color} {size}";
     }
 
-    private string GetItemIconContainerCss()
+    private string GetItemIconContainerCss(IMenuItem item)
     {
         var textSize = ElementSize switch
         {
@@ -159,7 +187,9 @@
             _ => "size-[32px]"
         };
 
-        return $"rounded-full p-[4px] {textSize} {boxSize} hover:bg-(--theme-light-two) active:bg-(--theme-primary-two) flex items-center justify-center";
+        var hoverActive = DarkMode ? "hover:bg-(--theme-dark-nine) active:bg-(--theme-dark-seven)" : "hover:bg-(--theme-light-two) active:bg-(--theme-primary-two)";
+
+        return $"rounded-full p-[4px] {textSize} {boxSize} {hoverActive} {GetTextColorCss(item)} flex items-center justify-center";
     }
 
     private string GetItemTitleCss(IMenuItem item)
@@ -171,9 +201,29 @@
             _ => Tailwind.Theme.Typography.LABEL_LARGE
         };
 
-        var textColor = item.Selected ? "font-semibold text-(--theme-primary-eight)" : "text-(--theme-dark-nine)";
+        var activeColor = DarkMode ? "active:text-(--theme-info-four)" : "active:text-(--theme-primary-ten)";       
 
-        return $"hover:font-bold {size} {textColor} active:text-(--theme-primary-ten)";
+        return $"hover:font-bold {size} {GetTextColorCss(item)} {activeColor}";
+    }
+
+    private string GetTextColorCss(IMenuItem item)
+    {
+        if (item is MenuItemGroup { Expanded: true })
+        {
+            if(DarkMode)
+            {
+                return item.Selected ? "font-semibold text-(--theme-accent-eight)" : "text-(--theme-light-two)";
+            }
+
+            return item.Selected ? "font-semibold text-(--theme-dark-nine)" : "text-(--theme-dark-eight)";
+        }
+
+        if(DarkMode)
+        {
+            return item.Selected ? "font-semibold text-(--theme-info-two)" : "text-(--theme-light-two)";
+        }
+
+        return item.Selected ? "font-semibold text-(--theme-primary-eight)" : "text-(--theme-dark-eight)";
     }
 
     private static string GetItemGroupContainerCss() => "flex flex-col";
