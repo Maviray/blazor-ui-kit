@@ -1,0 +1,235 @@
+﻿@using Maviray.Blazor.Components.Core.Constants
+@using Maviray.Blazor.Components.Core.Services
+@using Maviray.Blazor.Components.Material.Constants
+@inherits MenuBase
+@inject ICircuitStateService CircuitStateService
+@implements IDisposable
+
+<div id="@Id" class="flex flex-col">
+    @foreach (var item in _menuItems)
+    {
+        <div class="@GetItemContainerCss(item)">
+            <div class="@GetItemBoxCss(item)">
+                <div class="@GetItemIconContainerCss()" @onclick="async () => { await ItemClick(item); }">
+                    <i class="@item.Icon" title="@item.Title"></i>
+                </div>
+               
+                @if (_expanded)
+                {
+                    <div class="@GetItemTitleCss(item)" @onclick="async () => { await ItemClick(item); }">@item.Title</div>
+                    @if (!string.IsNullOrWhiteSpace(item.BadgeText))
+                    {
+                        <div class="@GetBadgeCss(item)">@item.BadgeText</div>
+                    }
+                }
+            </div>
+
+            @if (item is MenuItemGroup { Expanded: true } menuGroup)
+            {
+                <div class="@GetItemGroupContainerCss()">
+                    @foreach (var subItem in menuGroup.Items)
+                    {
+                        <div class="@GetItemBoxCss(item)">
+                            <div class="@GetItemIconContainerCss()" @onclick="async () => { await ItemClick(subItem); }">
+                                <i class="@subItem.Icon" title="@subItem.Title"></i>
+                            </div>
+               
+                            @if (_expanded)
+                            {
+                                <div class="@GetItemTitleCss(subItem)" @onclick="async () => { await ItemClick(subItem); }">@subItem.Title</div>
+                                @if (!string.IsNullOrWhiteSpace(subItem.BadgeText))
+                                {
+                                    <div class="@GetBadgeCss(subItem)">@subItem.BadgeText</div>
+                                }
+                            }
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+       
+    }
+</div>
+
+@code {
+
+    private bool _expanded;
+
+    private IEnumerable<IMenuItem> _menuItems = [];
+
+    [Parameter]
+    public Func<Task<IEnumerable<IMenuItem>>>? PullMenuItems { get; set; }
+
+    [Parameter]
+    public bool InitiallyExpanded { get; set; }
+
+    [Parameter]
+    public ElementSize ElementSize { get; set; }
+
+    [Parameter] public EventCallback<MenuItem> ItemClicked { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        if (InitiallyExpanded)
+        {
+            _expanded = true;
+        }
+
+        SubscribeToCircuitState();
+
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle(Id, GetType());
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await LoadMenuItems();
+
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle(Id, GetType());
+        }
+    }
+
+    private void SubscribeToCircuitState() => CircuitStateService?.ButtonClicked += OnButtonClick;
+
+    private async Task LoadMenuItems()
+    {
+        if (PullMenuItems != null)
+        {
+            _menuItems = await PullMenuItems.Invoke();
+        }
+    }
+
+    private void OnButtonClick(object? sender, ButtonClickEventArgs args)
+    {
+        if (args.ComponentId != ElementConstants.Button.TOGGLE_SIDE_NAV_BAR) return;
+
+        _expanded = !_expanded;
+        StateHasChanged();
+    }
+
+    private string GetItemContainerCss(IMenuItem item) => item is MenuItemGroup { Expanded: true } ? GetBorderCss() : string.Empty;
+
+    private static string GetItemBoxCss(IMenuItem item) => item is MenuItemGroup { Expanded: true } ? "flex gap-2 items-center cursor-pointer bg-(--theme-light-one)" : "flex gap-2 items-center cursor-pointer";
+
+    private string GetBadgeCss(IMenuItem item)
+    {
+        var color = item.BadgeColor switch
+        {
+            ThemeColorScheme.Default => Tailwind.Theme.Badge.DEFAULT,
+            ThemeColorScheme.Primary => Tailwind.Theme.Badge.PRIMARY,
+            ThemeColorScheme.Secondary => Tailwind.Theme.Badge.SECONDARY,
+            ThemeColorScheme.Success => Tailwind.Theme.Badge.SUCCESS,
+            ThemeColorScheme.Alert => Tailwind.Theme.Badge.ALERT,
+            ThemeColorScheme.Warning => Tailwind.Theme.Badge.WARNING,
+            ThemeColorScheme.Info => Tailwind.Theme.Badge.INFO,
+            ThemeColorScheme.Dark => Tailwind.Theme.Badge.DARK,
+            ThemeColorScheme.Light => Tailwind.Theme.Badge.LIGHT,
+            _ => Tailwind.Theme.Badge.DEFAULT
+        };
+
+        var size = ElementSize switch
+        {
+            ElementSize.Small => "text-[10px]",
+            ElementSize.Large => "text-[12px]",
+            _ => "text-[11px]"
+        };
+
+        return $"{color} {size}";
+    }
+
+    private string GetItemIconContainerCss()
+    {
+        var textSize = ElementSize switch
+        {
+            ElementSize.Small => "!text-sm",
+            ElementSize.Large => "!text-lg",
+            _ => "!text-base"
+        };
+
+        var boxSize = ElementSize switch
+        {
+            ElementSize.Small => "size-[28px]",
+            ElementSize.Large => "size-[36px]",
+            _ => "size-[32px]"
+        };
+
+        return $"rounded-full p-[4px] {textSize} {boxSize} hover:bg-(--theme-light-two) active:bg-(--theme-primary-two) flex items-center justify-center";
+    }
+
+    private string GetItemTitleCss(IMenuItem item)
+    {
+        var size = ElementSize switch
+        {
+            ElementSize.Small => Tailwind.Theme.Typography.LABEL_MEDIUM,
+            ElementSize.Large => Tailwind.Theme.Typography.LABEL_XL,
+            _ => Tailwind.Theme.Typography.LABEL_LARGE
+        };
+
+        var textColor = item.Selected ? "font-semibold text-(--theme-primary-eight)" : "text-(--theme-dark-nine)";
+
+        return $"hover:font-bold {size} {textColor} active:text-(--theme-primary-ten)";
+    }
+
+    private static string GetItemGroupContainerCss() => "flex flex-col";
+
+    private string GetBorderCss()
+    {
+        var baseCss = "border-l-(--theme-primary-seven)";
+
+        var size = ElementSize switch
+        {
+            ElementSize.Small => "border-l-4",
+            ElementSize.Large => "border-l-8",
+            _ => "border-l-6"
+        };
+
+        return $"{baseCss} {size}";
+    }
+
+    private async Task ItemClick(IMenuItem item)
+    {
+        foreach (var menuItem in _menuItems)
+        {
+            menuItem.MarkActive(item.Guid);
+        }
+
+        if (item is MenuItem individual && ItemClicked.HasDelegate)
+        {
+            await ItemClicked.InvokeAsync(individual);
+        }
+    }
+
+    #region dispose
+    private bool _disposed;
+
+    public void Dispose()
+    {
+        try
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            CircuitStateService?.ButtonClicked -= OnButtonClick;
+
+            _disposed = true;
+
+            if (EnableLifeCycleLogging)
+            {
+                Logger?.LogDebugLifeCycle(Id, GetType());
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger?.Error(ex, ex.Message);
+        }
+    }
+    #endregion
+}

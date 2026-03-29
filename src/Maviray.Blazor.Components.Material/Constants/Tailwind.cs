@@ -3848,6 +3848,9 @@ public static class Tailwind
 
             public const string LABEL_SMALL =
                 "text-[11px] font-medium tracking-wide leading-none font-ui";
+
+            public const string LABEL_XL =
+                "text-[14px] font-medium tracking-wide leading-none font-ui";
         }
 
         public static class NavLink
@@ -4122,6 +4125,5 @@ public static class Tailwind
             public const string TWOTHOURSAND = "z-[2000]";
             public const string THREETHOURSAND = "z-[3000]";
         }
-
     }
 }

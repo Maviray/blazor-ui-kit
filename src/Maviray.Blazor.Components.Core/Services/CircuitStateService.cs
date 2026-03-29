@@ -7,7 +7,7 @@ public class CircuitStateService : ICircuitStateService
     public event EventHandler<ButtonClickEventArgs>? ButtonClicked;
 
     // Public method to report click
-    public virtual void ReportClick(string buttonId, string? additionalData = null)
+    public virtual void ReportClick(string? buttonId)
     {
         var args = new ButtonClickEventArgs(buttonId);
 
