@@ -130,8 +130,37 @@
     }
 
     private string GetBadgeCss(IMenuItem item)
+    {     
+        var size = ElementSize switch
+        {
+            ElementSize.Small => "text-[10px]",
+            ElementSize.Large => "text-[12px]",
+            _ => "text-[11px]"
+        };
+
+        return $"{GetBadgeColorCss(item)} {size}";
+    }
+
+    private string GetBadgeColorCss(IMenuItem item)
     {
-        var color = item.BadgeColor switch
+        if (DarkMode)
+        {
+            return item.BadgeColor switch
+            {
+                ThemeColorScheme.Default => Tailwind.Theme.Badge.DEFAULT_DARK,
+                ThemeColorScheme.Primary => Tailwind.Theme.Badge.PRIMARY_DARK,
+                ThemeColorScheme.Secondary => Tailwind.Theme.Badge.SECONDARY_DARK,
+                ThemeColorScheme.Success => Tailwind.Theme.Badge.SUCCESS_DARK,
+                ThemeColorScheme.Alert => Tailwind.Theme.Badge.ALERT_DARK,
+                ThemeColorScheme.Warning => Tailwind.Theme.Badge.WARNING_DARK,
+                ThemeColorScheme.Info => Tailwind.Theme.Badge.INFO_DARK,
+                ThemeColorScheme.Dark => Tailwind.Theme.Badge.DARK_DARK,
+                ThemeColorScheme.Light => Tailwind.Theme.Badge.LIGHT_DARK,
+                _ => Tailwind.Theme.Badge.DEFAULT_DARK
+            };
+        }
+
+        return item.BadgeColor switch
         {
             ThemeColorScheme.Default => Tailwind.Theme.Badge.DEFAULT,
             ThemeColorScheme.Primary => Tailwind.Theme.Badge.PRIMARY,
@@ -144,15 +173,6 @@
             ThemeColorScheme.Light => Tailwind.Theme.Badge.LIGHT,
             _ => Tailwind.Theme.Badge.DEFAULT
         };
-
-        var size = ElementSize switch
-        {
-            ElementSize.Small => "text-[10px]",
-            ElementSize.Large => "text-[12px]",
-            _ => "text-[11px]"
-        };
-
-        return $"{color} {size}";
     }
 
     private string GetItemIconContainerCss(IMenuItem item)

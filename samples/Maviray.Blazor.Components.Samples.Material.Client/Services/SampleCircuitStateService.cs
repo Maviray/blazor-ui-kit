@@ -15,10 +15,16 @@ public class SampleCircuitStateService : CircuitStateService
             {
                 Title = "Base",
                 Icon = "lni lni-hand-taking-user",
-                BadgeColor = ThemeColorScheme.Alert,
+                BadgeColor = ThemeColorScheme.Secondary,
                 BadgeText = "7",
                 Items =
                 [
+                    new()
+                    {
+                        Title = "Typography",
+                        Icon = "lni lni-colour-palette-3",
+                        NavigateTo = "PageTypography"
+                    },
                     new()
                     {
                         Title = "Theme Colors",
@@ -48,6 +54,13 @@ public class SampleCircuitStateService : CircuitStateService
                     },
                     new()
                     {
+                        Title = "Icons Solid",
+                        Icon = "lni lni-thumbs-up-3",
+                        NavigateTo = "PageIconsSolid"
+
+                    },
+                    new()
+                    {
                         Title = "Icons Colors",
                         Icon = "lni lni-thumbs-up-3",
                         NavigateTo = "PageIconColors"
@@ -71,10 +84,65 @@ public class SampleCircuitStateService : CircuitStateService
             },
             new MenuItemGroup()
             {
+                Title = "Data Display",
+                Icon = "lni lni-hand-taking-user",
+                BadgeColor = ThemeColorScheme.Info,
+                BadgeText = "6",
+                Items =
+                [
+                   
+                    new()
+                    {
+                        Title = "Chip",
+                        Icon = "lni lni-colour-palette-3",
+                        NavigateTo = "PageMaviChip"
+                    },
+                    
+                    new()
+                    {
+                        Title = "Badge",
+                        Icon = "lni lni-sports",
+                        NavigateTo = "PageMaviBadge"
+
+                    }
+                ]
+            },
+            new MenuItemGroup()
+            {
+                Title = "Feedback",
+                Icon = "lni lni-hand-taking-user",
+                BadgeColor = ThemeColorScheme.Warning,
+                BadgeText = "3",
+                Items =
+                [
+                    new()
+                    {
+                        Title = "Toastr",
+                        Icon = "lni lni-sports",
+                        NavigateTo = "PageMaviToastr"
+
+                    },
+                    new()
+                    {
+                        Title = "Alert",
+                        Icon = "lni lni-sports",
+                        NavigateTo = "PageMaviAlert"
+
+                    },
+                    new()
+                    {
+                        Title = "Skeleton",
+                        Icon = "lni lni-colour-palette-3",
+                        NavigateTo = "PageMaviSkeleton"
+                    }
+                ]
+            },
+            new MenuItemGroup()
+            {
                 Title = "Inputs",
                 Icon = "lni lni-hand-taking-user",
-                BadgeColor = ThemeColorScheme.Alert,
-                BadgeText = "7",
+                BadgeColor = ThemeColorScheme.Default,
+                BadgeText = "24",
                 Items =
                 [
                     new()
@@ -243,6 +311,80 @@ public class SampleCircuitStateService : CircuitStateService
                         Icon = "lni lni-thumbs-up-3",
                         NavigateTo = "PageMaviLink"
 
+                    }
+                ]
+            },
+            new MenuItemGroup()
+            {
+                Title = "Navigation",
+                Icon = "lni lni-hand-taking-user",
+                BadgeColor = ThemeColorScheme.Warning,
+                BadgeText = "2",
+                Items =
+                [
+                    new()
+                    {
+                        Title = "Tabs",
+                        Icon = "lni lni-colour-palette-3",
+                        NavigateTo = "PageMaviTabs"
+                    },
+                    new()
+                    {
+                        Title = "Menu Vertical",
+                        Icon = "lni lni-colour-palette-3",
+                        NavigateTo = "PageMaviMenuVertical"
+                    }
+                ]
+            },
+            new MenuItemGroup()
+            {
+                Title = "Surfaces",
+                Icon = "lni lni-hand-taking-user",
+                BadgeColor = ThemeColorScheme.Warning,
+                BadgeText = "4",
+                Items =
+                [
+                    new()
+                    {
+                        Title = "Accordion",
+                        Icon = "lni lni-colour-palette-3",
+                        NavigateTo = "PageMaviAccordion"
+                    },
+                    new()
+                    {
+                        Title = "Card",
+                        Icon = "lni lni-colour-palette-3",
+                        NavigateTo = "PageMaviCard"
+                    },
+                    new()
+                    {
+                        Title = "Backdrop",
+                        Icon = "lni lni-sports",
+                        NavigateTo = "PageMaviBackdrop"
+
+                    },
+                    new()
+                    {
+                        Title = "Dialog",
+                        Icon = "lni lni-sports",
+                        NavigateTo = "PageMaviDialog"
+
+                    }
+                ]
+            },
+            new MenuItemGroup()
+            {
+                Title = "Data",
+                Icon = "lni lni-hand-taking-user",
+                BadgeColor = ThemeColorScheme.Warning,
+                BadgeText = "5",
+                Items =
+                [
+                    new()
+                    {
+                        Title = "InMemory Table",
+                        Icon = "lni lni-colour-palette-3",
+                        NavigateTo = "PageMaviInMemoryTable"
                     }
                 ]
             }
