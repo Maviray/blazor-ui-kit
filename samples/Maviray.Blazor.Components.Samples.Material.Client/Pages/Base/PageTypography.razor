@@ -14,9 +14,11 @@
         </p>
 
         <pre class="rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs">
-<code>&lt;h1 class="@Tailwind.Theme.Typography.DISPLAY_SMALL text-slate-900"&gt;
-    Typography
-&lt;/h1&gt;</code>
+<code>
+&lt;h1 class="@Tailwind.Theme.Typography.DISPLAY_SMALL text-slate-900"&gt;
+   Typography
+&lt;/h1&gt;
+</code>
         </pre>
     </header>
 
@@ -37,9 +39,10 @@
                     Display Large
                 </div>
                 <pre class="mt-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs">
-<code>&lt;div class="@Tailwind.Theme.Typography.DISPLAY_LARGE text-slate-900"&gt;
+<code>&lt;div class="@@Tailwind.Theme.Typography.DISPLAY_LARGE text-slate-900"&gt;
     Display Large
-&lt;/div&gt;</code>
+&lt;/div&gt;
+</code>
                 </pre>
             </div>
 
@@ -49,9 +52,10 @@
                     Display Medium
                 </div>
                 <pre class="mt-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs">
-<code>&lt;div class="@Tailwind.Theme.Typography.DISPLAY_MEDIUM text-slate-900"&gt;
+<code>&lt;div class="@@Tailwind.Theme.Typography.DISPLAY_MEDIUM text-slate-900"&gt;
     Display Medium
-&lt;/div&gt;</code>
+&lt;/div&gt;
+</code>
                 </pre>
             </div>
 
@@ -61,9 +65,10 @@
                     Display Small
                 </div>
                 <pre class="mt-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs">
-<code>&lt;div class="@Tailwind.Theme.Typography.DISPLAY_SMALL text-slate-900"&gt;
+<code>&lt;div class="@@Tailwind.Theme.Typography.DISPLAY_SMALL text-slate-900"&gt;
     Display Small
-&lt;/div&gt;</code>
+&lt;/div&gt;
+</code>
                 </pre>
             </div>
 
@@ -86,7 +91,7 @@
                     Headline Large
                 </div>
                 <pre class="mt-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs">
-<code>&lt;h2 class="@Tailwind.Theme.Typography.HEADLINE_LARGE text-slate-900"&gt;
+<code>&lt;h2 class="@@Tailwind.Theme.Typography.HEADLINE_LARGE text-slate-900"&gt;
     Headline Large
 &lt;/h2&gt;</code>
                 </pre>
@@ -97,9 +102,11 @@
                     Headline Medium
                 </div>
                 <pre class="mt-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs">
-<code>&lt;h3 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM text-slate-900"&gt;
+                <code>  
+&lt;h3 class="@@Tailwind.Theme.Typography.HEADLINE_MEDIUM text-slate-900"&gt;
     Headline Medium
-&lt;/h3&gt;</code>
+    &lt;/h3&gt;
+                </code>
                 </pre>
             </div>
 
@@ -108,7 +115,7 @@
                     Headline Small
                 </div>
                 <pre class="mt-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs">
-<code>&lt;h4 class="@Tailwind.Theme.Typography.HEADLINE_SMALL text-slate-900"&gt;
+<code>&lt;h4 class="@@Tailwind.Theme.Typography.HEADLINE_SMALL text-slate-900"&gt;
     Headline Small
 &lt;/h4&gt;</code>
                 </pre>
@@ -127,24 +134,45 @@
         </div>
 
         <div class="space-y-6">
-
-            @foreach (var (name, css) in new[]
-                        {
-                        ("TITLE_LARGE", Tailwind.Theme.Typography.TITLE_LARGE),
-                        ("TITLE_MEDIUM", Tailwind.Theme.Typography.TITLE_MEDIUM),
-                        ("TITLE_SMALL", Tailwind.Theme.Typography.TITLE_SMALL)
-                        })
-            {
-                <div>
-                    <div class="@css text-slate-900">@name.Replace("_", " ")</div>
-                    <pre class="mt-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs">
-                    <code>&lt;div class="@css text-slate-900"&gt;
-            @name
-        &lt;/div&gt;</code>
-                            </pre>
+            
+            <div>
+                <div class="@Tailwind.Theme.Typography.TITLE_LARGE text-slate-900">
+                    TITLE LARGE
                 </div>
-            }
-
+                <pre class="mt-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs">
+                <code>  
+&lt;div class="@@Tailwind.Theme.Typography.TITLE_LARGE text-slate-900"&gt;
+    TITLE LARGE
+&lt;/div&gt;
+                </code>
+                </pre>
+            </div>
+            
+            <div>
+                <div class="@Tailwind.Theme.Typography.TITLE_MEDIUM text-slate-900">
+                    TITLE MEDIUM
+                </div>
+                <pre class="mt-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs">
+                <code>  
+&lt;div class="@@Tailwind.Theme.Typography.TITLE_MEDIUM text-slate-900"&gt;
+    TITLE MEDIUM
+&lt;/div&gt;
+                </code>
+                </pre>
+            </div>
+            
+            <div>
+                <div class="@Tailwind.Theme.Typography.TITLE_SMALL text-slate-900">
+                    TITLE SMALL
+                </div>
+                <pre class="mt-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs">
+                <code>  
+&lt;div class="@@Tailwind.Theme.Typography.TITLE_SMALL text-slate-900"&gt;
+    TITLE SMALL
+&lt;/div&gt;
+                </code>
+                </pre>
+            </div>
         </div>
     </section>
 
@@ -152,32 +180,48 @@
     <section class="space-y-6">
         <div>
             <h2 class="@Tailwind.Theme.Typography.HEADLINE_LARGE text-slate-900">Body</h2>
-            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-slate-600">
-                @LOREM_IPSUM
-            </p>
         </div>
 
         <div class="space-y-6 max-w-3xl">
-
-            @foreach (var (name, css) in new[]
-                        {
-                        ("BODY_LARGE", Tailwind.Theme.Typography.BODY_LARGE),
-                        ("BODY_MEDIUM", Tailwind.Theme.Typography.BODY_MEDIUM),
-                        ("BODY_SMALL", Tailwind.Theme.Typography.BODY_SMALL)
-                        })
-            {
-                <div>
-                    <p class="@css text-slate-700">
-                        @name — @LOREM_IPSUM
-                    </p>
-                    <pre class="mt-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs">
-                    <code>&lt;p class="@css text-slate-700"&gt;
-            Body text
-        &lt;/p&gt;</code>
-                            </pre>
+            
+            <div>
+                <div class="@Tailwind.Theme.Typography.BODY_LARGE text-slate-900">
+                    BODY_LARGE — @LOREM_IPSUM
                 </div>
-            }
-
+                <pre class="mt-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs">
+                <code>  
+&lt;div class="@@Tailwind.Theme.Typography.BODY_LARGE text-slate-900"&gt;
+    BODY_LARGE
+&lt;/div&gt;
+                </code>
+                </pre>
+            </div>
+            
+            <div>
+                <div class="@Tailwind.Theme.Typography.BODY_MEDIUM text-slate-900">
+                    BODY_MEDIUM — @LOREM_IPSUM
+                </div>
+                <pre class="mt-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs">
+                <code>  
+&lt;div class="@@Tailwind.Theme.Typography.BODY_MEDIUM text-slate-900"&gt;
+    BODY_MEDIUM
+&lt;/div&gt;
+                </code>
+                </pre>
+            </div>
+            
+            <div>
+                <div class="@Tailwind.Theme.Typography.BODY_SMALL">
+                    BODY_SMALL — @LOREM_IPSUM
+                </div>
+                <pre class="mt-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs">
+                <code>  
+&lt;div class="@@Tailwind.Theme.Typography.BODY_SMALL text-slate-900"&gt;
+    BODY_SMALL
+&lt;/div&gt;
+                </code>
+                </pre>
+            </div>
         </div>
     </section>
 
@@ -191,25 +235,51 @@
         </div>
 
         <div class="flex flex-wrap gap-6">
-
-            @foreach (var (name, css) in new[]
-                        {
-                        ("LABEL_LARGE", Tailwind.Theme.Typography.LABEL_LARGE),
-                        ("LABEL_MEDIUM", Tailwind.Theme.Typography.LABEL_MEDIUM),
-                        ("LABEL_SMALL", Tailwind.Theme.Typography.LABEL_SMALL)
-                        })
-            {
-                <div>
-                    <span class="rounded-md border px-3 py-2 @css">
-                        @name
-                    </span>
-                    <pre class="mt-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs">
-                    <code>&lt;span class="@css"&gt;
-            @name
-        &lt;/span&gt;</code>
-                            </pre>
+            
+            <div class="flex flex-col gap-2">
+                <div class="rounded-md border px-3 py-2 text-slate-900 border-slate-200 bg-slate-50 w-48 @Tailwind.Theme.Typography.LABEL_LARGE">
+                    LABEL LARGE
                 </div>
-            }
+                <div>
+                    <pre class="mt-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs">
+<code>  
+  &lt;div class="@@Tailwind.Theme.Typography.LABEL_LARGE rounded-md border px-3 py-2 text-slate-900 border-slate-200 bg-slate-50 py-2"&gt;
+         LABEL LARGE
+  &lt;/div&gt;
+</code>
+                </pre>
+                </div>
+            </div>
+            
+            <div class="flex flex-col gap-2">
+                <div class="rounded-md border px-3 py-2 text-slate-900 border-slate-200 bg-slate-50 w-40 @Tailwind.Theme.Typography.LABEL_MEDIUM">
+                    LABEL MEDIUM
+                </div>
+                <div>
+                    <pre class="mt-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs">
+<code>  
+  &lt;div class="@@Tailwind.Theme.Typography.LABEL_MEDIUM rounded-md border px-3 py-2 text-slate-900 border-slate-200 bg-slate-50 py-2"&gt;
+         LABEL MEDIUM
+  &lt;/div&gt;
+</code>
+                </pre>
+                </div>
+            </div>
+            
+            <div class="flex flex-col gap-2">
+                <div class="rounded-md border px-3 py-2 text-slate-900 border-slate-200 bg-slate-50 w-32 @Tailwind.Theme.Typography.LABEL_SMALL">
+                    LABEL SMALL
+                </div>
+                <div>
+                    <pre class="mt-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs">
+<code>  
+  &lt;div class="@@Tailwind.Theme.Typography.LABEL_SMALL rounded-md border px-3 py-2 text-slate-900 border-slate-200 bg-slate-50 py-2"&gt;
+         LABEL SMALL
+  &lt;/div&gt;
+</code>
+                </pre>
+                </div>
+            </div>
 
         </div>
     </section>

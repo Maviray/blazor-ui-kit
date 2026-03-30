@@ -1,5 +1,4 @@
-﻿@using Maviray.Blazor.Components.Core.Extensions
-@inherits MaviComponentBase
+﻿@inherits MaviComponentBase
 
 <svg id="@Id" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="@IconColorCss" class="@EffectiveCss" title="@Title" style="@Style" @onclick="HandleClick">
     @foreach (var path in IconPaths)
@@ -40,13 +39,13 @@
     }
 
     [Parameter]
-    public EventCallback OnClick { get; set; }
+    public EventCallback<string> OnClick { get; set; }
 
     private IEnumerable<string> IconPaths => MaviIconSolidPaths.GetIconPaths(IconSolidType);
 
     private async Task HandleClick()
     {
-        if (OnClick.HasDelegate) await OnClick.InvokeAsync();
+        if (OnClick.HasDelegate) await OnClick.InvokeAsync(Id);
 
         if (EnableLifeCycleLogging)
         {
