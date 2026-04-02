@@ -16,7 +16,7 @@ public class SampleCircuitStateService : CircuitStateService
                 Title = "Base",
                 Icon = "lni lni-hand-taking-user",
                 BadgeColor = ThemeColorScheme.Secondary,
-                BadgeText = "7",
+                BadgeText = "9",
                 Items =
                 [
                     new()
@@ -87,7 +87,7 @@ public class SampleCircuitStateService : CircuitStateService
                 Title = "Data Display",
                 Icon = "lni lni-hand-taking-user",
                 BadgeColor = ThemeColorScheme.Info,
-                BadgeText = "6",
+                BadgeText = "2",
                 Items =
                 [
                    
@@ -319,7 +319,6 @@ public class SampleCircuitStateService : CircuitStateService
                 Title = "Navigation",
                 Icon = "lni lni-hand-taking-user",
                 BadgeColor = ThemeColorScheme.Warning,
-                BadgeText = "2",
                 Items =
                 [
                     new()
@@ -341,7 +340,6 @@ public class SampleCircuitStateService : CircuitStateService
                 Title = "Surfaces",
                 Icon = "lni lni-hand-taking-user",
                 BadgeColor = ThemeColorScheme.Warning,
-                BadgeText = "4",
                 Items =
                 [
                     new()
@@ -377,7 +375,6 @@ public class SampleCircuitStateService : CircuitStateService
                 Title = "Data",
                 Icon = "lni lni-hand-taking-user",
                 BadgeColor = ThemeColorScheme.Warning,
-                BadgeText = "5",
                 Items =
                 [
                     new()

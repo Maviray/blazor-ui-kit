@@ -1,520 +1,453 @@
 ﻿@page "/PageMaviRadioGroup"
 @using Maviray.Blazor.Components.Core.Models
+@using Maviray.Blazor.Components.Material.Components.Feedback
 @inherits SamplePageBase
 
 <PageTitle>MaviRadioGroup</PageTitle>
+<div class="relative p-4 flex flex-col gap-4 min-h-0 w-full overflow-x-hidden">
 
-<div class="flex flex-col gap-8 p-4">
-    <!-- Basic Radio Group -->
-    <div class="flex flex-col gap-2">
-        <h3 class="text-lg font-semibold">Basic Radio Group</h3>
-        <p class="text-sm text-gray-600">Simple radio group with string values</p>
-        <MaviRadioGroup TValue="string"
-                        Value="@_selectedOption"
-                        ValueChanged="(parameters) => { _selectedOption = parameters.Value; HandleOptionChange(parameters); }">
-            <MaviRadioGroupItem TValue="string" OptionValue="@("option1")" Label="Option 1" />
-            <MaviRadioGroupItem TValue="string" OptionValue="@("option2")" Label="Option 2" />
-            <MaviRadioGroupItem TValue="string" OptionValue="@("option3")" Label="Option 3" />
-        </MaviRadioGroup>
-        <div class="text-sm">Selected: <strong>@(_selectedOption ?? "None")</strong></div>
-    </div>
-    
-    <details>
-        <summary class="cursor-pointer font-semibold">View Code</summary>
-        <pre class="bg-gray-800 text-white p-4 rounded mt-2 overflow-x-auto">
-            <code>
-        &lt;MaviRadioGroup TValue="string"
-                        Value=" @@_selectedOption"
-                        ValueChanged="(parameters) => { _selectedOption = parameters.Value; HandleOptionChange(parameters); }" /&gt;
-        &lt;MaviRadioGroupItem TValue="string" OptionValue=" @@("option1")" Label="Option 1" /&gt;
-        &lt;MaviRadioGroupItem TValue="string" OptionValue=" @@("option2")" Label="Option 2" /&gt;
-        &lt;MaviRadioGroupItem TValue="string" OptionValue=" @@("option3")" Label="Option 3" /&gt;
+    <MaviDialog @ref="_dialog" DialogButtonClick="OnDialogButtonClick" MaviDialogBaseParameters="_dialogParameters">
+        <div class="space-y-2">
+            @if (_dialogParameters.Title == BASIC_RADIO_GROUP)
+            {
+<pre class="bg-gray-800 text-white p-4 rounded mt-2 overflow-x-auto w-full max-w-full">
+<code>
+&lt;MaviRadioGroup TValue="string"
+    Value=" @@_selectedOption"
+    ValueChanged="(parameters) => { _selectedOption = parameters.Value; HandleOptionChange(parameters); }" /&gt;
+    &lt;MaviRadioGroupItem TValue="string" OptionValue=" @@("option1")" Label="Option 1" /&gt;
+    &lt;MaviRadioGroupItem TValue="string" OptionValue=" @@("option2")" Label="Option 2" /&gt;
+    &lt;MaviRadioGroupItem TValue="string" OptionValue=" @@("option3")" Label="Option 3" /&gt;
+&lt;/MaviRadioGroup&gt;
+</code>
+</pre>
+            }
+            else if (_dialogParameters.Title == RADIO_GROUP_WITH_INTEGER)
+            {
+<pre class="bg-gray-800 text-white p-4 rounded mt-2 overflow-x-auto w-full max-w-full">
+<code>
+&lt;MaviRadioGroup TValue="int?"
+    Value="@@_selectedNumber"
+    ValueChanged="(parameters) => { _selectedNumber = parameters.Value; HandleNumberChange(parameters); }"&gt;
+    &lt;MaviRadioGroupItem TValue="int?" OptionValue="1" Label="One" /&gt;
+    &lt;MaviRadioGroupItem TValue="int?" OptionValue="2" Label="Two" /&gt;
+    &lt;MaviRadioGroupItem TValue="int?" OptionValue="3" Label="Three" /&gt;
+&lt;/MaviRadioGroup&gt;
+    </code>
+</pre>
+            }
+            else if (_dialogParameters.Title == RADIO_GROUP_SIZES)
+            {
+<pre class="bg-gray-800 text-white p-4 rounded mt-2 overflow-x-auto w-full max-w-full">
+<code>
+&lt;MaviRadioGroup TValue="string"
+                Value="@@_selectedSizeSmall"
+                ValueChanged="(parameters) => { _selectedSizeSmall = parameters.Value; }"
+                ElementSize="ElementSize.Small"&gt;
+    &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("s1")" Label="Small 1" /&gt;
+    &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("s2")" Label="Small 2" /&gt;
+    &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("s3")" Label="Small 3" /&gt;
+    &lt;/MaviRadioGroup&gt;
+</code>
+<code>
+&lt;MaviRadioGroup TValue="string"
+                Value="@_selectedSizeRegular"
+                ValueChanged="(parameters) => { _selectedSizeRegular = parameters.Value; }"
+                ElementSize="ElementSize.Regular"&gt;
+    &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("r1")" Label="Regular 1" /&gt;
+    &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("r2")" Label="Regular 2" /&gt;
+    &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("r3")" Label="Regular 3" /&gt;
         &lt;/MaviRadioGroup&gt;
-
-                </code>
-            </pre>
-    </details>
-    <!-- Radio Group with Integer Values -->
-    <div class="flex flex-col gap-2">
-        <h3 class="text-lg font-semibold">Radio Group with Integer Values</h3>
-        <p class="text-sm text-gray-600">Using typed values (int)</p>
-        <MaviRadioGroup TValue="int?"
-                        Value="@_selectedNumber"
-                        ValueChanged="(parameters) => { _selectedNumber = parameters.Value; HandleNumberChange(parameters); }">
-            <MaviRadioGroupItem TValue="int?" OptionValue="1" Label="One" />
-            <MaviRadioGroupItem TValue="int?" OptionValue="2" Label="Two" />
-            <MaviRadioGroupItem TValue="int?" OptionValue="3" Label="Three" />
-        </MaviRadioGroup>
-        <div class="text-sm">Selected number: <strong>@(_selectedNumber?.ToString() ?? "None")</strong></div>
-    </div>
-    
-    <details>
-        <summary class="cursor-pointer font-semibold">View Code</summary>
-        <pre class="bg-gray-800 text-white p-4 rounded mt-2 overflow-x-auto">
-            <code>
-        &lt;MaviRadioGroup TValue="int?"
-                        Value="@@_selectedNumber"
-                        ValueChanged="(parameters) => { _selectedNumber = parameters.Value; HandleNumberChange(parameters); }"&gt;
-        &lt;MaviRadioGroupItem TValue="int?" OptionValue="1" Label="One" /&gt;
-        &lt;MaviRadioGroupItem TValue="int?" OptionValue="2" Label="Two" /&gt;
-        &lt;MaviRadioGroupItem TValue="int?" OptionValue="3" Label="Three" /&gt;
+</code>
+<code>
+&lt;MaviRadioGroup TValue="string"
+                Value="@_selectedSizeLarge"
+                ValueChanged="(parameters) => { _selectedSizeLarge = parameters.Value; }"
+                ElementSize="ElementSize.Large"&gt;
+    &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("l1")" Label="Large 1" /&gt;
+    &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("l2")" Label="Large 2" /&gt;
+    &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("l3")" Label="Large 3" /&gt;
         &lt;/MaviRadioGroup&gt;
-                </code>
-            </pre>
-    </details>
+ </code>
+</pre>
+            }
+            else if (_dialogParameters.Title == RADIO_GROUP_COLORS)
+            {
+<pre class="bg-gray-800 text-white p-4 rounded mt-2 overflow-x-auto w-full max-w-full">
+<code>
+&lt;MaviRadioGroup TValue="string"
+    Value="@@_selectedSizeSmall"
+    ValueChanged="(parameters) => { _selectedSizeSmall = parameters.Value; }"
+    ThemeColorScheme="ThemeColorScheme.Default"
+    ElementSize="ElementSize.Small"&gt;
+&lt;MaviRadioGroupItem TValue="string" OptionValue="@@("s1")" Label="Small 1" /&gt;
+&lt;MaviRadioGroupItem TValue="string" OptionValue="@@("s2")" Label="Small 2" /&gt;
+&lt;MaviRadioGroupItem TValue="string" OptionValue="@@("s3")" Label="Small 3" /&gt;
+&lt;/MaviRadioGroup&gt;
+</code>
+<code>
+&lt;MaviRadioGroup TValue="string"
+    Value="@_selectedSizeRegular"
+    ValueChanged="(parameters) => { _selectedSizeRegular = parameters.Value; }"
+    ThemeColorScheme="ThemeColorScheme.Primary"
+    ElementSize="ElementSize.Regular"&gt;
+&lt;MaviRadioGroupItem TValue="string" OptionValue="@@("r1")" Label="Regular 1" /&gt;
+&lt;MaviRadioGroupItem TValue="string" OptionValue="@@("r2")" Label="Regular 2" /&gt;
+&lt;MaviRadioGroupItem TValue="string" OptionValue="@@("r3")" Label="Regular 3" /&gt;
+&lt;/MaviRadioGroup&gt;
+</code>
+<code>
+&lt;MaviRadioGroup TValue="string"
+    Value="@_selectedSizeLarge"
+    ValueChanged="(parameters) => { _selectedSizeLarge = parameters.Value; }"
+    ThemeColorScheme="ThemeColorScheme.Success"
+    ElementSize="ElementSize.Large"&gt;
+&lt;MaviRadioGroupItem TValue="string" OptionValue="@@("l1")" Label="Large 1" /&gt;
+&lt;MaviRadioGroupItem TValue="string" OptionValue="@@("l2")" Label="Large 2" /&gt;
+&lt;MaviRadioGroupItem TValue="string" OptionValue="@@("l3")" Label="Large 3" /&gt;
+&lt;/MaviRadioGroup&gt;
+</code>
+</pre>
+            }
+            else if (_dialogParameters.Title == RADIO_GROUP_ENUMS)
+            {
+                
+ <pre class="bg-gray-800 text-white p-4 rounded mt-2 overflow-x-auto w-full max-w-full">
+    <code>
+      &lt;MaviRadioGroup TValue=&quot;ElementSize?&quot;
+                     Value=&quot;@@_selectedSize&quot;
+                     ValueChanged=&quot;(parameters) =&gt; { _selectedSize = parameters.Value; HandleSizeChange(parameters); }&quot;
+                     ThemeColorScheme=&quot;ThemeColorScheme.Primary&quot;
+                     HelperText=&quot;Choose your preferred element size&quot;&gt;
+         &lt;MaviRadioGroupItem TValue=&quot;ElementSize?&quot; OptionValue=&quot;ElementSize.Small&quot; Label=&quot;Small Size&quot;/&gt;
+         &lt;MaviRadioGroupItem TValue=&quot;ElementSize?&quot; OptionValue=&quot;ElementSize.Regular&quot; Label=&quot;Regular Size&quot;/&gt;
+         &lt;MaviRadioGroupItem TValue=&quot;ElementSize?&quot; OptionValue=&quot;ElementSize.Large&quot; Label=&quot;Large Size&quot;/&gt;
+     &lt;/MaviRadioGroup&gt;
+    </code>
+</pre>
+            }
+           
+        </div>
+</MaviDialog>
 
-    <!-- Radio Group with Different Sizes -->
-    <div class="flex flex-col gap-2">
-        <h3 class="text-lg font-semibold">Size Variations</h3>
-        <p class="text-sm text-gray-600">Small, Regular, and Large sizes</p>
+<div class="flex flex-col lg:flex-row! gap-2">
+    <div class="basis-1/3 min-h-0 flex flex-col gap-2">
+        <!-- Basic Radio Group -->
+        <div class="flex flex-col gap-2">
+            <h3 class="text-lg font-semibold">Basic Radio Group</h3>
+            <p class="text-sm text-gray-600">Simple radio group with string values</p>
+            <MaviRadioGroup TValue="string"
+                            Value="@_selectedOption"
+                            ValueChanged="(parameters) => { _selectedOption = parameters.Value; HandleOptionChange(parameters); }">
+                <MaviRadioGroupItem TValue="string" OptionValue="@("option1")" Label="Option 1"/>
+                <MaviRadioGroupItem TValue="string" OptionValue="@("option2")" Label="Option 2"/>
+                <MaviRadioGroupItem TValue="string" OptionValue="@("option3")" Label="Option 3"/>
+            </MaviRadioGroup>
+            <div class="text-sm">Selected: <strong>@(_selectedOption ?? "None")</strong></div>
+        </div>
+       
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                        ElementVariant="ElementVariant.Outlined"
+                        ElementSize="ElementSize.Small"
+                        Title="Display Sample Code"
+                        Width="w-64"
+                        TextTransform="TextTransform.UpperCase"
+                        OnClick="async () => { await DisplayDialog(BASIC_RADIO_GROUP); }">
+        </MaviButton>
+    </div>
+        <div class="basis-1/3 min-h-0 flex flex-col gap-2">
+        <!-- Radio Group with Integer Values -->
+        <div class="flex flex-col gap-2">
+            <h3 class="text-lg font-semibold">Radio Group with Integer Values</h3>
+            <p class="text-sm text-gray-600">Using typed values (int)</p>
+            <MaviRadioGroup TValue="int?"
+                            Value="@_selectedNumber"
+                            ValueChanged="(parameters) => { _selectedNumber = parameters.Value; HandleNumberChange(parameters); }">
+                <MaviRadioGroupItem TValue="int?" OptionValue="1" Label="One"/>
+                <MaviRadioGroupItem TValue="int?" OptionValue="2" Label="Two"/>
+                <MaviRadioGroupItem TValue="int?" OptionValue="3" Label="Three"/>
+            </MaviRadioGroup>
+            <div class="text-sm">Selected number: <strong>@(_selectedNumber?.ToString() ?? "None")</strong></div>
+        </div>
 
-        <div class="flex gap-8">
-            <div>
-                <p class="text-xs font-medium mb-2">Small</p>
-                <MaviRadioGroup TValue="string"
-                                Value="@_selectedSizeSmall"
-                                ValueChanged="(parameters) => { _selectedSizeSmall = parameters.Value; }"
-                                ElementSize="ElementSize.Small">
-                    <MaviRadioGroupItem TValue="string" OptionValue="@("s1")" Label="Small 1" />
-                    <MaviRadioGroupItem TValue="string" OptionValue="@("s2")" Label="Small 2" />
-                    <MaviRadioGroupItem TValue="string" OptionValue="@("s3")" Label="Small 3" />
-                </MaviRadioGroup>
-            </div>
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                    ElementVariant="ElementVariant.Outlined"
+                    ElementSize="ElementSize.Small"
+                    Title="Display Sample Code"
+                    Width="w-64"
+                    TextTransform="TextTransform.UpperCase"
+                    OnClick="async () => { await DisplayDialog(RADIO_GROUP_WITH_INTEGER); }">
+        </MaviButton>
+    </div>
+        <div class="basis-1/3 min-h-0 flex flex-col gap-2">
+        <!-- Radio Group with Different Sizes -->
+        <div class="flex flex-col gap-2">
+            <h3 class="text-lg font-semibold">Size Variations</h3>
+            <p class="text-sm text-gray-600">Small, Regular, and Large sizes</p>
 
-            <div>
-                <p class="text-xs font-medium mb-2">Regular</p>
-                <MaviRadioGroup TValue="string"
-                                Value="@_selectedSizeRegular"
-                                ValueChanged="(parameters) => { _selectedSizeRegular = parameters.Value; }"
-                                ElementSize="ElementSize.Regular">
-                    <MaviRadioGroupItem TValue="string" OptionValue="@("r1")" Label="Regular 1" />
-                    <MaviRadioGroupItem TValue="string" OptionValue="@("r2")" Label="Regular 2" />
-                    <MaviRadioGroupItem TValue="string" OptionValue="@("r3")" Label="Regular 3" />
-                </MaviRadioGroup>
-            </div>
+            <div class="flex gap-8">
+                <div>
+                    <p class="text-xs font-medium mb-2">Small</p>
+                    <MaviRadioGroup TValue="string"
+                                    Value="@_selectedSizeSmall"
+                                    ValueChanged="(parameters) => { _selectedSizeSmall = parameters.Value; }"
+                                    ElementSize="ElementSize.Small">
+                        <MaviRadioGroupItem TValue="string" OptionValue="@("s1")" Label="Small 1"/>
+                        <MaviRadioGroupItem TValue="string" OptionValue="@("s2")" Label="Small 2"/>
+                        <MaviRadioGroupItem TValue="string" OptionValue="@("s3")" Label="Small 3"/>
+                    </MaviRadioGroup>
+                </div>
 
-            <div>
-                <p class="text-xs font-medium mb-2">Large</p>
-                <MaviRadioGroup TValue="string"
-                                Value="@_selectedSizeLarge"
-                                ValueChanged="(parameters) => { _selectedSizeLarge = parameters.Value; }"
-                                ElementSize="ElementSize.Large">
-                    <MaviRadioGroupItem TValue="string" OptionValue="@("l1")" Label="Large 1" />
-                    <MaviRadioGroupItem TValue="string" OptionValue="@("l2")" Label="Large 2" />
-                    <MaviRadioGroupItem TValue="string" OptionValue="@("l3")" Label="Large 3" />
-                </MaviRadioGroup>
+                <div>
+                    <p class="text-xs font-medium mb-2">Regular</p>
+                    <MaviRadioGroup TValue="string"
+                                    Value="@_selectedSizeRegular"
+                                    ValueChanged="(parameters) => { _selectedSizeRegular = parameters.Value; }"
+                                    ElementSize="ElementSize.Regular">
+                        <MaviRadioGroupItem TValue="string" OptionValue="@("r1")" Label="Regular 1"/>
+                        <MaviRadioGroupItem TValue="string" OptionValue="@("r2")" Label="Regular 2"/>
+                        <MaviRadioGroupItem TValue="string" OptionValue="@("r3")" Label="Regular 3"/>
+                    </MaviRadioGroup>
+                </div>
+
+                <div>
+                    <p class="text-xs font-medium mb-2">Large</p>
+                    <MaviRadioGroup TValue="string"
+                                    Value="@_selectedSizeLarge"
+                                    ValueChanged="(parameters) => { _selectedSizeLarge = parameters.Value; }"
+                                    ElementSize="ElementSize.Large">
+                        <MaviRadioGroupItem TValue="string" OptionValue="@("l1")" Label="Large 1"/>
+                        <MaviRadioGroupItem TValue="string" OptionValue="@("l2")" Label="Large 2"/>
+                        <MaviRadioGroupItem TValue="string" OptionValue="@("l3")" Label="Large 3"/>
+                    </MaviRadioGroup>
+                </div>
             </div>
         </div>
-    </div>
-    
-    <details>
-        <summary class="cursor-pointer font-semibold">View Code</summary>
-        <pre class="bg-gray-800 text-white p-4 rounded mt-2 overflow-x-auto">
-            <code>
-            &lt;MaviRadioGroup TValue="string"
-                            Value="@@_selectedSizeSmall"
-                            ValueChanged="(parameters) => { _selectedSizeSmall = parameters.Value; }"
-                            ElementSize="ElementSize.Small"&gt;
-            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("s1")" Label="Small 1" /&gt;
-            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("s2")" Label="Small 2" /&gt;
-            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("s3")" Label="Small 3" /&gt;
-            &lt;/MaviRadioGroup&gt;
-            </code>
-            <code>
-            &lt;MaviRadioGroup TValue="string"
-                            Value="@_selectedSizeRegular"
-                            ValueChanged="(parameters) => { _selectedSizeRegular = parameters.Value; }"
-                            ElementSize="ElementSize.Regular"&gt;
-            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("r1")" Label="Regular 1" /&gt;
-            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("r2")" Label="Regular 2" /&gt;
-            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("r3")" Label="Regular 3" /&gt;
-                    &lt;/MaviRadioGroup&gt;
-            </code>
-            <code>
-            &lt;MaviRadioGroup TValue="string"
-                            Value="@_selectedSizeLarge"
-                            ValueChanged="(parameters) => { _selectedSizeLarge = parameters.Value; }"
-                            ElementSize="ElementSize.Large"&gt;
-            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("l1")" Label="Large 1" /&gt;
-            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("l2")" Label="Large 2" /&gt;
-            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("l3")" Label="Large 3" /&gt;
-                    &lt;/MaviRadioGroup&gt;
-             </code>
-        </pre>
-    </details>
-
-    <!-- Radio Group with Different Color Schemes -->
-    <div class="flex flex-col gap-2">
-        <h3 class="text-lg font-semibold">Color Scheme Variations</h3>
-        <p class="text-sm text-gray-600">All available theme color schemes</p>
-
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-            <div>
-                <p class="text-xs font-medium mb-2">Default</p>
-                <MaviRadioGroup TValue="string"
-                                Value="@_selectedDefault"
-                                ValueChanged="(parameters) => { _selectedDefault = parameters.Value; }"
-                                ThemeColorScheme="ThemeColorScheme.Default">
-                    <MaviRadioGroupItem TValue="string" OptionValue="@("d1")" Label="Default 1" />
-                    <MaviRadioGroupItem TValue="string" OptionValue="@("d2")" Label="Default 2" />
-                </MaviRadioGroup>
-            </div>
-
-            <div>
-                <p class="text-xs font-medium mb-2">Primary</p>
-                <MaviRadioGroup TValue="string"
-                                Value="@_selectedPrimary"
-                                ValueChanged="(parameters) => { _selectedPrimary = parameters.Value; }"
-                                ThemeColorScheme="ThemeColorScheme.Primary">
-                    <MaviRadioGroupItem TValue="string" OptionValue="@("p1")" Label="Primary 1" />
-                    <MaviRadioGroupItem TValue="string" OptionValue="@("p2")" Label="Primary 2" />
-                </MaviRadioGroup>
-            </div>
-
-            <div>
-                <p class="text-xs font-medium mb-2">Secondary</p>
-                <MaviRadioGroup TValue="string"
-                                Value="@_selectedSecondary"
-                                ValueChanged="(parameters) => { _selectedSecondary = parameters.Value; }"
-                                ThemeColorScheme="ThemeColorScheme.Secondary">
-                    <MaviRadioGroupItem TValue="string" OptionValue="@("sec1")" Label="Secondary 1" />
-                    <MaviRadioGroupItem TValue="string" OptionValue="@("sec2")" Label="Secondary 2" />
-                </MaviRadioGroup>
-            </div>
-
-            <div>
-                <p class="text-xs font-medium mb-2">Success</p>
-                <MaviRadioGroup TValue="string"
-                                Value="@_selectedSuccess"
-                                ValueChanged="(parameters) => { _selectedSuccess = parameters.Value; }"
-                                ThemeColorScheme="ThemeColorScheme.Success">
-                    <MaviRadioGroupItem TValue="string" OptionValue="@("su1")" Label="Success 1" />
-                    <MaviRadioGroupItem TValue="string" OptionValue="@("su2")" Label="Success 2" />
-                </MaviRadioGroup>
-            </div>
-
-            <div>
-                <p class="text-xs font-medium mb-2">Alert</p>
-                <MaviRadioGroup TValue="string"
-                                Value="@_selectedAlert"
-                                ValueChanged="(parameters) => { _selectedAlert = parameters.Value; }"
-                                ThemeColorScheme="ThemeColorScheme.Alert">
-                    <MaviRadioGroupItem TValue="string" OptionValue="@("a1")" Label="Alert 1" />
-                    <MaviRadioGroupItem TValue="string" OptionValue="@("a2")" Label="Alert 2" />
-                </MaviRadioGroup>
-            </div>
-
-            <div>
-                <p class="text-xs font-medium mb-2">Warning</p>
-                <MaviRadioGroup TValue="string"
-                                Value="@_selectedWarning"
-                                ValueChanged="(parameters) => { _selectedWarning = parameters.Value; }"
-                                ThemeColorScheme="ThemeColorScheme.Warning">
-                    <MaviRadioGroupItem TValue="string" OptionValue="@("w1")" Label="Warning 1" />
-                    <MaviRadioGroupItem TValue="string" OptionValue="@("w2")" Label="Warning 2" />
-                </MaviRadioGroup>
-            </div>
-
-            <div>
-                <p class="text-xs font-medium mb-2">Info</p>
-                <MaviRadioGroup TValue="string"
-                                Value="@_selectedInfo"
-                                ValueChanged="(parameters) => { _selectedInfo = parameters.Value; }"
-                                ThemeColorScheme="ThemeColorScheme.Info">
-                    <MaviRadioGroupItem TValue="string" OptionValue="@("i1")" Label="Info 1" />
-                    <MaviRadioGroupItem TValue="string" OptionValue="@("i2")" Label="Info 2" />
-                </MaviRadioGroup>
-            </div>
-        </div>
-    </div>
-    
-    <details>
-        <summary class="cursor-pointer font-semibold">View Code</summary>
-        <pre class="bg-gray-800 text-white p-4 rounded mt-2 overflow-x-auto">
-        <code>
-            &lt;MaviRadioGroup TValue="string"
-                            Value="@@_selectedSizeSmall"
-                            ValueChanged="(parameters) => { _selectedSizeSmall = parameters.Value; }"
-                            ThemeColorScheme="ThemeColorScheme.Default"
-                            ElementSize="ElementSize.Small"&gt;
-            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("s1")" Label="Small 1" /&gt;
-            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("s2")" Label="Small 2" /&gt;
-            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("s3")" Label="Small 3" /&gt;
-            &lt;/MaviRadioGroup&gt;
-        </code>
-        <code>
-            &lt;MaviRadioGroup TValue="string"
-                            Value="@_selectedSizeRegular"
-                            ValueChanged="(parameters) => { _selectedSizeRegular = parameters.Value; }"
-                            ThemeColorScheme="ThemeColorScheme.Primary"
-                            ElementSize="ElementSize.Regular"&gt;
-            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("r1")" Label="Regular 1" /&gt;
-            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("r2")" Label="Regular 2" /&gt;
-            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("r3")" Label="Regular 3" /&gt;
-            &lt;/MaviRadioGroup&gt;
-            </code>
-        <code>
-            &lt;MaviRadioGroup TValue="string"
-                            Value="@_selectedSizeLarge"
-                            ValueChanged="(parameters) => { _selectedSizeLarge = parameters.Value; }"
-                            ThemeColorScheme="ThemeColorScheme.Success"
-                            ElementSize="ElementSize.Large"&gt;
-            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("l1")" Label="Large 1" /&gt;
-            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("l2")" Label="Large 2" /&gt;
-            &lt;MaviRadioGroupItem TValue="string" OptionValue="@@("l3")" Label="Large 3" /&gt;
-            &lt;/MaviRadioGroup&gt;
-        </code>
-        </pre>
-    </details>
-
-    <!-- Radio Group with Helper Text -->
-    <div class="flex flex-col gap-2">
-        <h3 class="text-lg font-semibold">With Helper Text</h3>
-        <p class="text-sm text-gray-600">Helper text provides additional context</p>
-        <MaviRadioGroup TValue="string"
-                        Value="@_selectedWithHelper"
-                        ValueChanged="(parameters) => { _selectedWithHelper = parameters.Value; }"
-                        HelperText="Please select your preferred payment method">
-            <MaviRadioGroupItem TValue="string" OptionValue="@("credit")" Label="Credit Card" />
-            <MaviRadioGroupItem TValue="string" OptionValue="@("debit")" Label="Debit Card" />
-            <MaviRadioGroupItem TValue="string" OptionValue="@("paypal")" Label="PayPal" />
-        </MaviRadioGroup>
-        <div class="text-sm">Selected: <strong>@(_selectedWithHelper ?? "None")</strong></div>
-    </div>
-
-    <!-- Disabled Radio Group -->
-    <div class="flex flex-col gap-2">
-        <h3 class="text-lg font-semibold">Disabled State</h3>
-        <p class="text-sm text-gray-600">All radio buttons in the group are disabled</p>
-        <MaviRadioGroup TValue="string"
-                        Value="@_selectedDisabled"
-                        ValueChanged="(parameters) => { _selectedDisabled = parameters.Value; }"
-                        Disabled="true">
-            <MaviRadioGroupItem TValue="string" OptionValue="@("dis1")" Label="Disabled Option 1" />
-            <MaviRadioGroupItem TValue="string" OptionValue="@("dis2")" Label="Disabled Option 2" />
-            <MaviRadioGroupItem TValue="string" OptionValue="@("dis3")" Label="Disabled Option 3" />
-        </MaviRadioGroup>
-    </div>
-
-    <!-- Readonly Radio Group -->
-    <div class="flex flex-col gap-2">
-        <h3 class="text-lg font-semibold">Readonly State</h3>
-        <p class="text-sm text-gray-600">Selected value cannot be changed</p>
-        <MaviRadioGroup TValue="string"
-                        Value="@_selectedReadonly"
-                        ValueChanged="(parameters) => { _selectedReadonly = parameters.Value; }"
-                        Readonly="true">
-            <MaviRadioGroupItem TValue="string" OptionValue="@("ro1")" Label="Readonly Option 1" />
-            <MaviRadioGroupItem TValue="string" OptionValue="@("ro2")" Label="Readonly Option 2" />
-            <MaviRadioGroupItem TValue="string" OptionValue="@("ro3")" Label="Readonly Option 3" />
-        </MaviRadioGroup>
-        <div class="text-sm">Pre-selected: <strong>@_selectedReadonly</strong></div>
-    </div>
-
-    <!-- Custom Width -->
-    <div class="flex flex-col gap-2">
-        <h3 class="text-lg font-semibold">Custom Width</h3>
-        <p class="text-sm text-gray-600">Radio group with custom width styling</p>
-        <MaviRadioGroup TValue="string"
-                        Value="@_selectedWidth"
-                        ValueChanged="(parameters) => { _selectedWidth = parameters.Value; }"
-                        Width="w-1/2">
-            <MaviRadioGroupItem TValue="string" OptionValue="@("w1")" Label="Width Option 1" />
-            <MaviRadioGroupItem TValue="string" OptionValue="@("w2")" Label="Width Option 2" />
-            <MaviRadioGroupItem TValue="string" OptionValue="@("w3")" Label="Width Option 3" />
-        </MaviRadioGroup>
-    </div>
-
-    <!-- Enum Values Example -->
-    <div class="flex flex-col gap-2">
-        <h3 class="text-lg font-semibold">Enum Values</h3>
-        <p class="text-sm text-gray-600">Using enum for strongly-typed options</p>
-        <MaviRadioGroup TValue="ElementSize?"
-                        Value="@_selectedSize"
-                        ValueChanged="(parameters) => { _selectedSize = parameters.Value; HandleSizeChange(parameters); }"
-                        ThemeColorScheme="ThemeColorScheme.Primary"
-                        HelperText="Choose your preferred element size">
-            <MaviRadioGroupItem TValue="ElementSize?" OptionValue="ElementSize.Small" Label="Small Size" />
-            <MaviRadioGroupItem TValue="ElementSize?" OptionValue="ElementSize.Regular" Label="Regular Size" />
-            <MaviRadioGroupItem TValue="ElementSize?" OptionValue="ElementSize.Large" Label="Large Size" />
-        </MaviRadioGroup>
-        <div class="text-sm">Selected enum: <strong>@(_selectedSize?.ToString() ?? "None")</strong></div>
-    </div>
-
-    <!-- Dynamic Options with Conditional Disabled Items -->
-    <div class="flex flex-col gap-2">
-        <h3 class="text-lg font-semibold">Dynamic Options with Conditional Disabled Items</h3>
-        <p class="text-sm text-gray-600">Using foreach to generate options with conditional disabled state</p>
-        <MaviRadioGroup TValue="string"
-                        Value="@_selectedDynamic"
-                        ValueChanged="(parameters) => { _selectedDynamic = parameters.Value; }"
-                        ThemeColorScheme="ThemeColorScheme.Primary"
-                        ElementSize="ElementSize.Regular"
-                        HelperText="Choose your payment method">
-            @foreach (var option in _paymentOptions)
-            {
-                <MaviRadioGroupItem TValue="string" OptionValue="@option" Label="@option" Disabled="IsPaymentOptionDisabled(option)" />
-            }
-        </MaviRadioGroup>
-        <div class="text-sm">Selected: <strong>@(_selectedDynamic ?? "None")</strong></div>
-    </div>
-
-    <!-- Complex Object Values -->
-    <div class="flex flex-col gap-2">
-        <h3 class="text-lg font-semibold">Complex Object Values</h3>
-        <p class="text-sm text-gray-600">Using custom objects as values with dynamic rendering</p>
-        <MaviRadioGroup TValue="SubscriptionPlan"
-                        Value="@_selectedPlan"
-                        ValueChanged="(parameters) => { _selectedPlan = parameters.Value; HandlePlanChange(parameters); }"
-                        ElementSize="ElementSize.Large"
-                        ThemeColorScheme="ThemeColorScheme.Success"
-                        HelperText="Select a subscription plan that fits your needs">
-            @foreach (var plan in _plans)
-            {
-                <MaviRadioGroupItem TValue="SubscriptionPlan" OptionValue="plan" Label="@($"{plan.Name} - {plan.Price}")" />
-            }
-        </MaviRadioGroup>
-        @if (_selectedPlan != null)
-        {
-            <div class="text-sm p-4 bg-gray-100 rounded">
-                <strong>Selected Plan:</strong> @_selectedPlan.Name - @_selectedPlan.Price
-            </div>
-        }
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                    ElementVariant="ElementVariant.Outlined"
+                    ElementSize="ElementSize.Small"
+                    Title="Display Sample Code"
+                    Width="w-64"
+                    TextTransform="TextTransform.UpperCase"
+                    OnClick="async () => { await DisplayDialog(RADIO_GROUP_SIZES); }">
+        </MaviButton>
     </div>
 </div>
 
+<div class="flex flex-col lg:flex-row! gap-2">
+        <div class="basis-1/3 min-h-0 flex flex-col gap-2">
+        <!-- Radio Group with Different Color Schemes -->
+        <div class="flex flex-col gap-2">
+            <h3 class="text-lg font-semibold">Color Scheme Variations</h3>
+            <p class="text-sm text-gray-600">All available theme color schemes</p>
 
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div>
+                    <p class="text-xs font-medium mb-2">Default</p>
+                    <MaviRadioGroup TValue="string"
+                                    Value="@_selectedDefault"
+                                    ValueChanged="(parameters) => { _selectedDefault = parameters.Value; }"
+                                    ThemeColorScheme="ThemeColorScheme.Default">
+                        <MaviRadioGroupItem TValue="string" OptionValue="@("d1")" Label="Default 1"/>
+                        <MaviRadioGroupItem TValue="string" OptionValue="@("d2")" Label="Default 2"/>
+                    </MaviRadioGroup>
+                </div>
 
-<div class="p-4 flex flex-col gap-4">
-    <div class="flex gap-4">
-        @foreach (ElementSize size in Enum.GetValues(typeof(ElementSize)))
-        {
-            <div class="flex flex-col">
-                <MaviRadioGroup Id="@size.ToString()"
-                                TValue="string"
-                                Value="@_sizeGroups[size.ToString()]"
-                                ValueChanged="SizeListValueChanged"
-                                ThemeColorScheme="ThemeColorScheme.Primary"
-                                ElementSize="size"
-                                HelperText="Choose your payment method">
+                <div>
+                    <p class="text-xs font-medium mb-2">Primary</p>
+                    <MaviRadioGroup TValue="string"
+                                    Value="@_selectedPrimary"
+                                    ValueChanged="(parameters) => { _selectedPrimary = parameters.Value; }"
+                                    ThemeColorScheme="ThemeColorScheme.Primary">
+                        <MaviRadioGroupItem TValue="string" OptionValue="@("p1")" Label="Primary 1"/>
+                        <MaviRadioGroupItem TValue="string" OptionValue="@("p2")" Label="Primary 2"/>
+                    </MaviRadioGroup>
+                </div>
 
-                    @foreach (var option in _options)
-                    {
-                        <MaviRadioGroupItem TValue="string" OptionValue="@option" Label="@option" />
-                    }
-                </MaviRadioGroup>
+                <div>
+                    <p class="text-xs font-medium mb-2">Secondary</p>
+                    <MaviRadioGroup TValue="string"
+                                    Value="@_selectedSecondary"
+                                    ValueChanged="(parameters) => { _selectedSecondary = parameters.Value; }"
+                                    ThemeColorScheme="ThemeColorScheme.Secondary">
+                        <MaviRadioGroupItem TValue="string" OptionValue="@("sec1")" Label="Secondary 1"/>
+                        <MaviRadioGroupItem TValue="string" OptionValue="@("sec2")" Label="Secondary 2"/>
+                    </MaviRadioGroup>
+                </div>
 
-                <div class="mt-4 text-sm">
-                    Selected: <span class="font-mono">@_sizeGroups[size.ToString()]</span>
+                <div>
+                    <p class="text-xs font-medium mb-2">Success</p>
+                    <MaviRadioGroup TValue="string"
+                                    Value="@_selectedSuccess"
+                                    ValueChanged="(parameters) => { _selectedSuccess = parameters.Value; }"
+                                    ThemeColorScheme="ThemeColorScheme.Success">
+                        <MaviRadioGroupItem TValue="string" OptionValue="@("su1")" Label="Success 1"/>
+                        <MaviRadioGroupItem TValue="string" OptionValue="@("su2")" Label="Success 2"/>
+                    </MaviRadioGroup>
+                </div>
+
+                <div>
+                    <p class="text-xs font-medium mb-2">Alert</p>
+                    <MaviRadioGroup TValue="string"
+                                    Value="@_selectedAlert"
+                                    ValueChanged="(parameters) => { _selectedAlert = parameters.Value; }"
+                                    ThemeColorScheme="ThemeColorScheme.Alert">
+                        <MaviRadioGroupItem TValue="string" OptionValue="@("a1")" Label="Alert 1"/>
+                        <MaviRadioGroupItem TValue="string" OptionValue="@("a2")" Label="Alert 2"/>
+                    </MaviRadioGroup>
+                </div>
+
+                <div>
+                    <p class="text-xs font-medium mb-2">Warning</p>
+                    <MaviRadioGroup TValue="string"
+                                    Value="@_selectedWarning"
+                                    ValueChanged="(parameters) => { _selectedWarning = parameters.Value; }"
+                                    ThemeColorScheme="ThemeColorScheme.Warning">
+                        <MaviRadioGroupItem TValue="string" OptionValue="@("w1")" Label="Warning 1"/>
+                        <MaviRadioGroupItem TValue="string" OptionValue="@("w2")" Label="Warning 2"/>
+                    </MaviRadioGroup>
+                </div>
+
+                <div>
+                    <p class="text-xs font-medium mb-2">Info</p>
+                    <MaviRadioGroup TValue="string"
+                                    Value="@_selectedInfo"
+                                    ValueChanged="(parameters) => { _selectedInfo = parameters.Value; }"
+                                    ThemeColorScheme="ThemeColorScheme.Info">
+                        <MaviRadioGroupItem TValue="string" OptionValue="@("i1")" Label="Info 1"/>
+                        <MaviRadioGroupItem TValue="string" OptionValue="@("i2")" Label="Info 2"/>
+                    </MaviRadioGroup>
                 </div>
             </div>
-        }
+        </div>
+
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                    ElementVariant="ElementVariant.Outlined"
+                    ElementSize="ElementSize.Small"
+                    Title="Display Sample Code"
+                    Width="w-64"
+                    TextTransform="TextTransform.UpperCase"
+                    OnClick="async () => { await DisplayDialog(RADIO_GROUP_COLORS); }">
+        </MaviButton>
     </div>
-    <div class="flex gap-2">
-        @foreach (ThemeColorScheme themeColorScheme in Enum.GetValues(typeof(ThemeColorScheme)))
-        {
-            <div class="flex flex-col">
-                <MaviRadioGroup Id="@themeColorScheme.ToString()"
-                                TValue="string"
-                                Value="@_schemeGroups[themeColorScheme.ToString()]"
-                                ValueChanged="ColorSchemeListValueChanged"
-                                ThemeColorScheme="themeColorScheme"
-                                ElementSize="ElementSize.Regular"
-                                HelperText="Choose your payment method">
-
-                    @foreach (var option in _options)
-                    {
-                        <MaviRadioGroupItem TValue="string" OptionValue="@option" Label="@option" />
-                    }
-                </MaviRadioGroup>
-
-                <div class="mt-4 text-sm">
-                    Selected: <span class="font-mono">@_schemeGroups[themeColorScheme.ToString()]</span>
-                </div>
-            </div>
-        }
-    </div>
-    <div class="flex gap-4">
-        <div class="flex flex-col">
+    <div class="basis-1/3 min-h-0">
+        <!-- Radio Group with Helper Text -->
+        <div class="flex flex-col gap-2">
+            <h3 class="text-lg font-semibold">With Helper Text</h3>
+            <p class="text-sm text-gray-600">Helper text provides additional context</p>
             <MaviRadioGroup TValue="string"
-                            Value="@_horizontalAlignmentGroup"
-                            ValueChanged="(parameters) => { _horizontalAlignmentGroup = parameters.Value; }"
-                            ThemeColorScheme="ThemeColorScheme.Primary"
-                            ElementSize="ElementSize.Regular"
-                            HelperText="Choose your payment method">
-
-                <div class="flex gap-1">
-                    @foreach (var option in _options)
-                    {
-                        <MaviRadioGroupItem TValue="string" OptionValue="@option" Label="@option" />
-                    }
-                </div>
+                            Value="@_selectedWithHelper"
+                            ValueChanged="(parameters) => { _selectedWithHelper = parameters.Value; }"
+                            HelperText="Please select your preferred payment method">
+                <MaviRadioGroupItem TValue="string" OptionValue="@("credit")" Label="Credit Card"/>
+                <MaviRadioGroupItem TValue="string" OptionValue="@("debit")" Label="Debit Card"/>
+                <MaviRadioGroupItem TValue="string" OptionValue="@("paypal")" Label="PayPal"/>
             </MaviRadioGroup>
-
-            <div class="mt-4 text-sm">
-                Selected: <span class="font-mono">@_horizontalAlignmentGroup</span>
-            </div>
-        </div>
-        <div class="flex flex-col">
-            <MaviRadioGroup TValue="string"
-                            Value="@_disabledGroupItem"
-                            ValueChanged="(parameters) => { _disabledGroupItem = parameters.Value; }"
-                            ThemeColorScheme="ThemeColorScheme.Primary"
-                            ElementSize="ElementSize.Regular"
-                            HelperText="Choose your payment method">
-
-                @foreach (var option in _options)
-                {
-                    <MaviRadioGroupItem TValue="string" OptionValue="@option" Label="@option" Disabled="OptionDisabled(option)" />
-                }
-            </MaviRadioGroup>
-
-            <div class="mt-4 text-sm">
-                Selected: <span class="font-mono">@_disabledGroupItem</span>
-            </div>
-        </div>
-        <div class="flex flex-col">
-            <MaviRadioGroup TValue="string"
-                            Disabled="true"
-                            Value="@_disabledGroup"
-                            ValueChanged="(parameters) => { _disabledGroup = parameters.Value; }"
-                            ThemeColorScheme="ThemeColorScheme.Primary"
-                            ElementSize="ElementSize.Regular"
-                            HelperText="Choose your payment method">
-
-                @foreach (var option in _options)
-                {
-                    <MaviRadioGroupItem TValue="string" OptionValue="@option" Label="@option" />
-                }
-            </MaviRadioGroup>
-
-            <div class="mt-4 text-sm">
-                Selected: <span class="font-mono">@_disabledGroup</span>
-            </div>
-        </div>
-        <div class="flex flex-col">
-            <MaviRadioGroup TValue="string"
-                            Readonly="true"
-                            Value="@_readonlyGroup"
-                            ValueChanged="(parameters) => { _readonlyGroup = parameters.Value; }"
-                            ThemeColorScheme="ThemeColorScheme.Primary"
-                            ElementSize="ElementSize.Regular"
-                            HelperText="Choose your payment method">
-
-                @foreach (var option in _options)
-                {
-                    <MaviRadioGroupItem TValue="string" OptionValue="@option" Label="@option" />
-                }
-            </MaviRadioGroup>
-
-            <div class="mt-4 text-sm">
-                Selected: <span class="font-mono">@_readonlyGroup</span>
-            </div>
+            <div class="text-sm">Selected: <strong>@(_selectedWithHelper ?? "None")</strong></div>
         </div>
     </div>
+    <div class="basis-1/3 min-h-0">
+        <!-- Disabled Radio Group -->
+        <div class="flex flex-col gap-2">
+            <h3 class="text-lg font-semibold">Disabled State</h3>
+            <p class="text-sm text-gray-600">All radio buttons in the group are disabled</p>
+            <MaviRadioGroup TValue="string"
+                            Value="@_selectedDisabled"
+                            ValueChanged="(parameters) => { _selectedDisabled = parameters.Value; }"
+                            Disabled="true">
+                <MaviRadioGroupItem TValue="string" OptionValue="@("dis1")" Label="Disabled Option 1"/>
+                <MaviRadioGroupItem TValue="string" OptionValue="@("dis2")" Label="Disabled Option 2"/>
+                <MaviRadioGroupItem TValue="string" OptionValue="@("dis3")" Label="Disabled Option 3"/>
+            </MaviRadioGroup>
+        </div>
+    </div>
+</div>
+
+<div class="flex flex-col lg:flex-row! gap-2">
+    <div class="basis-1/3 min-h-0 flex flex-col gap-2">
+        <!-- Enum Values Example -->
+        <div class="flex flex-col gap-2">
+            <h3 class="text-lg font-semibold">Enum Values</h3>
+            <p class="text-sm text-gray-600">Using enum for strongly-typed options</p>
+            <MaviRadioGroup TValue="ElementSize?"
+                            Value="@_selectedSize"
+                            ValueChanged="(parameters) => { _selectedSize = parameters.Value; HandleSizeChange(parameters); }"
+                            ThemeColorScheme="ThemeColorScheme.Primary"
+                            HelperText="Choose your preferred element size">
+                <MaviRadioGroupItem TValue="ElementSize?" OptionValue="ElementSize.Small" Label="Small Size"/>
+                <MaviRadioGroupItem TValue="ElementSize?" OptionValue="ElementSize.Regular" Label="Regular Size"/>
+                <MaviRadioGroupItem TValue="ElementSize?" OptionValue="ElementSize.Large" Label="Large Size"/>
+            </MaviRadioGroup>
+            <div class="text-sm">Selected enum: <strong>@(_selectedSize?.ToString() ?? "None")</strong></div>
+        </div>
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                        ElementVariant="ElementVariant.Outlined"
+                        ElementSize="ElementSize.Small"
+                        Title="Display Sample Code"
+                        Width="w-64"
+                        TextTransform="TextTransform.UpperCase"
+                        OnClick="async () => { await DisplayDialog(RADIO_GROUP_ENUMS); }">
+            </MaviButton>
+    </div>
+    <div class="basis-1/3 min-h-0">
+        <!-- Custom Width -->
+        <div class="flex flex-col gap-2">
+            <h3 class="text-lg font-semibold">Custom Width</h3>
+            <p class="text-sm text-gray-600">Radio group with custom width styling</p>
+            <MaviRadioGroup TValue="string"
+                            Value="@_selectedWidth"
+                            ValueChanged="(parameters) => { _selectedWidth = parameters.Value; }"
+                            Width="w-1/2">
+                <MaviRadioGroupItem TValue="string" OptionValue="@("w1")" Label="Width Option 1"/>
+                <MaviRadioGroupItem TValue="string" OptionValue="@("w2")" Label="Width Option 2"/>
+                <MaviRadioGroupItem TValue="string" OptionValue="@("w3")" Label="Width Option 3"/>
+            </MaviRadioGroup>
+        </div>
+    </div>
+    <div class="basis-1/3 min-h-0">
+        <!-- Readonly Radio Group -->
+        <div class="flex flex-col gap-2">
+            <h3 class="text-lg font-semibold">Readonly State</h3>
+            <p class="text-sm text-gray-600">Selected value cannot be changed</p>
+            <MaviRadioGroup TValue="string"
+                            Value="@_selectedReadonly"
+                            ValueChanged="(parameters) => { _selectedReadonly = parameters.Value; }"
+                            Readonly="true">
+                <MaviRadioGroupItem TValue="string" OptionValue="@("ro1")" Label="Readonly Option 1"/>
+                <MaviRadioGroupItem TValue="string" OptionValue="@("ro2")" Label="Readonly Option 2"/>
+                <MaviRadioGroupItem TValue="string" OptionValue="@("ro3")" Label="Readonly Option 3"/>
+            </MaviRadioGroup>
+            <div class="text-sm">Pre-selected: <strong>@_selectedReadonly</strong></div>
+        </div>
+    </div>
+</div>
+
+<div class="flex flex-col lg:flex-row! gap-2">
+    <div class="basis-1/3 min-h-0">
+    </div>
+    <div class="basis-1/3 min-h-0">
+    </div>
+    <div class="basis-1/3 min-h-0">
+    </div>
+</div>
+
+<div class="flex flex-col lg:flex-row! gap-2">
+    <div class="basis-1/3 min-h-0">
+    </div>
+    <div class="basis-1/3 min-h-0">
+    </div>
+    <div class="basis-1/3 min-h-0">
+    </div>
+</div>
 </div>
 
 @code {
+
+    private const string BASIC_RADIO_GROUP = "Basic Radio Group";
+    private const string RADIO_GROUP_WITH_INTEGER = "Radio Group with Integer Values";
+    private const string RADIO_GROUP_SIZES = "Radio Group with Different Sizes";
+    private const string RADIO_GROUP_COLORS = "Radio Group with Different Color Schemes";
+    private const string RADIO_GROUP_ENUMS = "Enum Values Example";
 
     // Basic string values
     private string? _selectedOption;
@@ -553,18 +486,13 @@
 
     // Complex object example
     private SubscriptionPlan? _selectedPlan;
+
     private List<SubscriptionPlan> _plans = new()
     {
         new SubscriptionPlan { Id = 1, Name = "Basic Plan", Price = "$9.99/month" },
         new SubscriptionPlan { Id = 2, Name = "Pro Plan", Price = "$19.99/month" },
         new SubscriptionPlan { Id = 3, Name = "Enterprise Plan", Price = "$49.99/month" }
     };
-
-    private bool IsPaymentOptionDisabled(string option)
-    {
-        // Example: Disable "Cryptocurrency" option
-        return option == "Cryptocurrency";
-    }
 
     private Task HandleOptionChange(ValueChangedCallbackParameters<string?> args)
     {
@@ -581,13 +509,6 @@
     private Task HandleSizeChange(ValueChangedCallbackParameters<ElementSize?> args)
     {
         Logger?.LogInformation("RadioGroup (Enum): {ElementId} Selected: {Value}", args.ElementId, args.Value);
-        return Task.CompletedTask;
-    }
-
-    private Task HandlePlanChange(ValueChangedCallbackParameters<SubscriptionPlan?> args)
-    {
-        Logger?.LogInformation("RadioGroup (Object): {ElementId} Selected Plan: {PlanName}",
-            args.ElementId, args.Value?.Name ?? "None");
         return Task.CompletedTask;
     }
 
@@ -609,43 +530,32 @@
         }
     }
 
-    #region Old
-    private string? _horizontalAlignmentGroup;
-    private string? _disabledGroupItem;
-    private string? _disabledGroup;
-    private string? _readonlyGroup = "Cash";
+    private MaviDialog? _dialog;
 
-    private readonly IEnumerable<string?> _options = ["Card", "Cash", "Bank Transfer"];
-
-    private readonly Dictionary<string, string> _sizeGroups = Enum.GetValues(typeof(ElementSize))
-        .Cast<ElementSize>()
-        .ToDictionary(scheme => scheme.ToString(), scheme => string.Empty);
-
-    private readonly Dictionary<string, string> _schemeGroups = Enum.GetValues(typeof(ThemeColorScheme))
-        .Cast<ThemeColorScheme>()
-    .ToDictionary(scheme => scheme.ToString(), scheme => string.Empty);
-
-    private Task SizeListValueChanged(ValueChangedCallbackParameters<string?> parameters)
+    private readonly MaviDialogBaseParameters _dialogParameters = new()
     {
-        if (!string.IsNullOrWhiteSpace(parameters.ElementId))
-        {
-            _sizeGroups[parameters.ElementId] = parameters.Value ?? string.Empty;
-        }
+        Title = "Code Sample",
+        Width = Tailwind.Theme.Dialog.WIDTH_MEDIUM_FLUID,
+        CloseOnBackdropClick = true,
+        DisplayCancelButton = false,
+        DisplayConfirmButton = false,
+        CloseButtonTitle = "Close",
+        BackdropOpacity = BackdropOpacity.Lighten,
+        ComponentRelativePosition = ComponentRelativePosition.CenterTop
+    };
 
+    private Task OnDialogButtonClick(DialogButtonClickEventArgs args)
+    {
         return Task.CompletedTask;
     }
 
-    private Task ColorSchemeListValueChanged(ValueChangedCallbackParameters<string?> parameters)
+    private async Task DisplayDialog(string section)
     {
-        if (!string.IsNullOrWhiteSpace(parameters.ElementId))
+        _dialogParameters.Title = section;
+
+        if (_dialog != null)
         {
-            _schemeGroups[parameters.ElementId] = parameters.Value ?? string.Empty;
+            await _dialog.Display();
         }
-
-        return Task.CompletedTask;
     }
-
-    private bool OptionDisabled(string? option) => option == "Cash";
-
-    #endregion
 }
