@@ -97,6 +97,30 @@ jobs:
               /p:RepositoryCommit=${{ github.sha }}
         done
 
+    # ── NEW: Sign NuGet packages ──────────────────────────────────────────────
+    - name: Install NuGet Sign tool
+      run: dotnet tool install --global NuGetKeyVaultSignTool || dotnet tool install --global dotnet-sign 2>/dev/null || true
+
+    - name: Decode certificate
+      run: |
+        echo "${{ secrets.NUGET_SIGNING_CERT_BASE64 }}" | base64 --decode > "${{ runner.temp }}/signing-cert.pfx"
+
+    - name: Sign NuGet packages
+      run: |
+        for package in ${{ env.PACKAGES_PATH }}/*.nupkg; do
+          echo "✍️ Signing $package..."
+          dotnet nuget sign "$package" \
+            --certificate-path "${{ runner.temp }}/signing-cert.pfx" \
+            --certificate-password "${{ secrets.NUGET_SIGNING_CERT_PASSWORD }}" \
+            --timestamper "http://timestamp.digicert.com" \
+            --overwrite
+        done
+
+    - name: Clean up certificate
+      if: always()
+      run: rm -f "${{ runner.temp }}/signing-cert.pfx"
+    # ─────────────────────────────────────────────────────────────────────────
+
     - name: Publish to NuGet.org
       run: |
         dotnet nuget push "${{ env.PACKAGES_PATH }}/*.nupkg" \
