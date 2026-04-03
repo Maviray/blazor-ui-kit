@@ -24,13 +24,12 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      packages: write
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
       with:
-        fetch-depth: 0  # Required for GitVersion to calculate history
+        fetch-depth: 0
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
@@ -52,11 +51,9 @@ jobs:
     - name: Resolve Final Version
       id: version
       run: |
-        # Default to calculated GitVersion
         CALCULATED_VERSION="${{ steps.gitversion.outputs.nuGetVersionV2 }}"
         BRANCH_NAME="${{ steps.gitversion.outputs.branchName }}"
-        
-        # Override if manual input provided
+
         if [ "${{ github.event.inputs.force_version }}" != "" ]; then
           FINAL_VERSION="${{ github.event.inputs.force_version }}"
           echo "⚠️ Using forced version: $FINAL_VERSION"
@@ -66,7 +63,6 @@ jobs:
 
         echo "version=$FINAL_VERSION" >> $GITHUB_OUTPUT
         echo "branch=$BRANCH_NAME" >> $GITHUB_OUTPUT
-        
         echo "📦 Package Version: $FINAL_VERSION"
         echo "🌿 Branch: $BRANCH_NAME"
 
@@ -84,13 +80,11 @@ jobs:
 
     - name: Pack NuGet packages
       run: |
-        # Verify src directory exists
         if [ ! -d "src" ]; then
           echo "⚠️ Warning: src directory not found. Skipping package creation."
           exit 0
         fi
-        
-        # Find all csproj files in src recursively
+
         find src -name "*.csproj" | while read project; do
             echo "📦 Packing $project..."
             dotnet pack "$project" \
@@ -103,20 +97,12 @@ jobs:
               /p:RepositoryCommit=${{ github.sha }}
         done
 
-    - name: Configure GitHub Packages source
-      run: |
-        dotnet nuget add source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
-          --name "github" \
-          --username "${{ github.actor }}" \
-          --password "${{ secrets.GITHUB_TOKEN }}" \
-          --store-password-in-clear-text
-
-    - name: Publish to GitHub Packages
+    - name: Publish to NuGet.org
       run: |
         dotnet nuget push "${{ env.PACKAGES_PATH }}/*.nupkg" \
-          --source "github" \
-          --api-key ${{ secrets.GITHUB_TOKEN }} \
-          --skip-duplicate   
+          --source "https://api.nuget.org/v3/index.json" \
+          --api-key ${{ secrets.NUGET_API_KEY }} \
+          --skip-duplicate
 
     - name: Create GitHub Release
       if: (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main') && steps.gitversion.outputs.preReleaseTag == ''
