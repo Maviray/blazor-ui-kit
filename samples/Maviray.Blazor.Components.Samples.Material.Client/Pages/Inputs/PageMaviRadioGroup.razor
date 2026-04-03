@@ -449,14 +449,17 @@
     private const string RADIO_GROUP_COLORS = "Radio Group with Different Color Schemes";
     private const string RADIO_GROUP_ENUMS = "Enum Values Example";
 
-    // Basic string values
-    private string? _selectedOption;
-    private int? _selectedNumber;
+    private string? _selectedDisabled = "dis2";
+    private string? _selectedReadonly = "ro2";
 
-    // Size variations
-    private string? _selectedSizeSmall = "s1";
-    private string? _selectedSizeRegular = "r2";
-    private string? _selectedSizeLarge = "l3";
+    // Width example
+    private string? _selectedWidth;
+
+    // Enum example
+    private ElementSize? _selectedSize;
+    
+    // Helper text example
+    private string? _selectedWithHelper;
 
     // Color scheme variations
     private string? _selectedDefault;
@@ -467,68 +470,12 @@
     private string? _selectedWarning;
     private string? _selectedInfo;
 
-    // Helper text example
-    private string? _selectedWithHelper;
+    private string? _selectedSizeSmall = "s1";
+    private string? _selectedSizeRegular = "r2";
+    private string? _selectedSizeLarge = "l3";
 
-    // Disabled and Readonly
-    private string? _selectedDisabled = "dis2";
-    private string? _selectedReadonly = "ro2";
-
-    // Width example
-    private string? _selectedWidth;
-
-    // Enum example
-    private ElementSize? _selectedSize;
-
-    // Dynamic options example
-    private string? _selectedDynamic;
-    private List<string> _paymentOptions = new() { "Credit Card", "Debit Card", "PayPal", "Bank Transfer", "Cryptocurrency" };
-
-    // Complex object example
-    private SubscriptionPlan? _selectedPlan;
-
-    private List<SubscriptionPlan> _plans = new()
-    {
-        new SubscriptionPlan { Id = 1, Name = "Basic Plan", Price = "$9.99/month" },
-        new SubscriptionPlan { Id = 2, Name = "Pro Plan", Price = "$19.99/month" },
-        new SubscriptionPlan { Id = 3, Name = "Enterprise Plan", Price = "$49.99/month" }
-    };
-
-    private Task HandleOptionChange(ValueChangedCallbackParameters<string?> args)
-    {
-        Logger?.LogInformation("RadioGroup: {ElementId} Selected: {Value}", args.ElementId, args.Value);
-        return Task.CompletedTask;
-    }
-
-    private Task HandleNumberChange(ValueChangedCallbackParameters<int?> args)
-    {
-        Logger?.LogInformation("RadioGroup (Number): {ElementId} Selected: {Value}", args.ElementId, args.Value);
-        return Task.CompletedTask;
-    }
-
-    private Task HandleSizeChange(ValueChangedCallbackParameters<ElementSize?> args)
-    {
-        Logger?.LogInformation("RadioGroup (Enum): {ElementId} Selected: {Value}", args.ElementId, args.Value);
-        return Task.CompletedTask;
-    }
-
-    // Supporting class for complex object example
-    private class SubscriptionPlan
-    {
-        public int Id { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public string Price { get; set; } = string.Empty;
-
-        public override bool Equals(object? obj)
-        {
-            return obj is SubscriptionPlan plan && Id == plan.Id;
-        }
-
-        public override int GetHashCode()
-        {
-            return Id.GetHashCode();
-        }
-    }
+    private string? _selectedOption;
+    private int? _selectedNumber;
 
     private MaviDialog? _dialog;
 
@@ -557,5 +504,23 @@
         {
             await _dialog.Display();
         }
+    }
+
+    private Task HandleSizeChange(ValueChangedCallbackParameters<ElementSize?> args)
+    {
+        Logger?.LogInformation("RadioGroup (Enum): {ElementId} Selected: {Value}", args.ElementId, args.Value);
+        return Task.CompletedTask;
+    }
+
+    private Task HandleOptionChange(ValueChangedCallbackParameters<string?> args)
+    {
+        Logger?.LogInformation("RadioGroup: {ElementId} Selected: {Value}", args.ElementId, args.Value);
+        return Task.CompletedTask;
+    }
+
+    private Task HandleNumberChange(ValueChangedCallbackParameters<int?> args)
+    {
+        Logger?.LogInformation("RadioGroup (Number): {ElementId} Selected: {Value}", args.ElementId, args.Value);
+        return Task.CompletedTask;
     }
 }

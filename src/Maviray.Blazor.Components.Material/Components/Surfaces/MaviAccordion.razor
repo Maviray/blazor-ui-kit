@@ -17,16 +17,16 @@
 
     [Parameter] public ThemeColorScheme ColorScheme { get; set; } = ThemeColorScheme.Default;
 
-    private readonly HashSet<string> _open = new(StringComparer.Ordinal);
+    private readonly HashSet<string?> _open = new(StringComparer.Ordinal);
 
-    internal bool IsOpen(string id) => _open.Contains(id);
+    internal bool IsOpen(string? id) => _open.Contains(id);
 
-    internal void RegisterDefaultOpen(string id, bool defaultExpanded)
+    internal void RegisterDefaultOpen(string? id, bool defaultExpanded)
     {
         if (defaultExpanded) _open.Add(id);
     }
 
-    internal void Toggle(string id)
+    internal void Toggle(string? id)
     {
         if (AllowMultiple)
         {

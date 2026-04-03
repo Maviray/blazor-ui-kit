@@ -351,27 +351,6 @@
 </div>
 
 @code {
-    private bool _buttonOneChecked = false;
-    private bool _buttonTwoChecked = false;
-    private bool _buttonThreeChecked = false;
-    private bool _buttonFourChecked = false;
-
-    private bool _buttonSmallChecked = false;
-    private bool _buttonMediumChecked = false;
-    private bool _buttonLargeChecked = false;
-
-    private bool _buttonPrimaryChecked = false;
-    private bool _buttonSecondaryChecked = false;
-    private bool _buttonSuccessChecked = false;
-    private bool _buttonAlertChecked = false;
-    private bool _buttonWarningChecked = false;
-    private bool _buttonInfoChecked = false;
-
-    private Task HandleButtonValueChange(ValueChangedCallbackParameters<bool> args)
-    {
-        Logger?.LogInformation("CheckBox: {ButtonId} Status: {Status}", args.ElementId, args.Value);
-        return Task.CompletedTask;
-    }
 
     // Size variants
     private bool _radioSmall = false;
@@ -387,22 +366,12 @@
     private bool _radioInfo = false;
     private bool _radioDark = false;
     private bool _radioLight = false;
-
-    // Label options
-    private bool _radioNoLabel = false;
-    private bool _radioWithLabel = false;
-    private bool _radioLongLabel = false;
-
+   
     // States
     private bool _radioDisabledOff = false;
     private bool _radioDisabledOn = true;
     private bool _radioReadonlyOff = false;
     private bool _radioReadonlyOn = true;
-
-    // Required and Helper Text
-    private bool _radioRequired = false;
-    private bool _radioWithHelper = false;
-    private bool _radioWithHelperRequired = false;
 
     // Combinations
     private bool _comboPrimarySmall = false;
@@ -411,15 +380,6 @@
     private bool _comboAlertSmall = false;
     private bool _comboWarningRegular = false;
     private bool _comboInfoLarge = false;
-
-    // Practical examples
-    private bool _exampleTerms = false;
-    private bool _exampleNewsletter = false;
-    private bool _exampleRemember = false;
-    private bool _exampleConfirmation = false;
-
-    // Interactive demo
-    private bool _interactiveDemo = false;
 
     private Task HandleRadioValueChange(ValueChangedCallbackParameters<bool> args)
     {
