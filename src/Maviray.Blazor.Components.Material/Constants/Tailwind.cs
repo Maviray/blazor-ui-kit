@@ -3848,6 +3848,9 @@ public static class Tailwind
 
             public const string LABEL_SMALL =
                 "text-[11px] font-medium tracking-wide leading-none font-ui";
+
+            public const string LABEL_XL =
+                "text-[14px] font-medium tracking-wide leading-none font-ui";
         }
 
         public static class NavLink
@@ -4087,6 +4090,29 @@ public static class Tailwind
             public const string WIDTH_LARGE_FLUID = "min-w-md max-w-7xl";
         }
 
+        public static class Badge
+        {
+            public const string PRIMARY = "inline-flex items-center rounded-full bg-(--theme-primary-one) px-2 py-1 text-(--theme-primary-ten) font-medium tracking-wide leading-none font-ui";
+            public const string SECONDARY = "inline-flex items-center rounded-full bg-(--theme-secondary-one) px-2 py-1 text-(--theme-secondary-ten) font-medium tracking-wide leading-none font-ui";
+            public const string SUCCESS = "inline-flex items-center rounded-full bg-(--theme-success-one) px-2 py-1 text-(--theme-success-ten) font-medium tracking-wide leading-none font-ui";
+            public const string ALERT = "inline-flex items-center rounded-full bg-(--theme-alert-one) px-2 py-1 text-(--theme-alert-ten) font-medium tracking-wide leading-none font-ui";
+            public const string WARNING = "inline-flex items-center rounded-full bg-(--theme-warning-one) px-2 py-1 text-(--theme-warning-ten) font-medium tracking-wide leading-none font-ui";
+            public const string INFO = "inline-flex items-center rounded-full bg-(--theme-info-one) px-2 py-1 text-(--theme-info-ten) font-medium tracking-wide leading-none font-ui";
+            public const string DARK = "inline-flex items-center rounded-full bg-(--theme-dark-one) px-2 py-1 text-(--theme-dark-ten) font-medium tracking-wide leading-none font-ui";
+            public const string LIGHT = "inline-flex items-center rounded-full bg-(--theme-light-one) px-2 py-1 text-(--theme-light-ten) font-medium tracking-wide leading-none font-ui";
+            public const string DEFAULT = "inline-flex items-center rounded-full bg-(--theme-default-one) px-2 py-1 text-(--theme-default-ten) font-medium tracking-wide leading-none font-ui";
+
+            public const string PRIMARY_DARK = "inline-flex items-center rounded-full bg-(--theme-primary-four) px-2 py-1 text-(--theme-primary-ten) font-medium tracking-wide leading-none font-ui";
+            public const string SECONDARY_DARK = "inline-flex items-center rounded-full bg-(--theme-secondary-four) px-2 py-1 text-(--theme-secondary-ten) font-medium tracking-wide leading-none font-ui";
+            public const string SUCCESS_DARK = "inline-flex items-center rounded-full bg-(--theme-success-four) px-2 py-1 text-(--theme-success-ten) font-medium tracking-wide leading-none font-ui";
+            public const string ALERT_DARK = "inline-flex items-center rounded-full bg-(--theme-alert-four) px-2 py-1 text-(--theme-alert-ten) font-medium tracking-wide leading-none font-ui";
+            public const string WARNING_DARK = "inline-flex items-center rounded-full bg-(--theme-warning-four) px-2 py-1 text-(--theme-warning-ten) font-medium tracking-wide leading-none font-ui";
+            public const string INFO_DARK = "inline-flex items-center rounded-full bg-(--theme-info-four) px-2 py-1 text-(--theme-info-ten) font-medium tracking-wide leading-none font-ui";
+            public const string DARK_DARK = "inline-flex items-center rounded-full bg-(--theme-dark-four) px-2 py-1 text-(--theme-dark-ten) font-medium tracking-wide leading-none font-ui";
+            public const string LIGHT_DARK = "inline-flex items-center rounded-full bg-(--theme-light-four) px-2 py-1 text-(--theme-light-ten) font-medium tracking-wide leading-none font-ui";
+            public const string DEFAULT_DARK = "inline-flex items-center rounded-full bg-(--theme-default-four) px-2 py-1 text-(--theme-default-ten) font-medium tracking-wide leading-none font-ui";
+        }
+
         public static class ZIndex
         {
             public const string ZERO = "z-0";
@@ -4109,6 +4135,5 @@ public static class Tailwind
             public const string TWOTHOURSAND = "z-[2000]";
             public const string THREETHOURSAND = "z-[3000]";
         }
-
     }
 }

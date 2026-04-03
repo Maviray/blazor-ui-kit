@@ -1,0 +1,30 @@
+﻿@inherits NavBarBase
+
+<div id="@Id" class="@ContainerCss()" style="@Style">
+    @if (LeftContent != null)
+    {
+        @LeftContent
+    }
+    @if (CenterContent != null)
+    {
+        @CenterContent
+    }
+    @if (RightContent != null)
+    {
+        @RightContent
+    }
+</div>
+
+@code {
+
+    [Parameter] public RenderFragment? LeftContent { get; set; }
+
+    [Parameter] public RenderFragment? CenterContent { get; set; }
+
+    [Parameter] public RenderFragment? RightContent { get; set; }
+
+    private string ContainerCss()
+    {
+        return $"flex items-center justify-between {Class}";
+    }
+}

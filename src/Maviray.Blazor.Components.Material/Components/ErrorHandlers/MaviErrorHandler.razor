@@ -1,0 +1,46 @@
+﻿@using Maviray.Blazor.Components.Core.Constants
+@using Maviray.Blazor.Components.Material.Components.Inputs
+@using Microsoft.Extensions.Logging
+@inherits ErrorBoundary
+
+@if (CurrentException is null)
+{
+    @ChildContent
+}
+else
+{   
+    <div class="w-screen h-dvh">
+        <div class="max-w-7xl mx-auto mt-8 flex flex-col gap-4">
+            <div>@MessageConstants.SOMETHING_WENT_WRONG_RETURN_HOME</div>
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                        ElementSize="ElementSize.Large"
+                        Title="Home"
+                        TextTransform="TextTransform.UpperCase"
+                        OnClick="RecoverAndRedirectToHome">
+            </MaviButton>
+        </div>
+    </div>
+}
+
+@code {
+    private ILogger? _logger;
+
+    [Inject] private ILoggerFactory? LoggerFactory { get; set; }
+
+    [Inject]
+    private NavigationManager? NavigationManager { get; set; }
+
+    protected ILogger? Logger => _logger ??= LoggerFactory?.CreateLogger(GetType());
+
+    protected override Task OnErrorAsync(Exception exception)
+    {
+        Logger?.LogError(exception, "unhandled exception caught in root error-handler");
+        return base.OnErrorAsync(exception);
+    }
+
+    public void RecoverAndRedirectToHome()
+    {
+        Recover();
+        NavigationManager?.NavigateTo("/");
+    }
+}

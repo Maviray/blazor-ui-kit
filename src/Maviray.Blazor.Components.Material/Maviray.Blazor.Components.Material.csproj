@@ -1,4 +1,5 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿
+<Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 		<Exec Command="npm install @tailwindcss/forms" />

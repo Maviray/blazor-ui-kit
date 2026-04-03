@@ -9,9 +9,32 @@
     <div class="flex flex-col gap-4">
         <h1 class="@Tailwind.Theme.Typography.DISPLAY_MEDIUM">Custom Theme Colors</h1>
         <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_LARGE, "text-(--theme-dark-six) max-w-3xl")">
-            Explore our comprehensive color palette featuring 13 semantic color groups, each with 10 shades.
-            These colors are designed to create consistent, accessible, and beautiful user interfaces.
+            Custom palette defined in Tailwind @@theme configuration. These colors are customizable by overriding Tailwind configuration inside individual consumer project.
         </p>
+    </div>
+    
+    <div>
+        <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-(--theme-dark-six)")">
+            Use constants from Tailwind.Theme.Colors static classes
+        </p>
+        <pre class="mt-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs">
+        <code>  
+  &lt;div class="@@Tailwind.Theme.Colors.Background.THEME_PRIMARY_SEVEN_BG"&gt;
+        
+  &lt;/div&gt;
+        </code>
+     </pre>
+        
+        <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-(--theme-dark-six)")">
+            Or reference tailwind variables directly
+        </p>
+        <pre class="mt-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs">
+        <code>  
+  &lt;div class="text-(--theme-dark-six) bg-(--theme-default-one)"&gt;
+        
+  &lt;/div&gt;
+        </code>
+     </pre>
     </div>
 
     @* Primary Color Group *@

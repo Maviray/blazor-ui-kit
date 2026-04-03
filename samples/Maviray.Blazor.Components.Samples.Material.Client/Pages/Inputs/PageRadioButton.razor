@@ -4,7 +4,7 @@
 
 <PageTitle>RadioButton</PageTitle>
 
-<div class="flex flex-col gap-8 p-4">
+<div class="flex flex-col gap-8 p-4 min-h-0 w-full overflow-x-hidden">
     <!-- Component Overview -->
     <div class="flex flex-col gap-2">
         <h1 class="text-2xl font-bold">MaviRadioButton Component</h1>
@@ -36,24 +36,22 @@
         </div>
         <details class="mt-2">
             <summary class="cursor-pointer font-semibold">View Code</summary>
-            <pre class="bg-gray-800 text-white p-4 rounded mt-2 overflow-x-auto">
-                <code>
+            <pre class="bg-gray-800 text-white p-4 rounded mt-2 overflow-x-auto text-sm w-full max-w-full">
+            <code>
+    &lt;MaviRadioButton @@bind-Value="_radioSmall"
+                        Label="Small"
+                        ElementSize="ElementSize.Small"
+                        RadioStatusChange="HandleRadioValueChange" /&gt;
 
-                &lt;MaviRadioButton @@bind-Value="_radioSmall"
-                                 Label="Small"
-                                 ElementSize="ElementSize.Small"
-                                 RadioStatusChange="HandleRadioValueChange" /&gt;
+    &lt;MaviRadioButton @@bind-Value="_radioMedium"
+                        Label="Regular"
+                        ElementSize="ElementSize.Regular"
+                        RadioStatusChange="HandleRadioValueChange" /&gt;
 
-                &lt;MaviRadioButton @@bind-Value="_radioMedium"
-                                 Label="Regular"
-                                 ElementSize="ElementSize.Regular"
-                                 RadioStatusChange="HandleRadioValueChange" /&gt;
-
-                &lt;MaviRadioButton @@bind-Value="_radioLarge"
-                                 Label="Large"
-                                 ElementSize="ElementSize.Large"
-                                 RadioStatusChange="HandleRadioValueChange" /&gt;
-
+    &lt;MaviRadioButton @@bind-Value="_radioLarge"
+                        Label="Large"
+                        ElementSize="ElementSize.Large"
+                        RadioStatusChange="HandleRadioValueChange" /&gt;
                 </code>
             </pre>
         </details>
@@ -114,30 +112,6 @@
         </div>
     </div>
 
-    <!-- With and Without Labels -->
-    <div class="flex flex-col gap-4">
-        <h2 class="text-xl font-semibold">Label Options</h2>
-        <p class="text-sm text-gray-600">Radio buttons can be used with or without visible labels.</p>
-        <div class="flex gap-4 items-center">
-            <MaviRadioButton @bind-Value="_radioNoLabel"
-                             ElementSize="ElementSize.Regular"
-                             ThemeColorScheme="ThemeColorScheme.Primary"
-                             RadioStatusChange="HandleRadioValueChange" />
-
-            <MaviRadioButton @bind-Value="_radioWithLabel"
-                             Label="With visible label"
-                             ElementSize="ElementSize.Regular"
-                             ThemeColorScheme="ThemeColorScheme.Primary"
-                             RadioStatusChange="HandleRadioValueChange" />
-
-            <MaviRadioButton @bind-Value="_radioLongLabel"
-                             Label="Radio button with a longer descriptive label text"
-                             ElementSize="ElementSize.Regular"
-                             ThemeColorScheme="ThemeColorScheme.Secondary"
-                             RadioStatusChange="HandleRadioValueChange" />
-        </div>
-    </div>
-
     <!-- Component States -->
     <div class="flex flex-col gap-4">
         <h2 class="text-xl font-semibold">Component States</h2>
@@ -171,7 +145,7 @@
         </div>
         <details class="mt-2">
             <summary class="cursor-pointer font-semibold">View Code</summary>
-            <pre class="bg-gray-800 text-white p-4 rounded mt-2 overflow-x-auto">
+            <pre class="bg-gray-800 text-white p-4 rounded mt-2 overflow-x-auto text-sm w-full max-w-full">
             <code>
             &lt;MaviRadioButton @@bind-Value="_radioDisabledOff"
                              Label="Disabled (Unchecked)"
@@ -202,42 +176,6 @@
                 </code>
             </pre>
         </details>
-    </div>
-
-    <!-- Required Field -->
-    <div class="flex flex-col gap-4">
-        <h2 class="text-xl font-semibold">Required Field</h2>
-        <p class="text-sm text-gray-600">Mark fields as required with an asterisk indicator.</p>
-        <div class="flex gap-4">
-            <MaviRadioButton @bind-Value="_radioRequired"
-                             Label="I accept the terms and conditions"
-                             Required="true"
-                             ThemeColorScheme="ThemeColorScheme.Alert"
-                             ElementSize="ElementSize.Regular"
-                             RadioStatusChange="HandleRadioValueChange" />
-        </div>
-    </div>
-
-    <!-- With Helper Text -->
-    <div class="flex flex-col gap-4">
-        <h2 class="text-xl font-semibold">Helper Text</h2>
-        <p class="text-sm text-gray-600">Provide additional context with helper text below the radio button.</p>
-        <div class="flex flex-col gap-3">
-            <MaviRadioButton @bind-Value="_radioWithHelper"
-                             Label="Subscribe to newsletter"
-                             HelperText="You can unsubscribe at any time"
-                             ThemeColorScheme="ThemeColorScheme.Primary"
-                             ElementSize="ElementSize.Regular"
-                             RadioStatusChange="HandleRadioValueChange" />
-
-            <MaviRadioButton @bind-Value="_radioWithHelperRequired"
-                             Label="I agree to the privacy policy"
-                             HelperText="Required to continue with registration"
-                             Required="true"
-                             ThemeColorScheme="ThemeColorScheme.Alert"
-                             ElementSize="ElementSize.Regular"
-                             RadioStatusChange="HandleRadioValueChange" />
-        </div>
     </div>
 
     <!-- Size and Color Combinations -->
@@ -283,7 +221,7 @@
         </div>
         <details class="mt-2">
             <summary class="cursor-pointer font-semibold">View Code</summary>
-            <pre class="bg-gray-800 text-white p-4 rounded mt-2 overflow-x-auto">
+            <pre class="bg-gray-800 text-white p-4 rounded mt-2 overflow-x-auto text-sm w-full max-w-full">
             <code>
             &lt;MaviRadioButton @@bind-Value="_comboPrimarySmall"
                              Label="Primary Small"
@@ -326,203 +264,88 @@
         </details>
     </div>
 
-    <!-- Practical Examples -->
-    <div class="flex flex-col gap-4">
-        <h2 class="text-xl font-semibold">Practical Examples</h2>
-        <div class="flex flex-col gap-3">
-            <MaviRadioButton @bind-Value="_exampleTerms"
-                             Label="I accept the terms and conditions"
-                             Required="true"
-                             HelperText="Please read the terms before accepting"
-                             ThemeColorScheme="ThemeColorScheme.Primary"
-                             ElementSize="ElementSize.Regular"
-                             RadioStatusChange="HandleRadioValueChange" />
-
-            <MaviRadioButton @bind-Value="_exampleNewsletter"
-                             Label="Send me promotional emails"
-                             HelperText="You can change this preference later in settings"
-                             ElementSize="ElementSize.Regular"
-                             RadioStatusChange="HandleRadioValueChange" />
-
-            <MaviRadioButton @bind-Value="_exampleRemember"
-                             Label="Remember my choice"
-                             ThemeColorScheme="ThemeColorScheme.Info"
-                             ElementSize="ElementSize.Small"
-                             RadioStatusChange="HandleRadioValueChange" />
-
-            <MaviRadioButton @bind-Value="_exampleConfirmation"
-                             Label="I confirm this is my final decision"
-                             Required="true"
-                             ThemeColorScheme="ThemeColorScheme.Success"
-                             ElementSize="ElementSize.Large"
-                             RadioStatusChange="HandleRadioValueChange" />
-        </div>
-    </div>
-
-    <!-- Interactive Demo -->
-    <div class="flex flex-col gap-4">
-        <h2 class="text-xl font-semibold">Interactive Demo</h2>
-        <div class="bg-gray-50 p-4 rounded border border-gray-200">
-            <div class="flex flex-col gap-3">
-                <MaviRadioButton @bind-Value="_interactiveDemo"
-                                 Label="Toggle this radio button"
-                                 ThemeColorScheme="ThemeColorScheme.Primary"
-                                 ElementSize="ElementSize.Regular"
-                                 RadioStatusChange="HandleRadioValueChange" />
-                <div class="text-sm">
-                    <strong>Status:</strong> <span class="font-mono">@(_interactiveDemo ? "Checked ✓" : "Unchecked")</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Parameters Documentation -->
     <div class="flex flex-col gap-4">
         <h2 class="text-xl font-semibold">Parameters</h2>
         <div class="overflow-x-auto">
             <table class="min-w-full border border-gray-200">
                 <thead class="bg-gray-100">
-                <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase">Parameter</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase">Type</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase">Default</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase">Description</th>
-                </tr>
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase">Parameter</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase">Type</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase">Default</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase">Description</th>
+                    </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                <tr>
-                    <td class="px-6 py-4 text-sm"><code>@@bind-Value</code></td>
-                    <td class="px-6 py-4 text-sm">bool</td>
-                    <td class="px-6 py-4 text-sm">false</td>
-                    <td class="px-6 py-4 text-sm">Two-way binding for the radio button state (checked/unchecked)</td>
-                </tr>
-                <tr class="bg-gray-50">
-                    <td class="px-6 py-4 text-sm"><code>Label</code></td>
-                    <td class="px-6 py-4 text-sm">string</td>
-                    <td class="px-6 py-4 text-sm">null</td>
-                    <td class="px-6 py-4 text-sm">Visible label text displayed next to the radio button</td>
-                </tr>
-                <tr>
-                    <td class="px-6 py-4 text-sm"><code>ElementSize</code></td>
-                    <td class="px-6 py-4 text-sm">ElementSize</td>
-                    <td class="px-6 py-4 text-sm">Regular</td>
-                    <td class="px-6 py-4 text-sm">Size of the radio button: Small (16px), Regular (20px), or Large (24px)</td>
-                </tr>
-                <tr class="bg-gray-50">
-                    <td class="px-6 py-4 text-sm"><code>ThemeColorScheme</code></td>
-                    <td class="px-6 py-4 text-sm">ThemeColorScheme</td>
-                    <td class="px-6 py-4 text-sm">Default</td>
-                    <td class="px-6 py-4 text-sm">Color theme (Primary, Secondary, Success, Alert, Warning, Info, Dark, Light)</td>
-                </tr>
-                <tr>
-                    <td class="px-6 py-4 text-sm"><code>Disabled</code></td>
-                    <td class="px-6 py-4 text-sm">bool</td>
-                    <td class="px-6 py-4 text-sm">false</td>
-                    <td class="px-6 py-4 text-sm">Prevents user interaction and applies disabled styling (reduced opacity)</td>
-                </tr>
-                <tr class="bg-gray-50">
-                    <td class="px-6 py-4 text-sm"><code>Readonly</code></td>
-                    <td class="px-6 py-4 text-sm">bool</td>
-                    <td class="px-6 py-4 text-sm">false</td>
-                    <td class="px-6 py-4 text-sm">Prevents changes but maintains current visual state</td>
-                </tr>
-                <tr>
-                    <td class="px-6 py-4 text-sm"><code>Required</code></td>
-                    <td class="px-6 py-4 text-sm">bool</td>
-                    <td class="px-6 py-4 text-sm">false</td>
-                    <td class="px-6 py-4 text-sm">Marks the field as required with an asterisk (*)</td>
-                </tr>
-                <tr class="bg-gray-50">
-                    <td class="px-6 py-4 text-sm"><code>HelperText</code></td>
-                    <td class="px-6 py-4 text-sm">string</td>
-                    <td class="px-6 py-4 text-sm">null</td>
-                    <td class="px-6 py-4 text-sm">Additional descriptive text displayed below the radio button</td>
-                </tr>
-                <tr>
-                    <td class="px-6 py-4 text-sm"><code>RadioStatusChange</code></td>
-                    <td class="px-6 py-4 text-sm">EventCallback&lt;ValueChangedCallbackParameters&lt;bool&gt;&gt;</td>
-                    <td class="px-6 py-4 text-sm">-</td>
-                    <td class="px-6 py-4 text-sm">Callback fired when radio button value changes</td>
-                </tr>
-                <tr class="bg-gray-50">
-                    <td class="px-6 py-4 text-sm"><code>Width</code></td>
-                    <td class="px-6 py-4 text-sm">string</td>
-                    <td class="px-6 py-4 text-sm">null</td>
-                    <td class="px-6 py-4 text-sm">CSS width class (e.g., "w-full", "w-1/2")</td>
-                </tr>
-                <tr>
-                    <td class="px-6 py-4 text-sm"><code>Id</code></td>
-                    <td class="px-6 py-4 text-sm">string</td>
-                    <td class="px-6 py-4 text-sm">Auto-generated</td>
-                    <td class="px-6 py-4 text-sm">Unique identifier for the radio button element</td>
-                </tr>
+                    <tr>
+                        <td class="px-6 py-4 text-sm"><code>@@bind-Value</code></td>
+                        <td class="px-6 py-4 text-sm">bool</td>
+                        <td class="px-6 py-4 text-sm">false</td>
+                        <td class="px-6 py-4 text-sm">Two-way binding for the radio button state (checked/unchecked)</td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                        <td class="px-6 py-4 text-sm"><code>Label</code></td>
+                        <td class="px-6 py-4 text-sm">string</td>
+                        <td class="px-6 py-4 text-sm">null</td>
+                        <td class="px-6 py-4 text-sm">Visible label text displayed next to the radio button</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 text-sm"><code>ElementSize</code></td>
+                        <td class="px-6 py-4 text-sm">ElementSize</td>
+                        <td class="px-6 py-4 text-sm">Regular</td>
+                        <td class="px-6 py-4 text-sm">Size of the radio button: Small (16px), Regular (20px), or Large (24px)</td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                        <td class="px-6 py-4 text-sm"><code>ThemeColorScheme</code></td>
+                        <td class="px-6 py-4 text-sm">ThemeColorScheme</td>
+                        <td class="px-6 py-4 text-sm">Default</td>
+                        <td class="px-6 py-4 text-sm">Color theme (Primary, Secondary, Success, Alert, Warning, Info, Dark, Light)</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 text-sm"><code>Disabled</code></td>
+                        <td class="px-6 py-4 text-sm">bool</td>
+                        <td class="px-6 py-4 text-sm">false</td>
+                        <td class="px-6 py-4 text-sm">Prevents user interaction and applies disabled styling (reduced opacity)</td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                        <td class="px-6 py-4 text-sm"><code>Readonly</code></td>
+                        <td class="px-6 py-4 text-sm">bool</td>
+                        <td class="px-6 py-4 text-sm">false</td>
+                        <td class="px-6 py-4 text-sm">Prevents changes but maintains current visual state</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 text-sm"><code>Required</code></td>
+                        <td class="px-6 py-4 text-sm">bool</td>
+                        <td class="px-6 py-4 text-sm">false</td>
+                        <td class="px-6 py-4 text-sm">Marks the field as required with an asterisk (*)</td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                        <td class="px-6 py-4 text-sm"><code>HelperText</code></td>
+                        <td class="px-6 py-4 text-sm">string</td>
+                        <td class="px-6 py-4 text-sm">null</td>
+                        <td class="px-6 py-4 text-sm">Additional descriptive text displayed below the radio button</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 text-sm"><code>RadioStatusChange</code></td>
+                        <td class="px-6 py-4 text-sm">EventCallback&lt;ValueChangedCallbackParameters&lt;bool&gt;&gt;</td>
+                        <td class="px-6 py-4 text-sm">-</td>
+                        <td class="px-6 py-4 text-sm">Callback fired when radio button value changes</td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                        <td class="px-6 py-4 text-sm"><code>Width</code></td>
+                        <td class="px-6 py-4 text-sm">string</td>
+                        <td class="px-6 py-4 text-sm">null</td>
+                        <td class="px-6 py-4 text-sm">CSS width class (e.g., "w-full", "w-1/2")</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 text-sm"><code>Id</code></td>
+                        <td class="px-6 py-4 text-sm">string</td>
+                        <td class="px-6 py-4 text-sm">Auto-generated</td>
+                        <td class="px-6 py-4 text-sm">Unique identifier for the radio button element</td>
+                    </tr>
                 </tbody>
             </table>
-        </div>
-    </div>
-    
-    <!-- Parameters Documentation -->
-    <div class="flex flex-col gap-4 border rounded-md border-gray-200 p-4">
-        <div>
-            <!-- Basic checkbox -->
-            <MaviRadioButton @bind-Value="_buttonSmallChecked" ElementSize="ElementSize.Small" RadioStatusChange="HandleButtonValueChange" />
-            <!-- Basic checkbox -->
-            <MaviRadioButton @bind-Value="_buttonMediumChecked" ElementSize="ElementSize.Regular" RadioStatusChange="HandleButtonValueChange" />
-            <!-- Basic checkbox -->
-            <MaviRadioButton @bind-Value="_buttonLargeChecked" ElementSize="ElementSize.Large" RadioStatusChange="HandleButtonValueChange" />
-        </div>
-        <div>
-            <!-- Basic checkbox -->
-            <MaviRadioButton @bind-Value="_buttonPrimaryChecked" ElementSize="ElementSize.Small" ThemeColorScheme="ThemeColorScheme.Primary" RadioStatusChange="HandleButtonValueChange" />
-            <!-- Basic checkbox -->
-            <MaviRadioButton @bind-Value="_buttonSecondaryChecked" ElementSize="ElementSize.Regular" ThemeColorScheme="ThemeColorScheme.Secondary" RadioStatusChange="HandleButtonValueChange" />
-            <!-- Basic checkbox -->
-            <MaviRadioButton @bind-Value="_buttonSuccessChecked" ElementSize="ElementSize.Large" ThemeColorScheme="ThemeColorScheme.Success" RadioStatusChange="HandleButtonValueChange" />
-            <!-- Basic checkbox -->
-            <MaviRadioButton @bind-Value="_buttonAlertChecked" ElementSize="ElementSize.Small" ThemeColorScheme="ThemeColorScheme.Alert" RadioStatusChange="HandleButtonValueChange" />
-            <!-- Basic checkbox -->
-            <MaviRadioButton @bind-Value="_buttonWarningChecked" ElementSize="ElementSize.Regular" ThemeColorScheme="ThemeColorScheme.Warning" RadioStatusChange="HandleButtonValueChange" />
-            <!-- Basic checkbox -->
-            <MaviRadioButton @bind-Value="_buttonInfoChecked" ElementSize="ElementSize.Large" ThemeColorScheme="ThemeColorScheme.Info" RadioStatusChange="HandleButtonValueChange" />
-        </div>
-        <div class="flex gap-4">
-            <!-- Basic checkbox -->
-            <MaviRadioButton @bind-Value="_buttonOneChecked" Label="Accept terms" />
-
-            <!-- Checkbox with theme and size -->
-            <MaviRadioButton @bind-Value="_buttonTwoChecked"
-                             Label="Enable notifications"
-                             ThemeColorScheme="ThemeColorScheme.Primary"
-                             ElementSize="ElementSize.Large" RadioStatusChange="HandleButtonValueChange" />
-
-            <!-- Required checkbox with helper text -->
-            <MaviRadioButton @bind-Value="_buttonThreeChecked"
-                             Label="I agree"
-                             Required="true"
-                             ElementSize="ElementSize.Regular"
-                             HelperText="You must accept to continue" RadioStatusChange="HandleButtonValueChange" />
-
-            <!-- Disabled checkbox -->
-            <MaviRadioButton @bind-Value="_buttonFourChecked"
-                             ElementSize="ElementSize.Regular"
-                             Disabled="true"
-                             Label="Disabled Radio Button" RadioStatusChange="HandleButtonValueChange" />
-
-        </div>
-    </div>
-
-    <!-- Usage Notes -->
-    <div class="flex flex-col gap-4">
-        <h2 class="text-xl font-semibold">Usage Notes</h2>
-        <div class="bg-blue-50 border border-blue-200 rounded p-4 text-sm">
-            <h3 class="font-semibold mb-2">Important:</h3>
-            <ul class="list-disc list-inside space-y-2">
-                <li><strong>Standalone Behavior:</strong> MaviRadioButton acts as a toggle (checkbox-like). Each instance is independent.</li>
-                <li><strong>For Traditional Radio Groups:</strong> Use <code>MaviRadioGroup</code> with <code>MaviRadioGroupItem</code> for mutually exclusive selections.</li>
-                <li><strong>Accessibility:</strong> Always provide a <code>Label</code> or ensure proper <code>aria-label</code> attributes for screen readers.</li>
-                <li><strong>Visual Feedback:</strong> The component provides hover states and smooth transitions for better user experience.</li>
-                <li><strong>Form Integration:</strong> Works with Blazor's EditForm validation when using the <code>@@bind-Value</code> directive.</li>
-            </ul>
         </div>
     </div>
 </div>

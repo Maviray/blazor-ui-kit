@@ -1,383 +1,110 @@
-﻿@using Maviray.Blazor.Components.Core.Utilities
-@using Maviray.Blazor.Components.Material.Components.Inputs
-@inherits LayoutComponentBase
+﻿@using Maviray.Blazor.Components.Core.Components
+@using Maviray.Blazor.Components.Core.Interfaces
+@using Maviray.Blazor.Components.Material.Components.ErrorHandlers
+@using Maviray.Blazor.Components.Material.Components.Menus
+@using Maviray.Blazor.Components.Material.Components.NavBars
+@inherits MavirayLayoutBase
 
-<div class="min-h-screen flex flex-col">
-    <!-- Header -->
-    <header class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG, Tailwind.Theme.Colors.Border.THEME_LIGHT_THREE_BORDER, "border-b sticky top-0 z-50")">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center">
-                    <h1 class="@CssManager.Combine(Tailwind.Theme.Typography.TITLE_LARGE, Tailwind.Theme.Colors.Text.THEME_DARK_NINE_TEXT)">Maviray Blazor UI Kit</h1>
+<div class="w-full h-dvh flex">
+    <MaviErrorHandler>
+        <CascadingValue Value="@(this)">
+            <!-- 1) Left side nav -->
+            <aside class="@GetSideNavContainerCss()">
+                <div class="h-[48px] flex items-center justify-center">
+                    <div>BUIK</div>
                 </div>
-                <nav class="flex gap-4">
-                    <a href="/" class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, Tailwind.Theme.Colors.Text.THEME_DARK_SIX_TEXT, Tailwind.Theme.Colors.Text.Hover.THEME_DARK_NINE_TEXT_HOVER, "px-3 py-2 rounded-md")">Home</a>
-                    <a href="/components" class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, Tailwind.Theme.Colors.Text.THEME_DARK_SIX_TEXT, Tailwind.Theme.Colors.Text.Hover.THEME_DARK_NINE_TEXT_HOVER, "px-3 py-2 rounded-md")">Components</a>
-                    <a href="/about" class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, Tailwind.Theme.Colors.Text.THEME_DARK_SIX_TEXT, Tailwind.Theme.Colors.Text.Hover.THEME_DARK_NINE_TEXT_HOVER, "px-3 py-2 rounded-md")">About</a>
-                </nav>
-            </div>
-        </div>
-    </header>
-
-    <div class="flex flex-1">
-        <!-- Side Navigation -->
-        <aside class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_LIGHT_TWO_BG, Tailwind.Theme.Colors.Border.THEME_LIGHT_THREE_BORDER, "w-64 border-r overflow-y-auto")">
-            <nav class="py-4 pr-4 pl-16 space-y-2 flex flex-col gap-2">
-                <div class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, Tailwind.Theme.Colors.Text.THEME_DARK_FIVE_TEXT, "px-3 py-2")">
-                    Base
+                <div class="h-[80dvh] overflow-y-auto overflow-x-hidden">
+                    <MaviMenuVertical @ref="_maviMenuVertical" PullMenuItems="GetMenuItems" ElementSize="ElementSize.Large" ItemClicked="ItemClicked" DarkMode="true" />
                 </div>
-            <MaviLink Href="/PageCustomColors"
-                      ThemeColorScheme="ThemeColorScheme.Default"
-                      ElementSize="ElementSize.Large"
-                      ElementVariant="ElementVariant.Text"
-                      Label="Custom Theme Colors"
-                      Title="Custom Theme Colors">
-            </MaviLink>
-                <MaviLink Href="/PageScreenSizes"
-                      ThemeColorScheme="ThemeColorScheme.Default"
-                      ElementSize="ElementSize.Large"
-                      ElementVariant="ElementVariant.Text"
-                          Label="Screen Sizes"
-                          Title="Screen Sizes">
-            </MaviLink>
-                <MaviLink Href="/PageIconsMini"
-                          ThemeColorScheme="ThemeColorScheme.Default"
-                          ElementSize="ElementSize.Large"
-                          ElementVariant="ElementVariant.Text"
-                          Label="Icons Mini"
-                          Title="Icons Mini">
-                </MaviLink>
-                <MaviLink Href="/PageIconsOnline"
-                          ThemeColorScheme="ThemeColorScheme.Default"
-                          ElementSize="ElementSize.Large"
-                          ElementVariant="ElementVariant.Text"
-                          Label="Icons Online"
-                          Title="Icons Online">
-                </MaviLink>
-                <MaviLink Href="/PageIconsSolid"
-                          ThemeColorScheme="ThemeColorScheme.Default"
-                          ElementSize="ElementSize.Large"
-                          ElementVariant="ElementVariant.Text"
-                          Label="Icons Solid"
-                          Title="Icons Solid">
-                </MaviLink>
-                <MaviLink Href="/PageIconColors"
-                          ThemeColorScheme="ThemeColorScheme.Default"
-                          ElementSize="ElementSize.Large"
-                          ElementVariant="ElementVariant.Text"
-                          Label="Icons Colors"
-                          Title="Icons Colors">
-                </MaviLink>
-                <MaviLink Href="/PageLineIcons"
-                          ThemeColorScheme="ThemeColorScheme.Default"
-                          ElementSize="ElementSize.Large"
-                          ElementVariant="ElementVariant.Text"
-                          Label="Line Icons"
-                          Title="Line Icons">
-                </MaviLink>
-            <MaviLink Href="/PageTypography"
-                      ThemeColorScheme="ThemeColorScheme.Default"
-                      ElementSize="ElementSize.Large"
-                      ElementVariant="ElementVariant.Text"
-                      Label="Typography"
-                      Title="Typography">
-            </MaviLink>
-            <MaviLink Href="/PageMaviSpinners"
-                      ThemeColorScheme="ThemeColorScheme.Default"
-                      ElementSize="ElementSize.Large"
-                      ElementVariant="ElementVariant.Text"
-                      Label="Spinners"
-                      Title="Spinners">
-            </MaviLink>
+            </aside>
 
-            <div class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, Tailwind.Theme.Colors.Text.THEME_DARK_FIVE_TEXT, "px-3 py-2")">
-                Inputs
+            <!-- 2) Right side -->
+            <div class="flex-1 min-w-0 flex flex-col">
+                <!-- a) Header -->
+                <header class="shrink-0 p-1 h-[48px]">
+                    <TopNavBar>
+                        <LeftContent>
+                            <MaviButtonIcon Icon="lni lni-menu-hamburger-1"
+                                            ID="@ElementConstants.Button.TOGGLE_SIDE_NAV_BAR"
+                                            ElementSize="ElementSize.Regular"
+                                            ElementVariant="ElementVariant.Text"
+                                            OnClick="OnHamburgerButtonClick"
+                                            Title="Toggle Side Nav Bar" />
+                        </LeftContent>
+                        <CenterContent>
+                            <div class="hidden md:block!">
+                                <h1 class="@CssManager.Combine(Tailwind.Theme.Typography.TITLE_LARGE, Tailwind.Theme.Colors.Text.THEME_DARK_NINE_TEXT)">Blazor UI Kit</h1>
+                            </div>
+                        </CenterContent>
+                        <RightContent>
+                            <MaviLink Href="/"
+                                      ThemeColorScheme="ThemeColorScheme.Default"
+                                      ElementSize="ElementSize.Large"
+                                      ElementVariant="ElementVariant.Text"
+                                      Label="Home"
+                                      Title="Home">
+                            </MaviLink>
+                        </RightContent>
+                    </TopNavBar>
+                </header>
+
+                <!-- b) Main content -->
+                <main class="flex-1 h-0 min-h-0 overflow-auto">
+                    @Body
+                </main>
+
+                <!-- c) Footer -->
+                <footer class="@CssManager.Combine("shrink-0 flex justify-between bg-(--theme-dark-eight) text-(--theme-light-two) py-1 px-2", Tailwind.Theme.Typography.BODY_SMALL)">
+                    <span class="hidden md:block!">Blazor UI Kit</span>
+                    <span class="hidden md:block!">Designed & Supported by Maviray</span>
+                </footer>
             </div>
-                <MaviLink Href="/PageMaviButton"
-                          ThemeColorScheme="ThemeColorScheme.Default"
-                          ElementSize="ElementSize.Large"
-                          ElementVariant="ElementVariant.Text"
-                          Label="MaviButton"
-                          Title="MaviButton">
-                </MaviLink>
-                <MaviLink Href="/PageMaviButtonGroup"
-                          ThemeColorScheme="ThemeColorScheme.Default"
-                          ElementSize="ElementSize.Large"
-                          ElementVariant="ElementVariant.Text"
-                          Label="MaviButtonGroup"
-                          Title="MaviButtonGroup">
-                </MaviLink>
-                <MaviLink Href="/PageForm"
-                          ThemeColorScheme="ThemeColorScheme.Default"
-                          ElementSize="ElementSize.Large"
-                          ElementVariant="ElementVariant.Text"
-                          Label="Form Elements"
-                          Title="Form Elements">
-                </MaviLink>
-                <MaviLink Href="/PageMaviInputInteger"
-                          ThemeColorScheme="ThemeColorScheme.Default"
-                          ElementSize="ElementSize.Large"
-                          ElementVariant="ElementVariant.Text"
-                          Label="MaviInputInteger"
-                          Title="MaviInputInteger">
-
-                </MaviLink>
-                <MaviLink Href="/PageMaviInputIntegerNullable"
-                          ThemeColorScheme="ThemeColorScheme.Default"
-                          ElementSize="ElementSize.Large"
-                          ElementVariant="ElementVariant.Text"
-                          Label="MaviInputIntegerNullable"
-                          Title="MaviInputIntegerNullable">
-                </MaviLink>
-                <MaviLink Href="/PageMaviInputString"
-                          ThemeColorScheme="ThemeColorScheme.Default"
-                          ElementSize="ElementSize.Large"
-                          ElementVariant="ElementVariant.Text"
-                          Label="MaviInputString"
-                          Title="MaviInputString">
-                </MaviLink>
-                <MaviLink Href="/PageMaviInputStringNullable"
-                          ThemeColorScheme="ThemeColorScheme.Default"
-                          ElementSize="ElementSize.Large"
-                          ElementVariant="ElementVariant.Text"
-                          Label="MaviInputStringNullable"
-                          Title="MaviInputStringNullable">
-                </MaviLink>
-                <MaviLink Href="/PageMaviInputDouble"
-                          ThemeColorScheme="ThemeColorScheme.Default"
-                          ElementSize="ElementSize.Large"
-                          ElementVariant="ElementVariant.Text"
-                          Label="MaviInputDouble"
-                          Title="MaviInputDouble">
-
-                </MaviLink>
-                <MaviLink Href="/PageMaviInputDoubleNullable"
-                          ThemeColorScheme="ThemeColorScheme.Default"
-                          ElementSize="ElementSize.Large"
-                          ElementVariant="ElementVariant.Text"
-                          Label="MaviInputDoubleNullable"
-                          Title="MaviInputDoubleNullable">
-
-                </MaviLink>
-                <MaviLink Href="/PageMaviLink"
-                          ThemeColorScheme="ThemeColorScheme.Default"
-                          ElementSize="ElementSize.Large"
-                          ElementVariant="ElementVariant.Text"
-                          Label="MaviLink"
-                          Title="MaviLink">
-                </MaviLink>
-                <MaviLink Href="/PageMaviInputDecimal"
-                          ThemeColorScheme="ThemeColorScheme.Default"
-                          ElementSize="ElementSize.Large"
-                          ElementVariant="ElementVariant.Text"
-                          Label="MaviInputDecimal"
-                          Title="MaviInputDecimal">
-
-                </MaviLink>
-                <MaviLink Href="/PageMaviInputLong"
-                          ThemeColorScheme="ThemeColorScheme.Default"
-                          ElementSize="ElementSize.Large"
-                          ElementVariant="ElementVariant.Text"
-                          Label="MaviInputLong"
-                          Title="MaviInputLong">
-
-                </MaviLink>
-                <MaviLink Href="/PageMaviInputFloat"
-                          ThemeColorScheme="ThemeColorScheme.Default"
-                          ElementSize="ElementSize.Large"
-                          ElementVariant="ElementVariant.Text"
-                          Label="MaviInputFloat"
-                          Title="MaviInputFloat">
-
-                </MaviLink>
-                <MaviLink Href="/PageMaviInputShort"
-                          ThemeColorScheme="ThemeColorScheme.Default"
-                          ElementSize="ElementSize.Large"
-                          ElementVariant="ElementVariant.Text"
-                          Label="MaviInputShort"
-                          Title="MaviInputShort">
-
-                </MaviLink>
-                <MaviLink Href="/PageMaviInputDate"
-                          ThemeColorScheme="ThemeColorScheme.Default"
-                          ElementSize="ElementSize.Large"
-                          ElementVariant="ElementVariant.Text"
-                          Label="MaviInputDate"
-                          Title="MaviInputDate">
-
-                </MaviLink>
-                <MaviLink Href="/PageMaviInputDateNullable"
-                          ThemeColorScheme="ThemeColorScheme.Default"
-                          ElementSize="ElementSize.Large"
-                          ElementVariant="ElementVariant.Text"
-                          Label="MaviInputDateNullable"
-                          Title="MaviInputDateNullable">
-
-                </MaviLink>
-                <MaviLink Href="/PageMaviDropdown"
-                          ThemeColorScheme="ThemeColorScheme.Default"
-                          ElementSize="ElementSize.Large"
-                          ElementVariant="ElementVariant.Text"
-                          Label="MaviDropdown"
-                          Title="MaviDropdown">
-
-                </MaviLink>
-                <MaviLink Href="/PageMaviMultiSelect"
-                          ThemeColorScheme="ThemeColorScheme.Default"
-                          ElementSize="ElementSize.Large"
-                          ElementVariant="ElementVariant.Text"
-                          Label="MaviMultiSelect"
-                          Title="MaviMultiSelect">
-
-                </MaviLink>
-                <MaviLink Href="/PageMaviCheckbox"
-                          ThemeColorScheme="ThemeColorScheme.Default"
-                          ElementSize="ElementSize.Large"
-                          ElementVariant="ElementVariant.Text"
-                          Label="MaviCheckbox"
-                          Title="MaviCheckbox">
-
-                </MaviLink>
-                <MaviLink Href="/PageMaviToggle"
-                          ThemeColorScheme="ThemeColorScheme.Default"
-                          ElementSize="ElementSize.Large"
-                          ElementVariant="ElementVariant.Text"
-                          Label="MaviToggle"
-                          Title="MaviToggle">
-                </MaviLink>
-                <MaviLink Href="/PageMaviSwitch"
-                          ThemeColorScheme="ThemeColorScheme.Default"
-                          ElementSize="ElementSize.Large"
-                          ElementVariant="ElementVariant.Text"
-                          Label="MaviSwitch"
-                          Title="MaviSwitch">
-                </MaviLink>
-            <MaviLink Href="/PageMaviAutocomplete"
-                      ThemeColorScheme="ThemeColorScheme.Default"
-                      ElementSize="ElementSize.Large"
-                      ElementVariant="ElementVariant.Text"
-                      Label="MaviAutocomplete"
-                      Title="MaviAutocomplete">
-            </MaviLink>
-            <MaviLink Href="/PageMaviSlider"
-                      ThemeColorScheme="ThemeColorScheme.Default"
-                      ElementSize="ElementSize.Large"
-                      ElementVariant="ElementVariant.Text"
-                      Label="MaviSlider"
-                      Title="MaviSlider">
-            </MaviLink>
-            <MaviLink Href="/PageRadioButton"
-                      ThemeColorScheme="ThemeColorScheme.Default"
-                      ElementSize="ElementSize.Large"
-                      ElementVariant="ElementVariant.Text"
-                          Label="MaviRadioButton"
-                          Title="MaviRadioButton">
-            </MaviLink>
-                <MaviLink Href="/PageMaviRadioGroup"
-                      ThemeColorScheme="ThemeColorScheme.Default"
-                      ElementSize="ElementSize.Large"
-                      ElementVariant="ElementVariant.Text"
-                          Label="MaviRadioGroup"
-                          Title="MaviRadioGroup">
-            </MaviLink>
-            <div class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, Tailwind.Theme.Colors.Text.THEME_DARK_FIVE_TEXT, "px-3 py-2")">
-                Data Display
-            </div>
-            <MaviLink Href="/PageMaviChip"
-                      ThemeColorScheme="ThemeColorScheme.Default"
-                      ElementSize="ElementSize.Large"
-                      ElementVariant="ElementVariant.Text"
-                      Label="MaviChip"
-                      Title="MaviChip">
-            </MaviLink>
-            <MaviLink Href="/PageMaviAlert"
-                      ThemeColorScheme="ThemeColorScheme.Default"
-                      ElementSize="ElementSize.Large"
-                      ElementVariant="ElementVariant.Text"
-                      Label="MaviAlert"
-                      Title="MaviAlert">
-            </MaviLink>
-            <MaviLink Href="/PageMaviToastr"
-                      ThemeColorScheme="ThemeColorScheme.Default"
-                      ElementSize="ElementSize.Large"
-                      ElementVariant="ElementVariant.Text"
-                      Label="MaviToastr"
-                      Title="MaviToastr">
-            </MaviLink>
-            <MaviLink Href="/PageMaviBackdrop"
-                      ThemeColorScheme="ThemeColorScheme.Default"
-                      ElementSize="ElementSize.Large"
-                      ElementVariant="ElementVariant.Text"
-                      Label="MaviBackdrop"
-                      Title="MaviBackdrop">
-            </MaviLink>
-            <MaviLink Href="/PageMaviDialog"
-                      ThemeColorScheme="ThemeColorScheme.Default"
-                      ElementSize="ElementSize.Large"
-                      ElementVariant="ElementVariant.Text"
-                      Label="MaviDialog"
-                      Title="MaviDialog">
-            </MaviLink>
-            <MaviLink Href="/PageMaviBadge"
-                      ThemeColorScheme="ThemeColorScheme.Default"
-                      ElementSize="ElementSize.Large"
-                      ElementVariant="ElementVariant.Text"
-                      Label="MaviBadge"
-                      Title="MaviBadge">
-            </MaviLink>
-            <div class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, Tailwind.Theme.Colors.Text.THEME_DARK_FIVE_TEXT, "px-3 py-2")">
-                Feedback
-            </div>
-                <MaviLink Href="/PageMaviSkeleton"
-                      ThemeColorScheme="ThemeColorScheme.Default"
-                      ElementSize="ElementSize.Large"
-                      ElementVariant="ElementVariant.Text"
-                          Label="MaviSkeleton"
-                          Title="MaviSkeleton">
-            </MaviLink>
-            <div class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, Tailwind.Theme.Colors.Text.THEME_DARK_FIVE_TEXT, "px-3 py-2")">
-                Surfaces
-            </div>
-            <MaviLink Href="/PageMaviAccordion"
-                      ThemeColorScheme="ThemeColorScheme.Default"
-                      ElementSize="ElementSize.Large"
-                      ElementVariant="ElementVariant.Text"
-                      Label="MaviAccordion"
-                      Title="MaviAccordion">
-            </MaviLink>
-            <MaviLink Href="/PageMaviCard"
-                      ThemeColorScheme="ThemeColorScheme.Default"
-                      ElementSize="ElementSize.Large"
-                      ElementVariant="ElementVariant.Text"
-                      Label="MaviCard"
-                      Title="MaviCard">
-            </MaviLink>
-            <div class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, Tailwind.Theme.Colors.Text.THEME_DARK_FIVE_TEXT, "px-3 py-2")">
-                Navigation
-            </div>
-            <MaviLink Href="/PageMaviTabs"
-                      ThemeColorScheme="ThemeColorScheme.Default"
-                      ElementSize="ElementSize.Large"
-                      ElementVariant="ElementVariant.Text"
-                      Label="Tabs"
-                      Title="Tabs">
-            </MaviLink>
-            <div class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, Tailwind.Theme.Colors.Text.THEME_DARK_FIVE_TEXT, "px-3 py-2")">
-                Tables and Grids
-            </div>
-            <MaviLink Href="/PageMaviInMemoryTable"
-                      ThemeColorScheme="ThemeColorScheme.Default"
-                      ElementSize="ElementSize.Large"
-                      ElementVariant="ElementVariant.Text"
-                      Label="MaviInMemoryTable"
-                      Title="MaviInMemoryTable">
-            </MaviLink>
-            </nav>
-        </aside>
-
-        <!-- Main Content Area -->
-        <main class="flex-1 overflow-y-auto">
-            @Body
-        </main>
-    </div>
+        </CascadingValue>
+    </MaviErrorHandler>
 </div>
+
+@code
+{
+    private MaviMenuVertical? _maviMenuVertical;
+
+    private Task OnHamburgerButtonClick(MouseClickEventArgs args)
+    {
+        CircuitStateService?.ReportClick(args.ButtonId);
+        return Task.CompletedTask;
+    }
+
+    private async Task<IEnumerable<IMenuItem>> GetMenuItems()
+    {
+        if (CircuitStateService != null)
+        {
+            return await CircuitStateService.GetMenuItems();
+        }
+
+        return Enumerable.Empty<IMenuItem>();
+    }
+
+    private Task ItemClicked(IMenuItem item)
+    {
+        if (string.IsNullOrWhiteSpace(item.NavigateTo))
+        {
+            return Task.CompletedTask;
+        }
+
+        NavigationManager?.NavigateTo(item.NavigateTo, item.RequireFullPageReload);
+
+        return Task.CompletedTask;
+    }
+
+    private string GetSideNavContainerCss()
+    {
+        var expanded = true;
+
+        if (_maviMenuVertical is not null)
+        {
+            expanded = _maviMenuVertical.Expanded;
+        }
+        var width = expanded ? "w-64" : "w-[64px]";
+
+        return $"{width} shrink-0 flex flex-col bg-(--theme-dark-eight) text-(--theme-light-two)";
+    }
+}
