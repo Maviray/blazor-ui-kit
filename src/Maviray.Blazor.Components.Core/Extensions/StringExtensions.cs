@@ -1,11 +1,18 @@
-﻿namespace Maviray.Blazor.Components.Core.Extensions;
+﻿using System.Text.RegularExpressions;
+
+namespace Maviray.Blazor.Components.Core.Extensions;
 
 public static class StringExtensions
 {
     public const int MAX_CHAR_LIMIT = 300;
     public const int DEFAULT_CHAR_LIMIT = 30;
 
-    extension(string text)
+    private static readonly Regex HexColorRegex = new Regex(
+        @"^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{4}|[0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$",
+        RegexOptions.Compiled
+    );
+
+    extension(string? text)
     {
         public string LimitToMaxCharacters(int limit = DEFAULT_CHAR_LIMIT)
         {
@@ -30,6 +37,14 @@ public static class StringExtensions
             }
 
             return text.Length <= length ? text : $"{text[..length]}...";
+        }
+
+        public bool IsValidHexColor()
+        {
+            if (string.IsNullOrWhiteSpace(text))
+                return false;
+
+            return HexColorRegex.IsMatch(text);
         }
     }
 }
