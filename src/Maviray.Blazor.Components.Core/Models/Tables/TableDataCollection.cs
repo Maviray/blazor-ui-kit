@@ -149,4 +149,21 @@ public class TableDataCollection
 
         _filterCacheDirty = true;
     }
+
+    public void SortByColumn(string columnKey)
+    {
+        if (SortColumnKey == columnKey)
+        {
+            SortOrder = SortOrder == SortOrder.Ascending
+                ? SortOrder.Descending
+                : SortOrder.Ascending;
+        }
+        else
+        {
+            SortColumnKey = columnKey;
+            SortOrder = SortOrder.Ascending;
+        }
+
+        _filterCacheDirty = true;
+    }
 }

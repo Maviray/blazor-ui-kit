@@ -155,22 +155,7 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
 
     protected virtual void SortByColumn(string columnKey)
     {
-        if (Collection == null)
-        {
-            return;
-        }
-
-        if (Collection.SortColumnKey == columnKey)
-        {
-            Collection.SortOrder = Collection.SortOrder == SortOrder.Ascending
-                ? SortOrder.Descending
-                : SortOrder.Ascending;
-        }
-        else
-        {
-            Collection.SortColumnKey = columnKey;
-            Collection.SortOrder = SortOrder.Ascending;
-        }
+        Collection?.SortByColumn(columnKey);
     }
 
     protected virtual async Task PrevPage()

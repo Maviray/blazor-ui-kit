@@ -1,4 +1,5 @@
 ﻿using Maviray.Blazor.Components.Core.Attributes;
+using Maviray.Blazor.Components.Core.Enums;
 using Maviray.Blazor.Components.Core.Models.Tables;
 using Maviray.Blazor.Components.Samples.Material.Client.Enums;
 using System.ComponentModel.DataAnnotations;

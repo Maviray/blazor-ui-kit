@@ -1,0 +1,226 @@
+﻿@using Maviray.Blazor.Components.Core.Models.Tables
+@using Maviray.Blazor.Components.Material.Components.Inputs
+@using Maviray.Blazor.Components.Material.Constants
+@inherits MaviInMemoryTableBase
+
+<div class="w-full overflow-hidden rounded-xl border border-zinc-200 shadow-sm text-sm">
+    <div class="grid divide-y divide-zinc-200" style="grid-template-columns: repeat(@VisibleColumnsCount, minmax(min-content, 200px))">
+        @if (Collection != null && Collection.GetCurrentPageRows().Any())
+        {
+            @* Header row *@
+            foreach (var column in VisibleColumns)
+            {
+                <div class="px-4 py-3 truncate">
+                    <div class="@GetColumnHeaderCss(column)">
+                        <div class="@Tailwind.Theme.Typography.LABEL_LARGE cursor-pointer select-none transition-colors @Tailwind.Theme.Colors.Text.Hover.THEME_DEFAULT_TEN_TEXT_HOVER flex items-center gap-2"
+                             @onclick="() => SortByColumn(column.Key)">
+                            <span>@column.Title</span>
+                            @if (Collection?.SortColumnKey == column.Key)
+                            {
+                                if (Collection?.SortOrder == SortOrder.Ascending)
+                                {
+                                    <i class="lni lni-chevron-down"></i>
+                                }
+                                else
+                                {
+                                    <i class="lni lni-chevron-up"></i>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        
+            <div class="px-4 py-3 truncate text-right">
+                @if (MainMenuItems is not null && MainMenuItems.Any())
+                {
+                    <div class="px-4 py-2">
+                        <div id="@ContextMenuId" class="relative flex justify-end">
+                            <!-- Btn Toggle Context Menu Dropdown -->
+                            <MaviButtonIcon Icon="lni lni-menu-meatballs-1"
+                                            ElementVariant="ElementVariant.Text"
+                                            ThemeColorScheme="ThemeColorScheme.Default"
+                                            ElementSize="ElementSize.Regular"
+                                            OnClick="ToggleMainContextMenuDropDown"
+                                            Title="@Parameters?.ContentMenuTitle"/>
+
+                            <!-- Context Menu Dropdown -->
+                            <div class="@GetMainContextMenuCss()">
+                                @foreach (var contextMenuButton in MainMenuItems)
+                                {
+                                    <button class="@Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER block w-full px-4 py-2.5 text-left rounded-md transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                                            disabled="@contextMenuButton?.Disabled"
+                                            @onclick="async () => { await ContextMenuClick(contextMenuButton); }">
+                                        @contextMenuButton?.Title
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            @* Data rows *@
+            if (Collection != null)
+            {
+                foreach (var (row, rowIndex) in Collection.GetCurrentPageRows().Select((r, i) => (r, i)))
+                {
+                    @foreach (var col in VisibleColumns)
+                    {
+                        var cell = row.Cells.FirstOrDefault(c => c.ColumnKey == col.Key);
+                        <div class="@GetCellBoxClassWithAlignment(col, rowIndex)">
+                            @(cell?.Value ?? string.Empty)
+                        </div>
+                    }
+
+                    <div class="@GetCellBoxClass(rowIndex, "text-right")">
+                        @if (row.HasContextActions)
+                        {
+                            <div class="w-full px-4 py-2 flex items-center justify-end">
+                                @if (TableRowContextMenuDisplayStyle == TableRowContextMenuDisplayStyle.Icons)
+                                {
+                                    <div id="@row.ContextMenuId" class="flex items-center gap-1">
+                                        @foreach (var rowContextMenuButton in row.ContextActions)
+                                        {
+                                            <MaviButtonIcon Icon="@rowContextMenuButton.Icon"
+                                                            ElementVariant="rowContextMenuButton.ElementVariant"
+                                                            ThemeColorScheme="rowContextMenuButton.ThemeColorScheme"
+                                                            ElementSize="rowContextMenuButton.ElementSize"
+                                                            Disabled="@rowContextMenuButton.Disabled"
+                                                            OnClick="async (e) => { await RowContextMenuItemClick(e, row, rowContextMenuButton); }"
+                                                            Title="@rowContextMenuButton.Title" />
+                                        }
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div id="@row.ContextMenuId" class="relative">
+                                        <!-- Btn Toggle Context Menu Dropdown -->
+                                        <MaviButtonIcon Icon="lni lni-menu-meatballs-1"
+                                                        ElementVariant="ElementVariant.Text"
+                                                        ThemeColorScheme="ThemeColorScheme.Default"
+                                                        ElementSize="ElementSize.Regular"
+                                                        OnClick="(e) => { ToggleRowContextMenuDropDown(row, e); }"
+                                                        Title="@Parameters?.ContentMenuTitle" />
+
+                                        <!-- Row Context Menu Dropdown -->
+                                        <div class="@GetRowContextMenuCss(row, rowIndex)">
+                                            @foreach (var rowContextMenuButton in row.ContextActions)
+                                            {
+                                                <button class="@Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER block w-full px-4 py-2.5 text-left rounded-md transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                                                        disabled="@rowContextMenuButton?.Disabled"
+                                                        @onclick="async (e) => { await RowContextMenuItemClick(e, row, rowContextMenuButton); }">
+                                                    @rowContextMenuButton?.Title
+                                                </button>
+                                            }
+                                        </div>
+                                    </div>
+
+                                }
+                            </div>
+                        }
+                    </div>
+                }
+            }
+        }
+        else
+        {
+            <div class="col-span-@VisibleColumnsCount px-4 py-3 text-zinc-500 text-center">
+                No data available.
+            </div>
+        }
+    
+     </div>
+</div>
+
+@code {
+    private int VisibleColumnsCount => VisibleColumns.Count() + 1;
+
+    private string ContextMenuDropDownCss => Tailwind.Theme.Colors.Background.THEME_DEFAULT_ONE_BG + " " +
+                                             Tailwind.Theme.Colors.Border.THEME_DEFAULT_THREE_BORDER +
+                                             " absolute right-0 w-64 border rounded-lg shadow-lg z-50 p-2";
+
+    private string GetCellBoxClassWithAlignment(MaviTableColumn column, int rowIndex)
+    {
+        return GetCellBoxClass(rowIndex, GetCellTextAlignment(column));
+    }
+
+    private string GetCellBoxClass(int rowIndex, string textAlignment)
+    {
+        var backgroundColor = rowIndex % 2 == 0 ? "bg-white" : "bg-zinc-50";
+
+        return $"{backgroundColor} {textAlignment} px-4 py-3 text-zinc-800 truncate";
+    }
+
+    private string GetCellTextAlignment(MaviTableColumn column)
+    {
+        switch (column.HorizontalTextAlignment)
+        {
+            case HorizontalPosition.Left:
+                return "text-left"; 
+            case HorizontalPosition.Center:
+                return "text-center"; 
+            case HorizontalPosition.Right:
+                return "text-right"; 
+            default:
+                return "text-left"; 
+        }
+    }
+
+    private string GetColumnHeaderCss(MaviTableColumn column)
+    {
+
+        return $"{Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT} flex items-center {GetColumnHeaderHorizontalAlignmentCss(column)}";
+    }
+
+    private string GetColumnHeaderHorizontalAlignmentCss(MaviTableColumn column)
+    {
+        switch (column.HorizontalTextAlignment)
+        {
+            case HorizontalPosition.Left:
+                return "justify-start";
+            case HorizontalPosition.Center:
+                return "justify-center";
+            case HorizontalPosition.Right:
+                return "justify-end";
+            default:
+                return "justify-start";
+        }
+    }
+
+    private string GetMainContextMenuCss()
+    {
+        return ContextMenuVisible ? ContextMenuDropDownCss : "hidden";
+    }
+
+    private string GetRowContextMenuCss(MaviTableRow? row, int rowIndex)
+    {
+        if (row is not { ContextMenuVisible: true })
+        {
+            return "hidden";
+        }
+
+        var pageSize = Collection?.PageSize ?? 0;
+
+        if (pageSize <= 0 || rowIndex <= pageSize / 2)
+        {
+            return ContextMenuDropDownCss;
+        }
+
+        var contextMenuItemsCount = row.ContextActions?.Count() ?? 0;
+
+        if (contextMenuItemsCount <= 0)
+        {
+            return ContextMenuDropDownCss;
+        }
+
+        var offset = pageSize - contextMenuItemsCount;
+
+        if(rowIndex >= offset)
+        {
+            return ContextMenuDropDownCss + " bottom-full"; 
+        }
+        
+        return ContextMenuDropDownCss;
+    }
+}

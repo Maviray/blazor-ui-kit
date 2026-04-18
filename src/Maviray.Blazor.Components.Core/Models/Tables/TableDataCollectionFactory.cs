@@ -31,7 +31,8 @@ public class TableDataCollectionFactory
             Sequence = property.Attribute.Sequence,
             Visible = true,
             DataType = property.Property.PropertyType,
-            IsNavigational = property.Attribute.IsNavigational
+            IsNavigational = property.Attribute.IsNavigational,
+            HorizontalTextAlignment = property.Attribute.HorizontalTextAlignment
         }).ToList();
 
         var rows = new List<MaviTableRow>();
