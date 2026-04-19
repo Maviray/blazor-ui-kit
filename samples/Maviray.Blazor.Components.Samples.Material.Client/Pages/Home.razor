@@ -36,7 +36,7 @@
         <div>&#100;&#101;&#118;&#111;&#112;&#115;&#64;&#109;&#97;&#118;&#105;&#114;&#97;&#121;&#46;&#99;&#111;&#109;</div>
     </div>
     
-    <div>
+    <div class="mb-8">
         <MaviCssGridTable @ref="_maviCssGridTable"
                            FetchData="FetchDataFullFeatures"
                            ConstructContextMenu="ConstructMainContextMenu"
@@ -63,11 +63,11 @@
         RowsPerPageText = "Rows per page"
     };
 
-    private Task<TableDataCollection> FetchDataFullFeatures()
+    private async Task<TableDataCollection> FetchDataFullFeatures()
     {
-        var collection = TableDataCollectionFactory.FromDataSource(Enumerable.Empty<SampleTableCollectionItemModel>());
-        return Task.FromResult(collection);
-       // return GenerateTableData(50);
+        // var collection = TableDataCollectionFactory.FromDataSource(Enumerable.Empty<SampleTableCollectionItemModel>());
+        // return Task.FromResult(collection);
+       return await GenerateTableData(50);
     }  
 
     private async Task<TableDataCollection> GenerateTableData(int count, bool includeContextMenu = true)
