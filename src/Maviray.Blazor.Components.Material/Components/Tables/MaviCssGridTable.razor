@@ -10,7 +10,7 @@
             @* Header row *@
             foreach (var column in VisibleColumns)
             {
-                <div class="px-4 py-3 truncate">
+                <div class="@GetColumnHeaderContainerCss(column)">
                     <div class="@GetColumnHeaderCss(column)">
                         <div class="@Tailwind.Theme.Typography.LABEL_LARGE cursor-pointer select-none transition-colors @Tailwind.Theme.Colors.Text.Hover.THEME_DEFAULT_TEN_TEXT_HOVER flex items-center gap-2"
                              @onclick="() => SortByColumn(column.Key)">
@@ -34,27 +34,25 @@
             <div class="px-4 py-3 truncate text-right">
                 @if (MainMenuItems is not null && MainMenuItems.Any())
                 {
-                    <div class="px-4 py-2">
-                        <div id="@ContextMenuId" class="relative flex justify-end">
-                            <!-- Btn Toggle Context Menu Dropdown -->
-                            <MaviButtonIcon Icon="lni lni-menu-meatballs-1"
-                                            ElementVariant="ElementVariant.Text"
-                                            ThemeColorScheme="ThemeColorScheme.Default"
-                                            ElementSize="ElementSize.Regular"
-                                            OnClick="ToggleMainContextMenuDropDown"
-                                            Title="@Parameters?.ContentMenuTitle"/>
+                    <div id="@ContextMenuId" class="relative flex justify-end">
+                        <!-- Btn Toggle Context Menu Dropdown -->
+                        <MaviButtonIcon Icon="lni lni-menu-meatballs-1"
+                                        ElementVariant="ElementVariant.Text"
+                                        ThemeColorScheme="ThemeColorScheme.Default"
+                                        ElementSize="ElementSize.Small"
+                                        OnClick="ToggleMainContextMenuDropDown"
+                                        Title="@Parameters?.ContentMenuTitle"/>
 
-                            <!-- Context Menu Dropdown -->
-                            <div class="@GetMainContextMenuCss()">
-                                @foreach (var contextMenuButton in MainMenuItems)
-                                {
-                                    <button class="@Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER block w-full px-4 py-2.5 text-left rounded-md transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-                                            disabled="@contextMenuButton?.Disabled"
-                                            @onclick="async () => { await ContextMenuClick(contextMenuButton); }">
-                                        @contextMenuButton?.Title
-                                    </button>
-                                }
-                            </div>
+                        <!-- Context Menu Dropdown -->
+                        <div class="@GetMainContextMenuCss()" style="@GetMainContextMenuStyle()">
+                            @foreach (var contextMenuButton in MainMenuItems)
+                            {
+                                <button class="@Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER block w-full px-4 py-2.5 text-left rounded-md transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                                        disabled="@contextMenuButton?.Disabled"
+                                        @onclick="async () => { await ContextMenuClick(contextMenuButton); }">
+                                    @contextMenuButton?.Title
+                                </button>
+                            }
                         </div>
                     </div>
                 }
@@ -76,7 +74,7 @@
                     <div class="@GetCellBoxClass(rowIndex, "text-right")">
                         @if (row.HasContextActions)
                         {
-                            <div class="w-full px-4 py-2 flex items-center justify-end">
+                            <div class="w-full flex items-center justify-end">
                                 @if (TableRowContextMenuDisplayStyle == TableRowContextMenuDisplayStyle.Icons)
                                 {
                                     <div id="@row.ContextMenuId" class="flex items-center gap-1">
@@ -99,12 +97,12 @@
                                         <MaviButtonIcon Icon="lni lni-menu-meatballs-1"
                                                         ElementVariant="ElementVariant.Text"
                                                         ThemeColorScheme="ThemeColorScheme.Default"
-                                                        ElementSize="ElementSize.Regular"
+                                                        ElementSize="ElementSize.Small"
                                                         OnClick="(e) => { ToggleRowContextMenuDropDown(row, e); }"
                                                         Title="@Parameters?.ContentMenuTitle" />
 
                                         <!-- Row Context Menu Dropdown -->
-                                        <div class="@GetRowContextMenuCss(row, rowIndex)">
+                                        <div class="@GetRowContextMenuCss(row, rowIndex)" style="@GetRowContextMenuStyle(row)">
                                             @foreach (var rowContextMenuButton in row.ContextActions)
                                             {
                                                 <button class="@Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER block w-full px-4 py-2.5 text-left rounded-md transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
@@ -136,34 +134,31 @@
 @code {
     private int VisibleColumnsCount => VisibleColumns.Count() + 1;
 
-    private string ContextMenuDropDownCss => Tailwind.Theme.Colors.Background.THEME_DEFAULT_ONE_BG + " " +
-                                             Tailwind.Theme.Colors.Border.THEME_DEFAULT_THREE_BORDER +
-                                             " absolute right-0 w-64 border rounded-lg shadow-lg z-50 p-2";
 
     private string GetCellBoxClassWithAlignment(MaviTableColumn column, int rowIndex)
     {
-        return GetCellBoxClass(rowIndex, GetCellTextAlignment(column));
+        return GetCellBoxClass(rowIndex, GetCellContentAlignment(column));
     }
 
     private string GetCellBoxClass(int rowIndex, string textAlignment)
     {
         var backgroundColor = rowIndex % 2 == 0 ? "bg-white" : "bg-zinc-50";
 
-        return $"{backgroundColor} {textAlignment} px-4 py-3 text-zinc-800 truncate";
+        return $"{backgroundColor} {textAlignment} px-4 py-3 text-zinc-800 truncate flex items-center";
     }
 
-    private string GetCellTextAlignment(MaviTableColumn column)
+    private string GetCellContentAlignment(MaviTableColumn column)
     {
         switch (column.HorizontalTextAlignment)
         {
             case HorizontalPosition.Left:
-                return "text-left"; 
+                return "justify-start";
             case HorizontalPosition.Center:
-                return "text-center"; 
+                return "justify-center";
             case HorizontalPosition.Right:
-                return "text-right"; 
+                return "justify-end";
             default:
-                return "text-left"; 
+                return "justify-start";
         }
     }
 
@@ -193,34 +188,38 @@
         return ContextMenuVisible ? ContextMenuDropDownCss : "hidden";
     }
 
-    private string GetRowContextMenuCss(MaviTableRow? row, int rowIndex)
+    protected override void ToggleMainContextMenuDropDown(MouseClickEventArgs mouseEventArgs)
     {
-        if (row is not { ContextMenuVisible: true })
-        {
-            return "hidden";
-        }
+        ContextMenuVisible = !ContextMenuVisible;
+        if (ContextMenuVisible)
+            MainMenuDropdownPositionStyle = $"top:{mouseEventArgs.ClientY + 8}px;left:{mouseEventArgs.ClientX - 248}px;";
+    }
 
-        var pageSize = Collection?.PageSize ?? 0;
+    protected override void ToggleRowContextMenuDropDown(MaviTableRow row, MouseClickEventArgs mouseEventArgs)
+    {
+        row.ContextMenuVisible = !row.ContextMenuVisible;
+        if (row.ContextMenuVisible)
+            ActiveRowMenuDropdownPositionStyle = $"top:{mouseEventArgs.ClientY + 8}px;left:{mouseEventArgs.ClientX - 248}px;";
+    }
 
-        if (pageSize <= 0 || rowIndex <= pageSize / 2)
-        {
-            return ContextMenuDropDownCss;
-        }
+    // Replace absolute right-0 → fixed, raise z-index
+    private string ContextMenuDropDownCss => Tailwind.Theme.Colors.Background.THEME_DEFAULT_ONE_BG + " " +
+                                             Tailwind.Theme.Colors.Border.THEME_DEFAULT_THREE_BORDER +
+                                             " fixed w-64 border rounded-lg shadow-lg z-[9999] p-2";
 
-        var contextMenuItemsCount = row.ContextActions?.Count() ?? 0;
+    protected string MainMenuDropdownPositionStyle = string.Empty;
+    protected string ActiveRowMenuDropdownPositionStyle = string.Empty;
 
-        if (contextMenuItemsCount <= 0)
-        {
-            return ContextMenuDropDownCss;
-        }
+    private string GetMainContextMenuStyle() => MainMenuDropdownPositionStyle;
+    private string GetRowContextMenuStyle(MaviTableRow? row) =>
+        row is { ContextMenuVisible: true } ? ActiveRowMenuDropdownPositionStyle : string.Empty;
 
-        var offset = pageSize - contextMenuItemsCount;
+    // Simplify — remove the bottom-full hack entirely
+    private string GetRowContextMenuCss(MaviTableRow? row, int rowIndex)
+        => row is { ContextMenuVisible: true } ? ContextMenuDropDownCss : "hidden";
 
-        if(rowIndex >= offset)
-        {
-            return ContextMenuDropDownCss + " bottom-full"; 
-        }
-        
-        return ContextMenuDropDownCss;
+    private string GetColumnHeaderContainerCss(MaviTableColumn column)
+    {
+        return $"px-4 py-3 truncate flex items-center {GetCellContentAlignment(column)}";
     }
 }
