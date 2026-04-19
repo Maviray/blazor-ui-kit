@@ -50,7 +50,7 @@
 
 @code {
 
-    private MaviCssGridTable _maviCssGridTable;
+    private MaviCssGridTable? _maviCssGridTable;
 
     private readonly TableParameters _fullFeaturedParameters = new()
     {
@@ -65,12 +65,14 @@
 
     private Task<TableDataCollection> FetchDataFullFeatures()
     {
-        return GenerateTableData(50);
+        var collection = TableDataCollectionFactory.FromDataSource(Enumerable.Empty<SampleTableCollectionItemModel>());
+        return Task.FromResult(collection);
+       // return GenerateTableData(50);
     }  
 
     private async Task<TableDataCollection> GenerateTableData(int count, bool includeContextMenu = true)
     {
-        await Task.Delay(3000);
+        await Task.Delay(5000);
 
         var collection = new List<SampleTableCollectionItemModel>();
 
@@ -150,9 +152,15 @@
         return Task.FromResult(menu);
     }
 
-    private Task OnMainContextMenuClick(MaviTableContextMenuItem item)
+    private async Task OnMainContextMenuClick(MaviTableContextMenuItem item)
     {
-        return Task.CompletedTask;
+        if (item.Id == "refresh")
+        {
+            if (_maviCssGridTable != null)
+            {
+               await _maviCssGridTable.Refresh();
+            }
+        }
     }
 
     private Task OnRowClick(TableClickData item)

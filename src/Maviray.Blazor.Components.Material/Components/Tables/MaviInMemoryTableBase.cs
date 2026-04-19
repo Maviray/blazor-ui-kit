@@ -40,6 +40,9 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
     [Parameter]
     public EventCallback<MaviTableRowContextMenuItem> OnRowContextMenuClick { get; set; }
 
+    [Parameter]
+    public RenderFragment? NoDataContent { get; set; }
+
     [Inject]
     protected IJSRuntime? JsRuntime { get; set; }
 
@@ -49,6 +52,9 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
     protected IEnumerable<MaviTableColumn> VisibleColumns =>
         Collection?.Columns.Where(c => c.Visible).OrderBy(c => c.Sequence)
         ?? Enumerable.Empty<MaviTableColumn>();
+
+    protected BackdropOpacity BackdropOpacity => Parameters?.BackdropOpacity ?? BackdropOpacity.Lighten;
+    protected ZIndex ZIndex => Parameters?.ZIndex ?? ZIndex.Forty;
 
     public virtual int TotalEffectiveColumnsNumber
     {
@@ -84,6 +90,7 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
+
         Parameters ??= new();
 
         if (EnableLifeCycleLogging)
@@ -214,12 +221,12 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
 
     protected virtual async Task ContextMenuClick(MaviTableContextMenuItem? item)
     {
+        ContextMenuVisible = false;
+
         if (OnMainContextMenuClick.HasDelegate)
         {
             await OnMainContextMenuClick.InvokeAsync(item);
         }
-
-        ContextMenuVisible = false;
 
         if (EnableLifeCycleLogging)
         {
@@ -276,7 +283,7 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
             Logger?.LogDebugLifeCycle(Id, GetType());
         }
     }
-
+    
     #region handle outside click
 
     protected async Task SubscribeElements()

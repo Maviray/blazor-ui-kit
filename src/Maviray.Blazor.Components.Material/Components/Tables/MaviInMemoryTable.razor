@@ -166,11 +166,22 @@
         }
         else
         {
-            <tr>
-                <td colspan="100%" class="@Tailwind.Theme.Typography.BODY_LARGE @Tailwind.Theme.Colors.Text.THEME_DEFAULT_SEVEN_TEXT h-[107px] p-4 text-center">
-                    @Parameters?.NoDataAvailableTitle
-                </td>
-            </tr>
+            @if (NoDataContent != null)
+            {
+                    <tr>
+                        <td colspan="100%">
+                            @NoDataContent
+                        </td>
+                    </tr>
+            }
+            else
+            {
+                <tr>
+                    <td colspan="100%" class="@Tailwind.Theme.Typography.BODY_LARGE @Tailwind.Theme.Colors.Text.THEME_DEFAULT_SEVEN_TEXT h-[107px] p-4 text-center">
+                        @Parameters?.NoDataAvailableTitle
+                    </td>
+                </tr>
+            }
         }
         </tbody>
         <tfoot>
