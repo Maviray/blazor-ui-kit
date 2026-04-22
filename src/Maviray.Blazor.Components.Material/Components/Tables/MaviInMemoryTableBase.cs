@@ -379,7 +379,7 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
                 return;
             }
 
-            if (JsRuntime != null)
+            if (HasRendered && JsRuntime != null)
             {
                 await JsRuntime.InvokeVoidAsync(JsInteropConstants.UN_REGISTER_OUT_OF_FOCUS_CALLBACK_LISTENER, ContextMenuId);
 
@@ -394,6 +394,7 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
             }
 
             _disposed = true;
+            GC.SuppressFinalize(this);
 
             if (EnableLifeCycleLogging)
             {
