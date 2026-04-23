@@ -16,7 +16,7 @@
         <MaviSpinnerStarRotate ThemeColorScheme="ThemeColorScheme.Default" ElementSize="ElementSize.Regular" />
     </MaviBackdrop>
     
-    @if (Collection != null && Collection.GetCurrentPageRows().Any())
+    @if (Collection != null && Collection.Rows.Any())
     {
         <div class="grid divide-y divide-zinc-200" style="grid-template-columns: repeat(@VisibleColumnsCount, minmax(min-content, 200px))">
             @* Header row *@
@@ -148,7 +148,7 @@
 
             @* ── Footer row – always spans every column ── *@
             <div id="@($"pagination-{Id}")" class="col-span-full">
-                <div class="bg-white border-t border-zinc-200 px-4 py-3 flex items-center justify-between w-full min-w-80">
+                <div class="bg-white px-4 py-3 flex items-center justify-between w-full min-w-80">
                     <div class="flex items-center gap-2">
                         <span class="@Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_EIGHT_TEXT">@Parameters?.RowsPerPageText</span>
                         <select id="@($"select-row-number-{Id}")"
