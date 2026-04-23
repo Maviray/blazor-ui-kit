@@ -293,11 +293,11 @@
 
     private string GetSearchInputCss()
     {
-        return Tailwind.Theme.Typography.BODY_SMALL +
-               Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT +
-               Tailwind.Theme.Colors.Border.THEME_DEFAULT_THREE_BORDER +
-               Tailwind.Theme.Colors.Ring.Focus.THEME_PRIMARY_SIX_RING_FOCUS + 
-               " bg-white border px-2 py-1 w-full focus:outline-none focus:ring-2";
+        return Tailwind.Theme.Typography.BODY_SMALL + " " +
+               Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT + " " +
+               Tailwind.Theme.Colors.Border.THEME_DEFAULT_THREE_BORDER + " " +
+               Tailwind.Theme.Colors.Ring.Focus.THEME_PRIMARY_SIX_RING_FOCUS + " " +
+               " bg-white border px-2 py-1 w-full focus:outline-none focus:ring-2 placeholder:text-(--theme-default-five)";
 
     }
 
