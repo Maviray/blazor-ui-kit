@@ -1,39 +1,21 @@
-﻿window.coverDropdownOutsideClickHandlers = {};
+﻿const _globalOutsideClickRefs = {};
 
-window.registerOutsideClickCallback = (elementId, dotNetRef, callbackMethod) => {
-    try {
+window.registerGlobalOutsideClickListener = (instanceId, dotNetRef, callbackMethod) => {
+    _globalOutsideClickRefs[instanceId] = { dotNetRef, callbackMethod };
 
-        // If already registered → remove old handler first
-        const existingHandler = window.coverDropdownOutsideClickHandlers[elementId];
-        if (existingHandler) {
-            document.removeEventListener("click", existingHandler);
-            delete window.coverDropdownOutsideClickHandlers[elementId];
-        }
+    if (!window._globalOutsideClickBound) {
+        window._globalOutsideClickBound = true;
+        document.addEventListener('mousedown', (e) => {
+            const menuEl = e.target.closest('[data-context-menu-id]');
+            const clickedId = menuEl?.dataset.contextMenuId ?? '';
 
-        const handler = (event) => {
-            const element = document.getElementById(elementId);           
-
-            if (element && !element.contains(event.target)) {
-                dotNetRef.invokeMethodAsync(callbackMethod, elementId);
+            for (const ref of Object.values(_globalOutsideClickRefs)) {
+                ref.dotNetRef.invokeMethodAsync(ref.callbackMethod, clickedId);
             }
-        };
-        document.addEventListener("click", handler);
-        window.coverDropdownOutsideClickHandlers[elementId] = handler;
-    }
-    catch (error) {
-        console.log(error);
+        });
     }
 };
 
-window.unregisterOutsideClickCallback = (elementId) => {
-    try {
-        const handler = window.coverDropdownOutsideClickHandlers[elementId];
-        if (handler) {
-            document.removeEventListener("click", handler);
-            delete window.coverDropdownOutsideClickHandlers[elementId];
-        }
-    }
-    catch (error) {
-        console.log(error);
-    }
+window.unregisterGlobalOutsideClickListener = (instanceId) => {
+    delete _globalOutsideClickRefs[instanceId];
 };
