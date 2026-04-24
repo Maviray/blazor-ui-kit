@@ -43,7 +43,7 @@
                 </div>
             }
 
-            <div class="px-4 py-3 truncate text-right">
+            <div class="@GetContextMenuCellCss()">
                 @if (MainMenuItems is not null && MainMenuItems.Any())
                 {
                     <div id="@ContextMenuId" class="relative flex justify-end">
@@ -69,20 +69,21 @@
                     </div>
                 }
             </div>
-            
             @* Filter row *@
-            @foreach (var column in VisibleColumns)
+            @if (Parameters?.EnableFilters == true)
             {
-                <div class="px-4 py-2 bg-zinc-50">
-                    <input type="text"
-                           id="@($"filter-{column.Key}-{Id}")"
-                           class="@GetSearchInputCss()"
-                           placeholder="@Parameters?.FilterPlaceholderText"
-                           @oninput="(e) => UpdateColumnFilter(column.Key, e)"/>
-                </div>
+                @foreach (var column in VisibleColumns)
+                {
+                    <div class="px-4 py-2 bg-zinc-50">
+                        <input type="text"
+                               id="@($"filter-{column.Key}-{Id}")"
+                               class="@GetSearchInputCss()"
+                               placeholder="@Parameters?.FilterPlaceholderText"
+                               @oninput="(e) => UpdateColumnFilter(column.Key, e)"/>
+                    </div>
+                }
+                <div class="px-4 py-2 bg-zinc-50"></div>
             }
-            <div class="px-4 py-2 bg-zinc-50"></div>
-
             @* Data rows *@
             @if (Collection != null)
             {
@@ -148,7 +149,7 @@
 
             @* ── Footer row – always spans every column ── *@
             <div id="@($"pagination-{Id}")" class="col-span-full">
-                <div class="bg-white px-4 py-3 flex items-center justify-between w-full min-w-80">
+                <div class="@GetFooterRowCss()">
                     <div class="flex items-center gap-2">
                         <span class="@Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_EIGHT_TEXT">@Parameters?.RowsPerPageText</span>
                         <select id="@($"select-row-number-{Id}")"
@@ -163,21 +164,24 @@
                     </div>
 
                     <div class="flex items-center gap-3">
-                        <div class="rounded-full p-1 @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER @Tailwind.Theme.Colors.Background.Active.THEME_DEFAULT_THREE_BG_ACTIVE">
-                            <MaviIconOnline IconOnlineType="IconOnlineType.ChevronLeftOnline"
-                                            IconColor="IconColor.DimGrey"
-                                            IconSize="IconSize.Small"
-                                            OnClick="PrevPage" />
-                        </div>
-                        <span class="@Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_EIGHT_TEXT">
-                            @Collection?.FirstRowIndex–@Collection?.LastRowIndex of @Collection?.TotalRows
-                        </span>
-                        <div class="rounded-full p-1 @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER @Tailwind.Theme.Colors.Background.Active.THEME_DEFAULT_THREE_BG_ACTIVE">
-                            <MaviIconOnline IconOnlineType="IconOnlineType.ChevronRightOnline"
-                                            IconColor="IconColor.DimGrey"
-                                            IconSize="IconSize.Small"
-                                            OnClick="NextPage" />
-                        </div>
+                        @if (Collection is { FilteredRows.Count: > 0 })
+                        {
+                            <div class="rounded-full p-1 @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER @Tailwind.Theme.Colors.Background.Active.THEME_DEFAULT_THREE_BG_ACTIVE">
+                                <MaviIconOnline IconOnlineType="IconOnlineType.ChevronLeftOnline"
+                                                IconColor="IconColor.DimGrey"
+                                                IconSize="IconSize.Small"
+                                                OnClick="PrevPage"/>
+                            </div>
+                            <span class="@Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_EIGHT_TEXT">
+                                @Collection?.FirstRowIndex–@Collection?.LastRowIndex of @Collection?.TotalRows
+                            </span>
+                            <div class="rounded-full p-1 @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER @Tailwind.Theme.Colors.Background.Active.THEME_DEFAULT_THREE_BG_ACTIVE">
+                                <MaviIconOnline IconOnlineType="IconOnlineType.ChevronRightOnline"
+                                                IconColor="IconColor.DimGrey"
+                                                IconSize="IconSize.Small"
+                                                OnClick="NextPage"/>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -211,9 +215,9 @@
 
     private string GetCellBoxClass(int rowIndex, string textAlignment)
     {
-        var backgroundColor = rowIndex % 2 == 0 ? "bg-white" : "bg-zinc-50";
+        var backgroundColor = Parameters?.Striped == true ? rowIndex % 2 == 0 ? "bg-white" : "bg-zinc-50" : "bg-white";
 
-        return $"{backgroundColor} {textAlignment} px-4 py-3 text-zinc-800 truncate flex items-center";
+        return $"{backgroundColor} {textAlignment} {GetCellSpacing()} text-zinc-800 truncate flex items-center hover:bg-zinc-100";
     }
 
     private string GetCellContentAlignment(MaviTableColumn column)
@@ -289,8 +293,20 @@
 
     private string GetColumnHeaderContainerCss(MaviTableColumn column)
     {
-        return $"px-4 py-3 truncate flex items-center {GetCellContentAlignment(column)}";
-    }    
+        return $"{GetCellSpacing()} truncate flex items-center {GetCellContentAlignment(column)}";
+    }
+
+    private string GetCellSpacing() => Parameters?.Condensed == true ? "px-2 py-1.5" : "px-4 py-3";
+
+    private string GetContextMenuCellCss()
+    {
+        return $"{GetCellSpacing()} truncate text-right";
+    }
+
+    private string GetFooterRowCss()
+    {
+        return $"bg-white {GetCellSpacing()} flex items-center justify-between w-full min-w-80"; 
+    }
 
     protected override async Task RefreshTable()
     {
