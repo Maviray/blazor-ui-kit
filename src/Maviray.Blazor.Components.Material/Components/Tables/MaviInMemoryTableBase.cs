@@ -313,17 +313,27 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
     }
 
     [JSInvokable]
-    public void HandleOutsideClick(string elementId)
+    public void HandleOutsideClick(string clickedMenuId)
     {
         try
         {
-            if (elementId == ContextMenuId)
+            // Close main menu if the click was NOT inside it
+            if (clickedMenuId != ContextMenuId)
             {
                 ContextMenuVisible = false;
             }
 
-            var row = Collection?.GetCurrentPageRows().FirstOrDefault(r => r.ContextMenuId == elementId);
-            row?.ContextMenuVisible = false;
+            // Close all row menus that were NOT clicked
+            if (Collection != null)
+            {
+                foreach (var row in Collection.GetCurrentPageRows())
+                {
+                    if (clickedMenuId != row.ContextMenuId)
+                    {
+                        row.ContextMenuVisible = false;
+                    }
+                }
+            }
 
             _needsRender = true;
             StateHasChanged();

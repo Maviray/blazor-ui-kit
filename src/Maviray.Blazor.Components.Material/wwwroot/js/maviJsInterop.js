@@ -5,13 +5,16 @@ window.registerGlobalOutsideClickListener = (instanceId, dotNetRef, callbackMeth
 
     if (!window._globalOutsideClickBound) {
         window._globalOutsideClickBound = true;
-        document.addEventListener('mousedown', (e) => {
+        document.addEventListener('click', (e) => {
             const menuEl = e.target.closest('[data-context-menu-id]');
             const clickedId = menuEl?.dataset.contextMenuId ?? '';
 
-            for (const ref of Object.values(_globalOutsideClickRefs)) {
-                ref.dotNetRef.invokeMethodAsync(ref.callbackMethod, clickedId);
-            }
+            // Defer so Blazor's @onclick handlers run first
+            setTimeout(() => {
+                for (const ref of Object.values(_globalOutsideClickRefs)) {
+                    ref.dotNetRef.invokeMethodAsync(ref.callbackMethod, clickedId);
+                }
+            }, 0);
         });
     }
 };
