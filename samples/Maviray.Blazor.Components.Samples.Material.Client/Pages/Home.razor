@@ -61,7 +61,7 @@
         FilterPlaceholderText = "Search...",
         NoDataAvailableTitle = "No data available to display",
         RowsPerPageText = "Rows per page",
-        Condensed = true
+        Striped = true
     };
 
     private async Task<TableDataCollection> FetchDataFullFeatures()
@@ -166,6 +166,11 @@
 
     private Task OnRowClick(TableClickData item)
     {
+        if (item.Column is { IsNavigational: true })
+        {
+            Logger?.LogInformation("CELL CLICK! Row: {RowId}. Column: {ColumnTitle}. Column Navigational: {ColumnIsNavigational}", item?.Row?.Id, item?.Column.Title, item?.Column.IsNavigational);
+        }
+
         return Task.CompletedTask;
     }
 

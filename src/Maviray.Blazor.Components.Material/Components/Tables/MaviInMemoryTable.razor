@@ -110,7 +110,7 @@
                             <div class="@GetCellTextCss(column) @Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT cursor-pointer truncate"
                                  title="@cell?.Value"
                                  @onclick="async () => { await RowClick(row, column); }">
-                                @cell?.Value.TrimToLengthWithDots(40)
+                                    @TrimCellValue(cell)
                             </div>
                         </td>
                     }
@@ -203,21 +203,24 @@
                     </div>
 
                     <div class="flex items-center gap-3">
-                        <div class="rounded-full p-1 @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER @Tailwind.Theme.Colors.Background.Active.THEME_DEFAULT_THREE_BG_ACTIVE">
-                            <MaviIconOnline IconOnlineType="IconOnlineType.ChevronLeftOnline"
-                                            IconColor="IconColor.DimGrey"
-                                            IconSize="IconSize.Small"
-                                            OnClick="PrevPage"/>
-                        </div>
-                        <span class="@Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_EIGHT_TEXT">
-                            @Collection?.FirstRowIndex–@Collection?.LastRowIndex of @Collection?.TotalRows
-                        </span>
-                        <div class="rounded-full p-1 @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER @Tailwind.Theme.Colors.Background.Active.THEME_DEFAULT_THREE_BG_ACTIVE">
-                            <MaviIconOnline IconOnlineType="IconOnlineType.ChevronRightOnline"
-                                            IconColor="IconColor.DimGrey"
-                                            IconSize="IconSize.Small"
-                                            OnClick="NextPage"/>
-                        </div>
+                        @if (Collection is { FilteredRows.Count: > 0 })
+                        {
+                            <div class="rounded-full p-1 @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER @Tailwind.Theme.Colors.Background.Active.THEME_DEFAULT_THREE_BG_ACTIVE">
+                                <MaviIconOnline IconOnlineType="IconOnlineType.ChevronLeftOnline"
+                                                IconColor="IconColor.DimGrey"
+                                                IconSize="IconSize.Small"
+                                                OnClick="PrevPage"/>
+                            </div>
+                            <span class="@Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_EIGHT_TEXT">
+                                @Collection?.FirstRowIndex–@Collection?.LastRowIndex of @Collection?.TotalRows
+                            </span>
+                            <div class="rounded-full p-1 @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER @Tailwind.Theme.Colors.Background.Active.THEME_DEFAULT_THREE_BG_ACTIVE">
+                                <MaviIconOnline IconOnlineType="IconOnlineType.ChevronRightOnline"
+                                                IconColor="IconColor.DimGrey"
+                                                IconSize="IconSize.Small"
+                                                OnClick="NextPage"/>
+                            </div>
+                        }
                     </div>
                 </div>
             </td>

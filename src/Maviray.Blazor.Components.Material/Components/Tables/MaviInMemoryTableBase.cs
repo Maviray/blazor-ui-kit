@@ -283,7 +283,14 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
             Logger?.LogDebugLifeCycle(Id, GetType());
         }
     }
-    
+
+    protected string TrimCellValue(MaviTableCell? cell)
+    {
+        if (cell is null) return string.Empty;
+
+        return Parameters?.MaxCellCharsToDisplay > 0 ? cell.Value.TrimToLengthWithDots(Parameters.MaxCellCharsToDisplay) : cell.Value;
+    }
+
     #region handle outside click
 
     protected async Task SubscribeElements()
