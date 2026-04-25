@@ -130,6 +130,7 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
             if (FetchData != null)
             {
                 Collection = await FetchData.Invoke();
+                _needsRender = true;
             }
 
             _visibleColumnsCache = null;
@@ -162,6 +163,7 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
     protected virtual void SortByColumn(string columnKey)
     {
         Collection?.SortByColumn(columnKey);
+        _needsRender = true;
     }
 
     protected virtual async Task PrevPage()
@@ -169,6 +171,7 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
         if (Collection is not null && Collection.CurrentPage > 1)
         {
             Collection.CurrentPage--;
+            _needsRender = true;
         }
     }
 
@@ -177,6 +180,7 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
         if (Collection is not null && Collection.CurrentPage < Collection.TotalPages)
         {
             Collection.CurrentPage++;
+            _needsRender = true;
         }
     }
 
@@ -194,16 +198,19 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
 
         Collection.PageSize = newSize;
         Collection.CurrentPage = 1;
+        _needsRender = true;
     }
 
     protected virtual void ToggleMainContextMenuDropDown(MouseClickEventArgs mouseEventArgs)
     {
         ContextMenuVisible = !ContextMenuVisible;
+        _needsRender = true;
     }
 
     protected virtual void ToggleRowContextMenuDropDown(MaviTableRow row, MouseClickEventArgs mouseEventArgs)
     {
         row.ContextMenuVisible = !row.ContextMenuVisible;
+        _needsRender = true;
     }
 
     protected virtual async Task ContextMenuClick(MaviTableContextMenuItem? item)
