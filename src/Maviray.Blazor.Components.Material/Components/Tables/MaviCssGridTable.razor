@@ -152,18 +152,19 @@
             }
 
             @* ── Footer row – always spans every column ── *@
-            <div id="@($"pagination-{Id}")" class="col-span-full">
+            <div id="@($"pagination-{Id}")" class="col-span-full" @onclick:stopPropagation="true">
                 <div class="@GetFooterRowCss()">
                     <div class="flex items-center gap-2">
                         <span class="@GetPaginationTextCss()">@Parameters?.RowsPerPageText</span>
                         <select id="@($"select-row-number-{Id}")"
                                 class="@GetCountPerPageSelectCss()"
                                 @onchange="UpdatePageSize"
+                                @onclick:stopPropagation="true"
                                 title="@Parameters?.SelectNumberOfRowsToDisplayText">
-                            <option value="10" selected="@(Collection?.PageSize == 10)">10</option>
-                            <option value="25" selected="@(Collection?.PageSize == 25)">25</option>
-                            <option value="50" selected="@(Collection?.PageSize == 50)">50</option>
-                            <option value="100" selected="@(Collection?.PageSize == 100)">100</option>
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
                         </select>
                     </div>
 
