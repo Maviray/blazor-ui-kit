@@ -6,6 +6,9 @@ window.registerGlobalOutsideClickListener = (instanceId, dotNetRef, callbackMeth
     if (!window._globalOutsideClickBound) {
         window._globalOutsideClickBound = true;
         document.addEventListener('click', (e) => {
+
+            if (e.target.tagName === 'SELECT' || e.target.tagName === 'OPTION') return;
+
             const menuEl = e.target.closest('[data-context-menu-id]');
             const clickedId = menuEl?.dataset.contextMenuId ?? '';
 
