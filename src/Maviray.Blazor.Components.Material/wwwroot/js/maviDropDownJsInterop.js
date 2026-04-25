@@ -2,6 +2,9 @@
     if (!containerElement) return;
 
     const handleClickOutside = (event) => {
+
+        if (e.target.tagName === 'SELECT' || e.target.tagName === 'OPTION') return;
+
         if (!containerElement.contains(event.target)) {
             dotNetRef.invokeMethodAsync('CloseFromJs');
         }

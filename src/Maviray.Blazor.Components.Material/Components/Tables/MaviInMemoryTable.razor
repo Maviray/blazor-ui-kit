@@ -49,7 +49,7 @@
                 @if (MainMenuItems is not null && MainMenuItems.Any())
                 {
                     <div class="px-4 py-2">
-                        <div id="@ContextMenuId" class="relative flex justify-end">
+                        <div id="@ContextMenuId" data-context-menu-id="@ContextMenuId" class="relative flex justify-end">
                             <!-- Btn Toggle Context Menu Dropdown -->
                             <MaviButtonIcon Icon="lni lni-menu-meatballs-1"
                                             ElementVariant="ElementVariant.Text"
@@ -120,7 +120,7 @@
                             <div class="w-full px-4 py-2 flex items-center justify-end">
                                 @if (TableRowContextMenuDisplayStyle == TableRowContextMenuDisplayStyle.Icons)
                                 {
-                                    <div id="@row.ContextMenuId" class="flex items-center gap-1">
+                                    <div id="@row.ContextMenuId" data-context-menu-id="@row.ContextMenuId" class="flex items-center gap-1">
                                         @foreach (var rowContextMenuButton in row.ContextActions)
                                         {
                                             <MaviButtonIcon Icon="@rowContextMenuButton.Icon"
@@ -135,7 +135,7 @@
                                 }
                                 else
                                 {
-                                    <div id="@row.ContextMenuId" class="relative">
+                                    <div id="@row.ContextMenuId" data-context-menu-id="@row.ContextMenuId" class="relative">
                                         <!-- Btn Toggle Context Menu Dropdown -->
                                         <MaviButtonIcon Icon="lni lni-menu-meatballs-1"
                                                         ElementVariant="ElementVariant.Text"

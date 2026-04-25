@@ -46,7 +46,7 @@
             <div class="@GetContextMenuCellCss()">
                 @if (MainMenuItems is not null && MainMenuItems.Any())
                 {
-                    <div id="@ContextMenuId" class="relative flex justify-end">
+                    <div id="@ContextMenuId" data-context-menu-id="@ContextMenuId" class="relative flex justify-end">
                         <!-- Btn Toggle Context Menu Dropdown -->
                         <MaviButtonIcon Icon="lni lni-menu-meatballs-1"
                                         ElementVariant="ElementVariant.Text"
@@ -89,7 +89,7 @@
             {
                 foreach (var (row, rowIndex) in Collection.GetCurrentPageRows().Select((r, i) => (r, i)))
                 {
-                    <div style="display:contents" class="group">
+                    <div @key="row.Guid" style="display:contents" class="group">
                         @foreach (var col in VisibleColumns)
                         {
                             var cell = row.Cells.FirstOrDefault(c => c.ColumnKey == col.Key);
@@ -106,7 +106,7 @@
                                 <div class="w-full flex items-center justify-end">
                                     @if (TableRowContextMenuDisplayStyle == TableRowContextMenuDisplayStyle.Icons)
                                     {
-                                        <div id="@row.ContextMenuId" class="flex items-center gap-1">
+                                        <div id="@row.ContextMenuId" data-context-menu-id="@row.ContextMenuId" class="flex items-center gap-1">
                                             @foreach (var rowContextMenuButton in row.ContextActions)
                                             {
                                                 <MaviButtonIcon Icon="@rowContextMenuButton.Icon"
@@ -121,7 +121,7 @@
                                     }
                                     else
                                     {
-                                        <div id="@row.ContextMenuId" class="relative">
+                                        <div id="@row.ContextMenuId" data-context-menu-id="@row.ContextMenuId" class="relative">
                                             <!-- Btn Toggle Context Menu Dropdown -->
                                             <MaviButtonIcon Icon="lni lni-menu-meatballs-1"
                                                             ElementVariant="ElementVariant.Text"
@@ -152,18 +152,19 @@
             }
 
             @* ── Footer row – always spans every column ── *@
-            <div id="@($"pagination-{Id}")" class="col-span-full">
+            <div id="@($"pagination-{Id}")" class="col-span-full" @onclick:stopPropagation="true">
                 <div class="@GetFooterRowCss()">
                     <div class="flex items-center gap-2">
                         <span class="@GetPaginationTextCss()">@Parameters?.RowsPerPageText</span>
                         <select id="@($"select-row-number-{Id}")"
                                 class="@GetCountPerPageSelectCss()"
                                 @onchange="UpdatePageSize"
+                                @onclick:stopPropagation="true"
                                 title="@Parameters?.SelectNumberOfRowsToDisplayText">
-                            <option value="10" selected="@(Collection?.PageSize == 10)">10</option>
-                            <option value="25" selected="@(Collection?.PageSize == 25)">25</option>
-                            <option value="50" selected="@(Collection?.PageSize == 50)">50</option>
-                            <option value="100" selected="@(Collection?.PageSize == 100)">100</option>
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
                         </select>
                     </div>
 
