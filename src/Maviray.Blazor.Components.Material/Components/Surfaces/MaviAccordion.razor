@@ -1,5 +1,7 @@
-﻿<CascadingValue Value="this" IsFixed="true">
-    <div class="@RootClass" role="presentation">
+﻿@inherits MaviComponentBase
+
+<CascadingValue Value="this" IsFixed="true">
+    <div id="@Id" class="@RootClass" role="presentation">
         @ChildContent
     </div>
 </CascadingValue>
@@ -15,19 +17,16 @@
 
     [Parameter] public ThemeColorScheme ColorScheme { get; set; } = ThemeColorScheme.Default;
 
-    /// <summary>Optional additional classes for the root container.</summary>
-    [Parameter] public string? Class { get; set; }
+    private readonly HashSet<string?> _open = new(StringComparer.Ordinal);
 
-    private readonly HashSet<string> _open = new(StringComparer.Ordinal);
+    internal bool IsOpen(string? id) => _open.Contains(id);
 
-    internal bool IsOpen(string id) => _open.Contains(id);
-
-    internal void RegisterDefaultOpen(string id, bool defaultExpanded)
+    internal void RegisterDefaultOpen(string? id, bool defaultExpanded)
     {
         if (defaultExpanded) _open.Add(id);
     }
 
-    internal void Toggle(string id)
+    internal void Toggle(string? id)
     {
         if (AllowMultiple)
         {
@@ -48,19 +47,19 @@
 
     internal string GetItemFrameClasses(bool isFirst, bool isLast)
     {
-        // Material-ish: subtle rounding on the whole stack
-        var rounding = (isFirst, isLast) switch
-        {
-            (true, true) => "rounded-xl",
-            (true, false) => "rounded-t-xl",
-            (false, true) => "rounded-b-xl",
-            _ => "rounded-none"
-        };
+        // // Material-ish: subtle rounding on the whole stack
+        // var rounding = (isFirst, isLast) switch
+        // {
+        //     (true, true) => "rounded-sm",
+        //     (true, false) => "rounded-t-sm",
+        //     (false, true) => "rounded-b-sm",
+        //     _ => "rounded-none"
+        // };
 
         var border = Dividers ? $"border-b {GetDividerBorderClass()}" : "";
         if (isLast) border = ""; // no divider on last
 
-        return $"overflow-hidden {rounding} {border}";
+        return $"overflow-hidden {border}";
     }
 
     internal (string summaryBg, string summaryHoverBg, string summaryText, string border, string detailsBg, string iconText, string focusRing)
@@ -68,8 +67,8 @@
         => ColorScheme switch
         {
             ThemeColorScheme.Primary => (
-                "bg-[var(--theme-primary-one)]",
-                "hover:bg-[var(--theme-primary-two)]",
+                "bg-[var(--theme-primary-two)]",
+                "hover:bg-[var(--theme-primary-three)]",
                 "text-[var(--theme-primary-ten)]",
                 "border-[var(--theme-primary-three)]",
                 "bg-[var(--theme-primary-one)]",
@@ -77,8 +76,8 @@
                 "focus-visible:ring-[var(--theme-primary-six)]"
             ),
             ThemeColorScheme.Secondary => (
-                "bg-[var(--theme-secondary-one)]",
-                "hover:bg-[var(--theme-secondary-two)]",
+                "bg-[var(--theme-secondary-two)]",
+                "hover:bg-[var(--theme-secondary-three)]",
                 "text-[var(--theme-secondary-ten)]",
                 "border-[var(--theme-secondary-three)]",
                 "bg-[var(--theme-secondary-one)]",
@@ -86,8 +85,8 @@
                 "focus-visible:ring-[var(--theme-secondary-six)]"
             ),
             ThemeColorScheme.Success => (
-                "bg-[var(--theme-success-one)]",
-                "hover:bg-[var(--theme-success-two)]",
+                "bg-[var(--theme-success-two)]",
+                "hover:bg-[var(--theme-success-three)]",
                 "text-[var(--theme-success-ten)]",
                 "border-[var(--theme-success-three)]",
                 "bg-[var(--theme-success-one)]",
@@ -95,8 +94,8 @@
                 "focus-visible:ring-[var(--theme-success-six)]"
             ),
             ThemeColorScheme.Alert => (
-                "bg-[var(--theme-alert-one)]",
-                "hover:bg-[var(--theme-alert-two)]",
+                "bg-[var(--theme-alert-two)]",
+                "hover:bg-[var(--theme-alert-three)]",
                 "text-[var(--theme-alert-ten)]",
                 "border-[var(--theme-alert-three)]",
                 "bg-[var(--theme-alert-one)]",
@@ -104,8 +103,8 @@
                 "focus-visible:ring-[var(--theme-alert-six)]"
             ),
             ThemeColorScheme.Warning => (
-                "bg-[var(--theme-warning-one)]",
-                "hover:bg-[var(--theme-warning-two)]",
+                "bg-[var(--theme-warning-two)]",
+                "hover:bg-[var(--theme-warning-three)]",
                 "text-[var(--theme-warning-ten)]",
                 "border-[var(--theme-warning-three)]",
                 "bg-[var(--theme-warning-one)]",
@@ -113,8 +112,8 @@
                 "focus-visible:ring-[var(--theme-warning-six)]"
             ),
             ThemeColorScheme.Info => (
-                "bg-[var(--theme-info-one)]",
-                "hover:bg-[var(--theme-info-two)]",
+                "bg-[var(--theme-info-two)]",
+                "hover:bg-[var(--theme-info-three)]",
                 "text-[var(--theme-info-ten)]",
                 "border-[var(--theme-info-three)]",
                 "bg-[var(--theme-info-one)]",
@@ -123,16 +122,16 @@
             ),
             ThemeColorScheme.Dark => (
                 "bg-[var(--theme-dark-eight)]",
-                "hover:bg-[var(--theme-dark-seven)]",
+                "hover:bg-[var(--theme-dark-nine)]",
                 "text-[var(--theme-dark-one)]",
                 "border-[var(--theme-dark-six)]",
-                "bg-[var(--theme-dark-eight)]",
+                "bg-[var(--theme-dark-seven)]",
                 "text-[var(--theme-dark-two)]",
                 "focus-visible:ring-[var(--theme-dark-four)]"
             ),
             ThemeColorScheme.Light => (
-                "bg-[var(--theme-light-one)]",
-                "hover:bg-[var(--theme-light-two)]",
+                "bg-[var(--theme-light-two)]",
+                "hover:bg-[var(--theme-light-three)]",
                 "text-[var(--theme-light-ten)]",
                 "border-[var(--theme-light-four)]",
                 "bg-[var(--theme-light-one)]",
@@ -140,8 +139,8 @@
                 "focus-visible:ring-[var(--theme-light-six)]"
             ),
             _ => ( // Default
-                "bg-[var(--theme-default-one)]",
-                "hover:bg-[var(--theme-default-two)]",
+                "bg-[var(--theme-default-two)]",
+                "hover:bg-[var(--theme-default-three)]",
                 "text-[var(--theme-default-ten)]",
                 "border-[var(--theme-default-four)]",
                 "bg-[var(--theme-default-one)]",
@@ -168,7 +167,7 @@
         => string.Join(" ", new[]
         {
             "w-full",
-            "rounded-xl",
+            "rounded-sm",
             "border",
             GetDividerBorderClass(),
             "shadow-sm",                  // Material-ish elevation 1

@@ -1,0 +1,204 @@
+﻿@page "/PageMaviBadge"
+@using Maviray.Blazor.Components.Material.Components.DataDisplay
+@inherits SamplePageBase
+
+<PageTitle>MaviBadge</PageTitle>
+
+<div class="w-full p-4 flex flex-col gap-2">
+    <div class="flex gap-2">
+        <MaviBadge Icon="lni lni-home-2" Text="11" ElementSize="ElementSize.Small"></MaviBadge>
+
+        <MaviBadge Icon="lni lni-paint-roller-1" Text="Ab" ElementSize="ElementSize.Small"></MaviBadge>
+
+        <MaviBadge Icon="lni lni-bike" Text="T" ElementSize="ElementSize.Small"></MaviBadge>
+
+        <MaviBadge Icon="lni lni-books-2" Text="22,33" ElementSize="ElementSize.Small"></MaviBadge>
+    </div>
+    <div class="flex gap-2">
+        <MaviBadge Icon="lni lni-home-2" Text="11" ElementSize="ElementSize.Regular"></MaviBadge>
+
+        <MaviBadge Icon="lni lni-paint-roller-1" Text="Ab" ElementSize="ElementSize.Regular"></MaviBadge>
+
+        <MaviBadge Icon="lni lni-bike" Text="T" ElementSize="ElementSize.Regular"></MaviBadge>
+
+        <MaviBadge Icon="lni lni-books-2" Text="22,33" ElementSize="ElementSize.Regular"></MaviBadge>
+    </div>
+    <div class="flex gap-2">
+        <MaviBadge Icon="lni lni-home-2" Text="11" ElementSize="ElementSize.Large"></MaviBadge>
+
+        <MaviBadge Icon="lni lni-paint-roller-1" Text="Ab" ElementSize="ElementSize.Large"></MaviBadge>
+
+        <MaviBadge Icon="lni lni-bike" Text="T" ElementSize="ElementSize.Large"></MaviBadge>
+
+        <MaviBadge Icon="lni lni-books-2" Text="22,33" ElementSize="ElementSize.Large"></MaviBadge>
+    </div>
+    <div class="flex gap-2">
+        <MaviBadge Icon="lni lni-home-2" Text="11" ElementSize="ElementSize.Large" Class="text-sky-600"></MaviBadge>
+
+        <MaviBadge Icon="lni lni-paint-roller-1" Text="Ab" ElementSize="ElementSize.Large" Class="text-orange-600"></MaviBadge>
+
+        <MaviBadge Icon="lni lni-bike" Text="T" ElementSize="ElementSize.Large" Class="text-cyan-600"></MaviBadge>
+
+        <MaviBadge Icon="lni lni-books-2" Text="22,33" ElementSize="ElementSize.Large" Class="text-green-600"></MaviBadge>
+    </div>
+    
+    <div class="flex gap-4">
+        <div class="flex flex-col">
+            <div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.DEFAULT, "text-[11px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.DEFAULT, "text-[11px]")">28</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.DEFAULT, "text-[11px]")">311</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.DEFAULT, "text-[11px]")">text 4</div>
+            </div>
+
+            <div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.PRIMARY, "text-[11px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.PRIMARY, "text-[11px]")">28</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.PRIMARY, "text-[11px]")">311</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.PRIMARY, "text-[11px]")">text 4</div>
+            </div>
+
+            <div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.SECONDARY, "text-[11px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.SECONDARY, "text-[11px]")">28</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.SECONDARY, "text-[11px]")">311</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.SECONDARY, "text-[11px]")">text 4</div>
+            </div>
+
+            <div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.SUCCESS, "text-[11px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.SUCCESS, "text-[11px]")">28</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.SUCCESS, "text-[11px]")">311</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.SUCCESS, "text-[11px]")">text 4</div>
+            </div>
+
+            <div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.ALERT, "text-[11px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.ALERT, "text-[11px]")">28</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.ALERT, "text-[11px]")">311</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.ALERT, "text-[11px]")">text 4</div>
+            </div>
+
+            <div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.WARNING, "text-[11px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.WARNING, "text-[11px]")">28</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.WARNING, "text-[11px]")">311</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.WARNING, "text-[11px]")">text 4</div>
+            </div>
+
+            <div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.INFO, "text-[11px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.INFO, "text-[11px]")">28</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.INFO, "text-[11px]")">311</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.INFO, "text-[11px]")">text 4</div>
+            </div>
+
+            <div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.DARK, "text-[11px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.DARK, "text-[11px]")">28</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.DARK, "text-[11px]")">311</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.DARK, "text-[11px]")">text 4</div>
+            </div>
+
+            <div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.LIGHT, "text-[11px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.LIGHT, "text-[11px]")">28</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.LIGHT, "text-[11px]")">311</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.LIGHT, "text-[11px]")">text 4</div>
+            </div>
+
+            <div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.DEFAULT, "text-[8px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.PRIMARY, "text-[9px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.SECONDARY, "text-[10px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.SUCCESS, "text-[11px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.WARNING, "text-[12px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.INFO, "text-[13px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.ALERT, "text-[14px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.DARK, "text-[15px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.LIGHT, "text-[16px]")">1</div>
+            </div>
+        </div>
+
+        <div class="flex flex-col bg-(--theme-dark-eight) text-(--theme-light-two) p-2 rounded-lg">
+            <div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.DEFAULT_DARK, "text-[11px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.DEFAULT_DARK, "text-[11px]")">28</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.DEFAULT_DARK, "text-[11px]")">311</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.DEFAULT_DARK, "text-[11px]")">text 4</div>
+            </div>
+
+            <div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.PRIMARY_DARK, "text-[11px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.PRIMARY_DARK, "text-[11px]")">28</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.PRIMARY_DARK, "text-[11px]")">311</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.PRIMARY_DARK, "text-[11px]")">text 4</div>
+            </div>
+
+            <div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.SECONDARY_DARK, "text-[11px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.SECONDARY_DARK, "text-[11px]")">28</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.SECONDARY_DARK, "text-[11px]")">311</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.SECONDARY_DARK, "text-[11px]")">text 4</div>
+            </div>
+
+            <div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.SUCCESS_DARK, "text-[11px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.SUCCESS_DARK, "text-[11px]")">28</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.SUCCESS_DARK, "text-[11px]")">311</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.SUCCESS_DARK, "text-[11px]")">text 4</div>
+            </div>
+
+            <div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.ALERT_DARK, "text-[11px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.ALERT_DARK, "text-[11px]")">28</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.ALERT_DARK, "text-[11px]")">311</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.ALERT_DARK, "text-[11px]")">text 4</div>
+            </div>
+
+            <div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.WARNING_DARK, "text-[11px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.WARNING_DARK, "text-[11px]")">28</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.WARNING_DARK, "text-[11px]")">311</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.WARNING_DARK, "text-[11px]")">text 4</div>
+            </div>
+
+            <div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.INFO_DARK, "text-[11px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.INFO_DARK, "text-[11px]")">28</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.INFO_DARK, "text-[11px]")">311</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.INFO_DARK, "text-[11px]")">text 4</div>
+            </div>
+
+            <div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.DARK_DARK, "text-[11px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.DARK_DARK, "text-[11px]")">28</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.DARK_DARK, "text-[11px]")">311</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.DARK_DARK, "text-[11px]")">text 4</div>
+            </div>
+
+            <div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.LIGHT_DARK, "text-[11px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.LIGHT_DARK, "text-[11px]")">28</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.LIGHT_DARK, "text-[11px]")">311</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.LIGHT_DARK, "text-[11px]")">text 4</div>
+            </div>
+
+            <div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.DEFAULT_DARK, "text-[8px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.PRIMARY_DARK, "text-[9px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.SECONDARY_DARK, "text-[10px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.SUCCESS_DARK, "text-[11px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.WARNING_DARK, "text-[12px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.INFO_DARK, "text-[13px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.ALERT_DARK, "text-[14px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.DARK_DARK, "text-[15px]")">1</div>
+                <div class="@CssManager.Combine(Tailwind.Theme.Badge.LIGHT_DARK, "text-[16px]")">1</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+
+}

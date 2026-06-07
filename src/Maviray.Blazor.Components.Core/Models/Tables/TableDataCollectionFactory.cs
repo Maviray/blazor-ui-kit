@@ -31,7 +31,8 @@ public class TableDataCollectionFactory
             Sequence = property.Attribute.Sequence,
             Visible = true,
             DataType = property.Property.PropertyType,
-            IsNavigational = property.Attribute.IsNavigational
+            IsNavigational = property.Attribute.IsNavigational,
+            HorizontalTextAlignment = property.Attribute.HorizontalTextAlignment
         }).ToList();
 
         var rows = new List<MaviTableRow>();
@@ -81,7 +82,7 @@ public class TableDataCollectionFactory
             return string.Empty;
         }
 
-        if (type == typeof(bool))
+        if (type == typeof(bool) || type == typeof(bool?))
         {
             return (bool)raw ? attr.BoolPositive : attr.BoolNegative;
         }

@@ -21,4 +21,10 @@
     .validation-message {
         @apply text-xs font-(--font-ui) ml-1 text-(--theme-alert-nine);
     }
+
+    h1, h2, h3, h4, h5, h6 {
+        &:focus {
+            @apply outline-none;
+        }
+    }
 }

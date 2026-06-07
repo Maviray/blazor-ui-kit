@@ -19,8 +19,8 @@
 	  <Copyright>Copyright @2026 Maviray</Copyright>
 	  <Description>Blazor UI Tailwind library</Description>
 	  <PackageTags>blazor;components;ui;tailwind;maviray</PackageTags>
-	  <PackageProjectUrl>https://github.com/maviraydev/Maviray.SDK</PackageProjectUrl>
-	  <RepositoryUrl>https://github.com/maviraydev/Maviray.SDK</RepositoryUrl>
+	  <RepositoryUrl>https://github.com/Maviray/blazor-ui-kit</RepositoryUrl>
+	  <PackageProjectUrl>https://github.com/Maviray/blazor-ui-kit</PackageProjectUrl>
 	  <RepositoryType>git</RepositoryType>
 	  <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>

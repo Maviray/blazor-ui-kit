@@ -1,0 +1,401 @@
+﻿@page "/PageMaviDialog"
+@using Maviray.Blazor.Components.Material.Components.DataDisplay
+@using Maviray.Blazor.Components.Material.Components.Feedback
+@inherits SamplePageBase
+
+
+<PageTitle>MaviDialog</PageTitle>
+
+<div class="h-full w-full">
+
+    <div class="mx-auto max-w-7xl flex flex-col p-4 h-full space-y-8">
+        <!-- Page Header -->
+        <div class="space-y-2">
+            <h1 class="@Tailwind.Theme.Typography.DISPLAY_MEDIUM">MaviDialog Component</h1>
+            <p class="@Tailwind.Theme.Typography.BODY_LARGE text-gray-600">
+                Modal dialog component with customizable appearance, positioning, and button actions.
+            </p>
+        </div>
+
+        <!-- Interactive Demo -->
+        <section class="relative  space-y-4">
+            <MaviDialog @ref="_dialog" DialogButtonClick="ReactToDialogButtonClick" MaviDialogBaseParameters="_dialogParameters">
+                <div class="space-y-2">
+                    <p class="@Tailwind.Theme.Typography.BODY_MEDIUM">This is sample dialog content.</p>
+                    <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-600">You can configure various parameters using the form below.</p>
+                </div>
+            </MaviDialog>
+            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Interactive Demo</h2>
+            <EditForm FormName="DemoMaviDialog" Model="@_dialogParameters" OnValidSubmit="DisplayDialog">
+                <DataAnnotationsValidator/>
+                <div class="flex flex-col gap-4 p-6 bg-white rounded-lg shadow-md">
+                    <div>
+                        <MaviInputStringNullable @bind-Value="_dialogParameters.Title"
+                                                 ElementSize="ElementSize.Small"
+                                                 Width="w-full"
+                                                 Placeholder="Enter dialog title"/>
+                        <ValidationMessage For="@(() => _dialogParameters.Title)"/>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <MaviCheckbox @bind-Value="_dialogParameters.DisplayConfirmButton"
+                                      ElementSize="ElementSize.Regular"
+                                      Label="Display Confirm Button"/>
+                        <MaviCheckbox @bind-Value="_dialogParameters.DisplayCancelButton"
+                                      ElementSize="ElementSize.Regular"
+                                      Label="Display Cancel Button"/>
+                        <MaviCheckbox @bind-Value="_dialogParameters.DisplayCloseButton"
+                                      ElementSize="ElementSize.Regular"
+                                      Label="Display Close Button"/>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <MaviInputStringNullable @bind-Value="_dialogParameters.ConfirmButtonTitle"
+                                                     ElementSize="ElementSize.Small"
+                                                     Width="w-full"/>
+                        </div>
+                        <div>
+                            <MaviInputStringNullable @bind-Value="_dialogParameters.CancelButtonTitle"
+                                                     ElementSize="ElementSize.Small"
+                                                     Width="w-full"/>
+                        </div>
+                        <div>
+                            <MaviInputStringNullable @bind-Value="_dialogParameters.CloseButtonTitle"
+                                                     ElementSize="ElementSize.Small"
+                                                     Width="w-full"/>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <MaviDropdown TItem="ThemeColorScheme" TValue="ThemeColorScheme"
+                                          @bind-Value="_dialogParameters.ThemeColorScheme"
+                                          Items="_colorSchemes"
+                                          ElementSize="ElementSize.Small"
+                                          Width="w-full"/>
+                        </div>
+                        <div>
+                            <MaviDropdown TItem="BackdropOpacity" TValue="BackdropOpacity"
+                                          @bind-Value="_dialogParameters.BackdropOpacity"
+                                          Items="_opacityOptions"
+                                          ElementSize="ElementSize.Small"
+                                          Width="w-full"/>
+                        </div>
+                        <div>
+                            <MaviDropdown TItem="string" TValue="string"
+                                          @bind-Value="_dialogParameters.Width"
+                                          Items="@_sizes"
+                                          ElementSize="ElementSize.Small"
+                                          Width="w-full"/>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <MaviDropdown TItem="ComponentRelativePosition" TValue="ComponentRelativePosition"
+                                          @bind-Value="_dialogParameters.ComponentRelativePosition"
+                                          Items="_relativePosition"
+                                          ElementSize="ElementSize.Small"
+                                          Width="w-full"/>
+                        </div>
+                        <div>
+                            <MaviDropdown TItem="ZIndex" TValue="ZIndex"
+                                          @bind-Value="_dialogParameters.ZIndex"
+                                          Items="_zIndexes"
+                                          ElementSize="ElementSize.Small"
+                                          Width="w-full"/>
+                        </div>
+                    </div>
+
+                    <div>
+                        <MaviCheckbox @bind-Value="_dialogParameters.CloseOnBackdropClick"
+                                      ElementSize="ElementSize.Regular"
+                                      Label="Close on Backdrop Click"/>
+                    </div>
+
+                    <div>
+                        <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                                    ElementSize="ElementSize.Regular"
+                                    Title="Display Dialog"
+                                    ButtonRole="ButtonRole.Submit"
+                                    ElementVariant="ElementVariant.Filled"
+                                    TextTransform="TextTransform.Capitalize">
+                        </MaviButton>
+                    </div>
+                </div>
+            </EditForm>
+        </section>
+
+        <!-- Component Parameters Documentation -->
+        <section class="space-y-4">
+            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Component Parameters</h2>
+            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+                All available parameters for MaviDialog component
+            </p>
+
+            <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+                <table class="min-w-full">
+                    <thead class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_LIGHT_FOUR_BG)">
+                        <tr>
+                            <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Parameter</th>
+                            <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Type</th>
+                            <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Default</th>
+                            <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4 font-mono text-sm")">MaviDialogBaseParameters</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">MaviDialogBaseParameters</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">new()</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">Object containing all dialog configuration parameters</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4 font-mono text-sm")">DialogButtonClick</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">EventCallback&lt;DialogButtonClickEventArgs&gt;</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">-</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">Event callback triggered when any dialog button is clicked</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4 font-mono text-sm")">ChildContent</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">RenderFragment</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">null</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">Content displayed in the dialog body</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- MaviDialogBaseParameters Properties Documentation -->
+        <section class="space-y-4">
+            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">MaviDialogBaseParameters Properties</h2>
+            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+                Configuration properties available in MaviDialogBaseParameters object
+            </p>
+
+            <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+                <table class="min-w-full">
+                    <thead class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_LIGHT_FOUR_BG)">
+                        <tr>
+                            <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Property</th>
+                            <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Type</th>
+                            <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Default</th>
+                            <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4 font-mono text-sm")">Title</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">string?</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">null</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">Dialog title displayed in the header</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4 font-mono text-sm")">ThemeColorScheme</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">ThemeColorScheme</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">Default</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">Color scheme applied to buttons and borders (Primary, Secondary, Success, Alert, Warning, Info, Dark, Light)</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4 font-mono text-sm")">ZIndex</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">ZIndex</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">Forty</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">Z-index layer for stacking context</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4 font-mono text-sm")">BackdropOpacity</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">BackdropOpacity</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">Darken</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">Opacity level of the backdrop overlay</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4 font-mono text-sm")">ComponentRelativePosition</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">ComponentRelativePosition</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">Center</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">Position of the dialog on screen (Center, Top, Bottom, Left, Right, etc.)</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4 font-mono text-sm")">CloseOnBackdropClick</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">bool</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">false</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">Whether clicking the backdrop closes the dialog</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4 font-mono text-sm")">DisplayConfirmButton</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">bool</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">true</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">Show or hide the confirm button</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4 font-mono text-sm")">DisplayCancelButton</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">bool</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">true</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">Show or hide the cancel button</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4 font-mono text-sm")">DisplayCloseButton</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">bool</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">true</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">Show or hide the close icon button in header</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4 font-mono text-sm")">ConfirmButtonTitle</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">string?</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">"Confirm"</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">Text displayed on the confirm button</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4 font-mono text-sm")">CancelButtonTitle</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">string?</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">"Cancel"</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">Text displayed on the cancel button</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4 font-mono text-sm")">CloseButtonTitle</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">string?</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">"Close"</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">Tooltip text for the close icon button</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4 font-mono text-sm")">Width</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">string?</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">"w-full"</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">Tailwind CSS width class for dialog (e.g., "w-96", "w-1/2", "max-w-md")</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Public Methods Documentation -->
+        <section class="space-y-4">
+            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Public Methods</h2>
+            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+                Available methods for controlling the dialog programmatically
+            </p>
+
+            <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+                <table class="min-w-full">
+                    <thead class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_LIGHT_FOUR_BG)">
+                        <tr>
+                            <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Method</th>
+                            <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Parameters</th>
+                            <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4 font-mono text-sm")">Display()</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">None</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">Shows the dialog with current parameters</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4 font-mono text-sm")">Display(string title)</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">title: string</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">Shows the dialog and sets the title</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4 font-mono text-sm")">Display(MaviDialogBaseParameters)</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">parameters: MaviDialogBaseParameters</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">Shows the dialog with new parameters object</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4 font-mono text-sm")">Hide()</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">None</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">Hides the dialog</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Usage Examples -->
+        <section class="space-y-4">
+            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Usage Examples</h2>
+
+            <div class="bg-gray-50 p-6 rounded-lg">
+                <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM mb-4">Basic Dialog</h3>
+                <pre class="bg-white p-4 rounded border overflow-x-auto"><code>&lt;MaviDialog @@ref="_dialog"&gt;
+    &lt;p&gt;Dialog content goes here&lt;/p&gt;
+&lt;/MaviDialog&gt;
+
+@@code {
+    private MaviDialog? _dialog;
+    
+    private async Task ShowDialog()
+    {
+        await _dialog!.Display("My Dialog Title");
+    }
+}</code></pre>
+            </div>
+
+            <div class="bg-gray-50 p-6 rounded-lg">
+                <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM mb-4">Dialog with Custom Parameters</h3>
+                <pre class="bg-white p-4 rounded border overflow-x-auto"><code>&lt;MaviDialog @@ref="_dialog" 
+            MaviDialogBaseParameters="_params"
+            DialogButtonClick="HandleButtonClick"&gt;
+    &lt;p&gt;Custom dialog content&lt;/p&gt;
+&lt;/MaviDialog&gt;
+
+@@code {
+    private MaviDialog? _dialog;
+    private MaviDialogBaseParameters _params = new()
+    {
+        Title = "Confirmation",
+        ThemeColorScheme = ThemeColorScheme.Primary,
+        Width = "max-w-md",
+        DisplayCancelButton = true,
+        CloseOnBackdropClick = true
+    };
+    
+    private async Task HandleButtonClick(DialogButtonClickEventArgs args)
+    {
+        // Handle button clicks
+        Logger?.LogInformation($"Button clicked: {args.ButtonClicked}");
+    }
+}</code></pre>
+            </div>
+        </section>
+    </div>
+</div>
+
+@code
+{
+    private readonly MaviDialogBaseParameters _dialogParameters = new()
+    {
+        Title = "Sample Dialog",
+        Width = Tailwind.Theme.Dialog.WIDTH_SMALL_FLUID,
+        CloseOnBackdropClick = true,
+        ConfirmButtonTitle = "Confirm",
+        CancelButtonTitle = "Cancel",
+        CloseButtonTitle = "Close"
+    };
+
+    private MaviDialog? _dialog;
+
+    private readonly IEnumerable<ThemeColorScheme> _colorSchemes = Enum.GetValues<ThemeColorScheme>();
+    private readonly IEnumerable<BackdropOpacity> _opacityOptions = Enum.GetValues<BackdropOpacity>();
+    private readonly IEnumerable<ComponentRelativePosition> _relativePosition = Enum.GetValues<ComponentRelativePosition>();
+    private readonly IEnumerable<ZIndex> _zIndexes = Enum.GetValues<ZIndex>();
+
+    private readonly IEnumerable<string> _sizes = [
+        Tailwind.Theme.Dialog.WIDTH_SMALL,
+        Tailwind.Theme.Dialog.WIDTH_MEDIUM,
+        Tailwind.Theme.Dialog.WIDTH_LARGE
+    ];
+
+    private async Task DisplayDialog(EditContext context)
+    {
+        if (_dialog != null)
+        {
+            await _dialog.Display();
+        }
+    }
+
+    private async Task ReactToDialogButtonClick(DialogButtonClickEventArgs args)
+    {
+        Logger?.LogInformation($"Dialog ID: {args.ComponentId}. Button Id: {args.MouseEventArgs.ButtonId}. Click Type: {args.ButtonClicked}");
+    }
+}

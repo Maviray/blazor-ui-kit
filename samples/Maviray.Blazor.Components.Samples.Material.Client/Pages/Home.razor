@@ -1,36 +1,119 @@
 ﻿@page "/"
-@using Maviray.Blazor.Components.Core.Extensions
 @using Maviray.Blazor.Components.Core.Models.Tables
 @using Maviray.Blazor.Components.Material.Components.Tables
 @using Maviray.Blazor.Components.Samples.Material.Client.Enums
 @inherits SamplePageBase
 
-<div class="p-4">
-    <MaviInMemoryTable FetchData="FetchData"
-               ConstructContextMenu="ConstructContextMenu"
-               OnMainContextMenuClick="OnGridContextMenuClick"
-               OnRowClick="OnRowClick"
-               Parameters="_parameters"
-               OnRowContextMenuClick="RowContextMenuClick">
-    </MaviInMemoryTable>
+<PageTitle>Blazor UI Kit</PageTitle>
+
+<div class="max-w-7xl mx-auto p-2 flex flex-col space-y-4">
+    <h1 class="@Tailwind.Theme.Typography.DISPLAY_MEDIUM">Blazor UI Kit</h1>
+
+    <p class="@Tailwind.Theme.Typography.BODY_LARGE">This is a Blazor UI component library.</p>
+
+    <p class="@Tailwind.Theme.Typography.BODY_LARGE">Its role is to provide simple and hopefully straight-forward set of UI components for everyday typical requirements of UI development and help speed things up.</p>
+
+    <p class="@Tailwind.Theme.Typography.BODY_LARGE">Its not designed to be feature-rich and attempt to cover all possible scenarios. It is here to give you basic stuff to speed up UI development for most standard scenarios where you need to get something done quickly. </p>
+
+    <p class="@Tailwind.Theme.Typography.BODY_LARGE">The library uses Tailwind to manage CSS. I find it to be a great way to manage CSS under control.</p>
+
+    <p class="@Tailwind.Theme.Typography.BODY_LARGE">The library uses Lineicons library for icons. Theoretically one can attempt to use other icons, I find what Lineicons team does to be really cool – simple and straight-forward. I also find their pricing policy to be reasonable should one require professional icon package.</p>
+
+    <p class="@Tailwind.Theme.Typography.BODY_LARGE">There are multiple individual input components. It’s a conscious decision. Yes, it could have been implemented as a generic component. IMHO – it’s an unnecessary complication of introducing heavy reflection overhead. The number of primitives is not likely to change in any foreseeable future so its not like scalability is an issue in this case. </p>
+
+    <p class="@Tailwind.Theme.Typography.BODY_LARGE">I am sure there are plenty of room for improvement and optimization. There are probably lots of aspects which one may find could have been done better, more optimally. If you believe its worth the effort, lets look into it.</p>
+    
+    <div class="mx-auto flex gap-4">
+        <div>
+            <MaviLink Href="https://github.com/Maviray/blazor-ui-kit"
+                      ThemeColorScheme="ThemeColorScheme.Primary"
+                      ElementSize="ElementSize.Large"
+                      ElementVariant="ElementVariant.Text"
+                      Label="GitHub Repo"
+                      Title="GitHub Repo">
+            </MaviLink>
+        </div>
+        <div>&#100;&#101;&#118;&#111;&#112;&#115;&#64;&#109;&#97;&#118;&#105;&#114;&#97;&#121;&#46;&#99;&#111;&#109;</div>
+    </div>
+    
+    <div class="mb-8">
+        <MaviCssGridTable @ref="_maviCssGridTable"
+                           FetchData="FetchDataFullFeatures"
+                           ConstructContextMenu="ConstructMainContextMenu"
+                           OnMainContextMenuClick="OnMainContextMenuClick"
+                           OnRowClick="OnRowClick"
+                           Parameters="_fullFeaturedParameters"
+                           OnRowContextMenuClick="OnRowContextMenuClick">
+        </MaviCssGridTable>
+    </div>
 </div>
 
-@code{
+@code {
 
-    private readonly TableParameters _parameters = new()
+    private MaviCssGridTable? _maviCssGridTable;
+
+    private readonly TableParameters _fullFeaturedParameters = new()
     {
-        TableRowContextMenuDisplayStyle = TableRowContextMenuDisplayStyle.DropDown, 
+        TableRowContextMenuDisplayStyle = TableRowContextMenuDisplayStyle.DropDown,
         EnableFilters = true,
-        PaginationHorizontalAlignment = ElementHorizontalAlignment.Center
+        PaginationHorizontalAlignment = ElementHorizontalAlignment.Center,
+        ContentMenuTitle = "Table Actions",
+        FilterPlaceholderText = "Search...",
+        NoDataAvailableTitle = "No data available to display",
+        RowsPerPageText = "Rows per page",
+        Striped = true
     };
 
-    private static Task<TableDataCollection> FetchData()
+    private async Task<TableDataCollection> FetchDataFullFeatures()
     {
+        // var collection = TableDataCollectionFactory.FromDataSource(Enumerable.Empty<SampleTableCollectionItemModel>());
+        // return Task.FromResult(collection);
+       return await GenerateTableData(50);
+    }  
+
+    private async Task<TableDataCollection> GenerateTableData(int count, bool includeContextMenu = true)
+    {
+        await Task.Delay(5000);
+
         var collection = new List<SampleTableCollectionItemModel>();
 
-        for(var i = 0; i < 100; i++)
+        for (var i = 0; i < count; i++)
         {
             var guid = System.Guid.NewGuid().ToString("N");
+
+            var contextMenu = includeContextMenu ? new List<MaviTableRowContextMenuItem>
+            {
+                new()
+                {
+                    Id = 1,
+                    Key = "edit",
+                    Title = "Edit",
+                    Icon = "lni lni-file-pencil",
+                    ElementVariant = ElementVariant.Text,
+                    ThemeColorScheme = ThemeColorScheme.Primary,
+                    ElementSize = ElementSize.Small
+                },
+                new()
+                {
+                    Id = 2,
+                    Key = "delete",
+                    Title = "Delete",
+                    Icon = "lni lni-trash-3",
+                    ElementVariant = ElementVariant.Text,
+                    ThemeColorScheme = ThemeColorScheme.Alert,
+                    ElementSize = ElementSize.Small
+                },
+                new()
+                {
+                    Id = 3,
+                    Key = "details",
+                    Title = "Details",
+                    Icon = "lni lni-envelope-1",
+                    ElementVariant = ElementVariant.Text,
+                    ThemeColorScheme = ThemeColorScheme.Info,
+                    ElementSize = ElementSize.Small
+                }
+            } : new List<MaviTableRowContextMenuItem>();
 
             collection.Add(new()
             {
@@ -39,59 +122,60 @@
                 SampleEnum = GetRandomSampleEnum(i),
                 SampleBoolean = i % 2 == 0,
                 SampleInteger = i,
-                SampleString = guid,
+                SampleString = $"Item {i}",
                 SampleDecimal = i + 0.5m,
                 SampleDouble = i + 0.5,
-                SampleDateTime = DateTime.Now.AddDays(i),
-                ContextMenu = new List<MaviTableRowContextMenuItem>
-                {
-                    new() { Id = 1, Key = "edit", Title = "Edit", Icon = "lni lni-android-old", ElementVariant = ElementVariant.Text, ThemeColorScheme = ThemeColorScheme.Info, ElementSize = ElementSize.Small },
-                    new() { Id = 2, Key = "delete", Title = "Delete", Icon = "lni lni-arc-browser", ElementVariant = ElementVariant.Text, ThemeColorScheme = ThemeColorScheme.Secondary, ElementSize = ElementSize.Small },
-                    new() { Id = 2, Key = "details", Title = "Details", Icon = "lni lni-app-store", ElementVariant = ElementVariant.Text, ThemeColorScheme = ThemeColorScheme.Warning, ElementSize = ElementSize.Small }
-                }
+                SampleDateTime = DateTime.Now.AddDays(-i),
+                ContextMenu = contextMenu
             });
         }
 
-        return Task.FromResult(TableDataCollectionFactory.FromDataSource(collection));
+        return TableDataCollectionFactory.FromDataSource(collection);
     }
 
-    private Task<IEnumerable<MaviTableContextMenuItem>> ConstructContextMenu()
+    private static SampleEnum GetRandomSampleEnum(int seed)
+    {
+        var random = new Random(seed);
+        var value = random.Next(0, 11);
+        return (SampleEnum)value;
+    }
+
+    private Task<IEnumerable<MaviTableContextMenuItem>> ConstructMainContextMenu()
     {
         IEnumerable<MaviTableContextMenuItem> menu = new List<MaviTableContextMenuItem>()
         {
-            new MaviTableContextMenuItem() { Id = System.Guid.NewGuid().ToString(), Title = "Main Context Action One" },
-            new MaviTableContextMenuItem() { Id = System.Guid.NewGuid().ToString(), Title = "Main Context Action Two" },
-            new MaviTableContextMenuItem() { Id = System.Guid.NewGuid().ToString(), Title = "Main Context Action Three" },
+            new() { Id = "export", Title = "Export to CSV" },
+            new() { Id = "import", Title = "Import Data" },
+            new() { Id = "refresh", Title = "Refresh Table" },
+            new() { Id = "settings", Title = "Table Settings" }
         };
-       
+
         return Task.FromResult(menu);
     }
 
-    private Task OnGridContextMenuClick(MaviTableContextMenuItem item)
+    private async Task OnMainContextMenuClick(MaviTableContextMenuItem item)
     {
-        Logger?.Information($"Context menu click: {item.Id}");
-
-        return Task.CompletedTask;
+        if (item.Id == "refresh")
+        {
+            if (_maviCssGridTable != null)
+            {
+               await _maviCssGridTable.Refresh();
+            }
+        }
     }
 
     private Task OnRowClick(TableClickData item)
     {
-        Logger?.Information($"Row click. Column: {item.Column?.ColumnType} Row: {item.Row?.Id}");
+        if (item.Column is { IsNavigational: true })
+        {
+            Logger?.LogInformation("CELL CLICK! Row: {RowId}. Column: {ColumnTitle}. Column Navigational: {ColumnIsNavigational}", item?.Row?.Id, item?.Column.Title, item?.Column.IsNavigational);
+        }
+
         return Task.CompletedTask;
     }
 
-    private Task RowContextMenuClick(MaviTableRowContextMenuItem menuItem)
+    private Task OnRowContextMenuClick(MaviTableRowContextMenuItem menuItem)
     {
-        Logger?.Information($"Row context menu click: {menuItem.Title}");
         return Task.CompletedTask;
-    }
-
-    public static SampleEnum GetRandomSampleEnum(int seed)
-    {
-        var random = new Random(seed);
-
-        var value = random.Next(0, 11);
-
-        return (SampleEnum)value;
     }
 }

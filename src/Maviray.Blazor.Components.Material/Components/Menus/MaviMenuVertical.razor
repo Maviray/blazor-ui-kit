@@ -1,0 +1,314 @@
+﻿@using Maviray.Blazor.Components.Core.Constants
+@using Maviray.Blazor.Components.Core.Interfaces
+@using Maviray.Blazor.Components.Core.Services
+@using Maviray.Blazor.Components.Material.Constants
+@inherits MenuBase
+@inject ICircuitStateService CircuitStateService
+@implements IDisposable
+
+<div id="@Id" class="@GetRootContainerCss()">
+    @foreach (var item in _menuItems)
+    {
+        <div class="@GetItemContainerCss(item)" style="@GetItemBoxStyle(item)">
+            <div class="@GetItemBoxCss(item)" @onclick="async () => { await ItemClick(item); }">
+                <div class="@GetItemIconContainerCss(item)" style="@GetItemTitleStyle(item)">
+                    <i class="@item.Icon" title="@item.Title"></i>
+                </div>
+               
+                @if (Expanded)
+                {
+                    <div class="@GetItemTitleCss(item)" style="@GetItemTitleStyle(item)">@item.Title</div>
+                    @if (!string.IsNullOrWhiteSpace(item.BadgeText))
+                    {
+                        <div class="@GetBadgeCss(item)">@item.BadgeText</div>
+                    }
+                }
+            </div>
+
+            @if (item is MenuItemGroup { Expanded: true } menuGroup)
+            {
+                <div class="@GetItemGroupContainerCss()">
+                    @foreach (var subItem in menuGroup.Items)
+                    {
+                        <div class="@GetItemBoxCss(subItem)" @onclick="async () => { await ItemClick(subItem); }">
+                            <div class="@GetItemIconContainerCss(subItem)" style="@GetItemTitleStyle(subItem)">
+                                <i class="@subItem.Icon" title="@subItem.Title"></i>
+                            </div>
+               
+                            @if (Expanded)
+                            {
+                                <div class="@GetItemTitleCss(subItem)" style="@GetItemTitleStyle(subItem)">@subItem.Title</div>
+                                @if (!string.IsNullOrWhiteSpace(subItem.BadgeText))
+                                {
+                                    <div class="@GetBadgeCss(subItem)">@subItem.BadgeText</div>
+                                }
+                            }
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+       
+    }
+</div>
+
+@code {
+
+    private const string ROOT_CONTAINER_BACKGROUND_COLOR = "bg-(--theme-dark-eight)";
+    private const string ITEM_GROUP_BOX_BACKGROUND_COLOR_DARK = "bg-(--theme-dark-seven)";
+    private const string ITEM_GROUP_BOX_BACKGROUND_COLOR_LIGHT = "bg-(--theme-light-one)";
+
+    public bool Expanded { get; set; } = true;
+
+    private IEnumerable<IMenuItem> _menuItems = [];
+
+    [Parameter]
+    public Func<Task<IEnumerable<IMenuItem>>>? PullMenuItems { get; set; }
+
+    [Parameter]
+    public ElementSize ElementSize { get; set; }
+
+    [Parameter]
+    public bool DarkMode { get; set; }
+
+    [Parameter] public EventCallback<MenuItem> ItemClicked { get; set; }
+
+    [Parameter] public string? HighLightColorHex { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        SubscribeToCircuitState();
+
+        await LoadMenuItems();
+
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle(Id, GetType());
+        }
+    }
+
+    public async Task Refresh()
+    {
+        await LoadMenuItems();
+        StateHasChanged();
+    }
+
+    private void SubscribeToCircuitState() => CircuitStateService?.ButtonClicked += OnButtonClick;
+
+    private async Task LoadMenuItems()
+    {
+        if (PullMenuItems != null)
+        {
+            _menuItems = await PullMenuItems.Invoke();
+        }
+    }
+
+    private void OnButtonClick(object? sender, ButtonClickEventArgs args)
+    {
+        if (args.ComponentId != ElementConstants.Button.TOGGLE_SIDE_NAV_BAR) return;
+
+        Expanded = !Expanded;
+        StateHasChanged();
+    }
+
+    private string GetRootContainerCss()
+    {
+        var width = Expanded ? "w-full" : "w-[54px]";
+
+        return DarkMode ? $"flex flex-col {ROOT_CONTAINER_BACKGROUND_COLOR} {width}" : $"flex flex-col {width}";
+    }
+
+    private string GetItemContainerCss(IMenuItem item) => item is MenuItemGroup { Expanded: true } ? GetBorderCss() : string.Empty;
+
+    private string GetItemBoxCss(IMenuItem item)
+    {
+        var hoverColor = DarkMode ? "hover:bg-(--theme-dark-nine)" : "hover:bg-(--theme-light-two)";
+
+        if (item is MenuItemGroup { Expanded: true })
+        {
+            return DarkMode ? $"p-1 flex gap-2 items-center cursor-pointer {ITEM_GROUP_BOX_BACKGROUND_COLOR_DARK} {hoverColor}" : $"p-1 flex gap-2 items-center cursor-pointer {ITEM_GROUP_BOX_BACKGROUND_COLOR_LIGHT} {hoverColor}";
+        }
+
+        return $"p-1 flex gap-2 items-center cursor-pointer {hoverColor}";
+    }
+
+    private string GetBadgeCss(IMenuItem item)
+    {     
+        var size = ElementSize switch
+        {
+            ElementSize.Small => "text-[10px]",
+            ElementSize.Large => "text-[12px]",
+            _ => "text-[11px]"
+        };
+
+        return $"{GetBadgeColorCss(item)} {size}";
+    }
+
+    private string GetBadgeColorCss(IMenuItem item)
+    {
+        if (DarkMode)
+        {
+            return item.BadgeColor switch
+            {
+                ThemeColorScheme.Default => Tailwind.Theme.Badge.DEFAULT_DARK,
+                ThemeColorScheme.Primary => Tailwind.Theme.Badge.PRIMARY_DARK,
+                ThemeColorScheme.Secondary => Tailwind.Theme.Badge.SECONDARY_DARK,
+                ThemeColorScheme.Success => Tailwind.Theme.Badge.SUCCESS_DARK,
+                ThemeColorScheme.Alert => Tailwind.Theme.Badge.ALERT_DARK,
+                ThemeColorScheme.Warning => Tailwind.Theme.Badge.WARNING_DARK,
+                ThemeColorScheme.Info => Tailwind.Theme.Badge.INFO_DARK,
+                ThemeColorScheme.Dark => Tailwind.Theme.Badge.DARK_DARK,
+                ThemeColorScheme.Light => Tailwind.Theme.Badge.LIGHT_DARK,
+                _ => Tailwind.Theme.Badge.DEFAULT_DARK
+            };
+        }
+
+        return item.BadgeColor switch
+        {
+            ThemeColorScheme.Default => Tailwind.Theme.Badge.DEFAULT,
+            ThemeColorScheme.Primary => Tailwind.Theme.Badge.PRIMARY,
+            ThemeColorScheme.Secondary => Tailwind.Theme.Badge.SECONDARY,
+            ThemeColorScheme.Success => Tailwind.Theme.Badge.SUCCESS,
+            ThemeColorScheme.Alert => Tailwind.Theme.Badge.ALERT,
+            ThemeColorScheme.Warning => Tailwind.Theme.Badge.WARNING,
+            ThemeColorScheme.Info => Tailwind.Theme.Badge.INFO,
+            ThemeColorScheme.Dark => Tailwind.Theme.Badge.DARK,
+            ThemeColorScheme.Light => Tailwind.Theme.Badge.LIGHT,
+            _ => Tailwind.Theme.Badge.DEFAULT
+        };
+    }
+
+    private string GetItemIconContainerCss(IMenuItem item)
+    {
+        var textSize = ElementSize switch
+        {
+            ElementSize.Small => "!text-sm",
+            ElementSize.Large => "!text-lg",
+            _ => "!text-base"
+        };
+
+        var boxSize = ElementSize switch
+        {
+            ElementSize.Small => "size-[28px]",
+            ElementSize.Large => "size-[36px]",
+            _ => "size-[32px]"
+        };
+
+        var hoverActive = DarkMode ? "hover:bg-(--theme-dark-nine) active:bg-(--theme-dark-seven)" : "hover:bg-(--theme-light-two) active:bg-(--theme-primary-two)";
+
+        return $"rounded-full p-[4px] {textSize} {boxSize} {hoverActive} {GetTextColorCss(item)} flex items-center justify-center";
+    }
+
+    private string GetItemTitleStyle(IMenuItem item)
+    {
+        if (item.Selected && item is not MenuItemGroup && HighLightColorHex.IsValidHexColor())
+        {
+            return $"color: {HighLightColorHex}";
+        }
+
+        return string.Empty;
+    }
+
+    private string GetItemTitleCss(IMenuItem item)
+    {
+        var size = ElementSize switch
+        {
+            ElementSize.Small => Tailwind.Theme.Typography.LABEL_MEDIUM,
+            ElementSize.Large => Tailwind.Theme.Typography.LABEL_XL,
+            _ => Tailwind.Theme.Typography.LABEL_LARGE
+        };
+
+        var activeColor = DarkMode ? "active:text-(--theme-info-four)" : "active:text-(--theme-primary-ten)";       
+
+        return $"hover:font-bold {size} {GetTextColorCss(item)} {activeColor}";
+    }
+
+    private string GetTextColorCss(IMenuItem item)
+    {
+        if (item is MenuItemGroup { Expanded: true })
+        {
+            if(DarkMode)
+            {
+                return item.Selected ? "font-semibold text-(--theme-accent-eight)" : "text-(--theme-light-two)";
+            }
+
+            return item.Selected ? "font-semibold text-(--theme-dark-nine)" : "text-(--theme-dark-eight)";
+        }
+
+        if(DarkMode)
+        {
+            return item.Selected ? "font-semibold text-(--theme-info-two)" : "text-(--theme-light-two)";
+        }
+
+        return item.Selected ? "font-semibold text-(--theme-primary-eight)" : "text-(--theme-dark-eight)";
+    }
+
+    private static string GetItemGroupContainerCss() => "flex flex-col";
+
+    private string GetItemBoxStyle(IMenuItem item)
+    {
+        if (item is MenuItemGroup { Expanded: true })
+        {
+            return HighLightColorHex.IsValidHexColor() ? $"border-left-color: {HighLightColorHex};" : string.Empty;
+        }
+
+        return string.Empty;
+    }
+
+    private string GetBorderCss()
+    {
+        var baseCss = "border-l-(--theme-primary-seven)";
+
+        var size = ElementSize switch
+        {
+            ElementSize.Small => "border-l-4",
+            ElementSize.Large => "border-l-8",
+            _ => "border-l-6"
+        };
+
+        return $"{baseCss} {size}";
+    }
+
+    private async Task ItemClick(IMenuItem item)
+    {
+        foreach (var menuItem in _menuItems)
+        {
+            menuItem.MarkActive(item.Guid);
+        }
+
+        if (item is MenuItem individual && ItemClicked.HasDelegate)
+        {
+            await ItemClicked.InvokeAsync(individual);
+        }
+    }
+
+    #region dispose
+    private bool _disposed;
+
+    public void Dispose()
+    {
+        try
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            CircuitStateService?.ButtonClicked -= OnButtonClick;
+
+            _disposed = true;
+
+            if (EnableLifeCycleLogging)
+            {
+                Logger?.LogDebugLifeCycle(Id, GetType());
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger?.Error(ex, ex.Message);
+        }
+    }
+    #endregion
+}
