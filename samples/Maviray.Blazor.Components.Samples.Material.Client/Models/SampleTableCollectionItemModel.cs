@@ -1,4 +1,5 @@
 ﻿using Maviray.Blazor.Components.Core.Attributes;
+using Maviray.Blazor.Components.Core.Enums;
 using Maviray.Blazor.Components.Core.Models.Tables;
 using Maviray.Blazor.Components.Samples.Material.Client.Enums;
 using System.ComponentModel.DataAnnotations;
@@ -23,11 +24,11 @@ public class SampleTableCollectionItemModel : ITableDataItem
     public bool? SampleBoolean { get; set; }
 
     [Display(Name = "Integer")]
-    [TableColumn(4)]
+    [TableColumn(4, HorizontalPosition.Left)]
     public int? SampleInteger { get; set; }
 
     [Display(Name = "Decimal")]
-    [TableColumn(5)]
+    [TableColumn(5, HorizontalPosition.Right)]
     public decimal? SampleDecimal { get; set; }
 
     [Display(Name = "Double")]

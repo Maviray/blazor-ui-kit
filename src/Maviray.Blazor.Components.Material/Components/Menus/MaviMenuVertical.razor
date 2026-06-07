@@ -9,15 +9,15 @@
 <div id="@Id" class="@GetRootContainerCss()">
     @foreach (var item in _menuItems)
     {
-        <div class="@GetItemContainerCss(item)">
+        <div class="@GetItemContainerCss(item)" style="@GetItemBoxStyle(item)">
             <div class="@GetItemBoxCss(item)" @onclick="async () => { await ItemClick(item); }">
-                <div class="@GetItemIconContainerCss(item)">
+                <div class="@GetItemIconContainerCss(item)" style="@GetItemTitleStyle(item)">
                     <i class="@item.Icon" title="@item.Title"></i>
                 </div>
                
                 @if (Expanded)
                 {
-                    <div class="@GetItemTitleCss(item)">@item.Title</div>
+                    <div class="@GetItemTitleCss(item)" style="@GetItemTitleStyle(item)">@item.Title</div>
                     @if (!string.IsNullOrWhiteSpace(item.BadgeText))
                     {
                         <div class="@GetBadgeCss(item)">@item.BadgeText</div>
@@ -31,13 +31,13 @@
                     @foreach (var subItem in menuGroup.Items)
                     {
                         <div class="@GetItemBoxCss(subItem)" @onclick="async () => { await ItemClick(subItem); }">
-                            <div class="@GetItemIconContainerCss(subItem)">
+                            <div class="@GetItemIconContainerCss(subItem)" style="@GetItemTitleStyle(subItem)">
                                 <i class="@subItem.Icon" title="@subItem.Title"></i>
                             </div>
                
                             @if (Expanded)
                             {
-                                <div class="@GetItemTitleCss(subItem)">@subItem.Title</div>
+                                <div class="@GetItemTitleCss(subItem)" style="@GetItemTitleStyle(subItem)">@subItem.Title</div>
                                 @if (!string.IsNullOrWhiteSpace(subItem.BadgeText))
                                 {
                                     <div class="@GetBadgeCss(subItem)">@subItem.BadgeText</div>
@@ -54,6 +54,10 @@
 
 @code {
 
+    private const string ROOT_CONTAINER_BACKGROUND_COLOR = "bg-(--theme-dark-eight)";
+    private const string ITEM_GROUP_BOX_BACKGROUND_COLOR_DARK = "bg-(--theme-dark-seven)";
+    private const string ITEM_GROUP_BOX_BACKGROUND_COLOR_LIGHT = "bg-(--theme-light-one)";
+
     public bool Expanded { get; set; } = true;
 
     private IEnumerable<IMenuItem> _menuItems = [];
@@ -68,6 +72,8 @@
     public bool DarkMode { get; set; }
 
     [Parameter] public EventCallback<MenuItem> ItemClicked { get; set; }
+
+    [Parameter] public string? HighLightColorHex { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -111,7 +117,7 @@
     {
         var width = Expanded ? "w-full" : "w-[54px]";
 
-        return DarkMode ? $"flex flex-col bg-(--theme-dark-eight) {width}" : $"flex flex-col {width}";
+        return DarkMode ? $"flex flex-col {ROOT_CONTAINER_BACKGROUND_COLOR} {width}" : $"flex flex-col {width}";
     }
 
     private string GetItemContainerCss(IMenuItem item) => item is MenuItemGroup { Expanded: true } ? GetBorderCss() : string.Empty;
@@ -120,10 +126,9 @@
     {
         var hoverColor = DarkMode ? "hover:bg-(--theme-dark-nine)" : "hover:bg-(--theme-light-two)";
 
-
         if (item is MenuItemGroup { Expanded: true })
         {
-            return DarkMode ? $"p-1 flex gap-2 items-center cursor-pointer bg-(--theme-dark-seven) {hoverColor}" : $"p-1 flex gap-2 items-center cursor-pointer bg-(--theme-light-one) {hoverColor}";
+            return DarkMode ? $"p-1 flex gap-2 items-center cursor-pointer {ITEM_GROUP_BOX_BACKGROUND_COLOR_DARK} {hoverColor}" : $"p-1 flex gap-2 items-center cursor-pointer {ITEM_GROUP_BOX_BACKGROUND_COLOR_LIGHT} {hoverColor}";
         }
 
         return $"p-1 flex gap-2 items-center cursor-pointer {hoverColor}";
@@ -196,6 +201,16 @@
         return $"rounded-full p-[4px] {textSize} {boxSize} {hoverActive} {GetTextColorCss(item)} flex items-center justify-center";
     }
 
+    private string GetItemTitleStyle(IMenuItem item)
+    {
+        if (item.Selected && item is not MenuItemGroup && HighLightColorHex.IsValidHexColor())
+        {
+            return $"color: {HighLightColorHex}";
+        }
+
+        return string.Empty;
+    }
+
     private string GetItemTitleCss(IMenuItem item)
     {
         var size = ElementSize switch
@@ -231,6 +246,16 @@
     }
 
     private static string GetItemGroupContainerCss() => "flex flex-col";
+
+    private string GetItemBoxStyle(IMenuItem item)
+    {
+        if (item is MenuItemGroup { Expanded: true })
+        {
+            return HighLightColorHex.IsValidHexColor() ? $"border-left-color: {HighLightColorHex};" : string.Empty;
+        }
+
+        return string.Empty;
+    }
 
     private string GetBorderCss()
     {

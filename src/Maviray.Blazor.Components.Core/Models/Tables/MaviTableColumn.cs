@@ -12,6 +12,8 @@ public class MaviTableColumn
     public bool Visible { get; set; } = true;
     public bool IsNavigational { get; init; }
 
+    public HorizontalPosition HorizontalTextAlignment { get; set; }
+
     public TableColumnAttribute? Metadata { get; set; }
 
     public Type? DataType

@@ -14,4 +14,10 @@ public class TableParameters
     public TableRowContextMenuDisplayStyle TableRowContextMenuDisplayStyle { get; set; }
     public bool EnableFilters { get; set; }
     public ElementHorizontalAlignment PaginationHorizontalAlignment { get; set; } = ElementHorizontalAlignment.Right;
+    public BackdropOpacity BackdropOpacity { get; set; } = BackdropOpacity.Lighten;
+    public ZIndex ZIndex { get; set; } = ZIndex.Forty;
+
+    public bool Striped { get; set; }
+    public bool Condensed { get; set; }
+    public int MaxCellCharsToDisplay { get; set; }
 }

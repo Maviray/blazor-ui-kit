@@ -31,19 +31,15 @@ Each project can be installed independently based on your requirements.
   - Checkbox
   - Radio Group
   - Rating
-  - Select
   - Slider
-  - Switch
-  - Text Field
-  - Transfer List
-  - Toggle Button
+  - Switch 
+  - Toggle
 - Data display
   - Avatar
   - Badge
   - Chip
   - Divider
-  - Icons
-  - List
+  - Icons  
   - Table
   - Tooltip
   - Typography
@@ -53,16 +49,13 @@ Each project can be installed independently based on your requirements.
   - Dialog
   - Progress
   - Skeleton
-  - Snackbar
+  - Toastr
 - Surfaces
-  - Accordion
-  - App Bar
+  - Accordion  
   - Card
-  - Paper
 - Navigation
-  - Bottom Navigation
-  - Breadcrumbs
-  - Drawer
+  - Side/Vertical Navigation
+  - Breadcrumbs 
   - Link
   - Menu
   - Pagination
@@ -72,11 +65,6 @@ Each project can be installed independently based on your requirements.
   - Box
   - Container
   - Grid
-- Utilities
-  - Data Grid
-  - Date and Time Pickers
-  - Charts
-  - Tree View
 
 ## Installation
 

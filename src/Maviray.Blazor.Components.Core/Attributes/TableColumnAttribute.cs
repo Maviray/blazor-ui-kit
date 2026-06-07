@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Reflection;
 using System.Resources;
+using Maviray.Blazor.Components.Core.Enums;
 
 namespace Maviray.Blazor.Components.Core.Attributes;
 
@@ -13,6 +14,8 @@ public class TableColumnAttribute : Attribute
     public int Sequence { get; init; }
     public bool IsNavigational { get; init; }
     public string DatTimeFormat { get; init; } = "dd.MM.yyyy";
+
+    public HorizontalPosition HorizontalTextAlignment { get; init; }
 
     public string BoolPositive
     {
@@ -45,16 +48,36 @@ public class TableColumnAttribute : Attribute
         Sequence = sequence;
     }
 
+    public TableColumnAttribute(int sequence, HorizontalPosition horizontalTextAlignment)
+    {
+        Sequence = sequence;
+        HorizontalTextAlignment = horizontalTextAlignment;
+    }
+
     public TableColumnAttribute(int sequence, bool isNavigational)
     {
         Sequence = sequence;
         IsNavigational = isNavigational;
     }
 
+    public TableColumnAttribute(int sequence, bool isNavigational, HorizontalPosition horizontalTextAlignment)
+    {
+        Sequence = sequence;
+        IsNavigational = isNavigational;
+        HorizontalTextAlignment = horizontalTextAlignment;
+    }
+
     public TableColumnAttribute(int sequence, string dateTimeFormat)
     {
         Sequence = sequence;
         DatTimeFormat = dateTimeFormat;
+    }
+
+    public TableColumnAttribute(int sequence, string dateTimeFormat, HorizontalPosition horizontalTextAlignment)
+    {
+        Sequence = sequence;
+        DatTimeFormat = dateTimeFormat;
+        HorizontalTextAlignment = horizontalTextAlignment;
     }
 
     public TableColumnAttribute(int sequence, string dateTimeFormat, bool isNavigational)
@@ -64,11 +87,27 @@ public class TableColumnAttribute : Attribute
         DatTimeFormat = dateTimeFormat;
     }
 
+    public TableColumnAttribute(int sequence, string dateTimeFormat, bool isNavigational, HorizontalPosition horizontalTextAlignment)
+    {
+        Sequence = sequence;
+        IsNavigational = isNavigational;
+        DatTimeFormat = dateTimeFormat;
+        HorizontalTextAlignment = horizontalTextAlignment;
+    }
+
     public TableColumnAttribute(int sequence, string boolPositive, string boolNegative)
     {
         Sequence = sequence;
         _boolPositive = boolPositive;
         _boolNegative = boolNegative;
+    }
+
+    public TableColumnAttribute(int sequence, string boolPositive, string boolNegative, HorizontalPosition horizontalTextAlignment)
+    {
+        Sequence = sequence;
+        _boolPositive = boolPositive;
+        _boolNegative = boolNegative;
+        HorizontalTextAlignment = horizontalTextAlignment;
     }
 
     public TableColumnAttribute(int sequence, bool isNavigational, string boolPositive, string boolNegative)
@@ -77,5 +116,14 @@ public class TableColumnAttribute : Attribute
         IsNavigational = isNavigational;
         _boolPositive = boolPositive;
         _boolNegative = boolNegative;
+    }
+
+    public TableColumnAttribute(int sequence, bool isNavigational, string boolPositive, string boolNegative, HorizontalPosition horizontalTextAlignment)
+    {
+        Sequence = sequence;
+        IsNavigational = isNavigational;
+        _boolPositive = boolPositive;
+        _boolNegative = boolNegative;
+        HorizontalTextAlignment = horizontalTextAlignment;
     }
 }
