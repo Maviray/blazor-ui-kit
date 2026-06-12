@@ -21,7 +21,7 @@
         @foreach (var icon in Enum.GetValues<IconSolidType>())
         {
             <div class="flex flex-col justify-center items-center p-4 border rounded-lg hover:shadow-lg transition-shadow bg-white min-h-[140px]">
-                <MaviIconSolid IconSolidType="@icon" IconColor="IconColor.DimGrey" IconSize="IconSize.Medium"></MaviIconSolid>
+                <MaviIconSolid IconSolidType="@icon" IconColor="ElementColor.DimGrey" IconSize="IconSize.Medium"></MaviIconSolid>
                 <span class="mt-2 text-sm text-center text-gray-700 w-full px-1">@icon</span>
             </div>
         }
