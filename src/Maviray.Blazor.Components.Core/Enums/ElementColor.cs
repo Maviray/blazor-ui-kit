@@ -1,6 +1,6 @@
 ﻿namespace Maviray.Blazor.Components.Core.Enums;
 
-public enum IconColor
+public enum ElementColor
 {
     AliceBlue,
     AntiqueWhite,
