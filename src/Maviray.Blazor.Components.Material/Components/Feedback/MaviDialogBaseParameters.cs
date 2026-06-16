@@ -12,6 +12,7 @@ public class MaviDialogBaseParameters
     public ComponentRelativePosition ComponentRelativePosition { get; set; } = ComponentRelativePosition.Center;
 
     public bool CloseOnBackdropClick { get; set; }
+    public bool CloseOnUserAction { get; set; } = true;
 
     public bool DisplayConfirmButton { get; set; } = true;
     public bool DisplayCancelButton { get; set; } = true;
