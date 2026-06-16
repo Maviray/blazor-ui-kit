@@ -44,7 +44,7 @@ public abstract class MaviDialogBase : MaviComponentBase
             await onButtonClick(buttonClicked);
         }
 
-        if (buttonClicked == Core.Enums.DialogButtonClick.Close)
+        if (buttonClicked == Core.Enums.DialogButtonClick.Close || MaviDialogBaseParameters.CloseOnUserAction)
         {
             Visible = false;
         }
