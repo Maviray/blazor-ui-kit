@@ -10,6 +10,13 @@ public abstract class MaviDialogBase : MaviComponentBase
 {
     protected bool Visible;
 
+    /// <summary>
+    /// Optional per-invocation callback supplied by the caller of <see cref="Display(Func{Core.Enums.DialogButtonClick, Task})"/>.
+    /// Only the delegate passed to the most recent <c>Display</c> call is retained, and its lifetime ends as soon as the
+    /// user reacts by clicking a button or the dialog is otherwise closed.
+    /// </summary>
+    private Func<Core.Enums.DialogButtonClick, Task>? _onButtonClick;
+
     [Parameter]
     public MaviDialogBaseParameters MaviDialogBaseParameters { get; set; } = new();
 
@@ -27,6 +34,16 @@ public abstract class MaviDialogBase : MaviComponentBase
             await DialogButtonClick.InvokeAsync(new(Id, buttonClicked, mouseEventArgs));
         }
 
+        // Capture and clear the callback before invoking so its lifetime ends with this user reaction.
+        // Clearing first lets the callback itself re-open the dialog with a fresh delegate without it being wiped.
+        var onButtonClick = _onButtonClick;
+        _onButtonClick = null;
+
+        if (onButtonClick is not null)
+        {
+            await onButtonClick(buttonClicked);
+        }
+
         if (buttonClicked == Core.Enums.DialogButtonClick.Close)
         {
             Visible = false;
@@ -42,6 +59,38 @@ public abstract class MaviDialogBase : MaviComponentBase
     public async Task Display(string title)
     {
         Title = title;
+        await Display();
+    }
+
+    /// <summary>
+    /// Displays the dialog and registers a callback invoked when the user reacts to it.
+    /// Replaces any callback registered by a previous <c>Display</c> call (latest wins).
+    /// </summary>
+    public async Task Display(MaviDialogBaseParameters parameters, Func<Core.Enums.DialogButtonClick, Task> onButtonClick)
+    {
+        _onButtonClick = onButtonClick;
+        MaviDialogBaseParameters = parameters;
+        await Display();
+    }
+
+    /// <summary>
+    /// Displays the dialog with the given title and registers a callback invoked when the user reacts to it.
+    /// Replaces any callback registered by a previous <c>Display</c> call (latest wins).
+    /// </summary>
+    public async Task Display(string title, Func<Core.Enums.DialogButtonClick, Task> onButtonClick)
+    {
+        _onButtonClick = onButtonClick;
+        Title = title;
+        await Display();
+    }
+
+    /// <summary>
+    /// Displays the dialog and registers a callback invoked when the user reacts to it.
+    /// Replaces any callback registered by a previous <c>Display</c> call (latest wins).
+    /// </summary>
+    public async Task Display(Func<Core.Enums.DialogButtonClick, Task> onButtonClick)
+    {
+        _onButtonClick = onButtonClick;
         await Display();
     }
 
@@ -70,6 +119,9 @@ public abstract class MaviDialogBase : MaviComponentBase
         {
             return Task.CompletedTask;
         }
+
+        // The dialog is closing without a button reaction; end the pending callback's lifetime.
+        _onButtonClick = null;
 
         Visible = false;
 

@@ -302,6 +302,21 @@
                             <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">Shows the dialog with new parameters object</td>
                         </tr>
                         <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4 font-mono text-sm")">Display(Func&lt;DialogButtonClick, Task&gt;)</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">onButtonClick: Func&lt;DialogButtonClick, Task&gt;</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">Shows the dialog and registers a per-call callback invoked when the user clicks a button. Replaces any previously registered callback (latest wins); the callback's lifetime ends as soon as the user reacts or the dialog otherwise closes. Ideal for a single shared dialog reused across pages.</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4 font-mono text-sm")">Display(string, Func&lt;DialogButtonClick, Task&gt;)</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">title: string, onButtonClick: Func&lt;DialogButtonClick, Task&gt;</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">Sets the title, shows the dialog, and registers a per-call callback (latest wins)</td>
+                        </tr>
+                        <tr>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4 font-mono text-sm")">Display(MaviDialogBaseParameters, Func&lt;DialogButtonClick, Task&gt;)</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">parameters: MaviDialogBaseParameters, onButtonClick: Func&lt;DialogButtonClick, Task&gt;</td>
+                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">Shows the dialog with new parameters and registers a per-call callback (latest wins)</td>
+                        </tr>
+                        <tr>
                             <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4 font-mono text-sm")">Hide()</td>
                             <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">None</td>
                             <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "px-6 py-4")">Hides the dialog</td>
@@ -356,6 +371,34 @@
         Logger?.LogInformation($"Button clicked: {args.ButtonClicked}");
     }
 }</code></pre>
+            </div>
+
+            <div class="bg-gray-50 p-6 rounded-lg">
+                <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM mb-4">Shared Dialog with Per-Call Callback</h3>
+                <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-4")">
+                    Place a single dialog in your app layout and reuse it from any page. Pass a callback to
+                    <code>Display</code> and only that latest callback is processed. Its lifetime ends as soon as the user
+                    clicks a button (or the dialog is otherwise closed), so each call is fully self-contained.
+                </p>
+                <pre class="bg-white p-4 rounded border overflow-x-auto"><code>@@* MainLayout.razor — one instance, reused everywhere *@@
+&lt;MaviDialog @@ref="_dialog" /&gt;
+
+@@code {
+    private MaviDialog? _dialog;
+
+    // Expose the shared instance (e.g. via a CascadingValue or a scoped service)
+    public Task ConfirmAsync(string title, Func&lt;DialogButtonClick, Task&gt; onResult)
+        =&gt; _dialog!.Display(title, onResult);
+}</code></pre>
+                <pre class="bg-white p-4 rounded border overflow-x-auto mt-4"><code>@@* Any page / any code path — provide a fresh callback each time *@@
+await Layout.ConfirmAsync("Delete item?", async clicked =&gt;
+{
+    if (clicked == DialogButtonClick.Confirm)
+    {
+        await DeleteItemAsync();
+    }
+    // Cancel / Close: nothing to do — the callback is discarded automatically
+});</code></pre>
             </div>
         </section>
     </div>
