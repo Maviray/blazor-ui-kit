@@ -52,7 +52,7 @@ public abstract class MaviDialogBase : MaviComponentBase
 
     public async Task Display(MaviDialogBaseParameters parameters)
     {
-        MaviDialogBaseParameters = parameters;
+        MaviDialogBaseParameters.Update(parameters);
         await Display();
     }
 
@@ -69,7 +69,7 @@ public abstract class MaviDialogBase : MaviComponentBase
     public async Task Display(MaviDialogBaseParameters parameters, Func<Core.Enums.DialogButtonClick, Task> onButtonClick)
     {
         _onButtonClick = onButtonClick;
-        MaviDialogBaseParameters = parameters;
+        MaviDialogBaseParameters.Update(parameters);
         await Display();
     }
 
