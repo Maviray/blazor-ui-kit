@@ -10,13 +10,13 @@ public static class EnumExtensions
         return theme switch
         {
             ThemeColorScheme.Primary => Tailwind.Theme.Badge.PRIMARY,
-            ThemeColorScheme.Secondary => Tailwind.Theme.Badge.PRIMARY,
-            ThemeColorScheme.Success => Tailwind.Theme.Badge.PRIMARY,
-            ThemeColorScheme.Alert => Tailwind.Theme.Badge.PRIMARY,
-            ThemeColorScheme.Warning => Tailwind.Theme.Badge.PRIMARY,
-            ThemeColorScheme.Info => Tailwind.Theme.Badge.PRIMARY,
-            ThemeColorScheme.Dark => Tailwind.Theme.Badge.PRIMARY,
-            ThemeColorScheme.Light => Tailwind.Theme.Badge.PRIMARY,
+            ThemeColorScheme.Secondary => Tailwind.Theme.Badge.SECONDARY,
+            ThemeColorScheme.Success => Tailwind.Theme.Badge.SUCCESS,
+            ThemeColorScheme.Alert => Tailwind.Theme.Badge.ALERT,
+            ThemeColorScheme.Warning => Tailwind.Theme.Badge.WARNING,
+            ThemeColorScheme.Info => Tailwind.Theme.Badge.INFO,
+            ThemeColorScheme.Dark => Tailwind.Theme.Badge.DARK,
+            ThemeColorScheme.Light => Tailwind.Theme.Badge.LIGHT,
             _ => Tailwind.Theme.Badge.DEFAULT
         };
     }
