@@ -1,5 +1,4 @@
 ﻿using Maviray.Blazor.Components.Core.Enums;
-using Microsoft.AspNetCore.Components;
 
 namespace Maviray.Blazor.Components.Material.Components.Feedback;
 
@@ -23,4 +22,26 @@ public class MaviDialogBaseParameters
     public string? CloseButtonTitle { get; set; } = "Close";
 
     public string? Width { get; set; } = "w-full";
+
+    public void Update(MaviDialogBaseParameters parameters)
+    {
+        Title = parameters.Title;
+        ThemeColorScheme = parameters.ThemeColorScheme;
+        ZIndex = parameters.ZIndex;
+        BackdropOpacity = parameters.BackdropOpacity;
+        ComponentRelativePosition = parameters.ComponentRelativePosition;
+       
+        CloseOnBackdropClick = parameters.CloseOnBackdropClick;
+        CloseOnUserAction = parameters.CloseOnUserAction;
+       
+        DisplayConfirmButton = parameters.DisplayConfirmButton;
+        DisplayCancelButton = parameters.DisplayCancelButton;
+        DisplayCloseButton = parameters.DisplayCloseButton;
+
+        ConfirmButtonTitle = parameters.ConfirmButtonTitle;
+        CancelButtonTitle = parameters.CancelButtonTitle;
+        CloseButtonTitle = parameters.CloseButtonTitle;
+
+        Width = parameters.Width;
+    }
 }
