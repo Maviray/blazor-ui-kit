@@ -3,9 +3,17 @@
 
     const handleClickOutside = (event) => {
 
-        if (e.target.tagName === 'SELECT' || e.target.tagName === 'OPTION') return;
+        const target = event?.target;
 
-        if (!containerElement.contains(event.target)) {
+        if (!(target instanceof HTMLElement)) {
+            return;
+        }
+
+        if (target.tagName === 'SELECT' || target.tagName === 'OPTION') {
+            return;
+        }
+
+        if (!containerElement.contains(target)) {
             dotNetRef.invokeMethodAsync('CloseFromJs');
         }
     };
