@@ -366,6 +366,12 @@ public class SampleCircuitStateService : CircuitStateService
                         Title = "Dialog",
                         Icon = "lni lni-sports",
                         NavigateTo = "PageMaviDialog"
+                    },
+                    new()
+                    {
+                        Title = "Panels",
+                        Icon = "lni lni-sports",
+                        NavigateTo = "PageMaviPanels"
 
                     }
                 ]
