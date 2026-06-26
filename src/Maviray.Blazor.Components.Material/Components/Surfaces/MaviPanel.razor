@@ -1,0 +1,85 @@
+﻿@using Maviray.Blazor.Components.Material.Constants
+@inherits MaviComponentBase
+
+<div class="@ContainerCss()">
+    <div class="@TitleCss()">@Title</div>
+    <div class="@ChildContentContainerCss">
+        @ChildContent
+    </div>
+</div>
+
+@code {
+
+    private string? _containerCss;
+    private string? _titleCss;
+
+    [Parameter] public string? ChildContentContainerCss { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public ThemeColorScheme ThemeColorScheme { get; set; }
+
+    private string ContainerCss()
+    {
+        if (!string.IsNullOrWhiteSpace(_containerCss)) return _containerCss;
+
+        var borderColor = GetBorderColor();
+
+        _containerCss = $"relative rounded-md border {borderColor} px-3 py-2";
+
+        return _containerCss;
+    }
+
+    private string TitleCss()
+    {
+        if (!string.IsNullOrWhiteSpace(_titleCss)) return _titleCss;
+
+        var textColor = GetTextColor();
+
+        _titleCss = $"absolute -top-2 left-2 -mt-px inline-block bg-white px-1 text-xs font-medium {textColor}";
+
+
+        return _titleCss;
+    }
+
+    private string GetBorderColor()
+    {
+        return ThemeColorScheme switch
+        {
+            ThemeColorScheme.Default => Tailwind.Theme.Colors.Border.THEME_DEFAULT_TWO_BORDER,
+            ThemeColorScheme.Primary => Tailwind.Theme.Colors.Border.THEME_PRIMARY_TWO_BORDER,
+            ThemeColorScheme.Secondary => Tailwind.Theme.Colors.Border.THEME_SECONDARY_TWO_BORDER,
+            ThemeColorScheme.Success => Tailwind.Theme.Colors.Border.THEME_SUCCESS_TWO_BORDER,
+            ThemeColorScheme.Alert => Tailwind.Theme.Colors.Border.THEME_ALERT_TWO_BORDER,
+            ThemeColorScheme.Warning => Tailwind.Theme.Colors.Border.THEME_WARNING_TWO_BORDER,
+            ThemeColorScheme.Info => Tailwind.Theme.Colors.Border.THEME_INFO_TWO_BORDER,
+            ThemeColorScheme.Dark => Tailwind.Theme.Colors.Border.THEME_DARK_TWO_BORDER,
+            _ => Tailwind.Theme.Colors.Border.THEME_LIGHT_TWO_BORDER
+        };
+    }
+
+    private string GetTextColor()
+    {
+        switch (ThemeColorScheme)
+        {
+            case ThemeColorScheme.Default:
+                return Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT;
+            case ThemeColorScheme.Primary:
+                return Tailwind.Theme.Colors.Text.THEME_PRIMARY_NINE_TEXT;
+            case ThemeColorScheme.Secondary:
+                return Tailwind.Theme.Colors.Text.THEME_SECONDARY_NINE_TEXT;
+            case ThemeColorScheme.Success:
+                return Tailwind.Theme.Colors.Text.THEME_SUCCESS_NINE_TEXT;
+            case ThemeColorScheme.Alert:
+                return Tailwind.Theme.Colors.Text.THEME_ALERT_NINE_TEXT;
+            case ThemeColorScheme.Warning:
+                return Tailwind.Theme.Colors.Text.THEME_WARNING_NINE_TEXT;
+            case ThemeColorScheme.Info:
+                return Tailwind.Theme.Colors.Text.THEME_INFO_NINE_TEXT;
+            case ThemeColorScheme.Dark:
+                return Tailwind.Theme.Colors.Text.THEME_DARK_NINE_TEXT;
+            case ThemeColorScheme.Light:
+                return Tailwind.Theme.Colors.Text.THEME_LIGHT_NINE_TEXT;
+            default:
+                return Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT;
+        }
+    }
+}

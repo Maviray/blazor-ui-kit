@@ -1,5 +1,4 @@
-﻿@using System.Text
-@using Maviray.Blazor.Components.Material.Constants
+﻿@using Maviray.Blazor.Components.Material.Constants
 @inherits MaviComponentBase
 
 <div id="@Id" class="@ContainerCss()">
@@ -10,6 +9,8 @@
 </div>
 
 @code {
+    private string? _containerCss;
+    private string? _titleCss;
 
     [Parameter] public string? Width { get; set; } = "w-96";
     [Parameter] public ElementVariant ElementVariant { get; set; } 
@@ -18,6 +19,8 @@
 
     private string ContainerCss()
     {
+        if (!string.IsNullOrWhiteSpace(_containerCss)) return _containerCss;
+
         var classes = new List<string?>
         {
             "rounded-sm mb-3 overflow-hidden",
@@ -28,7 +31,7 @@
 
         if (ElementVariant == ElementVariant.Outlined || ElementVariant == ElementVariant.Text)
         {
-           classes.Add("border");
+            classes.Add("border");
         }
 
         if (ElementVariant == ElementVariant.Text)
@@ -36,11 +39,15 @@
             classes.Add(Tailwind.Theme.Colors.Border.THEME_LIGHT_TWO_BORDER);
         }
 
-        return string.Join(" ", classes);
+        _containerCss = string.Join(" ", classes);
+
+        return _containerCss;
     }
 
     private string TitleCss()
     {
+        if (!string.IsNullOrWhiteSpace(_titleCss)) return _titleCss;
+
         var classes = new List<string?>
         {
             "p-4",
@@ -57,7 +64,9 @@
             classes.Add(Tailwind.Theme.Colors.Border.THEME_LIGHT_TWO_BORDER);
         }
 
-        return string.Join(" ", classes);
+        _titleCss = string.Join(" ", classes);
+
+        return _titleCss;
     }
 
     private string ContainerBackgroundColorCss()
