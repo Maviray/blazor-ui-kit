@@ -3,7 +3,7 @@
 @implements IAsyncDisposable
 
 <div id="@Id" data-context-menu-id="@Id" class="@GetContainerCss()" style="@Style">
-    <button id="@ButtonId" type="button" role="button" class="@GetButtonCss()" @onclick=ToggleDropDown>
+    <button id="@ButtonId" type="button" role="button" title="@Title" class="@GetButtonCss()" @onclick=ToggleDropDown>
         @if (ShowIconAsTitle)
         {
             <i class="@GetIconButtonCss()"></i>
@@ -110,11 +110,11 @@
     private string GetIconButtonCss()
     {
         var stateCss = _expanded
-            ? "bg-(--theme-default-one) text-(--theme-default-eight)"
+            ? "bg-(--theme-default-two) text-(--theme-default-eight)"
             : "text-(--theme-default-eight)";
 
         return $"inline-flex h-9 w-9 items-center justify-center rounded-full transition-colors duration-150 " +
-               $"hover:bg-(--theme-default-one) active:bg-(--theme-default-two) active:scale-95 " +
+               $"bg-(--theme-default-two) hover:bg-(--theme-default-three) active:bg-(--theme-primary-one) active:scale-95 " +
                $"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--theme-default-three) {stateCss} {IconCss}";
     }
 
