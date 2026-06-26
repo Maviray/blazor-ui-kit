@@ -1,0 +1,53 @@
+﻿@page "/PageMaviDropDownMenu"
+@using Maviray.Blazor.Components.Core.Interfaces
+@using Maviray.Blazor.Components.Material.Components.Menus
+@inherits SamplePageBase
+
+<PageTitle>MaviDropDownMenu</PageTitle>
+
+<div class="w-full p-4">
+    <div class="max-w-7xl mx-auto flex flex-col gap-4">
+        <div class="flex gap-4">
+            <MaviDropDownMenu @ref="_maviDropDownMenuOne" MenuItems="_menuItems" ItemClicked="OnItemClicked" Title="Drop-Down Menu" DisplayIcons="true"></MaviDropDownMenu>
+            <MaviDropDownMenu @ref="_maviDropDownMenuTwo" MenuItems="_menuItems" ItemClicked="OnItemClicked" Title="Drop-Down Menu" ShowIconAsTitle="true" IconCss="lni lni-menu-kebab-1 text-xl"></MaviDropDownMenu>
+        </div>
+        <div>
+            @_action
+        </div>
+    </div>
+</div>
+@code {
+    private MaviDropDownMenu? _maviDropDownMenuOne;
+    private MaviDropDownMenu? _maviDropDownMenuTwo;
+    private readonly IEnumerable<MenuItem> _menuItems = 
+    [
+     new MenuItem()
+     {
+         Key = "Option One",
+         Title = "Option One"
+     },
+     new MenuItem()
+     {
+         Key = "Option Two",
+         Title = "Option Two"
+     },
+     new MenuItem()
+     {
+         Key = "Option Three",
+         Title = "Option Three"
+     },
+     new MenuItem()
+     {
+         Key = "Option Four",
+         Title = "Option Four"
+     }
+    ];
+
+    private string? _action;
+
+    private Task OnItemClicked(MenuItem item)
+    {
+        _action = $"User Clicked: {item.Title}";
+        return Task.CompletedTask;
+    }
+}
