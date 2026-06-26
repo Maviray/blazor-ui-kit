@@ -332,6 +332,12 @@ public class SampleCircuitStateService : CircuitStateService
                         Title = "Menu Vertical",
                         Icon = "lni lni-colour-palette-3",
                         NavigateTo = "PageMaviMenuVertical"
+                    },
+                    new()
+                    {
+                        Title = "MaviDropDownMenu",
+                        Icon = "lni lni-colour-palette-3",
+                        NavigateTo = "PageMaviDropDownMenu"
                     }
                 ]
             },

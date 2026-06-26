@@ -2,12 +2,19 @@
 @inherits MenuBase
 @implements IAsyncDisposable
 
-<div id="@Id" class="@GetContainerCss()" style="Style">
+<div id="@Id" data-context-menu-id="@Id" class="@GetContainerCss()" style="@Style">
     <button id="@ButtonId" type="button" role="button" class="@GetButtonCss()" @onclick=ToggleDropDown>
-        <div>@Title</div>
-        @if (DisplayIcons)
+        @if (ShowIconAsTitle)
         {
-            <i class="@GetIconCss()"></i>
+            <i class="@GetIconButtonCss()"></i>
+        }
+        else
+        {
+            <div>@Title</div>
+            @if (DisplayIcons)
+            {
+                <i class="@GetIconCss()"></i>
+            }
         }
     </button>
     <div class="@GetDropDownCss()">
@@ -57,6 +64,12 @@
     public int TrimToLength { get; set; } = 30;
 
     [Parameter]
+    public string? IconCss { get; set; }
+
+    [Parameter]
+    public bool ShowIconAsTitle { get; set; }
+
+    [Parameter]
     public ElementHorizontalAlignment DropDownHorizontalAlightment { get; set; } = ElementHorizontalAlignment.Left;
 
     [Parameter] public EventCallback<MenuItem> ItemClicked { get; set; }
@@ -93,6 +106,17 @@
     }
 
     private string GetIconCss() => _expanded ? IconExpanded : IconCollapsed;
+
+    private string GetIconButtonCss()
+    {
+        var stateCss = _expanded
+            ? "bg-(--theme-default-one) text-(--theme-default-eight)"
+            : "text-(--theme-default-eight)";
+
+        return $"inline-flex h-9 w-9 items-center justify-center rounded-full transition-colors duration-150 " +
+               $"hover:bg-(--theme-default-one) active:bg-(--theme-default-two) active:scale-95 " +
+               $"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--theme-default-three) {stateCss} {IconCss}";
+    }
 
     private string GetDropDownCss()
     {
@@ -143,7 +167,7 @@
     {
         try
         {
-            if (elementId == Id)
+            if (elementId != Id)
             {
                 _expanded = false;
             }
