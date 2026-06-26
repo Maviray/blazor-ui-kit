@@ -3851,6 +3851,12 @@ public static class Tailwind
 
             public const string LABEL_XL =
                 "text-[14px] font-medium tracking-wide leading-none font-ui";
+
+
+            public const string HEADING_XLARGE = "sm:text-4xl font-semibold tracking-tight text-pretty text-gray-900 text-5xl";
+            public const string HEADING_LARGE = "sm:text-4xl font-extrabold tracking-tight text-slate-900 text-7xl";
+            public const string HEADING_MEDIUM = "text-3xl font-extrabold tracking-tight text-slate-900";
+            public const string HEADING_SMALL = "text-2xl font-bold tracking-tight text-gray-900";
         }
 
         public static class NavLink

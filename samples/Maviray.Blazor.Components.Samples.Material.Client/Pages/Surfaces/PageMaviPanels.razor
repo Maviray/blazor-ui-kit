@@ -1,0 +1,18 @@
+﻿@page "/PageMaviPanels"
+@using Maviray.Blazor.Components.Material.Components.Surfaces
+@inherits SamplePageBase
+
+<PageTitle>Panels</PageTitle>
+
+<div class="w-full p-4">
+    <div class="max-w-7xl mx-auto flex flex-col gap-4">
+        @foreach (var theme in Enum.GetValues<ThemeColorScheme>())
+        {
+            <MaviPanel Title="Mavi Panel" ThemeColorScheme="theme">
+                <ChildContent>
+                    <div>This is a sample panel content. Panel type: @theme</div>
+                </ChildContent>
+            </MaviPanel>
+        }
+    </div>
+</div>
