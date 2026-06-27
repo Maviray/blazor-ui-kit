@@ -1,6 +1,4 @@
-﻿@using Microsoft.AspNetCore.Components
-
-<div class="@RootClass" style="@RootStyle" role="status" aria-busy="true" aria-live="polite">
+﻿<div class="@RootClass" style="@RootStyle" role="status" aria-busy="true" aria-live="polite">
     @if (Variant == SkeletonVariant.Text && Lines > 1)
     {
         @for (var i = 0; i < Lines; i++)
@@ -17,37 +15,64 @@
 
 @code
 {
-    [Parameter] public SkeletonVariant Variant { get; set; } = SkeletonVariant.Text;
-    [Parameter] public SkeletonAnimation Animation { get; set; } = SkeletonAnimation.Pulse;
+    [Parameter]
+    public SkeletonVariant Variant { get; set; } = SkeletonVariant.Text;
+
+    [Parameter]
+    public SkeletonAnimation Animation { get; set; } = SkeletonAnimation.Pulse;
 
     // Size
-    [Parameter] public string? Width { get; set; }          // e.g. "240px", "100%", "12rem"
-    [Parameter] public string? Height { get; set; }         // e.g. "16px", "3rem"
-    [Parameter] public string? MinWidth { get; set; }
-    [Parameter] public string? MinHeight { get; set; }
-    [Parameter] public string? MaxWidth { get; set; }
-    [Parameter] public string? MaxHeight { get; set; }
+    [Parameter]
+    public string? Width { get; set; } // e.g. "240px", "100%", "12rem"
+
+    [Parameter]
+    public string? Height { get; set; } // e.g. "16px", "3rem"
+
+    [Parameter]
+    public string? MinWidth { get; set; }
+
+    [Parameter]
+    public string? MinHeight { get; set; }
+
+    [Parameter]
+    public string? MaxWidth { get; set; }
+
+    [Parameter]
+    public string? MaxHeight { get; set; }
 
     // Text skeleton (multiline)
-    [Parameter] public int Lines { get; set; } = 1;          // for Variant=Text
-    [Parameter] public string LineHeight { get; set; } = "0.9rem";
-    [Parameter] public string LineGap { get; set; } = "0.5rem";
-    [Parameter] public string? LastLineWidth { get; set; } = "60%"; // only when Lines > 1
+    [Parameter]
+    public int Lines { get; set; } = 1; // for Variant=Text
+
+    [Parameter]
+    public string LineHeight { get; set; } = "0.9rem";
+
+    [Parameter]
+    public string LineGap { get; set; } = "0.5rem";
+
+    [Parameter]
+    public string? LastLineWidth { get; set; } = "60%"; // only when Lines > 1
 
     // Shape
-    [Parameter] public string? BorderRadius { get; set; }    // overrides default
-    [Parameter] public bool FullWidth { get; set; }          // quick "w-full"
+    [Parameter]
+    public string? BorderRadius { get; set; } // overrides default
+
+    [Parameter]
+    public bool FullWidth { get; set; } // quick "w-full"
 
     // Styling hooks
-    [Parameter] public string? Class { get; set; }
-    [Parameter] public string? Style { get; set; }
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
 
     // Defaults approximating Material UI
     private string DefaultBorderRadius => Variant switch
     {
         SkeletonVariant.Circular => "9999px",
         SkeletonVariant.Rounded => "0.75rem",
-        _ => "0.5rem", // Rectangular/Text
+        _ => "0.5rem" // Rectangular/Text
     };
 
     private string EffectiveHeight => Variant switch
@@ -75,8 +100,7 @@
     // Material-like neutral surface: slightly darker than background
     // Works well on light/dark themes because it uses currentColor + opacity.
     // If you have theme tokens, swap these classes to your own variables.
-    private string BaseFillClass => Variant == SkeletonVariant.Text && Lines > 1 ?
-        "dark:bg-current/15 text-black dark:text-white" : "bg-current/10 dark:bg-current/15 text-black dark:text-white";
+    private string BaseFillClass => Variant == SkeletonVariant.Text && Lines > 1 ? "dark:bg-current/15 text-black dark:text-white" : "bg-current/10 dark:bg-current/15 text-black dark:text-white";
 
     private string RootClass =>
         string.Join(" ",

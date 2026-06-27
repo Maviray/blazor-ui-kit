@@ -2,5 +2,6 @@
 
 public enum TableRowContextMenuDisplayStyle
 {
-    DropDown = 0, Icons = 1
+    DropDown = 0,
+    Icons = 1
 }

@@ -7,11 +7,20 @@
         <span class="@GetSideTextCss()" aria-hidden="true">@Text</span>
     }
 </div>
+
 @code {
-    [Parameter] public string? Icon { get; set; }
-    [Parameter] public string? Text { get; set; }
-    [Parameter] public ElementSize ElementSize { get; set; }
-    [Parameter] public EventCallback<MouseClickEventArgs> OnClick { get; set; }
+
+    [Parameter]
+    public string? Icon { get; set; }
+
+    [Parameter]
+    public string? Text { get; set; }
+
+    [Parameter]
+    public ElementSize ElementSize { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseClickEventArgs> OnClick { get; set; }
 
     protected async Task HandleButtonClick(MouseEventArgs args)
     {
@@ -20,15 +29,9 @@
         await OnClick.InvokeAsync(customArgs);
     }
 
-    private string GetContainerSize()
-    {
-        return $"relative mx-px p-1.5 cursor-pointer rounded-full hover:bg-neutral-50 {Class} {GetContainerTextSize()}";
-    }
+    private string GetContainerSize() => $"relative mx-px p-1.5 cursor-pointer rounded-full hover:bg-neutral-50 {Class} {GetContainerTextSize()}";
 
-    private string GetSideTextCss()
-    {
-        return $"absolute top-0 right-0 block h-2.5 w-2.5 {GetSideTextSize()}";
-    }
+    private string GetSideTextCss() => $"absolute top-0 right-0 block h-2.5 w-2.5 {GetSideTextSize()}";
 
     private string GetContainerTextSize()
     {

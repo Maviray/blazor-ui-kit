@@ -19,10 +19,9 @@
                                             ElementVariant="ElementVariant.Text"
                                             ThemeColorScheme="MaviDialogBaseParameters.ThemeColorScheme"
                                             ElementSize="ElementSize.Regular"
-                                            OnClick="async (e) => { await HandleButtonClick(e, Core.Enums.DialogButtonClick.Close); }"
-                                            Title="@MaviDialogBaseParameters.CloseButtonTitle" />
+                                            OnClick="async e => { await HandleButtonClick(e, Core.Enums.DialogButtonClick.Close); }"
+                                            Title="@MaviDialogBaseParameters.CloseButtonTitle"/>
                         </div>
-
                     }
                 </div>
                 <div class="px-6 py-4">
@@ -37,7 +36,7 @@
                                         ElementSize="ElementSize.Regular"
                                         Title="@MaviDialogBaseParameters.ConfirmButtonTitle"
                                         TextTransform="TextTransform.UpperCase"
-                                        OnClick="async (e) => { await HandleButtonClick(e, Core.Enums.DialogButtonClick.Confirm); }">
+                                        OnClick="async e => { await HandleButtonClick(e, Core.Enums.DialogButtonClick.Confirm); }">
                             </MaviButton>
                         }
                         @if (MaviDialogBaseParameters.DisplayCancelButton)
@@ -47,7 +46,7 @@
                                         ElementSize="ElementSize.Regular"
                                         Title="@MaviDialogBaseParameters.CancelButtonTitle"
                                         TextTransform="TextTransform.UpperCase"
-                                        OnClick="async (e) => { await HandleButtonClick(e, Core.Enums.DialogButtonClick.Cancel); }">
+                                        OnClick="async e => { await HandleButtonClick(e, Core.Enums.DialogButtonClick.Cancel); }">
                             </MaviButton>
                         }
                     </div>
@@ -59,7 +58,8 @@
 
 @code
 {
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
 
     private string WrapperDropClass =>
         Visible

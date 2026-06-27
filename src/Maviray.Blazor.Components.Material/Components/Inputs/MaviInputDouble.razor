@@ -1,8 +1,8 @@
-﻿@using System.Diagnostics.CodeAnalysis
-@using Microsoft.Extensions.Logging
-@using System.ComponentModel.DataAnnotations
-@using System.Reflection
+﻿@using System.ComponentModel.DataAnnotations
+@using System.Diagnostics.CodeAnalysis
 @using System.Globalization
+@using System.Reflection
+@using Microsoft.Extensions.Logging
 @inherits MaviNumericInputBase<double>
 
 <div class="@Width">
@@ -30,7 +30,7 @@
                aria-label="@Label"
                aria-required="@Required.ToString().ToLowerInvariant()"
                data-val="@(!Disabled && !Readonly ? "true" : "false")"
-               @attributes="AdditionalAttributes" />
+               @attributes="AdditionalAttributes"/>
 
         <!-- Floating Label -->
         @if (!string.IsNullOrEmpty(Label))
@@ -64,7 +64,8 @@
                      aria-label="Loading"
                      role="status">
                     <div class="animate-spin rounded-full border-2 border-solid border-current border-r-transparent"
-                         style="@GetLoadingSpinnerSize()"></div>
+                         style="@GetLoadingSpinnerSize()">
+                    </div>
                 </div>
             }
             else
@@ -85,7 +86,7 @@
         <!-- Fieldset for Outlined Border -->
         <fieldset aria-hidden="true" class="@BuildFieldsetClass()">
             <legend class="@BuildLegendClass()">
-                <span class="@(string.IsNullOrEmpty(Label) || Disabled || Readonly ? "" : "px-2")">@Label@((Required && !Disabled && !Readonly) ? " *" : "")</span>
+                <span class="@(string.IsNullOrEmpty(Label) || Disabled || Readonly ? "" : "px-2")">@Label@(Required && !Disabled && !Readonly ? " *" : "")</span>
             </legend>
         </fieldset>
     </div>
@@ -100,18 +101,29 @@
 </div>
 
 @code {
-    [Parameter] public double? Min { get; set; }
-    [Parameter] public double? Max { get; set; }
-    [Parameter] public double Step { get; set; } = 0.01;
-    [Parameter] public int? DecimalPlaces { get; set; }
-    [Parameter] public bool AllowScientificNotation { get; set; }
+
+    [Parameter]
+    public double? Min { get; set; }
+
+    [Parameter]
+    public double? Max { get; set; }
+
+    [Parameter]
+    public double Step { get; set; } = 0.01;
+
+    [Parameter]
+    public int? DecimalPlaces { get; set; }
+
+    [Parameter]
+    public bool AllowScientificNotation { get; set; }
 
     protected override bool HasValue => CurrentValue != 0.0 || !string.IsNullOrWhiteSpace(RawInputValue);
 
     protected override bool TryParseValueFromString(
         string? value,
         out double result,
-        [NotNullWhen(false)] out string? validationErrorMessage)
+        [NotNullWhen(false)]
+        out string? validationErrorMessage)
     {
         if (string.IsNullOrWhiteSpace(value))
         {
@@ -283,4 +295,5 @@
 
         return cleaned.Trim();
     }
+
 }

@@ -1,7 +1,7 @@
 ﻿@using Maviray.Blazor.Components.Material.Constants
 @inherits MaviSpinnerBase
 
-<div id="@Id" 
+<div id="@Id"
      class="@RootClass"
      style="@Style"
      role="status"
@@ -12,7 +12,8 @@
         @for (var i = 0; i < Lines; i++)
         {
             <span class="@GetLineClass(i)"
-                  style="@GetLineStyle(i)"></span>
+                  style="@GetLineStyle(i)">
+            </span>
         }
     </div>
 
@@ -25,15 +26,19 @@
 @code
 {
     /// <summary>Number of vertical lines in the equalizer wave.</summary>
-    [Parameter] public int Lines { get; set; } = 7;
+    [Parameter]
+    public int Lines { get; set; } = 7;
 
     /// <summary>Optional text shown next to the spinner.</summary>
-    [Parameter] public string? Label { get; set; }
+    [Parameter]
+    public string? Label { get; set; }
 
     /// <summary>Accessible label for screen readers.</summary>
-    [Parameter] public string AriaLabel { get; set; } = "Loading";
-    
-    [Parameter(CaptureUnmatchedValues = true)] public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+    [Parameter]
+    public string AriaLabel { get; set; } = "Loading";
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
 
     private string RootClass =>
         CssManager.Combine(
@@ -85,7 +90,7 @@
         var t = Math.Clamp(distance / maxDistance, 0.0, 1.0);
 
         // Height profile: center = 1.0, edges = 0.55 (tweak these)
-        var profile = 1.0 - (t * 0.45);
+        var profile = 1.0 - t * 0.45;
 
         // Base height depends on ElementSize (in px)
         var baseHeightPx = ElementSize switch
@@ -109,7 +114,7 @@
 
     private string GetLineSizeClass() => ElementSize switch
     {
-        ElementSize.Small => "w-0.5 h-3",     // base height; animation scales it
+        ElementSize.Small => "w-0.5 h-3", // base height; animation scales it
         ElementSize.Large => "w-1 h-6",
         _ => "w-0.75 h-4.5"
     };
@@ -122,8 +127,8 @@
     };
 
     /// <summary>
-    /// Background color for the bars. Uses Tailwind theme constants.
-    /// Prefer Text colors as "ink" for spinners.
+    ///     Background color for the bars. Uses Tailwind theme constants.
+    ///     Prefer Text colors as "ink" for spinners.
     /// </summary>
     private string GetBgColorClass() => ThemeColorScheme switch
     {

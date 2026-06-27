@@ -1,5 +1,5 @@
-﻿@using Maviray.Blazor.Components.Material.Constants
-@namespace Maviray.Blazor.Components.Material.Components.DataDisplay.MaviToastr
+﻿@namespace Maviray.Blazor.Components.Material.Components.DataDisplay.MaviToastr
+@using Maviray.Blazor.Components.Material.Constants
 @inherits MaviComponentBase
 
 <div id="@Id" class="@ContainerClass" role="region" aria-live="polite" aria-relevant="additions removals">
@@ -48,15 +48,17 @@
 </div>
 
 @code {
-    [Parameter, EditorRequired]
+
+    [Parameter]
+    [EditorRequired]
     public IReadOnlyList<MaviToastNotification> Notifications { get; set; } = Array.Empty<MaviToastNotification>();
 
     [Parameter]
     public ElementRelativePosition Position { get; set; } = ElementRelativePosition.CenterTop;
 
     /// <summary>
-    /// If true, component schedules dismissal for items with Duration != null.
-    /// Parent is still responsible for actually removing the notification from the list when OnClose fires.
+    ///     If true, component schedules dismissal for items with Duration != null.
+    ///     Parent is still responsible for actually removing the notification from the list when OnClose fires.
     /// </summary>
     [Parameter]
     public bool AutoDismiss { get; set; } = true;
@@ -68,7 +70,7 @@
     public int MaxVisible { get; set; } = 5;
 
     /// <summary>
-    /// Fired when user closes or when auto-dismiss timer elapses. Parent should remove the item.
+    ///     Fired when user closes or when auto-dismiss timer elapses. Parent should remove the item.
     /// </summary>
     [Parameter]
     public EventCallback<string> OnClose { get; set; }
@@ -99,7 +101,7 @@
 
         if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle( Id, GetType());
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
     }
 
@@ -137,10 +139,10 @@
         {
             await OnClose.InvokeAsync(id);
         }
-        
+
         if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle( Id, GetType());
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
     }
 
@@ -155,7 +157,7 @@
             ElementRelativePosition.BottomLeft => "fixed bottom-4 left-4 z-[9999] pointer-events-none flex flex-col gap-3 items-start",
             ElementRelativePosition.BottomRight => "fixed bottom-4 right-4 z-[9999] pointer-events-none flex flex-col gap-3 items-end",
             ElementRelativePosition.CenterBottom => "fixed bottom-4 left-1/2 -translate-x-1/2 z-[9999] pointer-events-none flex flex-col gap-3 items-center",
-            _ => "fixed top-4 left-1/2 -translate-x-1/2 z-[9999] pointer-events-none flex flex-col gap-3 items-center",
+            _ => "fixed top-4 left-1/2 -translate-x-1/2 z-[9999] pointer-events-none flex flex-col gap-3 items-center"
         };
 
     private static (string Title, string Body) GetTypographyClasses(ElementSize size)
@@ -163,7 +165,7 @@
         {
             ElementSize.Small => (Tailwind.Theme.Typography.LABEL_MEDIUM, Tailwind.Theme.Typography.BODY_SMALL),
             ElementSize.Large => (Tailwind.Theme.Typography.TITLE_MEDIUM, Tailwind.Theme.Typography.BODY_LARGE),
-            _ => (Tailwind.Theme.Typography.LABEL_LARGE, Tailwind.Theme.Typography.BODY_MEDIUM),
+            _ => (Tailwind.Theme.Typography.LABEL_LARGE, Tailwind.Theme.Typography.BODY_MEDIUM)
         };
 
     private static string GetSpacingClasses(ElementSize size)
@@ -171,7 +173,7 @@
         {
             ElementSize.Small => "px-3 py-2",
             ElementSize.Large => "px-5 py-4",
-            _ => "px-4 py-3",
+            _ => "px-4 py-3"
         };
 
     private static string GetColorClasses(ThemeColorScheme scheme, ElementVariant variant)
@@ -210,10 +212,8 @@
         {
             return $"hover:bg-white/5 text-current {baseClass} {GetCloseButtonSize(size)}";
         }
-        else
-        {
-            return $"hover:bg-black/5 text-current {baseClass} {GetCloseButtonSize(size)}";
-        }
+
+        return $"hover:bg-black/5 text-current {baseClass} {GetCloseButtonSize(size)}";
     }
 
     private static string GetCloseButtonSize(ElementSize size)
@@ -238,7 +238,7 @@
 
     private static string Combine(params string?[] classes)
         => string.Join(" ", classes.Where(s => !string.IsNullOrWhiteSpace(s)));
-        
+
     private static string GetFilledBackground(ThemeColorScheme scheme) => scheme switch
     {
         ThemeColorScheme.Primary => "bg-(--theme-primary-six)",
@@ -249,13 +249,13 @@
         ThemeColorScheme.Info => "bg-(--theme-info-six)",
         ThemeColorScheme.Dark => "bg-(--theme-dark-nine)",
         ThemeColorScheme.Light => "bg-(--theme-light-one)",
-        _ => "bg-(--theme-default-nine)",
+        _ => "bg-(--theme-default-nine)"
     };
 
     private static string GetFilledText(ThemeColorScheme scheme) => scheme switch
     {
         ThemeColorScheme.Light => "text-(--theme-dark-nine)",
-        _ => "text-white",
+        _ => "text-white"
     };
 
     private static string GetFilledBorder(ThemeColorScheme scheme) => scheme switch
@@ -307,7 +307,7 @@
         ThemeColorScheme.Info => "bg-(--theme-info-one)",
         ThemeColorScheme.Dark => "bg-(--theme-dark-one)",
         ThemeColorScheme.Light => "bg-(--theme-light-one)",
-        _ => "bg-(--theme-default-one)",
+        _ => "bg-(--theme-default-one)"
     };
 
     private static string GetTextVariantDarkText(ThemeColorScheme scheme) => scheme switch
@@ -320,7 +320,7 @@
         ThemeColorScheme.Info => "text-(--theme-info-nine)",
         ThemeColorScheme.Dark => "text-(--theme-dark-nine)",
         ThemeColorScheme.Light => "text-(--theme-light-nine)",
-        _ => "text-(--theme-default-nine)",
+        _ => "text-(--theme-default-nine)"
     };
 
     private static string GetTextVariantSubtleBorder(ThemeColorScheme scheme) => scheme switch
@@ -346,7 +346,7 @@
         ThemeColorScheme.Info => "bg-(--theme-info-two)",
         ThemeColorScheme.Dark => "bg-(--theme-dark-two)",
         ThemeColorScheme.Light => "bg-(--theme-dark-nine)",
-        _ => "bg-(--theme-default-two)",
+        _ => "bg-(--theme-default-two)"
     };
 
     private static string GetProgressAccentOutlined(ThemeColorScheme scheme) => scheme switch
@@ -359,7 +359,7 @@
         ThemeColorScheme.Info => "bg-(--theme-info-six)",
         ThemeColorScheme.Dark => "bg-(--theme-dark-six)",
         ThemeColorScheme.Light => "bg-(--theme-dark-six)",
-        _ => "bg-(--theme-default-six)",
+        _ => "bg-(--theme-default-six)"
     };
 
     private static string GetProgressAccentText(ThemeColorScheme scheme) => scheme switch
@@ -372,6 +372,7 @@
         ThemeColorScheme.Info => "bg-(--theme-info-six)",
         ThemeColorScheme.Dark => "bg-(--theme-dark-six)",
         ThemeColorScheme.Light => "bg-(--theme-dark-six)",
-        _ => "bg-(--theme-default-six)",
+        _ => "bg-(--theme-default-six)"
     };
+
 }

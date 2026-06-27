@@ -13,9 +13,14 @@
     private string? _containerCss;
     private string? _titleCss;
 
-    [Parameter] public string? ChildContentContainerCss { get; set; }
-    [Parameter] public RenderFragment? ChildContent { get; set; }
-    [Parameter] public ThemeColorScheme ThemeColorScheme { get; set; }
+    [Parameter]
+    public string? ChildContentContainerCss { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public ThemeColorScheme ThemeColorScheme { get; set; }
 
     private string ContainerCss()
     {
@@ -35,7 +40,6 @@
         var textColor = GetTextColor();
 
         _titleCss = $"absolute -top-2 left-2 -mt-px inline-block bg-white px-1 text-xs font-medium {textColor}";
-
 
         return _titleCss;
     }
@@ -82,4 +86,5 @@
                 return Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT;
         }
     }
+
 }

@@ -1,8 +1,8 @@
-﻿@using System.Diagnostics.CodeAnalysis
-@using Microsoft.Extensions.Logging
-@using System.ComponentModel.DataAnnotations
-@using System.Reflection
+﻿@using System.ComponentModel.DataAnnotations
+@using System.Diagnostics.CodeAnalysis
 @using System.Globalization
+@using System.Reflection
+@using Microsoft.Extensions.Logging
 @inherits MaviNumericInputBase<double?>
 
 <div class="@Width">
@@ -30,7 +30,7 @@
                aria-label="@Label"
                aria-required="@Required.ToString().ToLowerInvariant()"
                data-val="@(!Disabled && !Readonly ? "true" : "false")"
-               @attributes="AdditionalAttributes" />
+               @attributes="AdditionalAttributes"/>
 
         <!-- Floating Label -->
         @if (!string.IsNullOrEmpty(Label))
@@ -64,7 +64,8 @@
                      aria-label="Loading"
                      role="status">
                     <div class="animate-spin rounded-full border-2 border-solid border-current border-r-transparent"
-                         style="@GetLoadingSpinnerSize()"></div>
+                         style="@GetLoadingSpinnerSize()">
+                    </div>
                 </div>
             }
             else
@@ -85,7 +86,7 @@
         <!-- Fieldset for Outlined Border -->
         <fieldset aria-hidden="true" class="@BuildFieldsetClass()">
             <legend class="@BuildLegendClass()">
-                <span class="@(string.IsNullOrEmpty(Label) || Disabled || Readonly ? "" : "px-2")">@Label@((Required && !Disabled && !Readonly) ? " *" : "")</span>
+                <span class="@(string.IsNullOrEmpty(Label) || Disabled || Readonly ? "" : "px-2")">@Label@(Required && !Disabled && !Readonly ? " *" : "")</span>
             </legend>
         </fieldset>
     </div>
@@ -100,39 +101,46 @@
 </div>
 
 @code {
-    /// <summary>
-    /// Minimum allowed value for the double input.
-    /// </summary>
-    [Parameter] public double? Min { get; set; }
 
     /// <summary>
-    /// Maximum allowed value for the double input.
+    ///     Minimum allowed value for the double input.
     /// </summary>
-    [Parameter] public double? Max { get; set; }
+    [Parameter]
+    public double? Min { get; set; }
 
     /// <summary>
-    /// Step value for increment/decrement operations.
+    ///     Maximum allowed value for the double input.
     /// </summary>
-    [Parameter] public double Step { get; set; } = 0.01;
+    [Parameter]
+    public double? Max { get; set; }
 
     /// <summary>
-    /// Number of decimal places to use when parsing input. Default is null (allows any precision).
-    /// When set, restricts the input to the specified number of decimal places.
+    ///     Step value for increment/decrement operations.
     /// </summary>
-    [Parameter] public int? DecimalPlaces { get; set; }
+    [Parameter]
+    public double Step { get; set; } = 0.01;
 
     /// <summary>
-    /// When true, allows scientific notation input (e.g., 1.23e+10).
-    /// Default is false.
+    ///     Number of decimal places to use when parsing input. Default is null (allows any precision).
+    ///     When set, restricts the input to the specified number of decimal places.
     /// </summary>
-    [Parameter] public bool AllowScientificNotation { get; set; }
+    [Parameter]
+    public int? DecimalPlaces { get; set; }
+
+    /// <summary>
+    ///     When true, allows scientific notation input (e.g., 1.23e+10).
+    ///     Default is false.
+    /// </summary>
+    [Parameter]
+    public bool AllowScientificNotation { get; set; }
 
     protected override bool HasValue => CurrentValue.HasValue || !string.IsNullOrWhiteSpace(RawInputValue);
 
     protected override bool TryParseValueFromString(
         string? value,
         out double? result,
-        [NotNullWhen(false)] out string? validationErrorMessage)
+        [NotNullWhen(false)]
+        out string? validationErrorMessage)
     {
         if (string.IsNullOrWhiteSpace(value))
         {
@@ -231,6 +239,7 @@
             {
                 return actualValue.ToString($"F{DecimalPlaces.Value}", CurrentCulture);
             }
+
             return actualValue.ToString(CurrentCulture);
         }
 
@@ -246,6 +255,7 @@
             {
                 return actualValue.ToString($"F{DecimalPlaces.Value}", CurrentCulture);
             }
+
             return actualValue.ToString(CurrentCulture);
         }
     }
@@ -292,12 +302,10 @@
         return Task.CompletedTask;
     }
 
-    protected override string GetInputType()
-    {
+    protected override string GetInputType() =>
         // For double values, always use text to support decimal separators across cultures
         // and to avoid browser inconsistencies with type="number" and decimal values
-        return "text";
-    }
+        "text";
 
     protected override string GetInputMode()
     {
@@ -376,4 +384,5 @@
 
         return cleaned.Trim();
     }
+
 }

@@ -1,6 +1,6 @@
 ﻿namespace Maviray.Blazor.Components.Core.Enums;
 
-public enum ComponentRelativePosition 
+public enum ComponentRelativePosition
 {
     CenterTop,
     CenterBottom,

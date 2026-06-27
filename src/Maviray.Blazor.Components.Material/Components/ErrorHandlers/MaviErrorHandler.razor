@@ -8,7 +8,7 @@
     @ChildContent
 }
 else
-{   
+{
     <div class="w-screen h-dvh">
         <div class="max-w-7xl mx-auto mt-8 flex flex-col gap-4">
             <div>@MessageConstants.SOMETHING_WENT_WRONG_RETURN_HOME</div>
@@ -25,7 +25,8 @@ else
 @code {
     private ILogger? _logger;
 
-    [Inject] private ILoggerFactory? LoggerFactory { get; set; }
+    [Inject]
+    private ILoggerFactory? LoggerFactory { get; set; }
 
     [Inject]
     private NavigationManager? NavigationManager { get; set; }
@@ -43,4 +44,5 @@ else
         Recover();
         NavigationManager?.NavigateTo("/");
     }
+
 }

@@ -15,23 +15,30 @@
 
     public bool Active { get; private set; }
 
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
 
     /// <summary>None = no overlay, Darken = black overlay, Lighten = white overlay.</summary>
-    [Parameter] public BackdropOpacity Opacity { get; set; } = BackdropOpacity.Darken;
+    [Parameter]
+    public BackdropOpacity Opacity { get; set; } = BackdropOpacity.Darken;
 
     /// <summary>If true, clicking on the backdrop (outside content) triggers OnBackdropClick.</summary>
-    [Parameter] public bool CloseOnBackdropClick { get; set; }
+    [Parameter]
+    public bool CloseOnBackdropClick { get; set; }
 
-    [Parameter] public EventCallback OnBackdropClick { get; set; }
+    [Parameter]
+    public EventCallback OnBackdropClick { get; set; }
 
     /// <summary>Center content (default true). If false, content will just stack normally.</summary>
-    [Parameter] public bool CenterContent { get; set; } = true;
+    [Parameter]
+    public bool CenterContent { get; set; } = true;
 
     /// <summary>Optional: set z-index (e.g., 50, 100). If null, uses z-50.</summary>
-    [Parameter] public ZIndex ZIndex { get; set; }
+    [Parameter]
+    public ZIndex ZIndex { get; set; }
 
-    [Parameter] public bool InitiallyActive { get; set; }
+    [Parameter]
+    public bool InitiallyActive { get; set; }
 
     private string RootClass =>
         Active
@@ -40,8 +47,8 @@
 
     private string OverlayClass => Opacity switch
     {
-        BackdropOpacity.Darken => $"absolute inset-0 bg-black/30",
-        BackdropOpacity.Lighten => $"absolute inset-0 bg-white/70",
+        BackdropOpacity.Darken => "absolute inset-0 bg-black/30",
+        BackdropOpacity.Lighten => "absolute inset-0 bg-white/70",
         _ => "hidden"
     };
 
@@ -101,4 +108,5 @@
             }
         }
     }
+
 }

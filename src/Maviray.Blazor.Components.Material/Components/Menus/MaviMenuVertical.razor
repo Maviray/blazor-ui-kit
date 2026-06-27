@@ -1,9 +1,9 @@
-﻿@using Maviray.Blazor.Components.Core.Constants
+﻿@inherits MenuBase
+@inject ICircuitStateService CircuitStateService
+@using Maviray.Blazor.Components.Core.Constants
 @using Maviray.Blazor.Components.Core.Interfaces
 @using Maviray.Blazor.Components.Core.Services
 @using Maviray.Blazor.Components.Material.Constants
-@inherits MenuBase
-@inject ICircuitStateService CircuitStateService
 @implements IDisposable
 
 <div id="@Id" class="@GetRootContainerCss()">
@@ -14,7 +14,7 @@
                 <div class="@GetItemIconContainerCss(item)" style="@GetItemTitleStyle(item)">
                     <i class="@item.Icon" title="@item.Title"></i>
                 </div>
-               
+
                 @if (Expanded)
                 {
                     <div class="@GetItemTitleCss(item)" style="@GetItemTitleStyle(item)">@item.Title</div>
@@ -34,7 +34,7 @@
                             <div class="@GetItemIconContainerCss(subItem)" style="@GetItemTitleStyle(subItem)">
                                 <i class="@subItem.Icon" title="@subItem.Title"></i>
                             </div>
-               
+
                             @if (Expanded)
                             {
                                 <div class="@GetItemTitleCss(subItem)" style="@GetItemTitleStyle(subItem)">@subItem.Title</div>
@@ -48,7 +48,6 @@
                 </div>
             }
         </div>
-       
     }
 </div>
 
@@ -71,9 +70,11 @@
     [Parameter]
     public bool DarkMode { get; set; }
 
-    [Parameter] public EventCallback<MenuItem> ItemClicked { get; set; }
+    [Parameter]
+    public EventCallback<MenuItem> ItemClicked { get; set; }
 
-    [Parameter] public string? HighLightColorHex { get; set; }
+    [Parameter]
+    public string? HighLightColorHex { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -135,7 +136,7 @@
     }
 
     private string GetBadgeCss(IMenuItem item)
-    {     
+    {
         var size = ElementSize switch
         {
             ElementSize.Small => "text-[10px]",
@@ -220,7 +221,7 @@
             _ => Tailwind.Theme.Typography.LABEL_LARGE
         };
 
-        var activeColor = DarkMode ? "active:text-(--theme-info-four)" : "active:text-(--theme-primary-ten)";       
+        var activeColor = DarkMode ? "active:text-(--theme-info-four)" : "active:text-(--theme-primary-ten)";
 
         return $"hover:font-bold {size} {GetTextColorCss(item)} {activeColor}";
     }
@@ -229,7 +230,7 @@
     {
         if (item is MenuItemGroup { Expanded: true })
         {
-            if(DarkMode)
+            if (DarkMode)
             {
                 return item.Selected ? "font-semibold text-(--theme-accent-eight)" : "text-(--theme-light-two)";
             }
@@ -237,7 +238,7 @@
             return item.Selected ? "font-semibold text-(--theme-dark-nine)" : "text-(--theme-dark-eight)";
         }
 
-        if(DarkMode)
+        if (DarkMode)
         {
             return item.Selected ? "font-semibold text-(--theme-info-two)" : "text-(--theme-light-two)";
         }
@@ -285,6 +286,7 @@
     }
 
     #region dispose
+
     private bool _disposed;
 
     public void Dispose()
@@ -310,5 +312,7 @@
             Logger?.Error(ex, ex.Message);
         }
     }
+
     #endregion
+
 }

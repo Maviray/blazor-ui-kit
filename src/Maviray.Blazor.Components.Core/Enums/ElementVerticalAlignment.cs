@@ -2,5 +2,7 @@
 
 public enum ElementVerticalAlignment
 {
-    Top, Center, Bottom
+    Top,
+    Center,
+    Bottom
 }

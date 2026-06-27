@@ -30,10 +30,10 @@ public class MaviDialogBaseParameters
         ZIndex = parameters.ZIndex;
         BackdropOpacity = parameters.BackdropOpacity;
         ComponentRelativePosition = parameters.ComponentRelativePosition;
-       
+
         CloseOnBackdropClick = parameters.CloseOnBackdropClick;
         CloseOnUserAction = parameters.CloseOnUserAction;
-       
+
         DisplayConfirmButton = parameters.DisplayConfirmButton;
         DisplayCancelButton = parameters.DisplayCancelButton;
         DisplayCloseButton = parameters.DisplayCloseButton;

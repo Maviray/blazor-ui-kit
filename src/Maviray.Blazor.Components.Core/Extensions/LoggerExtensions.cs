@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using Maviray.Blazor.Components.Core.Options;
+using Microsoft.Extensions.Logging;
 
 namespace Maviray.Blazor.Components.Core.Extensions;
 
@@ -9,8 +9,10 @@ public static class LoggerExtensions
     extension(ILogger logger)
     {
         public void Information(string message,
-            [CallerMemberName] string memberName = "",
-            [CallerLineNumber] int lineNumber = 0)
+            [CallerMemberName]
+            string memberName = "",
+            [CallerLineNumber]
+            int lineNumber = 0)
         {
             if (logger.IsEnabled(LogLevel.Information))
             {
@@ -23,10 +25,11 @@ public static class LoggerExtensions
         }
 
         public void Warning(string message,
-            [CallerMemberName] string memberName = "",
-            [CallerLineNumber] int lineNumber = 0)
+            [CallerMemberName]
+            string memberName = "",
+            [CallerLineNumber]
+            int lineNumber = 0)
         {
-
             if (!logger.IsEnabled(LogLevel.Warning))
             {
                 return;
@@ -41,8 +44,10 @@ public static class LoggerExtensions
 
         public void Error(Exception? exception,
             string message,
-            [CallerMemberName] string memberName = "",
-            [CallerLineNumber] int lineNumber = 0)
+            [CallerMemberName]
+            string memberName = "",
+            [CallerLineNumber]
+            int lineNumber = 0)
         {
             if (!logger.IsEnabled(LogLevel.Error))
             {
@@ -58,8 +63,10 @@ public static class LoggerExtensions
         }
 
         public void Error(string message,
-            [CallerMemberName] string memberName = "",
-            [CallerLineNumber] int lineNumber = 0)
+            [CallerMemberName]
+            string memberName = "",
+            [CallerLineNumber]
+            int lineNumber = 0)
         {
             if (!logger.IsEnabled(LogLevel.Error))
             {
@@ -74,7 +81,7 @@ public static class LoggerExtensions
         }
 
         /// <summary>
-        /// Logs a message if the configured log level allows it as per IMaviComponentOptions
+        ///     Logs a message if the configured log level allows it as per IMaviComponentOptions
         /// </summary>
         /// <param name="componentOptions">Component options for log level filtering (optional)</param>
         /// <param name="callerType">The type of the calling class</param>
@@ -88,14 +95,21 @@ public static class LoggerExtensions
             Type callerType,
             LogLevel level,
             string message,
-            [CallerMemberName] string memberName = "",
-            [CallerLineNumber] int sourceLineNumber = 0)
+            [CallerMemberName]
+            string memberName = "",
+            [CallerLineNumber]
+            int sourceLineNumber = 0)
         {
-
-            if (componentOptions == null) return;
+            if (componentOptions == null)
+            {
+                return;
+            }
 
             // If component options are provided, respect the configured log level
-            if (level < componentOptions.ComponentLogLevel) return;
+            if (level < componentOptions.ComponentLogLevel)
+            {
+                return;
+            }
 
             logger.LogInformation(
                 "[{Component}.{Member}][{Line}]-[{Id}]: {Message}",
@@ -106,7 +120,7 @@ public static class LoggerExtensions
         }
 
         /// <summary>
-        /// Logs a message if the configured log level allows it as per IMaviComponentOptions
+        ///     Logs a message if the configured log level allows it as per IMaviComponentOptions
         /// </summary>
         /// <param name="callerType">The type of the calling class</param>
         /// <param name="id">id of the executing component</param>
@@ -124,7 +138,7 @@ public static class LoggerExtensions
         }
 
         /// <summary>
-        /// Logs a message if the configured log level allows it as per IMaviComponentOptions
+        ///     Logs a message if the configured log level allows it as per IMaviComponentOptions
         /// </summary>
         /// <param name="callerType">The type of the calling class</param>
         /// <param name="id">id of the executing component</param>

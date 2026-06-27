@@ -31,12 +31,10 @@ public static class EnumExtensions
         return value.ToTailwindZIndexClass();
     }
 
-    public static string ToTailwindZIndexClass(this int value)
-    {
-        return value <= 50
+    public static string ToTailwindZIndexClass(this int value) =>
+        value <= 50
             ? $"z-{value}"
             : $"z-[{value}]";
-    }
 
     public static string BringForward(this ZIndex zIndex)
     {
