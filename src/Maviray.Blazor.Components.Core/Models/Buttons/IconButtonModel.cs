@@ -4,6 +4,8 @@ namespace Maviray.Blazor.Components.Core.Models.Buttons;
 
 public class IconButtonModel
 {
+     public string? Title { get; set; }
+
      public string? Icon { get; set; }
 
      public ButtonRole ButtonRole { get; set; }
