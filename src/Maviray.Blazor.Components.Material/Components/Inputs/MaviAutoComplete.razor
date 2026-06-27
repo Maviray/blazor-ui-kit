@@ -154,7 +154,6 @@
     private bool _isEndIconLoading;
     private CancellationTokenSource? _debounceTokenSource;
     private double _dropdownWidth;
-    private bool _seeded;
 
     #region AutoComplete-Specific Parameters
 
@@ -225,21 +224,6 @@
     [Parameter]
     public int MaxDisplayItems { get; set; }
 
-    /// <summary>
-    ///     Item to pre-select on first load (e.g. when an edit form is opened for an
-    ///     existing model). Carries the effective key later returned by
-    ///     <see cref="GetSelectedItem" /> if the user makes no new selection.
-    /// </summary>
-    [Parameter]
-    public TItem? InitialItem { get; set; }
-
-    /// <summary>
-    ///     Display text to show on first load. When set, overrides the text derived from
-    ///     <see cref="InitialItem" /> via <see cref="ItemTextSelector" />.
-    /// </summary>
-    [Parameter]
-    public string? InitialText { get; set; }
-
     #endregion
 
     #region Lifecycle Methods
@@ -274,21 +258,8 @@
 
         base.OnParametersSet();
 
-        // Seed the selected item and display text exactly once on first load. The guard is
-        // essential: OnParametersSet runs on every render, and HandleInput clears
-        // _selectedItem on each keystroke, so without it the seed would stomp user input.
-        if (!_seeded && (InitialItem != null || !string.IsNullOrEmpty(InitialText)))
-        {
-            _selectedItem = InitialItem;
-            _searchText = !string.IsNullOrEmpty(InitialText)
-                ? InitialText
-                : InitialItem != null
-                    ? GetItemText(InitialItem)
-                    : null;
-            _seeded = true;
-        }
-        // Fall back to seeding from a bound value when one is provided directly.
-        else if (CurrentValue != null && string.IsNullOrEmpty(_searchText))
+        // Initialize search text from current value if available
+        if (CurrentValue != null && string.IsNullOrEmpty(_searchText))
         {
             _searchText = GetItemText(CurrentValue);
             _selectedItem = CurrentValue;
@@ -589,6 +560,32 @@
     ///     correspond to a selected option.
     /// </summary>
     public TItem? GetSelectedItem() => _selectedItem;
+
+    /// <summary>
+    ///     Imperatively sets the selected item and display text. Intended for edit scenarios
+    ///     where the model is populated from persistence after the component has rendered:
+    ///     hold an <c>@ref</c> to the component and call this once the data is available.
+    /// </summary>
+    /// <param name="item">
+    ///     The item to mark as selected; its key is later returned by
+    ///     <see cref="GetSelectedItem" />. Pass <c>null</c> to show display text only.
+    /// </param>
+    /// <param name="displayText">
+    ///     Text to show in the input. When null or empty, it is derived from
+    ///     <paramref name="item" /> via <see cref="ItemTextSelector" />.
+    /// </param>
+    public void SetSelection(TItem? item, string? displayText = null)
+    {
+        _selectedItem = item;
+        _searchText = !string.IsNullOrEmpty(displayText)
+            ? displayText
+            : item != null
+                ? GetItemText(item)
+                : string.Empty;
+        _isDropdownOpen = false;
+        _highlightedIndex = -1;
+        StateHasChanged();
+    }
 
     private string GetCurrentEndIcon()
     {
