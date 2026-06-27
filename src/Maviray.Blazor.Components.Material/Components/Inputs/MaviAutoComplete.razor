@@ -545,6 +545,27 @@
         return _searchText ?? string.Empty;
     }
 
+    /// <summary>
+    /// Returns the text currently entered in the input field.
+    /// Useful when no matching item is found and a new item needs to be
+    /// created from the raw user input.
+    /// </summary>
+    /// <returns>The current input text, or an empty string if nothing is entered.</returns>
+    public string GetCurrentText()
+    {
+        return _searchText ?? string.Empty;
+    }
+
+    /// <summary>
+    /// Returns the item currently selected from the dropdown, if any.
+    /// Will be <c>null</c> when the user has typed text that does not
+    /// correspond to a selected option.
+    /// </summary>
+    public TItem? GetSelectedItem()
+    {
+        return _selectedItem;
+    }
+
     private string GetCurrentEndIcon()
     {
         if (HasValue && !string.IsNullOrWhiteSpace(_searchText))
