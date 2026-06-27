@@ -8,14 +8,14 @@ public class SampleFormModel
     [StringLength(200, ErrorMessage = "Must not be longer than 200 characters.")]
     [Display(Name = "Required Limited String One", Description = "Custom description as part of Display attribute.")]
     public string? StringOne { get; set; }
-    
+
     [StringLength(200, ErrorMessage = "Must not be longer than 200 characters.")]
     [Display(Name = "Limited String Regular")]
     public string? StringTWo { get; set; }
-    
+
     [Display(Name = "String Large", Description = "Custom description as part of Display attribute.")]
     public string? StringThree { get; set; }
-    
+
     [Display(Name = "Disabled String")]
     public string? StringFour { get; set; } = "this string is disabled";
 
@@ -47,7 +47,7 @@ public class SampleFormModel
     public string? StringTwelve { get; set; }
 
     [Display(Name = "Disabled String")]
-    public string? StringThirteen { get; set; } 
+    public string? StringThirteen { get; set; }
 
     [Display(Name = "Readonly String")]
     public string? StringFourteen { get; set; }
@@ -60,7 +60,6 @@ public class SampleFormModel
 
     [Display(Name = "Large Size")]
     public string? StringSeventeen { get; set; }
-
 
     [Required]
     [Display(Name = "Default")]

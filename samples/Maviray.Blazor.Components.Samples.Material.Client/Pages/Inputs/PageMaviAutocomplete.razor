@@ -1,7 +1,5 @@
 ﻿@page "/PageMaviAutocomplete"
 @using System.ComponentModel.DataAnnotations
-@using Maviray.Blazor.Components.Core.Models
-@using Maviray.Blazor.Components.Material.Components
 @inherits SamplePageBase
 
 <PageTitle>MaviAutocomplete</PageTitle>
@@ -17,7 +15,7 @@
 </div>
 
 <EditForm Model="@_formSampleModel" OnValidSubmit="OnValidFormSubmit" OnInvalidSubmit="OnInValidFormSubmit" novalidate>
-<DataAnnotationsValidator />
+<DataAnnotationsValidator/>
 
 <!-- Section 1: Size Variants -->
 <div class="mb-12">
@@ -37,9 +35,9 @@
                                   OnSearch="SearchCountries"
                                   OnValueSelected="HandleCountrySelected"
                                   ElementSize="ElementSize.Small"
-                                          StartIcon="lni lni-gears-3"
-                                  Width="w-full" />
-                <ValidationMessage For="@(() => _formSampleModel.Country)" />
+                                  StartIcon="lni lni-gears-3"
+                                  Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.Country)"/>
             </div>
             <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                 <code class="text-xs">
@@ -57,9 +55,9 @@
                                   Label="City"
                                   OnSearch="SearchCities"
                                   ElementSize="ElementSize.Regular"
-                                          StartIcon="lni lni-gears-3"
-                                  Width="w-full" />
-                <ValidationMessage For="@(() => _formSampleModel.City)" />
+                                  StartIcon="lni lni-gears-3"
+                                  Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.City)"/>
             </div>
             <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                 <code class="text-xs">
@@ -77,9 +75,9 @@
                                   Label="Language"
                                   OnSearch="SearchLanguages"
                                   ElementSize="ElementSize.Large"
-                                          StartIcon="lni lni-gears-3"
-                                  Width="w-full" />
-                <ValidationMessage For="@(() => _formSampleModel.Language)" />
+                                  StartIcon="lni lni-gears-3"
+                                  Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.Language)"/>
             </div>
             <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                 <code class="text-xs">
@@ -107,8 +105,8 @@
                                   Label="Department"
                                   OnSearch="SearchDepartments"
                                   Disabled="true"
-                                          StartIcon="lni lni-gears-3"
-                                  Width="w-full" />
+                                  StartIcon="lni lni-gears-3"
+                                  Width="w-full"/>
                 <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
                     User cannot interact with disabled autocomplete
                 </span>
@@ -129,8 +127,8 @@
                                   Label="Job Role"
                                   OnSearch="SearchJobRoles"
                                   Readonly="true"
-                                          StartIcon="lni lni-gears-3"
-                                  Width="w-full" />
+                                  StartIcon="lni lni-gears-3"
+                                  Width="w-full"/>
                 <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
                     Value is visible but not searchable
                 </span>
@@ -150,8 +148,8 @@
                                   @bind-Value="_formSampleModel.Skill"
                                   Label="Skills"
                                   OnSearch="SearchSkills"
-                                          StartIcon="lni lni-gears-3"
-                                  Width="w-full" />
+                                  StartIcon="lni lni-gears-3"
+                                  Width="w-full"/>
                 <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
                     Fully interactive autocomplete
                 </span>
@@ -183,15 +181,15 @@
                                   OnSearch="SearchCountryObjects"
                                   ItemTextSelector="@(c => c.Name)"
                                   OnValueSelected="HandleCountryInfoSelected"
-                                          StartIcon="lni lni-gears-3"
-                                  Width="w-full" />
+                                  StartIcon="lni lni-gears-3"
+                                  Width="w-full"/>
                 <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
                     Selected: @(_selectedCountryInfo?.Name ?? "None") (@(_selectedCountryInfo?.Code ?? "N/A"))
                 </span>
             </div>
             <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                 <code class="text-xs">
-                    TItem="CountryInfo"<br />
+                    TItem="CountryInfo"<br/>
                     ItemTextSelector="@@(c => c.Name)"
                 </code>
             </div>
@@ -207,7 +205,7 @@
                                   OnSearch="SearchUsers"
                                   ItemTextSelector="@(u => u.Name)"
                                   OnValueSelected="HandleUserSelected"
-                                          StartIcon="lni lni-gears-3"
+                                  StartIcon="lni lni-gears-3"
                                   Width="w-full">
                     <ItemTemplate Context="user">
                         <div class="flex items-center gap-3">
@@ -227,8 +225,8 @@
             </div>
             <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                 <code class="text-xs">
-                    &lt;ItemTemplate Context="user"&gt;<br />
-                    &nbsp;&nbsp;Custom rendering<br />
+                    &lt;ItemTemplate Context="user"&gt;<br/>
+                    &nbsp;&nbsp;Custom rendering<br/>
                     &lt;/ItemTemplate&gt;
                 </code>
             </div>
@@ -244,8 +242,8 @@
                                   OnSearch="SearchProducts"
                                   ItemTextSelector="@(p => $"{p.Name} - ${p.Price}")"
                                   MinSearchLength="2"
-                                          StartIcon="lni lni-gears-3"
-                                  Width="w-full" />
+                                  StartIcon="lni lni-gears-3"
+                                  Width="w-full"/>
                 <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
                     Min 2 characters to search
                 </span>
@@ -276,8 +274,8 @@
                                   Label="Fast Debounce"
                                   OnSearch="SearchCities"
                                   DebounceDelay="100"
-                                          StartIcon="lni lni-gears-3"
-                                  Width="w-full" />
+                                  StartIcon="lni lni-gears-3"
+                                  Width="w-full"/>
                 <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
                     100ms debounce - very responsive
                 </span>
@@ -297,8 +295,8 @@
                                   @bind-Value="_formSampleModel.DefaultSearch"
                                   Label="Default Debounce"
                                   OnSearch="SearchCities"
-                                          StartIcon="lni lni-gears-3"
-                                  Width="w-full" />
+                                  StartIcon="lni lni-gears-3"
+                                  Width="w-full"/>
                 <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
                     300ms debounce - balanced
                 </span>
@@ -320,7 +318,7 @@
                                   OnSearch="SearchCities"
                                   DebounceDelay="600"
                                   StartIcon="lni lni-gears-3"
-                                  Width="w-full" />
+                                  Width="w-full"/>
                 <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
                     600ms debounce - reduces API calls
                 </span>
@@ -341,8 +339,8 @@
                                   Label="Max 5 Results"
                                   OnSearch="SearchCities"
                                   MaxDisplayItems="5"
-                                          StartIcon="lni lni-gears-3"
-                                  Width="w-full" />
+                                  StartIcon="lni lni-gears-3"
+                                  Width="w-full"/>
                 <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
                     Shows max 5 results
                 </span>
@@ -363,8 +361,8 @@
                                   Label="Min 3 Chars"
                                   OnSearch="SearchCities"
                                   MinSearchLength="3"
-                                          StartIcon="lni lni-gears-3"
-                                  Width="w-full" />
+                                  StartIcon="lni lni-gears-3"
+                                  Width="w-full"/>
                 <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
                     Requires 3+ characters
                 </span>
@@ -385,8 +383,8 @@
                                   Label="Tags"
                                   OnSearch="SearchSkills"
                                   ClearOnSelect="true"
-                                          StartIcon="lni lni-gears-3"
-                                  Width="w-full" />
+                                  StartIcon="lni lni-gears-3"
+                                  Width="w-full"/>
                 <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
                     Clears input after selection
                 </span>
@@ -417,8 +415,8 @@
                                   Label="Custom Message"
                                   OnSearch="SearchCities"
                                   NoResultsText="😔 No cities found matching your search"
-                                          StartIcon="lni lni-gears-3"
-                                  Width="w-full" />
+                                  StartIcon="lni lni-gears-3"
+                                  Width="w-full"/>
                 <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
                     Try searching for "xyz" to see custom message
                 </span>
@@ -440,7 +438,7 @@
                                   OnSearch="SearchEmails"
                                   HelperText="Start typing to search from your contacts"
                                   StartIcon="lni lni-gears-3"
-                                  Width="w-full" />
+                                  Width="w-full"/>
             </div>
             <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                 <code class="text-xs">
@@ -459,8 +457,8 @@
                                   OnSearch="SearchCountries"
                                   Required="true"
                                   StartIcon="lni lni-gears-3"
-                                  Width="w-full" />
-                <ValidationMessage For="@(() => _formSampleModel.Country)" />
+                                  Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.Country)"/>
             </div>
             <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                 <code class="text-xs">
@@ -478,8 +476,8 @@
                                   Label="Technology"
                                   OnSearch="SearchTechnologies"
                                   OnValueSelected="HandleTechnologySelected"
-                                          StartIcon="lni lni-gears-3"
-                                  Width="w-full" />
+                                  StartIcon="lni lni-gears-3"
+                                  Width="w-full"/>
                 <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
                     Last selection: @_lastTechnologySelection
                 </span>
@@ -510,8 +508,8 @@
                                   Label="Primary Theme"
                                   OnSearch="SearchCities"
                                   ThemeColorScheme="ThemeColorScheme.Primary"
-                                          StartIcon="lni lni-gears-3"
-                                  Width="w-full" />
+                                  StartIcon="lni lni-gears-3"
+                                  Width="w-full"/>
             </div>
             <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                 <code class="text-xs">
@@ -529,8 +527,8 @@
                                   Label="Secondary Theme"
                                   OnSearch="SearchCities"
                                   ThemeColorScheme="ThemeColorScheme.Secondary"
-                                          StartIcon="lni lni-gears-3"
-                                  Width="w-full" />
+                                  StartIcon="lni lni-gears-3"
+                                  Width="w-full"/>
             </div>
             <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                 <code class="text-xs">
@@ -548,8 +546,8 @@
                                   Label="Success Theme"
                                   OnSearch="SearchCities"
                                   ThemeColorScheme="ThemeColorScheme.Success"
-                                          StartIcon="lni lni-gears-3"
-                                  Width="w-full" />
+                                  StartIcon="lni lni-gears-3"
+                                  Width="w-full"/>
             </div>
             <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                 <code class="text-xs">
@@ -567,8 +565,8 @@
                                   Label="Alert Theme"
                                   OnSearch="SearchCities"
                                   ThemeColorScheme="ThemeColorScheme.Alert"
-                                          StartIcon="lni lni-gears-3"
-                                  Width="w-full" />
+                                  StartIcon="lni lni-gears-3"
+                                  Width="w-full"/>
             </div>
             <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                 <code class="text-xs">
@@ -586,8 +584,8 @@
                                   Label="Warning Theme"
                                   OnSearch="SearchCities"
                                   ThemeColorScheme="ThemeColorScheme.Warning"
-                                          StartIcon="lni lni-gears-3"
-                                  Width="w-full" />
+                                  StartIcon="lni lni-gears-3"
+                                  Width="w-full"/>
             </div>
             <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                 <code class="text-xs">
@@ -605,8 +603,8 @@
                                   Label="Info Theme"
                                   OnSearch="SearchCities"
                                   ThemeColorScheme="ThemeColorScheme.Info"
-                                          StartIcon="lni lni-gears-3"
-                                  Width="w-full" />
+                                  StartIcon="lni lni-gears-3"
+                                  Width="w-full"/>
             </div>
             <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
                 <code class="text-xs">
@@ -636,127 +634,169 @@
             </thead>
             <tbody class="divide-y divide-gray-200">
             <tr>
-                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>@@bind-Value</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>@@bind-Value</code>
+                </td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">TItem</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">default</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Two-way bound selected value</td>
             </tr>
             <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
-                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>OnSearch</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>OnSearch</code>
+                </td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Func&lt;string, Task&lt;IEnumerable&lt;TItem&gt;&gt;&gt;</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Required</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Async search function to fetch results</td>
             </tr>
             <tr>
-                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>ItemTextSelector</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>ItemTextSelector</code>
+                </td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Func&lt;TItem, string&gt;</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Function to extract display text from item</td>
             </tr>
             <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
-                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>ItemTemplate</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>ItemTemplate</code>
+                </td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">RenderFragment&lt;TItem&gt;</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Custom template for rendering items</td>
             </tr>
             <tr>
-                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>OnValueSelected</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>OnValueSelected</code>
+                </td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">EventCallback&lt;TItem&gt;</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Event fired when value is selected</td>
             </tr>
             <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
-                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>MinSearchLength</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>MinSearchLength</code>
+                </td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">int</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">1</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Minimum characters before search triggers</td>
             </tr>
             <tr>
-                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>DebounceDelay</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>DebounceDelay</code>
+                </td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">int</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">300</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Delay in milliseconds before search</td>
             </tr>
             <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
-                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>MaxDisplayItems</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>MaxDisplayItems</code>
+                </td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">int</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">0 (unlimited)</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Maximum items to show in dropdown</td>
             </tr>
             <tr>
-                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>NoResultsText</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>NoResultsText</code>
+                </td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">No results found</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Message when no results found</td>
             </tr>
             <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
-                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>ClearOnSelect</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>ClearOnSelect</code>
+                </td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Clear input after selection</td>
             </tr>
             <tr>
-                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>MaxLength</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>MaxLength</code>
+                </td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">int</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">255</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Maximum input characters</td>
             </tr>
             <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
-                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>ElementSize</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>ElementSize</code>
+                </td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">ElementSize</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Regular</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Size: Small, Regular, Large</td>
             </tr>
             <tr>
-                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>ThemeColorScheme</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>ThemeColorScheme</code>
+                </td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">ThemeColorScheme</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Primary</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Color scheme for component</td>
             </tr>
             <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
-                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Label</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>Label</code>
+                </td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">""</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Floating label text</td>
             </tr>
             <tr>
-                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>StartIcon</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>StartIcon</code>
+                </td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Icon at start of input</td>
             </tr>
             <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
-                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>EndIcon</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>EndIcon</code>
+                </td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">search icon</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Toggles between search/clear icons</td>
             </tr>
             <tr>
-                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Width</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>Width</code>
+                </td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">w-96</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Tailwind width class</td>
             </tr>
             <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
-                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Disabled</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>Disabled</code>
+                </td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Disables user interaction</td>
             </tr>
             <tr>
-                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Readonly</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>Readonly</code>
+                </td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Makes input read-only</td>
             </tr>
             <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
-                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Required</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>Required</code>
+                </td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Shows required asterisk (*)</td>
             </tr>
             <tr>
-                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>HelperText</code></td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>HelperText</code>
+                </td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
                 <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Helper text below input</td>
@@ -1042,6 +1082,7 @@
 
         [Required]
         public string? Language { get; set; }
+
         public string? Skill { get; set; }
         public string? FastSearch { get; set; }
         public string? DefaultSearch { get; set; }
@@ -1081,4 +1122,5 @@
         public decimal Price { get; set; }
         public string Category { get; set; } = string.Empty;
     }
+
 }

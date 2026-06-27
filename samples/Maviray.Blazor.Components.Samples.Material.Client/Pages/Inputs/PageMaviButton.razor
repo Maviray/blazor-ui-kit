@@ -6,1117 +6,1118 @@
 
 <div class="p-8 max-w-7xl mx-auto space-y-12">
 
-    <!-- Page Header -->
+<!-- Page Header -->
+<div class="space-y-2">
+    <h1 class="@Tailwind.Theme.Typography.DISPLAY_MEDIUM">Button Components</h1>
+    <p class="@Tailwind.Theme.Typography.BODY_LARGE text-gray-600">
+        Comprehensive examples of button component variations including sizes, variants, colors, states, and icon usage.
+    </p>
+</div>
+
+<!-- Section 1: Size Variations -->
+<section class="space-y-6">
     <div class="space-y-2">
-        <h1 class="@Tailwind.Theme.Typography.DISPLAY_MEDIUM">Button Components</h1>
-        <p class="@Tailwind.Theme.Typography.BODY_LARGE text-gray-600">
-            Comprehensive examples of button component variations including sizes, variants, colors, states, and icon usage.
+        <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Size Variations</h2>
+        <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+            Buttons support three sizes: Large, Regular, and Small. Choose the appropriate size based on context and hierarchy.
         </p>
     </div>
 
-    <!-- Section 1: Size Variations -->
-    <section class="space-y-6">
-        <div class="space-y-2">
-            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Size Variations</h2>
-            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
-                Buttons support three sizes: Large, Regular, and Small. Choose the appropriate size based on context and hierarchy.
-            </p>
+    <!-- Primary Sizes -->
+    <div class="space-y-3">
+        <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Primary Buttons</h3>
+        <div class="flex gap-4 items-center flex-wrap">
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                        ElementSize="ElementSize.Large"
+                        Title="Large Button"
+                        TextTransform="TextTransform.UpperCase"
+                        OnClick="OnButtonClickAsync">
+            </MaviButton>
+
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                        ElementSize="ElementSize.Regular"
+                        Title="Regular Button"
+                        TextTransform="TextTransform.UpperCase"
+                        OnClick="OnButtonClickAsync">
+            </MaviButton>
+
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                        ElementSize="ElementSize.Small"
+                        Title="Small Button"
+                        TextTransform="TextTransform.UpperCase"
+                        OnClick="OnButtonClickAsync">
+            </MaviButton>
         </div>
-
-        <!-- Primary Sizes -->
-        <div class="space-y-3">
-            <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Primary Buttons</h3>
-            <div class="flex gap-4 items-center flex-wrap">
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
-                            ElementSize="ElementSize.Large"
-                            Title="Large Button"
-                            TextTransform="TextTransform.UpperCase"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
-                            ElementSize="ElementSize.Regular"
-                            Title="Regular Button"
-                            TextTransform="TextTransform.UpperCase"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
-                            ElementSize="ElementSize.Small"
-                            Title="Small Button"
-                            TextTransform="TextTransform.UpperCase"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-            </div>
-            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4")">
-                <code class="text-purple-600">
-                    &lt;MaviButton ElementSize="ElementSize.Large" ... /&gt;<br />
-                    &lt;MaviButton ElementSize="ElementSize.Regular" ... /&gt;<br />
-                    &lt;MaviButton ElementSize="ElementSize.Small" ... /&gt;
-                </code>
-            </div>
+        <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4")">
+            <code class="text-purple-600">
+                &lt;MaviButton ElementSize="ElementSize.Large" ... /&gt;<br/>
+                &lt;MaviButton ElementSize="ElementSize.Regular" ... /&gt;<br/>
+                &lt;MaviButton ElementSize="ElementSize.Small" ... /&gt;
+            </code>
         </div>
+    </div>
 
-        <!-- Secondary Sizes -->
-        <div class="space-y-3">
-            <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Secondary Buttons</h3>
-            <div class="flex gap-4 items-center flex-wrap">
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
-                            ElementSize="ElementSize.Large"
-                            Title="Large Button"
-                            TextTransform="TextTransform.LowerCase"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
-                            ElementSize="ElementSize.Regular"
-                            Title="Regular Button"
-                            TextTransform="TextTransform.LowerCase"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
-                            ElementSize="ElementSize.Small"
-                            Title="Small Button"
-                            TextTransform="TextTransform.LowerCase"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section 2: Variant Styles -->
-    <section class="space-y-6">
-        <div class="space-y-2">
-            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Variant Styles</h2>
-            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
-                Three visual styles: Filled (default), Outlined, and Text. Each serves different visual hierarchies.
-            </p>
-        </div>
-
-        <!-- Filled Variant (default) -->
-        <div class="space-y-3">
-            <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Filled Variant (Default)</h3>
-            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                Highest emphasis. Use for primary actions.
-            </p>
-            <div class="flex gap-4 items-center flex-wrap">
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
-                            ElementSize="ElementSize.Regular"
-                            Title="Primary Filled"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
-                            ElementSize="ElementSize.Regular"
-                            Title="Secondary Filled"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-            </div>
-        </div>
-
-        <!-- Outlined Variant -->
-        <div class="space-y-3">
-            <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Outlined Variant</h3>
-            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                Medium emphasis. Use for secondary actions.
-            </p>
-            <div class="flex gap-4 items-center flex-wrap">
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
-                            ElementVariant="ElementVariant.Outlined"
-                            ElementSize="ElementSize.Large"
-                            Title="Large Outlined"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
-                            ElementVariant="ElementVariant.Outlined"
-                            ElementSize="ElementSize.Regular"
-                            Title="Regular Outlined"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
-                            ElementVariant="ElementVariant.Outlined"
-                            ElementSize="ElementSize.Small"
-                            Title="Small Outlined"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-            </div>
-            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4")">
-                <code class="text-purple-600">
-                    &lt;MaviButton ElementVariant="ElementVariant.Outlined" ... /&gt;
-                </code>
-            </div>
-        </div>
-
+    <!-- Secondary Sizes -->
+    <div class="space-y-3">
+        <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Secondary Buttons</h3>
         <div class="flex gap-4 items-center flex-wrap">
             <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
+                        ElementSize="ElementSize.Large"
+                        Title="Large Button"
+                        TextTransform="TextTransform.LowerCase"
+                        OnClick="OnButtonClickAsync">
+            </MaviButton>
+
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
+                        ElementSize="ElementSize.Regular"
+                        Title="Regular Button"
+                        TextTransform="TextTransform.LowerCase"
+                        OnClick="OnButtonClickAsync">
+            </MaviButton>
+
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
+                        ElementSize="ElementSize.Small"
+                        Title="Small Button"
+                        TextTransform="TextTransform.LowerCase"
+                        OnClick="OnButtonClickAsync">
+            </MaviButton>
+        </div>
+    </div>
+</section>
+
+<!-- Section 2: Variant Styles -->
+<section class="space-y-6">
+    <div class="space-y-2">
+        <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Variant Styles</h2>
+        <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+            Three visual styles: Filled (default), Outlined, and Text. Each serves different visual hierarchies.
+        </p>
+    </div>
+
+    <!-- Filled Variant (default) -->
+    <div class="space-y-3">
+        <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Filled Variant (Default)</h3>
+        <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+            Highest emphasis. Use for primary actions.
+        </p>
+        <div class="flex gap-4 items-center flex-wrap">
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                        ElementSize="ElementSize.Regular"
+                        Title="Primary Filled"
+                        OnClick="OnButtonClickAsync">
+            </MaviButton>
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
+                        ElementSize="ElementSize.Regular"
+                        Title="Secondary Filled"
+                        OnClick="OnButtonClickAsync">
+            </MaviButton>
+        </div>
+    </div>
+
+    <!-- Outlined Variant -->
+    <div class="space-y-3">
+        <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Outlined Variant</h3>
+        <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+            Medium emphasis. Use for secondary actions.
+        </p>
+        <div class="flex gap-4 items-center flex-wrap">
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
                         ElementVariant="ElementVariant.Outlined"
                         ElementSize="ElementSize.Large"
                         Title="Large Outlined"
                         OnClick="OnButtonClickAsync">
             </MaviButton>
 
-            <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
                         ElementVariant="ElementVariant.Outlined"
                         ElementSize="ElementSize.Regular"
                         Title="Regular Outlined"
                         OnClick="OnButtonClickAsync">
             </MaviButton>
 
-            <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
                         ElementVariant="ElementVariant.Outlined"
                         ElementSize="ElementSize.Small"
                         Title="Small Outlined"
                         OnClick="OnButtonClickAsync">
             </MaviButton>
         </div>
-
-        <!-- Text Variant -->
-        <div class="space-y-3">
-            <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Text Variant</h3>
-            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                Lowest emphasis. Use for tertiary actions or inline links.
-            </p>
-            <div class="flex gap-4 items-center flex-wrap">
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
-                            ElementVariant="ElementVariant.Text"
-                            ElementSize="ElementSize.Large"
-                            Title="Large Text"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
-                            ElementVariant="ElementVariant.Text"
-                            ElementSize="ElementSize.Regular"
-                            Title="Regular Text"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
-                            ElementVariant="ElementVariant.Text"
-                            ElementSize="ElementSize.Small"
-                            Title="Small Text"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-            </div>
-            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4")">
-                <code class="text-purple-600">
-                    &lt;MaviButton ElementVariant="ElementVariant.Text" ... /&gt;
-                </code>
-            </div>
+        <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4")">
+            <code class="text-purple-600">
+                &lt;MaviButton ElementVariant="ElementVariant.Outlined" ... /&gt;
+            </code>
         </div>
+    </div>
 
+    <div class="flex gap-4 items-center flex-wrap">
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
+                    ElementVariant="ElementVariant.Outlined"
+                    ElementSize="ElementSize.Large"
+                    Title="Large Outlined"
+                    OnClick="OnButtonClickAsync">
+        </MaviButton>
+
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
+                    ElementVariant="ElementVariant.Outlined"
+                    ElementSize="ElementSize.Regular"
+                    Title="Regular Outlined"
+                    OnClick="OnButtonClickAsync">
+        </MaviButton>
+
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
+                    ElementVariant="ElementVariant.Outlined"
+                    ElementSize="ElementSize.Small"
+                    Title="Small Outlined"
+                    OnClick="OnButtonClickAsync">
+        </MaviButton>
+    </div>
+
+    <!-- Text Variant -->
+    <div class="space-y-3">
+        <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Text Variant</h3>
+        <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+            Lowest emphasis. Use for tertiary actions or inline links.
+        </p>
         <div class="flex gap-4 items-center flex-wrap">
-            <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
                         ElementVariant="ElementVariant.Text"
                         ElementSize="ElementSize.Large"
                         Title="Large Text"
                         OnClick="OnButtonClickAsync">
             </MaviButton>
 
-            <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
                         ElementVariant="ElementVariant.Text"
                         ElementSize="ElementSize.Regular"
                         Title="Regular Text"
                         OnClick="OnButtonClickAsync">
             </MaviButton>
 
-            <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
                         ElementVariant="ElementVariant.Text"
                         ElementSize="ElementSize.Small"
                         Title="Small Text"
                         OnClick="OnButtonClickAsync">
             </MaviButton>
         </div>
-    </section>
-
-    <!-- Section 3: Color Schemes -->
-    <section class="space-y-6">
-        <div class="space-y-2">
-            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Color Schemes</h2>
-            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
-                Comprehensive color palette for different contexts and semantic meanings.
-            </p>
+        <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4")">
+            <code class="text-purple-600">
+                &lt;MaviButton ElementVariant="ElementVariant.Text" ... /&gt;
+            </code>
         </div>
+    </div>
 
-        <!-- Filled Colors -->
-        <div class="space-y-3">
-            <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Filled Buttons with Icons & Spinners</h3>
-            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                All available color schemes with loading state demonstration.
-            </p>
-            <div class="flex gap-3 flex-wrap">
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Default"
-                            ElementSize="ElementSize.Regular"
-                            Title="Default"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            SpinnerText="Working..."
-                            ShowSpinner="true"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
-                            ElementSize="ElementSize.Regular"
-                            Title="Primary"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            SpinnerText="Working..."
-                            ShowSpinner="true"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
-                            ElementSize="ElementSize.Regular"
-                            Title="Secondary"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            SpinnerText="Working..."
-                            ShowSpinner="true"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Success"
-                            ElementSize="ElementSize.Regular"
-                            Title="Success"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            SpinnerText="Working..."
-                            ShowSpinner="true"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-            </div>
-            <div class="flex gap-3 flex-wrap">
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Alert"
-                            ElementSize="ElementSize.Regular"
-                            Title="Danger"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            SpinnerText="Working..."
-                            ShowSpinner="true"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Warning"
-                            ElementSize="ElementSize.Regular"
-                            Title="Warning"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            SpinnerText="Working..."
-                            ShowSpinner="true"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Info"
-                            ElementSize="ElementSize.Regular"
-                            Title="Info"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            SpinnerText="Working..."
-                            ShowSpinner="true"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Dark"
-                            ElementSize="ElementSize.Regular"
-                            Title="Dark"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            SpinnerText="Working..."
-                            ShowSpinner="true"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Light"
-                            ElementSize="ElementSize.Regular"
-                            Title="Light"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            SpinnerText="Working..."
-                            ShowSpinner="true"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-            </div>
-            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4")">
-                <code class="text-purple-600">
-                    &lt;MaviButton StartIcon="lni lni-chevron-left" ShowSpinner="true" SpinnerText="Working..." ... /&gt;
-                </code>
-            </div>
+    <div class="flex gap-4 items-center flex-wrap">
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
+                    ElementVariant="ElementVariant.Text"
+                    ElementSize="ElementSize.Large"
+                    Title="Large Text"
+                    OnClick="OnButtonClickAsync">
+        </MaviButton>
+
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
+                    ElementVariant="ElementVariant.Text"
+                    ElementSize="ElementSize.Regular"
+                    Title="Regular Text"
+                    OnClick="OnButtonClickAsync">
+        </MaviButton>
+
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
+                    ElementVariant="ElementVariant.Text"
+                    ElementSize="ElementSize.Small"
+                    Title="Small Text"
+                    OnClick="OnButtonClickAsync">
+        </MaviButton>
+    </div>
+</section>
+
+<!-- Section 3: Color Schemes -->
+<section class="space-y-6">
+<div class="space-y-2">
+    <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Color Schemes</h2>
+    <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+        Comprehensive color palette for different contexts and semantic meanings.
+    </p>
+</div>
+
+<!-- Filled Colors -->
+<div class="space-y-3">
+    <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Filled Buttons with Icons & Spinners</h3>
+    <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+        All available color schemes with loading state demonstration.
+    </p>
+    <div class="flex gap-3 flex-wrap">
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Default"
+                    ElementSize="ElementSize.Regular"
+                    Title="Default"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+        </MaviButton>
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                    ElementSize="ElementSize.Regular"
+                    Title="Primary"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+        </MaviButton>
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
+                    ElementSize="ElementSize.Regular"
+                    Title="Secondary"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+        </MaviButton>
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Success"
+                    ElementSize="ElementSize.Regular"
+                    Title="Success"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+        </MaviButton>
+    </div>
+    <div class="flex gap-3 flex-wrap">
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Alert"
+                    ElementSize="ElementSize.Regular"
+                    Title="Danger"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+        </MaviButton>
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Warning"
+                    ElementSize="ElementSize.Regular"
+                    Title="Warning"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+        </MaviButton>
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Info"
+                    ElementSize="ElementSize.Regular"
+                    Title="Info"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+        </MaviButton>
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Dark"
+                    ElementSize="ElementSize.Regular"
+                    Title="Dark"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+        </MaviButton>
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Light"
+                    ElementSize="ElementSize.Regular"
+                    Title="Light"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+        </MaviButton>
+    </div>
+    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4")">
+        <code class="text-purple-600">
+            &lt;MaviButton StartIcon="lni lni-chevron-left" ShowSpinner="true" SpinnerText="Working..." ... /&gt;
+        </code>
+    </div>
+</div>
+
+<!-- Outlined Colors -->
+<div class="space-y-3">
+    <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Outlined Variant - All Colors</h3>
+    <div class="flex gap-3 flex-wrap">
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Default"
+                    ElementSize="ElementSize.Regular"
+                    ElementVariant="ElementVariant.Outlined"
+                    Title="Default"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+        </MaviButton>
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                    ElementSize="ElementSize.Regular"
+                    ElementVariant="ElementVariant.Outlined"
+                    Title="Primary"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+        </MaviButton>
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
+                    ElementSize="ElementSize.Regular"
+                    ElementVariant="ElementVariant.Outlined"
+                    Title="Secondary"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+        </MaviButton>
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Success"
+                    ElementSize="ElementSize.Regular"
+                    ElementVariant="ElementVariant.Outlined"
+                    Title="Success"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+        </MaviButton>
+    </div>
+    <div class="flex gap-3 flex-wrap">
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Alert"
+                    ElementSize="ElementSize.Regular"
+                    ElementVariant="ElementVariant.Outlined"
+                    Title="Danger"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+        </MaviButton>
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Warning"
+                    ElementSize="ElementSize.Regular"
+                    ElementVariant="ElementVariant.Outlined"
+                    Title="Warning"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+        </MaviButton>
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Info"
+                    ElementSize="ElementSize.Regular"
+                    ElementVariant="ElementVariant.Outlined"
+                    Title="Info"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+        </MaviButton>
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Dark"
+                    ElementSize="ElementSize.Regular"
+                    ElementVariant="ElementVariant.Outlined"
+                    Title="Dark"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+        </MaviButton>
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Light"
+                    ElementSize="ElementSize.Regular"
+                    ElementVariant="ElementVariant.Outlined"
+                    Title="Light"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+        </MaviButton>
+    </div>
+</div>
+
+<!-- Text Colors -->
+<div class="space-y-3">
+    <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Text Variant - All Colors</h3>
+    <div class="flex gap-3 flex-wrap">
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Default"
+                    ElementSize="ElementSize.Regular"
+                    ElementVariant="ElementVariant.Text"
+                    Title="Default"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+        </MaviButton>
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                    ElementSize="ElementSize.Regular"
+                    ElementVariant="ElementVariant.Text"
+                    Title="Primary"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+        </MaviButton>
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
+                    ElementSize="ElementSize.Regular"
+                    ElementVariant="ElementVariant.Text"
+                    Title="Secondary"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+        </MaviButton>
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Success"
+                    ElementSize="ElementSize.Regular"
+                    ElementVariant="ElementVariant.Text"
+                    Title="Success"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+        </MaviButton>
+    </div>
+    <div class="flex gap-3 flex-wrap">
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Alert"
+                    ElementSize="ElementSize.Regular"
+                    ElementVariant="ElementVariant.Text"
+                    Title="Danger"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+        </MaviButton>
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Warning"
+                    ElementSize="ElementSize.Regular"
+                    ElementVariant="ElementVariant.Text"
+                    Title="Warning"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+        </MaviButton>
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Info"
+                    ElementSize="ElementSize.Regular"
+                    ElementVariant="ElementVariant.Text"
+                    Title="Info"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+        </MaviButton>
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Dark"
+                    ElementSize="ElementSize.Regular"
+                    ElementVariant="ElementVariant.Text"
+                    Title="Dark"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+        </MaviButton>
+        <MaviButton ThemeColorScheme="ThemeColorScheme.Light"
+                    ElementSize="ElementSize.Regular"
+                    ElementVariant="ElementVariant.Text"
+                    Title="Light"
+                    TextTransform="TextTransform.Capitalize"
+                    StartIcon="lni lni-chevron-left"
+                    SpinnerText="Working..."
+                    ShowSpinner="true"
+                    OnClick="OnButtonClickAsync">
+        </MaviButton>
+    </div>
+</div>
+</section>
+
+<!-- Section 4: Button States -->
+<section class="space-y-6">
+    <div class="space-y-2">
+        <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Button States</h2>
+        <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+            Disabled state prevents user interaction and provides visual feedback.
+        </p>
+    </div>
+
+    <div class="space-y-3">
+        <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Disabled State - Various Colors</h3>
+        <div class="flex gap-3 flex-wrap">
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Default"
+                        ElementSize="ElementSize.Large"
+                        Title="Default Disabled"
+                        TextTransform="TextTransform.Capitalize"
+                        StartIcon="lni lni-chevron-left"
+                        OnClick="OnButtonClickAsync"
+                        Disabled="true">
+            </MaviButton>
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                        ElementSize="ElementSize.Large"
+                        Title="Primary Disabled"
+                        TextTransform="TextTransform.Capitalize"
+                        StartIcon="lni lni-chevron-left"
+                        OnClick="OnButtonClickAsync"
+                        Disabled="true">
+            </MaviButton>
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
+                        ElementSize="ElementSize.Large"
+                        Title="Secondary Disabled"
+                        TextTransform="TextTransform.Capitalize"
+                        StartIcon="lni lni-chevron-left"
+                        OnClick="OnButtonClickAsync"
+                        Disabled="true">
+            </MaviButton>
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Success"
+                        ElementSize="ElementSize.Large"
+                        Title="Success Disabled"
+                        TextTransform="TextTransform.Capitalize"
+                        StartIcon="lni lni-chevron-left"
+                        OnClick="OnButtonClickAsync"
+                        Disabled="true">
+            </MaviButton>
         </div>
-
-        <!-- Outlined Colors -->
-        <div class="space-y-3">
-            <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Outlined Variant - All Colors</h3>
-            <div class="flex gap-3 flex-wrap">
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Default"
-                            ElementSize="ElementSize.Regular"
-                            ElementVariant="ElementVariant.Outlined"
-                            Title="Default"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            SpinnerText="Working..."
-                            ShowSpinner="true"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
-                            ElementSize="ElementSize.Regular"
-                            ElementVariant="ElementVariant.Outlined"
-                            Title="Primary"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            SpinnerText="Working..."
-                            ShowSpinner="true"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
-                            ElementSize="ElementSize.Regular"
-                            ElementVariant="ElementVariant.Outlined"
-                            Title="Secondary"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            SpinnerText="Working..."
-                            ShowSpinner="true"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Success"
-                            ElementSize="ElementSize.Regular"
-                            ElementVariant="ElementVariant.Outlined"
-                            Title="Success"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            SpinnerText="Working..."
-                            ShowSpinner="true"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-            </div>
-            <div class="flex gap-3 flex-wrap">
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Alert"
-                            ElementSize="ElementSize.Regular"
-                            ElementVariant="ElementVariant.Outlined"
-                            Title="Danger"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            SpinnerText="Working..."
-                            ShowSpinner="true"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Warning"
-                            ElementSize="ElementSize.Regular"
-                            ElementVariant="ElementVariant.Outlined"
-                            Title="Warning"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            SpinnerText="Working..."
-                            ShowSpinner="true"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Info"
-                            ElementSize="ElementSize.Regular"
-                            ElementVariant="ElementVariant.Outlined"
-                            Title="Info"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            SpinnerText="Working..."
-                            ShowSpinner="true"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Dark"
-                            ElementSize="ElementSize.Regular"
-                            ElementVariant="ElementVariant.Outlined"
-                            Title="Dark"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            SpinnerText="Working..."
-                            ShowSpinner="true"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Light"
-                            ElementSize="ElementSize.Regular"
-                            ElementVariant="ElementVariant.Outlined"
-                            Title="Light"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            SpinnerText="Working..."
-                            ShowSpinner="true"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-            </div>
+        <div class="flex gap-3 flex-wrap">
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Alert"
+                        ElementSize="ElementSize.Large"
+                        Title="Danger Disabled"
+                        TextTransform="TextTransform.Capitalize"
+                        StartIcon="lni lni-chevron-left"
+                        OnClick="OnButtonClickAsync"
+                        Disabled="true">
+            </MaviButton>
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Warning"
+                        ElementSize="ElementSize.Large"
+                        Title="Warning Disabled"
+                        TextTransform="TextTransform.Capitalize"
+                        StartIcon="lni lni-chevron-left"
+                        OnClick="OnButtonClickAsync"
+                        Disabled="true">
+            </MaviButton>
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Info"
+                        ElementSize="ElementSize.Large"
+                        Title="Info Disabled"
+                        TextTransform="TextTransform.Capitalize"
+                        StartIcon="lni lni-chevron-left"
+                        OnClick="OnButtonClickAsync"
+                        Disabled="true">
+            </MaviButton>
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Dark"
+                        ElementSize="ElementSize.Large"
+                        Title="Dark Disabled"
+                        TextTransform="TextTransform.Capitalize"
+                        StartIcon="lni lni-chevron-left"
+                        OnClick="OnButtonClickAsync"
+                        Disabled="true">
+            </MaviButton>
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Light"
+                        ElementSize="ElementSize.Large"
+                        Title="Light Disabled"
+                        TextTransform="TextTransform.Capitalize"
+                        StartIcon="lni lni-chevron-left"
+                        OnClick="OnButtonClickAsync"
+                        Disabled="true">
+            </MaviButton>
         </div>
-
-        <!-- Text Colors -->
-        <div class="space-y-3">
-            <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Text Variant - All Colors</h3>
-            <div class="flex gap-3 flex-wrap">
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Default"
-                            ElementSize="ElementSize.Regular"
-                            ElementVariant="ElementVariant.Text"
-                            Title="Default"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            SpinnerText="Working..."
-                            ShowSpinner="true"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
-                            ElementSize="ElementSize.Regular"
-                            ElementVariant="ElementVariant.Text"
-                            Title="Primary"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            SpinnerText="Working..."
-                            ShowSpinner="true"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
-                            ElementSize="ElementSize.Regular"
-                            ElementVariant="ElementVariant.Text"
-                            Title="Secondary"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            SpinnerText="Working..."
-                            ShowSpinner="true"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Success"
-                            ElementSize="ElementSize.Regular"
-                            ElementVariant="ElementVariant.Text"
-                            Title="Success"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            SpinnerText="Working..."
-                            ShowSpinner="true"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-            </div>
-            <div class="flex gap-3 flex-wrap">
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Alert"
-                            ElementSize="ElementSize.Regular"
-                            ElementVariant="ElementVariant.Text"
-                            Title="Danger"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            SpinnerText="Working..."
-                            ShowSpinner="true"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Warning"
-                            ElementSize="ElementSize.Regular"
-                            ElementVariant="ElementVariant.Text"
-                            Title="Warning"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            SpinnerText="Working..."
-                            ShowSpinner="true"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Info"
-                            ElementSize="ElementSize.Regular"
-                            ElementVariant="ElementVariant.Text"
-                            Title="Info"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            SpinnerText="Working..."
-                            ShowSpinner="true"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Dark"
-                            ElementSize="ElementSize.Regular"
-                            ElementVariant="ElementVariant.Text"
-                            Title="Dark"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            SpinnerText="Working..."
-                            ShowSpinner="true"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Light"
-                            ElementSize="ElementSize.Regular"
-                            ElementVariant="ElementVariant.Text"
-                            Title="Light"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            SpinnerText="Working..."
-                            ShowSpinner="true"
-                            OnClick="OnButtonClickAsync">
-                </MaviButton>
-            </div>
+        <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4")">
+            <code class="text-purple-600">
+                &lt;MaviButton Disabled="true" ... /&gt;
+            </code>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Section 4: Button States -->
-    <section class="space-y-6">
-        <div class="space-y-2">
-            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Button States</h2>
-            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
-                Disabled state prevents user interaction and provides visual feedback.
-            </p>
+<!-- Section 5: Width Variations -->
+<section class="space-y-6">
+    <div class="space-y-2">
+        <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Width Variations</h2>
+        <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+            Custom width classes can be applied using Tailwind CSS utility classes.
+        </p>
+    </div>
+
+    <div class="space-y-3">
+        <div class="flex flex-col gap-3 max-w-md">
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                        ElementSize="ElementSize.Large"
+                        Title="Width 256px (w-64)"
+                        Width="w-64"
+                        OnClick="OnButtonClickAsync"
+                        TextTransform="TextTransform.Capitalize">
+            </MaviButton>
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                        ElementSize="ElementSize.Large"
+                        Title="Width 192px (w-48)"
+                        Width="w-48"
+                        OnClick="OnButtonClickAsync"
+                        TextTransform="TextTransform.Capitalize">
+            </MaviButton>
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                        ElementSize="ElementSize.Large"
+                        Title="Width 160px"
+                        Width="w-40"
+                        OnClick="OnButtonClickAsync"
+                        TextTransform="TextTransform.Capitalize">
+            </MaviButton>
+            <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                        ElementSize="ElementSize.Large"
+                        Title="(w-32)"
+                        Width="w-32"
+                        OnClick="OnButtonClickAsync"
+                        TextTransform="TextTransform.Capitalize">
+            </MaviButton>
         </div>
-
-        <div class="space-y-3">
-            <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Disabled State - Various Colors</h3>
-            <div class="flex gap-3 flex-wrap">
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Default"
-                            ElementSize="ElementSize.Large"
-                            Title="Default Disabled"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            OnClick="OnButtonClickAsync"
-                            Disabled="true">
-                </MaviButton>
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
-                            ElementSize="ElementSize.Large"
-                            Title="Primary Disabled"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            OnClick="OnButtonClickAsync"
-                            Disabled="true">
-                </MaviButton>
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
-                            ElementSize="ElementSize.Large"
-                            Title="Secondary Disabled"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            OnClick="OnButtonClickAsync"
-                            Disabled="true">
-                </MaviButton>
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Success"
-                            ElementSize="ElementSize.Large"
-                            Title="Success Disabled"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            OnClick="OnButtonClickAsync"
-                            Disabled="true">
-                </MaviButton>
-            </div>
-            <div class="flex gap-3 flex-wrap">
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Alert"
-                            ElementSize="ElementSize.Large"
-                            Title="Danger Disabled"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            OnClick="OnButtonClickAsync"
-                            Disabled="true">
-                </MaviButton>
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Warning"
-                            ElementSize="ElementSize.Large"
-                            Title="Warning Disabled"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            OnClick="OnButtonClickAsync"
-                            Disabled="true">
-                </MaviButton>
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Info"
-                            ElementSize="ElementSize.Large"
-                            Title="Info Disabled"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            OnClick="OnButtonClickAsync"
-                            Disabled="true">
-                </MaviButton>
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Dark"
-                            ElementSize="ElementSize.Large"
-                            Title="Dark Disabled"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            OnClick="OnButtonClickAsync"
-                            Disabled="true">
-                </MaviButton>
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Light"
-                            ElementSize="ElementSize.Large"
-                            Title="Light Disabled"
-                            TextTransform="TextTransform.Capitalize"
-                            StartIcon="lni lni-chevron-left"
-                            OnClick="OnButtonClickAsync"
-                            Disabled="true">
-                </MaviButton>
-            </div>
-            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4")">
-                <code class="text-purple-600">
-                    &lt;MaviButton Disabled="true" ... /&gt;
-                </code>
-            </div>
+        <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4")">
+            <code class="text-purple-600">
+                &lt;MaviButton Width="w-64" ... /&gt;<br/>
+                &lt;MaviButton Width="w-48" ... /&gt;<br/>
+                &lt;MaviButton Width="w-full" ... /&gt;
+            </code>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Section 5: Width Variations -->
-    <section class="space-y-6">
-        <div class="space-y-2">
-            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Width Variations</h2>
-            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
-                Custom width classes can be applied using Tailwind CSS utility classes.
-            </p>
-        </div>
+<!-- Section 6: Icon Buttons -->
+<section class="space-y-6">
+    <div class="space-y-2">
+        <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Icon Buttons</h2>
+        <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+            Icon-only buttons for compact actions. Available in all variants, colors, and sizes.
+        </p>
+    </div>
 
-        <div class="space-y-3">
-            <div class="flex flex-col gap-3 max-w-md">
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
-                            ElementSize="ElementSize.Large"
-                            Title="Width 256px (w-64)"
-                            Width="w-64"
-                            OnClick="OnButtonClickAsync"
-                            TextTransform="TextTransform.Capitalize">
-                </MaviButton>
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
-                            ElementSize="ElementSize.Large"
-                            Title="Width 192px (w-48)"
-                            Width="w-48"
-                            OnClick="OnButtonClickAsync"
-                            TextTransform="TextTransform.Capitalize">
-                </MaviButton>
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
-                            ElementSize="ElementSize.Large"
-                            Title="Width 160px"
-                            Width="w-40"
-                            OnClick="OnButtonClickAsync"
-                            TextTransform="TextTransform.Capitalize">
-                </MaviButton>
-                <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
-                            ElementSize="ElementSize.Large"
-                            Title="(w-32)"
-                            Width="w-32"
-                            OnClick="OnButtonClickAsync"
-                            TextTransform="TextTransform.Capitalize">
-                </MaviButton>
-            </div>
-            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4")">
-                <code class="text-purple-600">
-                    &lt;MaviButton Width="w-64" ... /&gt;<br />
-                    &lt;MaviButton Width="w-48" ... /&gt;<br />
-                    &lt;MaviButton Width="w-full" ... /&gt;
-                </code>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section 6: Icon Buttons -->
-    <section class="space-y-6">
-        <div class="space-y-2">
-            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Icon Buttons</h2>
-            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
-                Icon-only buttons for compact actions. Available in all variants, colors, and sizes.
-            </p>
-        </div>
-
-        <!-- Icon Button Grid -->
-        <div class="space-y-3">
-            <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Complete Icon Button Matrix</h3>
-            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                All combinations of variants, colors, and sizes.
-            </p>
-            <div class="grid gap-6" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
-                @foreach (var elementVariant in Enum.GetValues<ElementVariant>())
+    <!-- Icon Button Grid -->
+    <div class="space-y-3">
+        <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Complete Icon Button Matrix</h3>
+        <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+            All combinations of variants, colors, and sizes.
+        </p>
+        <div class="grid gap-6" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+            @foreach (var elementVariant in Enum.GetValues<ElementVariant>())
+            {
+                foreach (var buttonType in Enum.GetValues<ThemeColorScheme>())
                 {
-                    foreach (var buttonType in Enum.GetValues<ThemeColorScheme>())
-                    {
-                        <div class="flex gap-2 justify-center items-center p-6 bg-white">
-                            <div class="flex flex-col gap-3 items-center">
-                                <div class="flex gap-2 items-center">
-                                    @foreach (var elementSize in Enum.GetValues<ElementSize>())
-                                    {
-                                        <MaviButtonIcon Icon="lni lni-alarm-1"
-                                                        ElementVariant="elementVariant"
-                                                        ThemeColorScheme="buttonType"
-                                                        ElementSize="elementSize"
-                                                        OnClick="OnButtonClickAsync"
-                                                        Title="Like" />
-                                    }
-                                </div>
-                                <div class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-center text-gray-600")">
-                                    @elementVariant @buttonType
-                                </div>
+                    <div class="flex gap-2 justify-center items-center p-6 bg-white">
+                        <div class="flex flex-col gap-3 items-center">
+                            <div class="flex gap-2 items-center">
+                                @foreach (var elementSize in Enum.GetValues<ElementSize>())
+                                {
+                                    <MaviButtonIcon Icon="lni lni-alarm-1"
+                                                    ElementVariant="elementVariant"
+                                                    ThemeColorScheme="buttonType"
+                                                    ElementSize="elementSize"
+                                                    OnClick="OnButtonClickAsync"
+                                                    Title="Like"/>
+                                }
+                            </div>
+                            <div class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-center text-gray-600")">
+                                @elementVariant @buttonType
                             </div>
                         </div>
-                    }
+                    </div>
                 }
-            </div>
-            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4")">
-                <code class="text-purple-600">
-                    &lt;MaviButtonIcon Icon="lni lni-alarm-1" ElementSize="..." ElementVariant="..." ... /&gt;
-                </code>
-            </div>
+            }
         </div>
+        <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4")">
+            <code class="text-purple-600">
+                &lt;MaviButtonIcon Icon="lni lni-alarm-1" ElementSize="..." ElementVariant="..." ... /&gt;
+            </code>
+        </div>
+    </div>
 
-        <!-- Disabled Icon Buttons -->
-        <div class="space-y-3">
-            <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Disabled Icon Buttons</h3>
-            <div class="flex gap-4">
-                <MaviButtonIcon Icon="lni lni-alarm-1"
-                                ElementVariant="ElementVariant.Filled"
-                                ThemeColorScheme="ThemeColorScheme.Primary"
-                                ElementSize="ElementSize.Regular"
-                                Disabled="true"
-                                OnClick="OnButtonClickAsync"
-                                Title="Disabled Filled" />
-                <MaviButtonIcon Icon="lni lni-alarm-1"
-                                ElementVariant="ElementVariant.Outlined"
-                                ThemeColorScheme="ThemeColorScheme.Primary"
-                                ElementSize="ElementSize.Regular"
-                                Disabled="true"
-                                OnClick="OnButtonClickAsync"
-                                Title="Disabled Outlined" />
-                <MaviButtonIcon Icon="lni lni-alarm-1"
-                                ElementVariant="ElementVariant.Text"
-                                ThemeColorScheme="ThemeColorScheme.Primary"
-                                ElementSize="ElementSize.Regular"
-                                Disabled="true"
-                                OnClick="OnButtonClickAsync"
-                                Title="Disabled Text" />
-            </div>
+    <!-- Disabled Icon Buttons -->
+    <div class="space-y-3">
+        <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Disabled Icon Buttons</h3>
+        <div class="flex gap-4">
+            <MaviButtonIcon Icon="lni lni-alarm-1"
+                            ElementVariant="ElementVariant.Filled"
+                            ThemeColorScheme="ThemeColorScheme.Primary"
+                            ElementSize="ElementSize.Regular"
+                            Disabled="true"
+                            OnClick="OnButtonClickAsync"
+                            Title="Disabled Filled"/>
+            <MaviButtonIcon Icon="lni lni-alarm-1"
+                            ElementVariant="ElementVariant.Outlined"
+                            ThemeColorScheme="ThemeColorScheme.Primary"
+                            ElementSize="ElementSize.Regular"
+                            Disabled="true"
+                            OnClick="OnButtonClickAsync"
+                            Title="Disabled Outlined"/>
+            <MaviButtonIcon Icon="lni lni-alarm-1"
+                            ElementVariant="ElementVariant.Text"
+                            ThemeColorScheme="ThemeColorScheme.Primary"
+                            ElementSize="ElementSize.Regular"
+                            Disabled="true"
+                            OnClick="OnButtonClickAsync"
+                            Title="Disabled Text"/>
         </div>
-    </section>
-    
-    <!-- Section: Component Parameters -->
-    <section class="space-y-6">
-        <div class="space-y-2">
-            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Component Parameters</h2>
-            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
-                Reference documentation for all available parameters on MaviButton and MaviButtonIcon components.
-            </p>
-        </div>
+    </div>
+</section>
 
-        <!-- MaviButton Parameters -->
-        <div class="space-y-3">
-            <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE">MaviButton Parameters</h3>
-            <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
-                                Parameter
-                            </th>
-                            <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
-                                Type
-                            </th>
-                            <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
-                                Description
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                                Id
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                string?
-                            </td>
-                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                Unique identifier for the button element. Auto-generated if not provided.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                                Title
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                string?
-                            </td>
-                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                Text displayed on the button and used for accessibility attributes.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                                ThemeColorScheme
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                ThemeColorScheme
-                            </td>
-                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                Color scheme of the button (Default, Primary, Secondary, Success, Alert, Warning, Info, Dark, Light).
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                                ElementVariant
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                ElementVariant
-                            </td>
-                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                Visual style variant (Filled, Outlined, Text). Filled is the default.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                                ElementSize
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                ElementSize
-                            </td>
-                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                Size of the button (Small, Regular, Large). Regular is the default.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                                TextTransform
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                TextTransform
-                            </td>
-                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                Text transformation style (UpperCase, LowerCase, Capitalize, None).
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                                Disabled
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                bool
-                            </td>
-                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                When true, disables the button and prevents user interaction.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                                Width
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                string
-                            </td>
-                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                CSS class for button width. Default is "min-w-16". Use Tailwind width utilities (e.g., "w-32", "w-48", "w-full").
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                                StartIcon
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                string?
-                            </td>
-                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                Icon class to display before the button text (e.g., "lni lni-chevron-left").
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                                EndIcon
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                string?
-                            </td>
-                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                Icon class to display after the button text (e.g., "lni lni-chevron-right").
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                                ShowSpinner
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                bool
-                            </td>
-                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                When true, displays a loading spinner instead of the button content during async operations.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                                SpinnerText
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                string?
-                            </td>
-                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                Text to display alongside the loading spinner (e.g., "Loading...", "Saving...").
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                                ButtonRole
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                ButtonRole
-                            </td>
-                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                HTML button role/type attribute (Button, Submit, Reset).
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                                OnClick
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                EventCallback&lt;MouseClickEventArgs&gt;
-                            </td>
-                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                Event callback triggered when the button is clicked. Automatically manages loading state.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                                Class
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                string?
-                            </td>
-                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                Additional CSS classes to apply to the button element.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                                Style
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                string?
-                            </td>
-                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                Inline CSS styles to apply to the button element.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+<!-- Section: Component Parameters -->
+<section class="space-y-6">
+<div class="space-y-2">
+    <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Component Parameters</h2>
+    <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+        Reference documentation for all available parameters on MaviButton and MaviButtonIcon components.
+    </p>
+</div>
 
-        <!-- MaviButtonIcon Parameters -->
-        <div class="space-y-3">
-            <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE">MaviButtonIcon Parameters</h3>
-            <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
-                                Parameter
-                            </th>
-                            <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
-                                Type
-                            </th>
-                            <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
-                                Description
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                                Icon
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                string?
-                            </td>
-                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                Icon class to display in the button (e.g., "lni lni-alarm-1"). This is the primary content of the icon button.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                                Id
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                string?
-                            </td>
-                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                Unique identifier for the button element. Auto-generated if not provided.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                                Title
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                string?
-                            </td>
-                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                Tooltip text shown on hover. Important for accessibility on icon-only buttons.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                                ThemeColorScheme
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                ThemeColorScheme
-                            </td>
-                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                Color scheme of the button (Default, Primary, Secondary, Success, Alert, Warning, Info, Dark, Light).
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                                ElementVariant
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                ElementVariant
-                            </td>
-                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                Visual style variant (Filled, Outlined, Text). Filled is the default.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                                ElementSize
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                ElementSize
-                            </td>
-                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                Size of the icon button (Small: 32px, Regular: 40px, Large: 56px). Regular is the default.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                                Disabled
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                bool
-                            </td>
-                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                When true, disables the button and prevents user interaction.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                                ButtonRole
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                ButtonRole
-                            </td>
-                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                HTML button role/type attribute (Button, Submit, Reset).
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                                OnClick
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                EventCallback&lt;MouseClickEventArgs&gt;
-                            </td>
-                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                Event callback triggered when the button is clicked. Automatically manages loading state.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                                Class
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                string?
-                            </td>
-                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                Additional CSS classes to apply to the button element.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                Style
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                string?
-                            </td>
-                            <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
-                                Inline CSS styles to apply to the button element.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
- </div>
+<!-- MaviButton Parameters -->
+<div class="space-y-3">
+    <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE">MaviButton Parameters</h3>
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
+            <thead class="bg-gray-50">
+            <tr>
+                <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
+                    Parameter
+                </th>
+                <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
+                    Type
+                </th>
+                <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
+                    Description
+                </th>
+            </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    Id
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    string?
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    Unique identifier for the button element. Auto-generated if not provided.
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    Title
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    string?
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    Text displayed on the button and used for accessibility attributes.
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    ThemeColorScheme
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    ThemeColorScheme
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    Color scheme of the button (Default, Primary, Secondary, Success, Alert, Warning, Info, Dark, Light).
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    ElementVariant
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    ElementVariant
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    Visual style variant (Filled, Outlined, Text). Filled is the default.
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    ElementSize
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    ElementSize
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    Size of the button (Small, Regular, Large). Regular is the default.
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    TextTransform
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    TextTransform
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    Text transformation style (UpperCase, LowerCase, Capitalize, None).
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    Disabled
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    bool
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    When true, disables the button and prevents user interaction.
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    Width
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    string
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    CSS class for button width. Default is "min-w-16". Use Tailwind width utilities (e.g., "w-32", "w-48", "w-full").
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    StartIcon
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    string?
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    Icon class to display before the button text (e.g., "lni lni-chevron-left").
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    EndIcon
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    string?
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    Icon class to display after the button text (e.g., "lni lni-chevron-right").
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    ShowSpinner
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    bool
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    When true, displays a loading spinner instead of the button content during async operations.
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    SpinnerText
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    string?
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    Text to display alongside the loading spinner (e.g., "Loading...", "Saving...").
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    ButtonRole
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    ButtonRole
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    HTML button role/type attribute (Button, Submit, Reset).
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    OnClick
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    EventCallback&lt;MouseClickEventArgs&gt;
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    Event callback triggered when the button is clicked. Automatically manages loading state.
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    Class
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    string?
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    Additional CSS classes to apply to the button element.
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    Style
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    string?
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    Inline CSS styles to apply to the button element.
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- MaviButtonIcon Parameters -->
+<div class="space-y-3">
+    <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE">MaviButtonIcon Parameters</h3>
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
+            <thead class="bg-gray-50">
+            <tr>
+                <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
+                    Parameter
+                </th>
+                <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
+                    Type
+                </th>
+                <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
+                    Description
+                </th>
+            </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    Icon
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    string?
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    Icon class to display in the button (e.g., "lni lni-alarm-1"). This is the primary content of the icon button.
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    Id
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    string?
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    Unique identifier for the button element. Auto-generated if not provided.
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    Title
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    string?
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    Tooltip text shown on hover. Important for accessibility on icon-only buttons.
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    ThemeColorScheme
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    ThemeColorScheme
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    Color scheme of the button (Default, Primary, Secondary, Success, Alert, Warning, Info, Dark, Light).
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    ElementVariant
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    ElementVariant
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    Visual style variant (Filled, Outlined, Text). Filled is the default.
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    ElementSize
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    ElementSize
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    Size of the icon button (Small: 32px, Regular: 40px, Large: 56px). Regular is the default.
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    Disabled
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    bool
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    When true, disables the button and prevents user interaction.
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    ButtonRole
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    ButtonRole
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    HTML button role/type attribute (Button, Submit, Reset).
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    OnClick
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    EventCallback&lt;MouseClickEventArgs&gt;
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    Event callback triggered when the button is clicked. Automatically manages loading state.
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    Class
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    string?
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    Additional CSS classes to apply to the button element.
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    Style
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    string?
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">
+                    Inline CSS styles to apply to the button element.
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</section>
+</div>
 
 @code
-{private async Task OnButtonClickAsync(MouseClickEventArgs mouseEventArgs)
+{
+    private async Task OnButtonClickAsync(MouseClickEventArgs mouseEventArgs)
     {
         Logger?.LogInformation("Button Click! ID: {ButtonId} Introduce 4s delay to demo inline spinner effect.", mouseEventArgs.ButtonId);
         await Task.Delay(4000);

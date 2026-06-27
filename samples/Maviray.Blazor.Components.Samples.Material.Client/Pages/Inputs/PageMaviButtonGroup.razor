@@ -1,648 +1,648 @@
 ﻿@page "/PageMaviButtonGroup"
-@using Maviray.Blazor.Components.Core.Models.Buttons
 
+@using Maviray.Blazor.Components.Core.Models.Buttons
 @inherits SamplePageBase
 
 <PageTitle>Button Groups</PageTitle>
 
 <div class="p-8 max-w-7xl mx-auto space-y-12">
 
-    <!-- Page Header -->
+<!-- Page Header -->
+<div class="space-y-2">
+    <h1 class="@Tailwind.Theme.Typography.DISPLAY_MEDIUM">Button Group Components</h1>
+    <p class="@Tailwind.Theme.Typography.BODY_LARGE text-gray-600">
+        Button groups combine related actions together. They support text, icons, sizes, variants, and color schemes.
+    </p>
+</div>
+
+<!-- Section 1: Basic Usage -->
+<section class="space-y-6">
     <div class="space-y-2">
-        <h1 class="@Tailwind.Theme.Typography.DISPLAY_MEDIUM">Button Group Components</h1>
-        <p class="@Tailwind.Theme.Typography.BODY_LARGE text-gray-600">
-            Button groups combine related actions together. They support text, icons, sizes, variants, and color schemes.
-        </p>
-    </div>
-
-    <!-- Section 1: Basic Usage -->
-    <section class="space-y-6">
-        <div class="space-y-2">
-            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Basic Button Groups</h2>
-            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
-                Simple button groups with text labels. Use for toggling between related options or navigating between views.
-            </p>
-        </div>
-
-        <div class="space-y-4">
-            <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Text Button Groups</h3>
-            <div class="flex flex-wrap gap-4">
-                <MaviButtonGroup ElementVariant="ElementVariant.Filled"
-                                 ElementSize="ElementSize.Regular"
-                                 ThemeColorScheme="ThemeColorScheme.Primary"
-                                 OnClick="OnButtonGroupClick"
-                                 Buttons="@GenerateTextButtonGroup()" />
-                <MaviButtonGroup ElementVariant="ElementVariant.Filled"
-                                 ElementSize="ElementSize.Regular"
-                                 ThemeColorScheme="ThemeColorScheme.Secondary"
-                                 OnClick="OnButtonGroupClick"
-                                 Buttons="@GenerateTextButtonGroup()" />
-            </div>
-            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4")">
-                <code class="text-purple-600">
-                    &lt;MaviButtonGroup ElementVariant="ElementVariant.Filled" Buttons="@GenerateTextButtonGroup()" ... /&gt;<br />
-                    <br />
-                    @@code {<br />
-                    &nbsp;&nbsp;private static List&lt;ButtonModel&gt; GenerateTextButtonGroup() =&gt; [<br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;new() { Title = "Left" },<br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;new() { Title = "Middle" },<br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;new() { Title = "Right" }<br />
-                    &nbsp;&nbsp;];<br />
-                    }
-                </code>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section 2: Icon Button Groups -->
-    <section class="space-y-6">
-        <div class="space-y-2">
-            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Icon Button Groups</h2>
-            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
-                Button groups can contain icons for more compact interfaces. Perfect for toolbars and action bars.
-            </p>
-        </div>
-
-        <div class="space-y-4">
-            <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Icon-Only Groups</h3>
-            <div class="flex flex-wrap gap-4">
-                <MaviButtonGroup ElementVariant="ElementVariant.Filled"
-                                 ElementSize="ElementSize.Regular"
-                                 ThemeColorScheme="ThemeColorScheme.Primary"
-                                 OnClick="OnButtonGroupClick"
-                                 Buttons="@GenerateIconButtonGroup()" />
-                <MaviButtonGroup ElementVariant="ElementVariant.Outlined"
-                                 ElementSize="ElementSize.Regular"
-                                 ThemeColorScheme="ThemeColorScheme.Primary"
-                                 OnClick="OnButtonGroupClick"
-                                 Buttons="@GenerateIconButtonGroup()" />
-                <MaviButtonGroup ElementVariant="ElementVariant.Text"
-                                 ElementSize="ElementSize.Regular"
-                                 ThemeColorScheme="ThemeColorScheme.Primary"
-                                 OnClick="OnButtonGroupClick"
-                                 Buttons="@GenerateIconButtonGroup()" />
-            </div>
-            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4")">
-                <code class="text-purple-600">
-                    &lt;MaviButtonGroup Buttons="@GenerateIconButtonGroup()" ... /&gt;<br />
-                    <br />
-                    @@code {<br />
-                    &nbsp;&nbsp;private static List&lt;ButtonModel&gt; GenerateIconButtonGroup() =&gt; [<br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;new() { StartIcon = "lni lni-chevron-left" },<br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;new() { StartIcon = "lni lni-shield-2-check" },<br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;new() { EndIcon = "lni lni-chevron-right" }<br />
-                    &nbsp;&nbsp;];<br />
-                    }
-                </code>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section 3: Size Variations -->
-    <section class="space-y-6">
-        <div class="space-y-2">
-            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Size Variations</h2>
-            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
-                Button groups support three sizes: Large, Regular, and Small. Choose based on context and available space.
-            </p>
-        </div>
-
-        <div class="space-y-4">
-            <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Primary Filled - All Sizes</h3>
-            <div class="flex flex-col gap-4">
-                <div class="flex items-center gap-4">
-                    <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_MEDIUM, "w-20 text-gray-600")">Large:</span>
-                    <MaviButtonGroup ElementVariant="ElementVariant.Filled"
-                                     ElementSize="ElementSize.Large"
-                                     ThemeColorScheme="ThemeColorScheme.Primary"
-                                     OnClick="OnButtonGroupClick"
-                                     Buttons="@GenerateTextButtonGroup()" />
-                </div>
-                <div class="flex items-center gap-4">
-                    <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_MEDIUM, "w-20 text-gray-600")">Regular:</span>
-                    <MaviButtonGroup ElementVariant="ElementVariant.Filled"
-                                     ElementSize="ElementSize.Regular"
-                                     ThemeColorScheme="ThemeColorScheme.Primary"
-                                     OnClick="OnButtonGroupClick"
-                                     Buttons="@GenerateTextButtonGroup()" />
-                </div>
-                <div class="flex items-center gap-4">
-                    <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_MEDIUM, "w-20 text-gray-600")">Small:</span>
-                    <MaviButtonGroup ElementVariant="ElementVariant.Filled"
-                                     ElementSize="ElementSize.Small"
-                                     ThemeColorScheme="ThemeColorScheme.Primary"
-                                     OnClick="OnButtonGroupClick"
-                                     Buttons="@GenerateTextButtonGroup()" />
-                </div>
-            </div>
-            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4")">
-                <code class="text-purple-600">
-                    &lt;MaviButtonGroup ElementSize="ElementSize.Large" ... /&gt;<br />
-                    &lt;MaviButtonGroup ElementSize="ElementSize.Regular" ... /&gt;<br />
-                    &lt;MaviButtonGroup ElementSize="ElementSize.Small" ... /&gt;
-                </code>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section 4: Variant Styles -->
-    <section class="space-y-6">
-        <div class="space-y-2">
-            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Variant Styles</h2>
-            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
-                Three visual styles available: Filled, Outlined, and Text. Each provides different visual emphasis.
-            </p>
-        </div>
-
-        <div class="space-y-4">
-            <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Primary Button Groups - All Variants</h3>
-            <div class="flex flex-col gap-4">
-                <div class="flex items-center gap-4">
-                    <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_MEDIUM, "w-24 text-gray-600")">Filled:</span>
-                    <MaviButtonGroup ElementVariant="ElementVariant.Filled"
-                                     ElementSize="ElementSize.Regular"
-                                     ThemeColorScheme="ThemeColorScheme.Primary"
-                                     OnClick="OnButtonGroupClick"
-                                     Buttons="@GenerateTextButtonGroup()" />
-                </div>
-                <div class="flex items-center gap-4">
-                    <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_MEDIUM, "w-24 text-gray-600")">Outlined:</span>
-                    <MaviButtonGroup ElementVariant="ElementVariant.Outlined"
-                                     ElementSize="ElementSize.Regular"
-                                     ThemeColorScheme="ThemeColorScheme.Primary"
-                                     OnClick="OnButtonGroupClick"
-                                     Buttons="@GenerateTextButtonGroup()" />
-                </div>
-                <div class="flex items-center gap-4">
-                    <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_MEDIUM, "w-24 text-gray-600")">Text:</span>
-                    <MaviButtonGroup ElementVariant="ElementVariant.Text"
-                                     ElementSize="ElementSize.Regular"
-                                     ThemeColorScheme="ThemeColorScheme.Primary"
-                                     OnClick="OnButtonGroupClick"
-                                     Buttons="@GenerateTextButtonGroup()" />
-                </div>
-            </div>
-            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4")">
-                <code class="text-purple-600">
-                    &lt;MaviButtonGroup ElementVariant="ElementVariant.Filled" ... /&gt;<br />
-                    &lt;MaviButtonGroup ElementVariant="ElementVariant.Outlined" ... /&gt;<br />
-                    &lt;MaviButtonGroup ElementVariant="ElementVariant.Text" ... /&gt;
-                </code>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section 5: Color Schemes -->
-    <section class="space-y-6">
-    <div class="space-y-2">
-        <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Color Schemes</h2>
+        <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Basic Button Groups</h2>
         <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
-            Button groups support all color schemes for different contexts and semantic meanings.
+            Simple button groups with text labels. Use for toggling between related options or navigating between views.
         </p>
     </div>
 
     <div class="space-y-4">
-        <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Filled Variant - All Colors</h3>
+        <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Text Button Groups</h3>
         <div class="flex flex-wrap gap-4">
-            <div class="flex flex-col gap-2 items-center">
-                <MaviButtonGroup ElementVariant="ElementVariant.Filled"
-                                 ElementSize="ElementSize.Regular"
-                                 ThemeColorScheme="ThemeColorScheme.Default"
-                                 OnClick="OnButtonGroupClick"
-                                 Buttons="@GenerateTextButtonGroup()" />
-                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Default</span>
-            </div>
-            <div class="flex flex-col gap-2 items-center">
-                <MaviButtonGroup ElementVariant="ElementVariant.Filled"
-                                 ElementSize="ElementSize.Regular"
-                                 ThemeColorScheme="ThemeColorScheme.Primary"
-                                 OnClick="OnButtonGroupClick"
-                                 Buttons="@GenerateTextButtonGroup()" />
-                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Primary</span>
-            </div>
-            <div class="flex flex-col gap-2 items-center">
-                <MaviButtonGroup ElementVariant="ElementVariant.Filled"
-                                 ElementSize="ElementSize.Regular"
-                                 ThemeColorScheme="ThemeColorScheme.Secondary"
-                                 OnClick="OnButtonGroupClick"
-                                 Buttons="@GenerateTextButtonGroup()" />
-                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Secondary</span>
-            </div>
-            <div class="flex flex-col gap-2 items-center">
-                <MaviButtonGroup ElementVariant="ElementVariant.Filled"
-                                 ElementSize="ElementSize.Regular"
-                                 ThemeColorScheme="ThemeColorScheme.Success"
-                                 OnClick="OnButtonGroupClick"
-                                 Buttons="@GenerateTextButtonGroup()" />
-                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Success</span>
-            </div>
-            <div class="flex flex-col gap-2 items-center">
-                <MaviButtonGroup ElementVariant="ElementVariant.Filled"
-                                 ElementSize="ElementSize.Regular"
-                                 ThemeColorScheme="ThemeColorScheme.Alert"
-                                 OnClick="OnButtonGroupClick"
-                                 Buttons="@GenerateTextButtonGroup()" />
-                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Danger</span>
-            </div>
-            <div class="flex flex-col gap-2 items-center">
-                <MaviButtonGroup ElementVariant="ElementVariant.Filled"
-                                 ElementSize="ElementSize.Regular"
-                                 ThemeColorScheme="ThemeColorScheme.Warning"
-                                 OnClick="OnButtonGroupClick"
-                                 Buttons="@GenerateTextButtonGroup()" />
-                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Warning</span>
-            </div>
-            <div class="flex flex-col gap-2 items-center">
-                <MaviButtonGroup ElementVariant="ElementVariant.Filled"
-                                 ElementSize="ElementSize.Regular"
-                                 ThemeColorScheme="ThemeColorScheme.Info"
-                                 OnClick="OnButtonGroupClick"
-                                 Buttons="@GenerateTextButtonGroup()" />
-                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Info</span>
-            </div>
-            <div class="flex flex-col gap-2 items-center">
-                <MaviButtonGroup ElementVariant="ElementVariant.Filled"
-                                 ElementSize="ElementSize.Regular"
-                                 ThemeColorScheme="ThemeColorScheme.Dark"
-                                 OnClick="OnButtonGroupClick"
-                                 Buttons="@GenerateTextButtonGroup()" />
-                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Dark</span>
-            </div>
-            <div class="flex flex-col gap-2 items-center">
-                <MaviButtonGroup ElementVariant="ElementVariant.Filled"
-                                 ElementSize="ElementSize.Regular"
-                                 ThemeColorScheme="ThemeColorScheme.Light"
-                                 OnClick="OnButtonGroupClick"
-                                 Buttons="@GenerateTextButtonGroup()" />
-                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Light</span>
-            </div>
+            <MaviButtonGroup ElementVariant="ElementVariant.Filled"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Primary"
+                             OnClick="OnButtonGroupClick"
+                             Buttons="@GenerateTextButtonGroup()"/>
+            <MaviButtonGroup ElementVariant="ElementVariant.Filled"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Secondary"
+                             OnClick="OnButtonGroupClick"
+                             Buttons="@GenerateTextButtonGroup()"/>
         </div>
+        <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4")">
+            <code class="text-purple-600">
+                &lt;MaviButtonGroup ElementVariant="ElementVariant.Filled" Buttons="@GenerateTextButtonGroup()" ... /&gt;<br/>
+                <br/>
+                @@code {<br/>
+                &nbsp;&nbsp;private static List&lt;ButtonModel&gt; GenerateTextButtonGroup() =&gt; [<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;new() { Title = "Left" },<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;new() { Title = "Middle" },<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;new() { Title = "Right" }<br/>
+                &nbsp;&nbsp;];<br/>
+                }
+            </code>
+        </div>
+    </div>
+</section>
+
+<!-- Section 2: Icon Button Groups -->
+<section class="space-y-6">
+    <div class="space-y-2">
+        <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Icon Button Groups</h2>
+        <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+            Button groups can contain icons for more compact interfaces. Perfect for toolbars and action bars.
+        </p>
     </div>
 
     <div class="space-y-4">
-        <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Outlined Variant - All Colors</h3>
+        <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Icon-Only Groups</h3>
         <div class="flex flex-wrap gap-4">
-            <div class="flex flex-col gap-2 items-center">
-                <MaviButtonGroup ElementVariant="ElementVariant.Outlined"
-                                 ElementSize="ElementSize.Regular"
-                                 ThemeColorScheme="ThemeColorScheme.Default"
-                                 OnClick="OnButtonGroupClick"
-                                 Buttons="@GenerateTextButtonGroup()" />
-                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Default</span>
-            </div>
-            <div class="flex flex-col gap-2 items-center">
-                <MaviButtonGroup ElementVariant="ElementVariant.Outlined"
-                                 ElementSize="ElementSize.Regular"
-                                 ThemeColorScheme="ThemeColorScheme.Primary"
-                                 OnClick="OnButtonGroupClick"
-                                 Buttons="@GenerateTextButtonGroup()" />
-                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Primary</span>
-            </div>
-            <div class="flex flex-col gap-2 items-center">
-                <MaviButtonGroup ElementVariant="ElementVariant.Outlined"
-                                 ElementSize="ElementSize.Regular"
-                                 ThemeColorScheme="ThemeColorScheme.Secondary"
-                                 OnClick="OnButtonGroupClick"
-                                 Buttons="@GenerateTextButtonGroup()" />
-                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Secondary</span>
-            </div>
-            <div class="flex flex-col gap-2 items-center">
-                <MaviButtonGroup ElementVariant="ElementVariant.Outlined"
-                                 ElementSize="ElementSize.Regular"
-                                 ThemeColorScheme="ThemeColorScheme.Success"
-                                 OnClick="OnButtonGroupClick"
-                                 Buttons="@GenerateTextButtonGroup()" />
-                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Success</span>
-            </div>
-            <div class="flex flex-col gap-2 items-center">
-                <MaviButtonGroup ElementVariant="ElementVariant.Outlined"
-                                 ElementSize="ElementSize.Regular"
-                                 ThemeColorScheme="ThemeColorScheme.Alert"
-                                 OnClick="OnButtonGroupClick"
-                                 Buttons="@GenerateTextButtonGroup()" />
-                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Danger</span>
-            </div>
-            <div class="flex flex-col gap-2 items-center">
-                <MaviButtonGroup ElementVariant="ElementVariant.Outlined"
-                                 ElementSize="ElementSize.Regular"
-                                 ThemeColorScheme="ThemeColorScheme.Warning"
-                                 OnClick="OnButtonGroupClick"
-                                 Buttons="@GenerateTextButtonGroup()" />
-                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Warning</span>
-            </div>
-            <div class="flex flex-col gap-2 items-center">
-                <MaviButtonGroup ElementVariant="ElementVariant.Outlined"
-                                 ElementSize="ElementSize.Regular"
-                                 ThemeColorScheme="ThemeColorScheme.Info"
-                                 OnClick="OnButtonGroupClick"
-                                 Buttons="@GenerateTextButtonGroup()" />
-                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Info</span>
-            </div>
-            <div class="flex flex-col gap-2 items-center">
-                <MaviButtonGroup ElementVariant="ElementVariant.Outlined"
-                                 ElementSize="ElementSize.Regular"
-                                 ThemeColorScheme="ThemeColorScheme.Dark"
-                                 OnClick="OnButtonGroupClick"
-                                 Buttons="@GenerateTextButtonGroup()" />
-                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Dark</span>
-            </div>
-            <div class="flex flex-col gap-2 items-center">
-                <MaviButtonGroup ElementVariant="ElementVariant.Outlined"
-                                 ElementSize="ElementSize.Regular"
-                                 ThemeColorScheme="ThemeColorScheme.Light"
-                                 OnClick="OnButtonGroupClick"
-                                 Buttons="@GenerateTextButtonGroup()" />
-                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Light</span>
-            </div>
+            <MaviButtonGroup ElementVariant="ElementVariant.Filled"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Primary"
+                             OnClick="OnButtonGroupClick"
+                             Buttons="@GenerateIconButtonGroup()"/>
+            <MaviButtonGroup ElementVariant="ElementVariant.Outlined"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Primary"
+                             OnClick="OnButtonGroupClick"
+                             Buttons="@GenerateIconButtonGroup()"/>
+            <MaviButtonGroup ElementVariant="ElementVariant.Text"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Primary"
+                             OnClick="OnButtonGroupClick"
+                             Buttons="@GenerateIconButtonGroup()"/>
         </div>
+        <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4")">
+            <code class="text-purple-600">
+                &lt;MaviButtonGroup Buttons="@GenerateIconButtonGroup()" ... /&gt;<br/>
+                <br/>
+                @@code {<br/>
+                &nbsp;&nbsp;private static List&lt;ButtonModel&gt; GenerateIconButtonGroup() =&gt; [<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;new() { StartIcon = "lni lni-chevron-left" },<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;new() { StartIcon = "lni lni-shield-2-check" },<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;new() { EndIcon = "lni lni-chevron-right" }<br/>
+                &nbsp;&nbsp;];<br/>
+                }
+            </code>
+        </div>
+    </div>
+</section>
+
+<!-- Section 3: Size Variations -->
+<section class="space-y-6">
+    <div class="space-y-2">
+        <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Size Variations</h2>
+        <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+            Button groups support three sizes: Large, Regular, and Small. Choose based on context and available space.
+        </p>
     </div>
 
     <div class="space-y-4">
-        <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Text Variant - All Colors</h3>
-        <div class="flex flex-wrap gap-4">
-            <div class="flex flex-col gap-2 items-center">
-                <MaviButtonGroup ElementVariant="ElementVariant.Text"
-                                 ElementSize="ElementSize.Regular"
-                                 ThemeColorScheme="ThemeColorScheme.Default"
+        <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Primary Filled - All Sizes</h3>
+        <div class="flex flex-col gap-4">
+            <div class="flex items-center gap-4">
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_MEDIUM, "w-20 text-gray-600")">Large:</span>
+                <MaviButtonGroup ElementVariant="ElementVariant.Filled"
+                                 ElementSize="ElementSize.Large"
+                                 ThemeColorScheme="ThemeColorScheme.Primary"
                                  OnClick="OnButtonGroupClick"
-                                 Buttons="@GenerateTextButtonGroup()" />
-                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Default</span>
+                                 Buttons="@GenerateTextButtonGroup()"/>
             </div>
-            <div class="flex flex-col gap-2 items-center">
-                <MaviButtonGroup ElementVariant="ElementVariant.Text"
+            <div class="flex items-center gap-4">
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_MEDIUM, "w-20 text-gray-600")">Regular:</span>
+                <MaviButtonGroup ElementVariant="ElementVariant.Filled"
                                  ElementSize="ElementSize.Regular"
                                  ThemeColorScheme="ThemeColorScheme.Primary"
                                  OnClick="OnButtonGroupClick"
-                                 Buttons="@GenerateTextButtonGroup()" />
-                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Primary</span>
+                                 Buttons="@GenerateTextButtonGroup()"/>
             </div>
-            <div class="flex flex-col gap-2 items-center">
-                <MaviButtonGroup ElementVariant="ElementVariant.Text"
-                                 ElementSize="ElementSize.Regular"
-                                 ThemeColorScheme="ThemeColorScheme.Secondary"
+            <div class="flex items-center gap-4">
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_MEDIUM, "w-20 text-gray-600")">Small:</span>
+                <MaviButtonGroup ElementVariant="ElementVariant.Filled"
+                                 ElementSize="ElementSize.Small"
+                                 ThemeColorScheme="ThemeColorScheme.Primary"
                                  OnClick="OnButtonGroupClick"
-                                 Buttons="@GenerateTextButtonGroup()" />
-                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Secondary</span>
-            </div>
-            <div class="flex flex-col gap-2 items-center">
-                <MaviButtonGroup ElementVariant="ElementVariant.Text"
-                                 ElementSize="ElementSize.Regular"
-                                 ThemeColorScheme="ThemeColorScheme.Success"
-                                 OnClick="OnButtonGroupClick"
-                                 Buttons="@GenerateTextButtonGroup()" />
-                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Success</span>
-            </div>
-            <div class="flex flex-col gap-2 items-center">
-                <MaviButtonGroup ElementVariant="ElementVariant.Text"
-                                 ElementSize="ElementSize.Regular"
-                                 ThemeColorScheme="ThemeColorScheme.Alert"
-                                 OnClick="OnButtonGroupClick"
-                                 Buttons="@GenerateTextButtonGroup()" />
-                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Danger</span>
-            </div>
-            <div class="flex flex-col gap-2 items-center">
-                <MaviButtonGroup ElementVariant="ElementVariant.Text"
-                                 ElementSize="ElementSize.Regular"
-                                 ThemeColorScheme="ThemeColorScheme.Warning"
-                                 OnClick="OnButtonGroupClick"
-                                 Buttons="@GenerateTextButtonGroup()" />
-                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Warning</span>
-            </div>
-            <div class="flex flex-col gap-2 items-center">
-                <MaviButtonGroup ElementVariant="ElementVariant.Text"
-                                 ElementSize="ElementSize.Regular"
-                                 ThemeColorScheme="ThemeColorScheme.Info"
-                                 OnClick="OnButtonGroupClick"
-                                 Buttons="@GenerateTextButtonGroup()" />
-                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Info</span>
-            </div>
-            <div class="flex flex-col gap-2 items-center">
-                <MaviButtonGroup ElementVariant="ElementVariant.Text"
-                                 ElementSize="ElementSize.Regular"
-                                 ThemeColorScheme="ThemeColorScheme.Dark"
-                                 OnClick="OnButtonGroupClick"
-                                 Buttons="@GenerateTextButtonGroup()" />
-                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Dark</span>
-            </div>
-            <div class="flex flex-col gap-2 items-center">
-                <MaviButtonGroup ElementVariant="ElementVariant.Text"
-                                 ElementSize="ElementSize.Regular"
-                                 ThemeColorScheme="ThemeColorScheme.Light"
-                                 OnClick="OnButtonGroupClick"
-                                 Buttons="@GenerateTextButtonGroup()" />
-                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Light</span>
+                                 Buttons="@GenerateTextButtonGroup()"/>
             </div>
         </div>
         <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4")">
             <code class="text-purple-600">
-                &lt;MaviButtonGroup ThemeColorScheme="ThemeColorScheme.Primary" ... /&gt;<br />
-                &lt;MaviButtonGroup ThemeColorScheme="ThemeColorScheme.Danger" ... /&gt;<br />
-                &lt;MaviButtonGroup ThemeColorScheme="ThemeColorScheme.Success" ... /&gt;
+                &lt;MaviButtonGroup ElementSize="ElementSize.Large" ... /&gt;<br/>
+                &lt;MaviButtonGroup ElementSize="ElementSize.Regular" ... /&gt;<br/>
+                &lt;MaviButtonGroup ElementSize="ElementSize.Small" ... /&gt;
             </code>
         </div>
     </div>
-    </section>
-    
+</section>
 
-    <!-- Section 6: Disabled States -->
-    <section class="space-y-6">
-        <div class="space-y-2">
-            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Disabled States</h2>
-            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
-                Button groups can be disabled entirely or have individual buttons disabled. Disabled buttons have reduced opacity and are non-interactive.
-            </p>
-        </div>
+<!-- Section 4: Variant Styles -->
+<section class="space-y-6">
+    <div class="space-y-2">
+        <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Variant Styles</h2>
+        <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+            Three visual styles available: Filled, Outlined, and Text. Each provides different visual emphasis.
+        </p>
+    </div>
 
-        <div class="space-y-4">
-            <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Filled Variant - Disabled</h3>
-            <div class="flex flex-wrap gap-4">
-                <div class="flex flex-col gap-2 items-center">
-                    <MaviButtonGroup ElementVariant="ElementVariant.Filled"
-                                     ElementSize="ElementSize.Regular"
-                                     ThemeColorScheme="ThemeColorScheme.Primary"
-                                     OnClick="OnButtonGroupClick"
-                                     Disabled="true"
-                                     Buttons="@GenerateTextButtonGroup()" />
-                    <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">All Disabled</span>
-                </div>
-                <div class="flex flex-col gap-2 items-center">
-                    <MaviButtonGroup ElementVariant="ElementVariant.Filled"
-                                     ElementSize="ElementSize.Regular"
-                                     ThemeColorScheme="ThemeColorScheme.Primary"
-                                     OnClick="OnButtonGroupClick"
-                                     Buttons="@GeneratePartiallyDisabledButtonGroup()" />
-                    <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Partial Disabled</span>
-                </div>
+    <div class="space-y-4">
+        <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Primary Button Groups - All Variants</h3>
+        <div class="flex flex-col gap-4">
+            <div class="flex items-center gap-4">
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_MEDIUM, "w-24 text-gray-600")">Filled:</span>
+                <MaviButtonGroup ElementVariant="ElementVariant.Filled"
+                                 ElementSize="ElementSize.Regular"
+                                 ThemeColorScheme="ThemeColorScheme.Primary"
+                                 OnClick="OnButtonGroupClick"
+                                 Buttons="@GenerateTextButtonGroup()"/>
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_MEDIUM, "w-24 text-gray-600")">Outlined:</span>
+                <MaviButtonGroup ElementVariant="ElementVariant.Outlined"
+                                 ElementSize="ElementSize.Regular"
+                                 ThemeColorScheme="ThemeColorScheme.Primary"
+                                 OnClick="OnButtonGroupClick"
+                                 Buttons="@GenerateTextButtonGroup()"/>
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_MEDIUM, "w-24 text-gray-600")">Text:</span>
+                <MaviButtonGroup ElementVariant="ElementVariant.Text"
+                                 ElementSize="ElementSize.Regular"
+                                 ThemeColorScheme="ThemeColorScheme.Primary"
+                                 OnClick="OnButtonGroupClick"
+                                 Buttons="@GenerateTextButtonGroup()"/>
             </div>
         </div>
-
-        <div class="space-y-4">
-            <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Outlined Variant - Disabled</h3>
-            <div class="flex flex-wrap gap-4">
-                <div class="flex flex-col gap-2 items-center">
-                    <MaviButtonGroup ElementVariant="ElementVariant.Outlined"
-                                     ElementSize="ElementSize.Regular"
-                                     ThemeColorScheme="ThemeColorScheme.Primary"
-                                     OnClick="OnButtonGroupClick"
-                                     Disabled="true"
-                                     Buttons="@GenerateTextButtonGroup()" />
-                    <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">All Disabled</span>
-                </div>
-                <div class="flex flex-col gap-2 items-center">
-                    <MaviButtonGroup ElementVariant="ElementVariant.Outlined"
-                                     ElementSize="ElementSize.Regular"
-                                     ThemeColorScheme="ThemeColorScheme.Primary"
-                                     OnClick="OnButtonGroupClick"
-                                     Buttons="@GeneratePartiallyDisabledButtonGroup()" />
-                    <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Partial Disabled</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="space-y-4">
-            <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Text Variant - Disabled</h3>
-            <div class="flex flex-wrap gap-4">
-                <div class="flex flex-col gap-2 items-center">
-                    <MaviButtonGroup ElementVariant="ElementVariant.Text"
-                                     ElementSize="ElementSize.Regular"
-                                     ThemeColorScheme="ThemeColorScheme.Primary"
-                                     OnClick="OnButtonGroupClick"
-                                     Disabled="true"
-                                     Buttons="@GenerateTextButtonGroup()" />
-                    <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">All Disabled</span>
-                </div>
-                <div class="flex flex-col gap-2 items-center">
-                    <MaviButtonGroup ElementVariant="ElementVariant.Text"
-                                     ElementSize="ElementSize.Regular"
-                                     ThemeColorScheme="ThemeColorScheme.Primary"
-                                     OnClick="OnButtonGroupClick"
-                                     Buttons="@GeneratePartiallyDisabledButtonGroup()" />
-                    <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Partial Disabled</span>
-                </div>
-            </div>
-            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4")">
-                <code class="text-purple-600">
-                    &lt;!-- Disable entire group --&gt;<br />
-                    &lt;MaviButtonGroup Disabled="true" ... /&gt;<br />
-                    <br />
-                    &lt;!-- Disable individual buttons --&gt;<br />
-                    @@code {<br />
-                    &nbsp;&nbsp;private static List&lt;ButtonModel&gt; GeneratePartiallyDisabledButtonGroup() =&gt; [<br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;new() { Title = "Left" },<br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;new() { Title = "Middle", Disabled = true },<br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;new() { Title = "Right" }<br />
-                    &nbsp;&nbsp;];<br />
-                    }
-                </code>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section 7: Parameters Reference -->
-    <section class="space-y-6">
-        <div class="space-y-2">
-            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Component Parameters</h2>
-            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
-                Complete reference for all MaviButtonGroup component parameters and their descriptions.
-            </p>
-        </div>
-
-        <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200 border border-gray-300 rounded-lg">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_MEDIUM, "px-6 py-3 text-left text-gray-700 uppercase tracking-wider")">Parameter</th>
-                        <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_MEDIUM, "px-6 py-3 text-left text-gray-700 uppercase tracking-wider")">Type</th>
-                        <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_MEDIUM, "px-6 py-3 text-left text-gray-700 uppercase tracking-wider")">Default</th>
-                        <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_MEDIUM, "px-6 py-3 text-left text-gray-700 uppercase tracking-wider")">Description</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    <tr>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-purple-600")">Id</td>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap")">string?</td>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-gray-500")">Auto-generated</td>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Unique identifier for the button group element.</td>
-                    </tr>
-                    <tr>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-purple-600")">ElementVariant</td>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap")">ElementVariant</td>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-gray-500")">Filled</td>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Visual style variant: Filled, Outlined, or Text.</td>
-                    </tr>
-                    <tr>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-purple-600")">ElementSize</td>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap")">ElementSize</td>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-gray-500")">Regular</td>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Size of buttons: Small, Regular, or Large.</td>
-                    </tr>
-                    <tr>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-purple-600")">ThemeColorScheme</td>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap")">ThemeColorScheme</td>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-gray-500")">Default</td>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Color scheme: Default, Primary, Secondary, Success, Alert, Warning, Info, Dark, or Light.</td>
-                    </tr>
-                    <tr>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-purple-600")">TextTransform</td>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap")">TextTransform</td>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-gray-500")">None</td>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Text transformation: None, Uppercase, Lowercase, or Capitalize.</td>
-                    </tr>
-                    <tr>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-purple-600")">Disabled</td>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap")">bool</td>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-gray-500")">false</td>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">When true, disables all buttons in the group.</td>
-                    </tr>
-                    <tr>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-purple-600")">Buttons</td>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap")">List&lt;ButtonModel&gt;?</td>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-gray-500")">null</td>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">List of button models defining the buttons in the group. Each model contains Title, StartIcon, EndIcon, and Disabled properties.</td>
-                    </tr>
-                    <tr>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-purple-600")">ChildContent</td>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap")">RenderFragment?</td>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-gray-500")">null</td>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Custom content to render instead of using the Buttons list. Useful for advanced customization.</td>
-                    </tr>
-                    <tr>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-purple-600")">OnClick</td>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap")">EventCallback&lt;MouseGroupClickEventArgs&gt;</td>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-gray-500")">-</td>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Event callback fired when a button in the group is clicked. Provides ButtonGroupId and ButtonId in the event args.</td>
-                    </tr>
-                    <tr>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-purple-600")">Class</td>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap")">string?</td>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-gray-500")">null</td>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Additional CSS classes to apply to the button group container.</td>
-                    </tr>
-                    <tr>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-purple-600")">Style</td>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap")">string?</td>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-gray-500")">null</td>
-                        <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Inline CSS styles to apply to the button group container.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4 space-y-2")">
-            <h4 class="@Tailwind.Theme.Typography.LABEL_MEDIUM">ButtonModel Properties</h4>
+        <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4")">
             <code class="text-purple-600">
-                public class ButtonModel {<br />
-                &nbsp;&nbsp;public string? Id { get; set; }<br />
-                &nbsp;&nbsp;public string? Title { get; set; }<br />
-                &nbsp;&nbsp;public string? StartIcon { get; set; }<br />
-                &nbsp;&nbsp;public string? EndIcon { get; set; }<br />
-                &nbsp;&nbsp;public bool Disabled { get; set; }<br />
+                &lt;MaviButtonGroup ElementVariant="ElementVariant.Filled" ... /&gt;<br/>
+                &lt;MaviButtonGroup ElementVariant="ElementVariant.Outlined" ... /&gt;<br/>
+                &lt;MaviButtonGroup ElementVariant="ElementVariant.Text" ... /&gt;
+            </code>
+        </div>
+    </div>
+</section>
+
+<!-- Section 5: Color Schemes -->
+<section class="space-y-6">
+<div class="space-y-2">
+    <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Color Schemes</h2>
+    <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+        Button groups support all color schemes for different contexts and semantic meanings.
+    </p>
+</div>
+
+<div class="space-y-4">
+    <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Filled Variant - All Colors</h3>
+    <div class="flex flex-wrap gap-4">
+        <div class="flex flex-col gap-2 items-center">
+            <MaviButtonGroup ElementVariant="ElementVariant.Filled"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Default"
+                             OnClick="OnButtonGroupClick"
+                             Buttons="@GenerateTextButtonGroup()"/>
+            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Default</span>
+        </div>
+        <div class="flex flex-col gap-2 items-center">
+            <MaviButtonGroup ElementVariant="ElementVariant.Filled"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Primary"
+                             OnClick="OnButtonGroupClick"
+                             Buttons="@GenerateTextButtonGroup()"/>
+            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Primary</span>
+        </div>
+        <div class="flex flex-col gap-2 items-center">
+            <MaviButtonGroup ElementVariant="ElementVariant.Filled"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Secondary"
+                             OnClick="OnButtonGroupClick"
+                             Buttons="@GenerateTextButtonGroup()"/>
+            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Secondary</span>
+        </div>
+        <div class="flex flex-col gap-2 items-center">
+            <MaviButtonGroup ElementVariant="ElementVariant.Filled"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Success"
+                             OnClick="OnButtonGroupClick"
+                             Buttons="@GenerateTextButtonGroup()"/>
+            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Success</span>
+        </div>
+        <div class="flex flex-col gap-2 items-center">
+            <MaviButtonGroup ElementVariant="ElementVariant.Filled"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Alert"
+                             OnClick="OnButtonGroupClick"
+                             Buttons="@GenerateTextButtonGroup()"/>
+            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Danger</span>
+        </div>
+        <div class="flex flex-col gap-2 items-center">
+            <MaviButtonGroup ElementVariant="ElementVariant.Filled"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Warning"
+                             OnClick="OnButtonGroupClick"
+                             Buttons="@GenerateTextButtonGroup()"/>
+            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Warning</span>
+        </div>
+        <div class="flex flex-col gap-2 items-center">
+            <MaviButtonGroup ElementVariant="ElementVariant.Filled"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Info"
+                             OnClick="OnButtonGroupClick"
+                             Buttons="@GenerateTextButtonGroup()"/>
+            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Info</span>
+        </div>
+        <div class="flex flex-col gap-2 items-center">
+            <MaviButtonGroup ElementVariant="ElementVariant.Filled"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Dark"
+                             OnClick="OnButtonGroupClick"
+                             Buttons="@GenerateTextButtonGroup()"/>
+            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Dark</span>
+        </div>
+        <div class="flex flex-col gap-2 items-center">
+            <MaviButtonGroup ElementVariant="ElementVariant.Filled"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Light"
+                             OnClick="OnButtonGroupClick"
+                             Buttons="@GenerateTextButtonGroup()"/>
+            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Light</span>
+        </div>
+    </div>
+</div>
+
+<div class="space-y-4">
+    <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Outlined Variant - All Colors</h3>
+    <div class="flex flex-wrap gap-4">
+        <div class="flex flex-col gap-2 items-center">
+            <MaviButtonGroup ElementVariant="ElementVariant.Outlined"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Default"
+                             OnClick="OnButtonGroupClick"
+                             Buttons="@GenerateTextButtonGroup()"/>
+            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Default</span>
+        </div>
+        <div class="flex flex-col gap-2 items-center">
+            <MaviButtonGroup ElementVariant="ElementVariant.Outlined"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Primary"
+                             OnClick="OnButtonGroupClick"
+                             Buttons="@GenerateTextButtonGroup()"/>
+            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Primary</span>
+        </div>
+        <div class="flex flex-col gap-2 items-center">
+            <MaviButtonGroup ElementVariant="ElementVariant.Outlined"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Secondary"
+                             OnClick="OnButtonGroupClick"
+                             Buttons="@GenerateTextButtonGroup()"/>
+            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Secondary</span>
+        </div>
+        <div class="flex flex-col gap-2 items-center">
+            <MaviButtonGroup ElementVariant="ElementVariant.Outlined"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Success"
+                             OnClick="OnButtonGroupClick"
+                             Buttons="@GenerateTextButtonGroup()"/>
+            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Success</span>
+        </div>
+        <div class="flex flex-col gap-2 items-center">
+            <MaviButtonGroup ElementVariant="ElementVariant.Outlined"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Alert"
+                             OnClick="OnButtonGroupClick"
+                             Buttons="@GenerateTextButtonGroup()"/>
+            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Danger</span>
+        </div>
+        <div class="flex flex-col gap-2 items-center">
+            <MaviButtonGroup ElementVariant="ElementVariant.Outlined"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Warning"
+                             OnClick="OnButtonGroupClick"
+                             Buttons="@GenerateTextButtonGroup()"/>
+            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Warning</span>
+        </div>
+        <div class="flex flex-col gap-2 items-center">
+            <MaviButtonGroup ElementVariant="ElementVariant.Outlined"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Info"
+                             OnClick="OnButtonGroupClick"
+                             Buttons="@GenerateTextButtonGroup()"/>
+            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Info</span>
+        </div>
+        <div class="flex flex-col gap-2 items-center">
+            <MaviButtonGroup ElementVariant="ElementVariant.Outlined"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Dark"
+                             OnClick="OnButtonGroupClick"
+                             Buttons="@GenerateTextButtonGroup()"/>
+            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Dark</span>
+        </div>
+        <div class="flex flex-col gap-2 items-center">
+            <MaviButtonGroup ElementVariant="ElementVariant.Outlined"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Light"
+                             OnClick="OnButtonGroupClick"
+                             Buttons="@GenerateTextButtonGroup()"/>
+            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Light</span>
+        </div>
+    </div>
+</div>
+
+<div class="space-y-4">
+    <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Text Variant - All Colors</h3>
+    <div class="flex flex-wrap gap-4">
+        <div class="flex flex-col gap-2 items-center">
+            <MaviButtonGroup ElementVariant="ElementVariant.Text"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Default"
+                             OnClick="OnButtonGroupClick"
+                             Buttons="@GenerateTextButtonGroup()"/>
+            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Default</span>
+        </div>
+        <div class="flex flex-col gap-2 items-center">
+            <MaviButtonGroup ElementVariant="ElementVariant.Text"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Primary"
+                             OnClick="OnButtonGroupClick"
+                             Buttons="@GenerateTextButtonGroup()"/>
+            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Primary</span>
+        </div>
+        <div class="flex flex-col gap-2 items-center">
+            <MaviButtonGroup ElementVariant="ElementVariant.Text"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Secondary"
+                             OnClick="OnButtonGroupClick"
+                             Buttons="@GenerateTextButtonGroup()"/>
+            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Secondary</span>
+        </div>
+        <div class="flex flex-col gap-2 items-center">
+            <MaviButtonGroup ElementVariant="ElementVariant.Text"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Success"
+                             OnClick="OnButtonGroupClick"
+                             Buttons="@GenerateTextButtonGroup()"/>
+            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Success</span>
+        </div>
+        <div class="flex flex-col gap-2 items-center">
+            <MaviButtonGroup ElementVariant="ElementVariant.Text"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Alert"
+                             OnClick="OnButtonGroupClick"
+                             Buttons="@GenerateTextButtonGroup()"/>
+            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Danger</span>
+        </div>
+        <div class="flex flex-col gap-2 items-center">
+            <MaviButtonGroup ElementVariant="ElementVariant.Text"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Warning"
+                             OnClick="OnButtonGroupClick"
+                             Buttons="@GenerateTextButtonGroup()"/>
+            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Warning</span>
+        </div>
+        <div class="flex flex-col gap-2 items-center">
+            <MaviButtonGroup ElementVariant="ElementVariant.Text"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Info"
+                             OnClick="OnButtonGroupClick"
+                             Buttons="@GenerateTextButtonGroup()"/>
+            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Info</span>
+        </div>
+        <div class="flex flex-col gap-2 items-center">
+            <MaviButtonGroup ElementVariant="ElementVariant.Text"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Dark"
+                             OnClick="OnButtonGroupClick"
+                             Buttons="@GenerateTextButtonGroup()"/>
+            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Dark</span>
+        </div>
+        <div class="flex flex-col gap-2 items-center">
+            <MaviButtonGroup ElementVariant="ElementVariant.Text"
+                             ElementSize="ElementSize.Regular"
+                             ThemeColorScheme="ThemeColorScheme.Light"
+                             OnClick="OnButtonGroupClick"
+                             Buttons="@GenerateTextButtonGroup()"/>
+            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Light</span>
+        </div>
+    </div>
+    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4")">
+        <code class="text-purple-600">
+            &lt;MaviButtonGroup ThemeColorScheme="ThemeColorScheme.Primary" ... /&gt;<br/>
+            &lt;MaviButtonGroup ThemeColorScheme="ThemeColorScheme.Danger" ... /&gt;<br/>
+            &lt;MaviButtonGroup ThemeColorScheme="ThemeColorScheme.Success" ... /&gt;
+        </code>
+    </div>
+</div>
+</section>
+
+
+<!-- Section 6: Disabled States -->
+<section class="space-y-6">
+    <div class="space-y-2">
+        <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Disabled States</h2>
+        <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+            Button groups can be disabled entirely or have individual buttons disabled. Disabled buttons have reduced opacity and are non-interactive.
+        </p>
+    </div>
+
+    <div class="space-y-4">
+        <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Filled Variant - Disabled</h3>
+        <div class="flex flex-wrap gap-4">
+            <div class="flex flex-col gap-2 items-center">
+                <MaviButtonGroup ElementVariant="ElementVariant.Filled"
+                                 ElementSize="ElementSize.Regular"
+                                 ThemeColorScheme="ThemeColorScheme.Primary"
+                                 OnClick="OnButtonGroupClick"
+                                 Disabled="true"
+                                 Buttons="@GenerateTextButtonGroup()"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">All Disabled</span>
+            </div>
+            <div class="flex flex-col gap-2 items-center">
+                <MaviButtonGroup ElementVariant="ElementVariant.Filled"
+                                 ElementSize="ElementSize.Regular"
+                                 ThemeColorScheme="ThemeColorScheme.Primary"
+                                 OnClick="OnButtonGroupClick"
+                                 Buttons="@GeneratePartiallyDisabledButtonGroup()"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Partial Disabled</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="space-y-4">
+        <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Outlined Variant - Disabled</h3>
+        <div class="flex flex-wrap gap-4">
+            <div class="flex flex-col gap-2 items-center">
+                <MaviButtonGroup ElementVariant="ElementVariant.Outlined"
+                                 ElementSize="ElementSize.Regular"
+                                 ThemeColorScheme="ThemeColorScheme.Primary"
+                                 OnClick="OnButtonGroupClick"
+                                 Disabled="true"
+                                 Buttons="@GenerateTextButtonGroup()"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">All Disabled</span>
+            </div>
+            <div class="flex flex-col gap-2 items-center">
+                <MaviButtonGroup ElementVariant="ElementVariant.Outlined"
+                                 ElementSize="ElementSize.Regular"
+                                 ThemeColorScheme="ThemeColorScheme.Primary"
+                                 OnClick="OnButtonGroupClick"
+                                 Buttons="@GeneratePartiallyDisabledButtonGroup()"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Partial Disabled</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="space-y-4">
+        <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Text Variant - Disabled</h3>
+        <div class="flex flex-wrap gap-4">
+            <div class="flex flex-col gap-2 items-center">
+                <MaviButtonGroup ElementVariant="ElementVariant.Text"
+                                 ElementSize="ElementSize.Regular"
+                                 ThemeColorScheme="ThemeColorScheme.Primary"
+                                 OnClick="OnButtonGroupClick"
+                                 Disabled="true"
+                                 Buttons="@GenerateTextButtonGroup()"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">All Disabled</span>
+            </div>
+            <div class="flex flex-col gap-2 items-center">
+                <MaviButtonGroup ElementVariant="ElementVariant.Text"
+                                 ElementSize="ElementSize.Regular"
+                                 ThemeColorScheme="ThemeColorScheme.Primary"
+                                 OnClick="OnButtonGroupClick"
+                                 Buttons="@GeneratePartiallyDisabledButtonGroup()"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, "text-gray-600")">Partial Disabled</span>
+            </div>
+        </div>
+        <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4")">
+            <code class="text-purple-600">
+                &lt;!-- Disable entire group --&gt;<br/>
+                &lt;MaviButtonGroup Disabled="true" ... /&gt;<br/>
+                <br/>
+                &lt;!-- Disable individual buttons --&gt;<br/>
+                @@code {<br/>
+                &nbsp;&nbsp;private static List&lt;ButtonModel&gt; GeneratePartiallyDisabledButtonGroup() =&gt; [<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;new() { Title = "Left" },<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;new() { Title = "Middle", Disabled = true },<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;new() { Title = "Right" }<br/>
+                &nbsp;&nbsp;];<br/>
                 }
             </code>
         </div>
-    </section>
-
     </div>
+</section>
+
+<!-- Section 7: Parameters Reference -->
+<section class="space-y-6">
+    <div class="space-y-2">
+        <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Component Parameters</h2>
+        <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+            Complete reference for all MaviButtonGroup component parameters and their descriptions.
+        </p>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200 border border-gray-300 rounded-lg">
+            <thead class="bg-gray-50">
+            <tr>
+                <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_MEDIUM, "px-6 py-3 text-left text-gray-700 uppercase tracking-wider")">Parameter</th>
+                <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_MEDIUM, "px-6 py-3 text-left text-gray-700 uppercase tracking-wider")">Type</th>
+                <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_MEDIUM, "px-6 py-3 text-left text-gray-700 uppercase tracking-wider")">Default</th>
+                <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_MEDIUM, "px-6 py-3 text-left text-gray-700 uppercase tracking-wider")">Description</th>
+            </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-purple-600")">Id</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap")">string?</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-gray-500")">Auto-generated</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Unique identifier for the button group element.</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-purple-600")">ElementVariant</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap")">ElementVariant</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-gray-500")">Filled</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Visual style variant: Filled, Outlined, or Text.</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-purple-600")">ElementSize</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap")">ElementSize</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-gray-500")">Regular</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Size of buttons: Small, Regular, or Large.</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-purple-600")">ThemeColorScheme</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap")">ThemeColorScheme</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-gray-500")">Default</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Color scheme: Default, Primary, Secondary, Success, Alert, Warning, Info, Dark, or Light.</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-purple-600")">TextTransform</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap")">TextTransform</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-gray-500")">None</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Text transformation: None, Uppercase, Lowercase, or Capitalize.</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-purple-600")">Disabled</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap")">bool</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-gray-500")">false</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">When true, disables all buttons in the group.</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-purple-600")">Buttons</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap")">List&lt;ButtonModel&gt;?</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-gray-500")">null</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">List of button models defining the buttons in the group. Each model contains Title, StartIcon, EndIcon, and Disabled properties.</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-purple-600")">ChildContent</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap")">RenderFragment?</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-gray-500")">null</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Custom content to render instead of using the Buttons list. Useful for advanced customization.</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-purple-600")">OnClick</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap")">EventCallback&lt;MouseGroupClickEventArgs&gt;</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-gray-500")">-</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Event callback fired when a button in the group is clicked. Provides ButtonGroupId and ButtonId in the event args.</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-purple-600")">Class</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap")">string?</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-gray-500")">null</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Additional CSS classes to apply to the button group container.</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-purple-600")">Style</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap")">string?</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4 whitespace-nowrap font-mono text-gray-500")">null</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Inline CSS styles to apply to the button group container.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4 space-y-2")">
+        <h4 class="@Tailwind.Theme.Typography.LABEL_MEDIUM">ButtonModel Properties</h4>
+        <code class="text-purple-600">
+            public class ButtonModel {<br/>
+            &nbsp;&nbsp;public string? Id { get; set; }<br/>
+            &nbsp;&nbsp;public string? Title { get; set; }<br/>
+            &nbsp;&nbsp;public string? StartIcon { get; set; }<br/>
+            &nbsp;&nbsp;public string? EndIcon { get; set; }<br/>
+            &nbsp;&nbsp;public bool Disabled { get; set; }<br/>
+            }
+        </code>
+    </div>
+</section>
+
+</div>
 
 @code
 {

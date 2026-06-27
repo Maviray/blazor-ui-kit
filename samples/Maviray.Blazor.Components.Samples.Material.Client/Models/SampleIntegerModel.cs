@@ -18,7 +18,6 @@ public class SampleIntegerModel
     [Display(Name = "Integer Three", Description = "Custom description as part of Display attribute.")]
     public int NumberThree { get; set; }
 
-
     [Display(Name = "Integer Four", Description = "Custom description as part of Display attribute.")]
     public int NumberFour { get; set; } = 34;
 

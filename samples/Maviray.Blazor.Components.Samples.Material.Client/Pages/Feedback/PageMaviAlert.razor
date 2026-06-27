@@ -1,5 +1,4 @@
 ﻿@page "/PageMaviAlert"
-@using Maviray.Blazor.Components.Material.Components.DataDisplay
 @using Maviray.Blazor.Components.Material.Components.Feedback
 @inherits SamplePageBase
 
@@ -14,10 +13,10 @@
             Display messages with various styles, colors, and optional dismiss functionality. Display alert messages and text programmatically.
         </p>
     </div>
-    
+
     <div>
         <EditForm Model="@_sampleSelectVariantsModel" OnValidSubmit="OnValidFormSubmit">
-            <DataAnnotationsValidator />
+            <DataAnnotationsValidator/>
             <div class="flex flex-col gap-2">
                 <div class="flex flex-col 2xl:flex-row gap-2">
                     <div class="basis-1/2 flex flex-col">
@@ -26,7 +25,7 @@
                                       Items="_elementVariants"
                                       ElementSize="ElementSize.Small"
                                       StartIcon="lni lni-gears-3"
-                                      Width="w-full" />
+                                      Width="w-full"/>
                     </div>
                     <div class="basis-1/2 flex flex-col gap-2">
                         <MaviDropdown TItem="ThemeColorScheme" TValue="ThemeColorScheme"
@@ -34,7 +33,7 @@
                                       Items="_colorSchemes"
                                       ElementSize="ElementSize.Small"
                                       StartIcon="lni lni-gears-3"
-                                      Width="w-full" />
+                                      Width="w-full"/>
                     </div>
                 </div>
                 <div class="flex flex-col 2xl:flex-row gap-2">
@@ -42,17 +41,17 @@
                         <MaviInputStringNullable @bind-Value="_sampleSelectVariantsModel.Title"
                                                  ElementSize="ElementSize.Regular"
                                                  StartIcon="lni lni-android-old"
-                                                 Width="w-full" />
+                                                 Width="w-full"/>
                     </div>
                     <div class="basis-2/3 flex flex-col gap-2">
                         <MaviInputStringNullable @bind-Value="_sampleSelectVariantsModel.Text"
                                                  ElementSize="ElementSize.Regular"
                                                  StartIcon="lni lni-android-old"
-                                                 Width="w-full" />
+                                                 Width="w-full"/>
                     </div>
                 </div>
             </div>
-           
+
             <div class="p-2">
                 <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
                             ElementSize="ElementSize.Regular"
@@ -92,19 +91,19 @@
                        Text="Initial Title Text"
                        Dismissible="true"
                        OnDismiss="OnAlertDismiss">
-                
+
             </MaviAlert>
         </div>
 
         <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4")">
             <code class="text-purple-600">
-                &lt;MaviAlert<br />
-                ThemeColorScheme="_sampleSelectVariantsModel.ThemeColorScheme"<br />
-                ElementVariant="_sampleSelectVariantsModel.ElementVariant"<br />
-                Title="Initial Title Value"<br />
+                &lt;MaviAlert<br/>
+                ThemeColorScheme="_sampleSelectVariantsModel.ThemeColorScheme"<br/>
+                ElementVariant="_sampleSelectVariantsModel.ElementVariant"<br/>
+                Title="Initial Title Value"<br/>
                 Text="Initial Title Text"<br/>
-                Dismissible="true"<br />
-                OnDismiss="OnAlertDismiss"&gt;<br />
+                Dismissible="true"<br/>
+                OnDismiss="OnAlertDismiss"&gt;<br/>
                 &lt;/MaviAlert&gt;
             </code>
         </div>
@@ -115,7 +114,7 @@
 
     private MaviAlert? _alert;
     private readonly SampleSelectVariantsModel _sampleSelectVariantsModel = new();
-    
+
     private readonly IEnumerable<ElementVariant> _elementVariants = Enum.GetValues<ElementVariant>();
     private readonly IEnumerable<ThemeColorScheme> _colorSchemes = Enum.GetValues<ThemeColorScheme>();
 
@@ -153,4 +152,5 @@
             Logger?.LogError(ex, ex.Message);
         }
     }
+
 }
