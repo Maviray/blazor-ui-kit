@@ -5,7 +5,7 @@
 
 <div class="container mx-auto p-6 flex flex-col gap-2">
     <h1 class="text-3xl font-bold mb-6">Icon Colors</h1>
-    
+
     <div>
         <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-(--theme-dark-six)")">
             Example Usage
@@ -30,7 +30,9 @@
                     <MaviIconOnline IconOnlineType="IconOnlineType.XCircleOnline" IconColor="@iconColor" IconSize="IconSize.Medium"></MaviIconOnline>
                     <MaviIconSolid IconSolidType="IconSolidType.XCircleSolid" IconColor="@iconColor" IconSize="IconSize.Medium"></MaviIconSolid>
                 </div>
-                <span class="mt-2 text-sm text-center text-gray-700"><span class="font-semibold">IconColor.</span>@iconColor</span>
+                <span class="mt-2 text-sm text-center text-gray-700">
+                    <span class="font-semibold">IconColor.</span>@iconColor
+                </span>
             </div>
         }
     </div>

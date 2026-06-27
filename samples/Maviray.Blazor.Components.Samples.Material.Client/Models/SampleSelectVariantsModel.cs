@@ -1,4 +1,5 @@
 ﻿using Maviray.Blazor.Components.Core.Enums;
+
 namespace Maviray.Blazor.Components.Samples.Material.Client.Models;
 
 public class SampleSelectVariantsModel
@@ -10,5 +11,5 @@ public class SampleSelectVariantsModel
 
     public ElementVariant ElementVariant { get; set; }
 
-    public ElementSize ElementSize { get; set; } 
+    public ElementSize ElementSize { get; set; }
 }

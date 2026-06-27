@@ -1,16 +1,13 @@
-﻿using Maviray.Blazor.Components.Core.Attributes;
+﻿using System.ComponentModel.DataAnnotations;
+using Maviray.Blazor.Components.Core.Attributes;
 using Maviray.Blazor.Components.Core.Enums;
 using Maviray.Blazor.Components.Core.Models.Tables;
 using Maviray.Blazor.Components.Samples.Material.Client.Enums;
-using System.ComponentModel.DataAnnotations;
 
 namespace Maviray.Blazor.Components.Samples.Material.Client.Models;
 
 public class SampleTableCollectionItemModel : ITableDataItem
 {
-    public int Id { get; set; }
-    public string? Guid { get; set; }
-
     [Display(Name = "String")]
     [TableColumn(1, true)]
     public string? SampleString { get; set; }
@@ -38,6 +35,9 @@ public class SampleTableCollectionItemModel : ITableDataItem
     [Display(Name = "DateTime")]
     [TableColumn(7, "dd.MM.yyyy")]
     public DateTime? SampleDateTime { get; set; }
+
+    public int Id { get; set; }
+    public string? Guid { get; set; }
 
     public IEnumerable<MaviTableRowContextMenuItem> ContextMenu { get; set; } = [];
 }

@@ -4,7 +4,7 @@ namespace Maviray.Blazor.Components.Samples.Material.Client.Enums;
 
 public enum SampleEnum
 {
-    [Display(Name="Zero")]
+    [Display(Name = "Zero")]
     Zero = 0,
 
     [Display(Name = "One")]

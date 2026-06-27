@@ -1,6 +1,4 @@
 ﻿using Maviray.Blazor.Components.Core.Enums;
-using Maviray.Blazor.Components.Core.EventArgs;
-using Microsoft.AspNetCore.Components;
 
 namespace Maviray.Blazor.Components.Core.Models.Buttons
 {
