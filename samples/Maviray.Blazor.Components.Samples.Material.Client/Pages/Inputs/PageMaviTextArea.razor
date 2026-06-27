@@ -1,0 +1,661 @@
+@page "/PageMaviTextArea"
+@inherits SamplePageBase
+
+<PageTitle>MaviTextArea</PageTitle>
+
+<div class="p-6 max-w-7xl mx-auto">
+<!-- Page Header -->
+<div class="mb-8">
+    <h1 class="@CssManager.Combine(Tailwind.Theme.Typography.DISPLAY_MEDIUM, "mb-2")">MaviTextArea Component</h1>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_LARGE, "text-gray-600")">
+        Multi-line text input following the Material outlined style. Showcases sizes, rows, states,
+        validation, character counting and programmatic access to the typed content.
+    </p>
+</div>
+
+<EditForm Model="@_formSampleModel" OnValidSubmit="OnValidFormSubmit" OnInvalidSubmit="OnInValidFormSubmit" novalidate>
+<DataAnnotationsValidator/>
+
+<!-- Section 1: Size Variants -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">1. Size Variants</h2>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+        Three size options: Small, Regular (default), and Large
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Small -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Small</h3>
+                <MaviTextArea @bind-Value="_formSampleModel.Summary"
+                              Label="Summary"
+                              ElementSize="ElementSize.Small"
+                              Rows="3"
+                              Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.Summary)"/>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    &lt;MaviTextArea
+                    @@bind-Value="value"
+                    ElementSize="ElementSize.Small"
+                    Rows="3"
+                    Width="w-full" /&gt;
+                </code>
+            </div>
+        </div>
+
+        <!-- Regular -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Regular (Default)</h3>
+                <MaviTextArea @bind-Value="_formSampleModel.Notes"
+                              Label="Notes"
+                              ElementSize="ElementSize.Regular"
+                              Rows="3"
+                              Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.Notes)"/>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    &lt;MaviTextArea
+                    @@bind-Value="value"
+                    ElementSize="ElementSize.Regular"
+                    Rows="3"
+                    Width="w-full" /&gt;
+                </code>
+            </div>
+        </div>
+
+        <!-- Large -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Large</h3>
+                <MaviTextArea @bind-Value="_formSampleModel.Biography"
+                              Label="Biography"
+                              ElementSize="ElementSize.Large"
+                              Rows="3"
+                              Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.Biography)"/>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    &lt;MaviTextArea
+                    @@bind-Value="value"
+                    ElementSize="ElementSize.Large"
+                    Rows="3"
+                    Width="w-full" /&gt;
+                </code>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Section 2: Rows (Initial Height) -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">2. Rows (Initial Height)</h2>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+        The <code>Rows</code> parameter sets how many lines are visible initially
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- 2 Rows -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">2 Rows (Compact)</h3>
+                <MaviTextArea @bind-Value="_formSampleModel.Summary"
+                              Label="Short note"
+                              Rows="2"
+                              Width="w-full"/>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">Rows="2"</code>
+            </div>
+        </div>
+
+        <!-- 5 Rows -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">5 Rows</h3>
+                <MaviTextArea @bind-Value="_formSampleModel.Address"
+                              Label="Address"
+                              Rows="5"
+                              Width="w-full"/>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">Rows="5"</code>
+            </div>
+        </div>
+
+        <!-- 8 Rows -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">8 Rows (Tall)</h3>
+                <MaviTextArea @bind-Value="_formSampleModel.Review"
+                              Label="Product Review"
+                              Rows="8"
+                              Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.Review)"/>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">Rows="8"</code>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Section 3: Input States -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">3. Input States</h2>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+        Control interactivity with Disabled and Readonly states
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Disabled -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Disabled</h3>
+                <MaviTextArea @bind-Value="_formSampleModel.InternalNotes"
+                              Label="Internal Notes"
+                              Disabled="true"
+                              Rows="3"
+                              Width="w-full"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    User cannot interact with disabled textareas
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">Disabled="true"</code>
+            </div>
+        </div>
+
+        <!-- Readonly -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Readonly</h3>
+                <MaviTextArea @bind-Value="_formSampleModel.Comments"
+                              Label="Comments"
+                              Readonly="true"
+                              Rows="3"
+                              Width="w-full"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Value is visible but not editable
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">Readonly="true"</code>
+            </div>
+        </div>
+
+        <!-- Normal -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Normal (Enabled)</h3>
+                <MaviTextArea @bind-Value="_formSampleModel.Feedback"
+                              Label="Feedback"
+                              Rows="3"
+                              Width="w-full"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Fully interactive textarea
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">&lt;MaviTextArea ... /&gt;</code>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Section 4: Features -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">4. Features</h2>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+        Helper text, character counter, max length and resize control
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Helper Text -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Helper Text</h3>
+                <MaviTextArea @bind-Value="_formSampleModel.Feedback"
+                              Label="Feedback"
+                              HelperText="Let us know what you think"
+                              Rows="3"
+                              Width="w-full"/>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">HelperText="Let us know what you think"</code>
+            </div>
+        </div>
+
+        <!-- Character Counter -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Character Counter</h3>
+                <MaviTextArea @bind-Value="_formSampleModel.Message"
+                              Label="Message"
+                              MaxLength="280"
+                              ShowCharacterCount="true"
+                              Rows="3"
+                              Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.Message)"/>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    MaxLength="280"
+                    ShowCharacterCount="true"
+                </code>
+            </div>
+        </div>
+
+        <!-- Resizable (default) -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Resizable (Default)</h3>
+                <MaviTextArea @bind-Value="_formSampleModel.Notes"
+                              Label="Notes"
+                              HelperText="Drag the bottom-right corner to resize"
+                              Rows="3"
+                              Width="w-full"/>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">Resizable="true"</code>
+            </div>
+        </div>
+
+        <!-- Resize Locked -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Resize Locked</h3>
+                <MaviTextArea @bind-Value="_formSampleModel.Summary"
+                              Label="Summary"
+                              HelperText="Fixed height - cannot be resized"
+                              Resizable="false"
+                              Rows="3"
+                              Width="w-full"/>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">Resizable="false"</code>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Section 5: Validation & Attribute Inference -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">5. Validation &amp; Attribute Inference</h2>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+        Label, Required, MaxLength and helper text are inferred from model data annotations.
+        The <code>ValidationMessage</code> is placed by the consumer, not the component.
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Auto Inference -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Auto Attribute Inference</h3>
+                <MaviTextArea @bind-Value="_formSampleModel.Description"
+                              ShowCharacterCount="true"
+                              Rows="4"
+                              Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.Description)"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Label, Required (*), MaxLength and helper text auto-inferred from the model
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    @@bind-Value="model.Description"
+                    ShowCharacterCount="true"
+                </code>
+            </div>
+        </div>
+
+        <!-- Manual Configuration -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Manual Configuration</h3>
+                <MaviTextArea @bind-Value="_formSampleModel.Review"
+                              Label="Custom Review Label"
+                              Required="true"
+                              MaxLength="2000"
+                              ShowCharacterCount="true"
+                              InferFromModelAttributes="false"
+                              HelperText="All properties explicitly set"
+                              Rows="4"
+                              Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.Review)"/>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    Label="Custom Review Label"
+                    Required="true"
+                    MaxLength="2000"
+                    InferFromModelAttributes="false"
+                </code>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Section 6: Theme Color Schemes -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">6. Theme Color Schemes</h2>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+        Apply different color themes to borders and labels
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Primary -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Primary</h3>
+                <MaviTextArea @bind-Value="_formSampleModel.Notes"
+                              Label="Primary"
+                              ThemeColorScheme="ThemeColorScheme.Primary"
+                              Rows="3"
+                              Width="w-full"/>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">ThemeColorScheme="ThemeColorScheme.Primary"</code>
+            </div>
+        </div>
+
+        <!-- Secondary -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Secondary</h3>
+                <MaviTextArea @bind-Value="_formSampleModel.Summary"
+                              Label="Secondary"
+                              ThemeColorScheme="ThemeColorScheme.Secondary"
+                              Rows="3"
+                              Width="w-full"/>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">ThemeColorScheme="ThemeColorScheme.Secondary"</code>
+            </div>
+        </div>
+
+        <!-- Success -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Success</h3>
+                <MaviTextArea @bind-Value="_formSampleModel.Feedback"
+                              Label="Success"
+                              ThemeColorScheme="ThemeColorScheme.Success"
+                              Rows="3"
+                              Width="w-full"/>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">ThemeColorScheme="ThemeColorScheme.Success"</code>
+            </div>
+        </div>
+
+        <!-- Alert -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Alert</h3>
+                <MaviTextArea @bind-Value="_formSampleModel.Address"
+                              Label="Alert"
+                              ThemeColorScheme="ThemeColorScheme.Alert"
+                              Rows="3"
+                              Width="w-full"/>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">ThemeColorScheme="ThemeColorScheme.Alert"</code>
+            </div>
+        </div>
+
+        <!-- Warning -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Warning</h3>
+                <MaviTextArea @bind-Value="_formSampleModel.Comments"
+                              Label="Warning"
+                              ThemeColorScheme="ThemeColorScheme.Warning"
+                              Rows="3"
+                              Width="w-full"/>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">ThemeColorScheme="ThemeColorScheme.Warning"</code>
+            </div>
+        </div>
+
+        <!-- Info -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Info</h3>
+                <MaviTextArea @bind-Value="_formSampleModel.Biography"
+                              Label="Info"
+                              ThemeColorScheme="ThemeColorScheme.Info"
+                              Rows="3"
+                              Width="w-full"/>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">ThemeColorScheme="ThemeColorScheme.Info"</code>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Section 7: Programmatic Access (GetCurrentText) -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">7. Programmatic Access</h2>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+        Read the live content via the <code>GetCurrentText()</code> method using <code>@@ref</code>
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Read Typed Content</h3>
+                <MaviTextArea @ref="_liveTextArea"
+                              @bind-Value="_formSampleModel.Comments"
+                              Label="Type something"
+                              HelperText="Then press the button to capture the current text"
+                              Rows="3"
+                              Width="w-full"/>
+                <div class="mt-3">
+                    <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                                ElementSize="ElementSize.Small"
+                                Title="Capture Text"
+                                ButtonRole="ButtonRole.Button"
+                                ElementVariant="ElementVariant.Outlined"
+                                TextTransform="TextTransform.Capitalize"
+                                StartIcon="lni lni-download"
+                                OnClick="CaptureText">
+                    </MaviButton>
+                </div>
+                @if (_capturedText is not null)
+                {
+                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "mt-3 bg-gray-50 p-3 rounded-md")">
+                        <span class="font-semibold">Captured (@_capturedText.Length chars):</span>
+                        <p class="whitespace-pre-wrap break-words mt-1">@(_capturedText.Length == 0 ? "(empty)" : _capturedText)</p>
+                    </div>
+                }
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    &lt;MaviTextArea @@ref="_area" ... /&gt;
+                    ...
+                    var text = _area.GetCurrentText();
+                </code>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Section 8: Complete Parameter Reference -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">8. Complete Parameter Reference</h2>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+        Key parameters for the MaviTextArea component
+    </p>
+
+    <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+        <table class="min-w-full">
+            <thead class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_LIGHT_FOUR_BG)">
+            <tr>
+                <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Parameter</th>
+                <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Type</th>
+                <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Default</th>
+                <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Description</th>
+            </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>@@bind-Value</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string?</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Two-way bound string value</td>
+            </tr>
+            <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>Rows</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">int</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">3</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Number of visible lines (initial height)</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>Resizable</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">true</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Allow manual vertical resize (locked when disabled/readonly)</td>
+            </tr>
+            <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>ShowCharacterCount</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Show a current/max character counter</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>MaxLength</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">int</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">524288</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Maximum character length (inferred from attributes)</td>
+            </tr>
+            <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>ElementSize</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">ElementSize</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Regular</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Size variant: Small, Regular, Large</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>ThemeColorScheme</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">ThemeColorScheme</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Primary</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Color scheme for borders and labels</td>
+            </tr>
+            <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>Label</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">""</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Floating label text (inferred if empty)</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>HelperText</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Helper text displayed below the field</td>
+            </tr>
+            <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>Required</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Shows required asterisk (*) (inferred)</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>Disabled</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Disables user interaction</td>
+            </tr>
+            <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>Readonly</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Makes the field read-only</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>InferFromModelAttributes</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">true</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Auto-infer Label, Required, MaxLength, HelperText</td>
+            </tr>
+            <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>GetCurrentText()</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">method</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">—</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Returns the live typed content (via @@ref)</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Submit Button -->
+<div class="flex justify-start">
+    <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                ElementSize="ElementSize.Regular"
+                Title="Submit Form"
+                ButtonRole="ButtonRole.Submit"
+                ElementVariant="ElementVariant.Outlined"
+                TextTransform="TextTransform.Capitalize"
+                StartIcon="lni lni-checkmark">
+    </MaviButton>
+</div>
+</EditForm>
+</div>
+
+@code {
+    private readonly SampleTextAreaModel _formSampleModel = new();
+    private MaviTextArea? _liveTextArea;
+    private string? _capturedText;
+
+    private void OnValidFormSubmit(EditContext context)
+    {
+        Logger?.LogInformation("Form validation successful.");
+    }
+
+    private void OnInValidFormSubmit(EditContext context)
+    {
+        Logger?.LogInformation("Form validation failed.");
+    }
+
+    private void CaptureText()
+    {
+        _capturedText = _liveTextArea?.GetCurrentText() ?? string.Empty;
+        Logger?.LogInformation("Captured textarea content ({Length} chars).", _capturedText.Length);
+    }
+
+}

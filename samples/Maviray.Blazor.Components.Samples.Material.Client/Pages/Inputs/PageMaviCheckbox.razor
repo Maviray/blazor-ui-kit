@@ -5,212 +5,212 @@
 <PageTitle>MaviCheckbox - Complete Demo</PageTitle>
 
 <div class="flex flex-col gap-8 p-6">
-    <!-- Header Section -->
-    <div class="border-b border-gray-200 pb-4">
-        <h1 class="text-3xl font-bold text-gray-900">MaviCheckbox Component</h1>
-        <p class="mt-2 text-gray-600">A fully customizable checkbox component with support for theming, sizing, validation, and accessibility.</p>
+<!-- Header Section -->
+<div class="border-b border-gray-200 pb-4">
+    <h1 class="text-3xl font-bold text-gray-900">MaviCheckbox Component</h1>
+    <p class="mt-2 text-gray-600">A fully customizable checkbox component with support for theming, sizing, validation, and accessibility.</p>
+</div>
+
+<!-- Table of Contents -->
+<div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+    <h2 class="font-semibold text-blue-900 mb-2">Features Showcase</h2>
+    <ul class="list-disc list-inside text-sm text-blue-800 space-y-1">
+        <li>Element Sizes (Small, Regular, Large)</li>
+        <li>Theme Color Schemes (Primary, Secondary, Success, Alert, Warning, Info, Default)</li>
+        <li>States (Checked, Unchecked, Indeterminate, Disabled, Readonly)</li>
+        <li>Labels and Helper Text</li>
+        <li>Required Field Indicators</li>
+        <li>Event Callbacks</li>
+        <li>Accessibility Features</li>
+    </ul>
+</div>
+
+<!-- Section 1: Basic Sizes -->
+<section class="bg-white border rounded-lg p-6 shadow-sm">
+    <h2 class="text-xl font-semibold mb-4">1. Element Sizes</h2>
+    <p class="text-gray-600 mb-4">Three sizes available: Small, Regular (default), and Large.</p>
+
+    <div class="flex items-center gap-6 mb-4">
+        <MaviCheckbox @bind-Value="_sizeSmall"
+                      ElementSize="ElementSize.Small"
+                      Label="Small"/>
+        <MaviCheckbox @bind-Value="_sizeRegular"
+                      ElementSize="ElementSize.Regular"
+                      Label="Regular"/>
+        <MaviCheckbox @bind-Value="_sizeLarge"
+                      ElementSize="ElementSize.Large"
+                      Label="Large"/>
     </div>
 
-    <!-- Table of Contents -->
-    <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
-        <h2 class="font-semibold text-blue-900 mb-2">Features Showcase</h2>
-        <ul class="list-disc list-inside text-sm text-blue-800 space-y-1">
-            <li>Element Sizes (Small, Regular, Large)</li>
-            <li>Theme Color Schemes (Primary, Secondary, Success, Alert, Warning, Info, Default)</li>
-            <li>States (Checked, Unchecked, Indeterminate, Disabled, Readonly)</li>
-            <li>Labels and Helper Text</li>
-            <li>Required Field Indicators</li>
-            <li>Event Callbacks</li>
-            <li>Accessibility Features</li>
-        </ul>
-    </div>
-
-    <!-- Section 1: Basic Sizes -->
-    <section class="bg-white border rounded-lg p-6 shadow-sm">
-        <h2 class="text-xl font-semibold mb-4">1. Element Sizes</h2>
-        <p class="text-gray-600 mb-4">Three sizes available: Small, Regular (default), and Large.</p>
-
-        <div class="flex items-center gap-6 mb-4">
-            <MaviCheckbox @bind-Value="_sizeSmall"
-                          ElementSize="ElementSize.Small"
-                          Label="Small" />
-            <MaviCheckbox @bind-Value="_sizeRegular"
-                          ElementSize="ElementSize.Regular"
-                          Label="Regular" />
-            <MaviCheckbox @bind-Value="_sizeLarge"
-                          ElementSize="ElementSize.Large"
-                          Label="Large" />
-        </div>
-
-        <div class="bg-gray-50 p-4 rounded mt-4">
-            <h3 class="font-mono text-sm font-semibold mb-2">Usage:</h3>
-            <pre class="text-xs overflow-x-auto"><code>&lt;MaviCheckbox @@bind-Value="_checked" ElementSize="ElementSize.Small" Label="Small" /&gt;
+    <div class="bg-gray-50 p-4 rounded mt-4">
+        <h3 class="font-mono text-sm font-semibold mb-2">Usage:</h3>
+        <pre class="text-xs overflow-x-auto"><code>&lt;MaviCheckbox @@bind-Value="_checked" ElementSize="ElementSize.Small" Label="Small" /&gt;
 &lt;MaviCheckbox @@bind-Value="_checked" ElementSize="ElementSize.Regular" Label="Regular" /&gt;
 &lt;MaviCheckbox @@bind-Value="_checked" ElementSize="ElementSize.Large" Label="Large" /&gt;</code></pre>
-        </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Section 2: Theme Color Schemes -->
-    <section class="bg-white border rounded-lg p-6 shadow-sm">
-        <h2 class="text-xl font-semibold mb-4">2. Theme Color Schemes</h2>
-        <p class="text-gray-600 mb-4">Seven color schemes to match your design system.</p>
+<!-- Section 2: Theme Color Schemes -->
+<section class="bg-white border rounded-lg p-6 shadow-sm">
+    <h2 class="text-xl font-semibold mb-4">2. Theme Color Schemes</h2>
+    <p class="text-gray-600 mb-4">Seven color schemes to match your design system.</p>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-            <MaviCheckbox @bind-Value="_themeDefault"
-                          ThemeColorScheme="ThemeColorScheme.Default"
-                          Label="Default" />
-            <MaviCheckbox @bind-Value="_themePrimary"
-                          ThemeColorScheme="ThemeColorScheme.Primary"
-                          Label="Primary" />
-            <MaviCheckbox @bind-Value="_themeSecondary"
-                          ThemeColorScheme="ThemeColorScheme.Secondary"
-                          Label="Secondary" />
-            <MaviCheckbox @bind-Value="_themeSuccess"
-                          ThemeColorScheme="ThemeColorScheme.Success"
-                          Label="Success" />
-            <MaviCheckbox @bind-Value="_themeAlert"
-                          ThemeColorScheme="ThemeColorScheme.Alert"
-                          Label="Alert" />
-            <MaviCheckbox @bind-Value="_themeWarning"
-                          ThemeColorScheme="ThemeColorScheme.Warning"
-                          Label="Warning" />
-            <MaviCheckbox @bind-Value="_themeInfo"
-                          ThemeColorScheme="ThemeColorScheme.Info"
-                          Label="Info" />
-        </div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+        <MaviCheckbox @bind-Value="_themeDefault"
+                      ThemeColorScheme="ThemeColorScheme.Default"
+                      Label="Default"/>
+        <MaviCheckbox @bind-Value="_themePrimary"
+                      ThemeColorScheme="ThemeColorScheme.Primary"
+                      Label="Primary"/>
+        <MaviCheckbox @bind-Value="_themeSecondary"
+                      ThemeColorScheme="ThemeColorScheme.Secondary"
+                      Label="Secondary"/>
+        <MaviCheckbox @bind-Value="_themeSuccess"
+                      ThemeColorScheme="ThemeColorScheme.Success"
+                      Label="Success"/>
+        <MaviCheckbox @bind-Value="_themeAlert"
+                      ThemeColorScheme="ThemeColorScheme.Alert"
+                      Label="Alert"/>
+        <MaviCheckbox @bind-Value="_themeWarning"
+                      ThemeColorScheme="ThemeColorScheme.Warning"
+                      Label="Warning"/>
+        <MaviCheckbox @bind-Value="_themeInfo"
+                      ThemeColorScheme="ThemeColorScheme.Info"
+                      Label="Info"/>
+    </div>
 
-        <div class="bg-gray-50 p-4 rounded mt-4">
-            <h3 class="font-mono text-sm font-semibold mb-2">Usage:</h3>
-            <pre class="text-xs overflow-x-auto"><code>&lt;MaviCheckbox @@bind-Value="_checked" ThemeColorScheme="ThemeColorScheme.Primary" Label="Primary" /&gt;
+    <div class="bg-gray-50 p-4 rounded mt-4">
+        <h3 class="font-mono text-sm font-semibold mb-2">Usage:</h3>
+        <pre class="text-xs overflow-x-auto"><code>&lt;MaviCheckbox @@bind-Value="_checked" ThemeColorScheme="ThemeColorScheme.Primary" Label="Primary" /&gt;
 &lt;MaviCheckbox @@bind-Value="_checked" ThemeColorScheme="ThemeColorScheme.Success" Label="Success" /&gt;</code></pre>
-        </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Section 3: States -->
-    <section class="bg-white border rounded-lg p-6 shadow-sm">
-        <h2 class="text-xl font-semibold mb-4">3. Component States</h2>
+<!-- Section 3: States -->
+<section class="bg-white border rounded-lg p-6 shadow-sm">
+    <h2 class="text-xl font-semibold mb-4">3. Component States</h2>
 
-        <div class="space-y-4">
-            <!-- Checked/Unchecked -->
-            <div>
-                <h3 class="font-semibold text-gray-700 mb-2">Checked & Unchecked</h3>
-                <div class="flex items-center gap-6">
-                    <MaviCheckbox @bind-Value="_stateChecked"
-                                  Label="Checked" />
-                    <MaviCheckbox @bind-Value="_stateUnchecked"
-                                  Label="Unchecked" />
-                </div>
-            </div>
-
-            <!-- Indeterminate -->
-            <div>
-                <h3 class="font-semibold text-gray-700 mb-2">Indeterminate State</h3>
-                <p class="text-sm text-gray-600 mb-2">Useful for "select all" scenarios where some items are selected.</p>
-                <MaviCheckbox @bind-Value="_stateIndeterminate"
-                              Indeterminate="true"
-                              Label="Select all items"
-                              ThemeColorScheme="ThemeColorScheme.Primary" />
-            </div>
-
-            <!-- Disabled -->
-            <div>
-                <h3 class="font-semibold text-gray-700 mb-2">Disabled State</h3>
-                <div class="flex items-center gap-6">
-                    <MaviCheckbox @bind-Value="_stateDisabledChecked"
-                                  Disabled="true"
-                                  Label="Disabled (Checked)" />
-                    <MaviCheckbox @bind-Value="_stateDisabledUnchecked"
-                                  Disabled="true"
-                                  Label="Disabled (Unchecked)" />
-                </div>
-            </div>
-
-            <!-- Readonly -->
-            <div>
-                <h3 class="font-semibold text-gray-700 mb-2">Readonly State</h3>
-                <div class="flex items-center gap-6">
-                    <MaviCheckbox @bind-Value="_stateReadonlyChecked"
-                                  Readonly="true"
-                                  Label="Readonly (Checked)" />
-                    <MaviCheckbox @bind-Value="_stateReadonlyUnchecked"
-                                  Readonly="true"
-                                  Label="Readonly (Unchecked)" />
-                </div>
+    <div class="space-y-4">
+        <!-- Checked/Unchecked -->
+        <div>
+            <h3 class="font-semibold text-gray-700 mb-2">Checked & Unchecked</h3>
+            <div class="flex items-center gap-6">
+                <MaviCheckbox @bind-Value="_stateChecked"
+                              Label="Checked"/>
+                <MaviCheckbox @bind-Value="_stateUnchecked"
+                              Label="Unchecked"/>
             </div>
         </div>
 
-        <div class="bg-gray-50 p-4 rounded mt-4">
-            <h3 class="font-mono text-sm font-semibold mb-2">Usage:</h3>
-            <pre class="text-xs overflow-x-auto"><code>&lt;MaviCheckbox @@bind-Value="_checked" Indeterminate="true" Label="Select all" /&gt;
+        <!-- Indeterminate -->
+        <div>
+            <h3 class="font-semibold text-gray-700 mb-2">Indeterminate State</h3>
+            <p class="text-sm text-gray-600 mb-2">Useful for "select all" scenarios where some items are selected.</p>
+            <MaviCheckbox @bind-Value="_stateIndeterminate"
+                          Indeterminate="true"
+                          Label="Select all items"
+                          ThemeColorScheme="ThemeColorScheme.Primary"/>
+        </div>
+
+        <!-- Disabled -->
+        <div>
+            <h3 class="font-semibold text-gray-700 mb-2">Disabled State</h3>
+            <div class="flex items-center gap-6">
+                <MaviCheckbox @bind-Value="_stateDisabledChecked"
+                              Disabled="true"
+                              Label="Disabled (Checked)"/>
+                <MaviCheckbox @bind-Value="_stateDisabledUnchecked"
+                              Disabled="true"
+                              Label="Disabled (Unchecked)"/>
+            </div>
+        </div>
+
+        <!-- Readonly -->
+        <div>
+            <h3 class="font-semibold text-gray-700 mb-2">Readonly State</h3>
+            <div class="flex items-center gap-6">
+                <MaviCheckbox @bind-Value="_stateReadonlyChecked"
+                              Readonly="true"
+                              Label="Readonly (Checked)"/>
+                <MaviCheckbox @bind-Value="_stateReadonlyUnchecked"
+                              Readonly="true"
+                              Label="Readonly (Unchecked)"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-gray-50 p-4 rounded mt-4">
+        <h3 class="font-mono text-sm font-semibold mb-2">Usage:</h3>
+        <pre class="text-xs overflow-x-auto"><code>&lt;MaviCheckbox @@bind-Value="_checked" Indeterminate="true" Label="Select all" /&gt;
 &lt;MaviCheckbox @@bind-Value="_checked" Disabled="true" Label="Disabled" /&gt;
 &lt;MaviCheckbox @@bind-Value="_checked" Readonly="true" Label="Readonly" /&gt;</code></pre>
-        </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Section 4: Labels and Helper Text -->
-    <section class="bg-white border rounded-lg p-6 shadow-sm">
-        <h2 class="text-xl font-semibold mb-4">4. Labels and Helper Text</h2>
+<!-- Section 4: Labels and Helper Text -->
+<section class="bg-white border rounded-lg p-6 shadow-sm">
+    <h2 class="text-xl font-semibold mb-4">4. Labels and Helper Text</h2>
 
-        <div class="space-y-4">
-            <MaviCheckbox @bind-Value="_labelBasic"
-                          Label="Basic label" />
+    <div class="space-y-4">
+        <MaviCheckbox @bind-Value="_labelBasic"
+                      Label="Basic label"/>
 
-            <MaviCheckbox @bind-Value="_labelWithHelper"
-                          Label="With helper text"
-                          HelperText="This is additional information to help the user" />
+        <MaviCheckbox @bind-Value="_labelWithHelper"
+                      Label="With helper text"
+                      HelperText="This is additional information to help the user"/>
 
-            <MaviCheckbox @bind-Value="_labelRequired"
-                          Label="Required field"
-                          Required="true"
-                          HelperText="This field is required"
-                          ThemeColorScheme="ThemeColorScheme.Primary" />
+        <MaviCheckbox @bind-Value="_labelRequired"
+                      Label="Required field"
+                      Required="true"
+                      HelperText="This field is required"
+                      ThemeColorScheme="ThemeColorScheme.Primary"/>
 
-            <MaviCheckbox @bind-Value="_labelNoLabel" />
-        </div>
+        <MaviCheckbox @bind-Value="_labelNoLabel"/>
+    </div>
 
-        <div class="bg-gray-50 p-4 rounded mt-4">
-            <h3 class="font-mono text-sm font-semibold mb-2">Usage:</h3>
-            <pre class="text-xs overflow-x-auto"><code>&lt;MaviCheckbox @@bind-Value="_checked" Label="Accept terms" /&gt;
+    <div class="bg-gray-50 p-4 rounded mt-4">
+        <h3 class="font-mono text-sm font-semibold mb-2">Usage:</h3>
+        <pre class="text-xs overflow-x-auto"><code>&lt;MaviCheckbox @@bind-Value="_checked" Label="Accept terms" /&gt;
 &lt;MaviCheckbox @@bind-Value="_checked" 
               Label="I agree"
               Required="true"
               HelperText="You must accept to continue" /&gt;</code></pre>
-        </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Section 5: Event Callbacks -->
-    <section class="bg-white border rounded-lg p-6 shadow-sm">
-        <h2 class="text-xl font-semibold mb-4">5. Event Handling</h2>
-        <p class="text-gray-600 mb-4">Use the <code class="bg-gray-100 px-1 rounded">CheckBoxStatusChange</code> event to react to changes.</p>
+<!-- Section 5: Event Callbacks -->
+<section class="bg-white border rounded-lg p-6 shadow-sm">
+    <h2 class="text-xl font-semibold mb-4">5. Event Handling</h2>
+    <p class="text-gray-600 mb-4">Use the <code class="bg-gray-100 px-1 rounded">CheckBoxStatusChange</code> event to react to changes.</p>
 
-        <div class="space-y-4">
-            <MaviCheckbox @bind-Value="_eventCheckbox"
-                          Label="Toggle me and check the log below"
-                          ThemeColorScheme="ThemeColorScheme.Primary"
-                          ElementSize="ElementSize.Large"
-                          CheckBoxStatusChange="HandleCheckboxChange" />
+    <div class="space-y-4">
+        <MaviCheckbox @bind-Value="_eventCheckbox"
+                      Label="Toggle me and check the log below"
+                      ThemeColorScheme="ThemeColorScheme.Primary"
+                      ElementSize="ElementSize.Large"
+                      CheckBoxStatusChange="HandleCheckboxChange"/>
 
-            <div class="bg-gray-100 p-4 rounded">
-                <h3 class="font-semibold text-sm mb-2">Event Log:</h3>
-                <div class="text-sm font-mono space-y-1">
-                    @if (_eventLog.Any())
+        <div class="bg-gray-100 p-4 rounded">
+            <h3 class="font-semibold text-sm mb-2">Event Log:</h3>
+            <div class="text-sm font-mono space-y-1">
+                @if (_eventLog.Any())
+                {
+                    @foreach (var log in _eventLog.Take(5))
                     {
-                        @foreach (var log in _eventLog.Take(5))
-                        {
-                            <div>@log</div>
-                        }
+                        <div>@log</div>
                     }
-                    else
-                    {
-                        <div class="text-gray-500">No events yet...</div>
-                    }
-                </div>
+                }
+                else
+                {
+                    <div class="text-gray-500">No events yet...</div>
+                }
             </div>
         </div>
+    </div>
 
-        <div class="bg-gray-50 p-4 rounded mt-4">
-            <h3 class="font-mono text-sm font-semibold mb-2">Usage:</h3>
-            <pre class="text-xs overflow-x-auto"><code>&lt;MaviCheckbox @@bind-Value="_checked" 
+    <div class="bg-gray-50 p-4 rounded mt-4">
+        <h3 class="font-mono text-sm font-semibold mb-2">Usage:</h3>
+        <pre class="text-xs overflow-x-auto"><code>&lt;MaviCheckbox @@bind-Value="_checked" 
               Label="Toggle me"
               CheckBoxStatusChange="HandleCheckboxChange" /&gt;
 
@@ -223,255 +223,256 @@
         return Task.CompletedTask;
     }
 }</code></pre>
-        </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Section 6: Width and Styling -->
-    <section class="bg-white border rounded-lg p-6 shadow-sm">
-        <h2 class="text-xl font-semibold mb-4">6. Width and Custom Styling</h2>
+<!-- Section 6: Width and Styling -->
+<section class="bg-white border rounded-lg p-6 shadow-sm">
+    <h2 class="text-xl font-semibold mb-4">6. Width and Custom Styling</h2>
 
-        <div class="space-y-4">
-            <MaviCheckbox @bind-Value="_widthAuto"
-                          Width="w-auto"
-                          Label="Auto width (default)" />
+    <div class="space-y-4">
+        <MaviCheckbox @bind-Value="_widthAuto"
+                      Width="w-auto"
+                      Label="Auto width (default)"/>
 
-            <MaviCheckbox @bind-Value="_widthFull"
-                          Width="w-full"
-                          Label="Full width" />
+        <MaviCheckbox @bind-Value="_widthFull"
+                      Width="w-full"
+                      Label="Full width"/>
 
-            <MaviCheckbox @bind-Value="_widthCustom"
-                          Width="w-96"
-                          Label="Custom width (w-96)" />
+        <MaviCheckbox @bind-Value="_widthCustom"
+                      Width="w-96"
+                      Label="Custom width (w-96)"/>
 
-            <MaviCheckbox @bind-Value="_styleCustom"
-                          Label="Custom styling"
-                          Style="border: 2px solid purple; padding: 8px;" />
-        </div>
+        <MaviCheckbox @bind-Value="_styleCustom"
+                      Label="Custom styling"
+                      Style="border: 2px solid purple; padding: 8px;"/>
+    </div>
 
-        <div class="bg-gray-50 p-4 rounded mt-4">
-            <h3 class="font-mono text-sm font-semibold mb-2">Usage:</h3>
-            <pre class="text-xs overflow-x-auto"><code>&lt;MaviCheckbox @@bind-Value="_checked" Width="w-full" Label="Full width" /&gt;
+    <div class="bg-gray-50 p-4 rounded mt-4">
+        <h3 class="font-mono text-sm font-semibold mb-2">Usage:</h3>
+        <pre class="text-xs overflow-x-auto"><code>&lt;MaviCheckbox @@bind-Value="_checked" Width="w-full" Label="Full width" /&gt;
 &lt;MaviCheckbox @@bind-Value="_checked" Width="w-96" Label="Custom width" /&gt;
 &lt;MaviCheckbox @@bind-Value="_checked" Style="padding: 8px;" Label="Custom styling" /&gt;</code></pre>
-        </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Section 7: Real-World Examples -->
-    <section class="bg-white border rounded-lg p-6 shadow-sm">
-        <h2 class="text-xl font-semibold mb-4">7. Real-World Examples</h2>
+<!-- Section 7: Real-World Examples -->
+<section class="bg-white border rounded-lg p-6 shadow-sm">
+    <h2 class="text-xl font-semibold mb-4">7. Real-World Examples</h2>
 
-        <!-- Terms and Conditions -->
-        <div class="mb-6">
-            <h3 class="font-semibold text-gray-700 mb-3">Terms and Conditions Form</h3>
-            <div class="space-y-3 border p-4 rounded">
-                <MaviCheckbox @bind-Value="_termsAccepted"
-                              Label="I accept the terms and conditions"
-                              Required="true"
-                              ThemeColorScheme="ThemeColorScheme.Primary"
-                              HelperText="Required to continue"
-                              CheckBoxStatusChange="HandleTermsChange" />
+    <!-- Terms and Conditions -->
+    <div class="mb-6">
+        <h3 class="font-semibold text-gray-700 mb-3">Terms and Conditions Form</h3>
+        <div class="space-y-3 border p-4 rounded">
+            <MaviCheckbox @bind-Value="_termsAccepted"
+                          Label="I accept the terms and conditions"
+                          Required="true"
+                          ThemeColorScheme="ThemeColorScheme.Primary"
+                          HelperText="Required to continue"
+                          CheckBoxStatusChange="HandleTermsChange"/>
 
-                <MaviCheckbox @bind-Value="_privacyAccepted"
-                              Label="I accept the privacy policy"
-                              Required="true"
-                              ThemeColorScheme="ThemeColorScheme.Primary"
-                              HelperText="Required to continue"
-                              CheckBoxStatusChange="HandlePrivacyChange" />
+            <MaviCheckbox @bind-Value="_privacyAccepted"
+                          Label="I accept the privacy policy"
+                          Required="true"
+                          ThemeColorScheme="ThemeColorScheme.Primary"
+                          HelperText="Required to continue"
+                          CheckBoxStatusChange="HandlePrivacyChange"/>
 
-                <MaviCheckbox @bind-Value="_newsletterOptIn"
-                              Label="Subscribe to newsletter"
-                              HelperText="Optional - Stay updated with our latest news" />
+            <MaviCheckbox @bind-Value="_newsletterOptIn"
+                          Label="Subscribe to newsletter"
+                          HelperText="Optional - Stay updated with our latest news"/>
 
-                <div class="pt-2">
-                    <button class="px-4 py-2 rounded @(_canSubmit ? "bg-blue-600 text-white" : "bg-gray-300 text-gray-500 cursor-not-allowed")"
-                            disabled="@(!_canSubmit)">
-                        Submit
-                    </button>
-                </div>
+            <div class="pt-2">
+                <button class="px-4 py-2 rounded @(_canSubmit ? "bg-blue-600 text-white" : "bg-gray-300 text-gray-500 cursor-not-allowed")"
+                        disabled="@(!_canSubmit)">
+                    Submit
+                </button>
             </div>
         </div>
+    </div>
 
-        <!-- Select All Pattern -->
-        <div class="mb-6">
-            <h3 class="font-semibold text-gray-700 mb-3">Select All Pattern</h3>
-            <div class="space-y-2 border p-4 rounded">
-                <MaviCheckbox @bind-Value="_selectAll"
-                              Indeterminate="@_isIndeterminate"
-                              Label="Select all items"
-                              ThemeColorScheme="ThemeColorScheme.Primary"
-                              ElementSize="ElementSize.Large"
-                              CheckBoxStatusChange="HandleSelectAllChange" />
+    <!-- Select All Pattern -->
+    <div class="mb-6">
+        <h3 class="font-semibold text-gray-700 mb-3">Select All Pattern</h3>
+        <div class="space-y-2 border p-4 rounded">
+            <MaviCheckbox @bind-Value="_selectAll"
+                          Indeterminate="@_isIndeterminate"
+                          Label="Select all items"
+                          ThemeColorScheme="ThemeColorScheme.Primary"
+                          ElementSize="ElementSize.Large"
+                          CheckBoxStatusChange="HandleSelectAllChange"/>
 
-                <hr class="my-2" />
+            <hr class="my-2"/>
 
-                <MaviCheckbox @bind-Value="_item1"
-                              Label="Item 1"
-                              CheckBoxStatusChange="HandleItemChange" />
-                <MaviCheckbox @bind-Value="_item2"
-                              Label="Item 2"
-                              CheckBoxStatusChange="HandleItemChange" />
-                <MaviCheckbox @bind-Value="_item3"
-                              Label="Item 3"
-                              CheckBoxStatusChange="HandleItemChange" />
-                <MaviCheckbox @bind-Value="_item4"
-                              Label="Item 4"
-                              CheckBoxStatusChange="HandleItemChange" />
-            </div>
+            <MaviCheckbox @bind-Value="_item1"
+                          Label="Item 1"
+                          CheckBoxStatusChange="HandleItemChange"/>
+            <MaviCheckbox @bind-Value="_item2"
+                          Label="Item 2"
+                          CheckBoxStatusChange="HandleItemChange"/>
+            <MaviCheckbox @bind-Value="_item3"
+                          Label="Item 3"
+                          CheckBoxStatusChange="HandleItemChange"/>
+            <MaviCheckbox @bind-Value="_item4"
+                          Label="Item 4"
+                          CheckBoxStatusChange="HandleItemChange"/>
         </div>
+    </div>
 
-        <!-- Settings Panel -->
-        <div>
-            <h3 class="font-semibold text-gray-700 mb-3">Settings Panel</h3>
-            <div class="space-y-3 border p-4 rounded bg-gray-50">
-                <MaviCheckbox @bind-Value="_notificationsEnabled"
-                              Label="Enable notifications"
-                              ThemeColorScheme="ThemeColorScheme.Info"
-                              HelperText="Receive updates about your account" />
+    <!-- Settings Panel -->
+    <div>
+        <h3 class="font-semibold text-gray-700 mb-3">Settings Panel</h3>
+        <div class="space-y-3 border p-4 rounded bg-gray-50">
+            <MaviCheckbox @bind-Value="_notificationsEnabled"
+                          Label="Enable notifications"
+                          ThemeColorScheme="ThemeColorScheme.Info"
+                          HelperText="Receive updates about your account"/>
 
-                <MaviCheckbox @bind-Value="_emailNotifications"
-                              Label="Email notifications"
-                              Disabled="@(!_notificationsEnabled)"
-                              HelperText="Send notifications to your email" />
+            <MaviCheckbox @bind-Value="_emailNotifications"
+                          Label="Email notifications"
+                          Disabled="@(!_notificationsEnabled)"
+                          HelperText="Send notifications to your email"/>
 
-                <MaviCheckbox @bind-Value="_pushNotifications"
-                              Label="Push notifications"
-                              Disabled="@(!_notificationsEnabled)"
-                              HelperText="Show browser notifications" />
+            <MaviCheckbox @bind-Value="_pushNotifications"
+                          Label="Push notifications"
+                          Disabled="@(!_notificationsEnabled)"
+                          HelperText="Show browser notifications"/>
 
-                <MaviCheckbox @bind-Value="_darkMode"
-                              Label="Dark mode"
-                              ThemeColorScheme="ThemeColorScheme.Secondary"
-                              HelperText="Use dark theme" />
-            </div>
+            <MaviCheckbox @bind-Value="_darkMode"
+                          Label="Dark mode"
+                          ThemeColorScheme="ThemeColorScheme.Secondary"
+                          HelperText="Use dark theme"/>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Section 8: All Parameters Reference -->
-    <section class="bg-white border rounded-lg p-6 shadow-sm">
-        <h2 class="text-xl font-semibold mb-4">8. Complete Parameter Reference</h2>
+<!-- Section 8: All Parameters Reference -->
+<section class="bg-white border rounded-lg p-6 shadow-sm">
+    <h2 class="text-xl font-semibold mb-4">8. Complete Parameter Reference</h2>
 
-        <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200 text-sm">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-4 py-2 text-left font-semibold">Parameter</th>
-                        <th class="px-4 py-2 text-left font-semibold">Type</th>
-                        <th class="px-4 py-2 text-left font-semibold">Default</th>
-                        <th class="px-4 py-2 text-left font-semibold">Description</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200">
-                    <tr>
-                        <td class="px-4 py-2 font-mono">Value</td>
-                        <td class="px-4 py-2">bool</td>
-                        <td class="px-4 py-2">false</td>
-                        <td class="px-4 py-2">The checkbox value (two-way binding)</td>
-                    </tr>
-                    <tr class="bg-gray-50">
-                        <td class="px-4 py-2 font-mono">Label</td>
-                        <td class="px-4 py-2">string</td>
-                        <td class="px-4 py-2">""</td>
-                        <td class="px-4 py-2">Label text displayed next to checkbox</td>
-                    </tr>
-                    <tr>
-                        <td class="px-4 py-2 font-mono">ElementSize</td>
-                        <td class="px-4 py-2">ElementSize</td>
-                        <td class="px-4 py-2">Regular</td>
-                        <td class="px-4 py-2">Size: Small, Regular, or Large</td>
-                    </tr>
-                    <tr class="bg-gray-50">
-                        <td class="px-4 py-2 font-mono">ThemeColorScheme</td>
-                        <td class="px-4 py-2">ThemeColorScheme</td>
-                        <td class="px-4 py-2">Primary</td>
-                        <td class="px-4 py-2">Color theme: Default, Primary, Secondary, Success, Alert, Warning, Info</td>
-                    </tr>
-                    <tr>
-                        <td class="px-4 py-2 font-mono">Indeterminate</td>
-                        <td class="px-4 py-2">bool</td>
-                        <td class="px-4 py-2">false</td>
-                        <td class="px-4 py-2">Show indeterminate state (dash icon)</td>
-                    </tr>
-                    <tr class="bg-gray-50">
-                        <td class="px-4 py-2 font-mono">Required</td>
-                        <td class="px-4 py-2">bool</td>
-                        <td class="px-4 py-2">false</td>
-                        <td class="px-4 py-2">Mark as required field (shows asterisk)</td>
-                    </tr>
-                    <tr>
-                        <td class="px-4 py-2 font-mono">Disabled</td>
-                        <td class="px-4 py-2">bool</td>
-                        <td class="px-4 py-2">false</td>
-                        <td class="px-4 py-2">Disable the checkbox</td>
-                    </tr>
-                    <tr class="bg-gray-50">
-                        <td class="px-4 py-2 font-mono">Readonly</td>
-                        <td class="px-4 py-2">bool</td>
-                        <td class="px-4 py-2">false</td>
-                        <td class="px-4 py-2">Make the checkbox read-only</td>
-                    </tr>
-                    <tr>
-                        <td class="px-4 py-2 font-mono">HelperText</td>
-                        <td class="px-4 py-2">string?</td>
-                        <td class="px-4 py-2">null</td>
-                        <td class="px-4 py-2">Helper text displayed below checkbox</td>
-                    </tr>
-                    <tr class="bg-gray-50">
-                        <td class="px-4 py-2 font-mono">Width</td>
-                        <td class="px-4 py-2">string</td>
-                        <td class="px-4 py-2">"w-auto"</td>
-                        <td class="px-4 py-2">Tailwind width class (e.g., "w-full", "w-96")</td>
-                    </tr>
-                    <tr>
-                        <td class="px-4 py-2 font-mono">Style</td>
-                        <td class="px-4 py-2">string?</td>
-                        <td class="px-4 py-2">null</td>
-                        <td class="px-4 py-2">Inline CSS styles</td>
-                    </tr>
-                    <tr class="bg-gray-50">
-                        <td class="px-4 py-2 font-mono">Title</td>
-                        <td class="px-4 py-2">string?</td>
-                        <td class="px-4 py-2">null</td>
-                        <td class="px-4 py-2">Tooltip/title text</td>
-                    </tr>
-                    <tr>
-                        <td class="px-4 py-2 font-mono">Id</td>
-                        <td class="px-4 py-2">string?</td>
-                        <td class="px-4 py-2">Auto-generated</td>
-                        <td class="px-4 py-2">Unique identifier for the checkbox</td>
-                    </tr>
-                    <tr class="bg-gray-50">
-                        <td class="px-4 py-2 font-mono">Class</td>
-                        <td class="px-4 py-2">string?</td>
-                        <td class="px-4 py-2">null</td>
-                        <td class="px-4 py-2">Additional CSS classes</td>
-                    </tr>
-                    <tr>
-                        <td class="px-4 py-2 font-mono">CheckBoxStatusChange</td>
-                        <td class="px-4 py-2">EventCallback&lt;ValueChangedCallbackParameters&lt;bool&gt;&gt;</td>
-                        <td class="px-4 py-2">-</td>
-                        <td class="px-4 py-2">Event fired when checkbox value changes</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200 text-sm">
+            <thead class="bg-gray-50">
+            <tr>
+                <th class="px-4 py-2 text-left font-semibold">Parameter</th>
+                <th class="px-4 py-2 text-left font-semibold">Type</th>
+                <th class="px-4 py-2 text-left font-semibold">Default</th>
+                <th class="px-4 py-2 text-left font-semibold">Description</th>
+            </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+            <tr>
+                <td class="px-4 py-2 font-mono">Value</td>
+                <td class="px-4 py-2">bool</td>
+                <td class="px-4 py-2">false</td>
+                <td class="px-4 py-2">The checkbox value (two-way binding)</td>
+            </tr>
+            <tr class="bg-gray-50">
+                <td class="px-4 py-2 font-mono">Label</td>
+                <td class="px-4 py-2">string</td>
+                <td class="px-4 py-2">""</td>
+                <td class="px-4 py-2">Label text displayed next to checkbox</td>
+            </tr>
+            <tr>
+                <td class="px-4 py-2 font-mono">ElementSize</td>
+                <td class="px-4 py-2">ElementSize</td>
+                <td class="px-4 py-2">Regular</td>
+                <td class="px-4 py-2">Size: Small, Regular, or Large</td>
+            </tr>
+            <tr class="bg-gray-50">
+                <td class="px-4 py-2 font-mono">ThemeColorScheme</td>
+                <td class="px-4 py-2">ThemeColorScheme</td>
+                <td class="px-4 py-2">Primary</td>
+                <td class="px-4 py-2">Color theme: Default, Primary, Secondary, Success, Alert, Warning, Info</td>
+            </tr>
+            <tr>
+                <td class="px-4 py-2 font-mono">Indeterminate</td>
+                <td class="px-4 py-2">bool</td>
+                <td class="px-4 py-2">false</td>
+                <td class="px-4 py-2">Show indeterminate state (dash icon)</td>
+            </tr>
+            <tr class="bg-gray-50">
+                <td class="px-4 py-2 font-mono">Required</td>
+                <td class="px-4 py-2">bool</td>
+                <td class="px-4 py-2">false</td>
+                <td class="px-4 py-2">Mark as required field (shows asterisk)</td>
+            </tr>
+            <tr>
+                <td class="px-4 py-2 font-mono">Disabled</td>
+                <td class="px-4 py-2">bool</td>
+                <td class="px-4 py-2">false</td>
+                <td class="px-4 py-2">Disable the checkbox</td>
+            </tr>
+            <tr class="bg-gray-50">
+                <td class="px-4 py-2 font-mono">Readonly</td>
+                <td class="px-4 py-2">bool</td>
+                <td class="px-4 py-2">false</td>
+                <td class="px-4 py-2">Make the checkbox read-only</td>
+            </tr>
+            <tr>
+                <td class="px-4 py-2 font-mono">HelperText</td>
+                <td class="px-4 py-2">string?</td>
+                <td class="px-4 py-2">null</td>
+                <td class="px-4 py-2">Helper text displayed below checkbox</td>
+            </tr>
+            <tr class="bg-gray-50">
+                <td class="px-4 py-2 font-mono">Width</td>
+                <td class="px-4 py-2">string</td>
+                <td class="px-4 py-2">"w-auto"</td>
+                <td class="px-4 py-2">Tailwind width class (e.g., "w-full", "w-96")</td>
+            </tr>
+            <tr>
+                <td class="px-4 py-2 font-mono">Style</td>
+                <td class="px-4 py-2">string?</td>
+                <td class="px-4 py-2">null</td>
+                <td class="px-4 py-2">Inline CSS styles</td>
+            </tr>
+            <tr class="bg-gray-50">
+                <td class="px-4 py-2 font-mono">Title</td>
+                <td class="px-4 py-2">string?</td>
+                <td class="px-4 py-2">null</td>
+                <td class="px-4 py-2">Tooltip/title text</td>
+            </tr>
+            <tr>
+                <td class="px-4 py-2 font-mono">Id</td>
+                <td class="px-4 py-2">string?</td>
+                <td class="px-4 py-2">Auto-generated</td>
+                <td class="px-4 py-2">Unique identifier for the checkbox</td>
+            </tr>
+            <tr class="bg-gray-50">
+                <td class="px-4 py-2 font-mono">Class</td>
+                <td class="px-4 py-2">string?</td>
+                <td class="px-4 py-2">null</td>
+                <td class="px-4 py-2">Additional CSS classes</td>
+            </tr>
+            <tr>
+                <td class="px-4 py-2 font-mono">CheckBoxStatusChange</td>
+                <td class="px-4 py-2">EventCallback&lt;ValueChangedCallbackParameters&lt;bool&gt;&gt;</td>
+                <td class="px-4 py-2">-</td>
+                <td class="px-4 py-2">Event fired when checkbox value changes</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
 
-    <!-- Section 9: Accessibility Features -->
-    <section class="bg-white border rounded-lg p-6 shadow-sm">
-        <h2 class="text-xl font-semibold mb-4">9. Accessibility Features</h2>
-        <ul class="list-disc list-inside space-y-2 text-gray-700">
-            <li><code class="bg-gray-100 px-1 rounded">aria-label</code> - Automatically set from Label parameter</li>
-            <li><code class="bg-gray-100 px-1 rounded">aria-describedby</code> - Links to helper text when provided</li>
-            <li><code class="bg-gray-100 px-1 rounded">aria-invalid</code> - Set when validation errors exist</li>
-            <li><code class="bg-gray-100 px-1 rounded">aria-required</code> - Set when Required is true</li>
-            <li>Keyboard navigation support (Space to toggle)</li>
-            <li>Screen reader friendly with hidden native checkbox</li>
-            <li>Focus indicators for keyboard users</li>
-        </ul>
-    </section>
+<!-- Section 9: Accessibility Features -->
+<section class="bg-white border rounded-lg p-6 shadow-sm">
+    <h2 class="text-xl font-semibold mb-4">9. Accessibility Features</h2>
+    <ul class="list-disc list-inside space-y-2 text-gray-700">
+        <li><code class="bg-gray-100 px-1 rounded">aria-label</code> - Automatically set from Label parameter</li>
+        <li><code class="bg-gray-100 px-1 rounded">aria-describedby</code> - Links to helper text when provided</li>
+        <li><code class="bg-gray-100 px-1 rounded">aria-invalid</code> - Set when validation errors exist</li>
+        <li><code class="bg-gray-100 px-1 rounded">aria-required</code> - Set when Required is true</li>
+        <li>Keyboard navigation support (Space to toggle)</li>
+        <li>Screen reader friendly with hidden native checkbox</li>
+        <li>Focus indicators for keyboard users</li>
+    </ul>
+</section>
 </div>
 
 @code {
+
     // Section 1: Sizes
     private bool _sizeSmall = true;
     private bool _sizeRegular = true;
@@ -488,46 +489,46 @@
 
     // Section 3: States
     private bool _stateChecked = true;
-    private bool _stateUnchecked = false;
-    private bool _stateIndeterminate = false;
+    private bool _stateUnchecked;
+    private bool _stateIndeterminate;
     private bool _stateDisabledChecked = true;
-    private bool _stateDisabledUnchecked = false;
+    private bool _stateDisabledUnchecked;
     private bool _stateReadonlyChecked = true;
-    private bool _stateReadonlyUnchecked = false;
+    private bool _stateReadonlyUnchecked;
 
     // Section 4: Labels
-    private bool _labelBasic = false;
-    private bool _labelWithHelper = false;
-    private bool _labelRequired = false;
-    private bool _labelNoLabel = false;
+    private bool _labelBasic;
+    private bool _labelWithHelper;
+    private bool _labelRequired;
+    private bool _labelNoLabel;
 
     // Section 5: Events
-    private bool _eventCheckbox = false;
-    private List<string> _eventLog = new();
+    private bool _eventCheckbox;
+    private readonly List<string> _eventLog = new();
 
     // Section 6: Width
-    private bool _widthAuto = false;
-    private bool _widthFull = false;
-    private bool _widthCustom = false;
-    private bool _styleCustom = false;
+    private bool _widthAuto;
+    private bool _widthFull;
+    private bool _widthCustom;
+    private bool _styleCustom;
 
     // Section 7: Real-world examples
-    private bool _termsAccepted = false;
-    private bool _privacyAccepted = false;
-    private bool _newsletterOptIn = false;
+    private bool _termsAccepted;
+    private bool _privacyAccepted;
+    private bool _newsletterOptIn;
     private bool _canSubmit => _termsAccepted && _privacyAccepted;
 
-    private bool _selectAll = false;
-    private bool _item1 = false;
-    private bool _item2 = false;
-    private bool _item3 = false;
-    private bool _item4 = false;
-    private bool _isIndeterminate = false;
+    private bool _selectAll;
+    private bool _item1;
+    private bool _item2;
+    private bool _item3;
+    private bool _item4;
+    private bool _isIndeterminate;
 
-    private bool _notificationsEnabled = false;
-    private bool _emailNotifications = false;
-    private bool _pushNotifications = false;
-    private bool _darkMode = false;
+    private bool _notificationsEnabled;
+    private bool _emailNotifications;
+    private bool _pushNotifications;
+    private bool _darkMode;
 
     private Task HandleCheckboxChange(ValueChangedCallbackParameters<bool> args)
     {
@@ -578,4 +579,5 @@
 
         return Task.CompletedTask;
     }
+
 }

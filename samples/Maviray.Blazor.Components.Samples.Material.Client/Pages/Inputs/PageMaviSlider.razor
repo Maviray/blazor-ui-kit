@@ -5,415 +5,415 @@
 <PageTitle>MaviSlider - Component Documentation</PageTitle>
 
 <div class="p-8 space-y-12 max-w-7xl mx-auto">
-    <!-- Header Section -->
-    <div class="space-y-4">
-        <h1 class="@Tailwind.Theme.Typography.DISPLAY_LARGE text-gray-900">MaviSlider Component</h1>
-        <p class="@Tailwind.Theme.Typography.BODY_LARGE text-gray-600">
-            A customizable slider component for selecting numeric values within a defined range. 
-            Supports multiple sizes, color schemes, and event handling.
-        </p>
+<!-- Header Section -->
+<div class="space-y-4">
+    <h1 class="@Tailwind.Theme.Typography.DISPLAY_LARGE text-gray-900">MaviSlider Component</h1>
+    <p class="@Tailwind.Theme.Typography.BODY_LARGE text-gray-600">
+        A customizable slider component for selecting numeric values within a defined range.
+        Supports multiple sizes, color schemes, and event handling.
+    </p>
+</div>
+
+<!-- Overview Section -->
+<section class="space-y-6">
+    <h2 class="@Tailwind.Theme.Typography.HEADLINE_LARGE text-gray-900">Basic Usage</h2>
+    <div class="bg-white rounded-lg shadow-md p-6 space-y-4">
+        <div class="space-y-4">
+            <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM text-gray-700">Simple Slider</h4>
+            <MaviSlider @bind-Value="basicValue"/>
+            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">Value: <strong>@basicValue</strong></p>
+
+            <div class="bg-gray-50 rounded p-4">
+                <code class="@Tailwind.Theme.Typography.BODY_SMALL">
+                    &lt;MaviSlider @@bind-Value="basicValue" /&gt;
+                </code>
+            </div>
+        </div>
     </div>
+</section>
 
-    <!-- Overview Section -->
-    <section class="space-y-6">
-        <h2 class="@Tailwind.Theme.Typography.HEADLINE_LARGE text-gray-900">Basic Usage</h2>
-        <div class="bg-white rounded-lg shadow-md p-6 space-y-4">
-            <div class="space-y-4">
-                <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM text-gray-700">Simple Slider</h4>
-                <MaviSlider @bind-Value="basicValue" />
-                <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">Value: <strong>@basicValue</strong></p>
-                
-                <div class="bg-gray-50 rounded p-4">
-                    <code class="@Tailwind.Theme.Typography.BODY_SMALL">
-                        &lt;MaviSlider @@bind-Value="basicValue" /&gt;
-                    </code>
+<!-- Size Variants -->
+<section class="space-y-6">
+    <h2 class="@Tailwind.Theme.Typography.HEADLINE_LARGE text-gray-900">Size Variants</h2>
+    <div class="bg-white rounded-lg shadow-md p-6 space-y-6">
+        <div class="space-y-3">
+            <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM text-gray-700">Small</h4>
+            <MaviSlider @bind-Value="smallSize"
+                        Size="ElementSize.Small"
+                        Color="ThemeColorScheme.Primary"
+                        SliderValueChanged="HandleSliderValueChange"/>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Value: @smallSize</p>
+        </div>
+
+        <div class="space-y-3">
+            <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM text-gray-700">Regular (Default)</h4>
+            <MaviSlider @bind-Value="regularSize"
+                        Size="ElementSize.Regular"
+                        Color="ThemeColorScheme.Primary"
+                        SliderValueChanged="HandleSliderValueChange"/>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Value: @regularSize</p>
+        </div>
+
+        <div class="space-y-3">
+            <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM text-gray-700">Large</h4>
+            <MaviSlider @bind-Value="largeSize"
+                        Size="ElementSize.Large"
+                        Color="ThemeColorScheme.Primary"
+                        SliderValueChanged="HandleSliderValueChange"/>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Value: @largeSize</p>
+        </div>
+    </div>
+</section>
+
+<!-- Color Schemes -->
+<section class="space-y-6">
+    <h2 class="@Tailwind.Theme.Typography.HEADLINE_LARGE text-gray-900">Color Schemes</h2>
+    <div class="bg-white rounded-lg shadow-md p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="space-y-3">
+            <h4 class="@Tailwind.Theme.Typography.TITLE_SMALL text-gray-700">Default</h4>
+            <MaviSlider @bind-Value="defaultColor"
+                        Color="ThemeColorScheme.Default"
+                        SliderValueChanged="HandleSliderValueChange"/>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Value: @defaultColor</p>
+        </div>
+
+        <div class="space-y-3">
+            <h4 class="@Tailwind.Theme.Typography.TITLE_SMALL text-gray-700">Primary</h4>
+            <MaviSlider @bind-Value="primaryColor"
+                        Color="ThemeColorScheme.Primary"
+                        SliderValueChanged="HandleSliderValueChange"/>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Value: @primaryColor</p>
+        </div>
+
+        <div class="space-y-3">
+            <h4 class="@Tailwind.Theme.Typography.TITLE_SMALL text-gray-700">Secondary</h4>
+            <MaviSlider @bind-Value="secondaryColor"
+                        Color="ThemeColorScheme.Secondary"
+                        SliderValueChanged="HandleSliderValueChange"/>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Value: @secondaryColor</p>
+        </div>
+
+        <div class="space-y-3">
+            <h4 class="@Tailwind.Theme.Typography.TITLE_SMALL text-gray-700">Success</h4>
+            <MaviSlider @bind-Value="successColor"
+                        Color="ThemeColorScheme.Success"
+                        SliderValueChanged="HandleSliderValueChange"/>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Value: @successColor</p>
+        </div>
+
+        <div class="space-y-3">
+            <h4 class="@Tailwind.Theme.Typography.TITLE_SMALL text-gray-700">Alert</h4>
+            <MaviSlider @bind-Value="alertColor"
+                        Color="ThemeColorScheme.Alert"
+                        SliderValueChanged="HandleSliderValueChange"/>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Value: @alertColor</p>
+        </div>
+
+        <div class="space-y-3">
+            <h4 class="@Tailwind.Theme.Typography.TITLE_SMALL text-gray-700">Warning</h4>
+            <MaviSlider @bind-Value="warningColor"
+                        Color="ThemeColorScheme.Warning"
+                        SliderValueChanged="HandleSliderValueChange"/>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Value: @warningColor</p>
+        </div>
+
+        <div class="space-y-3">
+            <h4 class="@Tailwind.Theme.Typography.TITLE_SMALL text-gray-700">Info</h4>
+            <MaviSlider @bind-Value="infoColor"
+                        Color="ThemeColorScheme.Info"
+                        SliderValueChanged="HandleSliderValueChange"/>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Value: @infoColor</p>
+        </div>
+
+        <div class="space-y-3">
+            <h4 class="@Tailwind.Theme.Typography.TITLE_SMALL text-gray-700">Dark</h4>
+            <MaviSlider @bind-Value="darkColor"
+                        Color="ThemeColorScheme.Dark"
+                        SliderValueChanged="HandleSliderValueChange"/>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Value: @darkColor</p>
+        </div>
+
+        <div class="space-y-3">
+            <h4 class="@Tailwind.Theme.Typography.TITLE_SMALL text-gray-700">Light</h4>
+            <MaviSlider @bind-Value="lightColor"
+                        Color="ThemeColorScheme.Light"
+                        SliderValueChanged="HandleSliderValueChange"/>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Value: @lightColor</p>
+        </div>
+    </div>
+</section>
+
+<!-- Custom Range & Step -->
+<section class="space-y-6">
+    <h2 class="@Tailwind.Theme.Typography.HEADLINE_LARGE text-gray-900">Custom Range & Step</h2>
+    <div class="bg-white rounded-lg shadow-md p-6 space-y-6">
+        <div class="space-y-3">
+            <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM text-gray-700">Range 0-10, Step 0.5</h4>
+            <MaviSlider @bind-Value="customRange1"
+                        Min="0"
+                        Max="10"
+                        Step="0.5"
+                        Color="ThemeColorScheme.Info"/>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Value: @customRange1</p>
+            <div class="bg-gray-50 rounded p-4">
+                <code class="@Tailwind.Theme.Typography.BODY_SMALL">
+                    &lt;MaviSlider @@bind-Value="customRange1" Min="0" Max="10" Step="0.5" /&gt;
+                </code>
+            </div>
+        </div>
+
+        <div class="space-y-3">
+            <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM text-gray-700">Range -50 to 50, Step 5</h4>
+            <MaviSlider @bind-Value="customRange2"
+                        Min="-50"
+                        Max="50"
+                        Step="5"
+                        Color="ThemeColorScheme.Secondary"/>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Value: @customRange2</p>
+            <div class="bg-gray-50 rounded p-4">
+                <code class="@Tailwind.Theme.Typography.BODY_SMALL">
+                    &lt;MaviSlider @@bind-Value="customRange2" Min="-50" Max="50" Step="5" /&gt;
+                </code>
+            </div>
+        </div>
+
+        <div class="space-y-3">
+            <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM text-gray-700">Range 100-1000, Step 25</h4>
+            <MaviSlider @bind-Value="customRange3"
+                        Min="100"
+                        Max="1000"
+                        Step="25"
+                        Color="ThemeColorScheme.Success"/>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Value: @customRange3</p>
+            <div class="bg-gray-50 rounded p-4">
+                <code class="@Tailwind.Theme.Typography.BODY_SMALL">
+                    &lt;MaviSlider @@bind-Value="customRange3" Min="100" Max="1000" Step="25" /&gt;
+                </code>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Disabled State -->
+<section class="space-y-6">
+    <h2 class="@Tailwind.Theme.Typography.HEADLINE_LARGE text-gray-900">Disabled State</h2>
+    <div class="bg-white rounded-lg shadow-md p-6 space-y-6">
+        <div class="space-y-3">
+            <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM text-gray-700">Disabled Slider</h4>
+            <MaviSlider @bind-Value="disabledValue"
+                        Disabled="true"
+                        Color="ThemeColorScheme.Primary"/>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Value: @disabledValue (cannot be changed)</p>
+        </div>
+
+        <div class="space-y-3">
+            <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM text-gray-700">Toggle Disabled State</h4>
+            <MaviSlider @bind-Value="toggleDisabledValue"
+                        Disabled="@isDisabled"
+                        Color="ThemeColorScheme.Warning"/>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500 mb-2">Value: @toggleDisabledValue</p>
+            <MaviButton OnClick="@(() => isDisabled = !isDisabled)"
+                        ThemeColorScheme="ThemeColorScheme.Primary"
+                        ElementSize="ElementSize.Small">
+                @(isDisabled ? "Enable" : "Disable") Slider
+            </MaviButton>
+        </div>
+    </div>
+</section>
+
+<!-- Event Handling -->
+<section class="space-y-6">
+    <h2 class="@Tailwind.Theme.Typography.HEADLINE_LARGE text-gray-900">Event Handling</h2>
+    <div class="bg-white rounded-lg shadow-md p-6 space-y-6">
+        <div class="space-y-3">
+            <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM text-gray-700">ValueChanged Event</h4>
+            <MaviSlider @bind-Value="eventValue1"
+                        SliderValueChanged="HandleSliderValueChange"
+                        Color="ThemeColorScheme.Info"/>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Current Value: @eventValue1</p>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-600">Last Changed: @lastValueChanged</p>
+        </div>
+
+        <div class="space-y-3">
+            <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM text-gray-700">SliderValueChanged Event (with ElementId)</h4>
+            <MaviSlider @bind-Value="eventValue2"
+                        SliderValueChanged="HandleSliderValueChange"
+                        Color="ThemeColorScheme.Success"/>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Current Value: @eventValue2</p>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-600">Last Event: @lastEventInfo</p>
+        </div>
+    </div>
+</section>
+
+<!-- Real-world Examples -->
+<section class="space-y-6">
+    <h2 class="@Tailwind.Theme.Typography.HEADLINE_LARGE text-gray-900">Real-World Examples</h2>
+    <div class="bg-white rounded-lg shadow-md p-6 space-y-6">
+        <div class="space-y-3">
+            <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM text-gray-700">Volume Control (0-100)</h4>
+            <div class="flex items-center gap-4">
+                <span class="@Tailwind.Theme.Typography.BODY_MEDIUM">🔇</span>
+                <div class="flex-1">
+                    <MaviSlider @bind-Value="volume"
+                                Min="0"
+                                Max="100"
+                                Step="1"
+                                Color="ThemeColorScheme.Primary"/>
                 </div>
+                <span class="@Tailwind.Theme.Typography.BODY_MEDIUM">🔊</span>
             </div>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Volume: @volume%</p>
         </div>
-    </section>
 
-    <!-- Size Variants -->
-    <section class="space-y-6">
-        <h2 class="@Tailwind.Theme.Typography.HEADLINE_LARGE text-gray-900">Size Variants</h2>
-        <div class="bg-white rounded-lg shadow-md p-6 space-y-6">
-            <div class="space-y-3">
-                <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM text-gray-700">Small</h4>
-                <MaviSlider @bind-Value="smallSize"
-                            Size="ElementSize.Small"
-                            Color="ThemeColorScheme.Primary"
-                            SliderValueChanged="HandleSliderValueChange" />
-                <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Value: @smallSize</p>
-            </div>
-            
-            <div class="space-y-3">
-                <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM text-gray-700">Regular (Default)</h4>
-                <MaviSlider @bind-Value="regularSize"
-                            Size="ElementSize.Regular"
-                            Color="ThemeColorScheme.Primary"
-                            SliderValueChanged="HandleSliderValueChange" />
-                <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Value: @regularSize</p>
-            </div>
-            
-            <div class="space-y-3">
-                <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM text-gray-700">Large</h4>
-                <MaviSlider @bind-Value="largeSize"
-                            Size="ElementSize.Large"
-                            Color="ThemeColorScheme.Primary"
-                            SliderValueChanged="HandleSliderValueChange" />
-                <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Value: @largeSize</p>
-            </div>
+        <div class="space-y-3">
+            <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM text-gray-700">Temperature Control (16-30°C)</h4>
+            <MaviSlider @bind-Value="temperature"
+                        Min="16"
+                        Max="30"
+                        Step="0.5"
+                        Color="@GetTemperatureColor()"/>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Temperature: @temperature°C</p>
         </div>
-    </section>
 
-    <!-- Color Schemes -->
-    <section class="space-y-6">
-        <h2 class="@Tailwind.Theme.Typography.HEADLINE_LARGE text-gray-900">Color Schemes</h2>
-        <div class="bg-white rounded-lg shadow-md p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="space-y-3">
-                <h4 class="@Tailwind.Theme.Typography.TITLE_SMALL text-gray-700">Default</h4>
-                <MaviSlider @bind-Value="defaultColor"
-                            Color="ThemeColorScheme.Default"
-                            SliderValueChanged="HandleSliderValueChange" />
-                <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Value: @defaultColor</p>
+        <div class="space-y-3">
+            <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM text-gray-700">Brightness (0-100%)</h4>
+            <MaviSlider @bind-Value="brightness"
+                        Min="0"
+                        Max="100"
+                        Step="5"
+                        Color="ThemeColorScheme.Warning"/>
+            <div class="h-20 rounded-lg transition-all duration-300"
+                 style="background-color: rgba(255, 193, 7, @(brightness / 100.0))">
             </div>
-            
-            <div class="space-y-3">
-                <h4 class="@Tailwind.Theme.Typography.TITLE_SMALL text-gray-700">Primary</h4>
-                <MaviSlider @bind-Value="primaryColor"
-                            Color="ThemeColorScheme.Primary"
-                            SliderValueChanged="HandleSliderValueChange" />
-                <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Value: @primaryColor</p>
-            </div>
-            
-            <div class="space-y-3">
-                <h4 class="@Tailwind.Theme.Typography.TITLE_SMALL text-gray-700">Secondary</h4>
-                <MaviSlider @bind-Value="secondaryColor"
-                            Color="ThemeColorScheme.Secondary"
-                            SliderValueChanged="HandleSliderValueChange" />
-                <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Value: @secondaryColor</p>
-            </div>
-            
-            <div class="space-y-3">
-                <h4 class="@Tailwind.Theme.Typography.TITLE_SMALL text-gray-700">Success</h4>
-                <MaviSlider @bind-Value="successColor"
-                            Color="ThemeColorScheme.Success"
-                            SliderValueChanged="HandleSliderValueChange" />
-                <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Value: @successColor</p>
-            </div>
-            
-            <div class="space-y-3">
-                <h4 class="@Tailwind.Theme.Typography.TITLE_SMALL text-gray-700">Alert</h4>
-                <MaviSlider @bind-Value="alertColor"
-                            Color="ThemeColorScheme.Alert"
-                            SliderValueChanged="HandleSliderValueChange" />
-                <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Value: @alertColor</p>
-            </div>
-            
-            <div class="space-y-3">
-                <h4 class="@Tailwind.Theme.Typography.TITLE_SMALL text-gray-700">Warning</h4>
-                <MaviSlider @bind-Value="warningColor"
-                            Color="ThemeColorScheme.Warning"
-                            SliderValueChanged="HandleSliderValueChange" />
-                <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Value: @warningColor</p>
-            </div>
-            
-            <div class="space-y-3">
-                <h4 class="@Tailwind.Theme.Typography.TITLE_SMALL text-gray-700">Info</h4>
-                <MaviSlider @bind-Value="infoColor"
-                            Color="ThemeColorScheme.Info"
-                            SliderValueChanged="HandleSliderValueChange" />
-                <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Value: @infoColor</p>
-            </div>
-            
-            <div class="space-y-3">
-                <h4 class="@Tailwind.Theme.Typography.TITLE_SMALL text-gray-700">Dark</h4>
-                <MaviSlider @bind-Value="darkColor"
-                            Color="ThemeColorScheme.Dark"
-                            SliderValueChanged="HandleSliderValueChange" />
-                <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Value: @darkColor</p>
-            </div>
-            
-            <div class="space-y-3">
-                <h4 class="@Tailwind.Theme.Typography.TITLE_SMALL text-gray-700">Light</h4>
-                <MaviSlider @bind-Value="lightColor"
-                            Color="ThemeColorScheme.Light"
-                            SliderValueChanged="HandleSliderValueChange" />
-                <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Value: @lightColor</p>
-            </div>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Brightness: @brightness%</p>
         </div>
-    </section>
 
-    <!-- Custom Range & Step -->
-    <section class="space-y-6">
-        <h2 class="@Tailwind.Theme.Typography.HEADLINE_LARGE text-gray-900">Custom Range & Step</h2>
-        <div class="bg-white rounded-lg shadow-md p-6 space-y-6">
-            <div class="space-y-3">
-                <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM text-gray-700">Range 0-10, Step 0.5</h4>
-                <MaviSlider @bind-Value="customRange1"
-                            Min="0"
-                            Max="10"
-                            Step="0.5"
-                            Color="ThemeColorScheme.Info" />
-                <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Value: @customRange1</p>
-                <div class="bg-gray-50 rounded p-4">
-                    <code class="@Tailwind.Theme.Typography.BODY_SMALL">
-                        &lt;MaviSlider @@bind-Value="customRange1" Min="0" Max="10" Step="0.5" /&gt;
-                    </code>
-                </div>
-            </div>
-            
-            <div class="space-y-3">
-                <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM text-gray-700">Range -50 to 50, Step 5</h4>
-                <MaviSlider @bind-Value="customRange2"
-                            Min="-50"
-                            Max="50"
-                            Step="5"
-                            Color="ThemeColorScheme.Secondary" />
-                <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Value: @customRange2</p>
-                <div class="bg-gray-50 rounded p-4">
-                    <code class="@Tailwind.Theme.Typography.BODY_SMALL">
-                        &lt;MaviSlider @@bind-Value="customRange2" Min="-50" Max="50" Step="5" /&gt;
-                    </code>
-                </div>
-            </div>
-            
-            <div class="space-y-3">
-                <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM text-gray-700">Range 100-1000, Step 25</h4>
-                <MaviSlider @bind-Value="customRange3"
-                            Min="100"
-                            Max="1000"
-                            Step="25"
-                            Color="ThemeColorScheme.Success" />
-                <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Value: @customRange3</p>
-                <div class="bg-gray-50 rounded p-4">
-                    <code class="@Tailwind.Theme.Typography.BODY_SMALL">
-                        &lt;MaviSlider @@bind-Value="customRange3" Min="100" Max="1000" Step="25" /&gt;
-                    </code>
-                </div>
-            </div>
+        <div class="space-y-3">
+            <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM text-gray-700">Price Range ($0-$1000)</h4>
+            <MaviSlider @bind-Value="price"
+                        Min="0"
+                        Max="1000"
+                        Step="10"
+                        Color="ThemeColorScheme.Success"/>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Price: $@price.ToString("N2")</p>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Disabled State -->
-    <section class="space-y-6">
-        <h2 class="@Tailwind.Theme.Typography.HEADLINE_LARGE text-gray-900">Disabled State</h2>
-        <div class="bg-white rounded-lg shadow-md p-6 space-y-6">
-            <div class="space-y-3">
-                <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM text-gray-700">Disabled Slider</h4>
-                <MaviSlider @bind-Value="disabledValue"
-                            Disabled="true"
-                            Color="ThemeColorScheme.Primary" />
-                <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Value: @disabledValue (cannot be changed)</p>
-            </div>
-            
-            <div class="space-y-3">
-                <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM text-gray-700">Toggle Disabled State</h4>
-                <MaviSlider @bind-Value="toggleDisabledValue"
-                            Disabled="@isDisabled"
-                            Color="ThemeColorScheme.Warning" />
-                <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500 mb-2">Value: @toggleDisabledValue</p>
-                <MaviButton OnClick="@(() => isDisabled = !isDisabled)"
-                            ThemeColorScheme="ThemeColorScheme.Primary"
-                            ElementSize="ElementSize.Small">
-                    @(isDisabled ? "Enable" : "Disable") Slider
-                </MaviButton>
-            </div>
-        </div>
-    </section>
+<!-- API Documentation -->
+<section class="space-y-6">
+    <h2 class="@Tailwind.Theme.Typography.HEADLINE_LARGE text-gray-900">API Documentation</h2>
+    <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+        All available parameters for MaviSlider component
+    </p>
 
-    <!-- Event Handling -->
-    <section class="space-y-6">
-        <h2 class="@Tailwind.Theme.Typography.HEADLINE_LARGE text-gray-900">Event Handling</h2>
-        <div class="bg-white rounded-lg shadow-md p-6 space-y-6">
-            <div class="space-y-3">
-                <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM text-gray-700">ValueChanged Event</h4>
-                <MaviSlider @bind-Value="eventValue1"
-                            SliderValueChanged="HandleSliderValueChange"
-                            Color="ThemeColorScheme.Info" />
-                <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Current Value: @eventValue1</p>
-                <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-600">Last Changed: @lastValueChanged</p>
-            </div>
-            
-            <div class="space-y-3">
-                <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM text-gray-700">SliderValueChanged Event (with ElementId)</h4>
-                <MaviSlider @bind-Value="eventValue2"
-                            SliderValueChanged="HandleSliderValueChange"
-                            Color="ThemeColorScheme.Success" />
-                <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Current Value: @eventValue2</p>
-                <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-600">Last Event: @lastEventInfo</p>
-            </div>
-        </div>
-    </section>
+    <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+        <table class="min-w-full">
+            <thead class="bg-gray-100">
+            <tr>
+                <th class="@Tailwind.Theme.Typography.LABEL_LARGE px-6 py-3 text-left text-gray-700">Parameter</th>
+                <th class="@Tailwind.Theme.Typography.LABEL_LARGE px-6 py-3 text-left text-gray-700">Type</th>
+                <th class="@Tailwind.Theme.Typography.LABEL_LARGE px-6 py-3 text-left text-gray-700">Default</th>
+                <th class="@Tailwind.Theme.Typography.LABEL_LARGE px-6 py-3 text-left text-gray-700">Description</th>
+            </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+            <tr class="hover:bg-gray-50">
+                <td class="@Tailwind.Theme.Typography.BODY_MEDIUM px-6 py-4 font-mono text-purple-600">Id</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-600">string?</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-500">slider_{Guid}</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-700">Unique identifier for the slider element</td>
+            </tr>
+            <tr class="hover:bg-gray-50">
+                <td class="@Tailwind.Theme.Typography.BODY_MEDIUM px-6 py-4 font-mono text-purple-600">Value</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-600">double</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-500">0</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-700">Current value of the slider (supports two-way binding with @@bind-Value)</td>
+            </tr>
+            <tr class="hover:bg-gray-50">
+                <td class="@Tailwind.Theme.Typography.BODY_MEDIUM px-6 py-4 font-mono text-purple-600">Min</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-600">double</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-500">0</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-700">Minimum value of the slider range</td>
+            </tr>
+            <tr class="hover:bg-gray-50">
+                <td class="@Tailwind.Theme.Typography.BODY_MEDIUM px-6 py-4 font-mono text-purple-600">Max</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-600">double</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-500">100</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-700">Maximum value of the slider range</td>
+            </tr>
+            <tr class="hover:bg-gray-50">
+                <td class="@Tailwind.Theme.Typography.BODY_MEDIUM px-6 py-4 font-mono text-purple-600">Step</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-600">double</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-500">1</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-700">Increment/decrement step size for the slider</td>
+            </tr>
+            <tr class="hover:bg-gray-50">
+                <td class="@Tailwind.Theme.Typography.BODY_MEDIUM px-6 py-4 font-mono text-purple-600">Size</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-600">ElementSize</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-500">Regular</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-700">Size variant: Small, Regular, or Large</td>
+            </tr>
+            <tr class="hover:bg-gray-50">
+                <td class="@Tailwind.Theme.Typography.BODY_MEDIUM px-6 py-4 font-mono text-purple-600">Color</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-600">ThemeColorScheme</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-500">Primary</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-700">Color scheme: Default, Primary, Secondary, Success, Alert, Warning, Info, Dark, Light</td>
+            </tr>
+            <tr class="hover:bg-gray-50">
+                <td class="@Tailwind.Theme.Typography.BODY_MEDIUM px-6 py-4 font-mono text-purple-600">Disabled</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-600">bool</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-500">false</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-700">When true, the slider is disabled and cannot be interacted with</td>
+            </tr>
+            <tr class="hover:bg-gray-50">
+                <td class="@Tailwind.Theme.Typography.BODY_MEDIUM px-6 py-4 font-mono text-purple-600">ValueChanged</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-600">EventCallback&lt;double&gt;</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-500">-</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-700">Event callback fired when the slider value changes (returns the new value)</td>
+            </tr>
+            <tr class="hover:bg-gray-50">
+                <td class="@Tailwind.Theme.Typography.BODY_MEDIUM px-6 py-4 font-mono text-purple-600">SliderValueChanged</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-600">EventCallback&lt;ValueChangedCallbackParameters&lt;double&gt;&gt;</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-500">-</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-700">Enhanced event callback with ElementId and Value properties</td>
+            </tr>
+            <tr class="hover:bg-gray-50">
+                <td class="@Tailwind.Theme.Typography.BODY_MEDIUM px-6 py-4 font-mono text-purple-600">Title</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-600">string?</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-500">null</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-700">Tooltip text shown on hover (inherited from base)</td>
+            </tr>
+            <tr class="hover:bg-gray-50">
+                <td class="@Tailwind.Theme.Typography.BODY_MEDIUM px-6 py-4 font-mono text-purple-600">Class</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-600">string?</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-500">null</td>
+                <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-700">Additional CSS classes to apply to the slider (inherited from base)</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
 
-    <!-- Real-world Examples -->
-    <section class="space-y-6">
-        <h2 class="@Tailwind.Theme.Typography.HEADLINE_LARGE text-gray-900">Real-World Examples</h2>
-        <div class="bg-white rounded-lg shadow-md p-6 space-y-6">
-            <div class="space-y-3">
-                <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM text-gray-700">Volume Control (0-100)</h4>
-                <div class="flex items-center gap-4">
-                    <span class="@Tailwind.Theme.Typography.BODY_MEDIUM">🔇</span>
-                    <div class="flex-1">
-                        <MaviSlider @bind-Value="volume"
-                                    Min="0"
-                                    Max="100"
-                                    Step="1"
-                                    Color="ThemeColorScheme.Primary" />
-                    </div>
-                    <span class="@Tailwind.Theme.Typography.BODY_MEDIUM">🔊</span>
-                </div>
-                <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Volume: @volume%</p>
-            </div>
-            
-            <div class="space-y-3">
-                <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM text-gray-700">Temperature Control (16-30°C)</h4>
-                <MaviSlider @bind-Value="temperature"
-                            Min="16"
-                            Max="30"
-                            Step="0.5"
-                            Color="@GetTemperatureColor()" />
-                <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Temperature: @temperature°C</p>
-            </div>
-            
-            <div class="space-y-3">
-                <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM text-gray-700">Brightness (0-100%)</h4>
-                <MaviSlider @bind-Value="brightness"
-                            Min="0"
-                            Max="100"
-                            Step="5"
-                            Color="ThemeColorScheme.Warning" />
-                <div class="h-20 rounded-lg transition-all duration-300" 
-                     style="background-color: rgba(255, 193, 7, @(brightness / 100.0))">
-                </div>
-                <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Brightness: @brightness%</p>
-            </div>
-            
-            <div class="space-y-3">
-                <h4 class="@Tailwind.Theme.Typography.TITLE_MEDIUM text-gray-700">Price Range ($0-$1000)</h4>
-                <MaviSlider @bind-Value="price"
-                            Min="0"
-                            Max="1000"
-                            Step="10"
-                            Color="ThemeColorScheme.Success" />
-                <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500">Price: $@price.ToString("N2")</p>
-            </div>
-        </div>
-    </section>
+<!-- Usage Examples -->
+<section class="space-y-6">
+    <h2 class="@Tailwind.Theme.Typography.HEADLINE_LARGE text-gray-900">Code Examples</h2>
 
-    <!-- API Documentation -->
-    <section class="space-y-6">
-        <h2 class="@Tailwind.Theme.Typography.HEADLINE_LARGE text-gray-900">API Documentation</h2>
-        <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
-            All available parameters for MaviSlider component
-        </p>
-
-        <div class="overflow-x-auto bg-white shadow-md rounded-lg">
-            <table class="min-w-full">
-                <thead class="bg-gray-100">
-                    <tr>
-                        <th class="@Tailwind.Theme.Typography.LABEL_LARGE px-6 py-3 text-left text-gray-700">Parameter</th>
-                        <th class="@Tailwind.Theme.Typography.LABEL_LARGE px-6 py-3 text-left text-gray-700">Type</th>
-                        <th class="@Tailwind.Theme.Typography.LABEL_LARGE px-6 py-3 text-left text-gray-700">Default</th>
-                        <th class="@Tailwind.Theme.Typography.LABEL_LARGE px-6 py-3 text-left text-gray-700">Description</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200">
-                    <tr class="hover:bg-gray-50">
-                        <td class="@Tailwind.Theme.Typography.BODY_MEDIUM px-6 py-4 font-mono text-purple-600">Id</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-600">string?</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-500">slider_{Guid}</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-700">Unique identifier for the slider element</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50">
-                        <td class="@Tailwind.Theme.Typography.BODY_MEDIUM px-6 py-4 font-mono text-purple-600">Value</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-600">double</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-500">0</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-700">Current value of the slider (supports two-way binding with @@bind-Value)</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50">
-                        <td class="@Tailwind.Theme.Typography.BODY_MEDIUM px-6 py-4 font-mono text-purple-600">Min</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-600">double</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-500">0</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-700">Minimum value of the slider range</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50">
-                        <td class="@Tailwind.Theme.Typography.BODY_MEDIUM px-6 py-4 font-mono text-purple-600">Max</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-600">double</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-500">100</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-700">Maximum value of the slider range</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50">
-                        <td class="@Tailwind.Theme.Typography.BODY_MEDIUM px-6 py-4 font-mono text-purple-600">Step</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-600">double</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-500">1</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-700">Increment/decrement step size for the slider</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50">
-                        <td class="@Tailwind.Theme.Typography.BODY_MEDIUM px-6 py-4 font-mono text-purple-600">Size</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-600">ElementSize</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-500">Regular</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-700">Size variant: Small, Regular, or Large</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50">
-                        <td class="@Tailwind.Theme.Typography.BODY_MEDIUM px-6 py-4 font-mono text-purple-600">Color</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-600">ThemeColorScheme</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-500">Primary</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-700">Color scheme: Default, Primary, Secondary, Success, Alert, Warning, Info, Dark, Light</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50">
-                        <td class="@Tailwind.Theme.Typography.BODY_MEDIUM px-6 py-4 font-mono text-purple-600">Disabled</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-600">bool</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-500">false</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-700">When true, the slider is disabled and cannot be interacted with</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50">
-                        <td class="@Tailwind.Theme.Typography.BODY_MEDIUM px-6 py-4 font-mono text-purple-600">ValueChanged</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-600">EventCallback&lt;double&gt;</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-500">-</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-700">Event callback fired when the slider value changes (returns the new value)</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50">
-                        <td class="@Tailwind.Theme.Typography.BODY_MEDIUM px-6 py-4 font-mono text-purple-600">SliderValueChanged</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-600">EventCallback&lt;ValueChangedCallbackParameters&lt;double&gt;&gt;</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-500">-</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-700">Enhanced event callback with ElementId and Value properties</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50">
-                        <td class="@Tailwind.Theme.Typography.BODY_MEDIUM px-6 py-4 font-mono text-purple-600">Title</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-600">string?</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-500">null</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-700">Tooltip text shown on hover (inherited from base)</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50">
-                        <td class="@Tailwind.Theme.Typography.BODY_MEDIUM px-6 py-4 font-mono text-purple-600">Class</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-600">string?</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-500">null</td>
-                        <td class="@Tailwind.Theme.Typography.BODY_SMALL px-6 py-4 text-gray-700">Additional CSS classes to apply to the slider (inherited from base)</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
-
-    <!-- Usage Examples -->
-    <section class="space-y-6">
-        <h2 class="@Tailwind.Theme.Typography.HEADLINE_LARGE text-gray-900">Code Examples</h2>
-        
-        <div class="bg-white rounded-lg shadow-md p-6 space-y-4">
-            <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE text-gray-800">Basic Implementation</h3>
-            <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
-                <pre class="text-gray-100 @Tailwind.Theme.Typography.BODY_SMALL"><code>@@code {
+    <div class="bg-white rounded-lg shadow-md p-6 space-y-4">
+        <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE text-gray-800">Basic Implementation</h3>
+        <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+            <pre class="text-gray-100 @Tailwind.Theme.Typography.BODY_SMALL"><code>@@code {
     private double sliderValue = 50;
 }
 
 &lt;MaviSlider @@bind-Value="sliderValue" /&gt;</code></pre>
-            </div>
         </div>
+    </div>
 
-        <div class="bg-white rounded-lg shadow-md p-6 space-y-4">
-            <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE text-gray-800">With Custom Range and Events</h3>
-            <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
-                <pre class="text-gray-100 @Tailwind.Theme.Typography.BODY_SMALL"><code>@@code {
+    <div class="bg-white rounded-lg shadow-md p-6 space-y-4">
+        <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE text-gray-800">With Custom Range and Events</h3>
+        <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+            <pre class="text-gray-100 @Tailwind.Theme.Typography.BODY_SMALL"><code>@@code {
     private double temperature = 20;
     
     private async Task OnTemperatureChanged(double newValue)
@@ -430,13 +430,13 @@
             Color="ThemeColorScheme.Warning"
             Size="ElementSize.Large"
             ValueChanged="OnTemperatureChanged" /&gt;</code></pre>
-            </div>
         </div>
+    </div>
 
-        <div class="bg-white rounded-lg shadow-md p-6 space-y-4">
-            <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE text-gray-800">With SliderValueChanged Event</h3>
-            <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
-                <pre class="text-gray-100 @Tailwind.Theme.Typography.BODY_SMALL"><code>@@code {
+    <div class="bg-white rounded-lg shadow-md p-6 space-y-4">
+        <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE text-gray-800">With SliderValueChanged Event</h3>
+        <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+            <pre class="text-gray-100 @Tailwind.Theme.Typography.BODY_SMALL"><code>@@code {
     private double volume = 75;
     
     private Task HandleVolumeChange(ValueChangedCallbackParameters&lt;double&gt; args)
@@ -451,41 +451,42 @@
             Max="100"
             Color="ThemeColorScheme.Info"
             SliderValueChanged="HandleVolumeChange" /&gt;</code></pre>
-            </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Accessibility -->
-    <section class="space-y-6">
-        <h2 class="@Tailwind.Theme.Typography.HEADLINE_LARGE text-gray-900">Accessibility Features</h2>
-        <div class="bg-white rounded-lg shadow-md p-6">
-            <ul class="space-y-3 @Tailwind.Theme.Typography.BODY_MEDIUM text-gray-700">
-                <li class="flex items-start">
-                    <span class="text-green-500 mr-2">✓</span>
-                    <span><strong>ARIA Attributes:</strong> Includes aria-valuemin, aria-valuemax, and aria-valuenow for screen readers</span>
-                </li>
-                <li class="flex items-start">
-                    <span class="text-green-500 mr-2">✓</span>
-                    <span><strong>Keyboard Support:</strong> Full keyboard navigation support (arrow keys to adjust value)</span>
-                </li>
-                <li class="flex items-start">
-                    <span class="text-green-500 mr-2">✓</span>
-                    <span><strong>Focus Indicators:</strong> Visual focus states for keyboard navigation</span>
-                </li>
-                <li class="flex items-start">
-                    <span class="text-green-500 mr-2">✓</span>
-                    <span><strong>Disabled State:</strong> Proper disabled attribute and visual feedback</span>
-                </li>
-                <li class="flex items-start">
-                    <span class="text-green-500 mr-2">✓</span>
-                    <span><strong>Title Attribute:</strong> Optional tooltip for additional context</span>
-                </li>
-            </ul>
-        </div>
-    </section>
+<!-- Accessibility -->
+<section class="space-y-6">
+    <h2 class="@Tailwind.Theme.Typography.HEADLINE_LARGE text-gray-900">Accessibility Features</h2>
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <ul class="space-y-3 @Tailwind.Theme.Typography.BODY_MEDIUM text-gray-700">
+            <li class="flex items-start">
+                <span class="text-green-500 mr-2">✓</span>
+                <span><strong>ARIA Attributes:</strong> Includes aria-valuemin, aria-valuemax, and aria-valuenow for screen readers</span>
+            </li>
+            <li class="flex items-start">
+                <span class="text-green-500 mr-2">✓</span>
+                <span><strong>Keyboard Support:</strong> Full keyboard navigation support (arrow keys to adjust value)</span>
+            </li>
+            <li class="flex items-start">
+                <span class="text-green-500 mr-2">✓</span>
+                <span><strong>Focus Indicators:</strong> Visual focus states for keyboard navigation</span>
+            </li>
+            <li class="flex items-start">
+                <span class="text-green-500 mr-2">✓</span>
+                <span><strong>Disabled State:</strong> Proper disabled attribute and visual feedback</span>
+            </li>
+            <li class="flex items-start">
+                <span class="text-green-500 mr-2">✓</span>
+                <span><strong>Title Attribute:</strong> Optional tooltip for additional context</span>
+            </li>
+        </ul>
+    </div>
+</section>
 </div>
 
 @code {
+
     // Basic usage
     private double basicValue = 50;
 
@@ -507,18 +508,18 @@
 
     // Custom range examples
     private double customRange1 = 5;
-    private double customRange2 = 0;
+    private double customRange2;
     private double customRange3 = 500;
 
     // Disabled state
     private double disabledValue = 60;
     private double toggleDisabledValue = 40;
-    private bool isDisabled = false;
+    private bool isDisabled;
 
     // Event handling
     private double eventValue1 = 50;
     private double eventValue2 = 50;
-    private string lastValueChanged = "Not changed yet";
+    private readonly string lastValueChanged = "Not changed yet";
     private string lastEventInfo = "No event fired yet";
 
     // Real-world examples
@@ -542,4 +543,5 @@
         if (temperature < 27) return ThemeColorScheme.Warning;
         return ThemeColorScheme.Alert;
     }
+
 }

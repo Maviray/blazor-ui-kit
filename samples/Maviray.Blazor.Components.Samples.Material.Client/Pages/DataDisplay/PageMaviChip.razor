@@ -1,280 +1,278 @@
 ﻿@page "/PageMaviChip"
-@using Maviray.Blazor.Components.Core.Models
 @using Maviray.Blazor.Components.Material.Components.Display
 @inherits SamplePageBase
 
 <PageTitle>MaviChip</PageTitle>
 
 
-
 <div class="p-8 max-w-7xl mx-auto space-y-12">
-    <!-- Page Header -->
+<!-- Page Header -->
+<div class="space-y-2">
+    <h1 class="@Tailwind.Theme.Typography.DISPLAY_MEDIUM">Chip Component</h1>
+    <p class="@Tailwind.Theme.Typography.BODY_LARGE text-gray-600">
+        Material UI chip components for displaying compact information with optional icons.
+    </p>
+</div>
+
+<!-- Section 1: Size Variations -->
+<section class="space-y-6">
     <div class="space-y-2">
-        <h1 class="@Tailwind.Theme.Typography.DISPLAY_MEDIUM">Chip Component</h1>
-        <p class="@Tailwind.Theme.Typography.BODY_LARGE text-gray-600">
-            Material UI chip components for displaying compact information with optional icons.
+        <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Size Variations</h2>
+        <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+            Three size options: Small, Regular (default), and Large
         </p>
     </div>
 
-    <!-- Section 1: Size Variations -->
-    <section class="space-y-6">
-        <div class="space-y-2">
-            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Size Variations</h2>
-            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
-                Three size options: Small, Regular (default), and Large
-            </p>
-        </div>
+    <div class="space-y-4">
+        <div class="flex flex-wrap gap-3 items-center">
+            <MaviChip Text="Small Chip"
+                      ElementSize="ElementSize.Small"
+                      ThemeColorScheme="ThemeColorScheme.Primary"
+                      ElementVariant="ElementVariant.Filled"/>
 
-        <div class="space-y-4">
-            <div class="flex flex-wrap gap-3 items-center">
-                <MaviChip Text="Small Chip"
-                          ElementSize="ElementSize.Small"
-                          ThemeColorScheme="ThemeColorScheme.Primary"
-                          ElementVariant="ElementVariant.Filled" />
-                
-                <MaviChip Text="Regular Chip"
-                          ElementSize="ElementSize.Regular"
-                          ThemeColorScheme="ThemeColorScheme.Primary"
-                          ElementVariant="ElementVariant.Filled" />
-                
-                <MaviChip Text="Large Chip"
-                          ElementSize="ElementSize.Large"
-                          ThemeColorScheme="ThemeColorScheme.Primary"
-                          ElementVariant="ElementVariant.Filled" />
-            </div>
-            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4")">
-                <code class="text-purple-600">
-                    &lt;MaviChip Text="..." ElementSize="ElementSize.Small|Regular|Large" ... /&gt;
-                </code>
-            </div>
-        </div>
-    </section>
+            <MaviChip Text="Regular Chip"
+                      ElementSize="ElementSize.Regular"
+                      ThemeColorScheme="ThemeColorScheme.Primary"
+                      ElementVariant="ElementVariant.Filled"/>
 
-    <!-- Section 2: Variant Styles -->
-    <section class="space-y-6">
-        <div class="space-y-2">
-            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Variant Styles</h2>
-            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
-                Filled and Outlined variants with all color schemes
-            </p>
+            <MaviChip Text="Large Chip"
+                      ElementSize="ElementSize.Large"
+                      ThemeColorScheme="ThemeColorScheme.Primary"
+                      ElementVariant="ElementVariant.Filled"/>
         </div>
-
-        <!-- Filled Variant -->
-        <div class="space-y-4">
-            <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Filled Variant</h3>
-            <div class="flex flex-wrap gap-3">
-                <MaviChip Text="Default" ThemeColorScheme="ThemeColorScheme.Default" ElementVariant="ElementVariant.Filled" />
-                <MaviChip Text="Primary" ThemeColorScheme="ThemeColorScheme.Primary" ElementVariant="ElementVariant.Filled" />
-                <MaviChip Text="Secondary" ThemeColorScheme="ThemeColorScheme.Secondary" ElementVariant="ElementVariant.Filled" />
-                <MaviChip Text="Success" ThemeColorScheme="ThemeColorScheme.Success" ElementVariant="ElementVariant.Filled" />
-                <MaviChip Text="Alert" ThemeColorScheme="ThemeColorScheme.Alert" ElementVariant="ElementVariant.Filled" />
-                <MaviChip Text="Warning" ThemeColorScheme="ThemeColorScheme.Warning" ElementVariant="ElementVariant.Filled" />
-                <MaviChip Text="Info" ThemeColorScheme="ThemeColorScheme.Info" ElementVariant="ElementVariant.Filled" />
-                <MaviChip Text="Dark" ThemeColorScheme="ThemeColorScheme.Dark" ElementVariant="ElementVariant.Filled" />
-                <MaviChip Text="Light" ThemeColorScheme="ThemeColorScheme.Light" ElementVariant="ElementVariant.Filled" />
-            </div>
-        </div>
-
-        <!-- Outlined Variant -->
-        <div class="space-y-4">
-            <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Outlined Variant</h3>
-            <div class="flex flex-wrap gap-3">
-                <MaviChip Text="Default" ThemeColorScheme="ThemeColorScheme.Default" ElementVariant="ElementVariant.Outlined" />
-                <MaviChip Text="Primary" ThemeColorScheme="ThemeColorScheme.Primary" ElementVariant="ElementVariant.Outlined" />
-                <MaviChip Text="Secondary" ThemeColorScheme="ThemeColorScheme.Secondary" ElementVariant="ElementVariant.Outlined" />
-                <MaviChip Text="Success" ThemeColorScheme="ThemeColorScheme.Success" ElementVariant="ElementVariant.Outlined" />
-                <MaviChip Text="Alert" ThemeColorScheme="ThemeColorScheme.Alert" ElementVariant="ElementVariant.Outlined" />
-                <MaviChip Text="Warning" ThemeColorScheme="ThemeColorScheme.Warning" ElementVariant="ElementVariant.Outlined" />
-                <MaviChip Text="Info" ThemeColorScheme="ThemeColorScheme.Info" ElementVariant="ElementVariant.Outlined" />
-                <MaviChip Text="Dark" ThemeColorScheme="ThemeColorScheme.Dark" ElementVariant="ElementVariant.Outlined" />
-                <MaviChip Text="Light" ThemeColorScheme="ThemeColorScheme.Light" ElementVariant="ElementVariant.Outlined" />
-            </div>
-        </div>
-
         <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4")">
             <code class="text-purple-600">
-                &lt;MaviChip Text="..." ElementVariant="ElementVariant.Filled|Outlined" ThemeColorScheme="..." /&gt;
+                &lt;MaviChip Text="..." ElementSize="ElementSize.Small|Regular|Large" ... /&gt;
             </code>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Section 3: Chips with Icons -->
-    <section class="space-y-6">
-        <div class="space-y-2">
-            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Chips with Icons</h2>
-            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
-                Chips can have icons on the left (StartIcon) and/or right (EndIcon) side
-            </p>
+<!-- Section 2: Variant Styles -->
+<section class="space-y-6">
+    <div class="space-y-2">
+        <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Variant Styles</h2>
+        <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+            Filled and Outlined variants with all color schemes
+        </p>
+    </div>
+
+    <!-- Filled Variant -->
+    <div class="space-y-4">
+        <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Filled Variant</h3>
+        <div class="flex flex-wrap gap-3">
+            <MaviChip Text="Default" ThemeColorScheme="ThemeColorScheme.Default" ElementVariant="ElementVariant.Filled"/>
+            <MaviChip Text="Primary" ThemeColorScheme="ThemeColorScheme.Primary" ElementVariant="ElementVariant.Filled"/>
+            <MaviChip Text="Secondary" ThemeColorScheme="ThemeColorScheme.Secondary" ElementVariant="ElementVariant.Filled"/>
+            <MaviChip Text="Success" ThemeColorScheme="ThemeColorScheme.Success" ElementVariant="ElementVariant.Filled"/>
+            <MaviChip Text="Alert" ThemeColorScheme="ThemeColorScheme.Alert" ElementVariant="ElementVariant.Filled"/>
+            <MaviChip Text="Warning" ThemeColorScheme="ThemeColorScheme.Warning" ElementVariant="ElementVariant.Filled"/>
+            <MaviChip Text="Info" ThemeColorScheme="ThemeColorScheme.Info" ElementVariant="ElementVariant.Filled"/>
+            <MaviChip Text="Dark" ThemeColorScheme="ThemeColorScheme.Dark" ElementVariant="ElementVariant.Filled"/>
+            <MaviChip Text="Light" ThemeColorScheme="ThemeColorScheme.Light" ElementVariant="ElementVariant.Filled"/>
         </div>
+    </div>
 
-        <div class="space-y-6">
-            <!-- Start Icon Only -->
-            <div class="space-y-3">
-                <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Start Icon</h3>
-                <div class="flex flex-wrap gap-3">
-                    <MaviChip Text="Primary"
-                              StartIcon="lni lni-gears-3"
-                              ThemeColorScheme="ThemeColorScheme.Primary"
-                              ElementVariant="ElementVariant.Filled" />
-                    
-                    <MaviChip Text="Success"
-                              StartIcon="lni lni-gears-3"
-                              ThemeColorScheme="ThemeColorScheme.Success"
-                              ElementVariant="ElementVariant.Filled" />
-                    
-                    <MaviChip Text="Alert"
-                              StartIcon="lni lni-gears-3"
-                              ThemeColorScheme="ThemeColorScheme.Alert"
-                              ElementVariant="ElementVariant.Outlined" />
-                </div>
+    <!-- Outlined Variant -->
+    <div class="space-y-4">
+        <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Outlined Variant</h3>
+        <div class="flex flex-wrap gap-3">
+            <MaviChip Text="Default" ThemeColorScheme="ThemeColorScheme.Default" ElementVariant="ElementVariant.Outlined"/>
+            <MaviChip Text="Primary" ThemeColorScheme="ThemeColorScheme.Primary" ElementVariant="ElementVariant.Outlined"/>
+            <MaviChip Text="Secondary" ThemeColorScheme="ThemeColorScheme.Secondary" ElementVariant="ElementVariant.Outlined"/>
+            <MaviChip Text="Success" ThemeColorScheme="ThemeColorScheme.Success" ElementVariant="ElementVariant.Outlined"/>
+            <MaviChip Text="Alert" ThemeColorScheme="ThemeColorScheme.Alert" ElementVariant="ElementVariant.Outlined"/>
+            <MaviChip Text="Warning" ThemeColorScheme="ThemeColorScheme.Warning" ElementVariant="ElementVariant.Outlined"/>
+            <MaviChip Text="Info" ThemeColorScheme="ThemeColorScheme.Info" ElementVariant="ElementVariant.Outlined"/>
+            <MaviChip Text="Dark" ThemeColorScheme="ThemeColorScheme.Dark" ElementVariant="ElementVariant.Outlined"/>
+            <MaviChip Text="Light" ThemeColorScheme="ThemeColorScheme.Light" ElementVariant="ElementVariant.Outlined"/>
+        </div>
+    </div>
+
+    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4")">
+        <code class="text-purple-600">
+            &lt;MaviChip Text="..." ElementVariant="ElementVariant.Filled|Outlined" ThemeColorScheme="..." /&gt;
+        </code>
+    </div>
+</section>
+
+<!-- Section 3: Chips with Icons -->
+<section class="space-y-6">
+    <div class="space-y-2">
+        <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Chips with Icons</h2>
+        <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+            Chips can have icons on the left (StartIcon) and/or right (EndIcon) side
+        </p>
+    </div>
+
+    <div class="space-y-6">
+        <!-- Start Icon Only -->
+        <div class="space-y-3">
+            <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Start Icon</h3>
+            <div class="flex flex-wrap gap-3">
+                <MaviChip Text="Primary"
+                          StartIcon="lni lni-gears-3"
+                          ThemeColorScheme="ThemeColorScheme.Primary"
+                          ElementVariant="ElementVariant.Filled"/>
+
+                <MaviChip Text="Success"
+                          StartIcon="lni lni-gears-3"
+                          ThemeColorScheme="ThemeColorScheme.Success"
+                          ElementVariant="ElementVariant.Filled"/>
+
+                <MaviChip Text="Alert"
+                          StartIcon="lni lni-gears-3"
+                          ThemeColorScheme="ThemeColorScheme.Alert"
+                          ElementVariant="ElementVariant.Outlined"/>
             </div>
+        </div>
 
-            <!-- End Icon Only -->
-            <div class="space-y-3">
-                <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">End Icon</h3>
-                <div class="flex flex-wrap gap-3">
-                    <MaviChip Text="Primary"
-                              EndIcon="lni lni-arrow-right"
-                              ThemeColorScheme="ThemeColorScheme.Primary"
-                              ElementVariant="ElementVariant.Filled" />
-                    
-                    <MaviChip Text="Info"
-                              EndIcon="lni lni-arrow-right"
-                              ThemeColorScheme="ThemeColorScheme.Info"
-                              ElementVariant="ElementVariant.Filled" />
-                    
-                    <MaviChip Text="Secondary"
-                              EndIcon="lni lni-arrow-right"
-                              ThemeColorScheme="ThemeColorScheme.Secondary"
-                              ElementVariant="ElementVariant.Outlined" />
-                </div>
-            </div>
+        <!-- End Icon Only -->
+        <div class="space-y-3">
+            <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">End Icon</h3>
+            <div class="flex flex-wrap gap-3">
+                <MaviChip Text="Primary"
+                          EndIcon="lni lni-arrow-right"
+                          ThemeColorScheme="ThemeColorScheme.Primary"
+                          ElementVariant="ElementVariant.Filled"/>
 
-            <!-- Both Icons -->
-            <div class="space-y-3">
-                <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Both Start and End Icons</h3>
-                <div class="flex flex-wrap gap-3">
-                    <MaviChip Text="Primary"
-                              StartIcon="lni lni-gears-3"
-                              EndIcon="lni lni-arrow-right"
-                              ThemeColorScheme="ThemeColorScheme.Primary"
-                              ElementVariant="ElementVariant.Filled" />
-                    
-                    <MaviChip Text="Success"
-                              StartIcon="lni lni-gears-3"
-                              EndIcon="lni lni-arrow-right"
-                              ThemeColorScheme="ThemeColorScheme.Success"
-                              ElementVariant="ElementVariant.Outlined" />
-                </div>
+                <MaviChip Text="Info"
+                          EndIcon="lni lni-arrow-right"
+                          ThemeColorScheme="ThemeColorScheme.Info"
+                          ElementVariant="ElementVariant.Filled"/>
+
+                <MaviChip Text="Secondary"
+                          EndIcon="lni lni-arrow-right"
+                          ThemeColorScheme="ThemeColorScheme.Secondary"
+                          ElementVariant="ElementVariant.Outlined"/>
             </div>
         </div>
 
-        <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4")">
-            <code class="text-purple-600">
-                &lt;MaviChip Text="..." StartIcon="lni lni-..." EndIcon="lni lni-..." ... /&gt;
-            </code>
-        </div>
-    </section>
+        <!-- Both Icons -->
+        <div class="space-y-3">
+            <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Both Start and End Icons</h3>
+            <div class="flex flex-wrap gap-3">
+                <MaviChip Text="Primary"
+                          StartIcon="lni lni-gears-3"
+                          EndIcon="lni lni-arrow-right"
+                          ThemeColorScheme="ThemeColorScheme.Primary"
+                          ElementVariant="ElementVariant.Filled"/>
 
-    <!-- Section 4: Complete Matrix -->
-    <section class="space-y-6">
-        <div class="space-y-2">
-            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Complete Chip Matrix</h2>
-            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
-                All combinations of sizes, variants, and colors
-            </p>
+                <MaviChip Text="Success"
+                          StartIcon="lni lni-gears-3"
+                          EndIcon="lni lni-arrow-right"
+                          ThemeColorScheme="ThemeColorScheme.Success"
+                          ElementVariant="ElementVariant.Outlined"/>
+            </div>
         </div>
+    </div>
 
-        <div class="space-y-8">
-            @foreach (var variant in Enum.GetValues<ElementVariant>().Where(v => v != ElementVariant.Text))
-            {
-                <div class="space-y-4">
-                    <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE">@variant Variant</h3>
-                    
-                    @foreach (var size in Enum.GetValues<ElementSize>())
-                    {
-                        <div class="space-y-2">
-                            <h4 class="@Tailwind.Theme.Typography.LABEL_LARGE text-gray-600">@size Size</h4>
-                            <div class="flex flex-wrap gap-2">
-                                @foreach (var color in Enum.GetValues<ThemeColorScheme>())
-                                {
-                                    <MaviChip Text="@color.ToString()"
-                                              ElementSize="size"
-                                              ElementVariant="variant"
-                                              ThemeColorScheme="color" />
-                                }
-                            </div>
+    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 border border-gray-200 rounded-lg p-4")">
+        <code class="text-purple-600">
+            &lt;MaviChip Text="..." StartIcon="lni lni-..." EndIcon="lni lni-..." ... /&gt;
+        </code>
+    </div>
+</section>
+
+<!-- Section 4: Complete Matrix -->
+<section class="space-y-6">
+    <div class="space-y-2">
+        <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Complete Chip Matrix</h2>
+        <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+            All combinations of sizes, variants, and colors
+        </p>
+    </div>
+
+    <div class="space-y-8">
+        @foreach (var variant in Enum.GetValues<ElementVariant>().Where(v => v != ElementVariant.Text))
+        {
+            <div class="space-y-4">
+                <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE">@variant Variant</h3>
+
+                @foreach (var size in Enum.GetValues<ElementSize>())
+                {
+                    <div class="space-y-2">
+                        <h4 class="@Tailwind.Theme.Typography.LABEL_LARGE text-gray-600">@size Size</h4>
+                        <div class="flex flex-wrap gap-2">
+                            @foreach (var color in Enum.GetValues<ThemeColorScheme>())
+                            {
+                                <MaviChip Text="@color.ToString()"
+                                          ElementSize="size"
+                                          ElementVariant="variant"
+                                          ThemeColorScheme="color"/>
+                            }
                         </div>
-                    }
-                </div>
-            }
-        </div>
-    </section>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</section>
 
-    <!-- Section 5: API Documentation -->
-    <section class="space-y-6">
-        <div class="space-y-2">
-            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">API Documentation</h2>
-            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
-                Component properties and their descriptions
-            </p>
-        </div>
+<!-- Section 5: API Documentation -->
+<section class="space-y-6">
+    <div class="space-y-2">
+        <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">API Documentation</h2>
+        <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+            Component properties and their descriptions
+        </p>
+    </div>
 
-        <div class="overflow-x-auto">
-            <table class="w-full border-collapse bg-white">
-                <thead class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_THREE_BG">
-                    <tr>
-                        <th class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_LARGE">Property</th>
-                        <th class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_LARGE">Type</th>
-                        <th class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_LARGE">Default</th>
-                        <th class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_LARGE">Description</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y">
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">Text</td>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">string</td>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">""</td>
-                        <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">The text content displayed in the chip</td>
-                    </tr>
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">StartIcon</td>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">string?</td>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">null</td>
-                        <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">Optional icon displayed at the start (left) of the chip text</td>
-                    </tr>
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">EndIcon</td>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">string?</td>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">null</td>
-                        <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">Optional icon displayed at the end (right) of the chip text</td>
-                    </tr>
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">ElementSize</td>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">ElementSize</td>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">Regular</td>
-                        <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">Size of the chip (Small, Regular, Large)</td>
-                    </tr>
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">ElementVariant</td>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">ElementVariant</td>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">Filled</td>
-                        <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">Visual style variant (Filled, Outlined)</td>
-                    </tr>
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">ThemeColorScheme</td>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">ThemeColorScheme</td>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">Default</td>
-                        <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">Color scheme (Default, Primary, Secondary, Success, Alert, Warning, Info, Dark, Light)</td>
-                    </tr>
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">CssClass</td>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">string?</td>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">null</td>
-                        <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">Additional CSS classes to apply</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
+    <div class="overflow-x-auto">
+        <table class="w-full border-collapse bg-white">
+            <thead class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_THREE_BG">
+            <tr>
+                <th class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_LARGE">Property</th>
+                <th class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_LARGE">Type</th>
+                <th class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_LARGE">Default</th>
+                <th class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_LARGE">Description</th>
+            </tr>
+            </thead>
+            <tbody class="divide-y">
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">Text</td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">string</td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">""</td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">The text content displayed in the chip</td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">StartIcon</td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">string?</td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">null</td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">Optional icon displayed at the start (left) of the chip text</td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">EndIcon</td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">string?</td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">null</td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">Optional icon displayed at the end (right) of the chip text</td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">ElementSize</td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">ElementSize</td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">Regular</td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">Size of the chip (Small, Regular, Large)</td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">ElementVariant</td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">ElementVariant</td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">Filled</td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">Visual style variant (Filled, Outlined)</td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">ThemeColorScheme</td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">ThemeColorScheme</td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">Default</td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">Color scheme (Default, Primary, Secondary, Success, Alert, Warning, Info, Dark, Light)</td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">CssClass</td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">string?</td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">null</td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-600">Additional CSS classes to apply</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
 </div>

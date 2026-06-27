@@ -28,21 +28,41 @@
                class="@GetSliderClasses()"
                aria-valuemin="@Min"
                aria-valuemax="@Max"
-               aria-valuenow="@Value" />
+               aria-valuenow="@Value"/>
     </div>
 </div>
 
 @code {
-    [Parameter] public override string? Id { get; set; } = $"slider_{Guid.NewGuid()}";
-    [Parameter] public double Min { get; set; } = 0;
-    [Parameter] public double Max { get; set; } = 100;
-    [Parameter] public double Step { get; set; } = 1;
-    [Parameter] public double Value { get; set; } = 0;
-    [Parameter] public EventCallback<double> ValueChanged { get; set; }
-    [Parameter] public EventCallback<ValueChangedCallbackParameters<double>> SliderValueChanged { get; set; }
-    [Parameter] public ElementSize Size { get; set; } = ElementSize.Regular;
-    [Parameter] public ThemeColorScheme Color { get; set; } = ThemeColorScheme.Primary;
-    [Parameter] public bool Disabled { get; set; } = false;
+
+    [Parameter]
+    public override string? Id { get; set; } = $"slider_{Guid.NewGuid()}";
+
+    [Parameter]
+    public double Min { get; set; }
+
+    [Parameter]
+    public double Max { get; set; } = 100;
+
+    [Parameter]
+    public double Step { get; set; } = 1;
+
+    [Parameter]
+    public double Value { get; set; }
+
+    [Parameter]
+    public EventCallback<double> ValueChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<ValueChangedCallbackParameters<double>> SliderValueChanged { get; set; }
+
+    [Parameter]
+    public ElementSize Size { get; set; } = ElementSize.Regular;
+
+    [Parameter]
+    public ThemeColorScheme Color { get; set; } = ThemeColorScheme.Primary;
+
+    [Parameter]
+    public bool Disabled { get; set; }
 
     private async Task HandleInput(ChangeEventArgs e)
     {
@@ -65,15 +85,9 @@
         }
     }
 
-    private double GetPercentage()
-    {
-        return Max > Min ? ((Value - Min) / (Max - Min)) * 100 : 0;
-    }
+    private double GetPercentage() => Max > Min ? (Value - Min) / (Max - Min) * 100 : 0;
 
-    private string GetContainerClass()
-    {
-        return $"{GetContainerSizeClass()} relative w-full flex items-center";
-    }
+    private string GetContainerClass() => $"{GetContainerSizeClass()} relative w-full flex items-center";
 
     private string GetContainerSizeClass()
     {
@@ -211,4 +225,5 @@
 
         return string.Join(" ", classes);
     }
+
 }

@@ -25,6 +25,7 @@
 </p>
 
 @code{
+
     [CascadingParameter]
     private HttpContext? HttpContext { get; set; }
 
@@ -33,4 +34,5 @@
 
     protected override void OnInitialized() =>
         RequestId = Activity.Current?.Id ?? HttpContext?.TraceIdentifier;
+
 }

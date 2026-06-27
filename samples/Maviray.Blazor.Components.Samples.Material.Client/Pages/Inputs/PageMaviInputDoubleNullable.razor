@@ -1,818 +1,858 @@
 ﻿@page "/PageMaviInputDoubleNullable"
+@using System.Text.Json
+@using System.Text.Json.Serialization
 @inherits SamplePageBase
 
 <PageTitle>Double Input Nullable</PageTitle>
 
 <div class="p-6 max-w-7xl mx-auto">
-    <!-- Page Header -->
-    <div class="mb-8">
-        <h1 class="@CssManager.Combine(Tailwind.Theme.Typography.DISPLAY_MEDIUM, "mb-2")">MaviInputDoubleNullable Component</h1>
-        <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_LARGE, "text-gray-600")">
-            Comprehensive showcase demonstrating all available parameters, use cases, and formatting options for the MaviInputDoubleNullable component.
-            This component supports nullable double values, allowing users to leave fields empty (null) instead of defaulting to zero, perfect for decimal numbers, prices, measurements, and percentages.
-        </p>
+<!-- Page Header -->
+<div class="mb-8">
+    <h1 class="@CssManager.Combine(Tailwind.Theme.Typography.DISPLAY_MEDIUM, "mb-2")">MaviInputDoubleNullable Component</h1>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_LARGE, "text-gray-600")">
+        Comprehensive showcase demonstrating all available parameters, use cases, and formatting options for the MaviInputDoubleNullable component.
+        This component supports nullable double values, allowing users to leave fields empty (null) instead of defaulting to zero, perfect for decimal numbers, prices, measurements, and percentages.
+    </p>
+</div>
+
+<!-- Nullable vs Non-Nullable Info Box -->
+<div class="mb-8 p-6 bg-blue-50 border-l-4 border-blue-500 rounded-md">
+    <div class="flex items-start">
+        <div class="flex-shrink-0">
+            <i class="lni lni-revenue text-blue-500 text-2xl"></i>
+        </div>
+        <div class="ml-3">
+            <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "text-blue-800 mb-2")">
+                Why Use Nullable Double Input?
+            </h3>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-blue-700 space-y-2")">
+                <p>✓ <strong>Distinguish between "no value" and "zero"</strong> - Empty field means null, not 0.0</p>
+                <p>✓ <strong>Optional decimal fields</strong> - Users can skip fields like optional discounts or measurements</p>
+                <p>✓ <strong>Better data integrity</strong> - Prevents unintended zero values for prices, rates, or measurements</p>
+                <p>✓ <strong>Precise decimal handling</strong> - Supports currency, percentages, scientific notation, and custom formats</p>
+                <p>✓ <strong>Culture-aware formatting</strong> - Respects regional number formats and decimal separators</p>
+            </div>
+        </div>
     </div>
+</div>
 
-    <!-- Nullable vs Non-Nullable Info Box -->
-    <div class="mb-8 p-6 bg-blue-50 border-l-4 border-blue-500 rounded-md">
-        <div class="flex items-start">
-            <div class="flex-shrink-0">
-                <i class="lni lni-revenue text-blue-500 text-2xl"></i>
+<EditForm Model="@_formSampleModel" OnValidSubmit="OnValidFormSubmit" OnInvalidSubmit="OnInValidFormSubmit" novalidate>
+<DataAnnotationsValidator/>
+
+<!-- Section 1: Nullable Behavior Demonstration -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">1. Nullable Behavior</h2>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+        Demonstrating how nullable doubles handle empty values differently from non-nullable doubles
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Required Nullable (starts null) -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Required (Starts Null)</h3>
+                <MaviInputDoubleNullable @bind-Value="_formSampleModel.NumberOne"
+                                         ElementSize="ElementSize.Regular"
+                                         Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.NumberOne)"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Current value: @(_formSampleModel.NumberOne?.ToString("F2") ?? "null")
+                </span>
             </div>
-            <div class="ml-3">
-                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "text-blue-800 mb-2")">
-                    Why Use Nullable Double Input?
-                </h3>
-                <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-blue-700 space-y-2")">
-                    <p>✓ <strong>Distinguish between "no value" and "zero"</strong> - Empty field means null, not 0.0</p>
-                    <p>✓ <strong>Optional decimal fields</strong> - Users can skip fields like optional discounts or measurements</p>
-                    <p>✓ <strong>Better data integrity</strong> - Prevents unintended zero values for prices, rates, or measurements</p>
-                    <p>✓ <strong>Precise decimal handling</strong> - Supports currency, percentages, scientific notation, and custom formats</p>
-                    <p>✓ <strong>Culture-aware formatting</strong> - Respects regional number formats and decimal separators</p>
-                </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    double? NumberOne {{ get; set; }}
+                    [Required] - Must have value
+                </code>
+            </div>
+        </div>
+
+        <!-- Optional Nullable (starts null) -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Optional (Starts Null)</h3>
+                <MaviInputDoubleNullable @bind-Value="_formSampleModel.NumberSix"
+                                         ElementSize="ElementSize.Regular"
+                                         Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.NumberSix)"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Current value: @(_formSampleModel.NumberSix?.ToString("F2") ?? "null")
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    double? NumberSix {{ get; set; }}
+                    No [Required] - Can stay null
+                </code>
+            </div>
+        </div>
+
+        <!-- Has Default Value -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">With Default Value</h3>
+                <MaviInputDoubleNullable @bind-Value="_formSampleModel.NumberFour"
+                                         ElementSize="ElementSize.Regular"
+                                         Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.NumberFour)"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Current value: @(_formSampleModel.NumberFour?.ToString("F2") ?? "null")
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    double? NumberFour {{ get; set; }} = 34.56;
+                    Has initial value
+                </code>
             </div>
         </div>
     </div>
+</div>
 
-    <EditForm Model="@_formSampleModel" OnValidSubmit="OnValidFormSubmit" OnInvalidSubmit="OnInValidFormSubmit" novalidate>
-        <DataAnnotationsValidator />
+<!-- Section 2: Size Variants -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">2. Size Variants</h2>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+        Three size options: Small, Regular (default), and Large
+    </p>
 
-        <!-- Section 1: Nullable Behavior Demonstration -->
-        <div class="mb-12">
-            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">1. Nullable Behavior</h2>
-            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
-                Demonstrating how nullable doubles handle empty values differently from non-nullable doubles
-            </p>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Required Nullable (starts null) -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Required (Starts Null)</h3>
-                        <MaviInputDoubleNullable @bind-Value="_formSampleModel.NumberOne"
-                                                 ElementSize="ElementSize.Regular"
-                                                 Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.NumberOne)" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Current value: @(_formSampleModel.NumberOne?.ToString("F2") ?? "null")
-                        </span>
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            double? NumberOne {{ get; set; }}
-                            [Required] - Must have value
-                        </code>
-                    </div>
-                </div>
-
-                <!-- Optional Nullable (starts null) -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Optional (Starts Null)</h3>
-                        <MaviInputDoubleNullable @bind-Value="_formSampleModel.NumberSix"
-                                                 ElementSize="ElementSize.Regular"
-                                                 Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.NumberSix)" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Current value: @(_formSampleModel.NumberSix?.ToString("F2") ?? "null")
-                        </span>
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            double? NumberSix {{ get; set; }}
-                            No [Required] - Can stay null
-                        </code>
-                    </div>
-                </div>
-
-                <!-- Has Default Value -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">With Default Value</h3>
-                        <MaviInputDoubleNullable @bind-Value="_formSampleModel.NumberFour"
-                                                 ElementSize="ElementSize.Regular"
-                                                 Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.NumberFour)" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Current value: @(_formSampleModel.NumberFour?.ToString("F2") ?? "null")
-                        </span>
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            double? NumberFour {{ get; set; }} = 34.56;
-                            Has initial value
-                        </code>
-                    </div>
-                </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Small -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Small</h3>
+                <MaviInputDoubleNullable @bind-Value="_formSampleModel.NumberOne"
+                                         ElementSize="ElementSize.Small"
+                                         StartIcon="lni lni-calculator-1"
+                                         DecimalPlaces="2"
+                                         Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.NumberOne)"/>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    &lt;MaviInputDoubleNullable
+                    @@bind-Value="value"
+                    ElementSize="ElementSize.Small"
+                    Width="w-full" /&gt;
+                </code>
             </div>
         </div>
 
-        <!-- Section 2: Size Variants -->
-        <div class="mb-12">
-            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">2. Size Variants</h2>
-            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
-                Three size options: Small, Regular (default), and Large
-            </p>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Small -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Small</h3>
-                        <MaviInputDoubleNullable @bind-Value="_formSampleModel.NumberOne"
-                                                 ElementSize="ElementSize.Small"
-                                                 StartIcon="lni lni-calculator-1"
-                                                 DecimalPlaces="2"
-                                                 Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.NumberOne)" />
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            &lt;MaviInputDoubleNullable
-                            @@bind-Value="value"
-                            ElementSize="ElementSize.Small"
-                            Width="w-full" /&gt;
-                        </code>
-                    </div>
-                </div>
-
-                <!-- Regular -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Regular (Default)</h3>
-                        <MaviInputDoubleNullable @bind-Value="_formSampleModel.NumberTwo"
-                                                 ElementSize="ElementSize.Regular"
-                                                 StartIcon="lni lni-calculator-1"
-                                                 DecimalPlaces="2"
-                                                 Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.NumberTwo)" />
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            &lt;MaviInputDoubleNullable
-                            @@bind-Value="value"
-                            ElementSize="ElementSize.Regular"
-                            Width="w-full" /&gt;
-                        </code>
-                    </div>
-                </div>
-
-                <!-- Large -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Large</h3>
-                        <MaviInputDoubleNullable @bind-Value="_formSampleModel.NumberThree"
-                                                 ElementSize="ElementSize.Large"
-                                                 StartIcon="lni lni-calculator-1"
-                                                 DecimalPlaces="2"
-                                                 Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.NumberThree)" />
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            &lt;MaviInputDoubleNullable
-                            @@bind-Value="value"
-                            ElementSize="ElementSize.Large"
-                            Width="w-full" /&gt;
-                        </code>
-                    </div>
-                </div>
+        <!-- Regular -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Regular (Default)</h3>
+                <MaviInputDoubleNullable @bind-Value="_formSampleModel.NumberTwo"
+                                         ElementSize="ElementSize.Regular"
+                                         StartIcon="lni lni-calculator-1"
+                                         DecimalPlaces="2"
+                                         Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.NumberTwo)"/>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    &lt;MaviInputDoubleNullable
+                    @@bind-Value="value"
+                    ElementSize="ElementSize.Regular"
+                    Width="w-full" /&gt;
+                </code>
             </div>
         </div>
 
-        <!-- Section 3: Input States -->
-        <div class="mb-12">
-            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">3. Input States</h2>
-            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
-                Control input interactivity with Disabled and Readonly states
-            </p>
+        <!-- Large -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Large</h3>
+                <MaviInputDoubleNullable @bind-Value="_formSampleModel.NumberThree"
+                                         ElementSize="ElementSize.Large"
+                                         StartIcon="lni lni-calculator-1"
+                                         DecimalPlaces="2"
+                                         Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.NumberThree)"/>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    &lt;MaviInputDoubleNullable
+                    @@bind-Value="value"
+                    ElementSize="ElementSize.Large"
+                    Width="w-full" /&gt;
+                </code>
+            </div>
+        </div>
+    </div>
+</div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Disabled -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Disabled</h3>
-                        <MaviInputDoubleNullable @bind-Value="_formSampleModel.NumberFour"
-                                                 ElementSize="ElementSize.Regular"
-                                                 Disabled="true"
-                                                 StartIcon="lni lni-calculator-1"
-                                                 DecimalPlaces="2"
-                                                 Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.NumberFour)" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            User cannot interact with disabled inputs
-                        </span>
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            Disabled="true"
-                        </code>
-                    </div>
-                </div>
+<!-- Section 3: Input States -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">3. Input States</h2>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+        Control input interactivity with Disabled and Readonly states
+    </p>
 
-                <!-- Readonly -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Readonly</h3>
-                        <MaviInputDoubleNullable @bind-Value="_formSampleModel.NumberFive"
-                                                 ElementSize="ElementSize.Regular"
-                                                 Readonly="true"
-                                                 StartIcon="lni lni-calculator-1"
-                                                 DecimalPlaces="2"
-                                                 Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.NumberFive)" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Value is visible but not editable
-                        </span>
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            Readonly="true"
-                        </code>
-                    </div>
-                </div>
-
-                <!-- Normal -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Normal (Enabled)</h3>
-                        <MaviInputDoubleNullable @bind-Value="_formSampleModel.NumberSix"
-                                                 ElementSize="ElementSize.Regular"
-                                                 StartIcon="lni lni-calculator-1"
-                                                 DecimalPlaces="2"
-                                                 Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.NumberSix)" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Fully interactive input - can be null or have value
-                        </span>
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            Default state - fully editable
-                        </code>
-                    </div>
-                </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Disabled -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Disabled</h3>
+                <MaviInputDoubleNullable @bind-Value="_formSampleModel.NumberFour"
+                                         ElementSize="ElementSize.Regular"
+                                         Disabled="true"
+                                         StartIcon="lni lni-calculator-1"
+                                         DecimalPlaces="2"
+                                         Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.NumberFour)"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    User cannot interact with disabled inputs
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    Disabled="true"
+                </code>
             </div>
         </div>
 
-        <!-- Section 4: Format Masks -->
-        <div class="mb-12">
-            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">4. Format Masks</h2>
-            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
-                Apply various formatting patterns using InputFormatMasks constants. When null, field appears empty.
-            </p>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Fixed Point -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Fixed Point (F2)</h3>
-                        <MaviInputDoubleNullable @bind-Value="_formSampleModel.FixedPoint"
-                                                 ElementSize="ElementSize.Regular"
-                                                 FormatMask="F2"
-                                                 StartIcon="lni lni-calculator-1"
-                                                 Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.FixedPoint)" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Value: @(_formSampleModel.FixedPoint?.ToString("F2") ?? "null") | Format: 1234.56
-                        </span>
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            FormatMask="F2"
-                        </code>
-                    </div>
-                </div>
-
-                <!-- Currency -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Currency (C2)</h3>
-                        <MaviInputDoubleNullable @bind-Value="_formSampleModel.Currency"
-                                                 ElementSize="ElementSize.Regular"
-                                                 FormatMask="C2"
-                                                 StartIcon="lni lni-euro"
-                                                 Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.Currency)" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Value: @(_formSampleModel.Currency?.ToString("C2") ?? "null") | Format: $1,234.56
-                        </span>
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            FormatMask="C2"
-                        </code>
-                    </div>
-                </div>
-
-                <!-- Percentage -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Percentage (P2)</h3>
-                        <MaviInputDoubleNullable @bind-Value="_formSampleModel.Percentage"
-                                                 ElementSize="ElementSize.Regular"
-                                                 FormatMask="P2"
-                                                 StartIcon="lni lni-calculator-1"
-                                                 Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.Percentage)" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Value: @(_formSampleModel.Percentage?.ToString("P2") ?? "null") | Format: 12.34%
-                        </span>
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            FormatMask="P2"
-                        </code>
-                    </div>
-                </div>
-
-                <!-- General -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">General (G)</h3>
-                        <MaviInputDoubleNullable @bind-Value="_formSampleModel.General"
-                                                 ElementSize="ElementSize.Regular"
-                                                 FormatMask="G"
-                                                 StartIcon="lni lni-calculator-1"
-                                                 Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.General)" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Value: @(_formSampleModel.General?.ToString("G") ?? "null")
-                        </span>
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            FormatMask="G"
-                        </code>
-                    </div>
-                </div>
-
-                <!-- Scientific Notation -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Scientific (E2)</h3>
-                        <MaviInputDoubleNullable @bind-Value="_formSampleModel.Scientific"
-                                                 ElementSize="ElementSize.Regular"
-                                                 FormatMask="E2"
-                                                 AllowScientificNotation="true"
-                                                 StartIcon="lni lni-calculator-1"
-                                                 Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.Scientific)" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Value: @(_formSampleModel.Scientific?.ToString("E2") ?? "null") | Format: 1.23E+003
-                        </span>
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            FormatMask="E2"
-                            AllowScientificNotation="true"
-                        </code>
-                    </div>
-                </div>
-
-                <!-- Number with Thousand Separators -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Number (N2)</h3>
-                        <MaviInputDoubleNullable @bind-Value="_formSampleModel.Number"
-                                                 ElementSize="ElementSize.Regular"
-                                                 FormatMask="N2"
-                                                 StartIcon="lni lni-calculator-1"
-                                                 Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.Number)" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Value: @(_formSampleModel.Number?.ToString("N2") ?? "null") | Format: 1,234.56
-                        </span>
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            FormatMask="N2"
-                        </code>
-                    </div>
-                </div>
+        <!-- Readonly -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Readonly</h3>
+                <MaviInputDoubleNullable @bind-Value="_formSampleModel.NumberFive"
+                                         ElementSize="ElementSize.Regular"
+                                         Readonly="true"
+                                         StartIcon="lni lni-calculator-1"
+                                         DecimalPlaces="2"
+                                         Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.NumberFive)"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Value is visible but not editable
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    Readonly="true"
+                </code>
             </div>
         </div>
 
-        <!-- Section 5: Decimal Precision Control -->
-        <div class="mb-12">
-            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">5. Decimal Precision Control</h2>
-            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
-                Control the number of decimal places for precise data entry
-            </p>
+        <!-- Normal -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Normal (Enabled)</h3>
+                <MaviInputDoubleNullable @bind-Value="_formSampleModel.NumberSix"
+                                         ElementSize="ElementSize.Regular"
+                                         StartIcon="lni lni-calculator-1"
+                                         DecimalPlaces="2"
+                                         Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.NumberSix)"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Fully interactive input - can be null or have value
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    Default state - fully editable
+                </code>
+            </div>
+        </div>
+    </div>
+</div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- 2 Decimal Places -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">2 Decimal Places</h3>
-                        <MaviInputDoubleNullable @bind-Value="_formSampleModel.Price"
-                                                 ElementSize="ElementSize.Regular"
-                                                 DecimalPlaces="2"
-                                                 StartIcon="lni lni-euro"
-                                                 Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.Price)" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Standard for prices: @(_formSampleModel.Price?.ToString("F2") ?? "null")
-                        </span>
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            DecimalPlaces="2"
-                        </code>
-                    </div>
-                </div>
+<!-- Section 4: Format Masks -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">4. Format Masks</h2>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+        Apply various formatting patterns using InputFormatMasks constants. When null, field appears empty.
+    </p>
 
-                <!-- 4 Decimal Places -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">4 Decimal Places</h3>
-                        <MaviInputDoubleNullable @bind-Value="_formSampleModel.Weight"
-                                                 ElementSize="ElementSize.Regular"
-                                                 DecimalPlaces="4"
-                                                 StartIcon="lni lni-gears-3"
-                                                 Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.Weight)" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Precise measurements: @(_formSampleModel.Weight?.ToString("F4") ?? "null")
-                        </span>
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            DecimalPlaces="4"
-                        </code>
-                    </div>
-                </div>
-
-                <!-- No Decimal Limit -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">No Limit</h3>
-                        <MaviInputDoubleNullable @bind-Value="_formSampleModel.General"
-                                                 ElementSize="ElementSize.Regular"
-                                                 StartIcon="lni lni-calculator-1"
-                                                 Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.General)" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Any precision allowed: @(_formSampleModel.General?.ToString() ?? "null")
-                        </span>
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            No DecimalPlaces set
-                        </code>
-                    </div>
-                </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Fixed Point -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Fixed Point (F2)</h3>
+                <MaviInputDoubleNullable @bind-Value="_formSampleModel.FixedPoint"
+                                         ElementSize="ElementSize.Regular"
+                                         FormatMask="F2"
+                                         StartIcon="lni lni-calculator-1"
+                                         Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.FixedPoint)"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Value: @(_formSampleModel.FixedPoint?.ToString("F2") ?? "null") | Format: 1234.56
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    FormatMask="F2"
+                </code>
             </div>
         </div>
 
-        <!-- Section 6: Icons & Interactive Elements -->
-        <div class="mb-12">
-            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">6. Icons & Interactive Elements</h2>
-            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
-                Add visual context and interaction through start icons, end icons, buttons, and event handlers
-            </p>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Start Icon Only -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Start Icon</h3>
-                        <MaviInputDoubleNullable @bind-Value="_formSampleModel.Price"
-                                                 ElementSize="ElementSize.Regular"
-                                                 StartIcon="lni lni-euro"
-                                                 DecimalPlaces="2"
-                                                 Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.Price)" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Icon positioned at input start
-                        </span>
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            StartIcon="lni lni-euro"
-                        </code>
-                    </div>
-                </div>
-
-                <!-- End Icon & Alternative -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">End Icon with Alternative</h3>
-                        <MaviInputDoubleNullable @bind-Value="_formSampleModel.Temperature"
-                                                 ElementSize="ElementSize.Regular"
-                                                 EndIcon="lni lni-power-button"
-                                                 EndIconAlternative="lni lni-check-box"
-                                                 DecimalPlaces="2"
-                                                 Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.Temperature)" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Switches between two end icons on click
-                        </span>
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            EndIcon="lni lni-power-button"
-                            EndIconAlternative="lni lni-check-box"
-                        </code>
-                    </div>
-                </div>
-
-                <!-- With Button -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">With Action Button</h3>
-                        <MaviInputDoubleNullable @bind-Value="_formSampleModel.FixedPoint"
-                                                 ElementSize="ElementSize.Regular"
-                                                 FormatMask="F2"
-                                                 ButtonLabel="Calculate"
-                                                 EndIcon="lni lni-calculator"
-                                                 OnEndIconClick="SimulateCalculation"
-                                                 Width="w-full" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Button triggers custom action
-                        </span>
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            ButtonLabel="Calculate"
-                            EndIcon="lni lni-calculator"
-                            OnEndIconClick="HandleClick"
-                        </code>
-                    </div>
-                </div>
-
-                <!-- Complete Example -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Complete: Icons + Button</h3>
-                        <MaviInputDoubleNullable @bind-Value="_formSampleModel.Currency"
-                                                 ElementSize="ElementSize.Regular"
-                                                 FormatMask="C2"
-                                                 StartIcon="lni lni-euro"
-                                                 EndIcon="lni lni-reload"
-                                                 EndIconAlternative="lni lni-check-box"
-                                                 ButtonLabel="Refresh"
-                                                 OnEndIconClick="SimulateCalculation"
-                                                 Width="w-full" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            All icon and button features combined
-                        </span>
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            StartIcon="lni lni-euro"
-                            EndIcon="lni lni-reload"
-                            EndIconAlternative="lni lni-check-box"
-                            ButtonLabel="Refresh"
-                        </code>
-                    </div>
-                </div>
+        <!-- Currency -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Currency (C2)</h3>
+                <MaviInputDoubleNullable @bind-Value="_formSampleModel.Currency"
+                                         ElementSize="ElementSize.Regular"
+                                         FormatMask="C2"
+                                         StartIcon="lni lni-euro"
+                                         Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.Currency)"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Value: @(_formSampleModel.Currency?.ToString("C2") ?? "null") | Format: $1,234.56
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    FormatMask="C2"
+                </code>
             </div>
         </div>
 
-        <!-- Section 7: Real-World Use Cases -->
-        <div class="mb-12">
-            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">7. Real-World Use Cases</h2>
-            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
-                Common scenarios where nullable doubles are preferred over non-nullable
-            </p>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Price (Optional) -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Price (Optional Field)</h3>
-                        <MaviInputDoubleNullable @bind-Value="_formSampleModel.Price"
-                                                 ElementSize="ElementSize.Regular"
-                                                 StartIcon="lni lni-euro"
-                                                 FormatMask="C2"
-                                                 Min="0"
-                                                 Max="999999.99"
-                                                 Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.Price)" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            null = price not set, 0.00 = free item
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Temperature -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Temperature (°C)</h3>
-                        <MaviInputDoubleNullable @bind-Value="_formSampleModel.Temperature"
-                                                 ElementSize="ElementSize.Regular"
-                                                 StartIcon="lni lni-gears-3"
-                                                 DecimalPlaces="2"
-                                                 Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.Temperature)" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            null = not measured, 0.00 = freezing point
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Weight -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Weight (kg)</h3>
-                        <MaviInputDoubleNullable @bind-Value="_formSampleModel.Weight"
-                                                 ElementSize="ElementSize.Regular"
-                                                 StartIcon="lni lni-gears-3"
-                                                 DecimalPlaces="3"
-                                                 Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.Weight)" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Precise measurements with 3 decimal places
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Discount Rate -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Discount Rate (%)</h3>
-                        <MaviInputDoubleNullable @bind-Value="_formSampleModel.DiscountRate"
-                                                 ElementSize="ElementSize.Regular"
-                                                 StartIcon="lni lni-gears-3"
-                                                 DecimalPlaces="2"
-                                                 Min="0"
-                                                 Max="100"
-                                                 Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.DiscountRate)" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            null = no discount offered, 0.00 = discount evaluated but not given
-                        </span>
-                    </div>
-                </div>
+        <!-- Percentage -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Percentage (P2)</h3>
+                <MaviInputDoubleNullable @bind-Value="_formSampleModel.Percentage"
+                                         ElementSize="ElementSize.Regular"
+                                         FormatMask="P2"
+                                         StartIcon="lni lni-calculator-1"
+                                         Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.Percentage)"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Value: @(_formSampleModel.Percentage?.ToString("P2") ?? "null") | Format: 12.34%
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    FormatMask="P2"
+                </code>
             </div>
         </div>
 
-        <!-- Section 8: Complete Parameter Reference -->
-        <div class="mb-12">
-            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">8. Complete Parameter Reference</h2>
-            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
-                All available parameters for MaviInputDoubleNullable component
-            </p>
-
-            <div class="overflow-x-auto bg-white shadow-md rounded-lg">
-                <table class="min-w-full">
-                    <thead class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_LIGHT_FOUR_BG)">
-                        <tr>
-                            <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Parameter</th>
-                            <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Type</th>
-                            <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Default</th>
-                            <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Description</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-200">
-                        <tr>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>@@bind-Value</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">double?</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Two-way bound nullable double value</td>
-                        </tr>
-                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>ElementSize</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">ElementSize</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Regular</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Size variant: Small, Regular, Large</td>
-                        </tr>
-                        <tr>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>StartIcon</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Icon class for input start position</td>
-                        </tr>
-                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>EndIcon</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Icon class for input end position (clickable)</td>
-                        </tr>
-                        <tr>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>EndIconAlternative</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Alternative end icon for state changes</td>
-                        </tr>
-                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>FormatMask</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Format pattern (F2, C2, P2, N2, E2, G, etc.)</td>
-                        </tr>
-                        <tr>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Width</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">w-96</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Tailwind width class (e.g., "w-full", "w-64")</td>
-                        </tr>
-                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Min</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">double?</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Minimum allowed value</td>
-                        </tr>
-                        <tr>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Max</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">double?</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Maximum allowed value</td>
-                        </tr>
-                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Step</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">double</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">0.01</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Increment/decrement step value</td>
-                        </tr>
-                        <tr>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>DecimalPlaces</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">int?</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Number of decimal places to restrict input</td>
-                        </tr>
-                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>AllowScientificNotation</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Allow scientific notation input (e.g., 1.23e+10)</td>
-                        </tr>
-                        <tr>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Disabled</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Disables user interaction</td>
-                        </tr>
-                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Readonly</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Makes input read-only (visible but not editable)</td>
-                        </tr>
-                        <tr>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Required</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Marks field as required (must have value, not null)</td>
-                        </tr>
-                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>ButtonLabel</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Action</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Aria label for end icon button</td>
-                        </tr>
-                        <tr>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>OnEndIconClick</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">EventCallback</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Event handler for end icon/button click</td>
-                        </tr>
-                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>ShowFormattedWhileFocused</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Shows formatted value even when focused for editing</td>
-                        </tr>
-                        <tr>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>FormatCulture</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">CultureInfo</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Current UI</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Culture for parsing/formatting numbers</td>
-                        </tr>
-                    </tbody>
-                </table>
+        <!-- General -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">General (G)</h3>
+                <MaviInputDoubleNullable @bind-Value="_formSampleModel.General"
+                                         ElementSize="ElementSize.Regular"
+                                         FormatMask="G"
+                                         StartIcon="lni lni-calculator-1"
+                                         Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.General)"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Value: @(_formSampleModel.General?.ToString("G") ?? "null")
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    FormatMask="G"
+                </code>
             </div>
         </div>
 
-        <!-- Submit Button -->
-        <div class="flex justify-start gap-4">
-            <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
-                        ElementSize="ElementSize.Regular"
-                        Title="Submit Form"
-                        ButtonRole="ButtonRole.Submit"
-                        ElementVariant="ElementVariant.Outlined"
-                        TextTransform="TextTransform.Capitalize"
-                        StartIcon="lni lni-checkmark">
-            </MaviButton>
-
-            <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
-                        ElementSize="ElementSize.Regular"
-                        Title="Clear All Values"
-                        ButtonRole="ButtonRole.Button"
-                        ElementVariant="ElementVariant.Outlined"
-                        TextTransform="TextTransform.Capitalize"
-                        StartIcon="lni lni-close"
-                        OnClick="ClearAllValues">
-            </MaviButton>
+        <!-- Scientific Notation -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Scientific (E2)</h3>
+                <MaviInputDoubleNullable @bind-Value="_formSampleModel.Scientific"
+                                         ElementSize="ElementSize.Regular"
+                                         FormatMask="E2"
+                                         AllowScientificNotation="true"
+                                         StartIcon="lni lni-calculator-1"
+                                         Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.Scientific)"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Value: @(_formSampleModel.Scientific?.ToString("E2") ?? "null") | Format: 1.23E+003
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    FormatMask="E2"
+                    AllowScientificNotation="true"
+                </code>
+            </div>
         </div>
 
-        <!-- Current Model State Display -->
-        <div class="mt-8 p-6 bg-gray-50 rounded-lg border border-gray-200">
-            <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-3")">Current Model State (JSON)</h3>
-            <pre class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-white p-4 rounded border overflow-x-auto")">@GetModelJson()</pre>
+        <!-- Number with Thousand Separators -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Number (N2)</h3>
+                <MaviInputDoubleNullable @bind-Value="_formSampleModel.Number"
+                                         ElementSize="ElementSize.Regular"
+                                         FormatMask="N2"
+                                         StartIcon="lni lni-calculator-1"
+                                         Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.Number)"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Value: @(_formSampleModel.Number?.ToString("N2") ?? "null") | Format: 1,234.56
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    FormatMask="N2"
+                </code>
+            </div>
         </div>
-    </EditForm>
+    </div>
+</div>
+
+<!-- Section 5: Decimal Precision Control -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">5. Decimal Precision Control</h2>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+        Control the number of decimal places for precise data entry
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- 2 Decimal Places -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">2 Decimal Places</h3>
+                <MaviInputDoubleNullable @bind-Value="_formSampleModel.Price"
+                                         ElementSize="ElementSize.Regular"
+                                         DecimalPlaces="2"
+                                         StartIcon="lni lni-euro"
+                                         Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.Price)"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Standard for prices: @(_formSampleModel.Price?.ToString("F2") ?? "null")
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    DecimalPlaces="2"
+                </code>
+            </div>
+        </div>
+
+        <!-- 4 Decimal Places -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">4 Decimal Places</h3>
+                <MaviInputDoubleNullable @bind-Value="_formSampleModel.Weight"
+                                         ElementSize="ElementSize.Regular"
+                                         DecimalPlaces="4"
+                                         StartIcon="lni lni-gears-3"
+                                         Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.Weight)"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Precise measurements: @(_formSampleModel.Weight?.ToString("F4") ?? "null")
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    DecimalPlaces="4"
+                </code>
+            </div>
+        </div>
+
+        <!-- No Decimal Limit -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">No Limit</h3>
+                <MaviInputDoubleNullable @bind-Value="_formSampleModel.General"
+                                         ElementSize="ElementSize.Regular"
+                                         StartIcon="lni lni-calculator-1"
+                                         Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.General)"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Any precision allowed: @(_formSampleModel.General?.ToString() ?? "null")
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    No DecimalPlaces set
+                </code>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Section 6: Icons & Interactive Elements -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">6. Icons & Interactive Elements</h2>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+        Add visual context and interaction through start icons, end icons, buttons, and event handlers
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Start Icon Only -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Start Icon</h3>
+                <MaviInputDoubleNullable @bind-Value="_formSampleModel.Price"
+                                         ElementSize="ElementSize.Regular"
+                                         StartIcon="lni lni-euro"
+                                         DecimalPlaces="2"
+                                         Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.Price)"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Icon positioned at input start
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    StartIcon="lni lni-euro"
+                </code>
+            </div>
+        </div>
+
+        <!-- End Icon & Alternative -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">End Icon with Alternative</h3>
+                <MaviInputDoubleNullable @bind-Value="_formSampleModel.Temperature"
+                                         ElementSize="ElementSize.Regular"
+                                         EndIcon="lni lni-power-button"
+                                         EndIconAlternative="lni lni-check-box"
+                                         DecimalPlaces="2"
+                                         Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.Temperature)"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Switches between two end icons on click
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    EndIcon="lni lni-power-button"
+                    EndIconAlternative="lni lni-check-box"
+                </code>
+            </div>
+        </div>
+
+        <!-- With Button -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">With Action Button</h3>
+                <MaviInputDoubleNullable @bind-Value="_formSampleModel.FixedPoint"
+                                         ElementSize="ElementSize.Regular"
+                                         FormatMask="F2"
+                                         ButtonLabel="Calculate"
+                                         EndIcon="lni lni-calculator"
+                                         OnEndIconClick="SimulateCalculation"
+                                         Width="w-full"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Button triggers custom action
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    ButtonLabel="Calculate"
+                    EndIcon="lni lni-calculator"
+                    OnEndIconClick="HandleClick"
+                </code>
+            </div>
+        </div>
+
+        <!-- Complete Example -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Complete: Icons + Button</h3>
+                <MaviInputDoubleNullable @bind-Value="_formSampleModel.Currency"
+                                         ElementSize="ElementSize.Regular"
+                                         FormatMask="C2"
+                                         StartIcon="lni lni-euro"
+                                         EndIcon="lni lni-reload"
+                                         EndIconAlternative="lni lni-check-box"
+                                         ButtonLabel="Refresh"
+                                         OnEndIconClick="SimulateCalculation"
+                                         Width="w-full"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    All icon and button features combined
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    StartIcon="lni lni-euro"
+                    EndIcon="lni lni-reload"
+                    EndIconAlternative="lni lni-check-box"
+                    ButtonLabel="Refresh"
+                </code>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Section 7: Real-World Use Cases -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">7. Real-World Use Cases</h2>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+        Common scenarios where nullable doubles are preferred over non-nullable
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Price (Optional) -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Price (Optional Field)</h3>
+                <MaviInputDoubleNullable @bind-Value="_formSampleModel.Price"
+                                         ElementSize="ElementSize.Regular"
+                                         StartIcon="lni lni-euro"
+                                         FormatMask="C2"
+                                         Min="0"
+                                         Max="999999.99"
+                                         Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.Price)"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    null = price not set, 0.00 = free item
+                </span>
+            </div>
+        </div>
+
+        <!-- Temperature -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Temperature (°C)</h3>
+                <MaviInputDoubleNullable @bind-Value="_formSampleModel.Temperature"
+                                         ElementSize="ElementSize.Regular"
+                                         StartIcon="lni lni-gears-3"
+                                         DecimalPlaces="2"
+                                         Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.Temperature)"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    null = not measured, 0.00 = freezing point
+                </span>
+            </div>
+        </div>
+
+        <!-- Weight -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Weight (kg)</h3>
+                <MaviInputDoubleNullable @bind-Value="_formSampleModel.Weight"
+                                         ElementSize="ElementSize.Regular"
+                                         StartIcon="lni lni-gears-3"
+                                         DecimalPlaces="3"
+                                         Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.Weight)"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Precise measurements with 3 decimal places
+                </span>
+            </div>
+        </div>
+
+        <!-- Discount Rate -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Discount Rate (%)</h3>
+                <MaviInputDoubleNullable @bind-Value="_formSampleModel.DiscountRate"
+                                         ElementSize="ElementSize.Regular"
+                                         StartIcon="lni lni-gears-3"
+                                         DecimalPlaces="2"
+                                         Min="0"
+                                         Max="100"
+                                         Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.DiscountRate)"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    null = no discount offered, 0.00 = discount evaluated but not given
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Section 8: Complete Parameter Reference -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">8. Complete Parameter Reference</h2>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+        All available parameters for MaviInputDoubleNullable component
+    </p>
+
+    <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+        <table class="min-w-full">
+            <thead class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_LIGHT_FOUR_BG)">
+            <tr>
+                <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Parameter</th>
+                <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Type</th>
+                <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Default</th>
+                <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Description</th>
+            </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>@@bind-Value</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">double?</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Two-way bound nullable double value</td>
+            </tr>
+            <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>ElementSize</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">ElementSize</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Regular</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Size variant: Small, Regular, Large</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>StartIcon</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Icon class for input start position</td>
+            </tr>
+            <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>EndIcon</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Icon class for input end position (clickable)</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>EndIconAlternative</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Alternative end icon for state changes</td>
+            </tr>
+            <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>FormatMask</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Format pattern (F2, C2, P2, N2, E2, G, etc.)</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>Width</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">w-96</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Tailwind width class (e.g., "w-full", "w-64")</td>
+            </tr>
+            <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>Min</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">double?</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Minimum allowed value</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>Max</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">double?</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Maximum allowed value</td>
+            </tr>
+            <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>Step</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">double</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">0.01</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Increment/decrement step value</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>DecimalPlaces</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">int?</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Number of decimal places to restrict input</td>
+            </tr>
+            <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>AllowScientificNotation</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Allow scientific notation input (e.g., 1.23e+10)</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>Disabled</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Disables user interaction</td>
+            </tr>
+            <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>Readonly</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Makes input read-only (visible but not editable)</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>Required</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Marks field as required (must have value, not null)</td>
+            </tr>
+            <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>ButtonLabel</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Action</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Aria label for end icon button</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>OnEndIconClick</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">EventCallback</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Event handler for end icon/button click</td>
+            </tr>
+            <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>ShowFormattedWhileFocused</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Shows formatted value even when focused for editing</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>FormatCulture</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">CultureInfo</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Current UI</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Culture for parsing/formatting numbers</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Submit Button -->
+<div class="flex justify-start gap-4">
+    <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                ElementSize="ElementSize.Regular"
+                Title="Submit Form"
+                ButtonRole="ButtonRole.Submit"
+                ElementVariant="ElementVariant.Outlined"
+                TextTransform="TextTransform.Capitalize"
+                StartIcon="lni lni-checkmark">
+    </MaviButton>
+
+    <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
+                ElementSize="ElementSize.Regular"
+                Title="Clear All Values"
+                ButtonRole="ButtonRole.Button"
+                ElementVariant="ElementVariant.Outlined"
+                TextTransform="TextTransform.Capitalize"
+                StartIcon="lni lni-close"
+                OnClick="ClearAllValues">
+    </MaviButton>
+</div>
+
+<!-- Current Model State Display -->
+<div class="mt-8 p-6 bg-gray-50 rounded-lg border border-gray-200">
+    <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-3")">Current Model State (JSON)</h3>
+    <pre class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-white p-4 rounded border overflow-x-auto")">@GetModelJson()</pre>
+</div>
+</EditForm>
 </div>
 
 @code {
@@ -860,12 +900,11 @@
         StateHasChanged();
     }
 
-    private string GetModelJson()
-    {
-        return System.Text.Json.JsonSerializer.Serialize(_formSampleModel, new System.Text.Json.JsonSerializerOptions
+    private string GetModelJson() =>
+        JsonSerializer.Serialize(_formSampleModel, new JsonSerializerOptions
         {
             WriteIndented = true,
-            DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.Never
+            DefaultIgnoreCondition = JsonIgnoreCondition.Never
         });
-    }
+
 }

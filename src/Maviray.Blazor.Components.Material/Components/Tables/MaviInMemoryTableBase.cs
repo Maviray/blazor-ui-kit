@@ -12,18 +12,18 @@ namespace Maviray.Blazor.Components.Material.Components.Tables;
 
 public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposable
 {
-    const string HANDLE_OUTSIDE_CLICK_METHOD_TITLE = "HandleOutsideClick";
+    private const string HANDLE_OUTSIDE_CLICK_METHOD_TITLE = "HandleOutsideClick";
 
-    protected TableDataCollection? Collection;
-    protected IEnumerable<MaviTableContextMenuItem>? MainMenuItems;
-    protected bool ContextMenuVisible;
+    private DotNetObjectReference<MaviInMemoryTableBase>? _dotNetRef;
+
+    private Timer? _filterDebounceTimer;
 
     private bool _needsRender = true;
     private List<MaviTableColumn>? _visibleColumnsCache;
 
-    private System.Threading.Timer? _filterDebounceTimer;
-
-    private DotNetObjectReference<MaviInMemoryTableBase>? _dotNetRef;
+    protected TableDataCollection? Collection;
+    protected bool ContextMenuVisible;
+    protected IEnumerable<MaviTableContextMenuItem>? MainMenuItems;
 
     [Parameter]
     public Func<Task<TableDataCollection>>? FetchData { get; set; }
@@ -53,10 +53,10 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
     public string ContextMenuId => $"context-menu-{Id}";
 
     protected IReadOnlyList<MaviTableColumn> VisibleColumns =>
-        _visibleColumnsCache ??= (Collection?.Columns
+        _visibleColumnsCache ??= Collection?.Columns
             .Where(c => c.Visible)
             .OrderBy(c => c.Sequence)
-            .ToList() ?? []);
+            .ToList() ?? [];
 
     protected BackdropOpacity BackdropOpacity => Parameters?.BackdropOpacity ?? BackdropOpacity.Lighten;
     protected ZIndex ZIndex => Parameters?.ZIndex ?? ZIndex.Forty;
@@ -260,7 +260,7 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
     {
         _filterDebounceTimer?.Dispose();
 
-        _filterDebounceTimer = new (_ =>
+        _filterDebounceTimer = new(_ =>
         {
             InvokeAsync(() =>
             {
@@ -281,7 +281,10 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
 
     protected string TrimCellValue(MaviTableCell? cell)
     {
-        if (cell is null) return string.Empty;
+        if (cell is null)
+        {
+            return string.Empty;
+        }
 
         return Parameters?.MaxCellCharsToDisplay > 0 ? cell.Value.TrimToLengthWithDots(Parameters.MaxCellCharsToDisplay) : cell.Value;
     }
@@ -293,6 +296,7 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
             _needsRender = false;
             return true;
         }
+
         return false;
     }
 

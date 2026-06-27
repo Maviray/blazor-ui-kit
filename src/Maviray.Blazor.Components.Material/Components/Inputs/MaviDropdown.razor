@@ -1,10 +1,10 @@
-﻿@using System.Diagnostics.CodeAnalysis
+﻿@typeparam TItem
+@typeparam TValue
+@implements IAsyncDisposable
+@using System.Diagnostics.CodeAnalysis
 @using System.Reflection
 @using Maviray.Blazor.Components.Core.Models
 @using Microsoft.Extensions.Logging
-@typeparam TItem
-@typeparam TValue
-@implements IAsyncDisposable
 @inherits MaviMaterialInputBase<TValue>
 @inject IJSRuntime JsRuntime
 
@@ -29,7 +29,7 @@
                aria-required="@Required.ToString().ToLowerInvariant()"
                aria-expanded="@_isOpen.ToString().ToLowerInvariant()"
                aria-haspopup="listbox"
-               @attributes="AdditionalAttributes" />
+               @attributes="AdditionalAttributes"/>
 
         <!-- Floating Label -->
         @if (!string.IsNullOrEmpty(Label))
@@ -61,7 +61,7 @@
         <!-- Fieldset for Outlined Border -->
         <fieldset aria-hidden="true" class="@BuildFieldsetClass()">
             <legend class="@BuildLegendClass()">
-                <span class="@(string.IsNullOrEmpty(Label) || Disabled || Readonly ? "" : "px-2")">@Label@((Required && !Disabled && !Readonly) ? " *" : "")</span>
+                <span class="@(string.IsNullOrEmpty(Label) || Disabled || Readonly ? "" : "px-2")">@Label@(Required && !Disabled && !Readonly ? " *" : "")</span>
             </legend>
         </fieldset>
     </div>
@@ -83,7 +83,7 @@
                     <div class="@GetOptionClass(false)"
                          role="option"
                          aria-selected="@isPlaceholderSelected.ToString().ToLowerInvariant()"
-                         @onclick="() => SelectItem(default(TValue))"
+                         @onclick="() => SelectItem(default)"
                          @onclick:stopPropagation="true">
                         <span class="block truncate">@PlaceholderText</span>
                     </div>
@@ -104,7 +104,7 @@
                              @onclick="() => SelectItem(value)"
                              @onclick:stopPropagation="true"
                              @onmouseenter="() => _hoveredValue = value"
-                             @onmouseleave="() => _hoveredValue = default(TValue)">
+                             @onmouseleave="() => _hoveredValue = default">
                             <span class="block truncate">@text</span>
                             @if (isSelected)
                             {
@@ -130,56 +130,64 @@
 
 @code {
     private ElementReference _containerRef;
-    private bool _isOpen = false;
-    private TValue? _hoveredValue = default;
+    private bool _isOpen;
+    private TValue? _hoveredValue;
     private DotNetObjectReference<MaviDropdown<TItem, TValue>>? _dotNetRef;
     private IJSObjectReference? _jsModule;
 
     #region Dropdown-Specific Parameters
 
     /// <summary>
-    /// The collection of items to display in the dropdown.
+    ///     The collection of items to display in the dropdown.
     /// </summary>
-    [Parameter] public IEnumerable<TItem>? Items { get; set; }
+    [Parameter]
+    public IEnumerable<TItem>? Items { get; set; }
 
     /// <summary>
-    /// Expression to extract the value from each item.
-    /// If not provided, the item itself is used as the value.
+    ///     Expression to extract the value from each item.
+    ///     If not provided, the item itself is used as the value.
     /// </summary>
-    [Parameter] public Func<TItem, TValue>? ValueSelector { get; set; }
+    [Parameter]
+    public Func<TItem, TValue>? ValueSelector { get; set; }
 
     /// <summary>
-    /// Expression to extract the display text from each item.
-    /// If not provided, ToString() is called on the item.
+    ///     Expression to extract the display text from each item.
+    ///     If not provided, ToString() is called on the item.
     /// </summary>
-    [Parameter] public Func<TItem, string>? TextSelector { get; set; }
+    [Parameter]
+    public Func<TItem, string>? TextSelector { get; set; }
 
     /// <summary>
-    /// Text to display when no option is selected.
-    /// Default is "Select an option..."
+    ///     Text to display when no option is selected.
+    ///     Default is "Select an option..."
     /// </summary>
-    [Parameter] public string PlaceholderText { get; set; } = "Select an option...";
+    [Parameter]
+    public string PlaceholderText { get; set; } = "Select an option...";
 
     /// <summary>
-    /// Whether to show a placeholder option at the top of the dropdown.
-    /// Default is true.
+    ///     Whether to show a placeholder option at the top of the dropdown.
+    ///     Default is true.
     /// </summary>
-    [Parameter] public bool ShowPlaceholderOption { get; set; } = true;
+    [Parameter]
+    public bool ShowPlaceholderOption { get; set; } = true;
 
     /// <summary>
-    /// Custom icon for the dropdown arrow. Default is a down chevron icon.
+    ///     Custom icon for the dropdown arrow. Default is a down chevron icon.
     /// </summary>
-    [Parameter] public string DropdownIcon { get; set; } = "lni lni-chevron-down";
+    [Parameter]
+    public string DropdownIcon { get; set; } = "lni lni-chevron-down";
 
     /// <summary>
-    /// Maximum height for the dropdown options list. Default is "max-h-60".
+    ///     Maximum height for the dropdown options list. Default is "max-h-60".
     /// </summary>
-    [Parameter] public string MaxDropdownHeight { get; set; } = "max-h-60";
+    [Parameter]
+    public string MaxDropdownHeight { get; set; } = "max-h-60";
 
     /// <summary>
-    /// Event callback invoked when the selection changes.
+    ///     Event callback invoked when the selection changes.
     /// </summary>
-    [Parameter] public EventCallback<ValueChangedCallbackParameters<TValue>> OnSelectionChanged { get; set; }
+    [Parameter]
+    public EventCallback<ValueChangedCallbackParameters<TValue>> OnSelectionChanged { get; set; }
 
     #endregion
 
@@ -195,18 +203,20 @@
             if (typeof(TValue) == typeof(string))
                 return !string.IsNullOrWhiteSpace(CurrentValue as string);
 
-            return !EqualityComparer<TValue>.Default.Equals(CurrentValue, default(TValue));
+            return !EqualityComparer<TValue>.Default.Equals(CurrentValue, default);
         }
     }
 
     protected override bool TryParseValueFromString(
         string? value,
-        [MaybeNullWhen(false)] out TValue result,
-        [NotNullWhen(false)] out string? validationErrorMessage)
+        [MaybeNullWhen(false)]
+        out TValue result,
+        [NotNullWhen(false)]
+        out string? validationErrorMessage)
     {
         if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle( Id, GetType());
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
 
         try
@@ -256,18 +266,12 @@
         }
     }
 
-    protected override Task HandleInput(ChangeEventArgs e)
-    {
-        return Task.CompletedTask;
-        // Not used for custom dropdown
-    }
+    protected override Task HandleInput(ChangeEventArgs e) => Task.CompletedTask;
 
-    protected override Task HandleChange(ChangeEventArgs e)
-    {
-        return Task.CompletedTask;
-        // Not used for custom dropdown
-    }
+    // Not used for custom dropdown
+    protected override Task HandleChange(ChangeEventArgs e) => Task.CompletedTask;
 
+    // Not used for custom dropdown
     protected override void InferTypeSpecificAttributes(PropertyInfo propertyInfo)
     {
         // Dropdown-specific inference
@@ -285,7 +289,6 @@
             .ToList();
         Items = enumValues;
     }
-
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -329,7 +332,7 @@
 
         if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle( Id, GetType());
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
 
         StateHasChanged();
@@ -352,7 +355,7 @@
         // Invoke custom callback
         if (OnSelectionChanged.HasDelegate)
         {
-            await OnSelectionChanged.InvokeAsync(new(){ ElementId = Id, Value = value });
+            await OnSelectionChanged.InvokeAsync(new() { ElementId = Id, Value = value });
         }
 
         StateHasChanged();
@@ -362,7 +365,7 @@
     {
         // Special handling for null checks
         if (CurrentValue == null)
-            return value == null || EqualityComparer<TValue>.Default.Equals(value, default(TValue));
+            return value == null || EqualityComparer<TValue>.Default.Equals(value, default);
 
         return value != null && EqualityComparer<TValue>.Default.Equals(CurrentValue, value);
     }
@@ -517,15 +520,13 @@
         );
     }
 
-    private string GetOptionsContainerClass()
-    {
-        return CssManager.Combine(
+    private string GetOptionsContainerClass() =>
+        CssManager.Combine(
             MaxDropdownHeight,
             "overflow-y-auto",
             "py-1",
             "scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100"
         );
-    }
 
     private string GetOptionClass(bool isSelected)
     {
@@ -563,18 +564,16 @@
         return CssManager.Combine(baseClasses, stateClasses, fontSize);
     }
 
-    private string GetCheckmarkClass()
-    {
-        return CssManager.Combine(
+    private string GetCheckmarkClass() =>
+        CssManager.Combine(
             "ml-2 flex-shrink-0",
             ThemeTextDarkColor
         );
-    }
 
     private TValue GetItemValue(TItem item)
     {
         if (item == null)
-            return default(TValue)!;
+            return default!;
 
         if (ValueSelector != null)
         {
@@ -612,7 +611,8 @@
     }
 
     #endregion
-    private bool _disposed = false;
+
+    private bool _disposed;
 
     public async ValueTask DisposeAsync()
     {
@@ -642,4 +642,5 @@
         // Call base disposal
         base.Dispose();
     }
+
 }

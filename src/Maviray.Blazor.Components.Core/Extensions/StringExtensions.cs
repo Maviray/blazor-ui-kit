@@ -7,7 +7,7 @@ public static class StringExtensions
     public const int MAX_CHAR_LIMIT = 300;
     public const int DEFAULT_CHAR_LIMIT = 30;
 
-    private static readonly Regex HexColorRegex = new Regex(
+    private static readonly Regex HexColorRegex = new(
         @"^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{4}|[0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$",
         RegexOptions.Compiled
     );
@@ -42,7 +42,9 @@ public static class StringExtensions
         public bool IsValidHexColor()
         {
             if (string.IsNullOrWhiteSpace(text))
+            {
                 return false;
+            }
 
             return HexColorRegex.IsMatch(text);
         }

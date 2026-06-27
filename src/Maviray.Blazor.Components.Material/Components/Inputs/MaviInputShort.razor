@@ -1,8 +1,8 @@
-﻿@using System.Diagnostics.CodeAnalysis
-@using Microsoft.Extensions.Logging
-@using System.ComponentModel.DataAnnotations
-@using System.Reflection
+﻿@using System.ComponentModel.DataAnnotations
+@using System.Diagnostics.CodeAnalysis
 @using System.Globalization
+@using System.Reflection
+@using Microsoft.Extensions.Logging
 @inherits MaviNumericInputBase<short>
 
 <div class="@Width">
@@ -30,7 +30,7 @@
                aria-label="@Label"
                aria-required="@Required.ToString().ToLowerInvariant()"
                data-val="@(!Disabled && !Readonly ? "true" : "false")"
-               @attributes="AdditionalAttributes" />
+               @attributes="AdditionalAttributes"/>
 
         <!-- Floating Label -->
         @if (!string.IsNullOrEmpty(Label))
@@ -64,7 +64,8 @@
                      aria-label="Loading"
                      role="status">
                     <div class="animate-spin rounded-full border-2 border-solid border-current border-r-transparent"
-                         style="@GetLoadingSpinnerSize()"></div>
+                         style="@GetLoadingSpinnerSize()">
+                    </div>
                 </div>
             }
             else
@@ -85,7 +86,7 @@
         <!-- Fieldset for Outlined Border -->
         <fieldset aria-hidden="true" class="@BuildFieldsetClass()">
             <legend class="@BuildLegendClass()">
-                <span class="@(string.IsNullOrEmpty(Label) || Disabled || Readonly ? "" : "px-2")">@Label@((Required && !Disabled && !Readonly) ? " *" : "")</span>
+                <span class="@(string.IsNullOrEmpty(Label) || Disabled || Readonly ? "" : "px-2")">@Label@(Required && !Disabled && !Readonly ? " *" : "")</span>
             </legend>
         </fieldset>
     </div>
@@ -100,33 +101,38 @@
 </div>
 
 @code {
-    /// <summary>
-    /// Minimum allowed value for the short integer input.
-    /// Range: -32,768 to 32,767
-    /// </summary>
-    [Parameter] public short? Min { get; set; }
 
     /// <summary>
-    /// Maximum allowed value for the short integer input.
-    /// Range: -32,768 to 32,767
+    ///     Minimum allowed value for the short integer input.
+    ///     Range: -32,768 to 32,767
     /// </summary>
-    [Parameter] public short? Max { get; set; }
+    [Parameter]
+    public short? Min { get; set; }
 
     /// <summary>
-    /// Step value for increment/decrement operations.
+    ///     Maximum allowed value for the short integer input.
+    ///     Range: -32,768 to 32,767
     /// </summary>
-    [Parameter] public short Step { get; set; } = 1;
+    [Parameter]
+    public short? Max { get; set; }
+
+    /// <summary>
+    ///     Step value for increment/decrement operations.
+    /// </summary>
+    [Parameter]
+    public short Step { get; set; } = 1;
 
     protected override bool HasValue => CurrentValue != 0 || !string.IsNullOrWhiteSpace(RawInputValue);
 
     protected override bool TryParseValueFromString(
         string? value,
         out short result,
-        [NotNullWhen(false)] out string? validationErrorMessage)
+        [NotNullWhen(false)]
+        out string? validationErrorMessage)
     {
         if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle( Id, GetType());
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
 
         if (string.IsNullOrWhiteSpace(value))
@@ -302,4 +308,5 @@
 
         return cleaned.Trim();
     }
+
 }

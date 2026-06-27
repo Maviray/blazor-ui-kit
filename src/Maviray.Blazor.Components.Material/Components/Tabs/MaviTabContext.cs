@@ -15,6 +15,6 @@ public class MaviTabContext
     public void OnTabClick(MouseClickEventArgs args)
     {
         SelectedTabId = args.ButtonId;
-        OnTabClicked?.Invoke(this, new (NavBarId, args.ButtonId, args));
+        OnTabClicked?.Invoke(this, new(NavBarId, args.ButtonId, args));
     }
 }

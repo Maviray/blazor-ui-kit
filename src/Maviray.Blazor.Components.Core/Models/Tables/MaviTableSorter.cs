@@ -76,27 +76,27 @@ public class MaviTableSorter : IComparer<MaviTableRow>
         switch (aHas)
         {
             case true when bHas:
+            {
+                // Same enum type? compare underlying ints
+                if (a is Enum ae && b is Enum be && ae.GetType() == be.GetType())
                 {
-                    // Same enum type? compare underlying ints
-                    if (a is Enum ae && b is Enum be && ae.GetType() == be.GetType())
-                    {
-                        var ai = Convert.ToInt32(ae, CultureInfo.InvariantCulture);
-                        var bi = Convert.ToInt32(be, CultureInfo.InvariantCulture);
-                        return ai.CompareTo(bi);
-                    }
-
-                    // Try numeric, else string
-                    try
-                    {
-                        var ai = Convert.ToInt32(a, CultureInfo.InvariantCulture);
-                        var bi = Convert.ToInt32(b, CultureInfo.InvariantCulture);
-                        return ai.CompareTo(bi);
-                    }
-                    catch
-                    {
-                        return StringCompare(a?.ToString(), b?.ToString());
-                    }
+                    var ai = Convert.ToInt32(ae, CultureInfo.InvariantCulture);
+                    var bi = Convert.ToInt32(be, CultureInfo.InvariantCulture);
+                    return ai.CompareTo(bi);
                 }
+
+                // Try numeric, else string
+                try
+                {
+                    var ai = Convert.ToInt32(a, CultureInfo.InvariantCulture);
+                    var bi = Convert.ToInt32(b, CultureInfo.InvariantCulture);
+                    return ai.CompareTo(bi);
+                }
+                catch
+                {
+                    return StringCompare(a?.ToString(), b?.ToString());
+                }
+            }
             case true:
                 return -1; // non-null first
         }

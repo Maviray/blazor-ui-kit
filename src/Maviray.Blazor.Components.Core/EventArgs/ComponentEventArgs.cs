@@ -2,9 +2,10 @@
 
 public class ComponentEventArgs : System.EventArgs
 {
-    public ComponentEventArgs(string? componentId) : base()
+    public string? ComponentId { get; init; }
+
+    public ComponentEventArgs(string? componentId)
     {
         ComponentId = componentId;
     }
-    public string? ComponentId { get; init; }
 }

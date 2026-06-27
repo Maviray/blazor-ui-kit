@@ -20,7 +20,6 @@
 
     [Parameter]
     public IconSize IconSize { get; set; }
-      
 
     private string EffectiveCss
     {
@@ -50,9 +49,10 @@
     {
         if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle( Id, GetType());
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
 
         if (OnClick.HasDelegate) await OnClick.InvokeAsync(Id);
     }
+
 }

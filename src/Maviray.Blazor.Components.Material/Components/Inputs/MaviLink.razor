@@ -1,7 +1,7 @@
 ﻿@using Maviray.Blazor.Components.Core.Options
 @using Maviray.Blazor.Components.Material.Constants
 @using Microsoft.Extensions.Logging
-@inherits Microsoft.AspNetCore.Components.Routing.NavLink
+@inherits NavLink
 
 <a @attributes="AdditionalAttributes"
    id="@Id"
@@ -34,30 +34,60 @@
 
 @code {
 
-    [Parameter] public string? Id { get; set; } = $"link_{Guid.NewGuid()}";
-    [Parameter] public RenderFragment? LeftIcon { get; set; }
-    [Parameter] public RenderFragment? RightIcon { get; set; }
-    [Parameter] public string Href { get; set; } = "";
-    [Parameter] public ThemeColorScheme ThemeColorScheme { get; set; }
-    [Parameter] public ElementSize ElementSize { get; set; }
-    [Parameter] public ElementVariant ElementVariant { get; set; }
-    [Parameter] public string? Title { get; set; }
-    [Parameter] public string? Label { get; set; }
-    [Parameter] public string? Class { get; set; }
-    [Parameter] public string? Style { get; set; }
-    [Parameter] public string? Badge { get; set; }
-    [Parameter] public string Width { get; set; } = "min-w-16";
-    [Parameter] public bool Disabled { get; set; }
+    [Parameter]
+    public string? Id { get; set; } = $"link_{Guid.NewGuid()}";
 
-    [Parameter] public EventCallback<MouseClickEventArgs> OnClick { get; set; }
+    [Parameter]
+    public RenderFragment? LeftIcon { get; set; }
+
+    [Parameter]
+    public RenderFragment? RightIcon { get; set; }
+
+    [Parameter]
+    public string Href { get; set; } = "";
+
+    [Parameter]
+    public ThemeColorScheme ThemeColorScheme { get; set; }
+
+    [Parameter]
+    public ElementSize ElementSize { get; set; }
+
+    [Parameter]
+    public ElementVariant ElementVariant { get; set; }
+
+    [Parameter]
+    public string? Title { get; set; }
+
+    [Parameter]
+    public string? Label { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter]
+    public string? Badge { get; set; }
+
+    [Parameter]
+    public string Width { get; set; } = "min-w-16";
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseClickEventArgs> OnClick { get; set; }
 
     private bool _enableLifeCycleLogging;
 
     private ILogger? _logger;
 
-    [Inject] private ILoggerFactory? LoggerFactory { get; set; }
+    [Inject]
+    private ILoggerFactory? LoggerFactory { get; set; }
 
-    [Inject] protected IMaviComponentOptions? ComponentOptions { get; set; }
+    [Inject]
+    protected IMaviComponentOptions? ComponentOptions { get; set; }
 
     private ILogger? Logger => _logger ??= LoggerFactory?.CreateLogger(GetType());
 
@@ -109,7 +139,7 @@
         {
             ElementSize.Small => Tailwind.Theme.Button.BUTTON_SMALL + " " + Tailwind.Theme.Typography.LABEL_SMALL,
             ElementSize.Large => Tailwind.Theme.Button.BUTTON_LARGE + " " + Tailwind.Theme.Typography.LABEL_LARGE,
-            _ => Tailwind.Theme.Button.BUTTON_REGULAR + " " + Tailwind.Theme.Typography.LABEL_MEDIUM,
+            _ => Tailwind.Theme.Button.BUTTON_REGULAR + " " + Tailwind.Theme.Typography.LABEL_MEDIUM
         };
 
         return colors + " " + size + " " + Tailwind.Theme.NavLink.SURROUND;
@@ -134,7 +164,7 @@
         {
             ElementSize.Small => Tailwind.Theme.Button.BUTTON_SMALL + " " + Tailwind.Theme.Typography.LABEL_SMALL,
             ElementSize.Large => Tailwind.Theme.Button.BUTTON_LARGE + " " + Tailwind.Theme.Typography.LABEL_LARGE,
-            _ => Tailwind.Theme.Button.BUTTON_REGULAR + " " + Tailwind.Theme.Typography.LABEL_MEDIUM,
+            _ => Tailwind.Theme.Button.BUTTON_REGULAR + " " + Tailwind.Theme.Typography.LABEL_MEDIUM
         };
 
         return colors + " " + size + " " + Tailwind.Theme.NavLink.LINK_UNDERLINE + " " + Tailwind.Theme.NavLink.SURROUND;
@@ -159,7 +189,7 @@
         {
             ElementSize.Small => Tailwind.Theme.Typography.LABEL_SMALL,
             ElementSize.Large => Tailwind.Theme.Typography.LABEL_LARGE,
-            _ => Tailwind.Theme.Typography.LABEL_MEDIUM,
+            _ => Tailwind.Theme.Typography.LABEL_MEDIUM
         };
 
         return colors + " " + size + " " + Tailwind.Theme.NavLink.LINK_TEXT;
@@ -169,7 +199,7 @@
     {
         if (_enableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle( Id, GetType());
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
 
         if (OnClick.HasDelegate)
@@ -179,4 +209,5 @@
             await OnClick.InvokeAsync(customArgs);
         }
     }
+
 }

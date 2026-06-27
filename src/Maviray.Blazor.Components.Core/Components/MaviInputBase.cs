@@ -10,9 +10,12 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>
 {
     protected EditContext? PreviousEditContext;
     protected ValidationMessageStore? ValidationMessageStore;
-    
-    [Inject] private ILoggerFactory? LoggerFactory { get; set; }
-    [Inject] protected IMaviComponentOptions? ComponentOptions { get; set; }
+
+    [Inject]
+    private ILoggerFactory? LoggerFactory { get; set; }
+
+    [Inject]
+    protected IMaviComponentOptions? ComponentOptions { get; set; }
 
     protected bool EnableLifeCycleLogging { get; private set; }
 
@@ -21,64 +24,76 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>
     protected ILogger? Logger => field ??= LoggerFactory?.CreateLogger(GetType());
 
     /// <summary>
-    /// Unique identifier for the input component
+    ///     Unique identifier for the input component
     /// </summary>
-    [Parameter] public virtual string? Id { get; set; } = $"input_{Guid.NewGuid()}";
+    [Parameter]
+    public virtual string? Id { get; set; } = $"input_{Guid.NewGuid()}";
 
     /// <summary>
-    /// Width CSS class (e.g., "w-96", "w-full")
+    ///     Width CSS class (e.g., "w-96", "w-full")
     /// </summary>
-    [Parameter] public string Width { get; set; } = "w-auto";
+    [Parameter]
+    public string Width { get; set; } = "w-auto";
 
     /// <summary>
-    /// Inline styles to apply to the component
+    ///     Inline styles to apply to the component
     /// </summary>
-    [Parameter] public string? Style { get; set; }
+    [Parameter]
+    public string? Style { get; set; }
 
     /// <summary>
-    /// Title/tooltip text
+    ///     Title/tooltip text
     /// </summary>
-    [Parameter] public string? Title { get; set; }
+    [Parameter]
+    public string? Title { get; set; }
 
     /// <summary>
-    /// Theme color scheme for the component
+    ///     Theme color scheme for the component
     /// </summary>
-    [Parameter] public ThemeColorScheme ThemeColorScheme { get; set; } = ThemeColorScheme.Primary;
+    [Parameter]
+    public ThemeColorScheme ThemeColorScheme { get; set; } = ThemeColorScheme.Primary;
 
     /// <summary>
-    /// Size of element (e.g., Small, Regular, Large)
+    ///     Size of element (e.g., Small, Regular, Large)
     /// </summary>
-    [Parameter] public ElementSize ElementSize { get; set; }
+    [Parameter]
+    public ElementSize ElementSize { get; set; }
 
     /// <summary>
-    /// Label text for the input
+    ///     Label text for the input
     /// </summary>
-    [Parameter] public string Label { get; set; } = string.Empty;
+    [Parameter]
+    public string Label { get; set; } = string.Empty;
 
     /// <summary>
-    /// Helper/hint text displayed below the input
+    ///     Helper/hint text displayed below the input
     /// </summary>
-    [Parameter] public string? HelperText { get; set; }
+    [Parameter]
+    public string? HelperText { get; set; }
 
     /// <summary>
-    /// Indicates if the field is required
+    ///     Indicates if the field is required
     /// </summary>
-    [Parameter] public bool Required { get; set; }
+    [Parameter]
+    public bool Required { get; set; }
 
     /// <summary>
-    /// Disables the input
+    ///     Disables the input
     /// </summary>
-    [Parameter] public bool Disabled { get; set; }
+    [Parameter]
+    public bool Disabled { get; set; }
 
     /// <summary>
-    /// Makes the input read-only
+    ///     Makes the input read-only
     /// </summary>
-    [Parameter] public bool Readonly { get; set; }
+    [Parameter]
+    public bool Readonly { get; set; }
 
     /// <summary>
-    /// Additional CSS classes to apply
+    ///     Additional CSS classes to apply
     /// </summary>
-    [Parameter] public string? Class { get; set; }
+    [Parameter]
+    public string? Class { get; set; }
 
     // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
     protected bool HasError => EditContext != null && !Disabled && !Readonly && EditContext.GetValidationMessages(FieldIdentifier).Any();
@@ -95,13 +110,7 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>
         }
     }
 
-    protected virtual string GetAriaDescribedByString()
-    {
-        return !string.IsNullOrEmpty(HelperText) ? $"{Id}-helper" : string.Empty;
-    }
+    protected virtual string GetAriaDescribedByString() => !string.IsNullOrEmpty(HelperText) ? $"{Id}-helper" : string.Empty;
 
-    protected virtual string GetAreaInvalidValue()
-    {
-        return HasError.ToString().ToLowerInvariant();
-    }
+    protected virtual string GetAreaInvalidValue() => HasError.ToString().ToLowerInvariant();
 }

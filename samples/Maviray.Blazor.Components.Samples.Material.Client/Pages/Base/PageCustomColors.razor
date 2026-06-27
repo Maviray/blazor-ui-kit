@@ -5,318 +5,319 @@
 
 <div class="w-full flex flex-col gap-8 p-6 max-w-7xl mx-auto">
 
-    @* Header Section *@
-    <div class="flex flex-col gap-4">
-        <h1 class="@Tailwind.Theme.Typography.DISPLAY_MEDIUM">Custom Theme Colors</h1>
-        <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_LARGE, "text-(--theme-dark-six) max-w-3xl")">
-            Custom palette defined in Tailwind @@theme configuration. These colors are customizable by overriding Tailwind configuration inside individual consumer project.
-        </p>
-    </div>
-    
-    <div>
-        <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-(--theme-dark-six)")">
-            Use constants from Tailwind.Theme.Colors static classes
-        </p>
-        <pre class="mt-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs">
+@* Header Section *@
+<div class="flex flex-col gap-4">
+    <h1 class="@Tailwind.Theme.Typography.DISPLAY_MEDIUM">Custom Theme Colors</h1>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_LARGE, "text-(--theme-dark-six) max-w-3xl")">
+        Custom palette defined in Tailwind @@theme configuration. These colors are customizable by overriding Tailwind configuration inside individual consumer project.
+    </p>
+</div>
+
+<div>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-(--theme-dark-six)")">
+        Use constants from Tailwind.Theme.Colors static classes
+    </p>
+    <pre class="mt-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs">
         <code>  
   &lt;div class="@@Tailwind.Theme.Colors.Background.THEME_PRIMARY_SEVEN_BG"&gt;
         
   &lt;/div&gt;
         </code>
      </pre>
-        
-        <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-(--theme-dark-six)")">
-            Or reference tailwind variables directly
-        </p>
-        <pre class="mt-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs">
+
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-(--theme-dark-six)")">
+        Or reference tailwind variables directly
+    </p>
+    <pre class="mt-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs">
         <code>  
   &lt;div class="text-(--theme-dark-six) bg-(--theme-default-one)"&gt;
         
   &lt;/div&gt;
         </code>
      </pre>
+</div>
+
+@* Primary Color Group *@
+<section class="flex flex-col gap-4">
+    <div class="flex flex-col gap-2">
+        <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Primary Colors</h2>
+        <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-(--theme-dark-six)")">
+            Your brand's main color palette. Use these for primary actions, key UI elements, and brand identity.
+        </p>
     </div>
 
-    @* Primary Color Group *@
-    <section class="flex flex-col gap-4">
-        <div class="flex flex-col gap-2">
-            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Primary Colors</h2>
-            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-(--theme-dark-six)")">
-                Your brand's main color palette. Use these for primary actions, key UI elements, and brand identity.
-            </p>
-        </div>
-
-        <div class="w-full flex flex-col gap-1">
-            @for (int i = 1; i <= 10; i++)
-            {
-                var bgClass = $"bg-(--theme-primary-{GetNumberWord(i)})";
-                var label = $"--theme-primary-{GetNumberWord(i)}";
-                <div class="@CssManager.Combine("h-12", bgClass, "flex items-center px-4")">
-                    <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, EnlightenText(i))">@label</span>
-                </div>
-            }
-        </div>
-
-        @* Use Case Example *@
-        <div class="border border-(--theme-default-three) rounded-lg p-4 bg-(--theme-default-one)">
-            <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.TITLE_SMALL, "mb-3")">Use Case Example</h3>
-            <div class="flex gap-3">
-                <button class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_PRIMARY_SEVEN_BG, Tailwind.Theme.Colors.Background.Hover.THEME_PRIMARY_EIGHT_BG_HOVER, Tailwind.Theme.Typography.LABEL_LARGE, "px-4 py-2 rounded text-white transition-colors")">
-                    Primary Button
-                </button>
-                <button class="@CssManager.Combine(Tailwind.Theme.Colors.Border.THEME_PRIMARY_SEVEN_BORDER, Tailwind.Theme.Colors.Background.THEME_PRIMARY_TWO_BG, Tailwind.Theme.Colors.Background.Hover.THEME_PRIMARY_THREE_BG_HOVER, Tailwind.Theme.Typography.LABEL_LARGE, Tailwind.Theme.Typography.BODY_MEDIUM, "border-2 px-4 py-2 rounded transition-colors")">
-                    Outlined Button
-                </button>
+    <div class="w-full flex flex-col gap-1">
+        @for (var i = 1; i <= 10; i++)
+        {
+            var bgClass = $"bg-(--theme-primary-{GetNumberWord(i)})";
+            var label = $"--theme-primary-{GetNumberWord(i)}";
+            <div class="@CssManager.Combine("h-12", bgClass, "flex items-center px-4")">
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, EnlightenText(i))">@label</span>
             </div>
-        </div>
-    </section>
+        }
+    </div>
 
-    @* Secondary Color Group *@
+    @* Use Case Example *@
+    <div class="border border-(--theme-default-three) rounded-lg p-4 bg-(--theme-default-one)">
+        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.TITLE_SMALL, "mb-3")">Use Case Example</h3>
+        <div class="flex gap-3">
+            <button class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_PRIMARY_SEVEN_BG, Tailwind.Theme.Colors.Background.Hover.THEME_PRIMARY_EIGHT_BG_HOVER, Tailwind.Theme.Typography.LABEL_LARGE, "px-4 py-2 rounded text-white transition-colors")">
+                Primary Button
+            </button>
+            <button class="@CssManager.Combine(Tailwind.Theme.Colors.Border.THEME_PRIMARY_SEVEN_BORDER, Tailwind.Theme.Colors.Background.THEME_PRIMARY_TWO_BG, Tailwind.Theme.Colors.Background.Hover.THEME_PRIMARY_THREE_BG_HOVER, Tailwind.Theme.Typography.LABEL_LARGE, Tailwind.Theme.Typography.BODY_MEDIUM, "border-2 px-4 py-2 rounded transition-colors")">
+                Outlined Button
+            </button>
+        </div>
+    </div>
+</section>
+
+@* Secondary Color Group *@
+<section class="flex flex-col gap-4">
+    <div class="flex flex-col gap-2">
+        <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Secondary Colors</h2>
+        <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-(--theme-dark-six)")">
+            Complementary colors for secondary actions and supporting UI elements.
+        </p>
+    </div>
+
+    <div class="w-full flex flex-col gap-1">
+        @for (var i = 1; i <= 10; i++)
+        {
+            var bgClass = $"bg-(--theme-secondary-{GetNumberWord(i)})";
+            var label = $"--theme-secondary-{GetNumberWord(i)}";
+            <div class="@CssManager.Combine("h-12", bgClass, "flex items-center px-4")">
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, EnlightenText(i))">@label</span>
+            </div>
+        }
+    </div>
+</section>
+
+@* Tertiary Color Group *@
+<section class="flex flex-col gap-4">
+    <div class="flex flex-col gap-2">
+        <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Tertiary Colors</h2>
+        <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-(--theme-dark-six)")">
+            Additional accent colors for creating visual hierarchy and variety.
+        </p>
+    </div>
+
+    <div class="w-full flex flex-col gap-1">
+        @for (var i = 1; i <= 10; i++)
+        {
+            var bgClass = $"bg-(--theme-tertiary-{GetNumberWord(i)})";
+            var label = $"--theme-tertiary-{GetNumberWord(i)}";
+            <div class="@CssManager.Combine("h-12", bgClass, "flex items-center px-4")">
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, EnlightenText(i))">@label</span>
+            </div>
+        }
+    </div>
+</section>
+
+@* Accent & Highlight Colors *@
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+    @* Accent *@
     <section class="flex flex-col gap-4">
         <div class="flex flex-col gap-2">
-            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Secondary Colors</h2>
+            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Accent Colors</h2>
             <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-(--theme-dark-six)")">
-                Complementary colors for secondary actions and supporting UI elements.
+                Eye-catching colors for highlights and special emphasis.
             </p>
         </div>
 
         <div class="w-full flex flex-col gap-1">
-            @for (int i = 1; i <= 10; i++)
+            @for (var i = 1; i <= 10; i++)
             {
-                var bgClass = $"bg-(--theme-secondary-{GetNumberWord(i)})";
-                var label = $"--theme-secondary-{GetNumberWord(i)}";
-                <div class="@CssManager.Combine("h-12", bgClass, "flex items-center px-4")">
+                var bgClass = $"bg-(--theme-accent-{GetNumberWord(i)})";
+                var label = $"--theme-accent-{GetNumberWord(i)}";
+                <div class="@CssManager.Combine("h-10", bgClass, "flex items-center px-4")">
                     <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, EnlightenText(i))">@label</span>
                 </div>
             }
         </div>
     </section>
 
-    @* Tertiary Color Group *@
+    @* Highlight *@
     <section class="flex flex-col gap-4">
         <div class="flex flex-col gap-2">
-            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Tertiary Colors</h2>
+            <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Highlight Colors</h2>
             <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-(--theme-dark-six)")">
-                Additional accent colors for creating visual hierarchy and variety.
+                Vibrant colors for drawing attention to important elements.
             </p>
         </div>
 
         <div class="w-full flex flex-col gap-1">
-            @for (int i = 1; i <= 10; i++)
+            @for (var i = 1; i <= 10; i++)
             {
-                var bgClass = $"bg-(--theme-tertiary-{GetNumberWord(i)})";
-                var label = $"--theme-tertiary-{GetNumberWord(i)}";
-                <div class="@CssManager.Combine("h-12", bgClass, "flex items-center px-4")">
+                var bgClass = $"bg-(--theme-highlight-{GetNumberWord(i)})";
+                var label = $"--theme-highlight-{GetNumberWord(i)}";
+                <div class="@CssManager.Combine("h-10", bgClass, "flex items-center px-4")">
                     <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, EnlightenText(i))">@label</span>
                 </div>
             }
         </div>
     </section>
+</div>
 
-    @* Accent & Highlight Colors *@
+@* Semantic Status Colors *@
+<section class="flex flex-col gap-4">
+    <div class="flex flex-col gap-2">
+        <h2 class="@Tailwind.Theme.Typography.HEADLINE_LARGE">Semantic Status Colors</h2>
+        <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_LARGE, "text-(--theme-dark-six)")">
+            Colors that convey meaning and status in your application. These colors help users understand feedback, warnings, and confirmations.
+        </p>
+    </div>
+
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
-        @* Accent *@
-        <section class="flex flex-col gap-4">
-            <div class="flex flex-col gap-2">
-                <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Accent Colors</h2>
-                <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-(--theme-dark-six)")">
-                    Eye-catching colors for highlights and special emphasis.
-                </p>
-            </div>
-
+        @* Alert *@
+        <div class="flex flex-col gap-3">
+            <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE">Alert</h3>
+            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-(--theme-dark-six)")">Critical errors and destructive actions</p>
             <div class="w-full flex flex-col gap-1">
-                @for (int i = 1; i <= 10; i++)
+                @for (var i = 1; i <= 10; i++)
                 {
-                    var bgClass = $"bg-(--theme-accent-{GetNumberWord(i)})";
-                    var label = $"--theme-accent-{GetNumberWord(i)}";
-                    <div class="@CssManager.Combine("h-10", bgClass, "flex items-center px-4")">
+                    var bgClass = $"bg-(--theme-alert-{GetNumberWord(i)})";
+                    var label = $"--theme-alert-{GetNumberWord(i)}";
+                    <div class="@CssManager.Combine("h-8", bgClass, "flex items-center px-3")">
                         <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, EnlightenText(i))">@label</span>
                     </div>
                 }
             </div>
-        </section>
 
-        @* Highlight *@
-        <section class="flex flex-col gap-4">
-            <div class="flex flex-col gap-2">
-                <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Highlight Colors</h2>
-                <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-(--theme-dark-six)")">
-                    Vibrant colors for drawing attention to important elements.
-                </p>
+            @* Alert Example *@
+            <div class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_ALERT_TWO_BG, Tailwind.Theme.Colors.Border.THEME_ALERT_SIX_BORDER, "border rounded-lg p-3")">
+                <p class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_MEDIUM, Tailwind.Theme.Typography.BODY_MEDIUM)">⚠️ Error: Unable to save changes</p>
             </div>
+        </div>
 
+        @* Warning *@
+        <div class="flex flex-col gap-3">
+            <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE">Warning</h3>
+            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-(--theme-dark-six)")">Cautionary messages and important notices</p>
             <div class="w-full flex flex-col gap-1">
-                @for (int i = 1; i <= 10; i++)
+                @for (var i = 1; i <= 10; i++)
                 {
-                    var bgClass = $"bg-(--theme-highlight-{GetNumberWord(i)})";
-                    var label = $"--theme-highlight-{GetNumberWord(i)}";
-                    <div class="@CssManager.Combine("h-10", bgClass, "flex items-center px-4")">
+                    var bgClass = $"bg-(--theme-warning-{GetNumberWord(i)})";
+                    var label = $"--theme-warning-{GetNumberWord(i)}";
+                    <div class="@CssManager.Combine("h-8", bgClass, "flex items-center px-3")">
                         <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, EnlightenText(i))">@label</span>
                     </div>
                 }
             </div>
-        </section>
+
+            @* Warning Example *@
+            <div class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_WARNING_TWO_BG, Tailwind.Theme.Colors.Border.THEME_WARNING_SIX_BORDER, "border rounded-lg p-3")">
+                <p class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_MEDIUM, Tailwind.Theme.Typography.BODY_MEDIUM)">⚡ Warning: This action cannot be undone</p>
+            </div>
+        </div>
+
+        @* Info *@
+        <div class="flex flex-col gap-3">
+            <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE">Info</h3>
+            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-(--theme-dark-six)")">Informational messages and helpful tips</p>
+            <div class="w-full flex flex-col gap-1">
+                @for (var i = 1; i <= 10; i++)
+                {
+                    var bgClass = $"bg-(--theme-info-{GetNumberWord(i)})";
+                    var label = $"--theme-info-{GetNumberWord(i)}";
+                    <div class="@CssManager.Combine("h-8", bgClass, "flex items-center px-3")">
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, EnlightenText(i))">@label</span>
+                    </div>
+                }
+            </div>
+
+            @* Info Example *@
+            <div class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_INFO_TWO_BG, Tailwind.Theme.Colors.Border.THEME_INFO_SIX_BORDER, "border rounded-lg p-3")">
+                <p class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_MEDIUM, Tailwind.Theme.Typography.BODY_MEDIUM)">ℹ️ Info: New features available in settings</p>
+            </div>
+        </div>
+
+        @* Success *@
+        <div class="flex flex-col gap-3">
+            <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE">Success</h3>
+            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-(--theme-dark-six)")">Confirmations and successful operations</p>
+            <div class="w-full flex flex-col gap-1">
+                @for (var i = 1; i <= 10; i++)
+                {
+                    var bgClass = $"bg-(--theme-success-{GetNumberWord(i)})";
+                    var label = $"--theme-success-{GetNumberWord(i)}";
+                    <div class="@CssManager.Combine("h-8", bgClass, "flex items-center px-3")">
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, EnlightenText(i))">@label</span>
+                    </div>
+                }
+            </div>
+
+            @* Success Example *@
+            <div class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_SUCCESS_TWO_BG, Tailwind.Theme.Colors.Border.THEME_SUCCESS_SIX_BORDER, "border rounded-lg p-3")">
+                <p class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_MEDIUM, Tailwind.Theme.Typography.BODY_MEDIUM)">✓ Success: Changes saved successfully</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* Neutral Colors *@
+<section class="flex flex-col gap-4">
+    <div class="flex flex-col gap-2">
+        <h2 class="@Tailwind.Theme.Typography.HEADLINE_LARGE">Neutral Colors</h2>
+        <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_LARGE, "text-(--theme-dark-six)")">
+            Foundation colors for backgrounds, borders, and text. Essential for creating depth and structure.
+        </p>
     </div>
 
-    @* Semantic Status Colors *@
-    <section class="flex flex-col gap-4">
-        <div class="flex flex-col gap-2">
-            <h2 class="@Tailwind.Theme.Typography.HEADLINE_LARGE">Semantic Status Colors</h2>
-            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_LARGE, "text-(--theme-dark-six)")">
-                Colors that convey meaning and status in your application. These colors help users understand feedback, warnings, and confirmations.
-            </p>
-        </div>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-
-            @* Alert *@
-            <div class="flex flex-col gap-3">
-                <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE">Alert</h3>
-                <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-(--theme-dark-six)")">Critical errors and destructive actions</p>
-                <div class="w-full flex flex-col gap-1">
-                    @for (int i = 1; i <= 10; i++)
-                    {
-                        var bgClass = $"bg-(--theme-alert-{GetNumberWord(i)})";
-                        var label = $"--theme-alert-{GetNumberWord(i)}";
-                        <div class="@CssManager.Combine("h-8", bgClass, "flex items-center px-3")">
-                            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, EnlightenText(i))">@label</span>
-                        </div>
-                    }
-                </div>
-
-                @* Alert Example *@
-                <div class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_ALERT_TWO_BG, Tailwind.Theme.Colors.Border.THEME_ALERT_SIX_BORDER, "border rounded-lg p-3")">
-                    <p class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_MEDIUM, Tailwind.Theme.Typography.BODY_MEDIUM)">⚠️ Error: Unable to save changes</p>
-                </div>
-            </div>
-
-            @* Warning *@
-            <div class="flex flex-col gap-3">
-                <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE">Warning</h3>
-                <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-(--theme-dark-six)")">Cautionary messages and important notices</p>
-                <div class="w-full flex flex-col gap-1">
-                    @for (int i = 1; i <= 10; i++)
-                    {
-                        var bgClass = $"bg-(--theme-warning-{GetNumberWord(i)})";
-                        var label = $"--theme-warning-{GetNumberWord(i)}";
-                        <div class="@CssManager.Combine("h-8", bgClass, "flex items-center px-3")">
-                            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, EnlightenText(i))">@label</span>
-                        </div>
-                    }
-                </div>
-
-                @* Warning Example *@
-                <div class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_WARNING_TWO_BG, Tailwind.Theme.Colors.Border.THEME_WARNING_SIX_BORDER, "border rounded-lg p-3")">
-                    <p class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_MEDIUM, Tailwind.Theme.Typography.BODY_MEDIUM)">⚡ Warning: This action cannot be undone</p>
-                </div>
-            </div>
-
-            @* Info *@
-            <div class="flex flex-col gap-3">
-                <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE">Info</h3>
-                <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-(--theme-dark-six)")">Informational messages and helpful tips</p>
-                <div class="w-full flex flex-col gap-1">
-                    @for (int i = 1; i <= 10; i++)
-                    {
-                        var bgClass = $"bg-(--theme-info-{GetNumberWord(i)})";
-                        var label = $"--theme-info-{GetNumberWord(i)}";
-                        <div class="@CssManager.Combine("h-8", bgClass, "flex items-center px-3")">
-                            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, EnlightenText(i))">@label</span>
-                        </div>
-                    }
-                </div>
-
-                @* Info Example *@
-                <div class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_INFO_TWO_BG, Tailwind.Theme.Colors.Border.THEME_INFO_SIX_BORDER, "border rounded-lg p-3")">
-                    <p class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_MEDIUM, Tailwind.Theme.Typography.BODY_MEDIUM)">ℹ️ Info: New features available in settings</p>
-                </div>
-            </div>
-
-            @* Success *@
-            <div class="flex flex-col gap-3">
-                <h3 class="@Tailwind.Theme.Typography.TITLE_LARGE">Success</h3>
-                <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-(--theme-dark-six)")">Confirmations and successful operations</p>
-                <div class="w-full flex flex-col gap-1">
-                    @for (int i = 1; i <= 10; i++)
-                    {
-                        var bgClass = $"bg-(--theme-success-{GetNumberWord(i)})";
-                        var label = $"--theme-success-{GetNumberWord(i)}";
-                        <div class="@CssManager.Combine("h-8", bgClass, "flex items-center px-3")">
-                            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, EnlightenText(i))">@label</span>
-                        </div>
-                    }
-                </div>
-
-                @* Success Example *@
-                <div class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_SUCCESS_TWO_BG, Tailwind.Theme.Colors.Border.THEME_SUCCESS_SIX_BORDER, "border rounded-lg p-3")">
-                    <p class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_MEDIUM, Tailwind.Theme.Typography.BODY_MEDIUM)">✓ Success: Changes saved successfully</p>
-                </div>
+        @* Light *@
+        <div class="flex flex-col gap-3">
+            <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Light</h3>
+            <div class="w-full flex flex-col gap-1">
+                @for (var i = 1; i <= 10; i++)
+                {
+                    var bgClass = $"bg-(--theme-light-{GetNumberWord(i)})";
+                    var label = $"--theme-light-{GetNumberWord(i)}";
+                    <div class="@CssManager.Combine("h-8", bgClass, "flex items-center px-3 border border-(--theme-default-three)")">
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, EnlightenText(i))">@label</span>
+                    </div>
+                }
             </div>
         </div>
-    </section>
 
-    @* Neutral Colors *@
-    <section class="flex flex-col gap-4">
-        <div class="flex flex-col gap-2">
-            <h2 class="@Tailwind.Theme.Typography.HEADLINE_LARGE">Neutral Colors</h2>
-            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_LARGE, "text-(--theme-dark-six)")">
-                Foundation colors for backgrounds, borders, and text. Essential for creating depth and structure.
-            </p>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-            @* Light *@
-            <div class="flex flex-col gap-3">
-                <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Light</h3>
-                <div class="w-full flex flex-col gap-1">
-                    @for (int i = 1; i <= 10; i++)
-                    {
-                        var bgClass = $"bg-(--theme-light-{GetNumberWord(i)})";
-                        var label = $"--theme-light-{GetNumberWord(i)}";
-                        <div class="@CssManager.Combine("h-8", bgClass, "flex items-center px-3 border border-(--theme-default-three)")">
-                            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, EnlightenText(i))">@label</span>
-                        </div>
-                    }
-                </div>
-            </div>
-
-            @* Dark *@
-            <div class="flex flex-col gap-3">
-                <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Dark</h3>
-                <div class="w-full flex flex-col gap-1">
-                    @for (int i = 1; i <= 10; i++)
-                    {
-                        var bgClass = $"bg-(--theme-dark-{GetNumberWord(i)})";
-                        var label = $"--theme-dark-{GetNumberWord(i)}";
-                        <div class="@CssManager.Combine("h-8", bgClass, "flex items-center px-3")">
-                            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, EnlightenText(i))">@label</span>
-                        </div>
-                    }
-                </div>
-            </div>
-
-            @* Default *@
-            <div class="flex flex-col gap-3">
-                <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Default</h3>
-                <div class="w-full flex flex-col gap-1">
-                    @for (int i = 1; i <= 10; i++)
-                    {
-                        var bgClass = $"bg-(--theme-default-{GetNumberWord(i)})";
-                        var label = $"--theme-default-{GetNumberWord(i)}";
-                        <div class="@CssManager.Combine("h-8", bgClass, "flex items-center px-3")">
-                            <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, EnlightenText(i))">@label</span>
-                        </div>
-                    }
-                </div>
+        @* Dark *@
+        <div class="flex flex-col gap-3">
+            <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Dark</h3>
+            <div class="w-full flex flex-col gap-1">
+                @for (var i = 1; i <= 10; i++)
+                {
+                    var bgClass = $"bg-(--theme-dark-{GetNumberWord(i)})";
+                    var label = $"--theme-dark-{GetNumberWord(i)}";
+                    <div class="@CssManager.Combine("h-8", bgClass, "flex items-center px-3")">
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, EnlightenText(i))">@label</span>
+                    </div>
+                }
             </div>
         </div>
-    </section>
+
+        @* Default *@
+        <div class="flex flex-col gap-3">
+            <h3 class="@Tailwind.Theme.Typography.TITLE_MEDIUM">Default</h3>
+            <div class="w-full flex flex-col gap-1">
+                @for (var i = 1; i <= 10; i++)
+                {
+                    var bgClass = $"bg-(--theme-default-{GetNumberWord(i)})";
+                    var label = $"--theme-default-{GetNumberWord(i)}";
+                    <div class="@CssManager.Combine("h-8", bgClass, "flex items-center px-3")">
+                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_SMALL, EnlightenText(i))">@label</span>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
 
 </div>
 
 @code {
+
     private string GetNumberWord(int number) => number switch
     {
         1 => "one",

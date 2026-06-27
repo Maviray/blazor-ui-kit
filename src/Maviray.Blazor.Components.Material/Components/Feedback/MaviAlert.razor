@@ -45,21 +45,27 @@
 
 @code {
 
-    [Parameter] public string? Text { get; set; }
+    [Parameter]
+    public string? Text { get; set; }
 
-    [Parameter] public string? Icon { get; set; }
+    [Parameter]
+    public string? Icon { get; set; }
 
-    [Parameter] public bool Dismissible { get; set; }
+    [Parameter]
+    public bool Dismissible { get; set; }
 
     /// <summary>
-    /// Fired when user clicks the dismiss button. The alert's Id is passed as an argument for reference.
+    ///     Fired when user clicks the dismiss button. The alert's Id is passed as an argument for reference.
     /// </summary>
 
-    [Parameter] public EventCallback<string> OnDismiss { get; set; }
+    [Parameter]
+    public EventCallback<string> OnDismiss { get; set; }
 
-    [Parameter] public ThemeColorScheme ThemeColorScheme { get; set; }
+    [Parameter]
+    public ThemeColorScheme ThemeColorScheme { get; set; }
 
-    [Parameter] public ElementVariant ElementVariant { get; set; } 
+    [Parameter]
+    public ElementVariant ElementVariant { get; set; }
 
     protected bool IsVisible { get; set; }
 
@@ -92,10 +98,7 @@
         return string.IsNullOrEmpty(Class) ? allClasses : $"{allClasses} {Class}";
     }
 
-    private string GetIconClass()
-    {
-        return !string.IsNullOrEmpty(Icon) ? Icon : GetDefaultIcon();
-    }
+    private string GetIconClass() => !string.IsNullOrEmpty(Icon) ? Icon : GetDefaultIcon();
 
     private static string GetAlertClass(ElementVariant variant, ThemeColorScheme colorScheme)
     {
@@ -280,4 +283,5 @@
             await InvokeAsync(StateHasChanged);
         }
     }
+
 }

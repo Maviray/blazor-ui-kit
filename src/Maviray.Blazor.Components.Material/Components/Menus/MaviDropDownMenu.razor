@@ -1,9 +1,9 @@
-﻿@using Maviray.Blazor.Components.Core.Constants
-@inherits MenuBase
+﻿@inherits MenuBase
+@using Maviray.Blazor.Components.Core.Constants
 @implements IAsyncDisposable
 
 <div id="@Id" data-context-menu-id="@Id" class="@GetContainerCss()" style="@Style">
-    <button id="@ButtonId" type="button" role="button" title="@Title" class="@GetButtonCss()" @onclick=ToggleDropDown>
+    <button id="@ButtonId" type="button" role="button" title="@Title" class="@GetButtonCss()" @onclick="ToggleDropDown">
         @if (ShowIconAsTitle)
         {
             <i class="@GetIconButtonCss()"></i>
@@ -72,7 +72,8 @@
     [Parameter]
     public ElementHorizontalAlignment DropDownHorizontalAlightment { get; set; } = ElementHorizontalAlignment.Left;
 
-    [Parameter] public EventCallback<MenuItem> ItemClicked { get; set; }
+    [Parameter]
+    public EventCallback<MenuItem> ItemClicked { get; set; }
 
     [Inject]
     protected IJSRuntime? JsRuntime { get; set; }
@@ -95,15 +96,9 @@
         _expanded = !_expanded;
     }
 
-    private string GetContainerCss()
-    {
-        return $"relative {Width} {Class}";
-    }
+    private string GetContainerCss() => $"relative {Width} {Class}";
 
-    private string GetButtonCss()
-    {
-        return "cursor-pointer relative flex items-center gap-2 text-sm font-medium hover:font-semibold leading-none font-ui";
-    }
+    private string GetButtonCss() => "cursor-pointer relative flex items-center gap-2 text-sm font-medium hover:font-semibold leading-none font-ui";
 
     private string GetIconCss() => _expanded ? IconExpanded : IconCollapsed;
 
@@ -131,14 +126,12 @@
         return _expanded ? $"absolute top-full z-10 mt-3 rounded-md bg-white p-2 shadow-lg ring-1 ring-gray-900/5 flex flex-col {DropDownWidth} {alignmentCss}" : "hidden";
     }
 
-    private string GetDropDownItemCss(MenuItem item) => "block cursor-pointer rounded-sm px-3 py-2 text-sm font-medium leading-none font-ui text-(--theme-default-eight) hover:bg-(--theme-default-one) whitespace-nowrap";
+    private string GetDropDownItemCss(MenuItem item) => "block cursor-pointer rounded-sm px-3 py-2 text-sm font-medium leading-none font-ui text-(--theme-default-eight) hover:text-(--theme-dark-nine) active:text-(--theme-alert-eight) hover:bg-(--theme-default-one) hover:font-semibold whitespace-nowrap";
 
     protected async Task SubscribeElement()
     {
         try
         {
-
-
             _dotNetRef = DotNetObjectReference.Create(this);
 
             if (JsRuntime != null)
@@ -214,4 +207,5 @@
     }
 
     #endregion
+
 }

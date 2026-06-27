@@ -2,15 +2,15 @@
 
 namespace Maviray.Blazor.Components.Core.Models.Buttons;
 
-public class ButtonModel
+public class IconButtonModel
 {
-    public string? Id { get; set; } = $"button_{Guid.NewGuid()}";
-
     public string? Title { get; set; }
+
+    public string? Icon { get; set; }
 
     public ButtonRole ButtonRole { get; set; }
 
-    public ThemeColorScheme ButtonType { get; set; }
+    public ThemeColorScheme ThemeColorScheme { get; set; }
 
     public ElementSize ElementSize { get; set; }
 
@@ -19,10 +19,4 @@ public class ButtonModel
     public ElementVariant ElementVariant { get; set; }
 
     public bool Disabled { get; set; }
-
-    public string Width { get; set; } = "min-w-16";
-
-    public string? StartIcon { get; set; }
-
-    public string? EndIcon { get; set; }
 }

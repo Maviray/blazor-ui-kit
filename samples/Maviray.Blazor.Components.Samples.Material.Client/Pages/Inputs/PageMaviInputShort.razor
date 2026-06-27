@@ -5,798 +5,836 @@
 
 
 <div class="p-6 max-w-7xl mx-auto">
-    <!-- Page Header -->
-    <div class="mb-8">
-        <h1 class="@CssManager.Combine(Tailwind.Theme.Typography.DISPLAY_MEDIUM, "mb-2")">MaviInputShort Component</h1>
-        <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_LARGE, "text-gray-600")">
-            Comprehensive showcase demonstrating all available parameters, use cases, and formatting options for the MaviInputShort component.
-            This component is optimized for 16-bit integer input (Int16), ideal for ages, years, quantities, ratings, and memory-efficient scenarios with values between -32,768 and 32,767.
-        </p>
+<!-- Page Header -->
+<div class="mb-8">
+    <h1 class="@CssManager.Combine(Tailwind.Theme.Typography.DISPLAY_MEDIUM, "mb-2")">MaviInputShort Component</h1>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_LARGE, "text-gray-600")">
+        Comprehensive showcase demonstrating all available parameters, use cases, and formatting options for the MaviInputShort component.
+        This component is optimized for 16-bit integer input (Int16), ideal for ages, years, quantities, ratings, and memory-efficient scenarios with values between -32,768 and 32,767.
+    </p>
+</div>
+
+<EditForm Model="@_formSampleModel" OnValidSubmit="OnValidFormSubmit" OnInvalidSubmit="OnInValidFormSubmit" novalidate>
+<DataAnnotationsValidator/>
+
+<!-- Section 1: Size Variants -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">1. Size Variants</h2>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+        Three size options: Small, Regular (default), and Large - optimized for small integer ranges
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Small -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Small</h3>
+                <MaviInputShort @bind-Value="_formSampleModel.NumberOne"
+                                ElementSize="ElementSize.Small"
+                                StartIcon="lni lni-gears-3"
+                                Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.NumberOne)"/>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    &lt;MaviInputShort
+                    @@bind-Value="value"
+                    ElementSize="ElementSize.Small"
+                    StartIcon="lni lni-gears-3"
+                    Width="w-full" /&gt;
+                </code>
+            </div>
+        </div>
+
+        <!-- Regular -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Regular (Default)</h3>
+                <MaviInputShort @bind-Value="_formSampleModel.NumberTwo"
+                                ElementSize="ElementSize.Regular"
+                                StartIcon="lni lni-gears-3"
+                                Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.NumberTwo)"/>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    &lt;MaviInputShort
+                    @@bind-Value="value"
+                    ElementSize="ElementSize.Regular"
+                    StartIcon="lni lni-gears-3"
+                    Width="w-full" /&gt;
+                </code>
+            </div>
+        </div>
+
+        <!-- Large -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Large</h3>
+                <MaviInputShort @bind-Value="_formSampleModel.NumberThree"
+                                ElementSize="ElementSize.Large"
+                                StartIcon="lni lni-gears-3"
+                                Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.NumberThree)"/>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    &lt;MaviInputShort
+                    @@bind-Value="value"
+                    ElementSize="ElementSize.Large"
+                    StartIcon="lni lni-gears-3"
+                    Width="w-full" /&gt;
+                </code>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Section 2: State Variants -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">2. Input States</h2>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+        Control input interactivity with Disabled and Readonly states
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Disabled -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Disabled</h3>
+                <MaviInputShort @bind-Value="_formSampleModel.NumberFour"
+                                ElementSize="ElementSize.Small"
+                                Disabled="true"
+                                StartIcon="lni lni-gears-3"
+                                Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.NumberFour)"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    User cannot interact with disabled inputs
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    &lt;MaviInputShort
+                    @@bind-Value="value"
+                    Disabled="true"
+                    StartIcon="lni lni-gears-3"
+                    Width="w-full" /&gt;
+                </code>
+            </div>
+        </div>
+
+        <!-- Readonly -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Readonly</h3>
+                <MaviInputShort @bind-Value="_formSampleModel.NumberFive"
+                                ElementSize="ElementSize.Regular"
+                                Readonly="true"
+                                StartIcon="lni lni-gears-3"
+                                Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.NumberFive)"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Value is visible but not editable
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    &lt;MaviInputShort
+                    @@bind-Value="value"
+                    Readonly="true"
+                    StartIcon="lni lni-gears-3"
+                    Width="w-full" /&gt;
+                </code>
+            </div>
+        </div>
+
+        <!-- Normal (for comparison) -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Normal (Enabled)</h3>
+                <MaviInputShort @bind-Value="_formSampleModel.NumberSix"
+                                ElementSize="ElementSize.Small"
+                                StartIcon="lni lni-gears-3"
+                                Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.NumberSix)"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Fully interactive input
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    &lt;MaviInputShort
+                    @@bind-Value="value"
+                    StartIcon="lni lni-gears-3"
+                    Width="w-full" /&gt;
+                </code>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Section 3: Format Masks -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">3. Format Masks for Small Integers</h2>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+        Apply various formatting patterns - values are shown formatted when not focused, raw when editing
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Standard Decimal -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Standard Decimal</h3>
+                <MaviInputShort @bind-Value="_formSampleModel.Standard"
+                                ElementSize="ElementSize.Small"
+                                FormatMask="D"
+                                StartIcon="lni lni-gears-3"
+                                Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.Standard)"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Format: 1234
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    FormatMask="D"
+                </code>
+            </div>
+        </div>
+
+        <!-- Zero-Padded (4 digits) -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Zero-Padded (4 digits)</h3>
+                <MaviInputShort @bind-Value="_formSampleModel.YearPadded"
+                                ElementSize="ElementSize.Small"
+                                FormatMask="D4"
+                                StartIcon="lni lni-gears-3"
+                                Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.YearPadded)"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Format: 2024 (always 4 digits)
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    FormatMask="D4"
+                </code>
+            </div>
+        </div>
+
+        <!-- Number with Separators -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">With Separators</h3>
+                <MaviInputShort @bind-Value="_formSampleModel.WithSeparators"
+                                ElementSize="ElementSize.Small"
+                                FormatMask="N0"
+                                StartIcon="lni lni-gears-3"
+                                Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.WithSeparators)"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Format: 12,345
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    FormatMask="N0"
+                </code>
+            </div>
+        </div>
+
+        <!-- Hexadecimal -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Hexadecimal</h3>
+                <MaviInputShort @bind-Value="_formSampleModel.Hexadecimal"
+                                ElementSize="ElementSize.Small"
+                                FormatMask="X4"
+                                StartIcon="lni lni-gears-3"
+                                Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.Hexadecimal)"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Format: 0x3039 (hex)
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    FormatMask="X4"
+                </code>
+            </div>
+        </div>
+
+        <!-- Custom Format -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Custom Format</h3>
+                <MaviInputShort @bind-Value="_formSampleModel.Custom"
+                                ElementSize="ElementSize.Small"
+                                FormatMask="00000"
+                                StartIcon="lni lni-gears-3"
+                                Width="w-full"/>
+                <ValidationMessage For="@(() => _formSampleModel.Custom)"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Format: 00123 (5-digit zero-padded)
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    FormatMask="00000"
+                </code>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Section 4: Real-World Use Cases -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">4. Real-World Use Cases</h2>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+        Practical examples demonstrating common scenarios for short integer input fields.
+        Perfect for values with limited ranges where memory efficiency matters.
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Person Age -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Person Age</h3>
+                <MaviInputShort @bind-Value="_formSampleModel.Age"
+                                ElementSize="ElementSize.Regular"
+                                Min="0"
+                                Max="150"
+                                StartIcon="lni lni-gears-3"
+                                HelperText="Enter your age (0-150)"
+                                Width="w-full"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Ideal for age fields
+                </span>
+            </div>
+        </div>
+
+        <!-- Birth Year -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Birth Year</h3>
+                <MaviInputShort @bind-Value="_formSampleModel.BirthYear"
+                                ElementSize="ElementSize.Regular"
+                                FormatMask="D4"
+                                Min="1900"
+                                Max="2024"
+                                StartIcon="lni lni-gears-3"
+                                HelperText="Enter your birth year"
+                                Width="w-full"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Perfect for year fields
+                </span>
+            </div>
+        </div>
+
+        <!-- Order Quantity -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Order Quantity</h3>
+                <MaviInputShort @bind-Value="_formSampleModel.Quantity"
+                                ElementSize="ElementSize.Regular"
+                                Min="1"
+                                Max="999"
+                                StartIcon="lni lni-gears-3"
+                                HelperText="Quantity (1-999)"
+                                Width="w-full"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Limited quantity ranges
+                </span>
+            </div>
+        </div>
+
+        <!-- Priority Level -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Priority Level</h3>
+                <MaviInputShort @bind-Value="_formSampleModel.Priority"
+                                ElementSize="ElementSize.Regular"
+                                Min="1"
+                                Max="100"
+                                StartIcon="lni lni-gears-3"
+                                HelperText="1 = highest, 100 = lowest"
+                                Width="w-full"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Priority/ranking systems
+                </span>
+            </div>
+        </div>
+
+        <!-- Temperature -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Temperature (°C)</h3>
+                <MaviInputShort @bind-Value="_formSampleModel.Temperature"
+                                ElementSize="ElementSize.Regular"
+                                Min="-50"
+                                Max="150"
+                                StartIcon="lni lni-gears-3"
+                                HelperText="Temperature in Celsius"
+                                Width="w-full"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Temperature readings
+                </span>
+            </div>
+        </div>
+
+        <!-- HTTP Status Code -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">HTTP Status Code</h3>
+                <MaviInputShort @bind-Value="_formSampleModel.StatusCode"
+                                ElementSize="ElementSize.Regular"
+                                FormatMask="D3"
+                                Min="100"
+                                Max="599"
+                                StartIcon="lni lni-gears-3"
+                                HelperText="HTTP response code"
+                                Width="w-full"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    3-digit status codes
+                </span>
+            </div>
+        </div>
+
+        <!-- Percentage (0-100) -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Percentage</h3>
+                <MaviInputShort @bind-Value="_formSampleModel.Percentage"
+                                ElementSize="ElementSize.Regular"
+                                Min="0"
+                                Max="100"
+                                StartIcon="lni lni-gears-3"
+                                HelperText="Enter percentage (0-100)"
+                                Width="w-full"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Percentage values
+                </span>
+            </div>
+        </div>
+
+        <!-- Page Number -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Page Number</h3>
+                <MaviInputShort @bind-Value="_formSampleModel.PageNumber"
+                                ElementSize="ElementSize.Regular"
+                                Min="1"
+                                Max="9999"
+                                StartIcon="lni lni-gears-3"
+                                HelperText="Current page number"
+                                Width="w-full"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Document pagination
+                </span>
+            </div>
+        </div>
+
+        <!-- Employee Count -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Employee Count</h3>
+                <MaviInputShort @bind-Value="_formSampleModel.EmployeeCount"
+                                ElementSize="ElementSize.Regular"
+                                FormatMask="N0"
+                                Min="1"
+                                Max="30000"
+                                StartIcon="lni lni-gears-3"
+                                HelperText="Number of employees"
+                                Width="w-full"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Small to mid-size companies
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Section 5: Icons & Interactive Elements -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">5. Icons & Interactive Elements</h2>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+        Add visual context and interaction through start icons, end icons, buttons, and event handlers
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Start Icon Only -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Start Icon</h3>
+                <MaviInputShort @bind-Value="_formSampleModel.Age"
+                                ElementSize="ElementSize.Regular"
+                                Min="0"
+                                Max="150"
+                                StartIcon="lni lni-gears-3"
+                                Width="w-full"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Icon positioned at input start
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    StartIcon="lni lni-gears-3"
+                </code>
+            </div>
+        </div>
+
+        <!-- End Icon & Alternative -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">End Icon with Alternative</h3>
+                <MaviInputShort @bind-Value="_formSampleModel.Quantity"
+                                ElementSize="ElementSize.Regular"
+                                Min="1"
+                                Max="999"
+                                StartIcon="lni lni-gears-3"
+                                EndIcon="lni lni-calculator-1"
+                                EndIconAlternative="lni lni-gears-3"
+                                Width="w-full"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Switches between two end icons
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    StartIcon="lni lni-gears-3"
+                    EndIcon="lni lni-calculator-1"
+                    EndIconAlternative="lni lni-gears-3"
+                </code>
+            </div>
+        </div>
+
+        <!-- With Button -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">With Action Button</h3>
+                <MaviInputShort @bind-Value="_formSampleModel.BirthYear"
+                                ElementSize="ElementSize.Regular"
+                                FormatMask="D4"
+                                Min="1900"
+                                Max="2024"
+                                ButtonLabel="Set Current Year"
+                                StartIcon="lni lni-gears-3"
+                                EndIcon="lni lni-calculator-1"
+                                OnEndIconClick="SetCurrentYear"
+                                Width="w-full"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    Button sets current year
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    ButtonLabel="Set Current Year"
+                    EndIcon="lni lni-calculator-1"
+                    OnEndIconClick="SetCurrentYear"
+                </code>
+            </div>
+        </div>
+
+        <!-- Complete Example -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Complete: Icons + Button</h3>
+                <MaviInputShort @bind-Value="_formSampleModel.Priority"
+                                ElementSize="ElementSize.Regular"
+                                Min="1"
+                                Max="100"
+                                StartIcon="lni lni-gears-3"
+                                EndIcon="lni lni-calculator-1"
+                                EndIconAlternative="lni lni-gears-3"
+                                ButtonLabel="Reset Priority"
+                                OnEndIconClick="ResetPriority"
+                                Width="w-full"/>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
+                    All icon and button features combined
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    StartIcon="lni lni-gears-3"
+                    EndIcon="lni lni-calculator-1"
+                    EndIconAlternative="lni lni-gears-3"
+                    ButtonLabel="Reset Priority"
+                    OnEndIconClick="HandleClick"
+                </code>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Section 6: Understanding Short (Int16) Range -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">6. Understanding Short (Int16) Range</h2>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+        Understanding the capabilities, limitations, and memory efficiency of 16-bit integers
+    </p>
+
+    <div class="bg-blue-50 border-l-4 border-blue-500 p-6 mb-6">
+        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-3 text-blue-900")">Range & Capacity</h3>
+        <div class="space-y-2 text-blue-900">
+            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM">
+                <strong>Minimum:</strong> -32,768
+            </p>
+            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM">
+                <strong>Maximum:</strong> 32,767
+            </p>
+            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM">
+                <strong>Size:</strong> 2 bytes (16 bits)
+            </p>
+            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM">
+                <strong>Total Values:</strong> 65,536 unique values
+            </p>
+            <p class="@Tailwind.Theme.Typography.BODY_MEDIUM">
+                <strong>Memory Efficiency:</strong> 50% less memory than int, 75% less than long
+            </p>
+        </div>
     </div>
 
-    <EditForm Model="@_formSampleModel" OnValidSubmit="OnValidFormSubmit" OnInvalidSubmit="OnInValidFormSubmit" novalidate>
-        <DataAnnotationsValidator />
-
-        <!-- Section 1: Size Variants -->
-        <div class="mb-12">
-            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">1. Size Variants</h2>
-            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
-                Three size options: Small, Regular (default), and Large - optimized for small integer ranges
-            </p>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Small -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Small</h3>
-                        <MaviInputShort @bind-Value="_formSampleModel.NumberOne"
-                                        ElementSize="ElementSize.Small"
-                                        StartIcon="lni lni-gears-3"
-                                        Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.NumberOne)" />
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            &lt;MaviInputShort
-                            @@bind-Value="value"
-                            ElementSize="ElementSize.Small"
-                            StartIcon="lni lni-gears-3"
-                            Width="w-full" /&gt;
-                        </code>
-                    </div>
-                </div>
-
-                <!-- Regular -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Regular (Default)</h3>
-                        <MaviInputShort @bind-Value="_formSampleModel.NumberTwo"
-                                        ElementSize="ElementSize.Regular"
-                                        StartIcon="lni lni-gears-3"
-                                        Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.NumberTwo)" />
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            &lt;MaviInputShort
-                            @@bind-Value="value"
-                            ElementSize="ElementSize.Regular"
-                            StartIcon="lni lni-gears-3"
-                            Width="w-full" /&gt;
-                        </code>
-                    </div>
-                </div>
-
-                <!-- Large -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Large</h3>
-                        <MaviInputShort @bind-Value="_formSampleModel.NumberThree"
-                                        ElementSize="ElementSize.Large"
-                                        StartIcon="lni lni-gears-3"
-                                        Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.NumberThree)" />
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            &lt;MaviInputShort
-                            @@bind-Value="value"
-                            ElementSize="ElementSize.Large"
-                            StartIcon="lni lni-gears-3"
-                            Width="w-full" /&gt;
-                        </code>
-                    </div>
-                </div>
-            </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-green-50 border border-green-200 rounded-lg p-6">
+            <h4 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-3 text-green-900")">✓ Perfect For:</h4>
+            <ul class="list-disc list-inside space-y-2 text-green-900">
+                <li class="@Tailwind.Theme.Typography.BODY_SMALL">Person's age (0-150)</li>
+                <li class="@Tailwind.Theme.Typography.BODY_SMALL">Calendar years (1900-2100)</li>
+                <li class="@Tailwind.Theme.Typography.BODY_SMALL">Order quantities (limited ranges)</li>
+                <li class="@Tailwind.Theme.Typography.BODY_SMALL">Priority levels (1-100)</li>
+                <li class="@Tailwind.Theme.Typography.BODY_SMALL">Percentage values (0-100)</li>
+                <li class="@Tailwind.Theme.Typography.BODY_SMALL">Temperature readings (°C/°F)</li>
+                <li class="@Tailwind.Theme.Typography.BODY_SMALL">HTTP status codes (100-599)</li>
+                <li class="@Tailwind.Theme.Typography.BODY_SMALL">Page numbers</li>
+                <li class="@Tailwind.Theme.Typography.BODY_SMALL">Small employee counts</li>
+                <li class="@Tailwind.Theme.Typography.BODY_SMALL">Rating systems</li>
+                <li class="@Tailwind.Theme.Typography.BODY_SMALL">Memory-constrained scenarios</li>
+                <li class="@Tailwind.Theme.Typography.BODY_SMALL">IoT and embedded systems</li>
+            </ul>
         </div>
 
-        <!-- Section 2: State Variants -->
-        <div class="mb-12">
-            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">2. Input States</h2>
-            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
-                Control input interactivity with Disabled and Readonly states
-            </p>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Disabled -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Disabled</h3>
-                        <MaviInputShort @bind-Value="_formSampleModel.NumberFour"
-                                        ElementSize="ElementSize.Small"
-                                        Disabled="true"
-                                        StartIcon="lni lni-gears-3"
-                                        Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.NumberFour)" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            User cannot interact with disabled inputs
-                        </span>
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            &lt;MaviInputShort
-                            @@bind-Value="value"
-                            Disabled="true"
-                            StartIcon="lni lni-gears-3"
-                            Width="w-full" /&gt;
-                        </code>
-                    </div>
-                </div>
-
-                <!-- Readonly -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Readonly</h3>
-                        <MaviInputShort @bind-Value="_formSampleModel.NumberFive"
-                                        ElementSize="ElementSize.Regular"
-                                        Readonly="true"
-                                        StartIcon="lni lni-gears-3"
-                                        Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.NumberFive)" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Value is visible but not editable
-                        </span>
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            &lt;MaviInputShort
-                            @@bind-Value="value"
-                            Readonly="true"
-                            StartIcon="lni lni-gears-3"
-                            Width="w-full" /&gt;
-                        </code>
-                    </div>
-                </div>
-
-                <!-- Normal (for comparison) -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Normal (Enabled)</h3>
-                        <MaviInputShort @bind-Value="_formSampleModel.NumberSix"
-                                        ElementSize="ElementSize.Small"
-                                        StartIcon="lni lni-gears-3"
-                                        Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.NumberSix)" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Fully interactive input
-                        </span>
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            &lt;MaviInputShort
-                            @@bind-Value="value"
-                            StartIcon="lni lni-gears-3"
-                            Width="w-full" /&gt;
-                        </code>
-                    </div>
-                </div>
-            </div>
+        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+            <h4 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-3 text-yellow-900")">⚠ Not Ideal For:</h4>
+            <ul class="list-disc list-inside space-y-2 text-yellow-900">
+                <li class="@Tailwind.Theme.Typography.BODY_SMALL">Database IDs (use int or long)</li>
+                <li class="@Tailwind.Theme.Typography.BODY_SMALL">Large quantities (>32,767)</li>
+                <li class="@Tailwind.Theme.Typography.BODY_SMALL">Financial calculations (use decimal)</li>
+                <li class="@Tailwind.Theme.Typography.BODY_SMALL">Decimal numbers (use float/double/decimal)</li>
+                <li class="@Tailwind.Theme.Typography.BODY_SMALL">Timestamps</li>
+                <li class="@Tailwind.Theme.Typography.BODY_SMALL">File sizes</li>
+                <li class="@Tailwind.Theme.Typography.BODY_SMALL">Population counts (use int/long)</li>
+            </ul>
         </div>
+    </div>
 
-        <!-- Section 3: Format Masks -->
-        <div class="mb-12">
-            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">3. Format Masks for Small Integers</h2>
-            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
-                Apply various formatting patterns - values are shown formatted when not focused, raw when editing
-            </p>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Standard Decimal -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Standard Decimal</h3>
-                        <MaviInputShort @bind-Value="_formSampleModel.Standard"
-                                        ElementSize="ElementSize.Small"
-                                        FormatMask="D"
-                                        StartIcon="lni lni-gears-3"
-                                        Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.Standard)" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Format: 1234
-                        </span>
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            FormatMask="D"
-                        </code>
-                    </div>
-                </div>
-
-                <!-- Zero-Padded (4 digits) -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Zero-Padded (4 digits)</h3>
-                        <MaviInputShort @bind-Value="_formSampleModel.YearPadded"
-                                        ElementSize="ElementSize.Small"
-                                        FormatMask="D4"
-                                        StartIcon="lni lni-gears-3"
-                                        Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.YearPadded)" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Format: 2024 (always 4 digits)
-                        </span>
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            FormatMask="D4"
-                        </code>
-                    </div>
-                </div>
-
-                <!-- Number with Separators -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">With Separators</h3>
-                        <MaviInputShort @bind-Value="_formSampleModel.WithSeparators"
-                                        ElementSize="ElementSize.Small"
-                                        FormatMask="N0"
-                                        StartIcon="lni lni-gears-3"
-                                        Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.WithSeparators)" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Format: 12,345
-                        </span>
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            FormatMask="N0"
-                        </code>
-                    </div>
-                </div>
-
-                <!-- Hexadecimal -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Hexadecimal</h3>
-                        <MaviInputShort @bind-Value="_formSampleModel.Hexadecimal"
-                                        ElementSize="ElementSize.Small"
-                                        FormatMask="X4"
-                                        StartIcon="lni lni-gears-3"
-                                        Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.Hexadecimal)" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Format: 0x3039 (hex)
-                        </span>
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            FormatMask="X4"
-                        </code>
-                    </div>
-                </div>
-
-                <!-- Custom Format -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Custom Format</h3>
-                        <MaviInputShort @bind-Value="_formSampleModel.Custom"
-                                        ElementSize="ElementSize.Small"
-                                        FormatMask="00000"
-                                        StartIcon="lni lni-gears-3"
-                                        Width="w-full" />
-                        <ValidationMessage For="@(() => _formSampleModel.Custom)" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Format: 00123 (5-digit zero-padded)
-                        </span>
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            FormatMask="00000"
-                        </code>
-                    </div>
-                </div>
-            </div>
+    <!-- Comparison Table -->
+    <div class="bg-gray-50 border border-gray-200 rounded-lg p-6">
+        <h4 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-3")">Comparison with Other Integer Types</h4>
+        <div class="overflow-x-auto">
+            <table class="min-w-full text-sm">
+                <thead class="bg-gray-200">
+                <tr>
+                    <th class="px-4 py-2 text-left">Type</th>
+                    <th class="px-4 py-2 text-left">Size</th>
+                    <th class="px-4 py-2 text-left">Range</th>
+                    <th class="px-4 py-2 text-left">Best Use Case</th>
+                </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                <tr>
+                    <td class="px-4 py-2">
+                        <strong>byte</strong>
+                    </td>
+                    <td class="px-4 py-2">1 byte</td>
+                    <td class="px-4 py-2">0 to 255</td>
+                    <td class="px-4 py-2">RGB values, flags</td>
+                </tr>
+                <tr class="bg-green-50">
+                    <td class="px-4 py-2">
+                        <strong>short ⭐</strong>
+                    </td>
+                    <td class="px-4 py-2">2 bytes</td>
+                    <td class="px-4 py-2">-32,768 to 32,767</td>
+                    <td class="px-4 py-2">Age, year, quantities</td>
+                </tr>
+                <tr>
+                    <td class="px-4 py-2">
+                        <strong>int</strong>
+                    </td>
+                    <td class="px-4 py-2">4 bytes</td>
+                    <td class="px-4 py-2">±2 billion</td>
+                    <td class="px-4 py-2">General IDs, counters</td>
+                </tr>
+                <tr>
+                    <td class="px-4 py-2">
+                        <strong>long</strong>
+                    </td>
+                    <td class="px-4 py-2">8 bytes</td>
+                    <td class="px-4 py-2">±9 quintillion</td>
+                    <td class="px-4 py-2">Large IDs, timestamps</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
+    </div>
+</div>
 
-        <!-- Section 4: Real-World Use Cases -->
-        <div class="mb-12">
-            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">4. Real-World Use Cases</h2>
-            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
-                Practical examples demonstrating common scenarios for short integer input fields.
-                Perfect for values with limited ranges where memory efficiency matters.
-            </p>
+<!-- Section 7: Complete Parameter Reference -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">7. Complete Parameter Reference</h2>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+        All available parameters for MaviInputShort component
+    </p>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Person Age -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Person Age</h3>
-                        <MaviInputShort @bind-Value="_formSampleModel.Age"
-                                        ElementSize="ElementSize.Regular"
-                                        Min="0"
-                                        Max="150"
-                                        StartIcon="lni lni-gears-3"
-                                        HelperText="Enter your age (0-150)"
-                                        Width="w-full" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Ideal for age fields
-                        </span>
-                    </div>
-                </div>
+    <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+        <table class="min-w-full">
+            <thead class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_LIGHT_FOUR_BG)">
+            <tr>
+                <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Parameter</th>
+                <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Type</th>
+                <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Default</th>
+                <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Description</th>
+            </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>@@bind-Value</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">short</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">0</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Two-way bound short value</td>
+            </tr>
+            <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>ElementSize</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">ElementSize</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Regular</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Size variant: Small, Regular, Large</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>FormatMask</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Format pattern (D, D4, N0, X4, etc.)</td>
+            </tr>
+            <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>Min</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">short?</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Minimum allowed value (-32,768 to 32,767)</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>Max</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">short?</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Maximum allowed value (-32,768 to 32,767)</td>
+            </tr>
+            <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>Step</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">short</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">1</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Step increment for arrows</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>ShowFormattedWhileFocused</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Show formatted value while editing</td>
+            </tr>
+            <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>FormatCulture</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">CultureInfo</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">CurrentUICulture</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Culture for parsing and formatting</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>StartIcon</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Icon class for input start position</td>
+            </tr>
+            <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>EndIcon</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Icon class for input end position (clickable)</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>EndIconAlternative</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Alternative end icon for toggle states</td>
+            </tr>
+            <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>OnEndIconClick</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">EventCallback</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Event handler for end icon/button click</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>Disabled</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Disables user interaction</td>
+            </tr>
+            <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>Readonly</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Makes input read-only</td>
+            </tr>
+            <tr>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">
+                    <code>Width</code>
+                </td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">w-96</td>
+                <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Tailwind width class</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 
-                <!-- Birth Year -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Birth Year</h3>
-                        <MaviInputShort @bind-Value="_formSampleModel.BirthYear"
-                                        ElementSize="ElementSize.Regular"
-                                        FormatMask="D4"
-                                        Min="1900"
-                                        Max="2024"
-                                        StartIcon="lni lni-gears-3"
-                                        HelperText="Enter your birth year"
-                                        Width="w-full" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Perfect for year fields
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Order Quantity -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Order Quantity</h3>
-                        <MaviInputShort @bind-Value="_formSampleModel.Quantity"
-                                        ElementSize="ElementSize.Regular"
-                                        Min="1"
-                                        Max="999"
-                                        StartIcon="lni lni-gears-3"
-                                        HelperText="Quantity (1-999)"
-                                        Width="w-full" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Limited quantity ranges
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Priority Level -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Priority Level</h3>
-                        <MaviInputShort @bind-Value="_formSampleModel.Priority"
-                                        ElementSize="ElementSize.Regular"
-                                        Min="1"
-                                        Max="100"
-                                        StartIcon="lni lni-gears-3"
-                                        HelperText="1 = highest, 100 = lowest"
-                                        Width="w-full" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Priority/ranking systems
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Temperature -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Temperature (°C)</h3>
-                        <MaviInputShort @bind-Value="_formSampleModel.Temperature"
-                                        ElementSize="ElementSize.Regular"
-                                        Min="-50"
-                                        Max="150"
-                                        StartIcon="lni lni-gears-3"
-                                        HelperText="Temperature in Celsius"
-                                        Width="w-full" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Temperature readings
-                        </span>
-                    </div>
-                </div>
-
-                <!-- HTTP Status Code -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">HTTP Status Code</h3>
-                        <MaviInputShort @bind-Value="_formSampleModel.StatusCode"
-                                        ElementSize="ElementSize.Regular"
-                                        FormatMask="D3"
-                                        Min="100"
-                                        Max="599"
-                                        StartIcon="lni lni-gears-3"
-                                        HelperText="HTTP response code"
-                                        Width="w-full" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            3-digit status codes
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Percentage (0-100) -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Percentage</h3>
-                        <MaviInputShort @bind-Value="_formSampleModel.Percentage"
-                                        ElementSize="ElementSize.Regular"
-                                        Min="0"
-                                        Max="100"
-                                        StartIcon="lni lni-gears-3"
-                                        HelperText="Enter percentage (0-100)"
-                                        Width="w-full" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Percentage values
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Page Number -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Page Number</h3>
-                        <MaviInputShort @bind-Value="_formSampleModel.PageNumber"
-                                        ElementSize="ElementSize.Regular"
-                                        Min="1"
-                                        Max="9999"
-                                        StartIcon="lni lni-gears-3"
-                                        HelperText="Current page number"
-                                        Width="w-full" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Document pagination
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Employee Count -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Employee Count</h3>
-                        <MaviInputShort @bind-Value="_formSampleModel.EmployeeCount"
-                                        ElementSize="ElementSize.Regular"
-                                        FormatMask="N0"
-                                        Min="1"
-                                        Max="30000"
-                                        StartIcon="lni lni-gears-3"
-                                        HelperText="Number of employees"
-                                        Width="w-full" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Small to mid-size companies
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Section 5: Icons & Interactive Elements -->
-        <div class="mb-12">
-            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">5. Icons & Interactive Elements</h2>
-            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
-                Add visual context and interaction through start icons, end icons, buttons, and event handlers
-            </p>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Start Icon Only -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Start Icon</h3>
-                        <MaviInputShort @bind-Value="_formSampleModel.Age"
-                                        ElementSize="ElementSize.Regular"
-                                        Min="0"
-                                        Max="150"
-                                        StartIcon="lni lni-gears-3"
-                                        Width="w-full" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Icon positioned at input start
-                        </span>
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            StartIcon="lni lni-gears-3"
-                        </code>
-                    </div>
-                </div>
-
-                <!-- End Icon & Alternative -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">End Icon with Alternative</h3>
-                        <MaviInputShort @bind-Value="_formSampleModel.Quantity"
-                                        ElementSize="ElementSize.Regular"
-                                        Min="1"
-                                        Max="999"
-                                        StartIcon="lni lni-gears-3"
-                                        EndIcon="lni lni-calculator-1"
-                                        EndIconAlternative="lni lni-gears-3"
-                                        Width="w-full" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Switches between two end icons
-                        </span>
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            StartIcon="lni lni-gears-3"
-                            EndIcon="lni lni-calculator-1"
-                            EndIconAlternative="lni lni-gears-3"
-                        </code>
-                    </div>
-                </div>
-
-                <!-- With Button -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">With Action Button</h3>
-                        <MaviInputShort @bind-Value="_formSampleModel.BirthYear"
-                                        ElementSize="ElementSize.Regular"
-                                        FormatMask="D4"
-                                        Min="1900"
-                                        Max="2024"
-                                        ButtonLabel="Set Current Year"
-                                        StartIcon="lni lni-gears-3"
-                                        EndIcon="lni lni-calculator-1"
-                                        OnEndIconClick="SetCurrentYear"
-                                        Width="w-full" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            Button sets current year
-                        </span>
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            ButtonLabel="Set Current Year"
-                            EndIcon="lni lni-calculator-1"
-                            OnEndIconClick="SetCurrentYear"
-                        </code>
-                    </div>
-                </div>
-
-                <!-- Complete Example -->
-                <div class="space-y-3">
-                    <div>
-                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Complete: Icons + Button</h3>
-                        <MaviInputShort @bind-Value="_formSampleModel.Priority"
-                                        ElementSize="ElementSize.Regular"
-                                        Min="1"
-                                        Max="100"
-                                        StartIcon="lni lni-gears-3"
-                                        EndIcon="lni lni-calculator-1"
-                                        EndIconAlternative="lni lni-gears-3"
-                                        ButtonLabel="Reset Priority"
-                                        OnEndIconClick="ResetPriority"
-                                        Width="w-full" />
-                        <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500")">
-                            All icon and button features combined
-                        </span>
-                    </div>
-                    <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
-                        <code class="text-xs">
-                            StartIcon="lni lni-gears-3"
-                            EndIcon="lni lni-calculator-1"
-                            EndIconAlternative="lni lni-gears-3"
-                            ButtonLabel="Reset Priority"
-                            OnEndIconClick="HandleClick"
-                        </code>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Section 6: Understanding Short (Int16) Range -->
-        <div class="mb-12">
-            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">6. Understanding Short (Int16) Range</h2>
-            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
-                Understanding the capabilities, limitations, and memory efficiency of 16-bit integers
-            </p>
-
-            <div class="bg-blue-50 border-l-4 border-blue-500 p-6 mb-6">
-                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-3 text-blue-900")">Range & Capacity</h3>
-                <div class="space-y-2 text-blue-900">
-                    <p class="@Tailwind.Theme.Typography.BODY_MEDIUM">
-                        <strong>Minimum:</strong> -32,768
-                    </p>
-                    <p class="@Tailwind.Theme.Typography.BODY_MEDIUM">
-                        <strong>Maximum:</strong> 32,767
-                    </p>
-                    <p class="@Tailwind.Theme.Typography.BODY_MEDIUM">
-                        <strong>Size:</strong> 2 bytes (16 bits)
-                    </p>
-                    <p class="@Tailwind.Theme.Typography.BODY_MEDIUM">
-                        <strong>Total Values:</strong> 65,536 unique values
-                    </p>
-                    <p class="@Tailwind.Theme.Typography.BODY_MEDIUM">
-                        <strong>Memory Efficiency:</strong> 50% less memory than int, 75% less than long
-                    </p>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <div class="bg-green-50 border border-green-200 rounded-lg p-6">
-                    <h4 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-3 text-green-900")">✓ Perfect For:</h4>
-                    <ul class="list-disc list-inside space-y-2 text-green-900">
-                        <li class="@Tailwind.Theme.Typography.BODY_SMALL">Person's age (0-150)</li>
-                        <li class="@Tailwind.Theme.Typography.BODY_SMALL">Calendar years (1900-2100)</li>
-                        <li class="@Tailwind.Theme.Typography.BODY_SMALL">Order quantities (limited ranges)</li>
-                        <li class="@Tailwind.Theme.Typography.BODY_SMALL">Priority levels (1-100)</li>
-                        <li class="@Tailwind.Theme.Typography.BODY_SMALL">Percentage values (0-100)</li>
-                        <li class="@Tailwind.Theme.Typography.BODY_SMALL">Temperature readings (°C/°F)</li>
-                        <li class="@Tailwind.Theme.Typography.BODY_SMALL">HTTP status codes (100-599)</li>
-                        <li class="@Tailwind.Theme.Typography.BODY_SMALL">Page numbers</li>
-                        <li class="@Tailwind.Theme.Typography.BODY_SMALL">Small employee counts</li>
-                        <li class="@Tailwind.Theme.Typography.BODY_SMALL">Rating systems</li>
-                        <li class="@Tailwind.Theme.Typography.BODY_SMALL">Memory-constrained scenarios</li>
-                        <li class="@Tailwind.Theme.Typography.BODY_SMALL">IoT and embedded systems</li>
-                    </ul>
-                </div>
-
-                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
-                    <h4 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-3 text-yellow-900")">⚠ Not Ideal For:</h4>
-                    <ul class="list-disc list-inside space-y-2 text-yellow-900">
-                        <li class="@Tailwind.Theme.Typography.BODY_SMALL">Database IDs (use int or long)</li>
-                        <li class="@Tailwind.Theme.Typography.BODY_SMALL">Large quantities (>32,767)</li>
-                        <li class="@Tailwind.Theme.Typography.BODY_SMALL">Financial calculations (use decimal)</li>
-                        <li class="@Tailwind.Theme.Typography.BODY_SMALL">Decimal numbers (use float/double/decimal)</li>
-                        <li class="@Tailwind.Theme.Typography.BODY_SMALL">Timestamps</li>
-                        <li class="@Tailwind.Theme.Typography.BODY_SMALL">File sizes</li>
-                        <li class="@Tailwind.Theme.Typography.BODY_SMALL">Population counts (use int/long)</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Comparison Table -->
-            <div class="bg-gray-50 border border-gray-200 rounded-lg p-6">
-                <h4 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-3")">Comparison with Other Integer Types</h4>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full text-sm">
-                        <thead class="bg-gray-200">
-                            <tr>
-                                <th class="px-4 py-2 text-left">Type</th>
-                                <th class="px-4 py-2 text-left">Size</th>
-                                <th class="px-4 py-2 text-left">Range</th>
-                                <th class="px-4 py-2 text-left">Best Use Case</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-200">
-                            <tr>
-                                <td class="px-4 py-2"><strong>byte</strong></td>
-                                <td class="px-4 py-2">1 byte</td>
-                                <td class="px-4 py-2">0 to 255</td>
-                                <td class="px-4 py-2">RGB values, flags</td>
-                            </tr>
-                            <tr class="bg-green-50">
-                                <td class="px-4 py-2"><strong>short ⭐</strong></td>
-                                <td class="px-4 py-2">2 bytes</td>
-                                <td class="px-4 py-2">-32,768 to 32,767</td>
-                                <td class="px-4 py-2">Age, year, quantities</td>
-                            </tr>
-                            <tr>
-                                <td class="px-4 py-2"><strong>int</strong></td>
-                                <td class="px-4 py-2">4 bytes</td>
-                                <td class="px-4 py-2">±2 billion</td>
-                                <td class="px-4 py-2">General IDs, counters</td>
-                            </tr>
-                            <tr>
-                                <td class="px-4 py-2"><strong>long</strong></td>
-                                <td class="px-4 py-2">8 bytes</td>
-                                <td class="px-4 py-2">±9 quintillion</td>
-                                <td class="px-4 py-2">Large IDs, timestamps</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- Section 7: Complete Parameter Reference -->
-        <div class="mb-12">
-            <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">7. Complete Parameter Reference</h2>
-            <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
-                All available parameters for MaviInputShort component
-            </p>
-
-            <div class="overflow-x-auto bg-white shadow-md rounded-lg">
-                <table class="min-w-full">
-                    <thead class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_LIGHT_FOUR_BG)">
-                        <tr>
-                            <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Parameter</th>
-                            <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Type</th>
-                            <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Default</th>
-                            <th class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "px-6 py-3 text-left")">Description</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-200">
-                        <tr>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>@@bind-Value</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">short</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">0</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Two-way bound short value</td>
-                        </tr>
-                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>ElementSize</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">ElementSize</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Regular</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Size variant: Small, Regular, Large</td>
-                        </tr>
-                        <tr>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>FormatMask</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Format pattern (D, D4, N0, X4, etc.)</td>
-                        </tr>
-                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Min</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">short?</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Minimum allowed value (-32,768 to 32,767)</td>
-                        </tr>
-                        <tr>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Max</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">short?</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Maximum allowed value (-32,768 to 32,767)</td>
-                        </tr>
-                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Step</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">short</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">1</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Step increment for arrows</td>
-                        </tr>
-                        <tr>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>ShowFormattedWhileFocused</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Show formatted value while editing</td>
-                        </tr>
-                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>FormatCulture</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">CultureInfo</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">CurrentUICulture</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Culture for parsing and formatting</td>
-                        </tr>
-                        <tr>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>StartIcon</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Icon class for input start position</td>
-                        </tr>
-                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>EndIcon</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Icon class for input end position (clickable)</td>
-                        </tr>
-                        <tr>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>EndIconAlternative</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Alternative end icon for toggle states</td>
-                        </tr>
-                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>OnEndIconClick</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">EventCallback</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">null</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Event handler for end icon/button click</td>
-                        </tr>
-                        <tr>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Disabled</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Disables user interaction</td>
-                        </tr>
-                        <tr class="@Tailwind.Theme.Colors.Background.THEME_LIGHT_ONE_BG">
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Readonly</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">bool</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">false</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Makes input read-only</td>
-                        </tr>
-                        <tr>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")"><code>Width</code></td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">string</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">w-96</td>
-                            <td class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "px-6 py-4")">Tailwind width class</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Submit Button -->
-        <div class="flex justify-start">
-            <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
-                        ElementSize="ElementSize.Regular"
-                        Title="Submit Form"
-                        ButtonRole="ButtonRole.Submit"
-                        ElementVariant="ElementVariant.Outlined"
-                        TextTransform="TextTransform.Capitalize"
-                        StartIcon="lni lni-checkmark">
-            </MaviButton>
-        </div>
-    </EditForm>
+<!-- Submit Button -->
+<div class="flex justify-start">
+    <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                ElementSize="ElementSize.Regular"
+                Title="Submit Form"
+                ButtonRole="ButtonRole.Submit"
+                ElementVariant="ElementVariant.Outlined"
+                TextTransform="TextTransform.Capitalize"
+                StartIcon="lni lni-checkmark">
+    </MaviButton>
+</div>
+</EditForm>
 </div>
 
 @code {
@@ -827,4 +865,5 @@
         await Task.Delay(500);
         Logger?.LogInformation("Priority reset to: {Priority}", _formSampleModel.Priority);
     }
+
 }

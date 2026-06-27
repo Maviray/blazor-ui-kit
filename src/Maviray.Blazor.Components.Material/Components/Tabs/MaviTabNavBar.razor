@@ -12,24 +12,30 @@
 
     public readonly MaviTabContext Context = new();
 
-    [Parameter] public override string? Id { get; set; } = $"mavi-tab-nav-bar-{Guid.NewGuid():N}";
+    [Parameter]
+    public override string? Id { get; set; } = $"mavi-tab-nav-bar-{Guid.NewGuid():N}";
 
     [Parameter]
     [EditorRequired]
     public RenderFragment ChildContent { get; init; }
 
-    [Parameter] public string? InitialActiveTabId { get; set; }
-    
-    [Parameter] public ElementSize ElementSize { get; set; } = ElementSize.Regular;
-    [Parameter] public ThemeColorScheme ThemeColorScheme { get; set; } = ThemeColorScheme.Default;
+    [Parameter]
+    public string? InitialActiveTabId { get; set; }
 
-    [Parameter] public EventCallback<TabClickEventArgs> OnTabClick { get; set; }
+    [Parameter]
+    public ElementSize ElementSize { get; set; } = ElementSize.Regular;
+
+    [Parameter]
+    public ThemeColorScheme ThemeColorScheme { get; set; } = ThemeColorScheme.Default;
+
+    [Parameter]
+    public EventCallback<TabClickEventArgs> OnTabClick { get; set; }
 
     protected override void OnParametersSet()
     {
         Context.NavBarId = Id;
         Context.ElementSize = ElementSize;
-        Context.ThemeColorScheme = ThemeColorScheme;  
+        Context.ThemeColorScheme = ThemeColorScheme;
         Context.OnTabClicked += HandleTabClicked;
 
         if (string.IsNullOrWhiteSpace(Context.SelectedTabId))
@@ -39,7 +45,7 @@
 
         if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle( Id, GetType());
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
     }
 
@@ -54,14 +60,11 @@
 
         if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle( Id, GetType());
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
     }
 
-    private static string GetContainerCss()
-    {
-        return $"relative flex w-full items-center border-b {Tailwind.Theme.Colors.Border.THEME_DEFAULT_FOUR_BORDER}";
-    }
+    private static string GetContainerCss() => $"relative flex w-full items-center border-b {Tailwind.Theme.Colors.Border.THEME_DEFAULT_FOUR_BORDER}";
 
     private bool _disposed;
 
@@ -76,7 +79,8 @@
 
         if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle( Id, GetType());
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
     }
+
 }

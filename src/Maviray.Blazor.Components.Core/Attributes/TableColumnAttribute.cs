@@ -1,7 +1,4 @@
-﻿using System.Globalization;
-using System.Reflection;
-using System.Resources;
-using Maviray.Blazor.Components.Core.Enums;
+﻿using Maviray.Blazor.Components.Core.Enums;
 
 namespace Maviray.Blazor.Components.Core.Attributes;
 

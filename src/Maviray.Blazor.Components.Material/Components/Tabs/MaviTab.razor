@@ -22,10 +22,18 @@
 </button>
 
 @code {
-    [Parameter] public bool Disabled { get; set; }
-    [Parameter] public string? Icon { get; set; }
-    [Parameter] public ScreenSizeBreakpoint ShowTitleOnBreakpoint { get; set; }
-    [CascadingParameter] internal MaviTabContext? Context { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter]
+    public string? Icon { get; set; }
+
+    [Parameter]
+    public ScreenSizeBreakpoint ShowTitleOnBreakpoint { get; set; }
+
+    [CascadingParameter]
+    internal MaviTabContext? Context { get; set; }
 
     private bool Selected =>
         EqualityComparer<string?>.Default.Equals(Id, Context?.SelectedTabId);
@@ -314,4 +322,5 @@
             Logger?.LogDebugLifeCycle(Id, GetType());
         }
     }
+
 }

@@ -1,11 +1,10 @@
 ﻿using Maviray.Blazor.Components.Core.Extensions;
-using Maviray.Blazor.Components.Core.Options;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Maviray.Blazor.Components.Material.Tests;
 
 /// <summary>
-/// Base class for all component tests that provides common setup and services.
+///     Base class for all component tests that provides common setup and services.
 /// </summary>
 public abstract class ComponentTestBase : BunitContext
 {
@@ -13,7 +12,7 @@ public abstract class ComponentTestBase : BunitContext
     {
         // Register required services for all Maviray components
         Services.AddMaviComponents();
-       
+
         Services.AddLogging();
     }
 }

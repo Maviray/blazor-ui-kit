@@ -8,7 +8,7 @@ public static class ServiceCollectionExtensions
     extension(IServiceCollection services)
     {
         /// <summary>
-        /// Adds Maviray Blazor components with default configuration.
+        ///     Adds Maviray Blazor components with default configuration.
         /// </summary>
         public IServiceCollection AddMaviComponents()
         {
@@ -16,7 +16,7 @@ public static class ServiceCollectionExtensions
         }
 
         /// <summary>
-        /// Adds Maviray Blazor components with custom configuration.
+        ///     Adds Maviray Blazor components with custom configuration.
         /// </summary>
         public IServiceCollection AddMaviComponents(Action<MaviComponentOptions> configure)
         {

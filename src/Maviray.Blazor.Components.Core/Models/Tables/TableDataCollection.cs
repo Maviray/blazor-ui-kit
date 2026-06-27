@@ -6,10 +6,13 @@ public class TableDataCollection
 {
     private readonly Dictionary<string, string> _columnFilters = new(); // column key -> filter string
     private List<MaviTableRow>? _cachedFilteredRows;
-    private bool _filterCacheDirty = true;
 
     private IEnumerable<MaviTableRow>? _cachedPageRows;
+    private bool _filterCacheDirty = true;
     private int _lastPageNumber;
+
+    // Invalidate cache when filters/sorting changes
+    private int _pageSize = 10;
 
     public int CurrentPage { get; set; } = 1;
     public int TotalRows => FilteredRows.Count;
@@ -30,6 +33,7 @@ public class TableDataCollection
 
     public List<MaviTableColumn> Columns { get; set; } = [];
     public List<MaviTableRow> Rows { get; set; } = [];
+
     public List<MaviTableRow> FilteredRows
     {
         get
@@ -45,8 +49,6 @@ public class TableDataCollection
         }
     }
 
-    // Invalidate cache when filters/sorting changes
-    private int _pageSize = 10;
     public int PageSize
     {
         get => _pageSize;
@@ -108,7 +110,7 @@ public class TableDataCollection
 
         return result.ToList();
     }
-    
+
     public void ResetColumnVisibility()
     {
         foreach (var column in Columns)

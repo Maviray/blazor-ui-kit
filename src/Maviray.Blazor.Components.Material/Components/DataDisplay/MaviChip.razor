@@ -23,44 +23,45 @@
 </div>
 
 @code {
+
     /// <summary>
-    /// The text content displayed in the chip
+    ///     The text content displayed in the chip
     /// </summary>
     [Parameter]
     public string Text { get; set; } = string.Empty;
 
     /// <summary>
-    /// Optional icon displayed at the start (left) of the chip text
+    ///     Optional icon displayed at the start (left) of the chip text
     /// </summary>
     [Parameter]
     public string? StartIcon { get; set; }
 
     /// <summary>
-    /// Optional icon displayed at the end (right) of the chip text
+    ///     Optional icon displayed at the end (right) of the chip text
     /// </summary>
     [Parameter]
     public string? EndIcon { get; set; }
 
     /// <summary>
-    /// Size variant: Small, Regular, or Large
+    ///     Size variant: Small, Regular, or Large
     /// </summary>
     [Parameter]
     public ElementSize ElementSize { get; set; } = ElementSize.Regular;
 
     /// <summary>
-    /// Visual style variant: Filled or Outlined
+    ///     Visual style variant: Filled or Outlined
     /// </summary>
     [Parameter]
     public ElementVariant ElementVariant { get; set; } = ElementVariant.Filled;
 
     /// <summary>
-    /// Color scheme for the chip
+    ///     Color scheme for the chip
     /// </summary>
     [Parameter]
     public ThemeColorScheme ThemeColorScheme { get; set; } = ThemeColorScheme.Default;
 
     /// <summary>
-    /// Additional CSS classes to apply to the chip
+    ///     Additional CSS classes to apply to the chip
     /// </summary>
     [Parameter]
     public string? CssClass { get; set; }
@@ -261,4 +262,5 @@
             _ => Tailwind.Theme.Typography.LABEL_MEDIUM
         };
     }
+
 }

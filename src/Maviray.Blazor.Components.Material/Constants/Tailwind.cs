@@ -6,303 +6,8 @@ public static class Tailwind
     {
         public static class Colors
         {
-            #region base color constants
-            // Default
-            public const string THEME_DEFAULT_ONE = "--theme-default-one";
-            public const string THEME_DEFAULT_TWO = "--theme-default-two";
-            public const string THEME_DEFAULT_THREE = "--theme-default-three";
-            public const string THEME_DEFAULT_FOUR = "--theme-default-four";
-            public const string THEME_DEFAULT_FIVE = "--theme-default-five";
-            public const string THEME_DEFAULT_SIX = "--theme-default-six";
-            public const string THEME_DEFAULT_SEVEN = "--theme-default-seven";
-            public const string THEME_DEFAULT_EIGHT = "--theme-default-eight";
-            public const string THEME_DEFAULT_NINE = "--theme-default-nine";
-            public const string THEME_DEFAULT_TEN = "--theme-default-ten";
-
-            // Primary
-            public const string THEME_PRIMARY_ONE = "--theme-primary-one";
-            public const string THEME_PRIMARY_TWO = "--theme-primary-two";
-            public const string THEME_PRIMARY_THREE = "--theme-primary-three";
-            public const string THEME_PRIMARY_FOUR = "--theme-primary-four";
-            public const string THEME_PRIMARY_FIVE = "--theme-primary-five";
-            public const string THEME_PRIMARY_SIX = "--theme-primary-six";
-            public const string THEME_PRIMARY_SEVEN = "--theme-primary-seven";
-            public const string THEME_PRIMARY_EIGHT = "--theme-primary-eight";
-            public const string THEME_PRIMARY_NINE = "--theme-primary-nine";
-            public const string THEME_PRIMARY_TEN = "--theme-primary-ten";
-
-            // Secondary
-            public const string THEME_SECONDARY_ONE = "--theme-secondary-one";
-            public const string THEME_SECONDARY_TWO = "--theme-secondary-two";
-            public const string THEME_SECONDARY_THREE = "--theme-secondary-three";
-            public const string THEME_SECONDARY_FOUR = "--theme-secondary-four";
-            public const string THEME_SECONDARY_FIVE = "--theme-secondary-five";
-            public const string THEME_SECONDARY_SIX = "--theme-secondary-six";
-            public const string THEME_SECONDARY_SEVEN = "--theme-secondary-seven";
-            public const string THEME_SECONDARY_EIGHT = "--theme-secondary-eight";
-            public const string THEME_SECONDARY_NINE = "--theme-secondary-nine";
-            public const string THEME_SECONDARY_TEN = "--theme-secondary-ten";
-
-            // Tertiary
-            public const string THEME_TERTIARY_ONE = "--theme-tertiary-one";
-            public const string THEME_TERTIARY_TWO = "--theme-tertiary-two";
-            public const string THEME_TERTIARY_THREE = "--theme-tertiary-three";
-            public const string THEME_TERTIARY_FOUR = "--theme-tertiary-four";
-            public const string THEME_TERTIARY_FIVE = "--theme-tertiary-five";
-            public const string THEME_TERTIARY_SIX = "--theme-tertiary-six";
-            public const string THEME_TERTIARY_SEVEN = "--theme-tertiary-seven";
-            public const string THEME_TERTIARY_EIGHT = "--theme-tertiary-eight";
-            public const string THEME_TERTIARY_NINE = "--theme-tertiary-nine";
-            public const string THEME_TERTIARY_TEN = "--theme-tertiary-ten";
-
-            // Accent
-            public const string THEME_ACCENT_ONE = "--theme-accent-one";
-            public const string THEME_ACCENT_TWO = "--theme-accent-two";
-            public const string THEME_ACCENT_THREE = "--theme-accent-three";
-            public const string THEME_ACCENT_FOUR = "--theme-accent-four";
-            public const string THEME_ACCENT_FIVE = "--theme-accent-five";
-            public const string THEME_ACCENT_SIX = "--theme-accent-six";
-            public const string THEME_ACCENT_SEVEN = "--theme-accent-seven";
-            public const string THEME_ACCENT_EIGHT = "--theme-accent-eight";
-            public const string THEME_ACCENT_NINE = "--theme-accent-nine";
-            public const string THEME_ACCENT_TEN = "--theme-accent-ten";
-
-            // Highlight
-            public const string THEME_HIGHLIGHT_ONE = "--theme-highlight-one";
-            public const string THEME_HIGHLIGHT_TWO = "--theme-highlight-two";
-            public const string THEME_HIGHLIGHT_THREE = "--theme-highlight-three";
-            public const string THEME_HIGHLIGHT_FOUR = "--theme-highlight-four";
-            public const string THEME_HIGHLIGHT_FIVE = "--theme-highlight-five";
-            public const string THEME_HIGHLIGHT_SIX = "--theme-highlight-six";
-            public const string THEME_HIGHLIGHT_SEVEN = "--theme-highlight-seven";
-            public const string THEME_HIGHLIGHT_EIGHT = "--theme-highlight-eight";
-            public const string THEME_HIGHLIGHT_NINE = "--theme-highlight-nine";
-            public const string THEME_HIGHLIGHT_TEN = "--theme-highlight-ten";
-
-            // Alert
-            public const string THEME_ALERT_ONE = "--theme-alert-one";
-            public const string THEME_ALERT_TWO = "--theme-alert-two";
-            public const string THEME_ALERT_THREE = "--theme-alert-three";
-            public const string THEME_ALERT_FOUR = "--theme-alert-four";
-            public const string THEME_ALERT_FIVE = "--theme-alert-five";
-            public const string THEME_ALERT_SIX = "--theme-alert-six";
-            public const string THEME_ALERT_SEVEN = "--theme-alert-seven";
-            public const string THEME_ALERT_EIGHT = "--theme-alert-eight";
-            public const string THEME_ALERT_NINE = "--theme-alert-nine";
-            public const string THEME_ALERT_TEN = "--theme-alert-ten";
-
-            // Warning
-            public const string THEME_WARNING_ONE = "--theme-warning-one";
-            public const string THEME_WARNING_TWO = "--theme-warning-two";
-            public const string THEME_WARNING_THREE = "--theme-warning-three";
-            public const string THEME_WARNING_FOUR = "--theme-warning-four";
-            public const string THEME_WARNING_FIVE = "--theme-warning-five";
-            public const string THEME_WARNING_SIX = "--theme-warning-six";
-            public const string THEME_WARNING_SEVEN = "--theme-warning-seven";
-            public const string THEME_WARNING_EIGHT = "--theme-warning-eight";
-            public const string THEME_WARNING_NINE = "--theme-warning-nine";
-            public const string THEME_WARNING_TEN = "--theme-warning-ten";
-
-            // Info
-            public const string THEME_INFO_ONE = "--theme-info-one";
-            public const string THEME_INFO_TWO = "--theme-info-two";
-            public const string THEME_INFO_THREE = "--theme-info-three";
-            public const string THEME_INFO_FOUR = "--theme-info-four";
-            public const string THEME_INFO_FIVE = "--theme-info-five";
-            public const string THEME_INFO_SIX = "--theme-info-six";
-            public const string THEME_INFO_SEVEN = "--theme-info-seven";
-            public const string THEME_INFO_EIGHT = "--theme-info-eight";
-            public const string THEME_INFO_NINE = "--theme-info-nine";
-            public const string THEME_INFO_TEN = "--theme-info-ten";
-
-            // Success
-            public const string THEME_SUCCESS_ONE = "--theme-success-one";
-            public const string THEME_SUCCESS_TWO = "--theme-success-two";
-            public const string THEME_SUCCESS_THREE = "--theme-success-three";
-            public const string THEME_SUCCESS_FOUR = "--theme-success-four";
-            public const string THEME_SUCCESS_FIVE = "--theme-success-five";
-            public const string THEME_SUCCESS_SIX = "--theme-success-six";
-            public const string THEME_SUCCESS_SEVEN = "--theme-success-seven";
-            public const string THEME_SUCCESS_EIGHT = "--theme-success-eight";
-            public const string THEME_SUCCESS_NINE = "--theme-success-nine";
-            public const string THEME_SUCCESS_TEN = "--theme-success-ten";
-
-            // Light
-            public const string THEME_LIGHT_ONE = "--theme-light-one";
-            public const string THEME_LIGHT_TWO = "--theme-light-two";
-            public const string THEME_LIGHT_THREE = "--theme-light-three";
-            public const string THEME_LIGHT_FOUR = "--theme-light-four";
-            public const string THEME_LIGHT_FIVE = "--theme-light-five";
-            public const string THEME_LIGHT_SIX = "--theme-light-six";
-            public const string THEME_LIGHT_SEVEN = "--theme-light-seven";
-            public const string THEME_LIGHT_EIGHT = "--theme-light-eight";
-            public const string THEME_LIGHT_NINE = "--theme-light-nine";
-            public const string THEME_LIGHT_TEN = "--theme-light-ten";
-
-            // Dark
-            public const string THEME_DARK_ONE = "--theme-dark-one";
-            public const string THEME_DARK_TWO = "--theme-dark-two";
-            public const string THEME_DARK_THREE = "--theme-dark-three";
-            public const string THEME_DARK_FOUR = "--theme-dark-four";
-            public const string THEME_DARK_FIVE = "--theme-dark-five";
-            public const string THEME_DARK_SIX = "--theme-dark-six";
-            public const string THEME_DARK_SEVEN = "--theme-dark-seven";
-            public const string THEME_DARK_EIGHT = "--theme-dark-eight";
-            public const string THEME_DARK_NINE = "--theme-dark-nine";
-            public const string THEME_DARK_TEN = "--theme-dark-ten";
-
-            #endregion
-
             public static class Background
             {
-                #region Background Colors
-
-                // Default - Background
-                public const string THEME_DEFAULT_ONE_BG = "bg-(--theme-default-one)";
-                public const string THEME_DEFAULT_TWO_BG = "bg-(--theme-default-two)";
-                public const string THEME_DEFAULT_THREE_BG = "bg-(--theme-default-three)";
-                public const string THEME_DEFAULT_FOUR_BG = "bg-(--theme-default-four)";
-                public const string THEME_DEFAULT_FIVE_BG = "bg-(--theme-default-five)";
-                public const string THEME_DEFAULT_SIX_BG = "bg-(--theme-default-six)";
-                public const string THEME_DEFAULT_SEVEN_BG = "bg-(--theme-default-seven)";
-                public const string THEME_DEFAULT_EIGHT_BG = "bg-(--theme-default-eight)";
-                public const string THEME_DEFAULT_NINE_BG = "bg-(--theme-default-nine)";
-                public const string THEME_DEFAULT_TEN_BG = "bg-(--theme-default-ten)";
-
-                // Primary - Background
-                public const string THEME_PRIMARY_ONE_BG = "bg-(--theme-primary-one)";
-                public const string THEME_PRIMARY_TWO_BG = "bg-(--theme-primary-two)";
-                public const string THEME_PRIMARY_THREE_BG = "bg-(--theme-primary-three)";
-                public const string THEME_PRIMARY_FOUR_BG = "bg-(--theme-primary-four)";
-                public const string THEME_PRIMARY_FIVE_BG = "bg-(--theme-primary-five)";
-                public const string THEME_PRIMARY_SIX_BG = "bg-(--theme-primary-six)";
-                public const string THEME_PRIMARY_SEVEN_BG = "bg-(--theme-primary-seven)";
-                public const string THEME_PRIMARY_EIGHT_BG = "bg-(--theme-primary-eight)";
-                public const string THEME_PRIMARY_NINE_BG = "bg-(--theme-primary-nine)";
-                public const string THEME_PRIMARY_TEN_BG = "bg-(--theme-primary-ten)";
-
-                // Secondary - Background
-                public const string THEME_SECONDARY_ONE_BG = "bg-(--theme-secondary-one)";
-                public const string THEME_SECONDARY_TWO_BG = "bg-(--theme-secondary-two)";
-                public const string THEME_SECONDARY_THREE_BG = "bg-(--theme-secondary-three)";
-                public const string THEME_SECONDARY_FOUR_BG = "bg-(--theme-secondary-four)";
-                public const string THEME_SECONDARY_FIVE_BG = "bg-(--theme-secondary-five)";
-                public const string THEME_SECONDARY_SIX_BG = "bg-(--theme-secondary-six)";
-                public const string THEME_SECONDARY_SEVEN_BG = "bg-(--theme-secondary-seven)";
-                public const string THEME_SECONDARY_EIGHT_BG = "bg-(--theme-secondary-eight)";
-                public const string THEME_SECONDARY_NINE_BG = "bg-(--theme-secondary-nine)";
-                public const string THEME_SECONDARY_TEN_BG = "bg-(--theme-secondary-ten)";
-
-                // Tertiary - Background
-                public const string THEME_TERTIARY_ONE_BG = "bg-(--theme-tertiary-one)";
-                public const string THEME_TERTIARY_TWO_BG = "bg-(--theme-tertiary-two)";
-                public const string THEME_TERTIARY_THREE_BG = "bg-(--theme-tertiary-three)";
-                public const string THEME_TERTIARY_FOUR_BG = "bg-(--theme-tertiary-four)";
-                public const string THEME_TERTIARY_FIVE_BG = "bg-(--theme-tertiary-five)";
-                public const string THEME_TERTIARY_SIX_BG = "bg-(--theme-tertiary-six)";
-                public const string THEME_TERTIARY_SEVEN_BG = "bg-(--theme-tertiary-seven)";
-                public const string THEME_TERTIARY_EIGHT_BG = "bg-(--theme-tertiary-eight)";
-                public const string THEME_TERTIARY_NINE_BG = "bg-(--theme-tertiary-nine)";
-                public const string THEME_TERTIARY_TEN_BG = "bg-(--theme-tertiary-ten)";
-
-                // Accent - Background
-                public const string THEME_ACCENT_ONE_BG = "bg-(--theme-accent-one)";
-                public const string THEME_ACCENT_TWO_BG = "bg-(--theme-accent-two)";
-                public const string THEME_ACCENT_THREE_BG = "bg-(--theme-accent-three)";
-                public const string THEME_ACCENT_FOUR_BG = "bg-(--theme-accent-four)";
-                public const string THEME_ACCENT_FIVE_BG = "bg-(--theme-accent-five)";
-                public const string THEME_ACCENT_SIX_BG = "bg-(--theme-accent-six)";
-                public const string THEME_ACCENT_SEVEN_BG = "bg-(--theme-accent-seven)";
-                public const string THEME_ACCENT_EIGHT_BG = "bg-(--theme-accent-eight)";
-                public const string THEME_ACCENT_NINE_BG = "bg-(--theme-accent-nine)";
-                public const string THEME_ACCENT_TEN_BG = "bg-(--theme-accent-ten)";
-
-                // Highlight - Background
-                public const string THEME_HIGHLIGHT_ONE_BG = "bg-(--theme-highlight-one)";
-                public const string THEME_HIGHLIGHT_TWO_BG = "bg-(--theme-highlight-two)";
-                public const string THEME_HIGHLIGHT_THREE_BG = "bg-(--theme-highlight-three)";
-                public const string THEME_HIGHLIGHT_FOUR_BG = "bg-(--theme-highlight-four)";
-                public const string THEME_HIGHLIGHT_FIVE_BG = "bg-(--theme-highlight-five)";
-                public const string THEME_HIGHLIGHT_SIX_BG = "bg-(--theme-highlight-six)";
-                public const string THEME_HIGHLIGHT_SEVEN_BG = "bg-(--theme-highlight-seven)";
-                public const string THEME_HIGHLIGHT_EIGHT_BG = "bg-(--theme-highlight-eight)";
-                public const string THEME_HIGHLIGHT_NINE_BG = "bg-(--theme-highlight-nine)";
-                public const string THEME_HIGHLIGHT_TEN_BG = "bg-(--theme-highlight-ten)";
-
-                // Alert - Background
-                public const string THEME_ALERT_ONE_BG = "bg-(--theme-alert-one)";
-                public const string THEME_ALERT_TWO_BG = "bg-(--theme-alert-two)";
-                public const string THEME_ALERT_THREE_BG = "bg-(--theme-alert-three)";
-                public const string THEME_ALERT_FOUR_BG = "bg-(--theme-alert-four)";
-                public const string THEME_ALERT_FIVE_BG = "bg-(--theme-alert-five)";
-                public const string THEME_ALERT_SIX_BG = "bg-(--theme-alert-six)";
-                public const string THEME_ALERT_SEVEN_BG = "bg-(--theme-alert-seven)";
-                public const string THEME_ALERT_EIGHT_BG = "bg-(--theme-alert-eight)";
-                public const string THEME_ALERT_NINE_BG = "bg-(--theme-alert-nine)";
-                public const string THEME_ALERT_TEN_BG = "bg-(--theme-alert-ten)";
-
-                // Warning - Background
-                public const string THEME_WARNING_ONE_BG = "bg-(--theme-warning-one)";
-                public const string THEME_WARNING_TWO_BG = "bg-(--theme-warning-two)";
-                public const string THEME_WARNING_THREE_BG = "bg-(--theme-warning-three)";
-                public const string THEME_WARNING_FOUR_BG = "bg-(--theme-warning-four)";
-                public const string THEME_WARNING_FIVE_BG = "bg-(--theme-warning-five)";
-                public const string THEME_WARNING_SIX_BG = "bg-(--theme-warning-six)";
-                public const string THEME_WARNING_SEVEN_BG = "bg-(--theme-warning-seven)";
-                public const string THEME_WARNING_EIGHT_BG = "bg-(--theme-warning-eight)";
-                public const string THEME_WARNING_NINE_BG = "bg-(--theme-warning-nine)";
-                public const string THEME_WARNING_TEN_BG = "bg-(--theme-warning-ten)";
-
-                // Info - Background
-                public const string THEME_INFO_ONE_BG = "bg-(--theme-info-one)";
-                public const string THEME_INFO_TWO_BG = "bg-(--theme-info-two)";
-                public const string THEME_INFO_THREE_BG = "bg-(--theme-info-three)";
-                public const string THEME_INFO_FOUR_BG = "bg-(--theme-info-four)";
-                public const string THEME_INFO_FIVE_BG = "bg-(--theme-info-five)";
-                public const string THEME_INFO_SIX_BG = "bg-(--theme-info-six)";
-                public const string THEME_INFO_SEVEN_BG = "bg-(--theme-info-seven)";
-                public const string THEME_INFO_EIGHT_BG = "bg-(--theme-info-eight)";
-                public const string THEME_INFO_NINE_BG = "bg-(--theme-info-nine)";
-                public const string THEME_INFO_TEN_BG = "bg-(--theme-info-ten)";
-
-                // Success - Background
-                public const string THEME_SUCCESS_ONE_BG = "bg-(--theme-success-one)";
-                public const string THEME_SUCCESS_TWO_BG = "bg-(--theme-success-two)";
-                public const string THEME_SUCCESS_THREE_BG = "bg-(--theme-success-three)";
-                public const string THEME_SUCCESS_FOUR_BG = "bg-(--theme-success-four)";
-                public const string THEME_SUCCESS_FIVE_BG = "bg-(--theme-success-five)";
-                public const string THEME_SUCCESS_SIX_BG = "bg-(--theme-success-six)";
-                public const string THEME_SUCCESS_SEVEN_BG = "bg-(--theme-success-seven)";
-                public const string THEME_SUCCESS_EIGHT_BG = "bg-(--theme-success-eight)";
-                public const string THEME_SUCCESS_NINE_BG = "bg-(--theme-success-nine)";
-                public const string THEME_SUCCESS_TEN_BG = "bg-(--theme-success-ten)";
-
-                // Light - Background
-                public const string THEME_LIGHT_ONE_BG = "bg-(--theme-light-one)";
-                public const string THEME_LIGHT_TWO_BG = "bg-(--theme-light-two)";
-                public const string THEME_LIGHT_THREE_BG = "bg-(--theme-light-three)";
-                public const string THEME_LIGHT_FOUR_BG = "bg-(--theme-light-four)";
-                public const string THEME_LIGHT_FIVE_BG = "bg-(--theme-light-five)";
-                public const string THEME_LIGHT_SIX_BG = "bg-(--theme-light-six)";
-                public const string THEME_LIGHT_SEVEN_BG = "bg-(--theme-light-seven)";
-                public const string THEME_LIGHT_EIGHT_BG = "bg-(--theme-light-eight)";
-                public const string THEME_LIGHT_NINE_BG = "bg-(--theme-light-nine)";
-                public const string THEME_LIGHT_TEN_BG = "bg-(--theme-light-ten)";
-
-                // Dark - Background
-                public const string THEME_DARK_ONE_BG = "bg-(--theme-dark-one)";
-                public const string THEME_DARK_TWO_BG = "bg-(--theme-dark-two)";
-                public const string THEME_DARK_THREE_BG = "bg-(--theme-dark-three)";
-                public const string THEME_DARK_FOUR_BG = "bg-(--theme-dark-four)";
-                public const string THEME_DARK_FIVE_BG = "bg-(--theme-dark-five)";
-                public const string THEME_DARK_SIX_BG = "bg-(--theme-dark-six)";
-                public const string THEME_DARK_SEVEN_BG = "bg-(--theme-dark-seven)";
-                public const string THEME_DARK_EIGHT_BG = "bg-(--theme-dark-eight)";
-                public const string THEME_DARK_NINE_BG = "bg-(--theme-dark-nine)";
-                public const string THEME_DARK_TEN_BG = "bg-(--theme-dark-ten)";
-
-                #endregion
-
                 public static class Hover
                 {
                     #region Background Hover Colors
@@ -450,7 +155,6 @@ public static class Tailwind
                     public const string THEME_DARK_EIGHT_BG_HOVER = "hover:bg-(--theme-dark-eight)";
                     public const string THEME_DARK_NINE_BG_HOVER = "hover:bg-(--theme-dark-nine)";
                     public const string THEME_DARK_TEN_BG_HOVER = "hover:bg-(--theme-dark-ten)";
-
 
                     #endregion
                 }
@@ -608,7 +312,7 @@ public static class Tailwind
 
                 public static class Active
                 {
-                    #region Background Active Colors 
+                    #region Background Active Colors
 
                     // Default - Background - Active
                     public const string THEME_DEFAULT_ONE_BG_ACTIVE = "active:bg-(--theme-default-one)";
@@ -756,158 +460,158 @@ public static class Tailwind
 
                     #endregion
                 }
+
+                #region Background Colors
+
+                // Default - Background
+                public const string THEME_DEFAULT_ONE_BG = "bg-(--theme-default-one)";
+                public const string THEME_DEFAULT_TWO_BG = "bg-(--theme-default-two)";
+                public const string THEME_DEFAULT_THREE_BG = "bg-(--theme-default-three)";
+                public const string THEME_DEFAULT_FOUR_BG = "bg-(--theme-default-four)";
+                public const string THEME_DEFAULT_FIVE_BG = "bg-(--theme-default-five)";
+                public const string THEME_DEFAULT_SIX_BG = "bg-(--theme-default-six)";
+                public const string THEME_DEFAULT_SEVEN_BG = "bg-(--theme-default-seven)";
+                public const string THEME_DEFAULT_EIGHT_BG = "bg-(--theme-default-eight)";
+                public const string THEME_DEFAULT_NINE_BG = "bg-(--theme-default-nine)";
+                public const string THEME_DEFAULT_TEN_BG = "bg-(--theme-default-ten)";
+
+                // Primary - Background
+                public const string THEME_PRIMARY_ONE_BG = "bg-(--theme-primary-one)";
+                public const string THEME_PRIMARY_TWO_BG = "bg-(--theme-primary-two)";
+                public const string THEME_PRIMARY_THREE_BG = "bg-(--theme-primary-three)";
+                public const string THEME_PRIMARY_FOUR_BG = "bg-(--theme-primary-four)";
+                public const string THEME_PRIMARY_FIVE_BG = "bg-(--theme-primary-five)";
+                public const string THEME_PRIMARY_SIX_BG = "bg-(--theme-primary-six)";
+                public const string THEME_PRIMARY_SEVEN_BG = "bg-(--theme-primary-seven)";
+                public const string THEME_PRIMARY_EIGHT_BG = "bg-(--theme-primary-eight)";
+                public const string THEME_PRIMARY_NINE_BG = "bg-(--theme-primary-nine)";
+                public const string THEME_PRIMARY_TEN_BG = "bg-(--theme-primary-ten)";
+
+                // Secondary - Background
+                public const string THEME_SECONDARY_ONE_BG = "bg-(--theme-secondary-one)";
+                public const string THEME_SECONDARY_TWO_BG = "bg-(--theme-secondary-two)";
+                public const string THEME_SECONDARY_THREE_BG = "bg-(--theme-secondary-three)";
+                public const string THEME_SECONDARY_FOUR_BG = "bg-(--theme-secondary-four)";
+                public const string THEME_SECONDARY_FIVE_BG = "bg-(--theme-secondary-five)";
+                public const string THEME_SECONDARY_SIX_BG = "bg-(--theme-secondary-six)";
+                public const string THEME_SECONDARY_SEVEN_BG = "bg-(--theme-secondary-seven)";
+                public const string THEME_SECONDARY_EIGHT_BG = "bg-(--theme-secondary-eight)";
+                public const string THEME_SECONDARY_NINE_BG = "bg-(--theme-secondary-nine)";
+                public const string THEME_SECONDARY_TEN_BG = "bg-(--theme-secondary-ten)";
+
+                // Tertiary - Background
+                public const string THEME_TERTIARY_ONE_BG = "bg-(--theme-tertiary-one)";
+                public const string THEME_TERTIARY_TWO_BG = "bg-(--theme-tertiary-two)";
+                public const string THEME_TERTIARY_THREE_BG = "bg-(--theme-tertiary-three)";
+                public const string THEME_TERTIARY_FOUR_BG = "bg-(--theme-tertiary-four)";
+                public const string THEME_TERTIARY_FIVE_BG = "bg-(--theme-tertiary-five)";
+                public const string THEME_TERTIARY_SIX_BG = "bg-(--theme-tertiary-six)";
+                public const string THEME_TERTIARY_SEVEN_BG = "bg-(--theme-tertiary-seven)";
+                public const string THEME_TERTIARY_EIGHT_BG = "bg-(--theme-tertiary-eight)";
+                public const string THEME_TERTIARY_NINE_BG = "bg-(--theme-tertiary-nine)";
+                public const string THEME_TERTIARY_TEN_BG = "bg-(--theme-tertiary-ten)";
+
+                // Accent - Background
+                public const string THEME_ACCENT_ONE_BG = "bg-(--theme-accent-one)";
+                public const string THEME_ACCENT_TWO_BG = "bg-(--theme-accent-two)";
+                public const string THEME_ACCENT_THREE_BG = "bg-(--theme-accent-three)";
+                public const string THEME_ACCENT_FOUR_BG = "bg-(--theme-accent-four)";
+                public const string THEME_ACCENT_FIVE_BG = "bg-(--theme-accent-five)";
+                public const string THEME_ACCENT_SIX_BG = "bg-(--theme-accent-six)";
+                public const string THEME_ACCENT_SEVEN_BG = "bg-(--theme-accent-seven)";
+                public const string THEME_ACCENT_EIGHT_BG = "bg-(--theme-accent-eight)";
+                public const string THEME_ACCENT_NINE_BG = "bg-(--theme-accent-nine)";
+                public const string THEME_ACCENT_TEN_BG = "bg-(--theme-accent-ten)";
+
+                // Highlight - Background
+                public const string THEME_HIGHLIGHT_ONE_BG = "bg-(--theme-highlight-one)";
+                public const string THEME_HIGHLIGHT_TWO_BG = "bg-(--theme-highlight-two)";
+                public const string THEME_HIGHLIGHT_THREE_BG = "bg-(--theme-highlight-three)";
+                public const string THEME_HIGHLIGHT_FOUR_BG = "bg-(--theme-highlight-four)";
+                public const string THEME_HIGHLIGHT_FIVE_BG = "bg-(--theme-highlight-five)";
+                public const string THEME_HIGHLIGHT_SIX_BG = "bg-(--theme-highlight-six)";
+                public const string THEME_HIGHLIGHT_SEVEN_BG = "bg-(--theme-highlight-seven)";
+                public const string THEME_HIGHLIGHT_EIGHT_BG = "bg-(--theme-highlight-eight)";
+                public const string THEME_HIGHLIGHT_NINE_BG = "bg-(--theme-highlight-nine)";
+                public const string THEME_HIGHLIGHT_TEN_BG = "bg-(--theme-highlight-ten)";
+
+                // Alert - Background
+                public const string THEME_ALERT_ONE_BG = "bg-(--theme-alert-one)";
+                public const string THEME_ALERT_TWO_BG = "bg-(--theme-alert-two)";
+                public const string THEME_ALERT_THREE_BG = "bg-(--theme-alert-three)";
+                public const string THEME_ALERT_FOUR_BG = "bg-(--theme-alert-four)";
+                public const string THEME_ALERT_FIVE_BG = "bg-(--theme-alert-five)";
+                public const string THEME_ALERT_SIX_BG = "bg-(--theme-alert-six)";
+                public const string THEME_ALERT_SEVEN_BG = "bg-(--theme-alert-seven)";
+                public const string THEME_ALERT_EIGHT_BG = "bg-(--theme-alert-eight)";
+                public const string THEME_ALERT_NINE_BG = "bg-(--theme-alert-nine)";
+                public const string THEME_ALERT_TEN_BG = "bg-(--theme-alert-ten)";
+
+                // Warning - Background
+                public const string THEME_WARNING_ONE_BG = "bg-(--theme-warning-one)";
+                public const string THEME_WARNING_TWO_BG = "bg-(--theme-warning-two)";
+                public const string THEME_WARNING_THREE_BG = "bg-(--theme-warning-three)";
+                public const string THEME_WARNING_FOUR_BG = "bg-(--theme-warning-four)";
+                public const string THEME_WARNING_FIVE_BG = "bg-(--theme-warning-five)";
+                public const string THEME_WARNING_SIX_BG = "bg-(--theme-warning-six)";
+                public const string THEME_WARNING_SEVEN_BG = "bg-(--theme-warning-seven)";
+                public const string THEME_WARNING_EIGHT_BG = "bg-(--theme-warning-eight)";
+                public const string THEME_WARNING_NINE_BG = "bg-(--theme-warning-nine)";
+                public const string THEME_WARNING_TEN_BG = "bg-(--theme-warning-ten)";
+
+                // Info - Background
+                public const string THEME_INFO_ONE_BG = "bg-(--theme-info-one)";
+                public const string THEME_INFO_TWO_BG = "bg-(--theme-info-two)";
+                public const string THEME_INFO_THREE_BG = "bg-(--theme-info-three)";
+                public const string THEME_INFO_FOUR_BG = "bg-(--theme-info-four)";
+                public const string THEME_INFO_FIVE_BG = "bg-(--theme-info-five)";
+                public const string THEME_INFO_SIX_BG = "bg-(--theme-info-six)";
+                public const string THEME_INFO_SEVEN_BG = "bg-(--theme-info-seven)";
+                public const string THEME_INFO_EIGHT_BG = "bg-(--theme-info-eight)";
+                public const string THEME_INFO_NINE_BG = "bg-(--theme-info-nine)";
+                public const string THEME_INFO_TEN_BG = "bg-(--theme-info-ten)";
+
+                // Success - Background
+                public const string THEME_SUCCESS_ONE_BG = "bg-(--theme-success-one)";
+                public const string THEME_SUCCESS_TWO_BG = "bg-(--theme-success-two)";
+                public const string THEME_SUCCESS_THREE_BG = "bg-(--theme-success-three)";
+                public const string THEME_SUCCESS_FOUR_BG = "bg-(--theme-success-four)";
+                public const string THEME_SUCCESS_FIVE_BG = "bg-(--theme-success-five)";
+                public const string THEME_SUCCESS_SIX_BG = "bg-(--theme-success-six)";
+                public const string THEME_SUCCESS_SEVEN_BG = "bg-(--theme-success-seven)";
+                public const string THEME_SUCCESS_EIGHT_BG = "bg-(--theme-success-eight)";
+                public const string THEME_SUCCESS_NINE_BG = "bg-(--theme-success-nine)";
+                public const string THEME_SUCCESS_TEN_BG = "bg-(--theme-success-ten)";
+
+                // Light - Background
+                public const string THEME_LIGHT_ONE_BG = "bg-(--theme-light-one)";
+                public const string THEME_LIGHT_TWO_BG = "bg-(--theme-light-two)";
+                public const string THEME_LIGHT_THREE_BG = "bg-(--theme-light-three)";
+                public const string THEME_LIGHT_FOUR_BG = "bg-(--theme-light-four)";
+                public const string THEME_LIGHT_FIVE_BG = "bg-(--theme-light-five)";
+                public const string THEME_LIGHT_SIX_BG = "bg-(--theme-light-six)";
+                public const string THEME_LIGHT_SEVEN_BG = "bg-(--theme-light-seven)";
+                public const string THEME_LIGHT_EIGHT_BG = "bg-(--theme-light-eight)";
+                public const string THEME_LIGHT_NINE_BG = "bg-(--theme-light-nine)";
+                public const string THEME_LIGHT_TEN_BG = "bg-(--theme-light-ten)";
+
+                // Dark - Background
+                public const string THEME_DARK_ONE_BG = "bg-(--theme-dark-one)";
+                public const string THEME_DARK_TWO_BG = "bg-(--theme-dark-two)";
+                public const string THEME_DARK_THREE_BG = "bg-(--theme-dark-three)";
+                public const string THEME_DARK_FOUR_BG = "bg-(--theme-dark-four)";
+                public const string THEME_DARK_FIVE_BG = "bg-(--theme-dark-five)";
+                public const string THEME_DARK_SIX_BG = "bg-(--theme-dark-six)";
+                public const string THEME_DARK_SEVEN_BG = "bg-(--theme-dark-seven)";
+                public const string THEME_DARK_EIGHT_BG = "bg-(--theme-dark-eight)";
+                public const string THEME_DARK_NINE_BG = "bg-(--theme-dark-nine)";
+                public const string THEME_DARK_TEN_BG = "bg-(--theme-dark-ten)";
+
+                #endregion
             }
 
             public static class Border
             {
-                #region Border colors
-
-                // Default - Border
-                public const string THEME_DEFAULT_ONE_BORDER = "border-(--theme-default-one)";
-                public const string THEME_DEFAULT_TWO_BORDER = "border-(--theme-default-two)";
-                public const string THEME_DEFAULT_THREE_BORDER = "border-(--theme-default-three)";
-                public const string THEME_DEFAULT_FOUR_BORDER = "border-(--theme-default-four)";
-                public const string THEME_DEFAULT_FIVE_BORDER = "border-(--theme-default-five)";
-                public const string THEME_DEFAULT_SIX_BORDER = "border-(--theme-default-six)";
-                public const string THEME_DEFAULT_SEVEN_BORDER = "border-(--theme-default-seven)";
-                public const string THEME_DEFAULT_EIGHT_BORDER = "border-(--theme-default-eight)";
-                public const string THEME_DEFAULT_NINE_BORDER = "border-(--theme-default-nine)";
-                public const string THEME_DEFAULT_TEN_BORDER = "border-(--theme-default-ten)";
-
-                // Primary - Border
-                public const string THEME_PRIMARY_ONE_BORDER = "border-(--theme-primary-one)";
-                public const string THEME_PRIMARY_TWO_BORDER = "border-(--theme-primary-two)";
-                public const string THEME_PRIMARY_THREE_BORDER = "border-(--theme-primary-three)";
-                public const string THEME_PRIMARY_FOUR_BORDER = "border-(--theme-primary-four)";
-                public const string THEME_PRIMARY_FIVE_BORDER = "border-(--theme-primary-five)";
-                public const string THEME_PRIMARY_SIX_BORDER = "border-(--theme-primary-six)";
-                public const string THEME_PRIMARY_SEVEN_BORDER = "border-(--theme-primary-seven)";
-                public const string THEME_PRIMARY_EIGHT_BORDER = "border-(--theme-primary-eight)";
-                public const string THEME_PRIMARY_NINE_BORDER = "border-(--theme-primary-nine)";
-                public const string THEME_PRIMARY_TEN_BORDER = "border-(--theme-primary-ten)";
-
-                // Secondary - Border
-                public const string THEME_SECONDARY_ONE_BORDER = "border-(--theme-secondary-one)";
-                public const string THEME_SECONDARY_TWO_BORDER = "border-(--theme-secondary-two)";
-                public const string THEME_SECONDARY_THREE_BORDER = "border-(--theme-secondary-three)";
-                public const string THEME_SECONDARY_FOUR_BORDER = "border-(--theme-secondary-four)";
-                public const string THEME_SECONDARY_FIVE_BORDER = "border-(--theme-secondary-five)";
-                public const string THEME_SECONDARY_SIX_BORDER = "border-(--theme-secondary-six)";
-                public const string THEME_SECONDARY_SEVEN_BORDER = "border-(--theme-secondary-seven)";
-                public const string THEME_SECONDARY_EIGHT_BORDER = "border-(--theme-secondary-eight)";
-                public const string THEME_SECONDARY_NINE_BORDER = "border-(--theme-secondary-nine)";
-                public const string THEME_SECONDARY_TEN_BORDER = "border-(--theme-secondary-ten)";
-
-                // Tertiary - Border
-                public const string THEME_TERTIARY_ONE_BORDER = "border-(--theme-tertiary-one)";
-                public const string THEME_TERTIARY_TWO_BORDER = "border-(--theme-tertiary-two)";
-                public const string THEME_TERTIARY_THREE_BORDER = "border-(--theme-tertiary-three)";
-                public const string THEME_TERTIARY_FOUR_BORDER = "border-(--theme-tertiary-four)";
-                public const string THEME_TERTIARY_FIVE_BORDER = "border-(--theme-tertiary-five)";
-                public const string THEME_TERTIARY_SIX_BORDER = "border-(--theme-tertiary-six)";
-                public const string THEME_TERTIARY_SEVEN_BORDER = "border-(--theme-tertiary-seven)";
-                public const string THEME_TERTIARY_EIGHT_BORDER = "border-(--theme-tertiary-eight)";
-                public const string THEME_TERTIARY_NINE_BORDER = "border-(--theme-tertiary-nine)";
-                public const string THEME_TERTIARY_TEN_BORDER = "border-(--theme-tertiary-ten)";
-
-                // Accent - Border
-                public const string THEME_ACCENT_ONE_BORDER = "border-(--theme-accent-one)";
-                public const string THEME_ACCENT_TWO_BORDER = "border-(--theme-accent-two)";
-                public const string THEME_ACCENT_THREE_BORDER = "border-(--theme-accent-three)";
-                public const string THEME_ACCENT_FOUR_BORDER = "border-(--theme-accent-four)";
-                public const string THEME_ACCENT_FIVE_BORDER = "border-(--theme-accent-five)";
-                public const string THEME_ACCENT_SIX_BORDER = "border-(--theme-accent-six)";
-                public const string THEME_ACCENT_SEVEN_BORDER = "border-(--theme-accent-seven)";
-                public const string THEME_ACCENT_EIGHT_BORDER = "border-(--theme-accent-eight)";
-                public const string THEME_ACCENT_NINE_BORDER = "border-(--theme-accent-nine)";
-                public const string THEME_ACCENT_TEN_BORDER = "border-(--theme-accent-ten)";
-
-                // Highlight - Border
-                public const string THEME_HIGHLIGHT_ONE_BORDER = "border-(--theme-highlight-one)";
-                public const string THEME_HIGHLIGHT_TWO_BORDER = "border-(--theme-highlight-two)";
-                public const string THEME_HIGHLIGHT_THREE_BORDER = "border-(--theme-highlight-three)";
-                public const string THEME_HIGHLIGHT_FOUR_BORDER = "border-(--theme-highlight-four)";
-                public const string THEME_HIGHLIGHT_FIVE_BORDER = "border-(--theme-highlight-five)";
-                public const string THEME_HIGHLIGHT_SIX_BORDER = "border-(--theme-highlight-six)";
-                public const string THEME_HIGHLIGHT_SEVEN_BORDER = "border-(--theme-highlight-seven)";
-                public const string THEME_HIGHLIGHT_EIGHT_BORDER = "border-(--theme-highlight-eight)";
-                public const string THEME_HIGHLIGHT_NINE_BORDER = "border-(--theme-highlight-nine)";
-                public const string THEME_HIGHLIGHT_TEN_BORDER = "border-(--theme-highlight-ten)";
-
-                // Alert - Border
-                public const string THEME_ALERT_ONE_BORDER = "border-(--theme-alert-one)";
-                public const string THEME_ALERT_TWO_BORDER = "border-(--theme-alert-two)";
-                public const string THEME_ALERT_THREE_BORDER = "border-(--theme-alert-three)";
-                public const string THEME_ALERT_FOUR_BORDER = "border-(--theme-alert-four)";
-                public const string THEME_ALERT_FIVE_BORDER = "border-(--theme-alert-five)";
-                public const string THEME_ALERT_SIX_BORDER = "border-(--theme-alert-six)";
-                public const string THEME_ALERT_SEVEN_BORDER = "border-(--theme-alert-seven)";
-                public const string THEME_ALERT_EIGHT_BORDER = "border-(--theme-alert-eight)";
-                public const string THEME_ALERT_NINE_BORDER = "border-(--theme-alert-nine)";
-                public const string THEME_ALERT_TEN_BORDER = "border-(--theme-alert-ten)";
-
-                // Warning - Border
-                public const string THEME_WARNING_ONE_BORDER = "border-(--theme-warning-one)";
-                public const string THEME_WARNING_TWO_BORDER = "border-(--theme-warning-two)";
-                public const string THEME_WARNING_THREE_BORDER = "border-(--theme-warning-three)";
-                public const string THEME_WARNING_FOUR_BORDER = "border-(--theme-warning-four)";
-                public const string THEME_WARNING_FIVE_BORDER = "border-(--theme-warning-five)";
-                public const string THEME_WARNING_SIX_BORDER = "border-(--theme-warning-six)";
-                public const string THEME_WARNING_SEVEN_BORDER = "border-(--theme-warning-seven)";
-                public const string THEME_WARNING_EIGHT_BORDER = "border-(--theme-warning-eight)";
-                public const string THEME_WARNING_NINE_BORDER = "border-(--theme-warning-nine)";
-                public const string THEME_WARNING_TEN_BORDER = "border-(--theme-warning-ten)";
-
-                // Info - Border
-                public const string THEME_INFO_ONE_BORDER = "border-(--theme-info-one)";
-                public const string THEME_INFO_TWO_BORDER = "border-(--theme-info-two)";
-                public const string THEME_INFO_THREE_BORDER = "border-(--theme-info-three)";
-                public const string THEME_INFO_FOUR_BORDER = "border-(--theme-info-four)";
-                public const string THEME_INFO_FIVE_BORDER = "border-(--theme-info-five)";
-                public const string THEME_INFO_SIX_BORDER = "border-(--theme-info-six)";
-                public const string THEME_INFO_SEVEN_BORDER = "border-(--theme-info-seven)";
-                public const string THEME_INFO_EIGHT_BORDER = "border-(--theme-info-eight)";
-                public const string THEME_INFO_NINE_BORDER = "border-(--theme-info-nine)";
-                public const string THEME_INFO_TEN_BORDER = "border-(--theme-info-ten)";
-
-                // Success - Border
-                public const string THEME_SUCCESS_ONE_BORDER = "border-(--theme-success-one)";
-                public const string THEME_SUCCESS_TWO_BORDER = "border-(--theme-success-two)";
-                public const string THEME_SUCCESS_THREE_BORDER = "border-(--theme-success-three)";
-                public const string THEME_SUCCESS_FOUR_BORDER = "border-(--theme-success-four)";
-                public const string THEME_SUCCESS_FIVE_BORDER = "border-(--theme-success-five)";
-                public const string THEME_SUCCESS_SIX_BORDER = "border-(--theme-success-six)";
-                public const string THEME_SUCCESS_SEVEN_BORDER = "border-(--theme-success-seven)";
-                public const string THEME_SUCCESS_EIGHT_BORDER = "border-(--theme-success-eight)";
-                public const string THEME_SUCCESS_NINE_BORDER = "border-(--theme-success-nine)";
-                public const string THEME_SUCCESS_TEN_BORDER = "border-(--theme-success-ten)";
-
-                // Light - Border
-                public const string THEME_LIGHT_ONE_BORDER = "border-(--theme-light-one)";
-                public const string THEME_LIGHT_TWO_BORDER = "border-(--theme-light-two)";
-                public const string THEME_LIGHT_THREE_BORDER = "border-(--theme-light-three)";
-                public const string THEME_LIGHT_FOUR_BORDER = "border-(--theme-light-four)";
-                public const string THEME_LIGHT_FIVE_BORDER = "border-(--theme-light-five)";
-                public const string THEME_LIGHT_SIX_BORDER = "border-(--theme-light-six)";
-                public const string THEME_LIGHT_SEVEN_BORDER = "border-(--theme-light-seven)";
-                public const string THEME_LIGHT_EIGHT_BORDER = "border-(--theme-light-eight)";
-                public const string THEME_LIGHT_NINE_BORDER = "border-(--theme-light-nine)";
-                public const string THEME_LIGHT_TEN_BORDER = "border-(--theme-light-ten)";
-
-                // Dark - Border
-                public const string THEME_DARK_ONE_BORDER = "border-(--theme-dark-one)";
-                public const string THEME_DARK_TWO_BORDER = "border-(--theme-dark-two)";
-                public const string THEME_DARK_THREE_BORDER = "border-(--theme-dark-three)";
-                public const string THEME_DARK_FOUR_BORDER = "border-(--theme-dark-four)";
-                public const string THEME_DARK_FIVE_BORDER = "border-(--theme-dark-five)";
-                public const string THEME_DARK_SIX_BORDER = "border-(--theme-dark-six)";
-                public const string THEME_DARK_SEVEN_BORDER = "border-(--theme-dark-seven)";
-                public const string THEME_DARK_EIGHT_BORDER = "border-(--theme-dark-eight)";
-                public const string THEME_DARK_NINE_BORDER = "border-(--theme-dark-nine)";
-                public const string THEME_DARK_TEN_BORDER = "border-(--theme-dark-ten)";
-
-                #endregion
-
                 public static class Hover
                 {
                     #region Border Hover Colors
@@ -1360,157 +1064,158 @@ public static class Tailwind
 
                     #endregion
                 }
+
+                #region Border colors
+
+                // Default - Border
+                public const string THEME_DEFAULT_ONE_BORDER = "border-(--theme-default-one)";
+                public const string THEME_DEFAULT_TWO_BORDER = "border-(--theme-default-two)";
+                public const string THEME_DEFAULT_THREE_BORDER = "border-(--theme-default-three)";
+                public const string THEME_DEFAULT_FOUR_BORDER = "border-(--theme-default-four)";
+                public const string THEME_DEFAULT_FIVE_BORDER = "border-(--theme-default-five)";
+                public const string THEME_DEFAULT_SIX_BORDER = "border-(--theme-default-six)";
+                public const string THEME_DEFAULT_SEVEN_BORDER = "border-(--theme-default-seven)";
+                public const string THEME_DEFAULT_EIGHT_BORDER = "border-(--theme-default-eight)";
+                public const string THEME_DEFAULT_NINE_BORDER = "border-(--theme-default-nine)";
+                public const string THEME_DEFAULT_TEN_BORDER = "border-(--theme-default-ten)";
+
+                // Primary - Border
+                public const string THEME_PRIMARY_ONE_BORDER = "border-(--theme-primary-one)";
+                public const string THEME_PRIMARY_TWO_BORDER = "border-(--theme-primary-two)";
+                public const string THEME_PRIMARY_THREE_BORDER = "border-(--theme-primary-three)";
+                public const string THEME_PRIMARY_FOUR_BORDER = "border-(--theme-primary-four)";
+                public const string THEME_PRIMARY_FIVE_BORDER = "border-(--theme-primary-five)";
+                public const string THEME_PRIMARY_SIX_BORDER = "border-(--theme-primary-six)";
+                public const string THEME_PRIMARY_SEVEN_BORDER = "border-(--theme-primary-seven)";
+                public const string THEME_PRIMARY_EIGHT_BORDER = "border-(--theme-primary-eight)";
+                public const string THEME_PRIMARY_NINE_BORDER = "border-(--theme-primary-nine)";
+                public const string THEME_PRIMARY_TEN_BORDER = "border-(--theme-primary-ten)";
+
+                // Secondary - Border
+                public const string THEME_SECONDARY_ONE_BORDER = "border-(--theme-secondary-one)";
+                public const string THEME_SECONDARY_TWO_BORDER = "border-(--theme-secondary-two)";
+                public const string THEME_SECONDARY_THREE_BORDER = "border-(--theme-secondary-three)";
+                public const string THEME_SECONDARY_FOUR_BORDER = "border-(--theme-secondary-four)";
+                public const string THEME_SECONDARY_FIVE_BORDER = "border-(--theme-secondary-five)";
+                public const string THEME_SECONDARY_SIX_BORDER = "border-(--theme-secondary-six)";
+                public const string THEME_SECONDARY_SEVEN_BORDER = "border-(--theme-secondary-seven)";
+                public const string THEME_SECONDARY_EIGHT_BORDER = "border-(--theme-secondary-eight)";
+                public const string THEME_SECONDARY_NINE_BORDER = "border-(--theme-secondary-nine)";
+                public const string THEME_SECONDARY_TEN_BORDER = "border-(--theme-secondary-ten)";
+
+                // Tertiary - Border
+                public const string THEME_TERTIARY_ONE_BORDER = "border-(--theme-tertiary-one)";
+                public const string THEME_TERTIARY_TWO_BORDER = "border-(--theme-tertiary-two)";
+                public const string THEME_TERTIARY_THREE_BORDER = "border-(--theme-tertiary-three)";
+                public const string THEME_TERTIARY_FOUR_BORDER = "border-(--theme-tertiary-four)";
+                public const string THEME_TERTIARY_FIVE_BORDER = "border-(--theme-tertiary-five)";
+                public const string THEME_TERTIARY_SIX_BORDER = "border-(--theme-tertiary-six)";
+                public const string THEME_TERTIARY_SEVEN_BORDER = "border-(--theme-tertiary-seven)";
+                public const string THEME_TERTIARY_EIGHT_BORDER = "border-(--theme-tertiary-eight)";
+                public const string THEME_TERTIARY_NINE_BORDER = "border-(--theme-tertiary-nine)";
+                public const string THEME_TERTIARY_TEN_BORDER = "border-(--theme-tertiary-ten)";
+
+                // Accent - Border
+                public const string THEME_ACCENT_ONE_BORDER = "border-(--theme-accent-one)";
+                public const string THEME_ACCENT_TWO_BORDER = "border-(--theme-accent-two)";
+                public const string THEME_ACCENT_THREE_BORDER = "border-(--theme-accent-three)";
+                public const string THEME_ACCENT_FOUR_BORDER = "border-(--theme-accent-four)";
+                public const string THEME_ACCENT_FIVE_BORDER = "border-(--theme-accent-five)";
+                public const string THEME_ACCENT_SIX_BORDER = "border-(--theme-accent-six)";
+                public const string THEME_ACCENT_SEVEN_BORDER = "border-(--theme-accent-seven)";
+                public const string THEME_ACCENT_EIGHT_BORDER = "border-(--theme-accent-eight)";
+                public const string THEME_ACCENT_NINE_BORDER = "border-(--theme-accent-nine)";
+                public const string THEME_ACCENT_TEN_BORDER = "border-(--theme-accent-ten)";
+
+                // Highlight - Border
+                public const string THEME_HIGHLIGHT_ONE_BORDER = "border-(--theme-highlight-one)";
+                public const string THEME_HIGHLIGHT_TWO_BORDER = "border-(--theme-highlight-two)";
+                public const string THEME_HIGHLIGHT_THREE_BORDER = "border-(--theme-highlight-three)";
+                public const string THEME_HIGHLIGHT_FOUR_BORDER = "border-(--theme-highlight-four)";
+                public const string THEME_HIGHLIGHT_FIVE_BORDER = "border-(--theme-highlight-five)";
+                public const string THEME_HIGHLIGHT_SIX_BORDER = "border-(--theme-highlight-six)";
+                public const string THEME_HIGHLIGHT_SEVEN_BORDER = "border-(--theme-highlight-seven)";
+                public const string THEME_HIGHLIGHT_EIGHT_BORDER = "border-(--theme-highlight-eight)";
+                public const string THEME_HIGHLIGHT_NINE_BORDER = "border-(--theme-highlight-nine)";
+                public const string THEME_HIGHLIGHT_TEN_BORDER = "border-(--theme-highlight-ten)";
+
+                // Alert - Border
+                public const string THEME_ALERT_ONE_BORDER = "border-(--theme-alert-one)";
+                public const string THEME_ALERT_TWO_BORDER = "border-(--theme-alert-two)";
+                public const string THEME_ALERT_THREE_BORDER = "border-(--theme-alert-three)";
+                public const string THEME_ALERT_FOUR_BORDER = "border-(--theme-alert-four)";
+                public const string THEME_ALERT_FIVE_BORDER = "border-(--theme-alert-five)";
+                public const string THEME_ALERT_SIX_BORDER = "border-(--theme-alert-six)";
+                public const string THEME_ALERT_SEVEN_BORDER = "border-(--theme-alert-seven)";
+                public const string THEME_ALERT_EIGHT_BORDER = "border-(--theme-alert-eight)";
+                public const string THEME_ALERT_NINE_BORDER = "border-(--theme-alert-nine)";
+                public const string THEME_ALERT_TEN_BORDER = "border-(--theme-alert-ten)";
+
+                // Warning - Border
+                public const string THEME_WARNING_ONE_BORDER = "border-(--theme-warning-one)";
+                public const string THEME_WARNING_TWO_BORDER = "border-(--theme-warning-two)";
+                public const string THEME_WARNING_THREE_BORDER = "border-(--theme-warning-three)";
+                public const string THEME_WARNING_FOUR_BORDER = "border-(--theme-warning-four)";
+                public const string THEME_WARNING_FIVE_BORDER = "border-(--theme-warning-five)";
+                public const string THEME_WARNING_SIX_BORDER = "border-(--theme-warning-six)";
+                public const string THEME_WARNING_SEVEN_BORDER = "border-(--theme-warning-seven)";
+                public const string THEME_WARNING_EIGHT_BORDER = "border-(--theme-warning-eight)";
+                public const string THEME_WARNING_NINE_BORDER = "border-(--theme-warning-nine)";
+                public const string THEME_WARNING_TEN_BORDER = "border-(--theme-warning-ten)";
+
+                // Info - Border
+                public const string THEME_INFO_ONE_BORDER = "border-(--theme-info-one)";
+                public const string THEME_INFO_TWO_BORDER = "border-(--theme-info-two)";
+                public const string THEME_INFO_THREE_BORDER = "border-(--theme-info-three)";
+                public const string THEME_INFO_FOUR_BORDER = "border-(--theme-info-four)";
+                public const string THEME_INFO_FIVE_BORDER = "border-(--theme-info-five)";
+                public const string THEME_INFO_SIX_BORDER = "border-(--theme-info-six)";
+                public const string THEME_INFO_SEVEN_BORDER = "border-(--theme-info-seven)";
+                public const string THEME_INFO_EIGHT_BORDER = "border-(--theme-info-eight)";
+                public const string THEME_INFO_NINE_BORDER = "border-(--theme-info-nine)";
+                public const string THEME_INFO_TEN_BORDER = "border-(--theme-info-ten)";
+
+                // Success - Border
+                public const string THEME_SUCCESS_ONE_BORDER = "border-(--theme-success-one)";
+                public const string THEME_SUCCESS_TWO_BORDER = "border-(--theme-success-two)";
+                public const string THEME_SUCCESS_THREE_BORDER = "border-(--theme-success-three)";
+                public const string THEME_SUCCESS_FOUR_BORDER = "border-(--theme-success-four)";
+                public const string THEME_SUCCESS_FIVE_BORDER = "border-(--theme-success-five)";
+                public const string THEME_SUCCESS_SIX_BORDER = "border-(--theme-success-six)";
+                public const string THEME_SUCCESS_SEVEN_BORDER = "border-(--theme-success-seven)";
+                public const string THEME_SUCCESS_EIGHT_BORDER = "border-(--theme-success-eight)";
+                public const string THEME_SUCCESS_NINE_BORDER = "border-(--theme-success-nine)";
+                public const string THEME_SUCCESS_TEN_BORDER = "border-(--theme-success-ten)";
+
+                // Light - Border
+                public const string THEME_LIGHT_ONE_BORDER = "border-(--theme-light-one)";
+                public const string THEME_LIGHT_TWO_BORDER = "border-(--theme-light-two)";
+                public const string THEME_LIGHT_THREE_BORDER = "border-(--theme-light-three)";
+                public const string THEME_LIGHT_FOUR_BORDER = "border-(--theme-light-four)";
+                public const string THEME_LIGHT_FIVE_BORDER = "border-(--theme-light-five)";
+                public const string THEME_LIGHT_SIX_BORDER = "border-(--theme-light-six)";
+                public const string THEME_LIGHT_SEVEN_BORDER = "border-(--theme-light-seven)";
+                public const string THEME_LIGHT_EIGHT_BORDER = "border-(--theme-light-eight)";
+                public const string THEME_LIGHT_NINE_BORDER = "border-(--theme-light-nine)";
+                public const string THEME_LIGHT_TEN_BORDER = "border-(--theme-light-ten)";
+
+                // Dark - Border
+                public const string THEME_DARK_ONE_BORDER = "border-(--theme-dark-one)";
+                public const string THEME_DARK_TWO_BORDER = "border-(--theme-dark-two)";
+                public const string THEME_DARK_THREE_BORDER = "border-(--theme-dark-three)";
+                public const string THEME_DARK_FOUR_BORDER = "border-(--theme-dark-four)";
+                public const string THEME_DARK_FIVE_BORDER = "border-(--theme-dark-five)";
+                public const string THEME_DARK_SIX_BORDER = "border-(--theme-dark-six)";
+                public const string THEME_DARK_SEVEN_BORDER = "border-(--theme-dark-seven)";
+                public const string THEME_DARK_EIGHT_BORDER = "border-(--theme-dark-eight)";
+                public const string THEME_DARK_NINE_BORDER = "border-(--theme-dark-nine)";
+                public const string THEME_DARK_TEN_BORDER = "border-(--theme-dark-ten)";
+
+                #endregion
             }
 
             public static class Text
             {
-                #region Text Colors
-                // Default - Text
-                public const string THEME_DEFAULT_ONE_TEXT = "text-(--theme-default-one)";
-                public const string THEME_DEFAULT_TWO_TEXT = "text-(--theme-default-two)";
-                public const string THEME_DEFAULT_THREE_TEXT = "text-(--theme-default-three)";
-                public const string THEME_DEFAULT_FOUR_TEXT = "text-(--theme-default-four)";
-                public const string THEME_DEFAULT_FIVE_TEXT = "text-(--theme-default-five)";
-                public const string THEME_DEFAULT_SIX_TEXT = "text-(--theme-default-six)";
-                public const string THEME_DEFAULT_SEVEN_TEXT = "text-(--theme-default-seven)";
-                public const string THEME_DEFAULT_EIGHT_TEXT = "text-(--theme-default-eight)";
-                public const string THEME_DEFAULT_NINE_TEXT = "text-(--theme-default-nine)";
-                public const string THEME_DEFAULT_TEN_TEXT = "text-(--theme-default-ten)";
-
-                // Primary - Text
-                public const string THEME_PRIMARY_ONE_TEXT = "text-(--theme-primary-one)";
-                public const string THEME_PRIMARY_TWO_TEXT = "text-(--theme-primary-two)";
-                public const string THEME_PRIMARY_THREE_TEXT = "text-(--theme-primary-three)";
-                public const string THEME_PRIMARY_FOUR_TEXT = "text-(--theme-primary-four)";
-                public const string THEME_PRIMARY_FIVE_TEXT = "text-(--theme-primary-five)";
-                public const string THEME_PRIMARY_SIX_TEXT = "text-(--theme-primary-six)";
-                public const string THEME_PRIMARY_SEVEN_TEXT = "text-(--theme-primary-seven)";
-                public const string THEME_PRIMARY_EIGHT_TEXT = "text-(--theme-primary-eight)";
-                public const string THEME_PRIMARY_NINE_TEXT = "text-(--theme-primary-nine)";
-                public const string THEME_PRIMARY_TEN_TEXT = "text-(--theme-primary-ten)";
-
-                // Secondary - Text
-                public const string THEME_SECONDARY_ONE_TEXT = "text-(--theme-secondary-one)";
-                public const string THEME_SECONDARY_TWO_TEXT = "text-(--theme-secondary-two)";
-                public const string THEME_SECONDARY_THREE_TEXT = "text-(--theme-secondary-three)";
-                public const string THEME_SECONDARY_FOUR_TEXT = "text-(--theme-secondary-four)";
-                public const string THEME_SECONDARY_FIVE_TEXT = "text-(--theme-secondary-five)";
-                public const string THEME_SECONDARY_SIX_TEXT = "text-(--theme-secondary-six)";
-                public const string THEME_SECONDARY_SEVEN_TEXT = "text-(--theme-secondary-seven)";
-                public const string THEME_SECONDARY_EIGHT_TEXT = "text-(--theme-secondary-eight)";
-                public const string THEME_SECONDARY_NINE_TEXT = "text-(--theme-secondary-nine)";
-                public const string THEME_SECONDARY_TEN_TEXT = "text-(--theme-secondary-ten)";
-
-                // Tertiary - Text
-                public const string THEME_TERTIARY_ONE_TEXT = "text-(--theme-tertiary-one)";
-                public const string THEME_TERTIARY_TWO_TEXT = "text-(--theme-tertiary-two)";
-                public const string THEME_TERTIARY_THREE_TEXT = "text-(--theme-tertiary-three)";
-                public const string THEME_TERTIARY_FOUR_TEXT = "text-(--theme-tertiary-four)";
-                public const string THEME_TERTIARY_FIVE_TEXT = "text-(--theme-tertiary-five)";
-                public const string THEME_TERTIARY_SIX_TEXT = "text-(--theme-tertiary-six)";
-                public const string THEME_TERTIARY_SEVEN_TEXT = "text-(--theme-tertiary-seven)";
-                public const string THEME_TERTIARY_EIGHT_TEXT = "text-(--theme-tertiary-eight)";
-                public const string THEME_TERTIARY_NINE_TEXT = "text-(--theme-tertiary-nine)";
-                public const string THEME_TERTIARY_TEN_TEXT = "text-(--theme-tertiary-ten)";
-
-                // Accent - Text
-                public const string THEME_ACCENT_ONE_TEXT = "text-(--theme-accent-one)";
-                public const string THEME_ACCENT_TWO_TEXT = "text-(--theme-accent-two)";
-                public const string THEME_ACCENT_THREE_TEXT = "text-(--theme-accent-three)";
-                public const string THEME_ACCENT_FOUR_TEXT = "text-(--theme-accent-four)";
-                public const string THEME_ACCENT_FIVE_TEXT = "text-(--theme-accent-five)";
-                public const string THEME_ACCENT_SIX_TEXT = "text-(--theme-accent-six)";
-                public const string THEME_ACCENT_SEVEN_TEXT = "text-(--theme-accent-seven)";
-                public const string THEME_ACCENT_EIGHT_TEXT = "text-(--theme-accent-eight)";
-                public const string THEME_ACCENT_NINE_TEXT = "text-(--theme-accent-nine)";
-                public const string THEME_ACCENT_TEN_TEXT = "text-(--theme-accent-ten)";
-
-                // Highlight - Text
-                public const string THEME_HIGHLIGHT_ONE_TEXT = "text-(--theme-highlight-one)";
-                public const string THEME_HIGHLIGHT_TWO_TEXT = "text-(--theme-highlight-two)";
-                public const string THEME_HIGHLIGHT_THREE_TEXT = "text-(--theme-highlight-three)";
-                public const string THEME_HIGHLIGHT_FOUR_TEXT = "text-(--theme-highlight-four)";
-                public const string THEME_HIGHLIGHT_FIVE_TEXT = "text-(--theme-highlight-five)";
-                public const string THEME_HIGHLIGHT_SIX_TEXT = "text-(--theme-highlight-six)";
-                public const string THEME_HIGHLIGHT_SEVEN_TEXT = "text-(--theme-highlight-seven)";
-                public const string THEME_HIGHLIGHT_EIGHT_TEXT = "text-(--theme-highlight-eight)";
-                public const string THEME_HIGHLIGHT_NINE_TEXT = "text-(--theme-highlight-nine)";
-                public const string THEME_HIGHLIGHT_TEN_TEXT = "text-(--theme-highlight-ten)";
-
-                // Alert - Text
-                public const string THEME_ALERT_ONE_TEXT = "text-(--theme-alert-one)";
-                public const string THEME_ALERT_TWO_TEXT = "text-(--theme-alert-two)";
-                public const string THEME_ALERT_THREE_TEXT = "text-(--theme-alert-three)";
-                public const string THEME_ALERT_FOUR_TEXT = "text-(--theme-alert-four)";
-                public const string THEME_ALERT_FIVE_TEXT = "text-(--theme-alert-five)";
-                public const string THEME_ALERT_SIX_TEXT = "text-(--theme-alert-six)";
-                public const string THEME_ALERT_SEVEN_TEXT = "text-(--theme-alert-seven)";
-                public const string THEME_ALERT_EIGHT_TEXT = "text-(--theme-alert-eight)";
-                public const string THEME_ALERT_NINE_TEXT = "text-(--theme-alert-nine)";
-                public const string THEME_ALERT_TEN_TEXT = "text-(--theme-alert-ten)";
-
-                // Warning - Text
-                public const string THEME_WARNING_ONE_TEXT = "text-(--theme-warning-one)";
-                public const string THEME_WARNING_TWO_TEXT = "text-(--theme-warning-two)";
-                public const string THEME_WARNING_THREE_TEXT = "text-(--theme-warning-three)";
-                public const string THEME_WARNING_FOUR_TEXT = "text-(--theme-warning-four)";
-                public const string THEME_WARNING_FIVE_TEXT = "text-(--theme-warning-five)";
-                public const string THEME_WARNING_SIX_TEXT = "text-(--theme-warning-six)";
-                public const string THEME_WARNING_SEVEN_TEXT = "text-(--theme-warning-seven)";
-                public const string THEME_WARNING_EIGHT_TEXT = "text-(--theme-warning-eight)";
-                public const string THEME_WARNING_NINE_TEXT = "text-(--theme-warning-nine)";
-                public const string THEME_WARNING_TEN_TEXT = "text-(--theme-warning-ten)";
-
-                // Info - Text
-                public const string THEME_INFO_ONE_TEXT = "text-(--theme-info-one)";
-                public const string THEME_INFO_TWO_TEXT = "text-(--theme-info-two)";
-                public const string THEME_INFO_THREE_TEXT = "text-(--theme-info-three)";
-                public const string THEME_INFO_FOUR_TEXT = "text-(--theme-info-four)";
-                public const string THEME_INFO_FIVE_TEXT = "text-(--theme-info-five)";
-                public const string THEME_INFO_SIX_TEXT = "text-(--theme-info-six)";
-                public const string THEME_INFO_SEVEN_TEXT = "text-(--theme-info-seven)";
-                public const string THEME_INFO_EIGHT_TEXT = "text-(--theme-info-eight)";
-                public const string THEME_INFO_NINE_TEXT = "text-(--theme-info-nine)";
-                public const string THEME_INFO_TEN_TEXT = "text-(--theme-info-ten)";
-
-                // Success - Text
-                public const string THEME_SUCCESS_ONE_TEXT = "text-(--theme-success-one)";
-                public const string THEME_SUCCESS_TWO_TEXT = "text-(--theme-success-two)";
-                public const string THEME_SUCCESS_THREE_TEXT = "text-(--theme-success-three)";
-                public const string THEME_SUCCESS_FOUR_TEXT = "text-(--theme-success-four)";
-                public const string THEME_SUCCESS_FIVE_TEXT = "text-(--theme-success-five)";
-                public const string THEME_SUCCESS_SIX_TEXT = "text-(--theme-success-six)";
-                public const string THEME_SUCCESS_SEVEN_TEXT = "text-(--theme-success-seven)";
-                public const string THEME_SUCCESS_EIGHT_TEXT = "text-(--theme-success-eight)";
-                public const string THEME_SUCCESS_NINE_TEXT = "text-(--theme-success-nine)";
-                public const string THEME_SUCCESS_TEN_TEXT = "text-(--theme-success-ten)";
-
-                // Light - Text
-                public const string THEME_LIGHT_ONE_TEXT = "text-(--theme-light-one)";
-                public const string THEME_LIGHT_TWO_TEXT = "text-(--theme-light-two)";
-                public const string THEME_LIGHT_THREE_TEXT = "text-(--theme-light-three)";
-                public const string THEME_LIGHT_FOUR_TEXT = "text-(--theme-light-four)";
-                public const string THEME_LIGHT_FIVE_TEXT = "text-(--theme-light-five)";
-                public const string THEME_LIGHT_SIX_TEXT = "text-(--theme-light-six)";
-                public const string THEME_LIGHT_SEVEN_TEXT = "text-(--theme-light-seven)";
-                public const string THEME_LIGHT_EIGHT_TEXT = "text-(--theme-light-eight)";
-                public const string THEME_LIGHT_NINE_TEXT = "text-(--theme-light-nine)";
-                public const string THEME_LIGHT_TEN_TEXT = "text-(--theme-light-ten)";
-
-                // Dark - Text
-                public const string THEME_DARK_ONE_TEXT = "text-(--theme-dark-one)";
-                public const string THEME_DARK_TWO_TEXT = "text-(--theme-dark-two)";
-                public const string THEME_DARK_THREE_TEXT = "text-(--theme-dark-three)";
-                public const string THEME_DARK_FOUR_TEXT = "text-(--theme-dark-four)";
-                public const string THEME_DARK_FIVE_TEXT = "text-(--theme-dark-five)";
-                public const string THEME_DARK_SIX_TEXT = "text-(--theme-dark-six)";
-                public const string THEME_DARK_SEVEN_TEXT = "text-(--theme-dark-seven)";
-                public const string THEME_DARK_EIGHT_TEXT = "text-(--theme-dark-eight)";
-                public const string THEME_DARK_NINE_TEXT = "text-(--theme-dark-nine)";
-                public const string THEME_DARK_TEN_TEXT = "text-(--theme-dark-ten)";
-
-                #endregion
-
                 public static class Hover
                 {
                     #region Text Hover Colors
@@ -1963,158 +1668,158 @@ public static class Tailwind
 
                     #endregion
                 }
+
+                #region Text Colors
+
+                // Default - Text
+                public const string THEME_DEFAULT_ONE_TEXT = "text-(--theme-default-one)";
+                public const string THEME_DEFAULT_TWO_TEXT = "text-(--theme-default-two)";
+                public const string THEME_DEFAULT_THREE_TEXT = "text-(--theme-default-three)";
+                public const string THEME_DEFAULT_FOUR_TEXT = "text-(--theme-default-four)";
+                public const string THEME_DEFAULT_FIVE_TEXT = "text-(--theme-default-five)";
+                public const string THEME_DEFAULT_SIX_TEXT = "text-(--theme-default-six)";
+                public const string THEME_DEFAULT_SEVEN_TEXT = "text-(--theme-default-seven)";
+                public const string THEME_DEFAULT_EIGHT_TEXT = "text-(--theme-default-eight)";
+                public const string THEME_DEFAULT_NINE_TEXT = "text-(--theme-default-nine)";
+                public const string THEME_DEFAULT_TEN_TEXT = "text-(--theme-default-ten)";
+
+                // Primary - Text
+                public const string THEME_PRIMARY_ONE_TEXT = "text-(--theme-primary-one)";
+                public const string THEME_PRIMARY_TWO_TEXT = "text-(--theme-primary-two)";
+                public const string THEME_PRIMARY_THREE_TEXT = "text-(--theme-primary-three)";
+                public const string THEME_PRIMARY_FOUR_TEXT = "text-(--theme-primary-four)";
+                public const string THEME_PRIMARY_FIVE_TEXT = "text-(--theme-primary-five)";
+                public const string THEME_PRIMARY_SIX_TEXT = "text-(--theme-primary-six)";
+                public const string THEME_PRIMARY_SEVEN_TEXT = "text-(--theme-primary-seven)";
+                public const string THEME_PRIMARY_EIGHT_TEXT = "text-(--theme-primary-eight)";
+                public const string THEME_PRIMARY_NINE_TEXT = "text-(--theme-primary-nine)";
+                public const string THEME_PRIMARY_TEN_TEXT = "text-(--theme-primary-ten)";
+
+                // Secondary - Text
+                public const string THEME_SECONDARY_ONE_TEXT = "text-(--theme-secondary-one)";
+                public const string THEME_SECONDARY_TWO_TEXT = "text-(--theme-secondary-two)";
+                public const string THEME_SECONDARY_THREE_TEXT = "text-(--theme-secondary-three)";
+                public const string THEME_SECONDARY_FOUR_TEXT = "text-(--theme-secondary-four)";
+                public const string THEME_SECONDARY_FIVE_TEXT = "text-(--theme-secondary-five)";
+                public const string THEME_SECONDARY_SIX_TEXT = "text-(--theme-secondary-six)";
+                public const string THEME_SECONDARY_SEVEN_TEXT = "text-(--theme-secondary-seven)";
+                public const string THEME_SECONDARY_EIGHT_TEXT = "text-(--theme-secondary-eight)";
+                public const string THEME_SECONDARY_NINE_TEXT = "text-(--theme-secondary-nine)";
+                public const string THEME_SECONDARY_TEN_TEXT = "text-(--theme-secondary-ten)";
+
+                // Tertiary - Text
+                public const string THEME_TERTIARY_ONE_TEXT = "text-(--theme-tertiary-one)";
+                public const string THEME_TERTIARY_TWO_TEXT = "text-(--theme-tertiary-two)";
+                public const string THEME_TERTIARY_THREE_TEXT = "text-(--theme-tertiary-three)";
+                public const string THEME_TERTIARY_FOUR_TEXT = "text-(--theme-tertiary-four)";
+                public const string THEME_TERTIARY_FIVE_TEXT = "text-(--theme-tertiary-five)";
+                public const string THEME_TERTIARY_SIX_TEXT = "text-(--theme-tertiary-six)";
+                public const string THEME_TERTIARY_SEVEN_TEXT = "text-(--theme-tertiary-seven)";
+                public const string THEME_TERTIARY_EIGHT_TEXT = "text-(--theme-tertiary-eight)";
+                public const string THEME_TERTIARY_NINE_TEXT = "text-(--theme-tertiary-nine)";
+                public const string THEME_TERTIARY_TEN_TEXT = "text-(--theme-tertiary-ten)";
+
+                // Accent - Text
+                public const string THEME_ACCENT_ONE_TEXT = "text-(--theme-accent-one)";
+                public const string THEME_ACCENT_TWO_TEXT = "text-(--theme-accent-two)";
+                public const string THEME_ACCENT_THREE_TEXT = "text-(--theme-accent-three)";
+                public const string THEME_ACCENT_FOUR_TEXT = "text-(--theme-accent-four)";
+                public const string THEME_ACCENT_FIVE_TEXT = "text-(--theme-accent-five)";
+                public const string THEME_ACCENT_SIX_TEXT = "text-(--theme-accent-six)";
+                public const string THEME_ACCENT_SEVEN_TEXT = "text-(--theme-accent-seven)";
+                public const string THEME_ACCENT_EIGHT_TEXT = "text-(--theme-accent-eight)";
+                public const string THEME_ACCENT_NINE_TEXT = "text-(--theme-accent-nine)";
+                public const string THEME_ACCENT_TEN_TEXT = "text-(--theme-accent-ten)";
+
+                // Highlight - Text
+                public const string THEME_HIGHLIGHT_ONE_TEXT = "text-(--theme-highlight-one)";
+                public const string THEME_HIGHLIGHT_TWO_TEXT = "text-(--theme-highlight-two)";
+                public const string THEME_HIGHLIGHT_THREE_TEXT = "text-(--theme-highlight-three)";
+                public const string THEME_HIGHLIGHT_FOUR_TEXT = "text-(--theme-highlight-four)";
+                public const string THEME_HIGHLIGHT_FIVE_TEXT = "text-(--theme-highlight-five)";
+                public const string THEME_HIGHLIGHT_SIX_TEXT = "text-(--theme-highlight-six)";
+                public const string THEME_HIGHLIGHT_SEVEN_TEXT = "text-(--theme-highlight-seven)";
+                public const string THEME_HIGHLIGHT_EIGHT_TEXT = "text-(--theme-highlight-eight)";
+                public const string THEME_HIGHLIGHT_NINE_TEXT = "text-(--theme-highlight-nine)";
+                public const string THEME_HIGHLIGHT_TEN_TEXT = "text-(--theme-highlight-ten)";
+
+                // Alert - Text
+                public const string THEME_ALERT_ONE_TEXT = "text-(--theme-alert-one)";
+                public const string THEME_ALERT_TWO_TEXT = "text-(--theme-alert-two)";
+                public const string THEME_ALERT_THREE_TEXT = "text-(--theme-alert-three)";
+                public const string THEME_ALERT_FOUR_TEXT = "text-(--theme-alert-four)";
+                public const string THEME_ALERT_FIVE_TEXT = "text-(--theme-alert-five)";
+                public const string THEME_ALERT_SIX_TEXT = "text-(--theme-alert-six)";
+                public const string THEME_ALERT_SEVEN_TEXT = "text-(--theme-alert-seven)";
+                public const string THEME_ALERT_EIGHT_TEXT = "text-(--theme-alert-eight)";
+                public const string THEME_ALERT_NINE_TEXT = "text-(--theme-alert-nine)";
+                public const string THEME_ALERT_TEN_TEXT = "text-(--theme-alert-ten)";
+
+                // Warning - Text
+                public const string THEME_WARNING_ONE_TEXT = "text-(--theme-warning-one)";
+                public const string THEME_WARNING_TWO_TEXT = "text-(--theme-warning-two)";
+                public const string THEME_WARNING_THREE_TEXT = "text-(--theme-warning-three)";
+                public const string THEME_WARNING_FOUR_TEXT = "text-(--theme-warning-four)";
+                public const string THEME_WARNING_FIVE_TEXT = "text-(--theme-warning-five)";
+                public const string THEME_WARNING_SIX_TEXT = "text-(--theme-warning-six)";
+                public const string THEME_WARNING_SEVEN_TEXT = "text-(--theme-warning-seven)";
+                public const string THEME_WARNING_EIGHT_TEXT = "text-(--theme-warning-eight)";
+                public const string THEME_WARNING_NINE_TEXT = "text-(--theme-warning-nine)";
+                public const string THEME_WARNING_TEN_TEXT = "text-(--theme-warning-ten)";
+
+                // Info - Text
+                public const string THEME_INFO_ONE_TEXT = "text-(--theme-info-one)";
+                public const string THEME_INFO_TWO_TEXT = "text-(--theme-info-two)";
+                public const string THEME_INFO_THREE_TEXT = "text-(--theme-info-three)";
+                public const string THEME_INFO_FOUR_TEXT = "text-(--theme-info-four)";
+                public const string THEME_INFO_FIVE_TEXT = "text-(--theme-info-five)";
+                public const string THEME_INFO_SIX_TEXT = "text-(--theme-info-six)";
+                public const string THEME_INFO_SEVEN_TEXT = "text-(--theme-info-seven)";
+                public const string THEME_INFO_EIGHT_TEXT = "text-(--theme-info-eight)";
+                public const string THEME_INFO_NINE_TEXT = "text-(--theme-info-nine)";
+                public const string THEME_INFO_TEN_TEXT = "text-(--theme-info-ten)";
+
+                // Success - Text
+                public const string THEME_SUCCESS_ONE_TEXT = "text-(--theme-success-one)";
+                public const string THEME_SUCCESS_TWO_TEXT = "text-(--theme-success-two)";
+                public const string THEME_SUCCESS_THREE_TEXT = "text-(--theme-success-three)";
+                public const string THEME_SUCCESS_FOUR_TEXT = "text-(--theme-success-four)";
+                public const string THEME_SUCCESS_FIVE_TEXT = "text-(--theme-success-five)";
+                public const string THEME_SUCCESS_SIX_TEXT = "text-(--theme-success-six)";
+                public const string THEME_SUCCESS_SEVEN_TEXT = "text-(--theme-success-seven)";
+                public const string THEME_SUCCESS_EIGHT_TEXT = "text-(--theme-success-eight)";
+                public const string THEME_SUCCESS_NINE_TEXT = "text-(--theme-success-nine)";
+                public const string THEME_SUCCESS_TEN_TEXT = "text-(--theme-success-ten)";
+
+                // Light - Text
+                public const string THEME_LIGHT_ONE_TEXT = "text-(--theme-light-one)";
+                public const string THEME_LIGHT_TWO_TEXT = "text-(--theme-light-two)";
+                public const string THEME_LIGHT_THREE_TEXT = "text-(--theme-light-three)";
+                public const string THEME_LIGHT_FOUR_TEXT = "text-(--theme-light-four)";
+                public const string THEME_LIGHT_FIVE_TEXT = "text-(--theme-light-five)";
+                public const string THEME_LIGHT_SIX_TEXT = "text-(--theme-light-six)";
+                public const string THEME_LIGHT_SEVEN_TEXT = "text-(--theme-light-seven)";
+                public const string THEME_LIGHT_EIGHT_TEXT = "text-(--theme-light-eight)";
+                public const string THEME_LIGHT_NINE_TEXT = "text-(--theme-light-nine)";
+                public const string THEME_LIGHT_TEN_TEXT = "text-(--theme-light-ten)";
+
+                // Dark - Text
+                public const string THEME_DARK_ONE_TEXT = "text-(--theme-dark-one)";
+                public const string THEME_DARK_TWO_TEXT = "text-(--theme-dark-two)";
+                public const string THEME_DARK_THREE_TEXT = "text-(--theme-dark-three)";
+                public const string THEME_DARK_FOUR_TEXT = "text-(--theme-dark-four)";
+                public const string THEME_DARK_FIVE_TEXT = "text-(--theme-dark-five)";
+                public const string THEME_DARK_SIX_TEXT = "text-(--theme-dark-six)";
+                public const string THEME_DARK_SEVEN_TEXT = "text-(--theme-dark-seven)";
+                public const string THEME_DARK_EIGHT_TEXT = "text-(--theme-dark-eight)";
+                public const string THEME_DARK_NINE_TEXT = "text-(--theme-dark-nine)";
+                public const string THEME_DARK_TEN_TEXT = "text-(--theme-dark-ten)";
+
+                #endregion
             }
 
             public static class Outline
             {
-                #region Outline Colors
-
-                // Default - Outline
-                public const string THEME_DEFAULT_ONE_OUTLINE = "outline-(--theme-default-one)";
-                public const string THEME_DEFAULT_TWO_OUTLINE = "outline-(--theme-default-two)";
-                public const string THEME_DEFAULT_THREE_OUTLINE = "outline-(--theme-default-three)";
-                public const string THEME_DEFAULT_FOUR_OUTLINE = "outline-(--theme-default-four)";
-                public const string THEME_DEFAULT_FIVE_OUTLINE = "outline-(--theme-default-five)";
-                public const string THEME_DEFAULT_SIX_OUTLINE = "outline-(--theme-default-six)";
-                public const string THEME_DEFAULT_SEVEN_OUTLINE = "outline-(--theme-default-seven)";
-                public const string THEME_DEFAULT_EIGHT_OUTLINE = "outline-(--theme-default-eight)";
-                public const string THEME_DEFAULT_NINE_OUTLINE = "outline-(--theme-default-nine)";
-                public const string THEME_DEFAULT_TEN_OUTLINE = "outline-(--theme-default-ten)";
-
-                // Primary - Outline
-                public const string THEME_PRIMARY_ONE_OUTLINE = "outline-(--theme-primary-one)";
-                public const string THEME_PRIMARY_TWO_OUTLINE = "outline-(--theme-primary-two)";
-                public const string THEME_PRIMARY_THREE_OUTLINE = "outline-(--theme-primary-three)";
-                public const string THEME_PRIMARY_FOUR_OUTLINE = "outline-(--theme-primary-four)";
-                public const string THEME_PRIMARY_FIVE_OUTLINE = "outline-(--theme-primary-five)";
-                public const string THEME_PRIMARY_SIX_OUTLINE = "outline-(--theme-primary-six)";
-                public const string THEME_PRIMARY_SEVEN_OUTLINE = "outline-(--theme-primary-seven)";
-                public const string THEME_PRIMARY_EIGHT_OUTLINE = "outline-(--theme-primary-eight)";
-                public const string THEME_PRIMARY_NINE_OUTLINE = "outline-(--theme-primary-nine)";
-                public const string THEME_PRIMARY_TEN_OUTLINE = "outline-(--theme-primary-ten)";
-
-                // Secondary - Outline
-                public const string THEME_SECONDARY_ONE_OUTLINE = "outline-(--theme-secondary-one)";
-                public const string THEME_SECONDARY_TWO_OUTLINE = "outline-(--theme-secondary-two)";
-                public const string THEME_SECONDARY_THREE_OUTLINE = "outline-(--theme-secondary-three)";
-                public const string THEME_SECONDARY_FOUR_OUTLINE = "outline-(--theme-secondary-four)";
-                public const string THEME_SECONDARY_FIVE_OUTLINE = "outline-(--theme-secondary-five)";
-                public const string THEME_SECONDARY_SIX_OUTLINE = "outline-(--theme-secondary-six)";
-                public const string THEME_SECONDARY_SEVEN_OUTLINE = "outline-(--theme-secondary-seven)";
-                public const string THEME_SECONDARY_EIGHT_OUTLINE = "outline-(--theme-secondary-eight)";
-                public const string THEME_SECONDARY_NINE_OUTLINE = "outline-(--theme-secondary-nine)";
-                public const string THEME_SECONDARY_TEN_OUTLINE = "outline-(--theme-secondary-ten)";
-
-                // Tertiary - Outline
-                public const string THEME_TERTIARY_ONE_OUTLINE = "outline-(--theme-tertiary-one)";
-                public const string THEME_TERTIARY_TWO_OUTLINE = "outline-(--theme-tertiary-two)";
-                public const string THEME_TERTIARY_THREE_OUTLINE = "outline-(--theme-tertiary-three)";
-                public const string THEME_TERTIARY_FOUR_OUTLINE = "outline-(--theme-tertiary-four)";
-                public const string THEME_TERTIARY_FIVE_OUTLINE = "outline-(--theme-tertiary-five)";
-                public const string THEME_TERTIARY_SIX_OUTLINE = "outline-(--theme-tertiary-six)";
-                public const string THEME_TERTIARY_SEVEN_OUTLINE = "outline-(--theme-tertiary-seven)";
-                public const string THEME_TERTIARY_EIGHT_OUTLINE = "outline-(--theme-tertiary-eight)";
-                public const string THEME_TERTIARY_NINE_OUTLINE = "outline-(--theme-tertiary-nine)";
-                public const string THEME_TERTIARY_TEN_OUTLINE = "outline-(--theme-tertiary-ten)";
-
-                // Accent - Outline
-                public const string THEME_ACCENT_ONE_OUTLINE = "outline-(--theme-accent-one)";
-                public const string THEME_ACCENT_TWO_OUTLINE = "outline-(--theme-accent-two)";
-                public const string THEME_ACCENT_THREE_OUTLINE = "outline-(--theme-accent-three)";
-                public const string THEME_ACCENT_FOUR_OUTLINE = "outline-(--theme-accent-four)";
-                public const string THEME_ACCENT_FIVE_OUTLINE = "outline-(--theme-accent-five)";
-                public const string THEME_ACCENT_SIX_OUTLINE = "outline-(--theme-accent-six)";
-                public const string THEME_ACCENT_SEVEN_OUTLINE = "outline-(--theme-accent-seven)";
-                public const string THEME_ACCENT_EIGHT_OUTLINE = "outline-(--theme-accent-eight)";
-                public const string THEME_ACCENT_NINE_OUTLINE = "outline-(--theme-accent-nine)";
-                public const string THEME_ACCENT_TEN_OUTLINE = "outline-(--theme-accent-ten)";
-
-                // Highlight - Outline
-                public const string THEME_HIGHLIGHT_ONE_OUTLINE = "outline-(--theme-highlight-one)";
-                public const string THEME_HIGHLIGHT_TWO_OUTLINE = "outline-(--theme-highlight-two)";
-                public const string THEME_HIGHLIGHT_THREE_OUTLINE = "outline-(--theme-highlight-three)";
-                public const string THEME_HIGHLIGHT_FOUR_OUTLINE = "outline-(--theme-highlight-four)";
-                public const string THEME_HIGHLIGHT_FIVE_OUTLINE = "outline-(--theme-highlight-five)";
-                public const string THEME_HIGHLIGHT_SIX_OUTLINE = "outline-(--theme-highlight-six)";
-                public const string THEME_HIGHLIGHT_SEVEN_OUTLINE = "outline-(--theme-highlight-seven)";
-                public const string THEME_HIGHLIGHT_EIGHT_OUTLINE = "outline-(--theme-highlight-eight)";
-                public const string THEME_HIGHLIGHT_NINE_OUTLINE = "outline-(--theme-highlight-nine)";
-                public const string THEME_HIGHLIGHT_TEN_OUTLINE = "outline-(--theme-highlight-ten)";
-
-                // Alert - Outline
-                public const string THEME_ALERT_ONE_OUTLINE = "outline-(--theme-alert-one)";
-                public const string THEME_ALERT_TWO_OUTLINE = "outline-(--theme-alert-two)";
-                public const string THEME_ALERT_THREE_OUTLINE = "outline-(--theme-alert-three)";
-                public const string THEME_ALERT_FOUR_OUTLINE = "outline-(--theme-alert-four)";
-                public const string THEME_ALERT_FIVE_OUTLINE = "outline-(--theme-alert-five)";
-                public const string THEME_ALERT_SIX_OUTLINE = "outline-(--theme-alert-six)";
-                public const string THEME_ALERT_SEVEN_OUTLINE = "outline-(--theme-alert-seven)";
-                public const string THEME_ALERT_EIGHT_OUTLINE = "outline-(--theme-alert-eight)";
-                public const string THEME_ALERT_NINE_OUTLINE = "outline-(--theme-alert-nine)";
-                public const string THEME_ALERT_TEN_OUTLINE = "outline-(--theme-alert-ten)";
-
-                // Warning - Outline
-                public const string THEME_WARNING_ONE_OUTLINE = "outline-(--theme-warning-one)";
-                public const string THEME_WARNING_TWO_OUTLINE = "outline-(--theme-warning-two)";
-                public const string THEME_WARNING_THREE_OUTLINE = "outline-(--theme-warning-three)";
-                public const string THEME_WARNING_FOUR_OUTLINE = "outline-(--theme-warning-four)";
-                public const string THEME_WARNING_FIVE_OUTLINE = "outline-(--theme-warning-five)";
-                public const string THEME_WARNING_SIX_OUTLINE = "outline-(--theme-warning-six)";
-                public const string THEME_WARNING_SEVEN_OUTLINE = "outline-(--theme-warning-seven)";
-                public const string THEME_WARNING_EIGHT_OUTLINE = "outline-(--theme-warning-eight)";
-                public const string THEME_WARNING_NINE_OUTLINE = "outline-(--theme-warning-nine)";
-                public const string THEME_WARNING_TEN_OUTLINE = "outline-(--theme-warning-ten)";
-
-                // Info - Outline
-                public const string THEME_INFO_ONE_OUTLINE = "outline-(--theme-info-one)";
-                public const string THEME_INFO_TWO_OUTLINE = "outline-(--theme-info-two)";
-                public const string THEME_INFO_THREE_OUTLINE = "outline-(--theme-info-three)";
-                public const string THEME_INFO_FOUR_OUTLINE = "outline-(--theme-info-four)";
-                public const string THEME_INFO_FIVE_OUTLINE = "outline-(--theme-info-five)";
-                public const string THEME_INFO_SIX_OUTLINE = "outline-(--theme-info-six)";
-                public const string THEME_INFO_SEVEN_OUTLINE = "outline-(--theme-info-seven)";
-                public const string THEME_INFO_EIGHT_OUTLINE = "outline-(--theme-info-eight)";
-                public const string THEME_INFO_NINE_OUTLINE = "outline-(--theme-info-nine)";
-                public const string THEME_INFO_TEN_OUTLINE = "outline-(--theme-info-ten)";
-
-                // Success - Outline
-                public const string THEME_SUCCESS_ONE_OUTLINE = "outline-(--theme-success-one)";
-                public const string THEME_SUCCESS_TWO_OUTLINE = "outline-(--theme-success-two)";
-                public const string THEME_SUCCESS_THREE_OUTLINE = "outline-(--theme-success-three)";
-                public const string THEME_SUCCESS_FOUR_OUTLINE = "outline-(--theme-success-four)";
-                public const string THEME_SUCCESS_FIVE_OUTLINE = "outline-(--theme-success-five)";
-                public const string THEME_SUCCESS_SIX_OUTLINE = "outline-(--theme-success-six)";
-                public const string THEME_SUCCESS_SEVEN_OUTLINE = "outline-(--theme-success-seven)";
-                public const string THEME_SUCCESS_EIGHT_OUTLINE = "outline-(--theme-success-eight)";
-                public const string THEME_SUCCESS_NINE_OUTLINE = "outline-(--theme-success-nine)";
-                public const string THEME_SUCCESS_TEN_OUTLINE = "outline-(--theme-success-ten)";
-
-                // Light - Outline
-                public const string THEME_LIGHT_ONE_OUTLINE = "outline-(--theme-light-one)";
-                public const string THEME_LIGHT_TWO_OUTLINE = "outline-(--theme-light-two)";
-                public const string THEME_LIGHT_THREE_OUTLINE = "outline-(--theme-light-three)";
-                public const string THEME_LIGHT_FOUR_OUTLINE = "outline-(--theme-light-four)";
-                public const string THEME_LIGHT_FIVE_OUTLINE = "outline-(--theme-light-five)";
-                public const string THEME_LIGHT_SIX_OUTLINE = "outline-(--theme-light-six)";
-                public const string THEME_LIGHT_SEVEN_OUTLINE = "outline-(--theme-light-seven)";
-                public const string THEME_LIGHT_EIGHT_OUTLINE = "outline-(--theme-light-eight)";
-                public const string THEME_LIGHT_NINE_OUTLINE = "outline-(--theme-light-nine)";
-                public const string THEME_LIGHT_TEN_OUTLINE = "outline-(--theme-light-ten)";
-
-                // Dark - Outline
-                public const string THEME_DARK_ONE_OUTLINE = "outline-(--theme-dark-one)";
-                public const string THEME_DARK_TWO_OUTLINE = "outline-(--theme-dark-two)";
-                public const string THEME_DARK_THREE_OUTLINE = "outline-(--theme-dark-three)";
-                public const string THEME_DARK_FOUR_OUTLINE = "outline-(--theme-dark-four)";
-                public const string THEME_DARK_FIVE_OUTLINE = "outline-(--theme-dark-five)";
-                public const string THEME_DARK_SIX_OUTLINE = "outline-(--theme-dark-six)";
-                public const string THEME_DARK_SEVEN_OUTLINE = "outline-(--theme-dark-seven)";
-                public const string THEME_DARK_EIGHT_OUTLINE = "outline-(--theme-dark-eight)";
-                public const string THEME_DARK_NINE_OUTLINE = "outline-(--theme-dark-nine)";
-                public const string THEME_DARK_TEN_OUTLINE = "outline-(--theme-dark-ten)";
-
-                #endregion
-
                 public static class Hover
                 {
                     #region Outline Hover Colors
@@ -2567,158 +2272,158 @@ public static class Tailwind
 
                     #endregion
                 }
+
+                #region Outline Colors
+
+                // Default - Outline
+                public const string THEME_DEFAULT_ONE_OUTLINE = "outline-(--theme-default-one)";
+                public const string THEME_DEFAULT_TWO_OUTLINE = "outline-(--theme-default-two)";
+                public const string THEME_DEFAULT_THREE_OUTLINE = "outline-(--theme-default-three)";
+                public const string THEME_DEFAULT_FOUR_OUTLINE = "outline-(--theme-default-four)";
+                public const string THEME_DEFAULT_FIVE_OUTLINE = "outline-(--theme-default-five)";
+                public const string THEME_DEFAULT_SIX_OUTLINE = "outline-(--theme-default-six)";
+                public const string THEME_DEFAULT_SEVEN_OUTLINE = "outline-(--theme-default-seven)";
+                public const string THEME_DEFAULT_EIGHT_OUTLINE = "outline-(--theme-default-eight)";
+                public const string THEME_DEFAULT_NINE_OUTLINE = "outline-(--theme-default-nine)";
+                public const string THEME_DEFAULT_TEN_OUTLINE = "outline-(--theme-default-ten)";
+
+                // Primary - Outline
+                public const string THEME_PRIMARY_ONE_OUTLINE = "outline-(--theme-primary-one)";
+                public const string THEME_PRIMARY_TWO_OUTLINE = "outline-(--theme-primary-two)";
+                public const string THEME_PRIMARY_THREE_OUTLINE = "outline-(--theme-primary-three)";
+                public const string THEME_PRIMARY_FOUR_OUTLINE = "outline-(--theme-primary-four)";
+                public const string THEME_PRIMARY_FIVE_OUTLINE = "outline-(--theme-primary-five)";
+                public const string THEME_PRIMARY_SIX_OUTLINE = "outline-(--theme-primary-six)";
+                public const string THEME_PRIMARY_SEVEN_OUTLINE = "outline-(--theme-primary-seven)";
+                public const string THEME_PRIMARY_EIGHT_OUTLINE = "outline-(--theme-primary-eight)";
+                public const string THEME_PRIMARY_NINE_OUTLINE = "outline-(--theme-primary-nine)";
+                public const string THEME_PRIMARY_TEN_OUTLINE = "outline-(--theme-primary-ten)";
+
+                // Secondary - Outline
+                public const string THEME_SECONDARY_ONE_OUTLINE = "outline-(--theme-secondary-one)";
+                public const string THEME_SECONDARY_TWO_OUTLINE = "outline-(--theme-secondary-two)";
+                public const string THEME_SECONDARY_THREE_OUTLINE = "outline-(--theme-secondary-three)";
+                public const string THEME_SECONDARY_FOUR_OUTLINE = "outline-(--theme-secondary-four)";
+                public const string THEME_SECONDARY_FIVE_OUTLINE = "outline-(--theme-secondary-five)";
+                public const string THEME_SECONDARY_SIX_OUTLINE = "outline-(--theme-secondary-six)";
+                public const string THEME_SECONDARY_SEVEN_OUTLINE = "outline-(--theme-secondary-seven)";
+                public const string THEME_SECONDARY_EIGHT_OUTLINE = "outline-(--theme-secondary-eight)";
+                public const string THEME_SECONDARY_NINE_OUTLINE = "outline-(--theme-secondary-nine)";
+                public const string THEME_SECONDARY_TEN_OUTLINE = "outline-(--theme-secondary-ten)";
+
+                // Tertiary - Outline
+                public const string THEME_TERTIARY_ONE_OUTLINE = "outline-(--theme-tertiary-one)";
+                public const string THEME_TERTIARY_TWO_OUTLINE = "outline-(--theme-tertiary-two)";
+                public const string THEME_TERTIARY_THREE_OUTLINE = "outline-(--theme-tertiary-three)";
+                public const string THEME_TERTIARY_FOUR_OUTLINE = "outline-(--theme-tertiary-four)";
+                public const string THEME_TERTIARY_FIVE_OUTLINE = "outline-(--theme-tertiary-five)";
+                public const string THEME_TERTIARY_SIX_OUTLINE = "outline-(--theme-tertiary-six)";
+                public const string THEME_TERTIARY_SEVEN_OUTLINE = "outline-(--theme-tertiary-seven)";
+                public const string THEME_TERTIARY_EIGHT_OUTLINE = "outline-(--theme-tertiary-eight)";
+                public const string THEME_TERTIARY_NINE_OUTLINE = "outline-(--theme-tertiary-nine)";
+                public const string THEME_TERTIARY_TEN_OUTLINE = "outline-(--theme-tertiary-ten)";
+
+                // Accent - Outline
+                public const string THEME_ACCENT_ONE_OUTLINE = "outline-(--theme-accent-one)";
+                public const string THEME_ACCENT_TWO_OUTLINE = "outline-(--theme-accent-two)";
+                public const string THEME_ACCENT_THREE_OUTLINE = "outline-(--theme-accent-three)";
+                public const string THEME_ACCENT_FOUR_OUTLINE = "outline-(--theme-accent-four)";
+                public const string THEME_ACCENT_FIVE_OUTLINE = "outline-(--theme-accent-five)";
+                public const string THEME_ACCENT_SIX_OUTLINE = "outline-(--theme-accent-six)";
+                public const string THEME_ACCENT_SEVEN_OUTLINE = "outline-(--theme-accent-seven)";
+                public const string THEME_ACCENT_EIGHT_OUTLINE = "outline-(--theme-accent-eight)";
+                public const string THEME_ACCENT_NINE_OUTLINE = "outline-(--theme-accent-nine)";
+                public const string THEME_ACCENT_TEN_OUTLINE = "outline-(--theme-accent-ten)";
+
+                // Highlight - Outline
+                public const string THEME_HIGHLIGHT_ONE_OUTLINE = "outline-(--theme-highlight-one)";
+                public const string THEME_HIGHLIGHT_TWO_OUTLINE = "outline-(--theme-highlight-two)";
+                public const string THEME_HIGHLIGHT_THREE_OUTLINE = "outline-(--theme-highlight-three)";
+                public const string THEME_HIGHLIGHT_FOUR_OUTLINE = "outline-(--theme-highlight-four)";
+                public const string THEME_HIGHLIGHT_FIVE_OUTLINE = "outline-(--theme-highlight-five)";
+                public const string THEME_HIGHLIGHT_SIX_OUTLINE = "outline-(--theme-highlight-six)";
+                public const string THEME_HIGHLIGHT_SEVEN_OUTLINE = "outline-(--theme-highlight-seven)";
+                public const string THEME_HIGHLIGHT_EIGHT_OUTLINE = "outline-(--theme-highlight-eight)";
+                public const string THEME_HIGHLIGHT_NINE_OUTLINE = "outline-(--theme-highlight-nine)";
+                public const string THEME_HIGHLIGHT_TEN_OUTLINE = "outline-(--theme-highlight-ten)";
+
+                // Alert - Outline
+                public const string THEME_ALERT_ONE_OUTLINE = "outline-(--theme-alert-one)";
+                public const string THEME_ALERT_TWO_OUTLINE = "outline-(--theme-alert-two)";
+                public const string THEME_ALERT_THREE_OUTLINE = "outline-(--theme-alert-three)";
+                public const string THEME_ALERT_FOUR_OUTLINE = "outline-(--theme-alert-four)";
+                public const string THEME_ALERT_FIVE_OUTLINE = "outline-(--theme-alert-five)";
+                public const string THEME_ALERT_SIX_OUTLINE = "outline-(--theme-alert-six)";
+                public const string THEME_ALERT_SEVEN_OUTLINE = "outline-(--theme-alert-seven)";
+                public const string THEME_ALERT_EIGHT_OUTLINE = "outline-(--theme-alert-eight)";
+                public const string THEME_ALERT_NINE_OUTLINE = "outline-(--theme-alert-nine)";
+                public const string THEME_ALERT_TEN_OUTLINE = "outline-(--theme-alert-ten)";
+
+                // Warning - Outline
+                public const string THEME_WARNING_ONE_OUTLINE = "outline-(--theme-warning-one)";
+                public const string THEME_WARNING_TWO_OUTLINE = "outline-(--theme-warning-two)";
+                public const string THEME_WARNING_THREE_OUTLINE = "outline-(--theme-warning-three)";
+                public const string THEME_WARNING_FOUR_OUTLINE = "outline-(--theme-warning-four)";
+                public const string THEME_WARNING_FIVE_OUTLINE = "outline-(--theme-warning-five)";
+                public const string THEME_WARNING_SIX_OUTLINE = "outline-(--theme-warning-six)";
+                public const string THEME_WARNING_SEVEN_OUTLINE = "outline-(--theme-warning-seven)";
+                public const string THEME_WARNING_EIGHT_OUTLINE = "outline-(--theme-warning-eight)";
+                public const string THEME_WARNING_NINE_OUTLINE = "outline-(--theme-warning-nine)";
+                public const string THEME_WARNING_TEN_OUTLINE = "outline-(--theme-warning-ten)";
+
+                // Info - Outline
+                public const string THEME_INFO_ONE_OUTLINE = "outline-(--theme-info-one)";
+                public const string THEME_INFO_TWO_OUTLINE = "outline-(--theme-info-two)";
+                public const string THEME_INFO_THREE_OUTLINE = "outline-(--theme-info-three)";
+                public const string THEME_INFO_FOUR_OUTLINE = "outline-(--theme-info-four)";
+                public const string THEME_INFO_FIVE_OUTLINE = "outline-(--theme-info-five)";
+                public const string THEME_INFO_SIX_OUTLINE = "outline-(--theme-info-six)";
+                public const string THEME_INFO_SEVEN_OUTLINE = "outline-(--theme-info-seven)";
+                public const string THEME_INFO_EIGHT_OUTLINE = "outline-(--theme-info-eight)";
+                public const string THEME_INFO_NINE_OUTLINE = "outline-(--theme-info-nine)";
+                public const string THEME_INFO_TEN_OUTLINE = "outline-(--theme-info-ten)";
+
+                // Success - Outline
+                public const string THEME_SUCCESS_ONE_OUTLINE = "outline-(--theme-success-one)";
+                public const string THEME_SUCCESS_TWO_OUTLINE = "outline-(--theme-success-two)";
+                public const string THEME_SUCCESS_THREE_OUTLINE = "outline-(--theme-success-three)";
+                public const string THEME_SUCCESS_FOUR_OUTLINE = "outline-(--theme-success-four)";
+                public const string THEME_SUCCESS_FIVE_OUTLINE = "outline-(--theme-success-five)";
+                public const string THEME_SUCCESS_SIX_OUTLINE = "outline-(--theme-success-six)";
+                public const string THEME_SUCCESS_SEVEN_OUTLINE = "outline-(--theme-success-seven)";
+                public const string THEME_SUCCESS_EIGHT_OUTLINE = "outline-(--theme-success-eight)";
+                public const string THEME_SUCCESS_NINE_OUTLINE = "outline-(--theme-success-nine)";
+                public const string THEME_SUCCESS_TEN_OUTLINE = "outline-(--theme-success-ten)";
+
+                // Light - Outline
+                public const string THEME_LIGHT_ONE_OUTLINE = "outline-(--theme-light-one)";
+                public const string THEME_LIGHT_TWO_OUTLINE = "outline-(--theme-light-two)";
+                public const string THEME_LIGHT_THREE_OUTLINE = "outline-(--theme-light-three)";
+                public const string THEME_LIGHT_FOUR_OUTLINE = "outline-(--theme-light-four)";
+                public const string THEME_LIGHT_FIVE_OUTLINE = "outline-(--theme-light-five)";
+                public const string THEME_LIGHT_SIX_OUTLINE = "outline-(--theme-light-six)";
+                public const string THEME_LIGHT_SEVEN_OUTLINE = "outline-(--theme-light-seven)";
+                public const string THEME_LIGHT_EIGHT_OUTLINE = "outline-(--theme-light-eight)";
+                public const string THEME_LIGHT_NINE_OUTLINE = "outline-(--theme-light-nine)";
+                public const string THEME_LIGHT_TEN_OUTLINE = "outline-(--theme-light-ten)";
+
+                // Dark - Outline
+                public const string THEME_DARK_ONE_OUTLINE = "outline-(--theme-dark-one)";
+                public const string THEME_DARK_TWO_OUTLINE = "outline-(--theme-dark-two)";
+                public const string THEME_DARK_THREE_OUTLINE = "outline-(--theme-dark-three)";
+                public const string THEME_DARK_FOUR_OUTLINE = "outline-(--theme-dark-four)";
+                public const string THEME_DARK_FIVE_OUTLINE = "outline-(--theme-dark-five)";
+                public const string THEME_DARK_SIX_OUTLINE = "outline-(--theme-dark-six)";
+                public const string THEME_DARK_SEVEN_OUTLINE = "outline-(--theme-dark-seven)";
+                public const string THEME_DARK_EIGHT_OUTLINE = "outline-(--theme-dark-eight)";
+                public const string THEME_DARK_NINE_OUTLINE = "outline-(--theme-dark-nine)";
+                public const string THEME_DARK_TEN_OUTLINE = "outline-(--theme-dark-ten)";
+
+                #endregion
             }
 
             public static class Ring
             {
-                #region Ring Colors
-
-                // Default - Ring
-                public const string THEME_DEFAULT_ONE_RING = "ring-(--theme-default-one)";
-                public const string THEME_DEFAULT_TWO_RING = "ring-(--theme-default-two)";
-                public const string THEME_DEFAULT_THREE_RING = "ring-(--theme-default-three)";
-                public const string THEME_DEFAULT_FOUR_RING = "ring-(--theme-default-four)";
-                public const string THEME_DEFAULT_FIVE_RING = "ring-(--theme-default-five)";
-                public const string THEME_DEFAULT_SIX_RING = "ring-(--theme-default-six)";
-                public const string THEME_DEFAULT_SEVEN_RING = "ring-(--theme-default-seven)";
-                public const string THEME_DEFAULT_EIGHT_RING = "ring-(--theme-default-eight)";
-                public const string THEME_DEFAULT_NINE_RING = "ring-(--theme-default-nine)";
-                public const string THEME_DEFAULT_TEN_RING = "ring-(--theme-default-ten)";
-
-                // Primary - Ring
-                public const string THEME_PRIMARY_ONE_RING = "ring-(--theme-primary-one)";
-                public const string THEME_PRIMARY_TWO_RING = "ring-(--theme-primary-two)";
-                public const string THEME_PRIMARY_THREE_RING = "ring-(--theme-primary-three)";
-                public const string THEME_PRIMARY_FOUR_RING = "ring-(--theme-primary-four)";
-                public const string THEME_PRIMARY_FIVE_RING = "ring-(--theme-primary-five)";
-                public const string THEME_PRIMARY_SIX_RING = "ring-(--theme-primary-six)";
-                public const string THEME_PRIMARY_SEVEN_RING = "ring-(--theme-primary-seven)";
-                public const string THEME_PRIMARY_EIGHT_RING = "ring-(--theme-primary-eight)";
-                public const string THEME_PRIMARY_NINE_RING = "ring-(--theme-primary-nine)";
-                public const string THEME_PRIMARY_TEN_RING = "ring-(--theme-primary-ten)";
-
-                // Secondary - Ring
-                public const string THEME_SECONDARY_ONE_RING = "ring-(--theme-secondary-one)";
-                public const string THEME_SECONDARY_TWO_RING = "ring-(--theme-secondary-two)";
-                public const string THEME_SECONDARY_THREE_RING = "ring-(--theme-secondary-three)";
-                public const string THEME_SECONDARY_FOUR_RING = "ring-(--theme-secondary-four)";
-                public const string THEME_SECONDARY_FIVE_RING = "ring-(--theme-secondary-five)";
-                public const string THEME_SECONDARY_SIX_RING = "ring-(--theme-secondary-six)";
-                public const string THEME_SECONDARY_SEVEN_RING = "ring-(--theme-secondary-seven)";
-                public const string THEME_SECONDARY_EIGHT_RING = "ring-(--theme-secondary-eight)";
-                public const string THEME_SECONDARY_NINE_RING = "ring-(--theme-secondary-nine)";
-                public const string THEME_SECONDARY_TEN_RING = "ring-(--theme-secondary-ten)";
-
-                // Tertiary - Ring
-                public const string THEME_TERTIARY_ONE_RING = "ring-(--theme-tertiary-one)";
-                public const string THEME_TERTIARY_TWO_RING = "ring-(--theme-tertiary-two)";
-                public const string THEME_TERTIARY_THREE_RING = "ring-(--theme-tertiary-three)";
-                public const string THEME_TERTIARY_FOUR_RING = "ring-(--theme-tertiary-four)";
-                public const string THEME_TERTIARY_FIVE_RING = "ring-(--theme-tertiary-five)";
-                public const string THEME_TERTIARY_SIX_RING = "ring-(--theme-tertiary-six)";
-                public const string THEME_TERTIARY_SEVEN_RING = "ring-(--theme-tertiary-seven)";
-                public const string THEME_TERTIARY_EIGHT_RING = "ring-(--theme-tertiary-eight)";
-                public const string THEME_TERTIARY_NINE_RING = "ring-(--theme-tertiary-nine)";
-                public const string THEME_TERTIARY_TEN_RING = "ring-(--theme-tertiary-ten)";
-
-                // Accent - Ring
-                public const string THEME_ACCENT_ONE_RING = "ring-(--theme-accent-one)";
-                public const string THEME_ACCENT_TWO_RING = "ring-(--theme-accent-two)";
-                public const string THEME_ACCENT_THREE_RING = "ring-(--theme-accent-three)";
-                public const string THEME_ACCENT_FOUR_RING = "ring-(--theme-accent-four)";
-                public const string THEME_ACCENT_FIVE_RING = "ring-(--theme-accent-five)";
-                public const string THEME_ACCENT_SIX_RING = "ring-(--theme-accent-six)";
-                public const string THEME_ACCENT_SEVEN_RING = "ring-(--theme-accent-seven)";
-                public const string THEME_ACCENT_EIGHT_RING = "ring-(--theme-accent-eight)";
-                public const string THEME_ACCENT_NINE_RING = "ring-(--theme-accent-nine)";
-                public const string THEME_ACCENT_TEN_RING = "ring-(--theme-accent-ten)";
-
-                // Highlight - Ring
-                public const string THEME_HIGHLIGHT_ONE_RING = "ring-(--theme-highlight-one)";
-                public const string THEME_HIGHLIGHT_TWO_RING = "ring-(--theme-highlight-two)";
-                public const string THEME_HIGHLIGHT_THREE_RING = "ring-(--theme-highlight-three)";
-                public const string THEME_HIGHLIGHT_FOUR_RING = "ring-(--theme-highlight-four)";
-                public const string THEME_HIGHLIGHT_FIVE_RING = "ring-(--theme-highlight-five)";
-                public const string THEME_HIGHLIGHT_SIX_RING = "ring-(--theme-highlight-six)";
-                public const string THEME_HIGHLIGHT_SEVEN_RING = "ring-(--theme-highlight-seven)";
-                public const string THEME_HIGHLIGHT_EIGHT_RING = "ring-(--theme-highlight-eight)";
-                public const string THEME_HIGHLIGHT_NINE_RING = "ring-(--theme-highlight-nine)";
-                public const string THEME_HIGHLIGHT_TEN_RING = "ring-(--theme-highlight-ten)";
-
-                // Alert - Ring
-                public const string THEME_ALERT_ONE_RING = "ring-(--theme-alert-one)";
-                public const string THEME_ALERT_TWO_RING = "ring-(--theme-alert-two)";
-                public const string THEME_ALERT_THREE_RING = "ring-(--theme-alert-three)";
-                public const string THEME_ALERT_FOUR_RING = "ring-(--theme-alert-four)";
-                public const string THEME_ALERT_FIVE_RING = "ring-(--theme-alert-five)";
-                public const string THEME_ALERT_SIX_RING = "ring-(--theme-alert-six)";
-                public const string THEME_ALERT_SEVEN_RING = "ring-(--theme-alert-seven)";
-                public const string THEME_ALERT_EIGHT_RING = "ring-(--theme-alert-eight)";
-                public const string THEME_ALERT_NINE_RING = "ring-(--theme-alert-nine)";
-                public const string THEME_ALERT_TEN_RING = "ring-(--theme-alert-ten)";
-
-                // Warning - Ring
-                public const string THEME_WARNING_ONE_RING = "ring-(--theme-warning-one)";
-                public const string THEME_WARNING_TWO_RING = "ring-(--theme-warning-two)";
-                public const string THEME_WARNING_THREE_RING = "ring-(--theme-warning-three)";
-                public const string THEME_WARNING_FOUR_RING = "ring-(--theme-warning-four)";
-                public const string THEME_WARNING_FIVE_RING = "ring-(--theme-warning-five)";
-                public const string THEME_WARNING_SIX_RING = "ring-(--theme-warning-six)";
-                public const string THEME_WARNING_SEVEN_RING = "ring-(--theme-warning-seven)";
-                public const string THEME_WARNING_EIGHT_RING = "ring-(--theme-warning-eight)";
-                public const string THEME_WARNING_NINE_RING = "ring-(--theme-warning-nine)";
-                public const string THEME_WARNING_TEN_RING = "ring-(--theme-warning-ten)";
-
-                // Info - Ring
-                public const string THEME_INFO_ONE_RING = "ring-(--theme-info-one)";
-                public const string THEME_INFO_TWO_RING = "ring-(--theme-info-two)";
-                public const string THEME_INFO_THREE_RING = "ring-(--theme-info-three)";
-                public const string THEME_INFO_FOUR_RING = "ring-(--theme-info-four)";
-                public const string THEME_INFO_FIVE_RING = "ring-(--theme-info-five)";
-                public const string THEME_INFO_SIX_RING = "ring-(--theme-info-six)";
-                public const string THEME_INFO_SEVEN_RING = "ring-(--theme-info-seven)";
-                public const string THEME_INFO_EIGHT_RING = "ring-(--theme-info-eight)";
-                public const string THEME_INFO_NINE_RING = "ring-(--theme-info-nine)";
-                public const string THEME_INFO_TEN_RING = "ring-(--theme-info-ten)";
-
-                // Success - Ring
-                public const string THEME_SUCCESS_ONE_RING = "ring-(--theme-success-one)";
-                public const string THEME_SUCCESS_TWO_RING = "ring-(--theme-success-two)";
-                public const string THEME_SUCCESS_THREE_RING = "ring-(--theme-success-three)";
-                public const string THEME_SUCCESS_FOUR_RING = "ring-(--theme-success-four)";
-                public const string THEME_SUCCESS_FIVE_RING = "ring-(--theme-success-five)";
-                public const string THEME_SUCCESS_SIX_RING = "ring-(--theme-success-six)";
-                public const string THEME_SUCCESS_SEVEN_RING = "ring-(--theme-success-seven)";
-                public const string THEME_SUCCESS_EIGHT_RING = "ring-(--theme-success-eight)";
-                public const string THEME_SUCCESS_NINE_RING = "ring-(--theme-success-nine)";
-                public const string THEME_SUCCESS_TEN_RING = "ring-(--theme-success-ten)";
-
-                // Light - Ring
-                public const string THEME_LIGHT_ONE_RING = "ring-(--theme-light-one)";
-                public const string THEME_LIGHT_TWO_RING = "ring-(--theme-light-two)";
-                public const string THEME_LIGHT_THREE_RING = "ring-(--theme-light-three)";
-                public const string THEME_LIGHT_FOUR_RING = "ring-(--theme-light-four)";
-                public const string THEME_LIGHT_FIVE_RING = "ring-(--theme-light-five)";
-                public const string THEME_LIGHT_SIX_RING = "ring-(--theme-light-six)";
-                public const string THEME_LIGHT_SEVEN_RING = "ring-(--theme-light-seven)";
-                public const string THEME_LIGHT_EIGHT_RING = "ring-(--theme-light-eight)";
-                public const string THEME_LIGHT_NINE_RING = "ring-(--theme-light-nine)";
-                public const string THEME_LIGHT_TEN_RING = "ring-(--theme-light-ten)";
-
-                // Dark - Ring
-                public const string THEME_DARK_ONE_RING = "ring-(--theme-dark-one)";
-                public const string THEME_DARK_TWO_RING = "ring-(--theme-dark-two)";
-                public const string THEME_DARK_THREE_RING = "ring-(--theme-dark-three)";
-                public const string THEME_DARK_FOUR_RING = "ring-(--theme-dark-four)";
-                public const string THEME_DARK_FIVE_RING = "ring-(--theme-dark-five)";
-                public const string THEME_DARK_SIX_RING = "ring-(--theme-dark-six)";
-                public const string THEME_DARK_SEVEN_RING = "ring-(--theme-dark-seven)";
-                public const string THEME_DARK_EIGHT_RING = "ring-(--theme-dark-eight)";
-                public const string THEME_DARK_NINE_RING = "ring-(--theme-dark-nine)";
-                public const string THEME_DARK_TEN_RING = "ring-(--theme-dark-ten)";
-
-                #endregion
-
                 public static class Hover
                 {
                     #region Ring Hover Colors
@@ -3171,158 +2876,158 @@ public static class Tailwind
 
                     #endregion
                 }
+
+                #region Ring Colors
+
+                // Default - Ring
+                public const string THEME_DEFAULT_ONE_RING = "ring-(--theme-default-one)";
+                public const string THEME_DEFAULT_TWO_RING = "ring-(--theme-default-two)";
+                public const string THEME_DEFAULT_THREE_RING = "ring-(--theme-default-three)";
+                public const string THEME_DEFAULT_FOUR_RING = "ring-(--theme-default-four)";
+                public const string THEME_DEFAULT_FIVE_RING = "ring-(--theme-default-five)";
+                public const string THEME_DEFAULT_SIX_RING = "ring-(--theme-default-six)";
+                public const string THEME_DEFAULT_SEVEN_RING = "ring-(--theme-default-seven)";
+                public const string THEME_DEFAULT_EIGHT_RING = "ring-(--theme-default-eight)";
+                public const string THEME_DEFAULT_NINE_RING = "ring-(--theme-default-nine)";
+                public const string THEME_DEFAULT_TEN_RING = "ring-(--theme-default-ten)";
+
+                // Primary - Ring
+                public const string THEME_PRIMARY_ONE_RING = "ring-(--theme-primary-one)";
+                public const string THEME_PRIMARY_TWO_RING = "ring-(--theme-primary-two)";
+                public const string THEME_PRIMARY_THREE_RING = "ring-(--theme-primary-three)";
+                public const string THEME_PRIMARY_FOUR_RING = "ring-(--theme-primary-four)";
+                public const string THEME_PRIMARY_FIVE_RING = "ring-(--theme-primary-five)";
+                public const string THEME_PRIMARY_SIX_RING = "ring-(--theme-primary-six)";
+                public const string THEME_PRIMARY_SEVEN_RING = "ring-(--theme-primary-seven)";
+                public const string THEME_PRIMARY_EIGHT_RING = "ring-(--theme-primary-eight)";
+                public const string THEME_PRIMARY_NINE_RING = "ring-(--theme-primary-nine)";
+                public const string THEME_PRIMARY_TEN_RING = "ring-(--theme-primary-ten)";
+
+                // Secondary - Ring
+                public const string THEME_SECONDARY_ONE_RING = "ring-(--theme-secondary-one)";
+                public const string THEME_SECONDARY_TWO_RING = "ring-(--theme-secondary-two)";
+                public const string THEME_SECONDARY_THREE_RING = "ring-(--theme-secondary-three)";
+                public const string THEME_SECONDARY_FOUR_RING = "ring-(--theme-secondary-four)";
+                public const string THEME_SECONDARY_FIVE_RING = "ring-(--theme-secondary-five)";
+                public const string THEME_SECONDARY_SIX_RING = "ring-(--theme-secondary-six)";
+                public const string THEME_SECONDARY_SEVEN_RING = "ring-(--theme-secondary-seven)";
+                public const string THEME_SECONDARY_EIGHT_RING = "ring-(--theme-secondary-eight)";
+                public const string THEME_SECONDARY_NINE_RING = "ring-(--theme-secondary-nine)";
+                public const string THEME_SECONDARY_TEN_RING = "ring-(--theme-secondary-ten)";
+
+                // Tertiary - Ring
+                public const string THEME_TERTIARY_ONE_RING = "ring-(--theme-tertiary-one)";
+                public const string THEME_TERTIARY_TWO_RING = "ring-(--theme-tertiary-two)";
+                public const string THEME_TERTIARY_THREE_RING = "ring-(--theme-tertiary-three)";
+                public const string THEME_TERTIARY_FOUR_RING = "ring-(--theme-tertiary-four)";
+                public const string THEME_TERTIARY_FIVE_RING = "ring-(--theme-tertiary-five)";
+                public const string THEME_TERTIARY_SIX_RING = "ring-(--theme-tertiary-six)";
+                public const string THEME_TERTIARY_SEVEN_RING = "ring-(--theme-tertiary-seven)";
+                public const string THEME_TERTIARY_EIGHT_RING = "ring-(--theme-tertiary-eight)";
+                public const string THEME_TERTIARY_NINE_RING = "ring-(--theme-tertiary-nine)";
+                public const string THEME_TERTIARY_TEN_RING = "ring-(--theme-tertiary-ten)";
+
+                // Accent - Ring
+                public const string THEME_ACCENT_ONE_RING = "ring-(--theme-accent-one)";
+                public const string THEME_ACCENT_TWO_RING = "ring-(--theme-accent-two)";
+                public const string THEME_ACCENT_THREE_RING = "ring-(--theme-accent-three)";
+                public const string THEME_ACCENT_FOUR_RING = "ring-(--theme-accent-four)";
+                public const string THEME_ACCENT_FIVE_RING = "ring-(--theme-accent-five)";
+                public const string THEME_ACCENT_SIX_RING = "ring-(--theme-accent-six)";
+                public const string THEME_ACCENT_SEVEN_RING = "ring-(--theme-accent-seven)";
+                public const string THEME_ACCENT_EIGHT_RING = "ring-(--theme-accent-eight)";
+                public const string THEME_ACCENT_NINE_RING = "ring-(--theme-accent-nine)";
+                public const string THEME_ACCENT_TEN_RING = "ring-(--theme-accent-ten)";
+
+                // Highlight - Ring
+                public const string THEME_HIGHLIGHT_ONE_RING = "ring-(--theme-highlight-one)";
+                public const string THEME_HIGHLIGHT_TWO_RING = "ring-(--theme-highlight-two)";
+                public const string THEME_HIGHLIGHT_THREE_RING = "ring-(--theme-highlight-three)";
+                public const string THEME_HIGHLIGHT_FOUR_RING = "ring-(--theme-highlight-four)";
+                public const string THEME_HIGHLIGHT_FIVE_RING = "ring-(--theme-highlight-five)";
+                public const string THEME_HIGHLIGHT_SIX_RING = "ring-(--theme-highlight-six)";
+                public const string THEME_HIGHLIGHT_SEVEN_RING = "ring-(--theme-highlight-seven)";
+                public const string THEME_HIGHLIGHT_EIGHT_RING = "ring-(--theme-highlight-eight)";
+                public const string THEME_HIGHLIGHT_NINE_RING = "ring-(--theme-highlight-nine)";
+                public const string THEME_HIGHLIGHT_TEN_RING = "ring-(--theme-highlight-ten)";
+
+                // Alert - Ring
+                public const string THEME_ALERT_ONE_RING = "ring-(--theme-alert-one)";
+                public const string THEME_ALERT_TWO_RING = "ring-(--theme-alert-two)";
+                public const string THEME_ALERT_THREE_RING = "ring-(--theme-alert-three)";
+                public const string THEME_ALERT_FOUR_RING = "ring-(--theme-alert-four)";
+                public const string THEME_ALERT_FIVE_RING = "ring-(--theme-alert-five)";
+                public const string THEME_ALERT_SIX_RING = "ring-(--theme-alert-six)";
+                public const string THEME_ALERT_SEVEN_RING = "ring-(--theme-alert-seven)";
+                public const string THEME_ALERT_EIGHT_RING = "ring-(--theme-alert-eight)";
+                public const string THEME_ALERT_NINE_RING = "ring-(--theme-alert-nine)";
+                public const string THEME_ALERT_TEN_RING = "ring-(--theme-alert-ten)";
+
+                // Warning - Ring
+                public const string THEME_WARNING_ONE_RING = "ring-(--theme-warning-one)";
+                public const string THEME_WARNING_TWO_RING = "ring-(--theme-warning-two)";
+                public const string THEME_WARNING_THREE_RING = "ring-(--theme-warning-three)";
+                public const string THEME_WARNING_FOUR_RING = "ring-(--theme-warning-four)";
+                public const string THEME_WARNING_FIVE_RING = "ring-(--theme-warning-five)";
+                public const string THEME_WARNING_SIX_RING = "ring-(--theme-warning-six)";
+                public const string THEME_WARNING_SEVEN_RING = "ring-(--theme-warning-seven)";
+                public const string THEME_WARNING_EIGHT_RING = "ring-(--theme-warning-eight)";
+                public const string THEME_WARNING_NINE_RING = "ring-(--theme-warning-nine)";
+                public const string THEME_WARNING_TEN_RING = "ring-(--theme-warning-ten)";
+
+                // Info - Ring
+                public const string THEME_INFO_ONE_RING = "ring-(--theme-info-one)";
+                public const string THEME_INFO_TWO_RING = "ring-(--theme-info-two)";
+                public const string THEME_INFO_THREE_RING = "ring-(--theme-info-three)";
+                public const string THEME_INFO_FOUR_RING = "ring-(--theme-info-four)";
+                public const string THEME_INFO_FIVE_RING = "ring-(--theme-info-five)";
+                public const string THEME_INFO_SIX_RING = "ring-(--theme-info-six)";
+                public const string THEME_INFO_SEVEN_RING = "ring-(--theme-info-seven)";
+                public const string THEME_INFO_EIGHT_RING = "ring-(--theme-info-eight)";
+                public const string THEME_INFO_NINE_RING = "ring-(--theme-info-nine)";
+                public const string THEME_INFO_TEN_RING = "ring-(--theme-info-ten)";
+
+                // Success - Ring
+                public const string THEME_SUCCESS_ONE_RING = "ring-(--theme-success-one)";
+                public const string THEME_SUCCESS_TWO_RING = "ring-(--theme-success-two)";
+                public const string THEME_SUCCESS_THREE_RING = "ring-(--theme-success-three)";
+                public const string THEME_SUCCESS_FOUR_RING = "ring-(--theme-success-four)";
+                public const string THEME_SUCCESS_FIVE_RING = "ring-(--theme-success-five)";
+                public const string THEME_SUCCESS_SIX_RING = "ring-(--theme-success-six)";
+                public const string THEME_SUCCESS_SEVEN_RING = "ring-(--theme-success-seven)";
+                public const string THEME_SUCCESS_EIGHT_RING = "ring-(--theme-success-eight)";
+                public const string THEME_SUCCESS_NINE_RING = "ring-(--theme-success-nine)";
+                public const string THEME_SUCCESS_TEN_RING = "ring-(--theme-success-ten)";
+
+                // Light - Ring
+                public const string THEME_LIGHT_ONE_RING = "ring-(--theme-light-one)";
+                public const string THEME_LIGHT_TWO_RING = "ring-(--theme-light-two)";
+                public const string THEME_LIGHT_THREE_RING = "ring-(--theme-light-three)";
+                public const string THEME_LIGHT_FOUR_RING = "ring-(--theme-light-four)";
+                public const string THEME_LIGHT_FIVE_RING = "ring-(--theme-light-five)";
+                public const string THEME_LIGHT_SIX_RING = "ring-(--theme-light-six)";
+                public const string THEME_LIGHT_SEVEN_RING = "ring-(--theme-light-seven)";
+                public const string THEME_LIGHT_EIGHT_RING = "ring-(--theme-light-eight)";
+                public const string THEME_LIGHT_NINE_RING = "ring-(--theme-light-nine)";
+                public const string THEME_LIGHT_TEN_RING = "ring-(--theme-light-ten)";
+
+                // Dark - Ring
+                public const string THEME_DARK_ONE_RING = "ring-(--theme-dark-one)";
+                public const string THEME_DARK_TWO_RING = "ring-(--theme-dark-two)";
+                public const string THEME_DARK_THREE_RING = "ring-(--theme-dark-three)";
+                public const string THEME_DARK_FOUR_RING = "ring-(--theme-dark-four)";
+                public const string THEME_DARK_FIVE_RING = "ring-(--theme-dark-five)";
+                public const string THEME_DARK_SIX_RING = "ring-(--theme-dark-six)";
+                public const string THEME_DARK_SEVEN_RING = "ring-(--theme-dark-seven)";
+                public const string THEME_DARK_EIGHT_RING = "ring-(--theme-dark-eight)";
+                public const string THEME_DARK_NINE_RING = "ring-(--theme-dark-nine)";
+                public const string THEME_DARK_TEN_RING = "ring-(--theme-dark-ten)";
+
+                #endregion
             }
 
             public static class Divide
             {
-                #region Divide Colors
-
-                // Default - Divide
-                public const string THEME_DEFAULT_ONE_DIVIDE = "divide-(--theme-default-one)";
-                public const string THEME_DEFAULT_TWO_DIVIDE = "divide-(--theme-default-two)";
-                public const string THEME_DEFAULT_THREE_DIVIDE = "divide-(--theme-default-three)";
-                public const string THEME_DEFAULT_FOUR_DIVIDE = "divide-(--theme-default-four)";
-                public const string THEME_DEFAULT_FIVE_DIVIDE = "divide-(--theme-default-five)";
-                public const string THEME_DEFAULT_SIX_DIVIDE = "divide-(--theme-default-six)";
-                public const string THEME_DEFAULT_SEVEN_DIVIDE = "divide-(--theme-default-seven)";
-                public const string THEME_DEFAULT_EIGHT_DIVIDE = "divide-(--theme-default-eight)";
-                public const string THEME_DEFAULT_NINE_DIVIDE = "divide-(--theme-default-nine)";
-                public const string THEME_DEFAULT_TEN_DIVIDE = "divide-(--theme-default-ten)";
-
-                // Primary - Divide
-                public const string THEME_PRIMARY_ONE_DIVIDE = "divide-(--theme-primary-one)";
-                public const string THEME_PRIMARY_TWO_DIVIDE = "divide-(--theme-primary-two)";
-                public const string THEME_PRIMARY_THREE_DIVIDE = "divide-(--theme-primary-three)";
-                public const string THEME_PRIMARY_FOUR_DIVIDE = "divide-(--theme-primary-four)";
-                public const string THEME_PRIMARY_FIVE_DIVIDE = "divide-(--theme-primary-five)";
-                public const string THEME_PRIMARY_SIX_DIVIDE = "divide-(--theme-primary-six)";
-                public const string THEME_PRIMARY_SEVEN_DIVIDE = "divide-(--theme-primary-seven)";
-                public const string THEME_PRIMARY_EIGHT_DIVIDE = "divide-(--theme-primary-eight)";
-                public const string THEME_PRIMARY_NINE_DIVIDE = "divide-(--theme-primary-nine)";
-                public const string THEME_PRIMARY_TEN_DIVIDE = "divide-(--theme-primary-ten)";
-
-                // Secondary - Divide
-                public const string THEME_SECONDARY_ONE_DIVIDE = "divide-(--theme-secondary-one)";
-                public const string THEME_SECONDARY_TWO_DIVIDE = "divide-(--theme-secondary-two)";
-                public const string THEME_SECONDARY_THREE_DIVIDE = "divide-(--theme-secondary-three)";
-                public const string THEME_SECONDARY_FOUR_DIVIDE = "divide-(--theme-secondary-four)";
-                public const string THEME_SECONDARY_FIVE_DIVIDE = "divide-(--theme-secondary-five)";
-                public const string THEME_SECONDARY_SIX_DIVIDE = "divide-(--theme-secondary-six)";
-                public const string THEME_SECONDARY_SEVEN_DIVIDE = "divide-(--theme-secondary-seven)";
-                public const string THEME_SECONDARY_EIGHT_DIVIDE = "divide-(--theme-secondary-eight)";
-                public const string THEME_SECONDARY_NINE_DIVIDE = "divide-(--theme-secondary-nine)";
-                public const string THEME_SECONDARY_TEN_DIVIDE = "divide-(--theme-secondary-ten)";
-
-                // Tertiary - Divide
-                public const string THEME_TERTIARY_ONE_DIVIDE = "divide-(--theme-tertiary-one)";
-                public const string THEME_TERTIARY_TWO_DIVIDE = "divide-(--theme-tertiary-two)";
-                public const string THEME_TERTIARY_THREE_DIVIDE = "divide-(--theme-tertiary-three)";
-                public const string THEME_TERTIARY_FOUR_DIVIDE = "divide-(--theme-tertiary-four)";
-                public const string THEME_TERTIARY_FIVE_DIVIDE = "divide-(--theme-tertiary-five)";
-                public const string THEME_TERTIARY_SIX_DIVIDE = "divide-(--theme-tertiary-six)";
-                public const string THEME_TERTIARY_SEVEN_DIVIDE = "divide-(--theme-tertiary-seven)";
-                public const string THEME_TERTIARY_EIGHT_DIVIDE = "divide-(--theme-tertiary-eight)";
-                public const string THEME_TERTIARY_NINE_DIVIDE = "divide-(--theme-tertiary-nine)";
-                public const string THEME_TERTIARY_TEN_DIVIDE = "divide-(--theme-tertiary-ten)";
-
-                // Accent - Divide
-                public const string THEME_ACCENT_ONE_DIVIDE = "divide-(--theme-accent-one)";
-                public const string THEME_ACCENT_TWO_DIVIDE = "divide-(--theme-accent-two)";
-                public const string THEME_ACCENT_THREE_DIVIDE = "divide-(--theme-accent-three)";
-                public const string THEME_ACCENT_FOUR_DIVIDE = "divide-(--theme-accent-four)";
-                public const string THEME_ACCENT_FIVE_DIVIDE = "divide-(--theme-accent-five)";
-                public const string THEME_ACCENT_SIX_DIVIDE = "divide-(--theme-accent-six)";
-                public const string THEME_ACCENT_SEVEN_DIVIDE = "divide-(--theme-accent-seven)";
-                public const string THEME_ACCENT_EIGHT_DIVIDE = "divide-(--theme-accent-eight)";
-                public const string THEME_ACCENT_NINE_DIVIDE = "divide-(--theme-accent-nine)";
-                public const string THEME_ACCENT_TEN_DIVIDE = "divide-(--theme-accent-ten)";
-
-                // Highlight - Divide
-                public const string THEME_HIGHLIGHT_ONE_DIVIDE = "divide-(--theme-highlight-one)";
-                public const string THEME_HIGHLIGHT_TWO_DIVIDE = "divide-(--theme-highlight-two)";
-                public const string THEME_HIGHLIGHT_THREE_DIVIDE = "divide-(--theme-highlight-three)";
-                public const string THEME_HIGHLIGHT_FOUR_DIVIDE = "divide-(--theme-highlight-four)";
-                public const string THEME_HIGHLIGHT_FIVE_DIVIDE = "divide-(--theme-highlight-five)";
-                public const string THEME_HIGHLIGHT_SIX_DIVIDE = "divide-(--theme-highlight-six)";
-                public const string THEME_HIGHLIGHT_SEVEN_DIVIDE = "divide-(--theme-highlight-seven)";
-                public const string THEME_HIGHLIGHT_EIGHT_DIVIDE = "divide-(--theme-highlight-eight)";
-                public const string THEME_HIGHLIGHT_NINE_DIVIDE = "divide-(--theme-highlight-nine)";
-                public const string THEME_HIGHLIGHT_TEN_DIVIDE = "divide-(--theme-highlight-ten)";
-
-                // Alert - Divide
-                public const string THEME_ALERT_ONE_DIVIDE = "divide-(--theme-alert-one)";
-                public const string THEME_ALERT_TWO_DIVIDE = "divide-(--theme-alert-two)";
-                public const string THEME_ALERT_THREE_DIVIDE = "divide-(--theme-alert-three)";
-                public const string THEME_ALERT_FOUR_DIVIDE = "divide-(--theme-alert-four)";
-                public const string THEME_ALERT_FIVE_DIVIDE = "divide-(--theme-alert-five)";
-                public const string THEME_ALERT_SIX_DIVIDE = "divide-(--theme-alert-six)";
-                public const string THEME_ALERT_SEVEN_DIVIDE = "divide-(--theme-alert-seven)";
-                public const string THEME_ALERT_EIGHT_DIVIDE = "divide-(--theme-alert-eight)";
-                public const string THEME_ALERT_NINE_DIVIDE = "divide-(--theme-alert-nine)";
-                public const string THEME_ALERT_TEN_DIVIDE = "divide-(--theme-alert-ten)";
-
-                // Warning - Divide
-                public const string THEME_WARNING_ONE_DIVIDE = "divide-(--theme-warning-one)";
-                public const string THEME_WARNING_TWO_DIVIDE = "divide-(--theme-warning-two)";
-                public const string THEME_WARNING_THREE_DIVIDE = "divide-(--theme-warning-three)";
-                public const string THEME_WARNING_FOUR_DIVIDE = "divide-(--theme-warning-four)";
-                public const string THEME_WARNING_FIVE_DIVIDE = "divide-(--theme-warning-five)";
-                public const string THEME_WARNING_SIX_DIVIDE = "divide-(--theme-warning-six)";
-                public const string THEME_WARNING_SEVEN_DIVIDE = "divide-(--theme-warning-seven)";
-                public const string THEME_WARNING_EIGHT_DIVIDE = "divide-(--theme-warning-eight)";
-                public const string THEME_WARNING_NINE_DIVIDE = "divide-(--theme-warning-nine)";
-                public const string THEME_WARNING_TEN_DIVIDE = "divide-(--theme-warning-ten)";
-
-                // Info - Divide
-                public const string THEME_INFO_ONE_DIVIDE = "divide-(--theme-info-one)";
-                public const string THEME_INFO_TWO_DIVIDE = "divide-(--theme-info-two)";
-                public const string THEME_INFO_THREE_DIVIDE = "divide-(--theme-info-three)";
-                public const string THEME_INFO_FOUR_DIVIDE = "divide-(--theme-info-four)";
-                public const string THEME_INFO_FIVE_DIVIDE = "divide-(--theme-info-five)";
-                public const string THEME_INFO_SIX_DIVIDE = "divide-(--theme-info-six)";
-                public const string THEME_INFO_SEVEN_DIVIDE = "divide-(--theme-info-seven)";
-                public const string THEME_INFO_EIGHT_DIVIDE = "divide-(--theme-info-eight)";
-                public const string THEME_INFO_NINE_DIVIDE = "divide-(--theme-info-nine)";
-                public const string THEME_INFO_TEN_DIVIDE = "divide-(--theme-info-ten)";
-
-                // Success - Divide
-                public const string THEME_SUCCESS_ONE_DIVIDE = "divide-(--theme-success-one)";
-                public const string THEME_SUCCESS_TWO_DIVIDE = "divide-(--theme-success-two)";
-                public const string THEME_SUCCESS_THREE_DIVIDE = "divide-(--theme-success-three)";
-                public const string THEME_SUCCESS_FOUR_DIVIDE = "divide-(--theme-success-four)";
-                public const string THEME_SUCCESS_FIVE_DIVIDE = "divide-(--theme-success-five)";
-                public const string THEME_SUCCESS_SIX_DIVIDE = "divide-(--theme-success-six)";
-                public const string THEME_SUCCESS_SEVEN_DIVIDE = "divide-(--theme-success-seven)";
-                public const string THEME_SUCCESS_EIGHT_DIVIDE = "divide-(--theme-success-eight)";
-                public const string THEME_SUCCESS_NINE_DIVIDE = "divide-(--theme-success-nine)";
-                public const string THEME_SUCCESS_TEN_DIVIDE = "divide-(--theme-success-ten)";
-
-                // Light - Divide
-                public const string THEME_LIGHT_ONE_DIVIDE = "divide-(--theme-light-one)";
-                public const string THEME_LIGHT_TWO_DIVIDE = "divide-(--theme-light-two)";
-                public const string THEME_LIGHT_THREE_DIVIDE = "divide-(--theme-light-three)";
-                public const string THEME_LIGHT_FOUR_DIVIDE = "divide-(--theme-light-four)";
-                public const string THEME_LIGHT_FIVE_DIVIDE = "divide-(--theme-light-five)";
-                public const string THEME_LIGHT_SIX_DIVIDE = "divide-(--theme-light-six)";
-                public const string THEME_LIGHT_SEVEN_DIVIDE = "divide-(--theme-light-seven)";
-                public const string THEME_LIGHT_EIGHT_DIVIDE = "divide-(--theme-light-eight)";
-                public const string THEME_LIGHT_NINE_DIVIDE = "divide-(--theme-light-nine)";
-                public const string THEME_LIGHT_TEN_DIVIDE = "divide-(--theme-light-ten)";
-
-                // Dark - Divide
-                public const string THEME_DARK_ONE_DIVIDE = "divide-(--theme-dark-one)";
-                public const string THEME_DARK_TWO_DIVIDE = "divide-(--theme-dark-two)";
-                public const string THEME_DARK_THREE_DIVIDE = "divide-(--theme-dark-three)";
-                public const string THEME_DARK_FOUR_DIVIDE = "divide-(--theme-dark-four)";
-                public const string THEME_DARK_FIVE_DIVIDE = "divide-(--theme-dark-five)";
-                public const string THEME_DARK_SIX_DIVIDE = "divide-(--theme-dark-six)";
-                public const string THEME_DARK_SEVEN_DIVIDE = "divide-(--theme-dark-seven)";
-                public const string THEME_DARK_EIGHT_DIVIDE = "divide-(--theme-dark-eight)";
-                public const string THEME_DARK_NINE_DIVIDE = "divide-(--theme-dark-nine)";
-                public const string THEME_DARK_TEN_DIVIDE = "divide-(--theme-dark-ten)";
-
-                #endregion
-
                 public static class Hover
                 {
                     #region Divide Hover Colors
@@ -3775,7 +3480,303 @@ public static class Tailwind
 
                     #endregion
                 }
+
+                #region Divide Colors
+
+                // Default - Divide
+                public const string THEME_DEFAULT_ONE_DIVIDE = "divide-(--theme-default-one)";
+                public const string THEME_DEFAULT_TWO_DIVIDE = "divide-(--theme-default-two)";
+                public const string THEME_DEFAULT_THREE_DIVIDE = "divide-(--theme-default-three)";
+                public const string THEME_DEFAULT_FOUR_DIVIDE = "divide-(--theme-default-four)";
+                public const string THEME_DEFAULT_FIVE_DIVIDE = "divide-(--theme-default-five)";
+                public const string THEME_DEFAULT_SIX_DIVIDE = "divide-(--theme-default-six)";
+                public const string THEME_DEFAULT_SEVEN_DIVIDE = "divide-(--theme-default-seven)";
+                public const string THEME_DEFAULT_EIGHT_DIVIDE = "divide-(--theme-default-eight)";
+                public const string THEME_DEFAULT_NINE_DIVIDE = "divide-(--theme-default-nine)";
+                public const string THEME_DEFAULT_TEN_DIVIDE = "divide-(--theme-default-ten)";
+
+                // Primary - Divide
+                public const string THEME_PRIMARY_ONE_DIVIDE = "divide-(--theme-primary-one)";
+                public const string THEME_PRIMARY_TWO_DIVIDE = "divide-(--theme-primary-two)";
+                public const string THEME_PRIMARY_THREE_DIVIDE = "divide-(--theme-primary-three)";
+                public const string THEME_PRIMARY_FOUR_DIVIDE = "divide-(--theme-primary-four)";
+                public const string THEME_PRIMARY_FIVE_DIVIDE = "divide-(--theme-primary-five)";
+                public const string THEME_PRIMARY_SIX_DIVIDE = "divide-(--theme-primary-six)";
+                public const string THEME_PRIMARY_SEVEN_DIVIDE = "divide-(--theme-primary-seven)";
+                public const string THEME_PRIMARY_EIGHT_DIVIDE = "divide-(--theme-primary-eight)";
+                public const string THEME_PRIMARY_NINE_DIVIDE = "divide-(--theme-primary-nine)";
+                public const string THEME_PRIMARY_TEN_DIVIDE = "divide-(--theme-primary-ten)";
+
+                // Secondary - Divide
+                public const string THEME_SECONDARY_ONE_DIVIDE = "divide-(--theme-secondary-one)";
+                public const string THEME_SECONDARY_TWO_DIVIDE = "divide-(--theme-secondary-two)";
+                public const string THEME_SECONDARY_THREE_DIVIDE = "divide-(--theme-secondary-three)";
+                public const string THEME_SECONDARY_FOUR_DIVIDE = "divide-(--theme-secondary-four)";
+                public const string THEME_SECONDARY_FIVE_DIVIDE = "divide-(--theme-secondary-five)";
+                public const string THEME_SECONDARY_SIX_DIVIDE = "divide-(--theme-secondary-six)";
+                public const string THEME_SECONDARY_SEVEN_DIVIDE = "divide-(--theme-secondary-seven)";
+                public const string THEME_SECONDARY_EIGHT_DIVIDE = "divide-(--theme-secondary-eight)";
+                public const string THEME_SECONDARY_NINE_DIVIDE = "divide-(--theme-secondary-nine)";
+                public const string THEME_SECONDARY_TEN_DIVIDE = "divide-(--theme-secondary-ten)";
+
+                // Tertiary - Divide
+                public const string THEME_TERTIARY_ONE_DIVIDE = "divide-(--theme-tertiary-one)";
+                public const string THEME_TERTIARY_TWO_DIVIDE = "divide-(--theme-tertiary-two)";
+                public const string THEME_TERTIARY_THREE_DIVIDE = "divide-(--theme-tertiary-three)";
+                public const string THEME_TERTIARY_FOUR_DIVIDE = "divide-(--theme-tertiary-four)";
+                public const string THEME_TERTIARY_FIVE_DIVIDE = "divide-(--theme-tertiary-five)";
+                public const string THEME_TERTIARY_SIX_DIVIDE = "divide-(--theme-tertiary-six)";
+                public const string THEME_TERTIARY_SEVEN_DIVIDE = "divide-(--theme-tertiary-seven)";
+                public const string THEME_TERTIARY_EIGHT_DIVIDE = "divide-(--theme-tertiary-eight)";
+                public const string THEME_TERTIARY_NINE_DIVIDE = "divide-(--theme-tertiary-nine)";
+                public const string THEME_TERTIARY_TEN_DIVIDE = "divide-(--theme-tertiary-ten)";
+
+                // Accent - Divide
+                public const string THEME_ACCENT_ONE_DIVIDE = "divide-(--theme-accent-one)";
+                public const string THEME_ACCENT_TWO_DIVIDE = "divide-(--theme-accent-two)";
+                public const string THEME_ACCENT_THREE_DIVIDE = "divide-(--theme-accent-three)";
+                public const string THEME_ACCENT_FOUR_DIVIDE = "divide-(--theme-accent-four)";
+                public const string THEME_ACCENT_FIVE_DIVIDE = "divide-(--theme-accent-five)";
+                public const string THEME_ACCENT_SIX_DIVIDE = "divide-(--theme-accent-six)";
+                public const string THEME_ACCENT_SEVEN_DIVIDE = "divide-(--theme-accent-seven)";
+                public const string THEME_ACCENT_EIGHT_DIVIDE = "divide-(--theme-accent-eight)";
+                public const string THEME_ACCENT_NINE_DIVIDE = "divide-(--theme-accent-nine)";
+                public const string THEME_ACCENT_TEN_DIVIDE = "divide-(--theme-accent-ten)";
+
+                // Highlight - Divide
+                public const string THEME_HIGHLIGHT_ONE_DIVIDE = "divide-(--theme-highlight-one)";
+                public const string THEME_HIGHLIGHT_TWO_DIVIDE = "divide-(--theme-highlight-two)";
+                public const string THEME_HIGHLIGHT_THREE_DIVIDE = "divide-(--theme-highlight-three)";
+                public const string THEME_HIGHLIGHT_FOUR_DIVIDE = "divide-(--theme-highlight-four)";
+                public const string THEME_HIGHLIGHT_FIVE_DIVIDE = "divide-(--theme-highlight-five)";
+                public const string THEME_HIGHLIGHT_SIX_DIVIDE = "divide-(--theme-highlight-six)";
+                public const string THEME_HIGHLIGHT_SEVEN_DIVIDE = "divide-(--theme-highlight-seven)";
+                public const string THEME_HIGHLIGHT_EIGHT_DIVIDE = "divide-(--theme-highlight-eight)";
+                public const string THEME_HIGHLIGHT_NINE_DIVIDE = "divide-(--theme-highlight-nine)";
+                public const string THEME_HIGHLIGHT_TEN_DIVIDE = "divide-(--theme-highlight-ten)";
+
+                // Alert - Divide
+                public const string THEME_ALERT_ONE_DIVIDE = "divide-(--theme-alert-one)";
+                public const string THEME_ALERT_TWO_DIVIDE = "divide-(--theme-alert-two)";
+                public const string THEME_ALERT_THREE_DIVIDE = "divide-(--theme-alert-three)";
+                public const string THEME_ALERT_FOUR_DIVIDE = "divide-(--theme-alert-four)";
+                public const string THEME_ALERT_FIVE_DIVIDE = "divide-(--theme-alert-five)";
+                public const string THEME_ALERT_SIX_DIVIDE = "divide-(--theme-alert-six)";
+                public const string THEME_ALERT_SEVEN_DIVIDE = "divide-(--theme-alert-seven)";
+                public const string THEME_ALERT_EIGHT_DIVIDE = "divide-(--theme-alert-eight)";
+                public const string THEME_ALERT_NINE_DIVIDE = "divide-(--theme-alert-nine)";
+                public const string THEME_ALERT_TEN_DIVIDE = "divide-(--theme-alert-ten)";
+
+                // Warning - Divide
+                public const string THEME_WARNING_ONE_DIVIDE = "divide-(--theme-warning-one)";
+                public const string THEME_WARNING_TWO_DIVIDE = "divide-(--theme-warning-two)";
+                public const string THEME_WARNING_THREE_DIVIDE = "divide-(--theme-warning-three)";
+                public const string THEME_WARNING_FOUR_DIVIDE = "divide-(--theme-warning-four)";
+                public const string THEME_WARNING_FIVE_DIVIDE = "divide-(--theme-warning-five)";
+                public const string THEME_WARNING_SIX_DIVIDE = "divide-(--theme-warning-six)";
+                public const string THEME_WARNING_SEVEN_DIVIDE = "divide-(--theme-warning-seven)";
+                public const string THEME_WARNING_EIGHT_DIVIDE = "divide-(--theme-warning-eight)";
+                public const string THEME_WARNING_NINE_DIVIDE = "divide-(--theme-warning-nine)";
+                public const string THEME_WARNING_TEN_DIVIDE = "divide-(--theme-warning-ten)";
+
+                // Info - Divide
+                public const string THEME_INFO_ONE_DIVIDE = "divide-(--theme-info-one)";
+                public const string THEME_INFO_TWO_DIVIDE = "divide-(--theme-info-two)";
+                public const string THEME_INFO_THREE_DIVIDE = "divide-(--theme-info-three)";
+                public const string THEME_INFO_FOUR_DIVIDE = "divide-(--theme-info-four)";
+                public const string THEME_INFO_FIVE_DIVIDE = "divide-(--theme-info-five)";
+                public const string THEME_INFO_SIX_DIVIDE = "divide-(--theme-info-six)";
+                public const string THEME_INFO_SEVEN_DIVIDE = "divide-(--theme-info-seven)";
+                public const string THEME_INFO_EIGHT_DIVIDE = "divide-(--theme-info-eight)";
+                public const string THEME_INFO_NINE_DIVIDE = "divide-(--theme-info-nine)";
+                public const string THEME_INFO_TEN_DIVIDE = "divide-(--theme-info-ten)";
+
+                // Success - Divide
+                public const string THEME_SUCCESS_ONE_DIVIDE = "divide-(--theme-success-one)";
+                public const string THEME_SUCCESS_TWO_DIVIDE = "divide-(--theme-success-two)";
+                public const string THEME_SUCCESS_THREE_DIVIDE = "divide-(--theme-success-three)";
+                public const string THEME_SUCCESS_FOUR_DIVIDE = "divide-(--theme-success-four)";
+                public const string THEME_SUCCESS_FIVE_DIVIDE = "divide-(--theme-success-five)";
+                public const string THEME_SUCCESS_SIX_DIVIDE = "divide-(--theme-success-six)";
+                public const string THEME_SUCCESS_SEVEN_DIVIDE = "divide-(--theme-success-seven)";
+                public const string THEME_SUCCESS_EIGHT_DIVIDE = "divide-(--theme-success-eight)";
+                public const string THEME_SUCCESS_NINE_DIVIDE = "divide-(--theme-success-nine)";
+                public const string THEME_SUCCESS_TEN_DIVIDE = "divide-(--theme-success-ten)";
+
+                // Light - Divide
+                public const string THEME_LIGHT_ONE_DIVIDE = "divide-(--theme-light-one)";
+                public const string THEME_LIGHT_TWO_DIVIDE = "divide-(--theme-light-two)";
+                public const string THEME_LIGHT_THREE_DIVIDE = "divide-(--theme-light-three)";
+                public const string THEME_LIGHT_FOUR_DIVIDE = "divide-(--theme-light-four)";
+                public const string THEME_LIGHT_FIVE_DIVIDE = "divide-(--theme-light-five)";
+                public const string THEME_LIGHT_SIX_DIVIDE = "divide-(--theme-light-six)";
+                public const string THEME_LIGHT_SEVEN_DIVIDE = "divide-(--theme-light-seven)";
+                public const string THEME_LIGHT_EIGHT_DIVIDE = "divide-(--theme-light-eight)";
+                public const string THEME_LIGHT_NINE_DIVIDE = "divide-(--theme-light-nine)";
+                public const string THEME_LIGHT_TEN_DIVIDE = "divide-(--theme-light-ten)";
+
+                // Dark - Divide
+                public const string THEME_DARK_ONE_DIVIDE = "divide-(--theme-dark-one)";
+                public const string THEME_DARK_TWO_DIVIDE = "divide-(--theme-dark-two)";
+                public const string THEME_DARK_THREE_DIVIDE = "divide-(--theme-dark-three)";
+                public const string THEME_DARK_FOUR_DIVIDE = "divide-(--theme-dark-four)";
+                public const string THEME_DARK_FIVE_DIVIDE = "divide-(--theme-dark-five)";
+                public const string THEME_DARK_SIX_DIVIDE = "divide-(--theme-dark-six)";
+                public const string THEME_DARK_SEVEN_DIVIDE = "divide-(--theme-dark-seven)";
+                public const string THEME_DARK_EIGHT_DIVIDE = "divide-(--theme-dark-eight)";
+                public const string THEME_DARK_NINE_DIVIDE = "divide-(--theme-dark-nine)";
+                public const string THEME_DARK_TEN_DIVIDE = "divide-(--theme-dark-ten)";
+
+                #endregion
             }
+
+            #region base color constants
+
+            // Default
+            public const string THEME_DEFAULT_ONE = "--theme-default-one";
+            public const string THEME_DEFAULT_TWO = "--theme-default-two";
+            public const string THEME_DEFAULT_THREE = "--theme-default-three";
+            public const string THEME_DEFAULT_FOUR = "--theme-default-four";
+            public const string THEME_DEFAULT_FIVE = "--theme-default-five";
+            public const string THEME_DEFAULT_SIX = "--theme-default-six";
+            public const string THEME_DEFAULT_SEVEN = "--theme-default-seven";
+            public const string THEME_DEFAULT_EIGHT = "--theme-default-eight";
+            public const string THEME_DEFAULT_NINE = "--theme-default-nine";
+            public const string THEME_DEFAULT_TEN = "--theme-default-ten";
+
+            // Primary
+            public const string THEME_PRIMARY_ONE = "--theme-primary-one";
+            public const string THEME_PRIMARY_TWO = "--theme-primary-two";
+            public const string THEME_PRIMARY_THREE = "--theme-primary-three";
+            public const string THEME_PRIMARY_FOUR = "--theme-primary-four";
+            public const string THEME_PRIMARY_FIVE = "--theme-primary-five";
+            public const string THEME_PRIMARY_SIX = "--theme-primary-six";
+            public const string THEME_PRIMARY_SEVEN = "--theme-primary-seven";
+            public const string THEME_PRIMARY_EIGHT = "--theme-primary-eight";
+            public const string THEME_PRIMARY_NINE = "--theme-primary-nine";
+            public const string THEME_PRIMARY_TEN = "--theme-primary-ten";
+
+            // Secondary
+            public const string THEME_SECONDARY_ONE = "--theme-secondary-one";
+            public const string THEME_SECONDARY_TWO = "--theme-secondary-two";
+            public const string THEME_SECONDARY_THREE = "--theme-secondary-three";
+            public const string THEME_SECONDARY_FOUR = "--theme-secondary-four";
+            public const string THEME_SECONDARY_FIVE = "--theme-secondary-five";
+            public const string THEME_SECONDARY_SIX = "--theme-secondary-six";
+            public const string THEME_SECONDARY_SEVEN = "--theme-secondary-seven";
+            public const string THEME_SECONDARY_EIGHT = "--theme-secondary-eight";
+            public const string THEME_SECONDARY_NINE = "--theme-secondary-nine";
+            public const string THEME_SECONDARY_TEN = "--theme-secondary-ten";
+
+            // Tertiary
+            public const string THEME_TERTIARY_ONE = "--theme-tertiary-one";
+            public const string THEME_TERTIARY_TWO = "--theme-tertiary-two";
+            public const string THEME_TERTIARY_THREE = "--theme-tertiary-three";
+            public const string THEME_TERTIARY_FOUR = "--theme-tertiary-four";
+            public const string THEME_TERTIARY_FIVE = "--theme-tertiary-five";
+            public const string THEME_TERTIARY_SIX = "--theme-tertiary-six";
+            public const string THEME_TERTIARY_SEVEN = "--theme-tertiary-seven";
+            public const string THEME_TERTIARY_EIGHT = "--theme-tertiary-eight";
+            public const string THEME_TERTIARY_NINE = "--theme-tertiary-nine";
+            public const string THEME_TERTIARY_TEN = "--theme-tertiary-ten";
+
+            // Accent
+            public const string THEME_ACCENT_ONE = "--theme-accent-one";
+            public const string THEME_ACCENT_TWO = "--theme-accent-two";
+            public const string THEME_ACCENT_THREE = "--theme-accent-three";
+            public const string THEME_ACCENT_FOUR = "--theme-accent-four";
+            public const string THEME_ACCENT_FIVE = "--theme-accent-five";
+            public const string THEME_ACCENT_SIX = "--theme-accent-six";
+            public const string THEME_ACCENT_SEVEN = "--theme-accent-seven";
+            public const string THEME_ACCENT_EIGHT = "--theme-accent-eight";
+            public const string THEME_ACCENT_NINE = "--theme-accent-nine";
+            public const string THEME_ACCENT_TEN = "--theme-accent-ten";
+
+            // Highlight
+            public const string THEME_HIGHLIGHT_ONE = "--theme-highlight-one";
+            public const string THEME_HIGHLIGHT_TWO = "--theme-highlight-two";
+            public const string THEME_HIGHLIGHT_THREE = "--theme-highlight-three";
+            public const string THEME_HIGHLIGHT_FOUR = "--theme-highlight-four";
+            public const string THEME_HIGHLIGHT_FIVE = "--theme-highlight-five";
+            public const string THEME_HIGHLIGHT_SIX = "--theme-highlight-six";
+            public const string THEME_HIGHLIGHT_SEVEN = "--theme-highlight-seven";
+            public const string THEME_HIGHLIGHT_EIGHT = "--theme-highlight-eight";
+            public const string THEME_HIGHLIGHT_NINE = "--theme-highlight-nine";
+            public const string THEME_HIGHLIGHT_TEN = "--theme-highlight-ten";
+
+            // Alert
+            public const string THEME_ALERT_ONE = "--theme-alert-one";
+            public const string THEME_ALERT_TWO = "--theme-alert-two";
+            public const string THEME_ALERT_THREE = "--theme-alert-three";
+            public const string THEME_ALERT_FOUR = "--theme-alert-four";
+            public const string THEME_ALERT_FIVE = "--theme-alert-five";
+            public const string THEME_ALERT_SIX = "--theme-alert-six";
+            public const string THEME_ALERT_SEVEN = "--theme-alert-seven";
+            public const string THEME_ALERT_EIGHT = "--theme-alert-eight";
+            public const string THEME_ALERT_NINE = "--theme-alert-nine";
+            public const string THEME_ALERT_TEN = "--theme-alert-ten";
+
+            // Warning
+            public const string THEME_WARNING_ONE = "--theme-warning-one";
+            public const string THEME_WARNING_TWO = "--theme-warning-two";
+            public const string THEME_WARNING_THREE = "--theme-warning-three";
+            public const string THEME_WARNING_FOUR = "--theme-warning-four";
+            public const string THEME_WARNING_FIVE = "--theme-warning-five";
+            public const string THEME_WARNING_SIX = "--theme-warning-six";
+            public const string THEME_WARNING_SEVEN = "--theme-warning-seven";
+            public const string THEME_WARNING_EIGHT = "--theme-warning-eight";
+            public const string THEME_WARNING_NINE = "--theme-warning-nine";
+            public const string THEME_WARNING_TEN = "--theme-warning-ten";
+
+            // Info
+            public const string THEME_INFO_ONE = "--theme-info-one";
+            public const string THEME_INFO_TWO = "--theme-info-two";
+            public const string THEME_INFO_THREE = "--theme-info-three";
+            public const string THEME_INFO_FOUR = "--theme-info-four";
+            public const string THEME_INFO_FIVE = "--theme-info-five";
+            public const string THEME_INFO_SIX = "--theme-info-six";
+            public const string THEME_INFO_SEVEN = "--theme-info-seven";
+            public const string THEME_INFO_EIGHT = "--theme-info-eight";
+            public const string THEME_INFO_NINE = "--theme-info-nine";
+            public const string THEME_INFO_TEN = "--theme-info-ten";
+
+            // Success
+            public const string THEME_SUCCESS_ONE = "--theme-success-one";
+            public const string THEME_SUCCESS_TWO = "--theme-success-two";
+            public const string THEME_SUCCESS_THREE = "--theme-success-three";
+            public const string THEME_SUCCESS_FOUR = "--theme-success-four";
+            public const string THEME_SUCCESS_FIVE = "--theme-success-five";
+            public const string THEME_SUCCESS_SIX = "--theme-success-six";
+            public const string THEME_SUCCESS_SEVEN = "--theme-success-seven";
+            public const string THEME_SUCCESS_EIGHT = "--theme-success-eight";
+            public const string THEME_SUCCESS_NINE = "--theme-success-nine";
+            public const string THEME_SUCCESS_TEN = "--theme-success-ten";
+
+            // Light
+            public const string THEME_LIGHT_ONE = "--theme-light-one";
+            public const string THEME_LIGHT_TWO = "--theme-light-two";
+            public const string THEME_LIGHT_THREE = "--theme-light-three";
+            public const string THEME_LIGHT_FOUR = "--theme-light-four";
+            public const string THEME_LIGHT_FIVE = "--theme-light-five";
+            public const string THEME_LIGHT_SIX = "--theme-light-six";
+            public const string THEME_LIGHT_SEVEN = "--theme-light-seven";
+            public const string THEME_LIGHT_EIGHT = "--theme-light-eight";
+            public const string THEME_LIGHT_NINE = "--theme-light-nine";
+            public const string THEME_LIGHT_TEN = "--theme-light-ten";
+
+            // Dark
+            public const string THEME_DARK_ONE = "--theme-dark-one";
+            public const string THEME_DARK_TWO = "--theme-dark-two";
+            public const string THEME_DARK_THREE = "--theme-dark-three";
+            public const string THEME_DARK_FOUR = "--theme-dark-four";
+            public const string THEME_DARK_FIVE = "--theme-dark-five";
+            public const string THEME_DARK_SIX = "--theme-dark-six";
+            public const string THEME_DARK_SEVEN = "--theme-dark-seven";
+            public const string THEME_DARK_EIGHT = "--theme-dark-eight";
+            public const string THEME_DARK_NINE = "--theme-dark-nine";
+            public const string THEME_DARK_TEN = "--theme-dark-ten";
+
+            #endregion
         }
 
         public static class Typography
@@ -3793,7 +3794,6 @@ public static class Tailwind
             public const string DISPLAY_SMALL =
                 "text-4xl font-normal tracking-tight leading-tight font-display";
 
-
             // =========================
             // HEADLINES
             // =========================
@@ -3806,7 +3806,6 @@ public static class Tailwind
 
             public const string HEADLINE_SMALL =
                 "text-xl font-semibold leading-snug font-heading";
-
 
             // =========================
             // TITLES
@@ -3821,7 +3820,6 @@ public static class Tailwind
             public const string TITLE_SMALL =
                 "text-sm font-semibold leading-snug font-heading";
 
-
             // =========================
             // BODY
             // =========================
@@ -3834,7 +3832,6 @@ public static class Tailwind
 
             public const string BODY_SMALL =
                 "text-xs font-normal leading-relaxed font-ui";
-
 
             // =========================
             // LABELS (BUTTONS, CHIPS)
@@ -3852,7 +3849,6 @@ public static class Tailwind
             public const string LABEL_XL =
                 "text-[14px] font-medium tracking-wide leading-none font-ui";
 
-
             public const string HEADING_XLARGE = "sm:text-4xl font-semibold tracking-tight text-pretty text-gray-900 text-5xl";
             public const string HEADING_LARGE = "sm:text-4xl font-extrabold tracking-tight text-slate-900 text-7xl";
             public const string HEADING_MEDIUM = "text-3xl font-extrabold tracking-tight text-slate-900";
@@ -3860,7 +3856,7 @@ public static class Tailwind
         }
 
         public static class NavLink
-        { 
+        {
             // Icon wrapper
             public const string ICON_CONTAINER =
                 "flex items-center shrink-0 w-5 h-5";
@@ -3871,7 +3867,6 @@ public static class Tailwind
             public const string SURROUND = "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 overflow-hidden";
 
             public const string DISABLED = "opacity-38 cursor-not-allowed pointer-events-none";
-
 
             // Default variant (neutral)
             public const string DEFAULT_FILLED =
@@ -3992,101 +3987,98 @@ public static class Tailwind
 
             public const string BUTTON_TEXT = "border-0 bg-transparent shadow-none";
 
+            public const string BUTTON_SMALL = "h-[30px] px-2.5 py-1 gap-1";
+            public const string BUTTON_REGULAR = "h-9 px-4 py-1.5 gap-2";
+            public const string BUTTON_LARGE = "h-[42px] px-5 py-2 gap-2";
 
             #region Button Variant Colors
 
             public const string BUTTON_FILLED_DEFAULT =
                 "bg-(--theme-light-six) text-neutral-900 hover:bg-(--theme-default-seven) hover:shadow-lg focus:ring-(--theme-default-eight) active:bg-(--theme-default-eight)";
 
-            public const string BUTTON_FILLED_PRIMARY = 
+            public const string BUTTON_FILLED_PRIMARY =
                 "bg-(--theme-primary-eight) text-white hover:bg-(--theme-primary-nine) hover:shadow-lg focus:ring-(--theme-primary-nine) active:bg-(--theme-primary-four)";
 
             public const string BUTTON_FILLED_SECONDARY =
                 "bg-(--theme-secondary-six) text-white hover:bg-(--theme-secondary-seven) hover:shadow-lg focus:ring-(--theme-secondary-eight) active:bg-(--theme-secondary-eight)";
 
-            public const string BUTTON_FILLED_SUCCESS 
+            public const string BUTTON_FILLED_SUCCESS
                 = "bg-(--theme-success-seven) text-white hover:bg-(--theme-success-eight) hover:shadow-lg focus:ring-(--theme-success-nine) active:bg-(--theme-success-nine)";
 
-            public const string BUTTON_FILLED_ALERT 
+            public const string BUTTON_FILLED_ALERT
                 = "bg-(--theme-alert-seven) text-white hover:bg-(--theme-alert-eight) hover:shadow-lg focus:ring-(--theme-alert-nine) active:bg-(--theme-alert-nine)";
 
-            public const string BUTTON_FILLED_WARNING 
+            public const string BUTTON_FILLED_WARNING
                 = "bg-(--theme-warning-seven) text-(--theme-dark-ten) hover:bg-(--theme-warning-eight) hover:shadow-lg focus:ring-(--theme-warning-nine) active:bg-(--theme-warning-nine)";
 
-            public const string BUTTON_FILLED_INFO 
+            public const string BUTTON_FILLED_INFO
                 = "bg-(--theme-info-six) text-white hover:bg-(--theme-info-seven) hover:shadow-lg focus:ring-(--theme-info-eight) active:bg-(--theme-info-eight)";
 
-            public const string BUTTON_FILLED_DARK 
+            public const string BUTTON_FILLED_DARK
                 = "bg-(--theme-dark-eight) text-white hover:bg-(--theme-dark-nine) hover:shadow-lg focus:ring-(--theme-dark-ten) active:bg-(--theme-dark-ten)";
 
-            public const string BUTTON_FILLED_LIGHT 
+            public const string BUTTON_FILLED_LIGHT
                 = "bg-(--theme-light-two) text-(--theme-dark-eight) hover:bg-(--theme-light-three) hover:shadow-lg focus:ring-(--theme-light-four) active:bg-(--theme-light-four)";
 
-            public const string BUTTON_OUTLINED_DEFAULT 
+            public const string BUTTON_OUTLINED_DEFAULT
                 = "border-(--theme-default-seven) text-(--theme-default-nine) hover:border-(--theme-default-eight) hover:bg-(--theme-default-one) active:bg-(--theme-default-two)";
 
-            public const string BUTTON_OUTLINED_PRIMARY 
+            public const string BUTTON_OUTLINED_PRIMARY
                 = "border-(--theme-primary-six) text-(--theme-primary-six) hover:border-(--theme-primary-seven) hover:bg-(--theme-primary-one) active:bg-(--theme-primary-two)";
 
-            public const string BUTTON_OUTLINED_SECONDARY 
+            public const string BUTTON_OUTLINED_SECONDARY
                 = "border-(--theme-secondary-six) text-(--theme-secondary-seven) hover:border-(--theme-secondary-seven) hover:bg-(--theme-secondary-one) active:bg-(--theme-secondary-two)";
 
-            public const string BUTTON_OUTLINED_SUCCESS 
+            public const string BUTTON_OUTLINED_SUCCESS
                 = "border-(--theme-success-seven) text-(--theme-success-eight) hover:border-(--theme-success-eight) hover:bg-(--theme-success-one) active:bg-(--theme-success-two)";
 
-            public const string BUTTON_OUTLINED_ALERT 
+            public const string BUTTON_OUTLINED_ALERT
                 = "border-(--theme-alert-seven) text-(--theme-alert-eight) hover:border-(--theme-alert-eight) hover:bg-(--theme-alert-one) active:bg-(--theme-alert-two)";
 
-            public const string BUTTON_OUTLINED_WARNING 
+            public const string BUTTON_OUTLINED_WARNING
                 = "border-(--theme-warning-seven) text-(--theme-warning-eight) hover:border-(--theme-warning-eight) hover:bg-(--theme-warning-one) active:bg-(--theme-warning-two)";
 
-            public const string BUTTON_OUTLINED_INFO 
+            public const string BUTTON_OUTLINED_INFO
                 = "border-(--theme-info-six) text-(--theme-info-seven) hover:border-(--theme-info-seven) hover:bg-(--theme-info-one) active:bg-(--theme-info-two)";
 
-            public const string BUTTON_OUTLINED_DARK 
+            public const string BUTTON_OUTLINED_DARK
                 = "border-(--theme-dark-eight) text-(--theme-dark-eight) hover:border-(--theme-dark-nine) hover:bg-(--theme-dark-one) active:bg-(--theme-dark-two)";
 
             public const string BUTTON_OUTLINED_LIGHT
                 = "border-(--theme-light-six) text-(--theme-light-nine) hover:border-(--theme-light-seven) hover:bg-(--theme-light-one) active:bg-(--theme-light-two)";
 
-
-            public const string BUTTON_TEXT_DEFAULT 
+            public const string BUTTON_TEXT_DEFAULT
                 = "text-(--theme-default-nine) hover:bg-(--theme-default-one) active:bg-(--theme-default-two)";
 
-            public const string BUTTON_TEXT_PRIMARY 
+            public const string BUTTON_TEXT_PRIMARY
                 = "text-(--theme-primary-six) hover:bg-(--theme-primary-one) active:bg-(--theme-primary-two)";
 
-            public const string BUTTON_TEXT_SECONDARY 
+            public const string BUTTON_TEXT_SECONDARY
                 = "text-(--theme-secondary-seven) hover:bg-(--theme-secondary-one) active:bg-(--theme-secondary-two)";
 
-            public const string BUTTON_TEXT_SUCCESS 
+            public const string BUTTON_TEXT_SUCCESS
                 = "text-(--theme-success-eight) hover:bg-(--theme-success-one) active:bg-(--theme-success-two)";
 
-            public const string BUTTON_TEXT_ALERT 
+            public const string BUTTON_TEXT_ALERT
                 = "text-(--theme-alert-eight) hover:bg-(--theme-alert-one) active:bg-(--theme-alert-two)";
 
-            public const string BUTTON_TEXT_WARNING 
+            public const string BUTTON_TEXT_WARNING
                 = "text-(--theme-warning-eight) hover:bg-(--theme-warning-one) active:bg-(--theme-warning-two)";
 
-            public const string BUTTON_TEXT_INFO 
+            public const string BUTTON_TEXT_INFO
                 = "text-(--theme-info-seven) hover:bg-(--theme-info-one) active:bg-(--theme-info-two)";
 
-            public const string BUTTON_TEXT_DARK 
+            public const string BUTTON_TEXT_DARK
                 = "text-(--theme-dark-eight) hover:bg-(--theme-dark-one) active:bg-(--theme-dark-two)";
 
-            public const string BUTTON_TEXT_LIGHT 
+            public const string BUTTON_TEXT_LIGHT
                 = "text-(--theme-light-nine) hover:bg-(--theme-light-one) active:bg-(--theme-light-two)";
 
             #endregion
-
-            public const string BUTTON_SMALL = "h-[30px] px-2.5 py-1 gap-1";
-            public const string BUTTON_REGULAR = "h-9 px-4 py-1.5 gap-2";
-            public const string BUTTON_LARGE = "h-[42px] px-5 py-2 gap-2";
         }
 
         public static class Dialog
         {
-
             public const string WIDTH_SMALL = "w-xl";
             public const string WIDTH_MEDIUM = "w-4xl";
             public const string WIDTH_LARGE = "w-7xl";

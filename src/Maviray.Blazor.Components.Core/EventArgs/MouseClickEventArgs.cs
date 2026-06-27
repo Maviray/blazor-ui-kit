@@ -11,7 +11,7 @@ public class MouseClickEventArgs : MouseEventArgs
         ButtonId = buttonId;
     }
 
-    public MouseClickEventArgs(string? buttonId, MouseEventArgs mouseEventArgs) 
+    public MouseClickEventArgs(string? buttonId, MouseEventArgs mouseEventArgs)
     {
         ButtonId = buttonId;
         AltKey = mouseEventArgs.AltKey;

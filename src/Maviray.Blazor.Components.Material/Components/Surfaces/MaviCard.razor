@@ -12,10 +12,17 @@
     private string? _containerCss;
     private string? _titleCss;
 
-    [Parameter] public string? Width { get; set; } = "w-96";
-    [Parameter] public ElementVariant ElementVariant { get; set; } 
-    [Parameter] public ThemeColorScheme ThemeColorScheme { get; set; }
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter]
+    public string? Width { get; set; } = "w-96";
+
+    [Parameter]
+    public ElementVariant ElementVariant { get; set; }
+
+    [Parameter]
+    public ThemeColorScheme ThemeColorScheme { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
 
     private string ContainerCss()
     {
@@ -166,4 +173,5 @@
                 return Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT;
         }
     }
+
 }

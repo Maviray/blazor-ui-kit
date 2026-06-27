@@ -2,5 +2,10 @@
 
 public enum StringInputType
 {
-    Text, Password, Email, Tel, Url, Search
+    Text,
+    Password,
+    Email,
+    Tel,
+    Url,
+    Search
 }

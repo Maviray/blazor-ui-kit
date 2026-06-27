@@ -28,7 +28,7 @@
                title="@Title"
                aria-describedby="@GetAriaDescribedByString()"
                aria-invalid="@GetAreaInvalidValue()"
-               @attributes="AdditionalAttributes" />
+               @attributes="AdditionalAttributes"/>
 
         <div class="@GetTrackClasses()"
              @onclick="HandleClick"
@@ -59,7 +59,9 @@
 </div>
 
 @code {
-    [Parameter] public EventCallback<ValueChangedCallbackParameters<bool>> SwitchStatusChange { get; set; }
+
+    [Parameter]
+    public EventCallback<ValueChangedCallbackParameters<bool>> SwitchStatusChange { get; set; }
 
     protected override bool HasValue => CurrentValue;
 
@@ -89,7 +91,7 @@
 
         if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle( Id, GetType());
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
     }
 
@@ -331,4 +333,5 @@
 
         return $"{sizeClass} {colorClass} mt-1";
     }
+
 }

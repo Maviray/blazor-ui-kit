@@ -1,7 +1,7 @@
-﻿@using System.Diagnostics.CodeAnalysis
-@using Maviray.Blazor.Components.Core.Constants
-@using System.ComponentModel.DataAnnotations
+﻿@using System.ComponentModel.DataAnnotations
+@using System.Diagnostics.CodeAnalysis
 @using System.Reflection
+@using Maviray.Blazor.Components.Core.Constants
 @inherits MaviMaterialInputBase<string>
 
 <div class="@Width">
@@ -26,7 +26,7 @@
                data-val="@(!Disabled && !Readonly ? "true" : "false")"
                @onfocus="OnFocus"
                @onblur="OnBlur"
-               @attributes="AdditionalAttributes" />
+               @attributes="AdditionalAttributes"/>
 
         <!-- Floating Label -->
         @if (!string.IsNullOrEmpty(Label))
@@ -60,7 +60,8 @@
                      aria-label="Loading"
                      role="status">
                     <div class="animate-spin rounded-full border-2 border-solid border-current border-r-transparent"
-                         style="@GetLoadingSpinnerSize()"></div>
+                         style="@GetLoadingSpinnerSize()">
+                    </div>
                 </div>
             }
             else
@@ -81,7 +82,7 @@
         <!-- Fieldset for Outlined Border -->
         <fieldset aria-hidden="true" class="@BuildFieldsetClass()">
             <legend class="@BuildLegendClass()">
-                <span class="@(string.IsNullOrEmpty(Label) || Disabled || Readonly ? "" : "px-2")">@Label@((Required && !Disabled && !Readonly) ? " *" : "")</span>
+                <span class="@(string.IsNullOrEmpty(Label) || Disabled || Readonly ? "" : "px-2")">@Label@(Required && !Disabled && !Readonly ? " *" : "")</span>
             </legend>
         </fieldset>
     </div>
@@ -96,25 +97,28 @@
 </div>
 
 @code {
-    private bool _passwordVisible = false;
+    private bool _passwordVisible;
 
     #region String-Specific Parameters
 
     /// <summary>
-    /// Maximum number of characters allowed in the input.
+    ///     Maximum number of characters allowed in the input.
     /// </summary>
-    [Parameter] public int MaxLength { get; set; } = FormatConstants.DEFAULT_MAX_STRING_INPUT_LIMIT;
+    [Parameter]
+    public int MaxLength { get; set; } = FormatConstants.DEFAULT_MAX_STRING_INPUT_LIMIT;
 
     /// <summary>
-    /// Type of string input (Text, Password, Email, Tel, Url, Search).
+    ///     Type of string input (Text, Password, Email, Tel, Url, Search).
     /// </summary>
-    [Parameter] public StringInputType StringInputType { get; set; } = StringInputType.Text;
+    [Parameter]
+    public StringInputType StringInputType { get; set; } = StringInputType.Text;
 
     /// <summary>
-    /// When true and StringInputType is Password, automatically adds a visibility toggle icon.
-    /// Default is false.
+    ///     When true and StringInputType is Password, automatically adds a visibility toggle icon.
+    ///     Default is false.
     /// </summary>
-    [Parameter] public bool TogglePasswordOnClick { get; set; }
+    [Parameter]
+    public bool TogglePasswordOnClick { get; set; }
 
     #endregion
 
@@ -124,12 +128,14 @@
 
     protected override bool TryParseValueFromString(
         string? value,
-        [MaybeNullWhen(false)] out string result,
-        [NotNullWhen(false)] out string? validationErrorMessage)
+        [MaybeNullWhen(false)]
+        out string result,
+        [NotNullWhen(false)]
+        out string? validationErrorMessage)
     {
         if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle( Id, GetType());
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
 
         result = value ?? string.Empty;
@@ -168,7 +174,7 @@
     {
         if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle( Id, GetType());
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
 
         if (Disabled || EndIconDisabled || IsEndIconLoading)
@@ -263,7 +269,7 @@
     #region Private Methods
 
     /// <summary>
-    /// Determines the HTML input type attribute based on StringInputType and password visibility.
+    ///     Determines the HTML input type attribute based on StringInputType and password visibility.
     /// </summary>
     private string GetInputType()
     {

@@ -1,0 +1,267 @@
+@using System.ComponentModel.DataAnnotations
+@using System.Diagnostics.CodeAnalysis
+@using System.Reflection
+@using Maviray.Blazor.Components.Core.Constants
+@inherits MaviMaterialInputBase<string>
+
+<div class="@Width">
+    <!-- Floating Label Textarea Container -->
+    <div class="@GetContainerClass()">
+        <!-- Textarea Field -->
+        <textarea value="@CurrentValue"
+                  @oninput="HandleInput"
+                  @onchange="HandleChange"
+                  id="@Id"
+                  rows="@Rows"
+                  maxlength="@MaxLength"
+                  disabled="@Disabled"
+                  readonly="@Readonly"
+                  class="@BuildTextAreaClass()"
+                  style="@Style"
+                  title="@GetTitle()"
+                  aria-describedby="@GetAriaDescribedByString()"
+                  aria-invalid="@GetAreaInvalidValue()"
+                  aria-label="@Label"
+                  aria-required="@Required.ToString().ToLowerInvariant()"
+                  data-val="@(!Disabled && !Readonly ? "true" : "false")"
+                  @onfocus="OnFocus"
+                  @onblur="OnBlur"
+                  @attributes="AdditionalAttributes"></textarea>
+
+        <!-- Floating Label -->
+        @if (!string.IsNullOrEmpty(Label))
+        {
+            <label for="@Id"
+                   class="@BuildLabelClass()"
+                   title="@Title">
+                @Label
+                @if (Required && !Disabled && !Readonly)
+                {
+                    <span class="@BuildRequiredAsteriskClass()">*</span>
+                }
+            </label>
+        }
+
+        <!-- Fieldset for Outlined Border -->
+        <fieldset aria-hidden="true" class="@BuildFieldsetClass()">
+            <legend class="@BuildLegendClass()">
+                <span class="@(string.IsNullOrEmpty(Label) || Disabled || Readonly ? "" : "px-2")">@Label@(Required && !Disabled && !Readonly ? " *" : "")</span>
+            </legend>
+        </fieldset>
+    </div>
+
+    <!-- Helper Text / Character Counter -->
+    @if (!string.IsNullOrEmpty(HelperText) || ShowCharacterCount)
+    {
+        <div class="mt-1.5 flex items-start justify-between gap-2 px-3.5 text-xs leading-tight text-black/60">
+            @if (!string.IsNullOrEmpty(HelperText))
+            {
+                <span id="@($"{Id}-helper")">@HelperText</span>
+            }
+            else
+            {
+                <span></span>
+            }
+            @if (ShowCharacterCount)
+            {
+                <span class="shrink-0 tabular-nums">@(CurrentValue?.Length ?? 0)/@MaxLength</span>
+            }
+        </div>
+    }
+</div>
+
+@code {
+
+    #region TextArea-Specific Parameters
+
+    /// <summary>
+    ///     Number of visible text lines for the control. Determines the initial height.
+    ///     Default is 3.
+    /// </summary>
+    [Parameter]
+    public int Rows { get; set; } = 3;
+
+    /// <summary>
+    ///     Maximum number of characters allowed in the textarea.
+    ///     Can be automatically inferred from [MaxLength] or [StringLength] attributes.
+    /// </summary>
+    [Parameter]
+    public int MaxLength { get; set; } = FormatConstants.DEFAULT_MAX_STRING_INPUT_LIMIT;
+
+    /// <summary>
+    ///     Whether the user can manually resize the textarea vertically.
+    ///     Default is true. Disabled/readonly textareas are never resizable.
+    /// </summary>
+    [Parameter]
+    public bool Resizable { get; set; } = true;
+
+    /// <summary>
+    ///     When true, displays a character counter (current/max) below the field.
+    ///     Default is false.
+    /// </summary>
+    [Parameter]
+    public bool ShowCharacterCount { get; set; }
+
+    #endregion
+
+    #region Overrides
+
+    protected override bool HasValue => !string.IsNullOrWhiteSpace(CurrentValue);
+
+    protected override bool TryParseValueFromString(
+        string? value,
+        [MaybeNullWhen(false)]
+        out string result,
+        [NotNullWhen(false)]
+        out string? validationErrorMessage)
+    {
+        if (EnableLifeCycleLogging)
+        {
+            Logger?.LogDebugLifeCycle(Id, GetType());
+        }
+
+        result = value ?? string.Empty;
+        validationErrorMessage = null;
+        return true;
+    }
+
+    protected override Task HandleInput(ChangeEventArgs e)
+    {
+        // Don't update value for disabled/readonly fields
+        if (Disabled || Readonly)
+            return Task.CompletedTask;
+
+        CurrentValue = e.Value?.ToString();
+        // Don't trigger validation on every keystroke - just update the UI (label float, counter)
+
+        return Task.CompletedTask;
+    }
+
+    protected override Task HandleChange(ChangeEventArgs e)
+    {
+        // Don't update value or validate disabled/readonly fields
+        if (Disabled || Readonly)
+            return Task.CompletedTask;
+
+        CurrentValue = e.Value?.ToString();
+
+        // Trigger validation on change (blur)
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+        EditContext?.NotifyFieldChanged(FieldIdentifier);
+
+        return Task.CompletedTask;
+    }
+
+    protected override void InferTypeSpecificAttributes(PropertyInfo propertyInfo)
+    {
+        // Infer MaxLength if still at default value
+        if (MaxLength == FormatConstants.DEFAULT_MAX_STRING_INPUT_LIMIT)
+        {
+            var maxLengthAttr = propertyInfo.GetCustomAttribute<MaxLengthAttribute>();
+            var stringLengthAttr = propertyInfo.GetCustomAttribute<StringLengthAttribute>();
+
+            var inferredMaxLength = maxLengthAttr?.Length ?? stringLengthAttr?.MaximumLength;
+
+            if (inferredMaxLength.HasValue)
+            {
+                MaxLength = inferredMaxLength.Value;
+            }
+        }
+
+        // Infer HelperText with min length info if available
+        var stringLengthAttribute = propertyInfo.GetCustomAttribute<StringLengthAttribute>();
+        if (stringLengthAttribute != null && stringLengthAttribute.MinimumLength > 0)
+        {
+            var minLengthText = $"Minimum {stringLengthAttribute.MinimumLength} characters";
+
+            if (string.IsNullOrEmpty(HelperText))
+            {
+                HelperText = minLengthText;
+            }
+            else if (!HelperText.Contains("Minimum"))
+            {
+                HelperText = $"{HelperText}. {minLengthText}";
+            }
+        }
+    }
+
+    #endregion
+
+    #region Public API
+
+    /// <summary>
+    ///     Returns the text currently entered in the textarea.
+    ///     Lets the consumer read the live content programmatically (e.g. via @ref)
+    ///     without binding to the model.
+    /// </summary>
+    /// <returns>The current text, or an empty string if nothing is entered.</returns>
+    public string GetCurrentText() => CurrentValue ?? string.Empty;
+
+    #endregion
+
+    #region CSS Class Builders
+
+    // The textarea is multi-line, so its height is driven by `rows` rather than a
+    // fixed height class like the single-line inputs use.
+    protected override string GetContainerClass() => "relative mt-[2px]";
+
+    // Align the "label as placeholder" with the first line of the textarea
+    // (which sits below the top padding) instead of vertically centering it.
+    protected override string GetLabelAsPlaceholderTopOffset()
+    {
+        return ElementSize switch
+        {
+            ElementSize.Small => "top-[22px]",
+            ElementSize.Large => "top-[31px]",
+            _ => "top-[26px]"
+        };
+    }
+
+    private string BuildTextAreaClass()
+    {
+        var classes = new List<string>
+        {
+            "block w-full bg-transparent border-0 outline-none rounded align-top transition-colors duration-200"
+        };
+
+        // Text color
+        if (Disabled)
+        {
+            classes.Add("cursor-not-allowed text-black/[0.38]");
+        }
+        else if (Readonly)
+        {
+            classes.Add("cursor-default text-black/[0.87]");
+        }
+        else
+        {
+            classes.Add("text-black/[0.87]");
+        }
+
+        // Placeholder - transparent since we use a floating label
+        classes.Add("placeholder:text-transparent");
+
+        // Focus
+        classes.Add("focus:outline-none focus:ring-0");
+
+        // Resize behaviour (locked for disabled/readonly)
+        classes.Add(Resizable && !Disabled && !Readonly ? "resize-y" : "resize-none");
+
+        // Padding and font size per size
+        var (padding, fontSize) = ElementSize switch
+        {
+            ElementSize.Small => ("px-3 pt-4 pb-2", "text-sm"),
+            ElementSize.Large => ("px-4 pt-5 pb-3", "text-lg"),
+            _ => ("px-3.5 pt-4.5 pb-2.5", "text-base")
+        };
+
+        classes.Add(padding);
+        classes.Add(fontSize);
+        classes.Add("leading-normal");
+
+        return string.Join(" ", classes);
+    }
+
+    #endregion
+
+}

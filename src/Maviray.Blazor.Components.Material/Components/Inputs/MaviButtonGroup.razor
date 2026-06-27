@@ -1,6 +1,6 @@
-﻿@inherits MaviAttributesComponent
-@using Maviray.Blazor.Components.Core.Models.Buttons
+﻿@using Maviray.Blazor.Components.Core.Models.Buttons
 @using Maviray.Blazor.Components.Material.Constants
+@inherits MaviAttributesComponent
 
 <div id="@Id" class="@GetContainerClasses()" style="@Style" @attributes="AdditionalAttributes">
     @if (Buttons != null && Buttons.Any())
@@ -12,7 +12,7 @@
                     display="@button.Title"
                     class="@GetButtonClasses(index)"
                     disabled="@(Disabled || button.Disabled)"
-                    @onclick="async (e) => { await HandleButtonClick(e, button.Id); }">
+                    @onclick="async e => { await HandleButtonClick(e, button.Id); }">
 
                 @if (!string.IsNullOrEmpty(button.StartIcon))
                 {
@@ -37,23 +37,33 @@
 </div>
 
 @code {
-    [Parameter] public override string? Id { get; set; } = $"button_group_{Guid.NewGuid()}";
 
-    [Parameter] public ThemeColorScheme ThemeColorScheme { get; set; }
+    [Parameter]
+    public override string? Id { get; set; } = $"button_group_{Guid.NewGuid()}";
 
-    [Parameter] public ElementSize ElementSize { get; set; }
+    [Parameter]
+    public ThemeColorScheme ThemeColorScheme { get; set; }
 
-    [Parameter] public TextTransform TextTransform { get; set; }
+    [Parameter]
+    public ElementSize ElementSize { get; set; }
 
-    [Parameter] public ElementVariant ElementVariant { get; set; }
+    [Parameter]
+    public TextTransform TextTransform { get; set; }
 
-    [Parameter] public bool Disabled { get; set; }
+    [Parameter]
+    public ElementVariant ElementVariant { get; set; }
 
-    [Parameter] public List<ButtonModel>? Buttons { get; set; }
+    [Parameter]
+    public bool Disabled { get; set; }
 
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter]
+    public List<ButtonModel>? Buttons { get; set; }
 
-    [Parameter] public EventCallback<MouseGroupClickEventArgs> OnClick { get; set; }
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseGroupClickEventArgs> OnClick { get; set; }
 
     private string GetContainerClasses()
     {
@@ -143,6 +153,7 @@
                         classes.Add("focus:ring-(--theme-light-eight)");
                         classes.Add("active:bg-(--theme-light-eight)");
                     }
+
                     classes.Add("border-0");
                 }
                 // Primary button type has special colors
@@ -157,6 +168,7 @@
                         classes.Add("focus:ring-(--theme-primary-nine)");
                         classes.Add("active:bg-(--theme-primary-four)");
                     }
+
                     classes.Add("border-0");
                 }
                 else
@@ -169,8 +181,10 @@
                         classes.Add($"focus:bg-({colorPrefix}-seven)");
                         classes.Add($"active:bg-({colorPrefix}-eight)");
                     }
+
                     classes.Add("border-0");
                 }
+
                 break;
 
             case ElementVariant.Outlined:
@@ -185,7 +199,7 @@
                     {
                         classes.Add("hover:bg-(--theme-light-one)");
                         classes.Add("hover:border-(--theme-light-seven)");
-                        classes.Add("hover:text-(--theme-dark-ten)"); 
+                        classes.Add("hover:text-(--theme-dark-ten)");
                         classes.Add("focus:bg-(--theme-light-one)");
                         classes.Add("focus:border-(--theme-light-seven)");
                         classes.Add("focus:text-(--theme-dark-ten)");
@@ -234,6 +248,7 @@
                         classes.Add($"active:text-({colorPrefix}-nine)");
                     }
                 }
+
                 break;
 
             case ElementVariant.Text:
@@ -285,6 +300,7 @@
                         classes.Add($"active:text-({colorPrefix}-nine)");
                     }
                 }
+
                 break;
         }
 
@@ -391,7 +407,7 @@
     {
         if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle( Id, GetType());
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
 
         if (OnClick.HasDelegate)
@@ -401,4 +417,5 @@
             await OnClick.InvokeAsync(customArgs);
         }
     }
+
 }

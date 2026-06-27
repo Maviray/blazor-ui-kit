@@ -1,4 +1,9 @@
-﻿using Maviray.Blazor.Components.Core.Components;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Linq.Expressions;
+using System.Reflection;
+using System.Text.RegularExpressions;
+using Maviray.Blazor.Components.Core.Components;
 using Maviray.Blazor.Components.Core.Enums;
 using Maviray.Blazor.Components.Core.EventArgs;
 using Maviray.Blazor.Components.Core.Extensions;
@@ -7,23 +12,72 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Logging;
-using System.ComponentModel.DataAnnotations;
-using System.Reflection;
 
 namespace Maviray.Blazor.Components.Material.Components.Inputs;
 
 /// <summary>
-/// Abstract base class for all Mavi input components.
-/// Contains all shared C# logic for validation, theming, event handling, and CSS class building.
+///     Abstract base class for all Mavi input components.
+///     Contains all shared C# logic for validation, theming, event handling, and CSS class building.
 /// </summary>
 /// <typeparam name="TValue">The type of the input value</typeparam>
 public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDisposable
 {
+    #region Protected Properties
+
+    protected bool IsLabelFloating => IsFocused || HasValue || Disabled || Readonly;
+
+    #endregion
+
+    #region Accessibility Helpers
+
+    protected virtual string? GetTitle() => !string.IsNullOrEmpty(Title) ? Title : HelperText;
+
+    #endregion
+
+    #region Theming
+
+    protected virtual void SetThemeColors()
+    {
+        var colorName = ThemeColorScheme switch
+        {
+            ThemeColorScheme.Default => "default",
+            ThemeColorScheme.Primary => "primary",
+            ThemeColorScheme.Secondary => "secondary",
+            ThemeColorScheme.Success => "success",
+            ThemeColorScheme.Alert => "alert",
+            ThemeColorScheme.Warning => "warning",
+            ThemeColorScheme.Info => "info",
+            ThemeColorScheme.Dark => "dark",
+            ThemeColorScheme.Light => "light",
+            _ => "primary"
+        };
+
+        ThemeTextLightColor = $"text-(--theme-{colorName}-eight)";
+        ThemeTextDarkColor = $"text-(--theme-{colorName}-nine)";
+        ThemeBorderLightColor = $"border-(--theme-{colorName}-eight)";
+        ThemeBorderDarkColor = $"border-(--theme-{colorName}-nine)";
+        ThemeBorderHoverColor = $"hover:border-(--theme-{colorName}-nine)";
+    }
+
+    #endregion
+
+    #region Private Helpers
+
+    protected virtual void DetachValidationStateChangedListener()
+    {
+        if (PreviousEditContext != null)
+        {
+            PreviousEditContext.OnValidationStateChanged -= OnValidationStateChanged;
+        }
+    }
+
+    #endregion
+
     #region Protected Fields
 
     protected bool IsFocused;
-    protected bool AttributesInferred = false;
-    protected bool IsEndIconLoading = false;
+    protected bool AttributesInferred;
+    protected bool IsEndIconLoading;
 
     protected readonly string TextAlertColor = Tailwind.Theme.Colors.Text.THEME_ALERT_EIGHT_TEXT;
     protected readonly string BorderAlertColor = Tailwind.Theme.Colors.Border.THEME_ALERT_EIGHT_BORDER;
@@ -37,46 +91,46 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
     #endregion
 
     #region Common Parameters
-    
-    [Parameter] public string? StartIcon { get; set; }
+
+    [Parameter]
+    public string? StartIcon { get; set; }
 
     /// <summary>
-    /// Icon displayed at the end (right side) of the input field. This icon is clickable.
+    ///     Icon displayed at the end (right side) of the input field. This icon is clickable.
     /// </summary>
-    [Parameter] public string? EndIcon { get; set; }
+    [Parameter]
+    public string? EndIcon { get; set; }
 
     /// <summary>
-    /// Icon displayed at the end (right side) of the input field. This icon is toggled on-click.
+    ///     Icon displayed at the end (right side) of the input field. This icon is toggled on-click.
     /// </summary>
-    [Parameter] public string? EndIconAlternative { get; set; }
+    [Parameter]
+    public string? EndIconAlternative { get; set; }
 
     /// <summary>
-    /// Callback invoked when the end icon is clicked.
+    ///     Callback invoked when the end icon is clicked.
     /// </summary>
-    [Parameter] public EventCallback<MouseClickEventArgs> OnEndIconClick { get; set; }
+    [Parameter]
+    public EventCallback<MouseClickEventArgs> OnEndIconClick { get; set; }
 
     /// <summary>
-    /// Disables the end icon button independently of the input field.
+    ///     Disables the end icon button independently of the input field.
     /// </summary>
-    [Parameter] public bool EndIconDisabled { get; set; }
+    [Parameter]
+    public bool EndIconDisabled { get; set; }
 
     /// <summary>
-    /// Aria label for the end icon button for accessibility.
+    ///     Aria label for the end icon button for accessibility.
     /// </summary>
-    [Parameter] public string ButtonLabel { get; set; } = "Action";
+    [Parameter]
+    public string ButtonLabel { get; set; } = "Action";
 
     /// <summary>
-    /// When true, automatically infers Label, Required, and HelperText from model property attributes.
-    /// Default is true. Set to false in order to disable automatic inference.
+    ///     When true, automatically infers Label, Required, and HelperText from model property attributes.
+    ///     Default is true. Set to false in order to disable automatic inference.
     /// </summary>
-    [Parameter] public bool InferFromModelAttributes { get; set; } = true;
-
-    #endregion
-
-    #region Protected Properties
-
-    
-    protected bool IsLabelFloating => IsFocused || HasValue || Disabled || Readonly;
+    [Parameter]
+    public bool InferFromModelAttributes { get; set; } = true;
 
     #endregion
 
@@ -86,7 +140,7 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
     {
         if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle( Id, GetType());
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
 
         base.OnParametersSet();
@@ -109,7 +163,7 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
             if (EditContext != null)
             {
                 EditContext.OnValidationStateChanged += OnValidationStateChanged;
-                ValidationMessageStore = new ValidationMessageStore(EditContext);
+                ValidationMessageStore = new(EditContext);
             }
 
             PreviousEditContext = EditContext;
@@ -126,7 +180,7 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
     {
         if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle( Id, GetType());
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
 
         base.OnAfterRender(firstRender);
@@ -141,7 +195,7 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
     {
         if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle( Id, GetType());
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
 
         DetachValidationStateChangedListener();
@@ -152,13 +206,13 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
     #region Event Handlers
 
     /// <summary>
-    /// Called when the EditContext's validation state changes (e.g., on form submit)
+    ///     Called when the EditContext's validation state changes (e.g., on form submit)
     /// </summary>
     protected void OnValidationStateChanged(object? sender, ValidationStateChangedEventArgs e)
     {
         if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle( Id, GetType());
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
 
         // Clear validation for disabled/readonly fields
@@ -173,27 +227,29 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
     }
 
     /// <summary>
-    /// Handles input event - updates value for UI purposes (label float) without triggering validation
+    ///     Handles input event - updates value for UI purposes (label float) without triggering validation
     /// </summary>
     protected abstract Task HandleInput(ChangeEventArgs e);
 
     /// <summary>
-    /// Handles change event - triggers validation when user is done editing
+    ///     Handles change event - triggers validation when user is done editing
     /// </summary>
     protected abstract Task HandleChange(ChangeEventArgs e);
 
     /// <summary>
-    /// Handles the end icon click event
+    ///     Handles the end icon click event
     /// </summary>
     protected virtual async Task HandleEndIconClick(MouseEventArgs args)
     {
         if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle( Id, GetType());
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
 
         if (Disabled || EndIconDisabled || IsEndIconLoading)
+        {
             return;
+        }
 
         try
         {
@@ -226,7 +282,7 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
     {
         if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle( Id, GetType());
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
 
         IsFocused = true;
@@ -237,7 +293,7 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
     {
         if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle( Id, GetType());
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
 
         IsFocused = false;
@@ -253,23 +309,27 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
         try
         {
             if (ValueExpression == null)
+            {
                 return;
+            }
 
             var propertyInfo = GetPropertyInfo();
 
             if (propertyInfo == null)
+            {
                 return;
+            }
 
             // Infer Label if not explicitly set
             if (string.IsNullOrEmpty(Label))
             {
                 var displayAttr = propertyInfo.GetCustomAttribute<DisplayAttribute>();
-                var displayNameAttr = propertyInfo.GetCustomAttribute<System.ComponentModel.DisplayNameAttribute>();
+                var displayNameAttr = propertyInfo.GetCustomAttribute<DisplayNameAttribute>();
 
                 Label = displayAttr?.Name
-                    ?? displayAttr?.GetName()
-                    ?? displayNameAttr?.DisplayName
-                    ?? SplitCamelCase(propertyInfo.Name);
+                        ?? displayAttr?.GetName()
+                        ?? displayNameAttr?.DisplayName
+                        ?? SplitCamelCase(propertyInfo.Name);
             }
 
             // Infer Required if not explicitly set (default is false)
@@ -296,7 +356,7 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
     }
 
     /// <summary>
-    /// Override in derived classes to infer type-specific attributes (e.g., Range, MaxLength, etc.)
+    ///     Override in derived classes to infer type-specific attributes (e.g., Range, MaxLength, etc.)
     /// </summary>
     protected virtual void InferTypeSpecificAttributes(PropertyInfo propertyInfo)
     {
@@ -306,24 +366,23 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
     protected PropertyInfo? GetPropertyInfo()
     {
         if (ValueExpression == null)
+        {
             return null;
+        }
 
         var expression = ValueExpression.Body;
 
         return expression switch
         {
             // Handle member access (e.g., () => model.Property)
-            System.Linq.Expressions.MemberExpression memberExpression => memberExpression.Member as PropertyInfo,
+            MemberExpression memberExpression => memberExpression.Member as PropertyInfo,
             // Handle converted expressions (e.g., () => (object)model.Property)
-            System.Linq.Expressions.UnaryExpression { Operand: System.Linq.Expressions.MemberExpression operandMember } => operandMember.Member as PropertyInfo,
+            UnaryExpression { Operand: MemberExpression operandMember } => operandMember.Member as PropertyInfo,
             _ => null
         };
     }
 
-    protected static string SplitCamelCase(string input)
-    {
-        return string.IsNullOrEmpty(input) ? input : System.Text.RegularExpressions.Regex.Replace(input, "([a-z])([A-Z])", "$1 $2");
-    }
+    protected static string SplitCamelCase(string input) => string.IsNullOrEmpty(input) ? input : Regex.Replace(input, "([a-z])([A-Z])", "$1 $2");
 
     #endregion
 
@@ -333,9 +392,9 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
     {
         var heightClass = ElementSize switch
         {
-            ElementSize.Small => "h-10",      // 40px
-            ElementSize.Large => "h-14",      // 56px
-            _ => "h-12"                       // 48px (Regular)
+            ElementSize.Small => "h-10", // 40px
+            ElementSize.Large => "h-14", // 56px
+            _ => "h-12" // 48px (Regular)
         };
 
         return $"relative mt-[2px] {heightClass}";
@@ -553,10 +612,7 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
         return string.Join(" ", classes);
     }
 
-    protected virtual string BuildRequiredAsteriskClass()
-    {
-        return $"ml-0.5 {TextAlertColor}";
-    }
+    protected virtual string BuildRequiredAsteriskClass() => $"ml-0.5 {TextAlertColor}";
 
     protected virtual string GetStartIconClass()
     {
@@ -683,56 +739,6 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
         };
 
         return topOffset;
-    }
-
-    #endregion
-
-    #region Accessibility Helpers
-
-
-
-    protected virtual string? GetTitle()
-    {
-        return !string.IsNullOrEmpty(Title) ? Title : HelperText;
-    }
-
-    #endregion
-
-    #region Theming
-
-    protected virtual void SetThemeColors()
-    {
-        var colorName = ThemeColorScheme switch
-        {
-            ThemeColorScheme.Default => "default",
-            ThemeColorScheme.Primary => "primary",
-            ThemeColorScheme.Secondary => "secondary",
-            ThemeColorScheme.Success => "success",
-            ThemeColorScheme.Alert => "alert",
-            ThemeColorScheme.Warning => "warning",
-            ThemeColorScheme.Info => "info",
-            ThemeColorScheme.Dark => "dark",
-            ThemeColorScheme.Light => "light",
-            _ => "primary"
-        };
-
-        ThemeTextLightColor = $"text-(--theme-{colorName}-eight)";
-        ThemeTextDarkColor = $"text-(--theme-{colorName}-nine)";
-        ThemeBorderLightColor = $"border-(--theme-{colorName}-eight)";
-        ThemeBorderDarkColor = $"border-(--theme-{colorName}-nine)";
-        ThemeBorderHoverColor = $"hover:border-(--theme-{colorName}-nine)";
-    }
-
-    #endregion
-
-    #region Private Helpers
-
-    protected virtual void DetachValidationStateChangedListener()
-    {
-        if (PreviousEditContext != null)
-        {
-            PreviousEditContext.OnValidationStateChanged -= OnValidationStateChanged;
-        }
     }
 
     #endregion
