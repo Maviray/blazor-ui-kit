@@ -188,6 +188,13 @@ public class SampleCircuitStateService : CircuitStateService
                     },
                     new()
                     {
+                        Title = "Text Area",
+                        Icon = "lni lni-thumbs-up-3",
+                        NavigateTo = "PageMaviTextArea"
+
+                    },
+                    new()
+                    {
                         Title = "Input Double",
                         Icon = "lni lni-thumbs-up-3",
                         NavigateTo = "PageMaviInputDouble"
