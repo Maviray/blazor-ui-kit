@@ -154,6 +154,7 @@
     private bool _isEndIconLoading;
     private CancellationTokenSource? _debounceTokenSource;
     private double _dropdownWidth;
+    private bool _seeded;
 
     #region AutoComplete-Specific Parameters
 
@@ -224,6 +225,21 @@
     [Parameter]
     public int MaxDisplayItems { get; set; }
 
+    /// <summary>
+    ///     Item to pre-select on first load (e.g. when an edit form is opened for an
+    ///     existing model). Carries the effective key later returned by
+    ///     <see cref="GetSelectedItem" /> if the user makes no new selection.
+    /// </summary>
+    [Parameter]
+    public TItem? InitialItem { get; set; }
+
+    /// <summary>
+    ///     Display text to show on first load. When set, overrides the text derived from
+    ///     <see cref="InitialItem" /> via <see cref="ItemTextSelector" />.
+    /// </summary>
+    [Parameter]
+    public string? InitialText { get; set; }
+
     #endregion
 
     #region Lifecycle Methods
@@ -258,8 +274,21 @@
 
         base.OnParametersSet();
 
-        // Initialize search text from current value if available
-        if (CurrentValue != null && string.IsNullOrEmpty(_searchText))
+        // Seed the selected item and display text exactly once on first load. The guard is
+        // essential: OnParametersSet runs on every render, and HandleInput clears
+        // _selectedItem on each keystroke, so without it the seed would stomp user input.
+        if (!_seeded && (InitialItem != null || !string.IsNullOrEmpty(InitialText)))
+        {
+            _selectedItem = InitialItem;
+            _searchText = !string.IsNullOrEmpty(InitialText)
+                ? InitialText
+                : InitialItem != null
+                    ? GetItemText(InitialItem)
+                    : null;
+            _seeded = true;
+        }
+        // Fall back to seeding from a bound value when one is provided directly.
+        else if (CurrentValue != null && string.IsNullOrEmpty(_searchText))
         {
             _searchText = GetItemText(CurrentValue);
             _selectedItem = CurrentValue;
