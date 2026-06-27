@@ -23,6 +23,8 @@ public class MaviDialogBaseParameters
 
     public string? Width { get; set; } = "w-full";
 
+    public string? BackgroundColor { get; set; } = "bg-white";
+
     public void Update(MaviDialogBaseParameters parameters)
     {
         Title = parameters.Title;

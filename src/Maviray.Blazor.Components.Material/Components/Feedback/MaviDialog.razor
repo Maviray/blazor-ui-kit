@@ -89,7 +89,7 @@
             _ => Tailwind.Theme.Colors.Border.THEME_DEFAULT_TWO_BORDER
         };
 
-        return $"overflow-hidden border rounded-md bg-white shadow-sm {borderColorClass} {MaviDialogBaseParameters.Width}";
+        return $"overflow-hidden border rounded-md {MaviDialogBaseParameters.BackgroundColor} shadow-sm {borderColorClass} {MaviDialogBaseParameters.Width}";
     }
 
     private string GetDivideCssClasses()
