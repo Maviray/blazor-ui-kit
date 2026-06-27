@@ -1,7 +1,6 @@
 ﻿@using System.Globalization
 @using Maviray.Blazor.Components.Core.Models
 @using Maviray.Blazor.Components.Material.Constants
-
 <div class="relative inline-block">
     <!-- Calendar Popup -->
     @if (_isOpen)
@@ -81,25 +80,25 @@
             <div class="@CssManager.Combine(Tailwind.Theme.Colors.Border.THEME_LIGHT_ONE_BORDER, "flex items-center justify-between p-4 border-t")">
                 <button type="button"
                         @onclick="SelectToday"
-                        class="@CssManager.Combine(Tailwind.Theme.Colors.Text.THEME_PRIMARY_EIGHT_TEXT, 
-                                                    Tailwind.Theme.Colors.Background.Hover.THEME_PRIMARY_ONE_BG_HOVER, 
-                                                    Tailwind.Theme.Colors.Background.Active.THEME_PRIMARY_THREE_BG_ACTIVE,
-                                                                            Tailwind.Theme.Typography.LABEL_MEDIUM, "px-4 py-2 hover:bg-blue-50 rounded transition-colors cursor-pointer")">
+                        class="@CssManager.Combine(Tailwind.Theme.Colors.Text.THEME_PRIMARY_EIGHT_TEXT,
+                                   Tailwind.Theme.Colors.Background.Hover.THEME_PRIMARY_ONE_BG_HOVER,
+                                   Tailwind.Theme.Colors.Background.Active.THEME_PRIMARY_THREE_BG_ACTIVE,
+                                   Tailwind.Theme.Typography.LABEL_MEDIUM, "px-4 py-2 hover:bg-blue-50 rounded transition-colors cursor-pointer")">
                     Today
                 </button>
                 <div class="flex gap-2">
                     <button type="button"
                             @onclick="Clear"
-                            class="@CssManager.Combine(Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT, 
-                                                                    Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER, 
-                                                                    Tailwind.Theme.Colors.Background.Active.THEME_DEFAULT_THREE_BG_ACTIVE, 
-                                                                                            Tailwind.Theme.Typography.LABEL_MEDIUM, "px-4 py-2 rounded transition-colors cursor-pointer")">
+                            class="@CssManager.Combine(Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT,
+                                       Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER,
+                                       Tailwind.Theme.Colors.Background.Active.THEME_DEFAULT_THREE_BG_ACTIVE,
+                                       Tailwind.Theme.Typography.LABEL_MEDIUM, "px-4 py-2 rounded transition-colors cursor-pointer")">
                         Clear
                     </button>
                     <button type="button"
                             @onclick="Close"
-                            class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_PRIMARY_SEVEN_BG, 
-                                       Tailwind.Theme.Colors.Background.Hover.THEME_PRIMARY_EIGHT_BG_HOVER, 
+                            class="@CssManager.Combine(Tailwind.Theme.Colors.Background.THEME_PRIMARY_SEVEN_BG,
+                                       Tailwind.Theme.Colors.Background.Hover.THEME_PRIMARY_EIGHT_BG_HOVER,
                                        Tailwind.Theme.Colors.Background.Active.THEME_PRIMARY_NINE_BG_ACTIVE,
                                        Tailwind.Theme.Typography.LABEL_MEDIUM, "px-4 py-2 rounded transition-colors text-white cursor-pointer")">
                         OK
@@ -111,13 +110,27 @@
 </div>
 
 @code {
-    [Parameter] public DateTime? Value { get; set; }
-    [Parameter] public EventCallback<DateTime?> ValueChanged { get; set; }
-    [Parameter] public DateTime? Min { get; set; }
-    [Parameter] public DateTime? Max { get; set; }
-    [Parameter] public CultureInfo? Culture { get; set; }
-    [Parameter] public bool IsOpen { get; set; }
-    [Parameter] public EventCallback<bool> IsOpenChanged { get; set; }
+
+    [Parameter]
+    public DateTime? Value { get; set; }
+
+    [Parameter]
+    public EventCallback<DateTime?> ValueChanged { get; set; }
+
+    [Parameter]
+    public DateTime? Min { get; set; }
+
+    [Parameter]
+    public DateTime? Max { get; set; }
+
+    [Parameter]
+    public CultureInfo? Culture { get; set; }
+
+    [Parameter]
+    public bool IsOpen { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> IsOpenChanged { get; set; }
 
     private bool _isOpen;
     private int _displayMonth;
@@ -168,10 +181,10 @@
         var startDate = firstDayOfMonth.AddDays(-daysFromPreviousMonth);
         var days = new List<CalendarDay>();
 
-        for (int i = 0; i < 42; i++) // 6 weeks
+        for (var i = 0; i < 42; i++) // 6 weeks
         {
             var date = startDate.AddDays(i);
-            days.Add(new CalendarDay
+            days.Add(new()
             {
                 Date = date,
                 IsInCurrentMonth = date.Month == _displayMonth,
@@ -293,4 +306,5 @@
         _displayMonth = newDate.Month;
         _displayYear = newDate.Year;
     }
+
 }

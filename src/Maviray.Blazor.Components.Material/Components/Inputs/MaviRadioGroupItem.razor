@@ -1,6 +1,5 @@
-﻿@using Maviray.Blazor.Components.Material.Constants
-
-@inherits MaviComponentBase
+﻿@inherits MaviComponentBase
+@using Maviray.Blazor.Components.Material.Constants
 @typeparam TValue
 
 <label class="@GetLabelContainerClass()" for="@Id">
@@ -12,7 +11,7 @@
            disabled="@IsDisabled"
            class="sr-only peer"
            aria-label="@Label"
-           @attributes="AdditionalAttributes" />
+           @attributes="AdditionalAttributes"/>
 
     <div class="@GetRadioClass()">
         <div class="@GetRadioDotClass()"></div>
@@ -25,24 +24,37 @@
 </label>
 
 @code {
-    [CascadingParameter] public RadioGroupContext<TValue>? Group { get; set; }
+
+    [CascadingParameter]
+    public RadioGroupContext<TValue>? Group { get; set; }
 
     // Identity / UI
-    [Parameter] public override string? Id { get; set; } = $"mavi-radio-item-{Guid.NewGuid():N}";
-    [Parameter] public string? Label { get; set; }
+    [Parameter]
+    public override string? Id { get; set; } = $"mavi-radio-item-{Guid.NewGuid():N}";
+
+    [Parameter]
+    public string? Label { get; set; }
 
     // Radio option value
-    [Parameter] public TValue? OptionValue { get; set; }
+    [Parameter]
+    public TValue? OptionValue { get; set; }
 
     // Standalone (no group) binding
-    [Parameter] public TValue? Value { get; set; }
-    [Parameter] public EventCallback<TValue?> ValueChanged { get; set; }
+    [Parameter]
+    public TValue? Value { get; set; }
+
+    [Parameter]
+    public EventCallback<TValue?> ValueChanged { get; set; }
 
     // Standalone (no group) state + styling
-    [Parameter] public bool Disabled { get; set; }
-   
-    [Parameter] public ElementSize ElementSize { get; set; } = ElementSize.Regular;
-    [Parameter] public ThemeColorScheme ThemeColorScheme { get; set; } = ThemeColorScheme.Default;
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter]
+    public ElementSize ElementSize { get; set; } = ElementSize.Regular;
+
+    [Parameter]
+    public ThemeColorScheme ThemeColorScheme { get; set; } = ThemeColorScheme.Default;
 
     // Extra attributes
     [Parameter(CaptureUnmatchedValues = true)]
@@ -59,7 +71,7 @@
 
     private bool IsChecked =>
         EqualityComparer<TValue?>.Default.Equals(EffectiveValue, OptionValue);
-        
+
     private async Task HandleChange(ChangeEventArgs _)
     {
         if (IsDisabled) return;
@@ -293,4 +305,5 @@
     }
 
     #endregion
+
 }

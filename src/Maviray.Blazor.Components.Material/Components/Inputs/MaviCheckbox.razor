@@ -15,7 +15,7 @@
                aria-invalid="@GetAreaInvalidValue()"
                aria-label="@Label"
                aria-required="@Required.ToString().ToLowerInvariant()"
-               @attributes="AdditionalAttributes" />
+               @attributes="AdditionalAttributes"/>
 
         <!-- Custom Checkbox Visual -->
         <div class="@GetCheckboxClass()">
@@ -23,13 +23,13 @@
             <svg class="@GetCheckmarkClass() @GetCheckIconStateClass()"
                  viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path d="M13.3334 4L6.00002 11.3333L2.66669 8"
-                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
 
             <!-- Dash icon: always rendered (absolute overlay) -->
             <svg class="@GetCheckmarkClass() @GetIndeterminateIconStateClass()"
                  viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M3 8H13" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                <path d="M3 8H13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
             </svg>
         </div>
 
@@ -56,18 +56,21 @@
 </div>
 
 @code {
-    [Parameter] public bool Indeterminate { get; set; }   
+
+    [Parameter]
+    public bool Indeterminate { get; set; }
 
     /// <summary>
-    /// Event callback invoked when the selection changes.
+    ///     Event callback invoked when the selection changes.
     /// </summary>
-    [Parameter] public EventCallback<ValueChangedCallbackParameters<bool>> CheckBoxStatusChange { get; set; }
-    
+    [Parameter]
+    public EventCallback<ValueChangedCallbackParameters<bool>> CheckBoxStatusChange { get; set; }
+
     protected async Task HandleChange(ChangeEventArgs e)
     {
         if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle( Id, GetType());
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
 
         if (Disabled || Readonly) return;
@@ -117,8 +120,8 @@
         var baseClasses = new List<string>
         {
             sizeClass,
-            "relative",   // NEW
-            "shrink-0",   // NEW
+            "relative", // NEW
+            "shrink-0", // NEW
             "flex",
             "items-center",
             "justify-center",
@@ -190,13 +193,11 @@
         return string.Join(" ", classes);
     }
 
-    private string GetHelperTextClass()
-    {
-        return CssManager.Combine(
+    private string GetHelperTextClass() =>
+        CssManager.Combine(
             "ml-7 mt-1 text-xs",
             Disabled ? "text-(--theme-default-five)" : "text-(--theme-default-seven)"
         );
-    }
 
     #region Color Helpers
 
@@ -299,11 +300,11 @@
     private string GetCheckIconStateClass()
     {
         // show only when checked AND not indeterminate
-        var state = (CurrentValue && !Indeterminate) ? "opacity-100 scale-100" : "opacity-0 scale-0";
+        var state = CurrentValue && !Indeterminate ? "opacity-100 scale-100" : "opacity-0 scale-0";
 
         return string.Join(" ", new[]
         {
-            "absolute inset-0 m-auto",   // overlay centered
+            "absolute inset-0 m-auto", // overlay centered
             "transition",
             "duration-150",
             "ease-in-out",

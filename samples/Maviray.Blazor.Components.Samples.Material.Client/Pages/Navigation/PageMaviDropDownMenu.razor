@@ -1,5 +1,4 @@
 ﻿@page "/PageMaviDropDownMenu"
-@using Maviray.Blazor.Components.Core.Interfaces
 @using Maviray.Blazor.Components.Material.Components.Menus
 @inherits SamplePageBase
 
@@ -16,31 +15,33 @@
         </div>
     </div>
 </div>
+
 @code {
     private MaviDropDownMenu? _maviDropDownMenuOne;
     private MaviDropDownMenu? _maviDropDownMenuTwo;
-    private readonly IEnumerable<MenuItem> _menuItems = 
+
+    private readonly IEnumerable<MenuItem> _menuItems =
     [
-     new MenuItem()
-     {
-         Key = "Option One",
-         Title = "Option One"
-     },
-     new MenuItem()
-     {
-         Key = "Option Two",
-         Title = "Option Two"
-     },
-     new MenuItem()
-     {
-         Key = "Option Three",
-         Title = "Option Three"
-     },
-     new MenuItem()
-     {
-         Key = "Option Four",
-         Title = "Option Four"
-     }
+        new()
+        {
+            Key = "Option One",
+            Title = "Option One"
+        },
+        new()
+        {
+            Key = "Option Two",
+            Title = "Option Two"
+        },
+        new()
+        {
+            Key = "Option Three",
+            Title = "Option Three"
+        },
+        new()
+        {
+            Key = "Option Four",
+            Title = "Option Four"
+        }
     ];
 
     private string? _action;
@@ -50,4 +51,5 @@
         _action = $"User Clicked: {item.Title}";
         return Task.CompletedTask;
     }
+
 }

@@ -2,5 +2,7 @@
 
 public enum ElementHorizontalAlignment
 {
-    Left, Center, Right
+    Left,
+    Center,
+    Right
 }

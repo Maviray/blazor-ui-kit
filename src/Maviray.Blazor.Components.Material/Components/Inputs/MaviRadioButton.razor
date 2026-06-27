@@ -15,7 +15,7 @@
                aria-invalid="@GetAreaInvalidValue()"
                aria-label="@Label"
                aria-required="@Required.ToString().ToLowerInvariant()"
-               @attributes="AdditionalAttributes" />
+               @attributes="AdditionalAttributes"/>
 
         <!-- Custom Radio Visual -->
         <div class="@GetRadioClass()">
@@ -47,10 +47,12 @@
 </div>
 
 @code {
+
     /// <summary>
-    /// Event callback invoked when the selection changes.
+    ///     Event callback invoked when the selection changes.
     /// </summary>
-    [Parameter] public EventCallback<ValueChangedCallbackParameters<bool>> RadioStatusChange { get; set; }
+    [Parameter]
+    public EventCallback<ValueChangedCallbackParameters<bool>> RadioStatusChange { get; set; }
 
     protected async Task HandleChange(ChangeEventArgs e)
     {
@@ -190,14 +192,12 @@
         return string.Join(" ", classes);
     }
 
-    private string GetHelperTextClass()
-    {
+    private string GetHelperTextClass() =>
         // slightly smaller left indent than checkbox because radio is circular
-        return CssManager.Combine(
+        CssManager.Combine(
             "ml-7 mt-1 text-xs",
             Disabled ? "text-(--theme-default-five)" : "text-(--theme-default-seven)"
         );
-    }
 
     #region Color Helpers
 

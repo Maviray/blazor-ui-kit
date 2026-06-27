@@ -13,9 +13,9 @@
                   CloseOnBackdropClick="false"
                   InitiallyActive="_backdropInitialState"
                   CenterContent="true">
-        <MaviSpinnerStarRotate ThemeColorScheme="ThemeColorScheme.Default" ElementSize="ElementSize.Regular" />
+        <MaviSpinnerStarRotate ThemeColorScheme="ThemeColorScheme.Default" ElementSize="ElementSize.Regular"/>
     </MaviBackdrop>
-    
+
     @if (Collection != null && Collection.Rows.Any())
     {
         <div class="grid divide-y divide-zinc-200" style="grid-template-columns: repeat(@VisibleColumnsCount, minmax(min-content, 200px))">
@@ -53,7 +53,7 @@
                                         ThemeColorScheme="ThemeColorScheme.Default"
                                         ElementSize="ElementSize.Small"
                                         OnClick="ToggleMainContextMenuDropDown"
-                                        Title="@Parameters?.ContentMenuTitle" />
+                                        Title="@Parameters?.ContentMenuTitle"/>
 
                         <!-- Context Menu Dropdown -->
                         <div class="@GetMainContextMenuCss()" style="@GetMainContextMenuStyle()">
@@ -79,9 +79,10 @@
                                id="@($"filter-{column.Key}-{Id}")"
                                class="@GetSearchInputCss()"
                                placeholder="@Parameters?.FilterPlaceholderText"
-                               @oninput="(e) => UpdateColumnFilter(column.Key, e)"/>
+                               @oninput="e => UpdateColumnFilter(column.Key, e)"/>
                     </div>
                 }
+
                 <div class="px-4 py-2 bg-zinc-50"></div>
             }
             @* Data rows *@
@@ -94,7 +95,7 @@
                         {
                             var cell = row.Cells.FirstOrDefault(c => c.ColumnKey == col.Key);
                             <div class="@GetCellBoxClassWithAlignment(col, rowIndex)"
-                                title="@cell?.Value"
+                                 title="@cell?.Value"
                                  @onclick="async () => { await RowClick(row, col); }">
                                 @TrimCellValue(cell)
                             </div>
@@ -114,8 +115,8 @@
                                                                 ThemeColorScheme="rowContextMenuButton.ThemeColorScheme"
                                                                 ElementSize="rowContextMenuButton.ElementSize"
                                                                 Disabled="@rowContextMenuButton.Disabled"
-                                                                OnClick="async (e) => { await RowContextMenuItemClick(e, row, rowContextMenuButton); }"
-                                                                Title="@rowContextMenuButton.Title" />
+                                                                OnClick="async e => { await RowContextMenuItemClick(e, row, rowContextMenuButton); }"
+                                                                Title="@rowContextMenuButton.Title"/>
                                             }
                                         </div>
                                     }
@@ -127,8 +128,8 @@
                                                             ElementVariant="ElementVariant.Text"
                                                             ThemeColorScheme="ThemeColorScheme.Default"
                                                             ElementSize="ElementSize.Small"
-                                                            OnClick="(e) => { ToggleRowContextMenuDropDown(row, e); }"
-                                                            Title="@Parameters?.ContentMenuTitle" />
+                                                            OnClick="e => { ToggleRowContextMenuDropDown(row, e); }"
+                                                            Title="@Parameters?.ContentMenuTitle"/>
 
                                             <!-- Row Context Menu Dropdown -->
                                             <div class="@GetRowContextMenuCss(row, rowIndex)" style="@GetRowContextMenuStyle(row)">
@@ -136,13 +137,12 @@
                                                 {
                                                     <button class="@Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER block w-full px-4 py-2.5 text-left rounded-md transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                                                             disabled="@rowContextMenuButton?.Disabled"
-                                                            @onclick="async (e) => { await RowContextMenuItemClick(e, row, rowContextMenuButton); }">
+                                                            @onclick="async e => { await RowContextMenuItemClick(e, row, rowContextMenuButton); }">
                                                         @rowContextMenuButton?.Title
                                                     </button>
                                                 }
                                             </div>
                                         </div>
-
                                     }
                                 </div>
                             }
@@ -250,11 +250,7 @@
         }
     }
 
-    private string GetColumnHeaderCss(MaviTableColumn column)
-    {
-
-        return $"{Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT} flex items-center {GetColumnHeaderHorizontalAlignmentCss(column)}";
-    }
+    private string GetColumnHeaderCss(MaviTableColumn column) => $"{Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT} flex items-center {GetColumnHeaderHorizontalAlignmentCss(column)}";
 
     private string GetColumnHeaderHorizontalAlignmentCss(MaviTableColumn column)
     {
@@ -271,10 +267,7 @@
         }
     }
 
-    private string GetMainContextMenuCss()
-    {
-        return ContextMenuVisible ? ContextMenuDropDownCss : "hidden";
-    }
+    private string GetMainContextMenuCss() => ContextMenuVisible ? ContextMenuDropDownCss : "hidden";
 
     protected override void ToggleMainContextMenuDropDown(MouseClickEventArgs mouseEventArgs)
     {
@@ -307,6 +300,7 @@
     protected string ActiveRowMenuDropdownPositionStyle = string.Empty;
 
     private string GetMainContextMenuStyle() => MainMenuDropdownPositionStyle;
+
     private string GetRowContextMenuStyle(MaviTableRow? row) =>
         row is { ContextMenuVisible: true } ? ActiveRowMenuDropdownPositionStyle : string.Empty;
 
@@ -314,10 +308,7 @@
     private string GetRowContextMenuCss(MaviTableRow? row, int rowIndex)
         => row is { ContextMenuVisible: true } ? ContextMenuDropDownCss : "hidden";
 
-    private string GetColumnHeaderContainerCss(MaviTableColumn column)
-    {
-        return $"{GetCellSpacing()} truncate flex items-center {GetCellContentAlignment(column)}";
-    }
+    private string GetColumnHeaderContainerCss(MaviTableColumn column) => $"{GetCellSpacing()} truncate flex items-center {GetCellContentAlignment(column)}";
 
     private string GetCellSpacing()
     {
@@ -346,10 +337,7 @@
         return _contextTextSize;
     }
 
-    private string GetPaginationTextCss()
-    {
-        return GetContextTextSize() + " " + Tailwind.Theme.Colors.Text.THEME_DEFAULT_EIGHT_TEXT;
-    }
+    private string GetPaginationTextCss() => GetContextTextSize() + " " + Tailwind.Theme.Colors.Text.THEME_DEFAULT_EIGHT_TEXT;
 
     private string GetCountPerPageSelectCss()
     {
@@ -366,7 +354,6 @@
                                        "transition-shadow w-[70px]";
         }
 
-
         return _countPerPageDropdownCss;
     }
 
@@ -376,6 +363,7 @@
         {
             _contextMenuCellCss = $"{GetCellSpacing()} truncate text-right";
         }
+
         return _contextMenuCellCss;
     }
 
@@ -396,7 +384,7 @@
             _maviBackdrop?.Display();
             await base.RefreshTable();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Logger?.Error(ex, "An error occurred while refreshing the table.");
         }
@@ -414,10 +402,11 @@
             _searchInputCss = Tailwind.Theme.Typography.BODY_SMALL + " " +
                               Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT + " " +
                               Tailwind.Theme.Colors.Border.THEME_DEFAULT_THREE_BORDER + " " +
-                              Tailwind.Theme.Colors.Ring.Focus.THEME_PRIMARY_SIX_RING_FOCUS + 
+                              Tailwind.Theme.Colors.Ring.Focus.THEME_PRIMARY_SIX_RING_FOCUS +
                               " bg-white border px-2 py-1 w-full focus:outline-none focus:ring-2 placeholder:text-(--theme-default-five)";
         }
 
         return _searchInputCss;
     }
+
 }

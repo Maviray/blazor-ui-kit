@@ -4,5 +4,4 @@ namespace Maviray.Blazor.Components.Material.Components.NavBars;
 
 public class NavBarBase : MaviComponentBase
 {
-    
 }

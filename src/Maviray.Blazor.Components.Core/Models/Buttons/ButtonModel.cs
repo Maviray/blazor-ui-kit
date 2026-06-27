@@ -1,29 +1,28 @@
 ﻿using Maviray.Blazor.Components.Core.Enums;
 
-namespace Maviray.Blazor.Components.Core.Models.Buttons
+namespace Maviray.Blazor.Components.Core.Models.Buttons;
+
+public class ButtonModel
 {
-    public class ButtonModel
-    {
-        public string? Id { get; set; } = $"button_{Guid.NewGuid()}";
+    public string? Id { get; set; } = $"button_{Guid.NewGuid()}";
 
-        public string? Title { get; set; }
+    public string? Title { get; set; }
 
-        public ButtonRole ButtonRole { get; set; }
+    public ButtonRole ButtonRole { get; set; }
 
-        public ThemeColorScheme ButtonType { get; set; }
+    public ThemeColorScheme ButtonType { get; set; }
 
-        public ElementSize ElementSize { get; set; }
+    public ElementSize ElementSize { get; set; }
 
-        public TextTransform TextTransform { get; set; }
+    public TextTransform TextTransform { get; set; }
 
-        public ElementVariant ElementVariant { get; set; }
+    public ElementVariant ElementVariant { get; set; }
 
-        public bool Disabled { get; set; }
+    public bool Disabled { get; set; }
 
-        public string Width { get; set; } = "min-w-16";
+    public string Width { get; set; } = "min-w-16";
 
-        public string? StartIcon { get; set; }
+    public string? StartIcon { get; set; }
 
-        public string? EndIcon { get; set; }
-    }
+    public string? EndIcon { get; set; }
 }

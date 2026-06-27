@@ -1,9 +1,8 @@
-﻿@using Maviray.Blazor.Components.Core.Components
-@using Maviray.Blazor.Components.Core.Interfaces
+﻿@using Maviray.Blazor.Components.Core.Interfaces
 @using Maviray.Blazor.Components.Material.Components.ErrorHandlers
 @using Maviray.Blazor.Components.Material.Components.Menus
 @using Maviray.Blazor.Components.Material.Components.NavBars
-@inherits MavirayLayoutBase
+@inherits Maviray.Blazor.Components.Core.Components.MavirayLayoutBase
 
 <div class="w-full h-dvh flex">
     <MaviErrorHandler>
@@ -14,7 +13,7 @@
                     <div>BUIK</div>
                 </div>
                 <div class="h-[80dvh] overflow-y-auto overflow-x-hidden">
-                    <MaviMenuVertical @ref="_maviMenuVertical" PullMenuItems="GetMenuItems" ElementSize="ElementSize.Large" ItemClicked="ItemClicked" DarkMode="true" HighLightColorHex="#F54927" />
+                    <MaviMenuVertical @ref="_maviMenuVertical" PullMenuItems="GetMenuItems" ElementSize="ElementSize.Large" ItemClicked="ItemClicked" DarkMode="true" HighLightColorHex="#F54927"/>
                 </div>
             </aside>
 
@@ -29,7 +28,7 @@
                                             ElementSize="ElementSize.Regular"
                                             ElementVariant="ElementVariant.Text"
                                             OnClick="OnHamburgerButtonClick"
-                                            Title="Toggle Side Nav Bar" />
+                                            Title="Toggle Side Nav Bar"/>
                         </LeftContent>
                         <CenterContent>
                             <div class="hidden md:block!">
@@ -103,6 +102,7 @@
         {
             expanded = _maviMenuVertical.Expanded;
         }
+
         var width = expanded ? "w-64" : "w-[64px]";
 
         return $"{width} shrink-0 flex flex-col bg-(--theme-dark-eight) text-(--theme-light-two)";

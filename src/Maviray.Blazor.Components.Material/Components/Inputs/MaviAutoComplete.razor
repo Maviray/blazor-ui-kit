@@ -1,9 +1,9 @@
-﻿@using System.Diagnostics.CodeAnalysis
-@using Maviray.Blazor.Components.Core.Constants
+﻿@typeparam TItem
 @using System.ComponentModel.DataAnnotations
+@using System.Diagnostics.CodeAnalysis
 @using System.Reflection
+@using Maviray.Blazor.Components.Core.Constants
 @using Microsoft.Extensions.Logging
-@typeparam TItem
 @inherits MaviMaterialInputBase<TItem>
 @inject IJSRuntime JsRuntime
 
@@ -34,7 +34,7 @@
                data-val="@(!Disabled && !Readonly ? "true" : "false")"
                @onfocus="OnFocus"
                @onblur="OnBlur"
-               @attributes="AdditionalAttributes" />
+               @attributes="AdditionalAttributes"/>
 
         <!-- Floating Label -->
         @if (!string.IsNullOrEmpty(Label))
@@ -68,7 +68,8 @@
                      aria-label="Loading"
                      role="status">
                     <div class="animate-spin rounded-full border-2 border-solid border-current border-r-transparent"
-                         style="@GetLoadingSpinnerSize()"></div>
+                         style="@GetLoadingSpinnerSize()">
+                    </div>
                 </div>
             }
             else
@@ -89,7 +90,7 @@
         <!-- Fieldset for Outlined Border -->
         <fieldset aria-hidden="true" class="@BuildFieldsetClass()">
             <legend class="@BuildLegendClass()">
-                <span class="@(string.IsNullOrEmpty(Label) || Disabled || Readonly ? "" : "px-2")">@Label@((Required && !Disabled && !Readonly) ? " *" : "")</span>
+                <span class="@(string.IsNullOrEmpty(Label) || Disabled || Readonly ? "" : "px-2")">@Label@(Required && !Disabled && !Readonly ? " *" : "")</span>
             </legend>
         </fieldset>
     </div>
@@ -157,70 +158,71 @@
     #region AutoComplete-Specific Parameters
 
     /// <summary>
-    /// Delegate to fetch options based on search text.
+    ///     Delegate to fetch options based on search text.
     /// </summary>
-    [Parameter, EditorRequired]
+    [Parameter]
+    [EditorRequired]
     public Func<string, Task<IEnumerable<TItem>>>? OnSearch { get; set; }
 
     /// <summary>
-    /// Function to extract display text from an item.
+    ///     Function to extract display text from an item.
     /// </summary>
     [Parameter]
     public Func<TItem, string>? ItemTextSelector { get; set; }
 
     /// <summary>
-    /// Template for rendering each option in the dropdown.
+    ///     Template for rendering each option in the dropdown.
     /// </summary>
     [Parameter]
     public RenderFragment<TItem>? ItemTemplate { get; set; }
 
     /// <summary>
-    /// Event callback when a value is selected from the dropdown.
+    ///     Event callback when a value is selected from the dropdown.
     /// </summary>
     [Parameter]
     public EventCallback<TItem> OnValueSelected { get; set; }
 
     /// <summary>
-    /// Minimum number of characters before triggering search.
-    /// Default is 1.
+    ///     Minimum number of characters before triggering search.
+    ///     Default is 1.
     /// </summary>
     [Parameter]
     public int MinSearchLength { get; set; } = 1;
 
     /// <summary>
-    /// Text to display when no results are found.
-    /// Default is "No results found".
+    ///     Text to display when no results are found.
+    ///     Default is "No results found".
     /// </summary>
     [Parameter]
     public string NoResultsText { get; set; } = "No results found";
 
     /// <summary>
-    /// Debounce delay in milliseconds for search.
-    /// Default is 300ms.
+    ///     Debounce delay in milliseconds for search.
+    ///     Default is 300ms.
     /// </summary>
     [Parameter]
     public int DebounceDelay { get; set; } = 300;
 
     /// <summary>
-    /// Maximum number of characters allowed in the input.
-    /// Can be automatically inferred from [MaxLength] or [StringLength] attributes.
+    ///     Maximum number of characters allowed in the input.
+    ///     Can be automatically inferred from [MaxLength] or [StringLength] attributes.
     /// </summary>
     [Parameter]
     public int MaxLength { get; set; } = FormatConstants.DEFAULT_MAX_STRING_INPUT_LIMIT;
 
     /// <summary>
-    /// Whether to clear the input when an option is selected.
-    /// Default is false.
+    ///     Whether to clear the input when an option is selected.
+    ///     Default is false.
     /// </summary>
     [Parameter]
     public bool ClearOnSelect { get; set; }
 
     /// <summary>
-    /// Maximum number of options to display in the dropdown.
-    /// Set to 0 for unlimited. Default is 0.
+    ///     Maximum number of options to display in the dropdown.
+    ///     Set to 0 for unlimited. Default is 0.
     /// </summary>
     [Parameter]
-    public int MaxDisplayItems { get; set; } = 0;
+    public int MaxDisplayItems { get; set; }
 
     #endregion
 
@@ -230,7 +232,7 @@
     {
         if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle( Id, GetType());
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
 
         base.OnInitialized();
@@ -251,7 +253,7 @@
     {
         if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle( Id, GetType());
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
 
         base.OnParametersSet();
@@ -268,7 +270,7 @@
     {
         if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle( Id, GetType());
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
 
         await base.OnAfterRenderAsync(firstRender);
@@ -288,11 +290,12 @@
     protected override bool TryParseValueFromString(
         string? value,
         out TItem result,
-        [NotNullWhen(false)] out string? validationErrorMessage)
+        [NotNullWhen(false)]
+        out string? validationErrorMessage)
     {
         if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle( Id, GetType());
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
 
         result = default!;
@@ -313,11 +316,9 @@
         await PerformSearch();
     }
 
-    protected override Task HandleChange(ChangeEventArgs e)
-    {
+    protected override Task HandleChange(ChangeEventArgs e) =>
         // Validation happens on blur or selection
-        return Task.CompletedTask;
-    }
+        Task.CompletedTask;
 
     protected override async Task HandleEndIconClick(MouseEventArgs args)
     {
@@ -329,7 +330,7 @@
         else if (!string.IsNullOrWhiteSpace(_searchText))
         {
             // Search functionality - trigger immediate search
-            await PerformSearch(immediate: true);
+            await PerformSearch(true);
         }
 
         await base.HandleEndIconClick(args);
@@ -378,8 +379,9 @@
                 else if (!_isDropdownOpen && !string.IsNullOrWhiteSpace(_searchText))
                 {
                     // Trigger immediate search when Enter is pressed
-                    await PerformSearch(immediate: true);
+                    await PerformSearch(true);
                 }
+
                 break;
 
             case "ArrowDown":
@@ -389,6 +391,7 @@
                     _highlightedIndex = Math.Min(_highlightedIndex + 1, _options.Count - 1);
                     StateHasChanged();
                 }
+
                 break;
 
             case "ArrowUp":
@@ -398,6 +401,7 @@
                     _highlightedIndex--;
                     StateHasChanged();
                 }
+
                 break;
 
             case "Escape":
@@ -424,8 +428,8 @@
         {
             await _debounceTokenSource.CancelAsync();
         }
-        
-        _debounceTokenSource = new CancellationTokenSource();
+
+        _debounceTokenSource = new();
         var token = _debounceTokenSource.Token;
 
         try
@@ -540,31 +544,22 @@
         return item.ToString() ?? string.Empty;
     }
 
-    private string GetDisplayText()
-    {
-        return _searchText ?? string.Empty;
-    }
+    private string GetDisplayText() => _searchText ?? string.Empty;
 
     /// <summary>
-    /// Returns the text currently entered in the input field.
-    /// Useful when no matching item is found and a new item needs to be
-    /// created from the raw user input.
+    ///     Returns the text currently entered in the input field.
+    ///     Useful when no matching item is found and a new item needs to be
+    ///     created from the raw user input.
     /// </summary>
     /// <returns>The current input text, or an empty string if nothing is entered.</returns>
-    public string GetCurrentText()
-    {
-        return _searchText ?? string.Empty;
-    }
+    public string GetCurrentText() => _searchText ?? string.Empty;
 
     /// <summary>
-    /// Returns the item currently selected from the dropdown, if any.
-    /// Will be <c>null</c> when the user has typed text that does not
-    /// correspond to a selected option.
+    ///     Returns the item currently selected from the dropdown, if any.
+    ///     Will be <c>null</c> when the user has typed text that does not
+    ///     correspond to a selected option.
     /// </summary>
-    public TItem? GetSelectedItem()
-    {
-        return _selectedItem;
-    }
+    public TItem? GetSelectedItem() => _selectedItem;
 
     private string GetCurrentEndIcon()
     {
@@ -580,15 +575,9 @@
 
     #region CSS Class Builders
 
-    private static string GetDropdownClass()
-    {
-        return "absolute z-50 mt-1 max-h-60 overflow-auto rounded bg-white shadow-lg border border-(--theme-default-three) focus:outline-none";
-    }
+    private static string GetDropdownClass() => "absolute z-50 mt-1 max-h-60 overflow-auto rounded bg-white shadow-lg border border-(--theme-default-three) focus:outline-none";
 
-    private string GetDropdownStyle()
-    {
-        return _dropdownWidth > 0 ? $"width: {_dropdownWidth}px;" : string.Empty;
-    }
+    private string GetDropdownStyle() => _dropdownWidth > 0 ? $"width: {_dropdownWidth}px;" : string.Empty;
 
     private string GetOptionClass(int index)
     {
@@ -602,15 +591,9 @@
         return $"{baseClass} {hoverClass} {selectedClass}";
     }
 
-    protected override string GetEndIconLoadingClass()
-    {
-        return "absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-(--theme-primary-six)";
-    }
+    protected override string GetEndIconLoadingClass() => "absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-(--theme-primary-six)";
 
-    protected override string GetLoadingSpinnerSize()
-    {
-        return "width: 20px; height: 20px;";
-    }
+    protected override string GetLoadingSpinnerSize() => "width: 20px; height: 20px;";
 
     #endregion
 
@@ -620,7 +603,7 @@
     {
         if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle( Id, GetType());
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
 
         _debounceTokenSource?.Cancel();
@@ -629,4 +612,5 @@
     }
 
     #endregion
+
 }

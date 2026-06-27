@@ -7,276 +7,276 @@
 <PageTitle>MaviBackdrop</PageTitle>
 
 <div class="p-6 max-w-7xl mx-auto">
-    <!-- Page Header -->
-    <div class="mb-8">
-        <h1 class="@CssManager.Combine(Tailwind.Theme.Typography.DISPLAY_MEDIUM, "mb-2")">MaviBackdrop Component</h1>
-        <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_LARGE, "text-gray-600")">
-            A flexible backdrop overlay component for creating modal-like experiences with customizable opacity, positioning, and event handling.
-        </p>
-    </div>
-    
-    <!-- Interactive Demo -->
-    <div class="mb-12">
-        <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_LARGE, "mb-4")">Interactive Demo</h2>
-        <div class="bg-white shadow-md rounded-lg p-6">
-            <EditForm Model="@_demoModel" OnValidSubmit="OnValidFormSubmit">
-                <DataAnnotationsValidator />
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-                    <div>
-                      
-                        <MaviDropdown TItem="BackdropOpacity" TValue="BackdropOpacity"
-                                      @bind-Value="_demoModel.BackdropOpacity"
-                                      Items="_backdropOpacities"
-                                      ElementSize="ElementSize.Small"
-                                      Width="w-full" />
-                    </div>
-                    <div>
-                      
-                        <MaviDropdown TItem="ZIndex" TValue="ZIndex"
-                                      @bind-Value="_demoModel.ZIndex"
-                                      Items="_zIndexes"
-                                      ElementSize="ElementSize.Small"
-                                      Width="w-full" />
-                    </div>
-                    <div>
-                        
-                        <MaviDropdown TItem="bool" TValue="bool"
-                                      @bind-Value="_demoModel.CloseOnBackdropClick"
-                                      Items="_boolOptions"
-                                      ElementSize="ElementSize.Small"
-                                      Width="w-full" />
-                    </div>
-                    <div>
-                       
-                        <MaviDropdown TItem="bool" TValue="bool"
-                                      @bind-Value="_demoModel.CenterContent"
-                                      Items="_boolOptions"
-                                      ElementSize="ElementSize.Small"                                     
-                                      Width="w-full" />
-                    </div>
-                </div>
+<!-- Page Header -->
+<div class="mb-8">
+    <h1 class="@CssManager.Combine(Tailwind.Theme.Typography.DISPLAY_MEDIUM, "mb-2")">MaviBackdrop Component</h1>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_LARGE, "text-gray-600")">
+        A flexible backdrop overlay component for creating modal-like experiences with customizable opacity, positioning, and event handling.
+    </p>
+</div>
 
-                <div class="flex gap-2 mb-4">
-                    <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
-                                ElementSize="ElementSize.Regular"
-                                Title="Display Backdrop"
-                                ButtonRole="ButtonRole.Submit"
-                                ElementVariant="ElementVariant.Filled"
-                                TextTransform="TextTransform.Capitalize">
-                    </MaviButton>
-                    <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
-                                ElementSize="ElementSize.Regular"
-                                Title="Hide Backdrop"
-                                ButtonRole="ButtonRole.Button"
-                                ElementVariant="ElementVariant.Outlined"
-                                TextTransform="TextTransform.Capitalize"
-                                OnClick="HideBackDrop">
-                    </MaviButton>
-                </div>
-            </EditForm>
+<!-- Interactive Demo -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_LARGE, "mb-4")">Interactive Demo</h2>
+    <div class="bg-white shadow-md rounded-lg p-6">
+        <EditForm Model="@_demoModel" OnValidSubmit="OnValidFormSubmit">
+            <DataAnnotationsValidator/>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+                <div>
 
-            <div class="relative h-96 w-full border-2 border-gray-300 rounded-md overflow-hidden flex items-center justify-center bg-gray-50">
-                <div class="text-center p-4">
-                    <p class="@Tailwind.Theme.Typography.BODY_LARGE mb-2">Demo Container</p>
-                    <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
-                        Configure the backdrop settings above and click "Display Backdrop" to see the effect.
-                    </p>
-                    <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500 mt-2">
-                        Click count: @_backdropClickCount
-                    </p>
+                    <MaviDropdown TItem="BackdropOpacity" TValue="BackdropOpacity"
+                                  @bind-Value="_demoModel.BackdropOpacity"
+                                  Items="_backdropOpacities"
+                                  ElementSize="ElementSize.Small"
+                                  Width="w-full"/>
                 </div>
-                <MaviBackdrop @ref="_maviBackdrop"
-                              Opacity="_demoModel.BackdropOpacity"
-                              ZIndex="_demoModel.ZIndex"
-                              CloseOnBackdropClick="_demoModel.CloseOnBackdropClick"
-                              CenterContent="_demoModel.CenterContent"
-                              OnBackdropClick="HandleBackdropClick">
-                    <MaviSpinnerStarRotate ThemeColorScheme="ThemeColorScheme.Primary" ElementSize="ElementSize.Large" />
-                </MaviBackdrop>
+                <div>
+
+                    <MaviDropdown TItem="ZIndex" TValue="ZIndex"
+                                  @bind-Value="_demoModel.ZIndex"
+                                  Items="_zIndexes"
+                                  ElementSize="ElementSize.Small"
+                                  Width="w-full"/>
+                </div>
+                <div>
+
+                    <MaviDropdown TItem="bool" TValue="bool"
+                                  @bind-Value="_demoModel.CloseOnBackdropClick"
+                                  Items="_boolOptions"
+                                  ElementSize="ElementSize.Small"
+                                  Width="w-full"/>
+                </div>
+                <div>
+
+                    <MaviDropdown TItem="bool" TValue="bool"
+                                  @bind-Value="_demoModel.CenterContent"
+                                  Items="_boolOptions"
+                                  ElementSize="ElementSize.Small"
+                                  Width="w-full"/>
+                </div>
             </div>
+
+            <div class="flex gap-2 mb-4">
+                <MaviButton ThemeColorScheme="ThemeColorScheme.Primary"
+                            ElementSize="ElementSize.Regular"
+                            Title="Display Backdrop"
+                            ButtonRole="ButtonRole.Submit"
+                            ElementVariant="ElementVariant.Filled"
+                            TextTransform="TextTransform.Capitalize">
+                </MaviButton>
+                <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
+                            ElementSize="ElementSize.Regular"
+                            Title="Hide Backdrop"
+                            ButtonRole="ButtonRole.Button"
+                            ElementVariant="ElementVariant.Outlined"
+                            TextTransform="TextTransform.Capitalize"
+                            OnClick="HideBackDrop">
+                </MaviButton>
+            </div>
+        </EditForm>
+
+        <div class="relative h-96 w-full border-2 border-gray-300 rounded-md overflow-hidden flex items-center justify-center bg-gray-50">
+            <div class="text-center p-4">
+                <p class="@Tailwind.Theme.Typography.BODY_LARGE mb-2">Demo Container</p>
+                <p class="@Tailwind.Theme.Typography.BODY_MEDIUM text-gray-600">
+                    Configure the backdrop settings above and click "Display Backdrop" to see the effect.
+                </p>
+                <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-500 mt-2">
+                    Click count: @_backdropClickCount
+                </p>
+            </div>
+            <MaviBackdrop @ref="_maviBackdrop"
+                          Opacity="_demoModel.BackdropOpacity"
+                          ZIndex="_demoModel.ZIndex"
+                          CloseOnBackdropClick="_demoModel.CloseOnBackdropClick"
+                          CenterContent="_demoModel.CenterContent"
+                          OnBackdropClick="HandleBackdropClick">
+                <MaviSpinnerStarRotate ThemeColorScheme="ThemeColorScheme.Primary" ElementSize="ElementSize.Large"/>
+            </MaviBackdrop>
         </div>
     </div>
+</div>
 
-    <!-- Component Parameters Documentation -->
-    <div class="mb-12">
-        <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_LARGE, "mb-4")">Component Parameters</h2>
-        <div class="overflow-x-auto bg-white shadow-md rounded-lg">
-            <table class="min-w-full">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
-                            Parameter
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
-                            Type
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
-                            Default
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
-                            Description
-                        </th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                            ChildContent
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-500">
-                            RenderFragment?
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-500">
-                            null
-                        </td>
-                        <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-900">
-                            The content to display above the backdrop overlay
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                            Opacity
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-500">
-                            BackdropOpacity
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-500">
-                            Darken
-                        </td>
-                        <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-900">
-                            Backdrop overlay style: None (no overlay), Darken (black overlay), Lighten (white overlay)
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                            CloseOnBackdropClick
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-500">
-                            bool
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-500">
-                            false
-                        </td>
-                        <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-900">
-                            If true, clicking on the backdrop (outside content) will hide the backdrop
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                            OnBackdropClick
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-500">
-                            EventCallback
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-500">
-                            -
-                        </td>
-                        <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-900">
-                            Event callback triggered when the backdrop is clicked
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                            CenterContent
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-500">
-                            bool
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-500">
-                            true
-                        </td>
-                        <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-900">
-                            If true, content is centered. If false, content will stack normally
-                        </td>
-                    </tr>
-                <tr>
-                    <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                        ZIndex
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-500">
-                        Enum
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-500">
-                        Default
-                    </td>
-                    <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-900">
-                        Sets the z-index layering of the backdrop
-                    </td>
-                </tr>
-                <tr>
-                    <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                            InitiallyActive
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-500">
-                        bool
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-500">
-                        false
-                    </td>
-                    <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-900">
-                        Control initial state of backdrop - i.e. if it is visible or not
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+<!-- Component Parameters Documentation -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_LARGE, "mb-4")">Component Parameters</h2>
+    <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+        <table class="min-w-full">
+            <thead class="bg-gray-50">
+            <tr>
+                <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
+                    Parameter
+                </th>
+                <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
+                    Type
+                </th>
+                <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
+                    Default
+                </th>
+                <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
+                    Description
+                </th>
+            </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    ChildContent
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-500">
+                    RenderFragment?
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-500">
+                    null
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-900">
+                    The content to display above the backdrop overlay
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    Opacity
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-500">
+                    BackdropOpacity
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-500">
+                    Darken
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-900">
+                    Backdrop overlay style: None (no overlay), Darken (black overlay), Lighten (white overlay)
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    CloseOnBackdropClick
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-500">
+                    bool
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-500">
+                    false
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-900">
+                    If true, clicking on the backdrop (outside content) will hide the backdrop
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    OnBackdropClick
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-500">
+                    EventCallback
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-500">
+                    -
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-900">
+                    Event callback triggered when the backdrop is clicked
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    CenterContent
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-500">
+                    bool
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-500">
+                    true
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-900">
+                    If true, content is centered. If false, content will stack normally
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    ZIndex
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-500">
+                    Enum
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-500">
+                    Default
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-900">
+                    Sets the z-index layering of the backdrop
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    InitiallyActive
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-500">
+                    bool
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-500">
+                    false
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-900">
+                    Control initial state of backdrop - i.e. if it is visible or not
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
+</div>
 
-    <!-- Public Methods Documentation -->
-    <div class="mb-12">
-        <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_LARGE, "mb-4")">Public Methods</h2>
-        <div class="overflow-x-auto bg-white shadow-md rounded-lg">
-            <table class="min-w-full">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
-                            Method
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
-                            Return Type
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
-                            Description
-                        </th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                            Display()
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-500">
-                            Task
-                        </td>
-                        <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-900">
-                            Shows the backdrop overlay
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
-                            Hide()
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-500">
-                            Task
-                        </td>
-                        <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-900">
-                            Hides the backdrop overlay
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+<!-- Public Methods Documentation -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_LARGE, "mb-4")">Public Methods</h2>
+    <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+        <table class="min-w-full">
+            <thead class="bg-gray-50">
+            <tr>
+                <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
+                    Method
+                </th>
+                <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
+                    Return Type
+                </th>
+                <th scope="col" class="px-6 py-3 text-left @Tailwind.Theme.Typography.LABEL_MEDIUM text-gray-700 uppercase tracking-wider">
+                    Description
+                </th>
+            </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    Display()
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-500">
+                    Task
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-900">
+                    Shows the backdrop overlay
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_MEDIUM font-mono text-purple-600">
+                    Hide()
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap @Tailwind.Theme.Typography.BODY_SMALL text-gray-500">
+                    Task
+                </td>
+                <td class="px-6 py-4 @Tailwind.Theme.Typography.BODY_SMALL text-gray-900">
+                    Hides the backdrop overlay
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
-  
-    <!-- Code Examples -->
-    <div class="mb-12">
-        <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_LARGE, "mb-4")">Code Examples</h2>
+</div>
 
-        <!-- Example 1: Basic Usage -->
-        <div class="mb-8">
-            <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_SMALL, "mb-3")">1. Basic Usage</h3>
-            <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
-                <pre class="text-green-400 @Tailwind.Theme.Typography.BODY_SMALL"><code>&lt;MaviBackdrop @@ref="_backdrop"&gt;
+<!-- Code Examples -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_LARGE, "mb-4")">Code Examples</h2>
+
+    <!-- Example 1: Basic Usage -->
+    <div class="mb-8">
+        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_SMALL, "mb-3")">1. Basic Usage</h3>
+        <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+            <pre class="text-green-400 @Tailwind.Theme.Typography.BODY_SMALL"><code>&lt;MaviBackdrop @@ref="_backdrop"&gt;
     &lt;div class="bg-white p-8 rounded-lg"&gt;
         &lt;h2&gt;Modal Content&lt;/h2&gt;
         &lt;p&gt;Your content here&lt;/p&gt;
@@ -298,14 +298,14 @@
             await _backdrop.Hide();
     }
 }</code></pre>
-            </div>
         </div>
+    </div>
 
-        <!-- Example 2: With Event Handling -->
-        <div class="mb-8">
-            <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_SMALL, "mb-3")">2. With Click Event Handling</h3>
-            <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
-                <pre class="text-green-400 @Tailwind.Theme.Typography.BODY_SMALL"><code>&lt;MaviBackdrop @@ref="_backdrop"
+    <!-- Example 2: With Event Handling -->
+    <div class="mb-8">
+        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_SMALL, "mb-3")">2. With Click Event Handling</h3>
+        <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+            <pre class="text-green-400 @Tailwind.Theme.Typography.BODY_SMALL"><code>&lt;MaviBackdrop @@ref="_backdrop"
               CloseOnBackdropClick="true"
               OnBackdropClick="HandleBackdropClick"&gt;
     &lt;div class="content"&gt;Modal Content&lt;/div&gt;
@@ -322,40 +322,40 @@
         await Task.CompletedTask;
     }
 }</code></pre>
-            </div>
         </div>
+    </div>
 
-        <!-- Example 3: Custom Opacity and Z-Index -->
-        <div class="mb-8">
-            <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_SMALL, "mb-3")">3. Custom Opacity and Z-Index</h3>
-            <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
-                <pre class="text-green-400 @Tailwind.Theme.Typography.BODY_SMALL"><code>&lt;MaviBackdrop @@ref="_backdrop"
+    <!-- Example 3: Custom Opacity and Z-Index -->
+    <div class="mb-8">
+        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_SMALL, "mb-3")">3. Custom Opacity and Z-Index</h3>
+        <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+            <pre class="text-green-400 @Tailwind.Theme.Typography.BODY_SMALL"><code>&lt;MaviBackdrop @@ref="_backdrop"
               Opacity="BackdropOpacity.Lighten"
               ZIndex="ZIndex.Fifty"&gt;
     &lt;div class="content"&gt;Light overlay backdrop&lt;/div&gt;
 &lt;/MaviBackdrop&gt;</code></pre>
-            </div>
         </div>
+    </div>
 
-        <!-- Example 4: No Overlay with Custom Positioning -->
-        <div class="mb-8">
-            <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_SMALL, "mb-3")">4. No Overlay with Custom Positioning</h3>
-            <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
-                <pre class="text-green-400 @Tailwind.Theme.Typography.BODY_SMALL"><code>&lt;MaviBackdrop @@ref="_backdrop"
+    <!-- Example 4: No Overlay with Custom Positioning -->
+    <div class="mb-8">
+        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_SMALL, "mb-3")">4. No Overlay with Custom Positioning</h3>
+        <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+            <pre class="text-green-400 @Tailwind.Theme.Typography.BODY_SMALL"><code>&lt;MaviBackdrop @@ref="_backdrop"
               Opacity="BackdropOpacity.None"
               CenterContent="false"&gt;
     &lt;div class="absolute top-4 right-4"&gt;
         Positioned content without overlay
     &lt;/div&gt;
 &lt;/MaviBackdrop&gt;</code></pre>
-            </div>
         </div>
+    </div>
 
-        <!-- Example 5: Loading Spinner -->
-        <div class="mb-8">
-            <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_SMALL, "mb-3")">5. Loading Spinner Backdrop</h3>
-            <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
-                <pre class="text-green-400 @Tailwind.Theme.Typography.BODY_SMALL"><code>&lt;MaviBackdrop @@ref="_loadingBackdrop"
+    <!-- Example 5: Loading Spinner -->
+    <div class="mb-8">
+        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_SMALL, "mb-3")">5. Loading Spinner Backdrop</h3>
+        <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+            <pre class="text-green-400 @Tailwind.Theme.Typography.BODY_SMALL"><code>&lt;MaviBackdrop @@ref="_loadingBackdrop"
               Opacity="BackdropOpacity.Darken"
               ZIndex="ZIndex.Fifty"
               CloseOnBackdropClick="false"&gt;
@@ -382,14 +382,14 @@
             await _loadingBackdrop.Hide();
     }
 }</code></pre>
-            </div>
         </div>
+    </div>
 
-        <!-- Example 6: All Parameters -->
-        <div class="mb-8">
-            <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_SMALL, "mb-3")">6. All Parameters Configured</h3>
-            <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
-                <pre class="text-green-400 @Tailwind.Theme.Typography.BODY_SMALL"><code>&lt;MaviBackdrop @@ref="_fullBackdrop"
+    <!-- Example 6: All Parameters -->
+    <div class="mb-8">
+        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_SMALL, "mb-3")">6. All Parameters Configured</h3>
+        <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+            <pre class="text-green-400 @Tailwind.Theme.Typography.BODY_SMALL"><code>&lt;MaviBackdrop @@ref="_fullBackdrop"
               Opacity="BackdropOpacity.Darken"
               ZIndex="ZIndex.Forty"
               CloseOnBackdropClick="true"
@@ -405,59 +405,59 @@
         &lt;/div&gt;
     &lt;/ChildContent&gt;
 &lt;/MaviBackdrop&gt;</code></pre>
-            </div>
         </div>
     </div>
+</div>
 
-    <!-- Backdrop Opacity Options -->
-    <div class="mb-12">
-        <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_LARGE, "mb-4")">BackdropOpacity Enum Values</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="bg-white shadow-md rounded-lg p-4 border-2 border-gray-200">
-                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_SMALL, "mb-2 font-mono")">None</h3>
-                <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-600">No overlay - content only</p>
-            </div>
-            <div class="bg-white shadow-md rounded-lg p-4 border-2 border-gray-200">
-                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_SMALL, "mb-2 font-mono")">Lighten</h3>
-                <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-600">White overlay (bg-white/70)</p>
-            </div>
-            <div class="bg-white shadow-md rounded-lg p-4 border-2 border-gray-200">
-                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_SMALL, "mb-2 font-mono")">Darken</h3>
-                <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-600">Black overlay (bg-black/30) - Default</p>
-            </div>
+<!-- Backdrop Opacity Options -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_LARGE, "mb-4")">BackdropOpacity Enum Values</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-white shadow-md rounded-lg p-4 border-2 border-gray-200">
+            <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_SMALL, "mb-2 font-mono")">None</h3>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-600">No overlay - content only</p>
+        </div>
+        <div class="bg-white shadow-md rounded-lg p-4 border-2 border-gray-200">
+            <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_SMALL, "mb-2 font-mono")">Lighten</h3>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-600">White overlay (bg-white/70)</p>
+        </div>
+        <div class="bg-white shadow-md rounded-lg p-4 border-2 border-gray-200">
+            <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_SMALL, "mb-2 font-mono")">Darken</h3>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-600">Black overlay (bg-black/30) - Default</p>
         </div>
     </div>
+</div>
 
-    <!-- Use Cases -->
-    <div class="mb-12">
-        <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_LARGE, "mb-4")">Common Use Cases</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-white shadow-md rounded-lg p-6 border-l-4 border-blue-500">
-                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_SMALL, "mb-3")">🎯 Loading Overlays</h3>
-                <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-700">
-                    Display loading spinners with backdrop during async operations. Set CloseOnBackdropClick to false to prevent dismissal.
-                </p>
-            </div>
-            <div class="bg-white shadow-md rounded-lg p-6 border-l-4 border-green-500">
-                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_SMALL, "mb-3")">📋 Modal Dialogs</h3>
-                <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-700">
-                    Create custom modal dialogs with centered content and backdrop overlay for focus.
-                </p>
-            </div>
-            <div class="bg-white shadow-md rounded-lg p-6 border-l-4 border-purple-500">
-                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_SMALL, "mb-3")">🔔 Notifications</h3>
-                <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-700">
-                    Show notifications with optional backdrop. Use CenterContent=false for custom positioning.
-                </p>
-            </div>
-            <div class="bg-white shadow-md rounded-lg p-6 border-l-4 border-orange-500">
-                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_SMALL, "mb-3")">📸 Image Viewers</h3>
-                <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-700">
-                    Display full-screen image viewers with dark backdrop for better contrast.
-                </p>
-            </div>
+<!-- Use Cases -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_LARGE, "mb-4")">Common Use Cases</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white shadow-md rounded-lg p-6 border-l-4 border-blue-500">
+            <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_SMALL, "mb-3")">🎯 Loading Overlays</h3>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-700">
+                Display loading spinners with backdrop during async operations. Set CloseOnBackdropClick to false to prevent dismissal.
+            </p>
+        </div>
+        <div class="bg-white shadow-md rounded-lg p-6 border-l-4 border-green-500">
+            <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_SMALL, "mb-3")">📋 Modal Dialogs</h3>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-700">
+                Create custom modal dialogs with centered content and backdrop overlay for focus.
+            </p>
+        </div>
+        <div class="bg-white shadow-md rounded-lg p-6 border-l-4 border-purple-500">
+            <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_SMALL, "mb-3")">🔔 Notifications</h3>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-700">
+                Show notifications with optional backdrop. Use CenterContent=false for custom positioning.
+            </p>
+        </div>
+        <div class="bg-white shadow-md rounded-lg p-6 border-l-4 border-orange-500">
+            <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_SMALL, "mb-3")">📸 Image Viewers</h3>
+            <p class="@Tailwind.Theme.Typography.BODY_SMALL text-gray-700">
+                Display full-screen image viewers with dark backdrop for better contrast.
+            </p>
         </div>
     </div>
+</div>
 </div>
 
 @code
@@ -467,7 +467,7 @@
     private readonly IEnumerable<BackdropOpacity> _backdropOpacities = Enum.GetValues<BackdropOpacity>();
     private readonly IEnumerable<ZIndex> _zIndexes = Enum.GetValues<ZIndex>();
     private readonly IEnumerable<bool> _boolOptions = new[] { true, false };
-    private int _backdropClickCount = 0;
+    private int _backdropClickCount;
 
     private async Task OnValidFormSubmit(EditContext context)
     {

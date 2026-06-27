@@ -1,8 +1,8 @@
-﻿using Maviray.Blazor.Components.Core.Attributes;
-using Maviray.Blazor.Components.Core.Extensions;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Text;
+using Maviray.Blazor.Components.Core.Attributes;
+using Maviray.Blazor.Components.Core.Extensions;
 
 namespace Maviray.Blazor.Components.Core.Models.Tables;
 

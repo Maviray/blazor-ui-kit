@@ -1,7 +1,7 @@
-@using System.Diagnostics.CodeAnalysis
-@using Maviray.Blazor.Components.Core.Constants
 @using System.ComponentModel.DataAnnotations
+@using System.Diagnostics.CodeAnalysis
 @using System.Reflection
+@using Maviray.Blazor.Components.Core.Constants
 @inherits MaviMaterialInputBase<string>
 
 <div class="@Width">
@@ -45,7 +45,7 @@
         <!-- Fieldset for Outlined Border -->
         <fieldset aria-hidden="true" class="@BuildFieldsetClass()">
             <legend class="@BuildLegendClass()">
-                <span class="@(string.IsNullOrEmpty(Label) || Disabled || Readonly ? "" : "px-2")">@Label@((Required && !Disabled && !Readonly) ? " *" : "")</span>
+                <span class="@(string.IsNullOrEmpty(Label) || Disabled || Readonly ? "" : "px-2")">@Label@(Required && !Disabled && !Readonly ? " *" : "")</span>
             </legend>
         </fieldset>
     </div>
@@ -71,31 +71,36 @@
 </div>
 
 @code {
+
     #region TextArea-Specific Parameters
 
     /// <summary>
-    /// Number of visible text lines for the control. Determines the initial height.
-    /// Default is 3.
+    ///     Number of visible text lines for the control. Determines the initial height.
+    ///     Default is 3.
     /// </summary>
-    [Parameter] public int Rows { get; set; } = 3;
+    [Parameter]
+    public int Rows { get; set; } = 3;
 
     /// <summary>
-    /// Maximum number of characters allowed in the textarea.
-    /// Can be automatically inferred from [MaxLength] or [StringLength] attributes.
+    ///     Maximum number of characters allowed in the textarea.
+    ///     Can be automatically inferred from [MaxLength] or [StringLength] attributes.
     /// </summary>
-    [Parameter] public int MaxLength { get; set; } = FormatConstants.DEFAULT_MAX_STRING_INPUT_LIMIT;
+    [Parameter]
+    public int MaxLength { get; set; } = FormatConstants.DEFAULT_MAX_STRING_INPUT_LIMIT;
 
     /// <summary>
-    /// Whether the user can manually resize the textarea vertically.
-    /// Default is true. Disabled/readonly textareas are never resizable.
+    ///     Whether the user can manually resize the textarea vertically.
+    ///     Default is true. Disabled/readonly textareas are never resizable.
     /// </summary>
-    [Parameter] public bool Resizable { get; set; } = true;
+    [Parameter]
+    public bool Resizable { get; set; } = true;
 
     /// <summary>
-    /// When true, displays a character counter (current/max) below the field.
-    /// Default is false.
+    ///     When true, displays a character counter (current/max) below the field.
+    ///     Default is false.
     /// </summary>
-    [Parameter] public bool ShowCharacterCount { get; set; }
+    [Parameter]
+    public bool ShowCharacterCount { get; set; }
 
     #endregion
 
@@ -105,12 +110,14 @@
 
     protected override bool TryParseValueFromString(
         string? value,
-        [MaybeNullWhen(false)] out string result,
-        [NotNullWhen(false)] out string? validationErrorMessage)
+        [MaybeNullWhen(false)]
+        out string result,
+        [NotNullWhen(false)]
+        out string? validationErrorMessage)
     {
         if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle( Id, GetType());
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
 
         result = value ?? string.Empty;
@@ -183,15 +190,12 @@
     #region Public API
 
     /// <summary>
-    /// Returns the text currently entered in the textarea.
-    /// Lets the consumer read the live content programmatically (e.g. via @ref)
-    /// without binding to the model.
+    ///     Returns the text currently entered in the textarea.
+    ///     Lets the consumer read the live content programmatically (e.g. via @ref)
+    ///     without binding to the model.
     /// </summary>
     /// <returns>The current text, or an empty string if nothing is entered.</returns>
-    public string GetCurrentText()
-    {
-        return CurrentValue ?? string.Empty;
-    }
+    public string GetCurrentText() => CurrentValue ?? string.Empty;
 
     #endregion
 
@@ -199,10 +203,7 @@
 
     // The textarea is multi-line, so its height is driven by `rows` rather than a
     // fixed height class like the single-line inputs use.
-    protected override string GetContainerClass()
-    {
-        return "relative mt-[2px]";
-    }
+    protected override string GetContainerClass() => "relative mt-[2px]";
 
     // Align the "label as placeholder" with the first line of the textarea
     // (which sits below the top padding) instead of vertically centering it.
@@ -262,4 +263,5 @@
     }
 
     #endregion
+
 }

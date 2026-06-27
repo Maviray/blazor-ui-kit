@@ -1,10 +1,24 @@
-﻿using Maviray.Blazor.Components.Core.Enums;
-using System.Reflection;
+﻿using System.Reflection;
+using Maviray.Blazor.Components.Core.Enums;
 
 namespace Maviray.Blazor.Components.Material.Components.DataDisplay.Icons;
 
 public static class MaviIconSolidPaths
 {
+    public static IEnumerable<string> GetIconPaths(IconSolidType iconType)
+    {
+        var type = typeof(MaviIconSolidPaths);
+
+        var property = type.GetProperties(BindingFlags.Public | BindingFlags.Static).FirstOrDefault(field => field.Name.Equals(iconType.ToString(), StringComparison.OrdinalIgnoreCase));
+
+        if (property == null)
+        {
+            return [];
+        }
+
+        return property.GetValue(null) as IEnumerable<string> ?? [];
+    }
+
     #region svg icon paths
 
     public static List<string> AcademicCapSolid =>
@@ -1512,18 +1526,4 @@ public static class MaviIconSolidPaths
     ];
 
     #endregion
-
-    public static IEnumerable<string> GetIconPaths(IconSolidType iconType)
-    {
-        var type = typeof(MaviIconSolidPaths);
-
-        var property = type.GetProperties(BindingFlags.Public | BindingFlags.Static).FirstOrDefault(field => field.Name.Equals(iconType.ToString(), StringComparison.OrdinalIgnoreCase));
-
-        if (property == null)
-        {
-            return [];
-        }
-
-        return property.GetValue(null) as IEnumerable<string> ?? [];
-    }
 }

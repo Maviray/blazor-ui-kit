@@ -22,7 +22,7 @@
     <p class="@Tailwind.Theme.Typography.BODY_LARGE">There are multiple individual input components. It’s a conscious decision. Yes, it could have been implemented as a generic component. IMHO – it’s an unnecessary complication of introducing heavy reflection overhead. The number of primitives is not likely to change in any foreseeable future so its not like scalability is an issue in this case. </p>
 
     <p class="@Tailwind.Theme.Typography.BODY_LARGE">I am sure there are plenty of room for improvement and optimization. There are probably lots of aspects which one may find could have been done better, more optimally. If you believe its worth the effort, lets look into it.</p>
-    
+
     <div class="mx-auto flex gap-4">
         <div>
             <MaviLink Href="https://github.com/Maviray/blazor-ui-kit"
@@ -35,15 +35,15 @@
         </div>
         <div>&#100;&#101;&#118;&#111;&#112;&#115;&#64;&#109;&#97;&#118;&#105;&#114;&#97;&#121;&#46;&#99;&#111;&#109;</div>
     </div>
-    
+
     <div class="mb-8">
         <MaviCssGridTable @ref="_maviCssGridTable"
-                           FetchData="FetchDataFullFeatures"
-                           ConstructContextMenu="ConstructMainContextMenu"
-                           OnMainContextMenuClick="OnMainContextMenuClick"
-                           OnRowClick="OnRowClick"
-                           Parameters="_fullFeaturedParameters"
-                           OnRowContextMenuClick="OnRowContextMenuClick">
+                          FetchData="FetchDataFullFeatures"
+                          ConstructContextMenu="ConstructMainContextMenu"
+                          OnMainContextMenuClick="OnMainContextMenuClick"
+                          OnRowClick="OnRowClick"
+                          Parameters="_fullFeaturedParameters"
+                          OnRowContextMenuClick="OnRowContextMenuClick">
         </MaviCssGridTable>
     </div>
 </div>
@@ -64,12 +64,10 @@
         Striped = true
     };
 
-    private async Task<TableDataCollection> FetchDataFullFeatures()
-    {
+    private async Task<TableDataCollection> FetchDataFullFeatures() =>
         // var collection = TableDataCollectionFactory.FromDataSource(Enumerable.Empty<SampleTableCollectionItemModel>());
         // return Task.FromResult(collection);
-        return await GenerateTableData(50);
-    }  
+        await GenerateTableData(50);
 
     private Task<TableDataCollection> GenerateTableData(int count, bool includeContextMenu = true)
     {
@@ -77,41 +75,43 @@
 
         for (var i = 0; i < count; i++)
         {
-            var guid = System.Guid.NewGuid().ToString("N");
+            var guid = Guid.NewGuid().ToString("N");
 
-            var contextMenu = includeContextMenu ? new List<MaviTableRowContextMenuItem>
-            {
-                new()
+            var contextMenu = includeContextMenu
+                ? new()
                 {
-                    Id = 1,
-                    Key = "edit",
-                    Title = "Edit",
-                    Icon = "lni lni-file-pencil",
-                    ElementVariant = ElementVariant.Text,
-                    ThemeColorScheme = ThemeColorScheme.Primary,
-                    ElementSize = ElementSize.Small
-                },
-                new()
-                {
-                    Id = 2,
-                    Key = "delete",
-                    Title = "Delete",
-                    Icon = "lni lni-trash-3",
-                    ElementVariant = ElementVariant.Text,
-                    ThemeColorScheme = ThemeColorScheme.Alert,
-                    ElementSize = ElementSize.Small
-                },
-                new()
-                {
-                    Id = 3,
-                    Key = "details",
-                    Title = "Details",
-                    Icon = "lni lni-envelope-1",
-                    ElementVariant = ElementVariant.Text,
-                    ThemeColorScheme = ThemeColorScheme.Info,
-                    ElementSize = ElementSize.Small
+                    new()
+                    {
+                        Id = 1,
+                        Key = "edit",
+                        Title = "Edit",
+                        Icon = "lni lni-file-pencil",
+                        ElementVariant = ElementVariant.Text,
+                        ThemeColorScheme = ThemeColorScheme.Primary,
+                        ElementSize = ElementSize.Small
+                    },
+                    new()
+                    {
+                        Id = 2,
+                        Key = "delete",
+                        Title = "Delete",
+                        Icon = "lni lni-trash-3",
+                        ElementVariant = ElementVariant.Text,
+                        ThemeColorScheme = ThemeColorScheme.Alert,
+                        ElementSize = ElementSize.Small
+                    },
+                    new()
+                    {
+                        Id = 3,
+                        Key = "details",
+                        Title = "Details",
+                        Icon = "lni lni-envelope-1",
+                        ElementVariant = ElementVariant.Text,
+                        ThemeColorScheme = ThemeColorScheme.Info,
+                        ElementSize = ElementSize.Small
+                    }
                 }
-            } : new List<MaviTableRowContextMenuItem>();
+                : new List<MaviTableRowContextMenuItem>();
 
             collection.Add(new()
             {
@@ -142,7 +142,7 @@
 
     private Task<IEnumerable<MaviTableContextMenuItem>> ConstructMainContextMenu()
     {
-        IEnumerable<MaviTableContextMenuItem> menu = new List<MaviTableContextMenuItem>()
+        IEnumerable<MaviTableContextMenuItem> menu = new List<MaviTableContextMenuItem>
         {
             new() { Id = "export", Title = "Export to CSV" },
             new() { Id = "import", Title = "Import Data" },
@@ -159,7 +159,7 @@
         {
             if (_maviCssGridTable != null)
             {
-               await _maviCssGridTable.Refresh();
+                await _maviCssGridTable.Refresh();
             }
         }
     }
@@ -174,8 +174,5 @@
         return Task.CompletedTask;
     }
 
-    private Task OnRowContextMenuClick(MaviTableRowContextMenuItem menuItem)
-    {
-        return Task.CompletedTask;
-    }
+    private Task OnRowContextMenuClick(MaviTableRowContextMenuItem menuItem) => Task.CompletedTask;
 }

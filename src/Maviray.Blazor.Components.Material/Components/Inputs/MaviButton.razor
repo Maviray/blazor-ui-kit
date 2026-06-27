@@ -18,10 +18,12 @@
         {
             <i class="@StartIcon"></i>
         }
+
         @if (!string.IsNullOrEmpty(Title))
         {
             <span aria-label="@Title">@Title</span>
         }
+
         @if (!string.IsNullOrEmpty(EndIcon))
         {
             <i class="@EndIcon"></i>
@@ -31,7 +33,8 @@
 
 @code {
 
-    [Parameter] public string Width { get; set; } = "min-w-16";
+    [Parameter]
+    public string Width { get; set; } = "min-w-16";
 
     [Parameter]
     public string? StartIcon { get; set; }
@@ -158,4 +161,5 @@
 
         return $"animate-spin {size}";
     }
+
 }

@@ -8,25 +8,27 @@ namespace Maviray.Blazor.Components.Material.Components.Feedback;
 
 public abstract class MaviDialogBase : MaviComponentBase
 {
-    protected bool Visible;
-
     /// <summary>
-    /// Optional per-invocation callback supplied by the caller of <see cref="Display(Func{Core.Enums.DialogButtonClick, Task})"/>.
-    /// Only the delegate passed to the most recent <c>Display</c> call is retained, and its lifetime ends as soon as the
-    /// user reacts by clicking a button or the dialog is otherwise closed.
+    ///     Optional per-invocation callback supplied by the caller of
+    ///     <see cref="Display(Func{Core.Enums.DialogButtonClick, Task})" />.
+    ///     Only the delegate passed to the most recent <c>Display</c> call is retained, and its lifetime ends as soon as the
+    ///     user reacts by clicking a button or the dialog is otherwise closed.
     /// </summary>
-    private Func<Core.Enums.DialogButtonClick, Task>? _onButtonClick;
+    private Func<DialogButtonClick, Task>? _onButtonClick;
+
+    protected bool Visible;
 
     [Parameter]
     public MaviDialogBaseParameters MaviDialogBaseParameters { get; set; } = new();
 
-    [Parameter] public EventCallback<DialogButtonClickEventArgs> DialogButtonClick { get; set; }
+    [Parameter]
+    public EventCallback<DialogButtonClickEventArgs> DialogButtonClick { get; set; }
 
     protected async Task HandleButtonClick(MouseClickEventArgs mouseEventArgs, DialogButtonClick buttonClicked)
     {
         if (EnableLifeCycleLogging)
         {
-           Logger?.LogDebugLifeCycle(GetType(), Id, $"DialogButtonClick: {buttonClicked}");
+            Logger?.LogDebugLifeCycle(GetType(), Id, $"DialogButtonClick: {buttonClicked}");
         }
 
         if (DialogButtonClick.HasDelegate)
@@ -63,10 +65,10 @@ public abstract class MaviDialogBase : MaviComponentBase
     }
 
     /// <summary>
-    /// Displays the dialog and registers a callback invoked when the user reacts to it.
-    /// Replaces any callback registered by a previous <c>Display</c> call (latest wins).
+    ///     Displays the dialog and registers a callback invoked when the user reacts to it.
+    ///     Replaces any callback registered by a previous <c>Display</c> call (latest wins).
     /// </summary>
-    public async Task Display(MaviDialogBaseParameters parameters, Func<Core.Enums.DialogButtonClick, Task> onButtonClick)
+    public async Task Display(MaviDialogBaseParameters parameters, Func<DialogButtonClick, Task> onButtonClick)
     {
         _onButtonClick = onButtonClick;
         MaviDialogBaseParameters.Update(parameters);
@@ -74,10 +76,10 @@ public abstract class MaviDialogBase : MaviComponentBase
     }
 
     /// <summary>
-    /// Displays the dialog with the given title and registers a callback invoked when the user reacts to it.
-    /// Replaces any callback registered by a previous <c>Display</c> call (latest wins).
+    ///     Displays the dialog with the given title and registers a callback invoked when the user reacts to it.
+    ///     Replaces any callback registered by a previous <c>Display</c> call (latest wins).
     /// </summary>
-    public async Task Display(string title, Func<Core.Enums.DialogButtonClick, Task> onButtonClick)
+    public async Task Display(string title, Func<DialogButtonClick, Task> onButtonClick)
     {
         _onButtonClick = onButtonClick;
         Title = title;
@@ -85,10 +87,10 @@ public abstract class MaviDialogBase : MaviComponentBase
     }
 
     /// <summary>
-    /// Displays the dialog and registers a callback invoked when the user reacts to it.
-    /// Replaces any callback registered by a previous <c>Display</c> call (latest wins).
+    ///     Displays the dialog and registers a callback invoked when the user reacts to it.
+    ///     Replaces any callback registered by a previous <c>Display</c> call (latest wins).
     /// </summary>
-    public async Task Display(Func<Core.Enums.DialogButtonClick, Task> onButtonClick)
+    public async Task Display(Func<DialogButtonClick, Task> onButtonClick)
     {
         _onButtonClick = onButtonClick;
         await Display();

@@ -6,18 +6,16 @@
 
 @code {
 
-    [Parameter] public string? BoundToTabId { get; set; }
+    [Parameter]
+    public string? BoundToTabId { get; set; }
 
-    [Parameter] public MaviTabContext? Context { get; set; }
+    [Parameter]
+    public MaviTabContext? Context { get; set; }
 
     [Parameter]
     public RenderFragment? ChildContent { get; init; }
 
     private bool Visible => Context?.SelectedTabId == BoundToTabId;
 
-    private string? GetContainerCss()
-    {
-        
-        return Visible ? Class : "hidden";
-    }
+    private string? GetContainerCss() => Visible ? Class : "hidden";
 }

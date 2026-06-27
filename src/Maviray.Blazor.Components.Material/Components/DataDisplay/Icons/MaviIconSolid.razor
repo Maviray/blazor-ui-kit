@@ -12,7 +12,7 @@
 
     [Parameter]
     public IconSolidType IconSolidType { get; set; }
-    
+
     [Parameter]
     public ElementColor IconColor { get; set; }
 
@@ -49,7 +49,8 @@
 
         if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle( Id, GetType());
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
     }
+
 }

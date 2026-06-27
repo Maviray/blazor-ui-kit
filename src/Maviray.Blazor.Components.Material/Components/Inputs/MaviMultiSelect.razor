@@ -1,10 +1,9 @@
-﻿@using System.Diagnostics.CodeAnalysis
-@using System.Reflection
-@using Maviray.Blazor.Components.Core.Models
-@using Maviray.Blazor.Components.Material.Constants
-@typeparam TItem
+﻿@typeparam TItem
 @typeparam TValue
 @implements IAsyncDisposable
+@using System.Diagnostics.CodeAnalysis
+@using System.Reflection
+@using Maviray.Blazor.Components.Core.Models
 @inherits MaviMaterialInputBase<List<TValue>>
 @inject IJSRuntime JsRuntime
 
@@ -41,7 +40,7 @@
                             {
                                 <button type="button"
                                         class="@GetChipRemoveButtonClass()"
-                                        @onclick="async (e) => await RemoveSelection(selectedValue, e)"
+                                        @onclick="async e => await RemoveSelection(selectedValue, e)"
                                         @onclick:stopPropagation="true"
                                         aria-label="Remove @displayText">
                                     <i class="lni lni-xmark text-xs"></i>
@@ -83,7 +82,7 @@
         <!-- Fieldset for Outlined Border -->
         <fieldset aria-hidden="true" class="@BuildFieldsetClass()">
             <legend class="@BuildLegendClass()">
-                <span class="@(string.IsNullOrEmpty(Label) || Disabled || Readonly ? "" : "px-2")">@Label@((Required && !Disabled && !Readonly) ? " *" : "")</span>
+                <span class="@(string.IsNullOrEmpty(Label) || Disabled || Readonly ? "" : "px-2")">@Label@(Required && !Disabled && !Readonly ? " *" : "")</span>
             </legend>
         </fieldset>
     </div>
@@ -136,7 +135,7 @@
                              @onclick="() => ToggleSelection(value)"
                              @onclick:stopPropagation="true"
                              @onmouseenter="() => _hoveredValue = value"
-                             @onmouseleave="() => _hoveredValue = default(TValue)">
+                             @onmouseleave="() => _hoveredValue = default">
 
                             <!-- Checkbox -->
                             <div class="@GetCheckboxClass(isSelected)">
@@ -165,96 +164,96 @@
 
 @code {
     private ElementReference _containerRef;
-    private bool _isOpen = false;
-    private TValue? _hoveredValue = default;
+    private bool _isOpen;
+    private TValue? _hoveredValue;
     private DotNetObjectReference<MaviMultiSelect<TItem, TValue>>? _dotNetRef;
     private IJSObjectReference? _jsModule;
 
     #region MultiSelect-Specific Parameters
 
     /// <summary>
-    /// The collection of items to display in the dropdown.
+    ///     The collection of items to display in the dropdown.
     /// </summary>
-    [Parameter] public IEnumerable<TItem>? Items { get; set; }
+    [Parameter]
+    public IEnumerable<TItem>? Items { get; set; }
 
     /// <summary>
-    /// Expression to extract the value from each item.
-    /// If not provided, the item itself is used as the value.
+    ///     Expression to extract the value from each item.
+    ///     If not provided, the item itself is used as the value.
     /// </summary>
-    [Parameter] public Func<TItem, TValue>? ValueSelector { get; set; }
+    [Parameter]
+    public Func<TItem, TValue>? ValueSelector { get; set; }
 
     /// <summary>
-    /// Expression to extract the display text from each item.
-    /// If not provided, ToString() is called on the item.
+    ///     Expression to extract the display text from each item.
+    ///     If not provided, ToString() is called on the item.
     /// </summary>
-    [Parameter] public Func<TItem, string>? TextSelector { get; set; }
+    [Parameter]
+    public Func<TItem, string>? TextSelector { get; set; }
 
     /// <summary>
-    /// Whether to show Select All / Clear All options.
-    /// Default is true.
+    ///     Whether to show Select All / Clear All options.
+    ///     Default is true.
     /// </summary>
-    [Parameter] public bool ShowSelectAllOption { get; set; } = true;
+    [Parameter]
+    public bool ShowSelectAllOption { get; set; } = true;
 
     /// <summary>
-    /// Custom icon for the dropdown arrow. Default is a down chevron icon.
+    ///     Custom icon for the dropdown arrow. Default is a down chevron icon.
     /// </summary>
-    [Parameter] public string DropdownIcon { get; set; } = "lni lni-chevron-down";
+    [Parameter]
+    public string DropdownIcon { get; set; } = "lni lni-chevron-down";
 
     /// <summary>
-    /// Maximum height for the dropdown options list. Default is "max-h-60".
+    ///     Maximum height for the dropdown options list. Default is "max-h-60".
     /// </summary>
-    [Parameter] public string MaxDropdownHeight { get; set; } = "max-h-60";
+    [Parameter]
+    public string MaxDropdownHeight { get; set; } = "max-h-60";
 
     /// <summary>
-    /// Maximum number of chips to display before showing a count badge.
-    /// Default is 3. Set to 0 for unlimited.
+    ///     Maximum number of chips to display before showing a count badge.
+    ///     Default is 3. Set to 0 for unlimited.
     /// </summary>
-    [Parameter] public int MaxVisibleChips { get; set; } = 3;
+    [Parameter]
+    public int MaxVisibleChips { get; set; } = 3;
 
     /// <summary>
-    /// Event callback invoked when the selection changes.
+    ///     Event callback invoked when the selection changes.
     /// </summary>
-    [Parameter] public EventCallback<ValueChangedCallbackParameters<List<TValue>>> OnSelectionChanged { get; set; }
+    [Parameter]
+    public EventCallback<ValueChangedCallbackParameters<List<TValue>>> OnSelectionChanged { get; set; }
 
     #endregion
 
     #region Overrides
 
-    protected override bool HasValue
-    {
-        get
-        {
-            return CurrentValue != null && CurrentValue.Any();
-        }
-    }
+    protected override bool HasValue => CurrentValue != null && CurrentValue.Any();
 
     protected override bool TryParseValueFromString(
         string? value,
-        [MaybeNullWhen(false)] out List<TValue> result,
-        [NotNullWhen(false)] out string? validationErrorMessage)
+        [MaybeNullWhen(false)]
+        out List<TValue> result,
+        [NotNullWhen(false)]
+        out string? validationErrorMessage)
     {
         if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle( Id, GetType());
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
 
         // Multi-select doesn't parse from string directly
-        result = new List<TValue>();
+        result = new();
         validationErrorMessage = null;
         return true;
     }
 
-    protected override Task HandleInput(ChangeEventArgs e)
-    {
+    protected override Task HandleInput(ChangeEventArgs e) =>
         // Not used for multi-select
-        return Task.CompletedTask;
-    }
+        Task.CompletedTask;
 
-    protected override Task HandleChange(ChangeEventArgs e)
-    {
+    protected override Task HandleChange(ChangeEventArgs e) =>
         // Not used for multi-select
-        return Task.CompletedTask;
-    }
+        Task.CompletedTask;
 
     protected override void InferTypeSpecificAttributes(PropertyInfo propertyInfo)
     {
@@ -292,7 +291,7 @@
         // Initialize CurrentValue as empty list if null
         if (CurrentValue == null)
         {
-            CurrentValue = new List<TValue>();
+            CurrentValue = new();
         }
     }
 
@@ -326,7 +325,7 @@
 
         if (EnableLifeCycleLogging)
         {
-            Logger?.LogDebugLifeCycle( Id, GetType());
+            Logger?.LogDebugLifeCycle(Id, GetType());
         }
 
         StateHasChanged();
@@ -340,7 +339,7 @@
 
         if (CurrentValue == null)
         {
-            CurrentValue = new List<TValue>();
+            CurrentValue = new();
         }
 
         if (IsSelected(value))
@@ -381,7 +380,7 @@
         if (Disabled || Readonly)
             return;
 
-        CurrentValue = new List<TValue>();
+        CurrentValue = new();
         await NotifySelectionChanged();
     }
 
@@ -493,13 +492,11 @@
         return (padding, fontSize);
     }
 
-    private string GetChipsContainerClass()
-    {
-        return CssManager.Combine(
+    private string GetChipsContainerClass() =>
+        CssManager.Combine(
             "flex gap-1.5 mt-[4px] w-full",
             "overflow-hidden" // Prevent wrapping and hide overflow
         );
-    }
 
     private string GetChipClass()
     {
@@ -523,21 +520,16 @@
         );
     }
 
-    private string GetChipTextClass()
-    {
-        return "truncate";
-    }
+    private string GetChipTextClass() => "truncate";
 
-    private string GetChipRemoveButtonClass()
-    {
-        return CssManager.Combine(
+    private string GetChipRemoveButtonClass() =>
+        CssManager.Combine(
             "flex-shrink-0 rounded-full",
             "hover:bg-black/[0.08] active:bg-black/[0.12]",
             "transition-colors duration-150",
             "w-4 h-4 flex items-center justify-center",
             "focus:outline-none focus:ring-1 focus:ring-black/20"
         );
-    }
 
     private string GetDropdownArrowClass()
     {
@@ -588,34 +580,28 @@
         );
     }
 
-    private string GetSelectAllContainerClass()
-    {
-        return CssManager.Combine(
+    private string GetSelectAllContainerClass() =>
+        CssManager.Combine(
             "flex items-center justify-between gap-2",
             "px-3.5 py-2 border-b border-black/[0.12]"
         );
-    }
 
-    private string GetSelectAllButtonClass()
-    {
-        return CssManager.Combine(
+    private string GetSelectAllButtonClass() =>
+        CssManager.Combine(
             "text-sm font-medium",
             ThemeTextDarkColor,
             "hover:underline",
             "focus:outline-none focus:underline",
             "transition-all duration-150"
         );
-    }
 
-    private string GetOptionsContainerClass()
-    {
-        return CssManager.Combine(
+    private string GetOptionsContainerClass() =>
+        CssManager.Combine(
             MaxDropdownHeight,
             "overflow-y-auto",
             "py-1",
             "scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100"
         );
-    }
 
     private string GetOptionClass(bool isSelected)
     {
@@ -670,7 +656,7 @@
     private TValue GetItemValue(TItem item)
     {
         if (item == null)
-            return default(TValue)!;
+            return default!;
 
         if (ValueSelector != null)
         {
@@ -709,7 +695,7 @@
 
     #endregion
 
-    private bool _disposed = false;
+    private bool _disposed;
 
     public async ValueTask DisposeAsync()
     {
@@ -739,4 +725,5 @@
         // Call base disposal
         base.Dispose();
     }
+
 }
