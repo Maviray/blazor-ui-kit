@@ -1,3 +1,17 @@
+# ---------------------------------------------------------------------------
+# Release versioning convention
+# ---------------------------------------------------------------------------
+# main increments PATCH by default (0.2.0 -> 0.2.1). A bare develop->main
+# merge does NOT carry develop's minor bump, so to release a new MINOR/MAJOR
+# line, include a bump token in the merge commit message or PR title:
+#
+#   +semver: minor   (or "feature")  ->  0.1.x  ->  0.2.0
+#   +semver: major   (or "breaking") ->  0.2.x  ->  1.0.0
+#   (no token)                       ->  patch bump, e.g. 0.2.0 -> 0.2.1
+#
+# Example PR title for a develop->main release: "Release 0.2.0 +semver: minor"
+# The publish workflow then auto-tags v<version> on main.
+# ---------------------------------------------------------------------------
 mode: ContinuousDelivery
 branches:
   main:
