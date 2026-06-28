@@ -325,7 +325,7 @@
         if (HasValue && !string.IsNullOrWhiteSpace(_searchText))
         {
             // Clear functionality
-            await ClearInput();
+            Reset();
         }
         else if (!string.IsNullOrWhiteSpace(_searchText))
         {
@@ -492,23 +492,6 @@
         StateHasChanged();
     }
 
-    private async Task ClearInput()
-    {
-        _searchText = string.Empty;
-        _selectedItem = default;
-        _options = null;
-        _isDropdownOpen = false;
-        _highlightedIndex = -1;
-
-        CurrentValue = default;
-
-        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-        EditContext?.NotifyFieldChanged(FieldIdentifier);
-
-        StateHasChanged();
-        await Task.CompletedTask;
-    }
-
     private void CloseDropdown()
     {
         _isDropdownOpen = false;
@@ -584,6 +567,27 @@
                 : string.Empty;
         _isDropdownOpen = false;
         _highlightedIndex = -1;
+        StateHasChanged();
+    }
+
+    /// <summary>
+    ///     Resets the component to its empty/default state, clearing any selected item, typed
+    ///     text and bound value, and notifying validation. Intended for cascading scenarios
+    ///     where a change in another input invalidates the current selection.
+    /// </summary>
+    public void Reset()
+    {
+        _searchText = string.Empty;
+        _selectedItem = default;
+        _options = null;
+        _isDropdownOpen = false;
+        _highlightedIndex = -1;
+
+        CurrentValue = default;
+
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+        EditContext?.NotifyFieldChanged(FieldIdentifier);
+
         StateHasChanged();
     }
 
