@@ -45,5 +45,6 @@ public class MaviDialogBaseParameters
         CloseButtonTitle = parameters.CloseButtonTitle;
 
         Width = parameters.Width;
+        BackgroundColor = parameters.BackgroundColor;
     }
 }
