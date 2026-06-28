@@ -203,6 +203,13 @@
             if (typeof(TValue) == typeof(string))
                 return !string.IsNullOrWhiteSpace(CurrentValue as string);
 
+            // For non-nullable value types (e.g. enums, int), default is a legitimate
+            // selection, not an "empty" state. A non-null CurrentValue therefore always
+            // counts as having a value. The empty state only exists for reference types
+            // and Nullable<T>, both already handled by the null check above.
+            if (typeof(TValue).IsValueType && Nullable.GetUnderlyingType(typeof(TValue)) == null)
+                return true;
+
             return !EqualityComparer<TValue>.Default.Equals(CurrentValue, default);
         }
     }
