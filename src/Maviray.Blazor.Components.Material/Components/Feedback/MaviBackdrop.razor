@@ -13,7 +13,9 @@
 
 @code {
 
-    public bool Active { get; private set; }
+    private bool _active;
+
+    public bool Active => Visible || _active;
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
@@ -36,6 +38,9 @@
     /// <summary>Optional: set z-index (e.g., 50, 100). If null, uses z-50.</summary>
     [Parameter]
     public ZIndex ZIndex { get; set; }
+
+    [Parameter]
+    public bool Visible { get; set; }
 
     [Parameter]
     public bool InitiallyActive { get; set; }
@@ -61,7 +66,7 @@
 
         if (InitiallyActive)
         {
-            Active = true;
+            _active = true;
         }
     }
 
@@ -83,9 +88,9 @@
 
     public async Task Display()
     {
-        if (!Active)
+        if (!_active)
         {
-            Active = true;
+            _active = true;
             await InvokeAsync(StateHasChanged);
 
             if (EnableLifeCycleLogging)
@@ -97,9 +102,9 @@
 
     public async Task Hide()
     {
-        if (Active)
+        if (_active)
         {
-            Active = false;
+            _active = false;
             await InvokeAsync(StateHasChanged);
 
             if (EnableLifeCycleLogging)

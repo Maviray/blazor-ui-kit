@@ -1,4 +1,5 @@
 ﻿using Maviray.Blazor.Components.Core.Enums;
+using Microsoft.AspNetCore.Components;
 
 namespace Maviray.Blazor.Components.Material.Components.Feedback;
 
@@ -9,6 +10,7 @@ public class MaviDialogBaseParameters
     public ZIndex ZIndex { get; set; } = ZIndex.Forty;
     public BackdropOpacity BackdropOpacity { get; set; } = BackdropOpacity.Darken;
     public ComponentRelativePosition ComponentRelativePosition { get; set; } = ComponentRelativePosition.Center;
+    public ElementSize SpinnerSize { get; set; }
 
     public bool CloseOnBackdropClick { get; set; }
     public bool CloseOnUserAction { get; set; } = true;
@@ -46,5 +48,6 @@ public class MaviDialogBaseParameters
 
         Width = parameters.Width;
         BackgroundColor = parameters.BackgroundColor;
+        SpinnerSize = parameters.SpinnerSize;
     }
 }
