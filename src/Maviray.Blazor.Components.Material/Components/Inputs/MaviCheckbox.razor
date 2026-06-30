@@ -47,7 +47,7 @@
     </label>
 
     <!-- Helper Text -->
-    @if (!string.IsNullOrEmpty(HelperText))
+    @if (DisplayHelperText && !string.IsNullOrEmpty(HelperText))
     {
         <div class="@GetHelperTextClass()" id="@($"{Id}-helper")">
             @HelperText

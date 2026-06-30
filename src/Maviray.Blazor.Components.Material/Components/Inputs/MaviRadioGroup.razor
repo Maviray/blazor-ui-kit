@@ -6,7 +6,7 @@
     <div id="@Id" class="@CssManager.Combine(Width, "flex flex-col gap-2")">
         @ChildContent
 
-        @if (!string.IsNullOrEmpty(HelperText))
+        @if (DisplayHelperText && !string.IsNullOrEmpty(HelperText))
         {
             <div class="@GetHelperTextClass()">@HelperText</div>
         }
@@ -45,6 +45,9 @@
 
     [Parameter]
     public string? HelperText { get; set; }
+
+    [Parameter]
+    public bool DisplayHelperText { get; set; } = true;
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }

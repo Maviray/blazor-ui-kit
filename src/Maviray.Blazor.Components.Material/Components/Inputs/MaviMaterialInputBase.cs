@@ -68,6 +68,7 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
         if (PreviousEditContext != null)
         {
             PreviousEditContext.OnValidationStateChanged -= OnValidationStateChanged;
+            PreviousEditContext.OnFieldChanged -= OnFieldChangedClearManualError;
         }
     }
 
@@ -78,6 +79,7 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
     protected bool IsFocused;
     protected bool AttributesInferred;
     protected bool IsEndIconLoading;
+    private bool _hasManualError;
 
     protected readonly string TextAlertColor = Tailwind.Theme.Colors.Text.THEME_ALERT_EIGHT_TEXT;
     protected readonly string BorderAlertColor = Tailwind.Theme.Colors.Border.THEME_ALERT_EIGHT_BORDER;
@@ -163,6 +165,7 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
             if (EditContext != null)
             {
                 EditContext.OnValidationStateChanged += OnValidationStateChanged;
+                EditContext.OnFieldChanged += OnFieldChangedClearManualError;
                 ValidationMessageStore = new(EditContext);
             }
 
@@ -298,6 +301,78 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
 
         IsFocused = false;
         StateHasChanged();
+    }
+
+    #endregion
+
+    #region Programmatic Validation
+
+    /// <summary>
+    ///     Programmatically marks this field as invalid, applying the same red/alert visual
+    ///     state used by built-in validation. Intended for validation performed manually
+    ///     (e.g. inside an <c>OnValidSubmit</c> handler) rather than via the EditContext.
+    ///     Hold an <c>@ref</c> to the component and call this once the check fails.
+    ///     The error is automatically cleared the next time the field value changes
+    ///     (see <see cref="ClearError" /> to clear it explicitly).
+    /// </summary>
+    /// <param name="message">
+    ///     The validation message stored against this field. It drives the invalid visual
+    ///     state and is surfaced through the EditContext (e.g. to a ValidationSummary).
+    /// </param>
+    public void SetError(string message)
+    {
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+        if (EditContext == null || ValidationMessageStore == null)
+        {
+            return;
+        }
+
+        ValidationMessageStore.Clear(FieldIdentifier);
+        ValidationMessageStore.Add(FieldIdentifier, message);
+        _hasManualError = true;
+
+        EditContext.NotifyValidationStateChanged();
+    }
+
+    /// <summary>
+    ///     Clears a programmatically-set error for this field (see <see cref="SetError" />)
+    ///     and removes the invalid visual state.
+    /// </summary>
+    public void ClearError()
+    {
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+        if (EditContext == null || ValidationMessageStore == null || !_hasManualError)
+        {
+            return;
+        }
+
+        _hasManualError = false;
+        ValidationMessageStore.Clear(FieldIdentifier);
+
+        EditContext.NotifyValidationStateChanged();
+    }
+
+    /// <summary>
+    ///     Clears a manually-set error as soon as the user edits the field, so the
+    ///     programmatic error behaves like built-in validation (which re-validates on change).
+    /// </summary>
+    private void OnFieldChangedClearManualError(object? sender, FieldChangedEventArgs e)
+    {
+        if (!_hasManualError || ValidationMessageStore == null)
+        {
+            return;
+        }
+
+        if (!e.FieldIdentifier.Equals(FieldIdentifier))
+        {
+            return;
+        }
+
+        _hasManualError = false;
+        ValidationMessageStore.Clear(FieldIdentifier);
+
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+        EditContext?.NotifyValidationStateChanged();
     }
 
     #endregion
