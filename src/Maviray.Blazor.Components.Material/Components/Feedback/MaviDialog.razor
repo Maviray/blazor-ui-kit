@@ -1,4 +1,5 @@
 ﻿@using Maviray.Blazor.Components.Material.Components.Inputs
+@using Maviray.Blazor.Components.Material.Components.Spinner
 @using Maviray.Blazor.Components.Material.Constants
 @inherits MaviDialogBase
 
@@ -24,7 +25,14 @@
                         </div>
                     }
                 </div>
-                <div class="px-6 py-4">
+                <div class="px-6 py-4 relative">
+                    <MaviBackdrop Opacity="MaviDialogBaseParameters.BackdropOpacity"
+                                  ZIndex="@MaviDialogBaseParameters.ZIndex.BringOnTop()"
+                                  CloseOnBackdropClick="false"
+                                  CenterContent="true"
+                                  Visible="Busy">
+                        <MaviSpinnerStarRotate ThemeColorScheme="MaviDialogBaseParameters.ThemeColorScheme" ElementSize="MaviDialogBaseParameters.SpinnerSize" />
+                    </MaviBackdrop>
                     @ChildContent
                 </div>
                 @if (MaviDialogBaseParameters.DisplayConfirmButton || MaviDialogBaseParameters.DisplayCancelButton)

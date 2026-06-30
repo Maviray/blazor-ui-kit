@@ -62,4 +62,27 @@ public static class EnumExtensions
 
         return value.ToTailwindZIndexClass();
     }
+
+    public static ZIndex BringOnTop(this ZIndex zIndex)
+    {
+        return zIndex switch
+        {
+            ZIndex.Zero => ZIndex.Five,
+            ZIndex.Five => ZIndex.Ten,
+            ZIndex.Ten => ZIndex.Twenty,
+            ZIndex.Twenty => ZIndex.Thirty,
+            ZIndex.Thirty => ZIndex.Forty,
+            ZIndex.Forty => ZIndex.Fifty,
+            ZIndex.Fifty => ZIndex.Sixty,
+            ZIndex.Sixty => ZIndex.Seventy,
+            ZIndex.Seventy => ZIndex.Eighty,
+            ZIndex.Eighty => ZIndex.Ninety,
+            ZIndex.Ninety => ZIndex.OneHundred,
+            ZIndex.OneHundred => ZIndex.TwoHundred,
+            ZIndex.TwoHundred => ZIndex.ThreeHundred,
+            ZIndex.ThreeHundred => ZIndex.FourHundred,
+            ZIndex.FourHundred => ZIndex.FiveHundred,
+            _ => ZIndex.Thousand
+        };
+    }
 }
