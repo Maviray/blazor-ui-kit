@@ -121,11 +121,29 @@
                             ElementVariant="ElementVariant.Filled"
                             TextTransform="TextTransform.Capitalize">
                 </MaviButton>
+                        
             </div>
         </div>
     </EditForm>
 </section>
-
+<section class="space-y-4">
+    <MaviButton ThemeColorScheme="ThemeColorScheme.Success"
+                ElementSize="ElementSize.Regular"
+                Title="Display Dialog Spinner"
+                ButtonRole="ButtonRole.Button"
+                ElementVariant="ElementVariant.Filled"
+                TextTransform="TextTransform.Capitalize" 
+                OnClick="DisplayDialogSpinner">
+    </MaviButton>
+    <MaviButton ThemeColorScheme="ThemeColorScheme.Secondary"
+                ElementSize="ElementSize.Regular"
+                Title="Hide Dialog Spinner"
+                ButtonRole="ButtonRole.Button"
+                ElementVariant="ElementVariant.Filled"
+                TextTransform="TextTransform.Capitalize"
+                OnClick="HideDialogSpinner">
+    </MaviButton>
+</section>
 <!-- Component Parameters Documentation -->
 <section class="space-y-4">
     <h2 class="@Tailwind.Theme.Typography.HEADLINE_MEDIUM">Component Parameters</h2>
@@ -442,5 +460,21 @@ await Layout.ConfirmAsync("Delete item?", async clicked =&gt;
     {
         Logger?.LogInformation($"Dialog ID: {args.ComponentId}. Button Id: {args.MouseEventArgs.ButtonId}. Click Type: {args.ButtonClicked}");
         await Task.Delay(3000);
+    }
+
+    private async Task DisplayDialogSpinner(MouseClickEventArgs args)
+    {
+        if (_dialog != null)
+        {
+            await _dialog.SetBusy();
+        }
+    }
+
+    private async Task HideDialogSpinner(MouseClickEventArgs args)
+    {
+        if (_dialog != null)
+        {
+            await _dialog.SetIdle();
+        }
     }
 }
