@@ -88,7 +88,7 @@
     </div>
 
     <!-- Helper Text -->
-    @if (!string.IsNullOrEmpty(HelperText))
+    @if (DisplayHelperText && !string.IsNullOrEmpty(HelperText))
     {
         <div class="mt-1.5 px-3.5 text-xs leading-tight text-black/60" id="@($"{Id}-helper")">
             @HelperText

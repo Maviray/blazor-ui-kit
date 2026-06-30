@@ -72,6 +72,13 @@ public abstract class MaviInputBase<TValue> : InputBase<TValue>
     public string? HelperText { get; set; }
 
     /// <summary>
+    ///     Controls whether <see cref="HelperText" /> is rendered. Default is true.
+    ///     Set to false to suppress the helper text without clearing it.
+    /// </summary>
+    [Parameter]
+    public bool DisplayHelperText { get; set; } = true;
+
+    /// <summary>
     ///     Indicates if the field is required
     /// </summary>
     [Parameter]

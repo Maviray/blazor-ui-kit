@@ -40,7 +40,7 @@
         </div>
     </div>
 
-    @if (!string.IsNullOrEmpty(HelperText) || HasError)
+    @if ((DisplayHelperText && !string.IsNullOrEmpty(HelperText)) || HasError)
     {
         <div id="@(Id)-helper" class="@GetHelperTextClasses()">
             @if (HasError)
@@ -50,7 +50,7 @@
                     <span class="block">@message</span>
                 }
             }
-            else if (!string.IsNullOrEmpty(HelperText))
+            else if (DisplayHelperText && !string.IsNullOrEmpty(HelperText))
             {
                 @HelperText
             }
