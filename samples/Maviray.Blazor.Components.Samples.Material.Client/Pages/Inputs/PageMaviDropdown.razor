@@ -607,9 +607,66 @@
     </div>
 </div>
 
-<!-- Section 7: Complete Parameter Reference -->
+<!-- Section 7: Programmatic Validation State -->
 <div class="mb-12">
-    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">7. Complete Parameter Reference</h2>
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">7. Programmatic Validation State (SetError / ClearError)</h2>
+    <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
+        Force the component into the invalid (red) state from code — for example after custom checks in
+        <code>OnValidSubmit</code> — and clear it again. The error is also cleared automatically the next
+        time the selection changes, so it behaves like built-in validation.
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Manual Invalid State -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Manual Invalid State</h3>
+                <MaviDropdown TItem="string" TValue="string"
+                              @ref="_manualStateDropdown"
+                              @bind-Value="_formSampleModel.ManualState"
+                              Items="@_languages"
+                              Label="Language"
+                              ElementSize="ElementSize.Regular"
+                              StartIcon="lni lni-gears-3"
+                              Width="w-full"/>
+                <div class="flex gap-3 mt-3">
+                    <MaviButton ThemeColorScheme="ThemeColorScheme.Alert"
+                                ElementSize="ElementSize.Small"
+                                Title="Set Invalid"
+                                ButtonRole="ButtonRole.Button"
+                                ElementVariant="ElementVariant.Outlined"
+                                TextTransform="TextTransform.Capitalize"
+                                StartIcon="lni lni-warning"
+                                OnClick="SetManualError">
+                    </MaviButton>
+                    <MaviButton ThemeColorScheme="ThemeColorScheme.Success"
+                                ElementSize="ElementSize.Small"
+                                Title="Clear"
+                                ButtonRole="ButtonRole.Button"
+                                ElementVariant="ElementVariant.Outlined"
+                                TextTransform="TextTransform.Capitalize"
+                                StartIcon="lni lni-checkmark"
+                                OnClick="ClearManualError">
+                    </MaviButton>
+                </div>
+                <span class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "text-gray-500 mt-2 block")">
+                    Press "Set Invalid" to force the red state; changing the selection clears it automatically.
+                </span>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    &lt;MaviDropdown @@ref="_dd" ... /&gt;<br/><br/>
+                    _dd.SetError("This selection is invalid.");<br/>
+                    _dd.ClearError();
+                </code>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Section 8: Complete Parameter Reference -->
+<div class="mb-12">
+    <h2 class="@CssManager.Combine(Tailwind.Theme.Typography.HEADLINE_MEDIUM, "mb-3")">8. Complete Parameter Reference</h2>
     <p class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_MEDIUM, "text-gray-600 mb-6")">
         All available parameters for MaviDropdown component
     </p>
@@ -804,6 +861,8 @@
 
     private string _lastThemeChange = "None";
 
+    private MaviDropdown<string, string>? _manualStateDropdown;
+
     // Sample data
     private readonly List<Country> _countries = new()
     {
@@ -867,6 +926,16 @@
     {
         "Light", "Dark", "Auto", "High Contrast"
     };
+
+    private void SetManualError(MouseClickEventArgs args)
+    {
+        _manualStateDropdown?.SetError("This selection is invalid.");
+    }
+
+    private void ClearManualError(MouseClickEventArgs args)
+    {
+        _manualStateDropdown?.ClearError();
+    }
 
     private void OnValidFormSubmit(EditContext context)
     {

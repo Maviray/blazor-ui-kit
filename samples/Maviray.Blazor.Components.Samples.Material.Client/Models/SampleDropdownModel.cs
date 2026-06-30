@@ -53,6 +53,9 @@ public class SampleDropdownModel
 
     [Display(Name = "Timezone", Description = "Your timezone")]
     public string? Timezone { get; set; }
+
+    [Display(Name = "Language", Description = "Manual validation demo")]
+    public string? ManualState { get; set; }
 }
 
 public enum SkillLevel
