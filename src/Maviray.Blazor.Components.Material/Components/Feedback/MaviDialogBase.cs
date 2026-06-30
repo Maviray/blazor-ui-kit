@@ -151,4 +151,22 @@ public abstract class MaviDialogBase : MaviComponentBase
 
         return Task.CompletedTask;
     }
+
+    public async Task SetBusy()
+    {
+        if (!Busy)
+        {
+            Busy = true;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    public async Task SetIdle()
+    {
+        if (Busy)
+        {
+            Busy = false;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
 }
