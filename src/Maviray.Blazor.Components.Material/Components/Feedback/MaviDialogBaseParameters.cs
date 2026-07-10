@@ -27,6 +27,8 @@ public class MaviDialogBaseParameters
 
     public string? BackgroundColor { get; set; } = "bg-white";
 
+    public string? DialogBoxCss { get; set; }
+
     public void Update(MaviDialogBaseParameters parameters)
     {
         Title = parameters.Title;
