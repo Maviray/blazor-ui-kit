@@ -197,17 +197,6 @@
             }
         }
 
-        // Add min length info to HelperText if available
-        var stringLengthAttribute = propertyInfo.GetCustomAttribute<StringLengthAttribute>();
-
-        if (stringLengthAttribute is { MinimumLength: > 0 })
-        {
-            var minLengthText = $"Minimum {stringLengthAttribute.MinimumLength} characters";
-            HelperText = string.IsNullOrEmpty(HelperText)
-                ? minLengthText
-                : $"{HelperText}. {minLengthText}";
-        }
-
         // Infer StringInputType if still at default (Text)
         if (StringInputType != StringInputType.Text) return;
 

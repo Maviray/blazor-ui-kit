@@ -230,22 +230,6 @@
             }
         }
 
-        // Infer HelperText with min length info if available
-        var stringLengthAttribute = propertyInfo.GetCustomAttribute<StringLengthAttribute>();
-        if (stringLengthAttribute != null && stringLengthAttribute.MinimumLength > 0)
-        {
-            var minLengthText = $"Minimum {stringLengthAttribute.MinimumLength} characters";
-
-            if (string.IsNullOrEmpty(HelperText))
-            {
-                HelperText = minLengthText;
-            }
-            else if (!HelperText.Contains("Minimum"))
-            {
-                HelperText = $"{HelperText}. {minLengthText}";
-            }
-        }
-
         // Infer StringInputType if still at default (Text)
         if (StringInputType != StringInputType.Text)
             return;
