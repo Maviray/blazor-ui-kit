@@ -335,18 +335,9 @@
 
         if (rangeAttr == null) return;
 
-        if (!Min.HasValue && rangeAttr.Minimum != null)
-        {
-            Min = Convert.ToDouble(rangeAttr.Minimum);
-        }
+        Min ??= Convert.ToDouble(rangeAttr.Minimum);
 
-        if (!Max.HasValue && rangeAttr.Maximum != null)
-        {
-            Max = Convert.ToDouble(rangeAttr.Maximum);
-        }
-
-        var rangeText = $"Value must be between {rangeAttr.Minimum} and {rangeAttr.Maximum}";
-        HelperText = string.IsNullOrEmpty(HelperText) ? rangeText : $"{HelperText}. {rangeText}";
+        Max ??= Convert.ToDouble(rangeAttr.Maximum);
     }
 
     private string CleanValueForParsing(string value)

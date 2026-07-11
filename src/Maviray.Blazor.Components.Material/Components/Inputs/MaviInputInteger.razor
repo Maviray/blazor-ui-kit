@@ -282,9 +282,6 @@
         {
             Max = maxValue;
         }
-
-        // Add range info to HelperText if available
-        HelperText = string.IsNullOrEmpty(HelperText) ? $"Value must be between {rangeAttr.Minimum} and {rangeAttr.Maximum}" : $"{HelperText}. Value must be between {rangeAttr.Minimum} and {rangeAttr.Maximum}";
     }
 
     private string CleanValueForParsing(string value)

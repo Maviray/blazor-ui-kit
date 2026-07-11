@@ -413,13 +413,6 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
                 Required = propertyInfo.GetCustomAttribute<RequiredAttribute>() != null;
             }
 
-            // Infer HelperText if not explicitly set
-            if (string.IsNullOrEmpty(HelperText))
-            {
-                var displayAttr = propertyInfo.GetCustomAttribute<DisplayAttribute>();
-                HelperText = displayAttr?.Description ?? displayAttr?.Prompt;
-            }
-
             // Allow derived classes to infer type-specific attributes
             InferTypeSpecificAttributes(propertyInfo);
         }

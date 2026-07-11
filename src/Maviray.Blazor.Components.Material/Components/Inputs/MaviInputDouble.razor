@@ -264,9 +264,6 @@
         Min ??= Convert.ToDouble(rangeAttr.Minimum);
 
         Max ??= Convert.ToDouble(rangeAttr.Maximum);
-
-        var rangeText = $"Value must be between {rangeAttr.Minimum} and {rangeAttr.Maximum}";
-        HelperText = string.IsNullOrEmpty(HelperText) ? rangeText : $"{HelperText}. {rangeText}";
     }
 
     private string CleanValueForParsing(string value)

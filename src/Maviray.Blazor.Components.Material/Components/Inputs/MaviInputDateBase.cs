@@ -86,36 +86,6 @@ public abstract class MaviInputDateBase<TValue, TComponent> : MaviMaterialInputB
                 _ => DateInputType.Date
             };
         }
-
-        // Add helper text for date range if not set
-        if (Min.HasValue && Max.HasValue)
-        {
-            var rangeText = $"Date must be between {Min.Value:d} and {Max.Value:d}";
-            if (string.IsNullOrEmpty(HelperText))
-            {
-                HelperText = rangeText;
-            }
-            else if (!HelperText.Contains("between"))
-            {
-                HelperText = $"{HelperText}. {rangeText}";
-            }
-        }
-        else if (Min.HasValue)
-        {
-            var minText = $"Date must be on or after {Min.Value:d}";
-            if (string.IsNullOrEmpty(HelperText))
-            {
-                HelperText = minText;
-            }
-        }
-        else if (Max.HasValue)
-        {
-            var maxText = $"Date must be on or before {Max.Value:d}";
-            if (string.IsNullOrEmpty(HelperText))
-            {
-                HelperText = maxText;
-            }
-        }
     }
 
     #endregion
