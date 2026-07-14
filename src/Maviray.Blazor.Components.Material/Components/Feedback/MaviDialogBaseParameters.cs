@@ -1,5 +1,4 @@
 ﻿using Maviray.Blazor.Components.Core.Enums;
-using Microsoft.AspNetCore.Components;
 
 namespace Maviray.Blazor.Components.Material.Components.Feedback;
 
@@ -51,5 +50,30 @@ public class MaviDialogBaseParameters
         Width = parameters.Width;
         BackgroundColor = parameters.BackgroundColor;
         SpinnerSize = parameters.SpinnerSize;
+        DialogBoxCss = parameters.DialogBoxCss;
+    }
+
+    public MaviDialogBaseParameters SetTitle(string? title)
+    {
+        Title = title;
+        return this;
+    }
+
+    public MaviDialogBaseParameters SetModalCss(string? modalCss)
+    {
+        DialogBoxCss = modalCss;
+        return this;
+    }
+
+    public MaviDialogBaseParameters SetWidth(string? width)
+    {
+        Width = width;
+        return this;
+    }
+
+    public MaviDialogBaseParameters SetBackgroundColor(string? backgroundColor)
+    {
+        BackgroundColor = backgroundColor;
+        return this;
     }
 }
