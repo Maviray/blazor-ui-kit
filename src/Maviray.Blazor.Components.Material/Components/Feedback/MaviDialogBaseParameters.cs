@@ -28,6 +28,8 @@ public class MaviDialogBaseParameters
 
     public string? DialogBoxCss { get; set; }
 
+    public string? ContainerOverrideCss { get; set; }
+
     public void Update(MaviDialogBaseParameters parameters)
     {
         Title = parameters.Title;

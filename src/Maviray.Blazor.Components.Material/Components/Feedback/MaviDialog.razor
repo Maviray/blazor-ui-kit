@@ -69,10 +69,20 @@
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    private string WrapperDropClass =>
-        Visible
-            ? $"absolute inset-0 {MaviDialogBaseParameters.ZIndex.ToTailwindZIndexClass()} {Class}"
-            : "hidden";
+    private string WrapperDropClass
+    {
+        get
+        {
+            if (Visible)
+            {
+                return string.IsNullOrWhiteSpace(MaviDialogBaseParameters.ContainerOverrideCss) 
+                    ? $"absolute inset-0 {MaviDialogBaseParameters.ZIndex.ToTailwindZIndexClass()} {Class}" 
+                    : $"{MaviDialogBaseParameters.ContainerOverrideCss} {MaviDialogBaseParameters.ZIndex.ToTailwindZIndexClass()} {Class}";
+            }
+           
+            return "hidden";
+        }
+    }
 
     private string WrapperDialog => $"relative grid w-full h-full {MaviDialogBaseParameters.ZIndex.BringForward()} {GetElementPositionCss()} p-4";
 
