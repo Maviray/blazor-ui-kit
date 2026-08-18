@@ -88,7 +88,7 @@
     </div>
 
     <!-- Helper Text -->
-    @if (!string.IsNullOrEmpty(HelperText))
+    @if (DisplayHelperText && !string.IsNullOrEmpty(HelperText))
     {
         <div class="mt-1.5 px-3.5 text-xs leading-tight text-black/60" id="@($"{Id}-helper")">
             @HelperText
@@ -227,22 +227,6 @@
             if (inferredMaxLength.HasValue)
             {
                 MaxLength = inferredMaxLength.Value;
-            }
-        }
-
-        // Infer HelperText with min length info if available
-        var stringLengthAttribute = propertyInfo.GetCustomAttribute<StringLengthAttribute>();
-        if (stringLengthAttribute != null && stringLengthAttribute.MinimumLength > 0)
-        {
-            var minLengthText = $"Minimum {stringLengthAttribute.MinimumLength} characters";
-
-            if (string.IsNullOrEmpty(HelperText))
-            {
-                HelperText = minLengthText;
-            }
-            else if (!HelperText.Contains("Minimum"))
-            {
-                HelperText = $"{HelperText}. {minLengthText}";
             }
         }
 

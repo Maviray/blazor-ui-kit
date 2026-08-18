@@ -1,4 +1,5 @@
 ﻿@using Maviray.Blazor.Components.Material.Components.Inputs
+@using Maviray.Blazor.Components.Material.Components.Spinner
 @using Maviray.Blazor.Components.Material.Constants
 @inherits MaviDialogBase
 
@@ -24,7 +25,14 @@
                         </div>
                     }
                 </div>
-                <div class="px-6 py-4">
+                <div class="px-6 py-4 relative">
+                    <MaviBackdrop Opacity="MaviDialogBaseParameters.BackdropOpacity"
+                                  ZIndex="@MaviDialogBaseParameters.ZIndex.BringOnTop()"
+                                  CloseOnBackdropClick="false"
+                                  CenterContent="true"
+                                  Visible="Busy">
+                        <MaviSpinnerStarRotate ThemeColorScheme="MaviDialogBaseParameters.ThemeColorScheme" ElementSize="MaviDialogBaseParameters.SpinnerSize" />
+                    </MaviBackdrop>
                     @ChildContent
                 </div>
                 @if (MaviDialogBaseParameters.DisplayConfirmButton || MaviDialogBaseParameters.DisplayCancelButton)
@@ -61,10 +69,20 @@
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    private string WrapperDropClass =>
-        Visible
-            ? $"absolute inset-0 {MaviDialogBaseParameters.ZIndex.ToTailwindZIndexClass()} {Class}"
-            : "hidden";
+    private string WrapperDropClass
+    {
+        get
+        {
+            if (Visible)
+            {
+                return string.IsNullOrWhiteSpace(MaviDialogBaseParameters.ContainerOverrideCss) 
+                    ? $"absolute inset-0 {MaviDialogBaseParameters.ZIndex.ToTailwindZIndexClass()} {Class}" 
+                    : $"{MaviDialogBaseParameters.ContainerOverrideCss} {MaviDialogBaseParameters.ZIndex.ToTailwindZIndexClass()} {Class}";
+            }
+           
+            return "hidden";
+        }
+    }
 
     private string WrapperDialog => $"relative grid w-full h-full {MaviDialogBaseParameters.ZIndex.BringForward()} {GetElementPositionCss()} p-4";
 
@@ -89,7 +107,9 @@
             _ => Tailwind.Theme.Colors.Border.THEME_DEFAULT_TWO_BORDER
         };
 
-        return $"overflow-hidden border rounded-md {MaviDialogBaseParameters.BackgroundColor} shadow-sm {borderColorClass} {MaviDialogBaseParameters.Width}";
+        var hideOverflow = MaviDialogBaseParameters.HideOverflow ? "overflow-hidden" : string.Empty;
+
+        return $"border rounded-md {MaviDialogBaseParameters.BackgroundColor} shadow-sm {borderColorClass} {MaviDialogBaseParameters.Width} {MaviDialogBaseParameters.DialogBoxCss} {hideOverflow}";
     }
 
     private string GetDivideCssClasses()

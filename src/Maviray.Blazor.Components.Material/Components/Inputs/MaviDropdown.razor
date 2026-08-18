@@ -1,6 +1,7 @@
 ﻿@typeparam TItem
 @typeparam TValue
 @implements IAsyncDisposable
+@using System.ComponentModel.DataAnnotations
 @using System.Diagnostics.CodeAnalysis
 @using System.Reflection
 @using Maviray.Blazor.Components.Core.Models
@@ -120,7 +121,7 @@
     }
 
     <!-- Helper Text -->
-    @if (!string.IsNullOrEmpty(HelperText))
+    @if (DisplayHelperText && !string.IsNullOrEmpty(HelperText))
     {
         <div class="mt-1.5 px-3.5 text-xs leading-tight text-black/60" id="@($"{Id}-helper")">
             @HelperText
@@ -614,7 +615,25 @@
             return TextSelector(item);
         }
 
+        // For enum items, prefer the [Display] name when the member is decorated with it.
+        if (item is Enum enumItem)
+        {
+            var displayName = GetEnumDisplayName(enumItem);
+            if (!string.IsNullOrEmpty(displayName))
+            {
+                return displayName;
+            }
+        }
+
         return item.ToString() ?? string.Empty;
+    }
+
+    private static string? GetEnumDisplayName(Enum enumValue)
+    {
+        var name = enumValue.ToString();
+        var field = enumValue.GetType().GetField(name);
+
+        return field?.GetCustomAttribute<DisplayAttribute>()?.GetName();
     }
 
     #endregion

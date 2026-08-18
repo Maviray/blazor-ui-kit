@@ -1,4 +1,4 @@
-@using System.ComponentModel.DataAnnotations
+﻿@using System.ComponentModel.DataAnnotations
 @using System.Diagnostics.CodeAnalysis
 @using System.Reflection
 @using Maviray.Blazor.Components.Core.Constants
@@ -51,10 +51,10 @@
     </div>
 
     <!-- Helper Text / Character Counter -->
-    @if (!string.IsNullOrEmpty(HelperText) || ShowCharacterCount)
+    @if ((DisplayHelperText && !string.IsNullOrEmpty(HelperText)) || ShowCharacterCount)
     {
         <div class="mt-1.5 flex items-start justify-between gap-2 px-3.5 text-xs leading-tight text-black/60">
-            @if (!string.IsNullOrEmpty(HelperText))
+            @if (DisplayHelperText && !string.IsNullOrEmpty(HelperText))
             {
                 <span id="@($"{Id}-helper")">@HelperText</span>
             }
@@ -165,22 +165,6 @@
             if (inferredMaxLength.HasValue)
             {
                 MaxLength = inferredMaxLength.Value;
-            }
-        }
-
-        // Infer HelperText with min length info if available
-        var stringLengthAttribute = propertyInfo.GetCustomAttribute<StringLengthAttribute>();
-        if (stringLengthAttribute != null && stringLengthAttribute.MinimumLength > 0)
-        {
-            var minLengthText = $"Minimum {stringLengthAttribute.MinimumLength} characters";
-
-            if (string.IsNullOrEmpty(HelperText))
-            {
-                HelperText = minLengthText;
-            }
-            else if (!HelperText.Contains("Minimum"))
-            {
-                HelperText = $"{HelperText}. {minLengthText}";
             }
         }
     }

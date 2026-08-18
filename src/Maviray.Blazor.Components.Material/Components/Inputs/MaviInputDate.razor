@@ -116,7 +116,7 @@
     </div>
 
     <!-- Helper Text -->
-    @if (!string.IsNullOrEmpty(HelperText))
+    @if (DisplayHelperText && !string.IsNullOrEmpty(HelperText))
     {
         <div class="mt-1.5 px-3.5 text-xs leading-tight text-black/60" id="@($"{Id}-helper")">
             @HelperText
@@ -278,36 +278,6 @@
                 DataType.Time => DateInputType.Time,
                 _ => DateInputType.Date
             };
-        }
-
-        // Add helper text for date range if not set
-        if (Min.HasValue && Max.HasValue)
-        {
-            var rangeText = $"Date must be between {Min.Value:d} and {Max.Value:d}";
-            if (string.IsNullOrEmpty(HelperText))
-            {
-                HelperText = rangeText;
-            }
-            else if (!HelperText.Contains("between"))
-            {
-                HelperText = $"{HelperText}. {rangeText}";
-            }
-        }
-        else if (Min.HasValue)
-        {
-            var minText = $"Date must be on or after {Min.Value:d}";
-            if (string.IsNullOrEmpty(HelperText))
-            {
-                HelperText = minText;
-            }
-        }
-        else if (Max.HasValue)
-        {
-            var maxText = $"Date must be on or before {Max.Value:d}";
-            if (string.IsNullOrEmpty(HelperText))
-            {
-                HelperText = maxText;
-            }
         }
     }
 

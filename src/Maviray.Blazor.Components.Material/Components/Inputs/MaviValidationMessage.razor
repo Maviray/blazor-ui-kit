@@ -1,0 +1,33 @@
+@inherits MaviComponentBase
+@using Maviray.Blazor.Components.Material.Constants
+
+@if (!string.IsNullOrEmpty(_message))
+{
+    <div class="mt-1.5 px-3.5 text-xs leading-tight @Tailwind.Theme.Colors.Text.THEME_ALERT_EIGHT_TEXT">
+        @_message
+    </div>
+}
+
+@code {
+
+    private string? _message;
+
+    /// <summary>
+    ///     Displays the validation message with the supplied text.
+    /// </summary>
+    public void Show(string message)
+    {
+        _message = message;
+        StateHasChanged();
+    }
+
+    /// <summary>
+    ///     Hides the validation message.
+    /// </summary>
+    public void Hide()
+    {
+        _message = null;
+        StateHasChanged();
+    }
+
+}

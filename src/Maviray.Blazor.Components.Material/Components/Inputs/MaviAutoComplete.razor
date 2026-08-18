@@ -136,7 +136,7 @@
     }
 
     <!-- Helper Text -->
-    @if (!string.IsNullOrEmpty(HelperText))
+    @if (DisplayHelperText && !string.IsNullOrEmpty(HelperText))
     {
         <div class="mt-1.5 px-3.5 text-xs leading-tight text-black/60" id="@($"{Id}-helper")">
             @HelperText
@@ -181,6 +181,12 @@
     /// </summary>
     [Parameter]
     public EventCallback<TItem> OnValueSelected { get; set; }
+
+    /// <summary>
+    ///     Event callback when selection is reset.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnReSet { get; set; }
 
     /// <summary>
     ///     Minimum number of characters before triggering search.
@@ -291,7 +297,7 @@
         string? value,
         out TItem result,
         [NotNullWhen(false)]
-        out string? validationErrorMessage)
+    out string? validationErrorMessage)
     {
         if (EnableLifeCycleLogging)
         {
@@ -325,7 +331,12 @@
         if (HasValue && !string.IsNullOrWhiteSpace(_searchText))
         {
             // Clear functionality
-            await ClearInput();
+            Reset();
+
+            if (OnReSet.HasDelegate)
+            {
+                await OnReSet.InvokeAsync();
+            }
         }
         else if (!string.IsNullOrWhiteSpace(_searchText))
         {
@@ -492,23 +503,6 @@
         StateHasChanged();
     }
 
-    private async Task ClearInput()
-    {
-        _searchText = string.Empty;
-        _selectedItem = default;
-        _options = null;
-        _isDropdownOpen = false;
-        _highlightedIndex = -1;
-
-        CurrentValue = default;
-
-        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-        EditContext?.NotifyFieldChanged(FieldIdentifier);
-
-        StateHasChanged();
-        await Task.CompletedTask;
-    }
-
     private void CloseDropdown()
     {
         _isDropdownOpen = false;
@@ -584,6 +578,27 @@
                 : string.Empty;
         _isDropdownOpen = false;
         _highlightedIndex = -1;
+        StateHasChanged();
+    }
+
+    /// <summary>
+    ///     Resets the component to its empty/default state, clearing any selected item, typed
+    ///     text and bound value, and notifying validation. Intended for cascading scenarios
+    ///     where a change in another input invalidates the current selection.
+    /// </summary>
+    public void Reset()
+    {
+        _searchText = string.Empty;
+        _selectedItem = default;
+        _options = null;
+        _isDropdownOpen = false;
+        _highlightedIndex = -1;
+
+        CurrentValue = default;
+
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+        EditContext?.NotifyFieldChanged(FieldIdentifier);
+
         StateHasChanged();
     }
 

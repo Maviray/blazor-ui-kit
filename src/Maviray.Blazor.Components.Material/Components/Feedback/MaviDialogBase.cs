@@ -18,6 +18,8 @@ public abstract class MaviDialogBase : MaviComponentBase
 
     protected bool Visible;
 
+    protected bool Busy;
+
     [Parameter]
     public MaviDialogBaseParameters MaviDialogBaseParameters { get; set; } = new();
 
@@ -26,29 +28,42 @@ public abstract class MaviDialogBase : MaviComponentBase
 
     protected async Task HandleButtonClick(MouseClickEventArgs mouseEventArgs, DialogButtonClick buttonClicked)
     {
-        if (EnableLifeCycleLogging)
+        try
         {
-            Logger?.LogDebugLifeCycle(GetType(), Id, $"DialogButtonClick: {buttonClicked}");
+            Busy = true;
+
+            if (EnableLifeCycleLogging)
+            {
+                Logger?.LogDebugLifeCycle(GetType(), Id, $"DialogButtonClick: {buttonClicked}");
+            }
+
+            if (DialogButtonClick.HasDelegate)
+            {
+                await DialogButtonClick.InvokeAsync(new(Id, buttonClicked, mouseEventArgs));
+            }
+
+            // Capture and clear the callback before invoking so its lifetime ends with this user reaction.
+            // Clearing first lets the callback itself re-open the dialog with a fresh delegate without it being wiped.
+            var onButtonClick = _onButtonClick;
+            _onButtonClick = null;
+
+            if (onButtonClick is not null)
+            {
+                await onButtonClick(buttonClicked);
+            }
+
+            if (buttonClicked == Core.Enums.DialogButtonClick.Close || MaviDialogBaseParameters.CloseOnUserAction)
+            {
+                Visible = false;
+            }
         }
-
-        if (DialogButtonClick.HasDelegate)
+        catch (Exception ex)
         {
-            await DialogButtonClick.InvokeAsync(new(Id, buttonClicked, mouseEventArgs));
+            Logger?.Error(ex, "failure while processing user button click event.");
         }
-
-        // Capture and clear the callback before invoking so its lifetime ends with this user reaction.
-        // Clearing first lets the callback itself re-open the dialog with a fresh delegate without it being wiped.
-        var onButtonClick = _onButtonClick;
-        _onButtonClick = null;
-
-        if (onButtonClick is not null)
+        finally
         {
-            await onButtonClick(buttonClicked);
-        }
-
-        if (buttonClicked == Core.Enums.DialogButtonClick.Close || MaviDialogBaseParameters.CloseOnUserAction)
-        {
-            Visible = false;
+            Busy = false;
         }
     }
 
@@ -135,5 +150,23 @@ public abstract class MaviDialogBase : MaviComponentBase
         }
 
         return Task.CompletedTask;
+    }
+
+    public async Task SetBusy()
+    {
+        if (!Busy)
+        {
+            Busy = true;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    public async Task SetIdle()
+    {
+        if (Busy)
+        {
+            Busy = false;
+            await InvokeAsync(StateHasChanged);
+        }
     }
 }

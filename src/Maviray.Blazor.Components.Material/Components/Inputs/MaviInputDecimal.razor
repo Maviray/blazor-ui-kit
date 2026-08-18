@@ -92,7 +92,7 @@
     </div>
 
     <!-- Helper Text -->
-    @if (!string.IsNullOrEmpty(HelperText))
+    @if (DisplayHelperText && !string.IsNullOrEmpty(HelperText))
     {
         <div class="mt-1.5 px-3.5 text-xs leading-tight text-black/60" id="@($"{Id}-helper")">
             @HelperText
@@ -243,9 +243,6 @@
         Min ??= Convert.ToDecimal(rangeAttr.Minimum);
 
         Max ??= Convert.ToDecimal(rangeAttr.Maximum);
-
-        var rangeText = $"Value must be between {rangeAttr.Minimum} and {rangeAttr.Maximum}";
-        HelperText = string.IsNullOrEmpty(HelperText) ? rangeText : $"{HelperText}. {rangeText}";
     }
 
     private string CleanValueForParsing(string value)
