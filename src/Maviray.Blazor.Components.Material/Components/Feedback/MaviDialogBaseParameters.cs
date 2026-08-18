@@ -17,17 +17,15 @@ public class MaviDialogBaseParameters
     public bool DisplayConfirmButton { get; set; } = true;
     public bool DisplayCancelButton { get; set; } = true;
     public bool DisplayCloseButton { get; set; } = true;
+    public bool HideOverflow { get; set; }
 
     public string? ConfirmButtonTitle { get; set; } = "Confirm";
     public string? CancelButtonTitle { get; set; } = "Cancel";
     public string? CloseButtonTitle { get; set; } = "Close";
 
     public string? Width { get; set; } = "w-full";
-
     public string? BackgroundColor { get; set; } = "bg-white";
-
     public string? DialogBoxCss { get; set; }
-
     public string? ContainerOverrideCss { get; set; }
 
     public void Update(MaviDialogBaseParameters parameters)

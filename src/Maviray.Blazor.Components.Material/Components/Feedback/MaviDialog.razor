@@ -107,7 +107,9 @@
             _ => Tailwind.Theme.Colors.Border.THEME_DEFAULT_TWO_BORDER
         };
 
-        return $"overflow-hidden border rounded-md {MaviDialogBaseParameters.BackgroundColor} shadow-sm {borderColorClass} {MaviDialogBaseParameters.Width} {MaviDialogBaseParameters.DialogBoxCss}";
+        var hideOverflow = MaviDialogBaseParameters.HideOverflow ? "overflow-hidden" : string.Empty;
+
+        return $"border rounded-md {MaviDialogBaseParameters.BackgroundColor} shadow-sm {borderColorClass} {MaviDialogBaseParameters.Width} {MaviDialogBaseParameters.DialogBoxCss} {hideOverflow}";
     }
 
     private string GetDivideCssClasses()
