@@ -643,6 +643,39 @@
                 </code>
             </div>
         </div>
+                <!-- Dark -->
+        <div class="space-y-3">
+            <div>
+                <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Dark</h3>
+                <MaviInputStringNullable @bind-Value="_formSampleModel.AdditionalInfoDark"
+                                         ElementSize="ElementSize.Small"
+                                         ThemeColorScheme="ThemeColorScheme.Dark"
+                                         StartIcon="lni lni lni-euro"
+                                         Width="w-full"/>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                    ThemeColorScheme="ThemeColorScheme.Dark"
+                </code>
+            </div>
+        </div>
+        
+        <!-- Dark -->
+        <div class="space-y-3">
+            <div>
+                        <h3 class="@CssManager.Combine(Tailwind.Theme.Typography.LABEL_LARGE, "mb-2")">Light</h3>
+                        <MaviInputStringNullable @bind-Value="_formSampleModel.AdditionalInfoLight"
+                                         ElementSize="ElementSize.Small"
+                                         ThemeColorScheme="ThemeColorScheme.Light"
+                                         StartIcon="lni lni lni-euro"
+                                         Width="w-full"/>
+            </div>
+            <div class="@CssManager.Combine(Tailwind.Theme.Typography.BODY_SMALL, "bg-gray-50 p-3 rounded-md")">
+                <code class="text-xs">
+                            ThemeColorScheme="ThemeColorScheme.Light"
+                </code>
+            </div>
+        </div>
     </div>
 </div>
 
