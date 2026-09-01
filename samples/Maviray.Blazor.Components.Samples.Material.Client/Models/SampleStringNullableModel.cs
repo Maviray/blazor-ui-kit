@@ -90,4 +90,12 @@ public class SampleStringNullableModel
 
     [Display(Name = "Optional Field 2")]
     public string? OptionalField2 { get; set; } = "Initial Value";
+
+    [Display(Name = "Dark Scheme")]
+    [MaxLength(1000)]
+    public string? AdditionalInfoDark { get; set; }
+
+    [Display(Name = "Light Scheme")]
+    [MaxLength(1000)]
+    public string? AdditionalInfoLight { get; set; }
 }
