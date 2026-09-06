@@ -57,6 +57,17 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
         ThemeBorderLightColor = $"border-(--theme-{colorName}-eight)";
         ThemeBorderDarkColor = $"border-(--theme-{colorName}-nine)";
         ThemeBorderHoverColor = $"hover:border-(--theme-{colorName}-nine)";
+
+        // Light scheme: the shared eight/nine formula makes the border read as a solid
+        // mid-gray, too close to the Dark variant. Shift only the border ramp lighter
+        // (resting < hover < focus), leaving label/icon text on the eight/nine text
+        // shades above so it stays legible.
+        if (ThemeColorScheme == ThemeColorScheme.Light)
+        {
+            ThemeBorderLightColor = Tailwind.Theme.Colors.Border.THEME_LIGHT_THREE_BORDER;
+            ThemeBorderDarkColor = Tailwind.Theme.Colors.Border.THEME_LIGHT_SEVEN_BORDER;
+            ThemeBorderHoverColor = Tailwind.Theme.Colors.Border.Hover.THEME_LIGHT_FIVE_BORDER_HOVER;
+        }
     }
 
     #endregion
