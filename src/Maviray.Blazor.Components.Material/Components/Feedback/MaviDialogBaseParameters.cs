@@ -7,7 +7,7 @@ public class MaviDialogBaseParameters
     public string? Title { get; set; }
     public ThemeColorScheme ThemeColorScheme { get; set; }
     public ZIndex ZIndex { get; set; } = ZIndex.Forty;
-    public BackdropOpacity BackdropOpacity { get; set; } = BackdropOpacity.Darken;
+    public BackdropOpacity BackdropOpacity { get; set; } = BackdropOpacity.Lighten;
     public ComponentRelativePosition ComponentRelativePosition { get; set; } = ComponentRelativePosition.Center;
     public ElementSize SpinnerSize { get; set; }
 
