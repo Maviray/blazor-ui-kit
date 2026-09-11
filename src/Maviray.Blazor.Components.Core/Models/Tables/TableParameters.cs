@@ -21,4 +21,5 @@ public class TableParameters
     public bool Striped { get; set; }
     public bool Condensed { get; set; }
     public int MaxCellCharsToDisplay { get; set; }
+    public SortOrder SortOrder { get; set; }
 }
