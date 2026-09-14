@@ -1,0 +1,53 @@
+@page "/PageWysiwygEditor"
+@using Maviray.Blazor.Components.Material.Components.Editors.Wysiwyg
+@inherits SamplePageBase
+
+<PageTitle>WysiwygEditor</PageTitle>
+
+<h1 class="mb-4 text-2xl font-semibold">Wysiwyg Editor</h1>
+
+<div class="max-w-3xl">
+    <WysiwygEditor @ref="_editor"
+                   @bind-Content="_html"
+                   Placeholder="Start typing…"
+                   ShowSaveButton="true"
+                   ShowRefreshButton="true"
+                   OnSave="OnSave"
+                   RefreshContentProvider="LoadFromStore"
+                   MinHeight="260px" />
+
+    <div class="mt-4 flex gap-2">
+        <button class="rounded bg-(--theme-primary-seven) px-3 py-1 text-white" @onclick="ShowHtml">Show HTML</button>
+        <button class="rounded border px-3 py-1" @onclick="Clear">Clear</button>
+    </div>
+
+    @if (_lastSaved is not null)
+    {
+        <pre class="mt-4 overflow-auto rounded bg-(--theme-light-two) p-3 text-xs">@_lastSaved</pre>
+    }
+</div>
+
+@code {
+    private WysiwygEditor? _editor;
+    private string? _html = "<p>Hello from <b>WysiwygEditor</b>!</p>";
+    private string? _lastSaved;
+
+    private Task OnSave(string html)
+    {
+        _lastSaved = html;
+        return Task.CompletedTask;
+    }
+
+    private Task<string?> LoadFromStore() =>
+        Task.FromResult<string?>("<p>Loaded from the provider callback.</p>");
+
+    private async Task ShowHtml()
+    {
+        if (_editor is not null) _lastSaved = await _editor.GetContentAsync();
+    }
+
+    private async Task Clear()
+    {
+        if (_editor is not null) await _editor.ClearAsync();
+    }
+}
