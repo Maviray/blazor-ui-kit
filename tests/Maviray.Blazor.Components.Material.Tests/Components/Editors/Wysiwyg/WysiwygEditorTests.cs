@@ -92,4 +92,29 @@ public class WysiwygEditorTests : ComponentTestBase
         var invocation = JSInterop.Invocations["setHtml"].Last();
         invocation.Arguments[1].Should().Be(string.Empty);
     }
+
+    [Fact]
+    public async Task BoldButton_Invokes_Exec_Bold()
+    {
+        JSInterop.Setup<string>("exec", _ => true).SetResult("<b>x</b>");
+
+        var cut = Render<WysiwygEditor>();
+
+        await cut.Find("[data-mavi-cmd='bold']").ClickAsync(new());
+
+        var invocation = JSInterop.Invocations["exec"].Last();
+        invocation.Arguments[1].Should().Be("bold");
+    }
+
+    [Fact]
+    public void InlineGroup_Renders_AllFiveButtons()
+    {
+        var cut = Render<WysiwygEditor>();
+
+        cut.FindAll("[data-mavi-cmd='bold']").Count.Should().Be(1);
+        cut.FindAll("[data-mavi-cmd='italic']").Count.Should().Be(1);
+        cut.FindAll("[data-mavi-cmd='underline']").Count.Should().Be(1);
+        cut.FindAll("[data-mavi-cmd='strikeThrough']").Count.Should().Be(1);
+        cut.FindAll("[data-mavi-cmd='removeFormat']").Count.Should().Be(1);
+    }
 }

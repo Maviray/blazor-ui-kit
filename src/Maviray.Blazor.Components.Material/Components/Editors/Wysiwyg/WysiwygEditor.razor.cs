@@ -136,6 +136,13 @@ public partial class WysiwygEditor : IAsyncDisposable
 
     private Task HandleRefreshClickAsync() => RefreshAsync();
 
+    private async Task ExecAsync(string command, string? value = null)
+    {
+        if (_jsModule is null || !IsInteractive) return;
+        var html = await _jsModule.InvokeAsync<string>("exec", _surfaceRef, command, value);
+        await UpdateContentAsync(html);
+    }
+
     #endregion
 
     public async ValueTask DisposeAsync()

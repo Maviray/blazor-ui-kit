@@ -9,7 +9,18 @@
          role="toolbar"
          aria-label="Editor toolbar"
          hidden="@ReadOnly">
-        @* Toolbar groups added in later tasks *@
+        <div class="flex items-center gap-0.5 pr-1" role="group" aria-label="Font style">
+            <button type="button" class="@ToolbarButtonCss()" title="Bold" data-mavi-cmd="bold"
+                    @onmousedown:preventDefault="true" @onclick='() => ExecAsync("bold")'>@((MarkupString)WysiwygIcons.Bold)</button>
+            <button type="button" class="@ToolbarButtonCss()" title="Italic" data-mavi-cmd="italic"
+                    @onmousedown:preventDefault="true" @onclick='() => ExecAsync("italic")'>@((MarkupString)WysiwygIcons.Italic)</button>
+            <button type="button" class="@ToolbarButtonCss()" title="Underline" data-mavi-cmd="underline"
+                    @onmousedown:preventDefault="true" @onclick='() => ExecAsync("underline")'>@((MarkupString)WysiwygIcons.Underline)</button>
+            <button type="button" class="@ToolbarButtonCss()" title="Strikethrough" data-mavi-cmd="strikeThrough"
+                    @onmousedown:preventDefault="true" @onclick='() => ExecAsync("strikeThrough")'>@((MarkupString)WysiwygIcons.Strikethrough)</button>
+            <button type="button" class="@ToolbarButtonCss()" title="Clear formatting" data-mavi-cmd="removeFormat"
+                    @onmousedown:preventDefault="true" @onclick='() => ExecAsync("removeFormat")'>@((MarkupString)WysiwygIcons.Eraser)</button>
+        </div>
         @if (ShowRefreshButton)
         {
             <button type="button"
