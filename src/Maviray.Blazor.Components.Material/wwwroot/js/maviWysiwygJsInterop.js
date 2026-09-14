@@ -1,5 +1,6 @@
 // Per-surface saved selection range, keyed via a WeakMap.
 const _savedRanges = new WeakMap();
+let _fullscreenOwner = null;
 
 function saveSelection(surface) {
     const sel = window.getSelection();
@@ -133,8 +134,14 @@ export function focus(surface) {
     if (surface) surface.focus();
 }
 
-export function toggleFullscreen(on) {
-    document.body.style.overflow = on ? 'hidden' : '';
+export function toggleFullscreen(surface, on) {
+    if (on) {
+        _fullscreenOwner = surface;
+        document.body.style.overflow = 'hidden';
+    } else if (_fullscreenOwner === surface) {
+        _fullscreenOwner = null;
+        document.body.style.overflow = '';
+    }
 }
 
 export function dispose(surface) {
@@ -147,5 +154,8 @@ export function dispose(surface) {
     delete surface._onMouseUp;
     _savedRanges.delete(surface);
     delete surface._dotNetRef;
-    document.body.style.overflow = '';
+    if (_fullscreenOwner === surface) {
+        _fullscreenOwner = null;
+        document.body.style.overflow = '';
+    }
 }
