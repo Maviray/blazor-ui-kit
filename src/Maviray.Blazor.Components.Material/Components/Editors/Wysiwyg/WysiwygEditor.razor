@@ -42,6 +42,36 @@
             <button type="button" class="@ToolbarButtonCss()" title="Clear formatting" data-mavi-cmd="removeFormat"
                     @onmousedown:preventDefault="true" @onclick='() => ExecAsync("removeFormat")'>@((MarkupString)WysiwygIcons.Eraser)</button>
         </div>
+        <div class="flex items-center gap-0.5 pr-1" role="group" aria-label="Lists">
+            <button type="button" class="@ToolbarButtonCss()" title="Unordered list" data-mavi-cmd="insertUnorderedList"
+                    @onmousedown:preventDefault="true" @onclick='() => ExecAsync("insertUnorderedList")'>@((MarkupString)WysiwygIcons.ListUnordered)</button>
+            <button type="button" class="@ToolbarButtonCss()" title="Ordered list" data-mavi-cmd="insertOrderedList"
+                    @onmousedown:preventDefault="true" @onclick='() => ExecAsync("insertOrderedList")'>@((MarkupString)WysiwygIcons.ListOrdered)</button>
+        </div>
+        <div class="relative pr-1">
+            <button type="button" class="@ToolbarButtonCss()" title="Paragraph"
+                    data-mavi-popover-toggle="paragraph" @onmousedown:preventDefault="true" @onclick='() => TogglePopover("paragraph")'>
+                @((MarkupString)WysiwygIcons.AlignLeft)
+            </button>
+            @if (IsPopoverOpen("paragraph"))
+            {
+                <div class="absolute left-0 top-full z-20 mt-1 flex gap-0.5 rounded-md border border-(--theme-light-six) bg-white p-1 shadow-lg"
+                     data-mavi-popover="paragraph">
+                    <button type="button" class="@ToolbarButtonCss()" title="Align left" data-mavi-cmd="justifyLeft"
+                            @onmousedown:preventDefault="true" @onclick='() => ExecFromPopoverAsync("justifyLeft")'>@((MarkupString)WysiwygIcons.AlignLeft)</button>
+                    <button type="button" class="@ToolbarButtonCss()" title="Align center" data-mavi-cmd="justifyCenter"
+                            @onmousedown:preventDefault="true" @onclick='() => ExecFromPopoverAsync("justifyCenter")'>@((MarkupString)WysiwygIcons.AlignCenter)</button>
+                    <button type="button" class="@ToolbarButtonCss()" title="Align right" data-mavi-cmd="justifyRight"
+                            @onmousedown:preventDefault="true" @onclick='() => ExecFromPopoverAsync("justifyRight")'>@((MarkupString)WysiwygIcons.AlignRight)</button>
+                    <button type="button" class="@ToolbarButtonCss()" title="Justify" data-mavi-cmd="justifyFull"
+                            @onmousedown:preventDefault="true" @onclick='() => ExecFromPopoverAsync("justifyFull")'>@((MarkupString)WysiwygIcons.AlignJustify)</button>
+                    <button type="button" class="@ToolbarButtonCss()" title="Indent" data-mavi-cmd="indent"
+                            @onmousedown:preventDefault="true" @onclick='() => ExecFromPopoverAsync("indent")'>@((MarkupString)WysiwygIcons.Indent)</button>
+                    <button type="button" class="@ToolbarButtonCss()" title="Outdent" data-mavi-cmd="outdent"
+                            @onmousedown:preventDefault="true" @onclick='() => ExecFromPopoverAsync("outdent")'>@((MarkupString)WysiwygIcons.Outdent)</button>
+                </div>
+            }
+        </div>
         @if (ShowRefreshButton)
         {
             <button type="button"

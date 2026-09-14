@@ -170,6 +170,12 @@ public partial class WysiwygEditor : IAsyncDisposable
         await UpdateContentAsync(html);
     }
 
+    private async Task ExecFromPopoverAsync(string command)
+    {
+        _openPopover = null;
+        await ExecAsync(command);
+    }
+
     #endregion
 
     public async ValueTask DisposeAsync()

@@ -34,4 +34,38 @@ internal static class WysiwygIcons
 
     public static readonly string Paragraph = Open +
         "<path d=\"M13 4v16M17 4v16M17 4H9a5 5 0 0 0 0 10h4\"/>" + Close;
+
+    public static readonly string ListUnordered = Open +
+        "<line x1=\"8\" y1=\"6\" x2=\"21\" y2=\"6\"/><line x1=\"8\" y1=\"12\" x2=\"21\" y2=\"12\"/>" +
+        "<line x1=\"8\" y1=\"18\" x2=\"21\" y2=\"18\"/><line x1=\"3\" y1=\"6\" x2=\"3.01\" y2=\"6\"/>" +
+        "<line x1=\"3\" y1=\"12\" x2=\"3.01\" y2=\"12\"/><line x1=\"3\" y1=\"18\" x2=\"3.01\" y2=\"18\"/>" + Close;
+
+    public static readonly string ListOrdered = Open +
+        "<line x1=\"10\" y1=\"6\" x2=\"21\" y2=\"6\"/><line x1=\"10\" y1=\"12\" x2=\"21\" y2=\"12\"/>" +
+        "<line x1=\"10\" y1=\"18\" x2=\"21\" y2=\"18\"/><path d=\"M4 6h1v4M4 10h2\"/>" +
+        "<path d=\"M6 18H4c0-1 2-2 2-3s-1-1.5-2-1\"/>" + Close;
+
+    public static readonly string AlignLeft = Open +
+        "<line x1=\"17\" y1=\"10\" x2=\"3\" y2=\"10\"/><line x1=\"21\" y1=\"6\" x2=\"3\" y2=\"6\"/>" +
+        "<line x1=\"21\" y1=\"14\" x2=\"3\" y2=\"14\"/><line x1=\"17\" y1=\"18\" x2=\"3\" y2=\"18\"/>" + Close;
+
+    public static readonly string AlignCenter = Open +
+        "<line x1=\"18\" y1=\"10\" x2=\"6\" y2=\"10\"/><line x1=\"21\" y1=\"6\" x2=\"3\" y2=\"6\"/>" +
+        "<line x1=\"21\" y1=\"14\" x2=\"3\" y2=\"14\"/><line x1=\"18\" y1=\"18\" x2=\"6\" y2=\"18\"/>" + Close;
+
+    public static readonly string AlignRight = Open +
+        "<line x1=\"21\" y1=\"10\" x2=\"7\" y2=\"10\"/><line x1=\"21\" y1=\"6\" x2=\"3\" y2=\"6\"/>" +
+        "<line x1=\"21\" y1=\"14\" x2=\"3\" y2=\"14\"/><line x1=\"21\" y1=\"18\" x2=\"7\" y2=\"18\"/>" + Close;
+
+    public static readonly string AlignJustify = Open +
+        "<line x1=\"21\" y1=\"10\" x2=\"3\" y2=\"10\"/><line x1=\"21\" y1=\"6\" x2=\"3\" y2=\"6\"/>" +
+        "<line x1=\"21\" y1=\"14\" x2=\"3\" y2=\"14\"/><line x1=\"21\" y1=\"18\" x2=\"3\" y2=\"18\"/>" + Close;
+
+    public static readonly string Indent = Open +
+        "<polyline points=\"3 8 7 12 3 16\"/><line x1=\"21\" y1=\"6\" x2=\"11\" y2=\"6\"/>" +
+        "<line x1=\"21\" y1=\"12\" x2=\"11\" y2=\"12\"/><line x1=\"21\" y1=\"18\" x2=\"11\" y2=\"18\"/>" + Close;
+
+    public static readonly string Outdent = Open +
+        "<polyline points=\"7 8 3 12 7 16\"/><line x1=\"21\" y1=\"6\" x2=\"11\" y2=\"6\"/>" +
+        "<line x1=\"21\" y1=\"12\" x2=\"11\" y2=\"12\"/><line x1=\"21\" y1=\"18\" x2=\"11\" y2=\"18\"/>" + Close;
 }

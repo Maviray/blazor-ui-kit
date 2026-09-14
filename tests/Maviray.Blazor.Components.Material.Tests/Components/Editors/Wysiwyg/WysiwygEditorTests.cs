@@ -131,4 +131,29 @@ public class WysiwygEditorTests : ComponentTestBase
         await cut.Find("[data-mavi-popover-toggle='style']").ClickAsync(new());
         cut.FindAll("[data-mavi-popover='style']").Count.Should().Be(0);
     }
+
+    [Theory]
+    [InlineData("insertUnorderedList")]
+    [InlineData("insertOrderedList")]
+    public async Task ListButtons_Invoke_Exec(string command)
+    {
+        JSInterop.Setup<string>("exec", _ => true).SetResult("<ul></ul>");
+        var cut = Render<WysiwygEditor>();
+
+        await cut.Find($"[data-mavi-cmd='{command}']").ClickAsync(new());
+
+        JSInterop.Invocations["exec"].Last().Arguments[1].Should().Be(command);
+    }
+
+    [Fact]
+    public async Task AlignCenter_Invokes_Exec_justifyCenter()
+    {
+        JSInterop.Setup<string>("exec", _ => true).SetResult("");
+        var cut = Render<WysiwygEditor>();
+
+        await cut.Find("[data-mavi-popover-toggle='paragraph']").ClickAsync(new());
+        await cut.Find("[data-mavi-cmd='justifyCenter']").ClickAsync(new());
+
+        JSInterop.Invocations["exec"].Last().Arguments[1].Should().Be("justifyCenter");
+    }
 }
