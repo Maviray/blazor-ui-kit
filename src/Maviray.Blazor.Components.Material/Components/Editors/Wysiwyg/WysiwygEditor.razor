@@ -123,6 +123,32 @@
                 </div>
             }
         </div>
+        <div class="relative pr-1">
+            <button type="button" class="@ToolbarButtonCss()" title="Link"
+                    data-mavi-popover-toggle="link" @onmousedown:preventDefault="true" @onclick='() => TogglePopover("link")'>
+                @((MarkupString)WysiwygIcons.Link)
+            </button>
+            @if (IsPopoverOpen("link"))
+            {
+                <div class="absolute left-0 top-full z-20 mt-1 w-64 rounded-md border border-(--theme-light-six) bg-white p-3 shadow-lg"
+                     data-mavi-popover="link">
+                    <label class="mb-1 block text-xs font-medium text-(--theme-dark-six)">Text</label>
+                    <input type="text" value="@_linkText" @oninput="e => _linkText = e.Value?.ToString() ?? string.Empty"
+                           data-mavi-link-text
+                           class="mb-2 w-full rounded border border-(--theme-light-six) px-2 py-1 text-sm outline-none" />
+                    <label class="mb-1 block text-xs font-medium text-(--theme-dark-six)">URL</label>
+                    <input type="text" value="@_linkUrl" @oninput="e => _linkUrl = e.Value?.ToString() ?? string.Empty"
+                           data-mavi-link-url
+                           class="mb-3 w-full rounded border border-(--theme-light-six) px-2 py-1 text-sm outline-none" />
+                    <div class="flex justify-end gap-2">
+                        <button type="button" class="rounded px-3 py-1 text-sm hover:bg-(--theme-light-three)"
+                                @onmousedown:preventDefault="true" @onclick='() => _openPopover = null'>Cancel</button>
+                        <button type="button" class="rounded bg-(--theme-primary-seven) px-3 py-1 text-sm text-white hover:bg-(--theme-primary-eight)"
+                                data-mavi-link-insert @onmousedown:preventDefault="true" @onclick="InsertLinkAsync">Insert</button>
+                    </div>
+                </div>
+            }
+        </div>
         @if (ShowRefreshButton)
         {
             <button type="button"

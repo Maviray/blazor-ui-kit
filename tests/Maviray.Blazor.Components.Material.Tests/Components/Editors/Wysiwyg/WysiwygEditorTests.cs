@@ -180,4 +180,20 @@ public class WysiwygEditorTests : ComponentTestBase
 
         JSInterop.Invocations["setForeColor"].Last().Arguments[1].Should().Be("#e03131");
     }
+
+    [Fact]
+    public async Task LinkDialog_Insert_Invokes_insertLink()
+    {
+        JSInterop.Setup<string>("insertLink", _ => true).SetResult("");
+        var cut = Render<WysiwygEditor>();
+
+        await cut.Find("[data-mavi-popover-toggle='link']").ClickAsync(new());
+        cut.Find("[data-mavi-link-url]").Input("https://example.com");
+        cut.Find("[data-mavi-link-text]").Input("Example");
+        await cut.Find("[data-mavi-link-insert]").ClickAsync(new());
+
+        var inv = JSInterop.Invocations["insertLink"].Last();
+        inv.Arguments[1].Should().Be("https://example.com");
+        inv.Arguments[2].Should().Be("Example");
+    }
 }

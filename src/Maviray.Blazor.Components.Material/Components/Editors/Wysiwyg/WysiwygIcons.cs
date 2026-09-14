@@ -71,6 +71,10 @@ internal static class WysiwygIcons
 
     public static readonly string ChevronDown = Open + "<polyline points=\"6 9 12 15 18 9\"/>" + Close;
 
+    public static readonly string Link = Open +
+        "<path d=\"M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71\"/>" +
+        "<path d=\"M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71\"/>" + Close;
+
     // "A" with a colored underline bar — its own small SVG (uses text).
     public static readonly string FontColor =
         "<svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\">" +

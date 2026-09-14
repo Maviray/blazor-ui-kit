@@ -13,6 +13,8 @@ public partial class WysiwygEditor : IAsyncDisposable
     private IJSObjectReference? _jsModule;
     private DotNetObjectReference<WysiwygEditor>? _dotNetRef;
     private string? _openPopover;
+    private string _linkUrl = string.Empty;
+    private string _linkText = string.Empty;
 
     [Inject] private IJSRuntime? JsRuntime { get; set; }
 
@@ -210,6 +212,16 @@ public partial class WysiwygEditor : IAsyncDisposable
         if (_jsModule is null || !IsInteractive) return;
         var html = await _jsModule.InvokeAsync<string>("setBackColor", _surfaceRef, color);
         await UpdateContentAsync(html);
+    }
+
+    private async Task InsertLinkAsync()
+    {
+        _openPopover = null;
+        if (_jsModule is null || !IsInteractive || string.IsNullOrWhiteSpace(_linkUrl)) return;
+        var html = await _jsModule.InvokeAsync<string>("insertLink", _surfaceRef, _linkUrl, _linkText);
+        await UpdateContentAsync(html);
+        _linkUrl = string.Empty;
+        _linkText = string.Empty;
     }
 
     #endregion
