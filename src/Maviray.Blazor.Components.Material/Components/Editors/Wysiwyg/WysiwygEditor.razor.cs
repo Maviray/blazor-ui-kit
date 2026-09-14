@@ -106,6 +106,11 @@ public partial class WysiwygEditor : IAsyncDisposable
 
     private async Task UpdateContentAsync(string? html)
     {
+        if (string.Equals(Content, html, StringComparison.Ordinal))
+        {
+            return;
+        }
+
         Content = html;
         if (ContentChanged.HasDelegate)
         {
