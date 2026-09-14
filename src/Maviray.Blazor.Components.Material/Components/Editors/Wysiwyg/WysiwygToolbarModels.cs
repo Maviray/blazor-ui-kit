@@ -15,3 +15,17 @@ public sealed record WysiwygBlockStyle(string Label, string Tag)
         new("Code", "pre"),
     ];
 }
+
+public static class WysiwygDefaults
+{
+    public static readonly IReadOnlyList<string> Fonts =
+    [
+        "Arial", "Helvetica", "Georgia", "Tahoma", "Times New Roman", "Verdana", "Courier New",
+    ];
+
+    public static readonly IReadOnlyList<string> Colors =
+    [
+        "#000000", "#495057", "#e03131", "#d6336c", "#ae3ec9", "#7048e8", "#1971c2",
+        "#0c8599", "#2f9e44", "#f08c00", "#e8590c", "#ffffff",
+    ];
+}

@@ -68,4 +68,12 @@ internal static class WysiwygIcons
     public static readonly string Outdent = Open +
         "<polyline points=\"7 8 3 12 7 16\"/><line x1=\"21\" y1=\"6\" x2=\"11\" y2=\"6\"/>" +
         "<line x1=\"21\" y1=\"12\" x2=\"11\" y2=\"12\"/><line x1=\"21\" y1=\"18\" x2=\"11\" y2=\"18\"/>" + Close;
+
+    public static readonly string ChevronDown = Open + "<polyline points=\"6 9 12 15 18 9\"/>" + Close;
+
+    // "A" with a colored underline bar — its own small SVG (uses text).
+    public static readonly string FontColor =
+        "<svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\">" +
+        "<text x=\"5\" y=\"16\" font-size=\"15\" font-weight=\"700\" fill=\"currentColor\" " +
+        "font-family=\"sans-serif\">A</text><rect x=\"4\" y=\"19\" width=\"14\" height=\"3\" fill=\"#e03131\"/></svg>";
 }

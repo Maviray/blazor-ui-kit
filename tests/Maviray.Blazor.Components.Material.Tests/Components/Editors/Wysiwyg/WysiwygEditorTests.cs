@@ -156,4 +156,28 @@ public class WysiwygEditorTests : ComponentTestBase
 
         JSInterop.Invocations["exec"].Last().Arguments[1].Should().Be("justifyCenter");
     }
+
+    [Fact]
+    public async Task FontFamily_Selection_Invokes_setFontName()
+    {
+        JSInterop.Setup<string>("setFontName", _ => true).SetResult("");
+        var cut = Render<WysiwygEditor>();
+
+        await cut.Find("[data-mavi-popover-toggle='font']").ClickAsync(new());
+        await cut.Find("[data-mavi-font='Georgia']").ClickAsync(new());
+
+        JSInterop.Invocations["setFontName"].Last().Arguments[1].Should().Be("Georgia");
+    }
+
+    [Fact]
+    public async Task ForeColor_Selection_Invokes_setForeColor()
+    {
+        JSInterop.Setup<string>("setForeColor", _ => true).SetResult("");
+        var cut = Render<WysiwygEditor>();
+
+        await cut.Find("[data-mavi-popover-toggle='color']").ClickAsync(new());
+        await cut.Find("[data-mavi-forecolor='#e03131']").ClickAsync(new());
+
+        JSInterop.Invocations["setForeColor"].Last().Arguments[1].Should().Be("#e03131");
+    }
 }

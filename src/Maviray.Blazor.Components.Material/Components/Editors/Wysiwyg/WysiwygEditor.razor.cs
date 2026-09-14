@@ -36,6 +36,17 @@ public partial class WysiwygEditor : IAsyncDisposable
 
     #endregion
 
+    #region Font / color parameters
+
+    [Parameter] public IEnumerable<string>? FontFamilies { get; set; }
+    [Parameter] public IEnumerable<string>? ColorPalette { get; set; }
+
+    private IEnumerable<string> EffectiveFonts => FontFamilies ?? WysiwygDefaults.Fonts;
+    private IEnumerable<string> EffectiveColors => ColorPalette ?? WysiwygDefaults.Colors;
+    private string _currentFont = "Helvetica";
+
+    #endregion
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -174,6 +185,31 @@ public partial class WysiwygEditor : IAsyncDisposable
     {
         _openPopover = null;
         await ExecAsync(command);
+    }
+
+    private async Task ApplyFontAsync(string font)
+    {
+        _openPopover = null;
+        _currentFont = font;
+        if (_jsModule is null || !IsInteractive) return;
+        var html = await _jsModule.InvokeAsync<string>("setFontName", _surfaceRef, font);
+        await UpdateContentAsync(html);
+    }
+
+    private async Task ApplyForeColorAsync(string color)
+    {
+        _openPopover = null;
+        if (_jsModule is null || !IsInteractive) return;
+        var html = await _jsModule.InvokeAsync<string>("setForeColor", _surfaceRef, color);
+        await UpdateContentAsync(html);
+    }
+
+    private async Task ApplyBackColorAsync(string color)
+    {
+        _openPopover = null;
+        if (_jsModule is null || !IsInteractive) return;
+        var html = await _jsModule.InvokeAsync<string>("setBackColor", _surfaceRef, color);
+        await UpdateContentAsync(html);
     }
 
     #endregion
