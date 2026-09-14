@@ -209,7 +209,7 @@ public class WysiwygEditorTests : ComponentTestBase
 
         cut.WaitForAssertion(() => JSInterop.Invocations.Identifiers.Should().Contain("insertImage"));
 
-        JSInterop.Invocations["insertImage"].Last().Arguments[1].ToString()!
-            .Should().StartWith("data:image/png;base64,");
+        JSInterop.Invocations["insertImage"].Last().Arguments[1]!.ToString()
+            .Should().Be("data:image/png;base64,UE5HREFUQQ==");
     }
 }

@@ -1,4 +1,5 @@
 using Maviray.Blazor.Components.Core.Constants;
+using Maviray.Blazor.Components.Core.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
@@ -237,14 +238,21 @@ public partial class WysiwygEditor : IAsyncDisposable
         if (file is null || _jsModule is null || !IsInteractive) return;
         if (file.Size > MaxImageBytes) return;
 
-        await using var stream = file.OpenReadStream(MaxImageBytes);
-        using var ms = new MemoryStream();
-        await stream.CopyToAsync(ms);
-        var base64 = Convert.ToBase64String(ms.ToArray());
-        var dataUrl = $"data:{file.ContentType};base64,{base64}";
+        try
+        {
+            await using var stream = file.OpenReadStream(MaxImageBytes);
+            using var ms = new MemoryStream();
+            await stream.CopyToAsync(ms);
+            var base64 = Convert.ToBase64String(ms.ToArray());
+            var dataUrl = $"data:{file.ContentType};base64,{base64}";
 
-        var html = await _jsModule.InvokeAsync<string>("insertImage", _surfaceRef, dataUrl);
-        await UpdateContentAsync(html);
+            var html = await _jsModule.InvokeAsync<string>("insertImage", _surfaceRef, dataUrl);
+            await UpdateContentAsync(html);
+        }
+        catch (IOException ex)
+        {
+            Logger?.Error(ex, "WysiwygEditor: failed to read selected image.");
+        }
     }
 
     #endregion
