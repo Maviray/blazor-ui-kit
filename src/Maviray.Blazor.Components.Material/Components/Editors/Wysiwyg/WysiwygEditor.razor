@@ -1,0 +1,37 @@
+@namespace Maviray.Blazor.Components.Material.Components.Editors.Wysiwyg
+@using Microsoft.AspNetCore.Components.Forms
+@inherits Maviray.Blazor.Components.Core.Components.MaviComponentBase
+
+<div id="@Id" class="@GetRootCss()" style="@Style" data-mavi-wysiwyg-root>
+
+    <div class="flex flex-wrap items-center gap-1 border-b border-(--theme-light-six) bg-(--theme-light-two) px-2 py-1.5"
+         data-mavi-wysiwyg-toolbar
+         role="toolbar"
+         aria-label="Editor toolbar"
+         hidden="@ReadOnly">
+        @* Toolbar groups added in later tasks *@
+    </div>
+
+    <div @ref="_surfaceRef"
+         class="w-full overflow-auto bg-white px-4 py-3 text-(--theme-dark-nine) outline-none resize-y focus:outline-none"
+         style="min-height:@MinHeight"
+         contenteditable="@IsInteractive.ToString().ToLowerInvariant()"
+         role="textbox"
+         aria-multiline="true"
+         aria-label="@Title"
+         data-placeholder="@Placeholder"
+         data-mavi-wysiwyg-surface></div>
+
+</div>
+
+@code {
+    private string GetRootCss()
+    {
+        var css = "rounded-md border border-(--theme-light-six) bg-white";
+        if (Disabled)
+        {
+            css += " opacity-60 pointer-events-none";
+        }
+        return string.IsNullOrEmpty(Class) ? css : $"{css} {Class}";
+    }
+}
