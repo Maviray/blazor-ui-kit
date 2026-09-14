@@ -1,3 +1,4 @@
+using Maviray.Blazor.Components.Core.Constants;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -11,7 +12,7 @@ public partial class WysiwygEditor : IAsyncDisposable
     private ElementReference _surfaceRef;
     private IJSObjectReference? _jsModule;
     private DotNetObjectReference<WysiwygEditor>? _dotNetRef;
-    private bool _initialized;
+    private string? _openPopover;
 
     [Inject] private IJSRuntime? JsRuntime { get; set; }
 
@@ -53,10 +54,28 @@ public partial class WysiwygEditor : IAsyncDisposable
             await _jsModule.InvokeVoidAsync("setHtml", _surfaceRef, Content);
         }
 
-        _initialized = true;
+        await JsRuntime.InvokeVoidAsync(
+            JsInteropConstants.REGISTER_OUT_OF_FOCUS_CALLBACK_LISTENER, Id, _dotNetRef, nameof(HandleOutsideClick));
     }
 
     private bool IsInteractive => !ReadOnly && !Disabled;
+
+    private void TogglePopover(string name)
+    {
+        _openPopover = _openPopover == name ? null : name;
+    }
+
+    private bool IsPopoverOpen(string name) => _openPopover == name;
+
+    [JSInvokable]
+    public void HandleOutsideClick(string clickedId)
+    {
+        if (clickedId != Id)
+        {
+            _openPopover = null;
+            StateHasChanged();
+        }
+    }
 
     #region Public API
 
@@ -143,10 +162,27 @@ public partial class WysiwygEditor : IAsyncDisposable
         await UpdateContentAsync(html);
     }
 
+    private async Task ApplyBlockStyleAsync(string tag)
+    {
+        _openPopover = null;
+        if (_jsModule is null || !IsInteractive) return;
+        var html = await _jsModule.InvokeAsync<string>("formatBlock", _surfaceRef, tag);
+        await UpdateContentAsync(html);
+    }
+
     #endregion
 
     public async ValueTask DisposeAsync()
     {
+        try
+        {
+            if (JsRuntime is not null)
+            {
+                await JsRuntime.InvokeVoidAsync(JsInteropConstants.UN_REGISTER_OUT_OF_FOCUS_CALLBACK_LISTENER, Id);
+            }
+        }
+        catch (JSDisconnectedException) { /* circuit gone */ }
+
         if (_jsModule is not null)
         {
             try

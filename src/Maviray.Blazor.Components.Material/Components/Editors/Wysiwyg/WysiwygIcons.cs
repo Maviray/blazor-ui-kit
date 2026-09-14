@@ -31,4 +31,7 @@ internal static class WysiwygIcons
     public static readonly string Eraser = Open +
         "<path d=\"M20 20H7L3 16a2 2 0 0 1 0-3l9-9a2 2 0 0 1 3 0l5 5a2 2 0 0 1 0 3l-7 7\"/>" +
         "<line x1=\"18\" y1=\"12.5\" x2=\"9.5\" y2=\"4\"/>" + Close;
+
+    public static readonly string Paragraph = Open +
+        "<path d=\"M13 4v16M17 4v16M17 4H9a5 5 0 0 0 0 10h4\"/>" + Close;
 }

@@ -2,13 +2,34 @@
 @using Microsoft.AspNetCore.Components.Forms
 @inherits Maviray.Blazor.Components.Core.Components.MaviComponentBase
 
-<div id="@Id" class="@GetRootCss()" style="@Style" data-mavi-wysiwyg-root>
+<div id="@Id" class="@GetRootCss()" style="@Style" data-context-menu-id="@Id" data-mavi-wysiwyg-root>
 
     <div class="flex flex-wrap items-center gap-1 border-b border-(--theme-light-six) bg-(--theme-light-two) px-2 py-1.5"
          data-mavi-wysiwyg-toolbar
          role="toolbar"
          aria-label="Editor toolbar"
          hidden="@ReadOnly">
+        <div class="relative pr-1">
+            <button type="button" class="@ToolbarButtonCss()" title="Style"
+                    data-mavi-popover-toggle="style" @onmousedown:preventDefault="true" @onclick='() => TogglePopover("style")'>
+                @((MarkupString)WysiwygIcons.Paragraph)
+            </button>
+            @if (IsPopoverOpen("style"))
+            {
+                <div class="absolute left-0 top-full z-20 mt-1 min-w-40 rounded-md border border-(--theme-light-six) bg-white p-1 shadow-lg"
+                     data-mavi-popover="style">
+                    @foreach (var style in WysiwygBlockStyle.All)
+                    {
+                        <button type="button"
+                                class="block w-full rounded px-3 py-1.5 text-left text-sm hover:bg-(--theme-light-three)"
+                                @onmousedown:preventDefault="true"
+                                @onclick="() => ApplyBlockStyleAsync(style.Tag)">
+                            @style.Label
+                        </button>
+                    }
+                </div>
+            }
+        </div>
         <div class="flex items-center gap-0.5 pr-1" role="group" aria-label="Font style">
             <button type="button" class="@ToolbarButtonCss()" title="Bold" data-mavi-cmd="bold"
                     @onmousedown:preventDefault="true" @onclick='() => ExecAsync("bold")'>@((MarkupString)WysiwygIcons.Bold)</button>

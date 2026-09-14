@@ -117,4 +117,18 @@ public class WysiwygEditorTests : ComponentTestBase
         cut.FindAll("[data-mavi-cmd='strikeThrough']").Count.Should().Be(1);
         cut.FindAll("[data-mavi-cmd='removeFormat']").Count.Should().Be(1);
     }
+
+    [Fact]
+    public async Task StylePopover_Toggles_Open_And_Closed()
+    {
+        var cut = Render<WysiwygEditor>();
+
+        cut.FindAll("[data-mavi-popover='style']").Count.Should().Be(0);
+
+        await cut.Find("[data-mavi-popover-toggle='style']").ClickAsync(new());
+        cut.FindAll("[data-mavi-popover='style']").Count.Should().Be(1);
+
+        await cut.Find("[data-mavi-popover-toggle='style']").ClickAsync(new());
+        cut.FindAll("[data-mavi-popover='style']").Count.Should().Be(0);
+    }
 }
