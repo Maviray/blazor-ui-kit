@@ -192,4 +192,4 @@ Coverage:
 - **New:** `Components/Editors/Wysiwyg/WysiwygEditor.razor.cs`
 - **New:** `wwwroot/js/maviWysiwygJsInterop.js`
 - **New:** `tests/Maviray.Blazor.Components.Material.Tests/Components/Editors/Wysiwyg/WysiwygEditorTests.cs`
-- **Maybe:** a sample/demo page under `samples/` (confirm during planning).
+- **New:** demo page `samples/Maviray.Blazor.Components.Samples.Material.Client/Pages/Editors/PageWysiwygEditor.razor` (new "Editors" category), following the `Page<Component>.razor` convention, wiring up `@bind-Content`, `RefreshContentProvider`, and `OnSave`. Register it in the samples nav menu.
