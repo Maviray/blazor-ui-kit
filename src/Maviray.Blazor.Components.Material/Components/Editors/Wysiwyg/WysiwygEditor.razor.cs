@@ -188,6 +188,8 @@ public partial class WysiwygEditor : IAsyncDisposable
 
     private async Task HandleSaveClickAsync()
     {
+        if (!IsInteractive) return;
+
         var html = await GetContentAsync();
         await UpdateContentAsync(html);
         if (OnSave.HasDelegate)
@@ -196,10 +198,28 @@ public partial class WysiwygEditor : IAsyncDisposable
         }
     }
 
-    private Task HandleRefreshClickAsync() => RefreshAsync();
+    // Guards the toolbar button only; the public RefreshAsync stays host-callable.
+    private Task HandleRefreshClickAsync() => IsInteractive ? RefreshAsync() : Task.CompletedTask;
+
+    private void CloseLinkPopover()
+    {
+        _linkUrl = string.Empty;
+        _linkText = string.Empty;
+        _openPopover = null;
+    }
+
+    // Reset the grid highlight each time the table popover is opened or closed.
+    private void ToggleTablePopover()
+    {
+        _tableHoverRows = 0;
+        _tableHoverCols = 0;
+        TogglePopover("table");
+    }
 
     private async Task ToggleCodeViewAsync()
     {
+        if (!IsInteractive) return;
+
         if (!_codeView)
         {
             _codeHtml = await GetContentAsync();
@@ -214,6 +234,8 @@ public partial class WysiwygEditor : IAsyncDisposable
 
     private async Task ToggleFullscreenAsync()
     {
+        if (!IsInteractive) return;
+
         _fullscreen = !_fullscreen;
         if (_jsModule is not null)
         {

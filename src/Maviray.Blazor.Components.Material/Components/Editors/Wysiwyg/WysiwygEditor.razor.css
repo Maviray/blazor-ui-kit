@@ -1,0 +1,7 @@
+/* Show the Placeholder text while the editing surface is empty.
+   Uses CSS isolation so the rule is scoped to this component. */
+[data-mavi-wysiwyg-surface]:empty::before {
+    content: attr(data-placeholder);
+    color: var(--theme-dark-four);
+    pointer-events: none;
+}

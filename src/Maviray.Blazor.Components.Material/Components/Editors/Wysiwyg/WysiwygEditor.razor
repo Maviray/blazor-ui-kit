@@ -142,7 +142,7 @@
                            class="mb-3 w-full rounded border border-(--theme-light-six) px-2 py-1 text-sm outline-none" />
                     <div class="flex justify-end gap-2">
                         <button type="button" class="rounded px-3 py-1 text-sm hover:bg-(--theme-light-three)"
-                                @onmousedown:preventDefault="true" @onclick='() => _openPopover = null'>Cancel</button>
+                                @onmousedown:preventDefault="true" @onclick="CloseLinkPopover">Cancel</button>
                         <button type="button" class="rounded bg-(--theme-primary-seven) px-3 py-1 text-sm text-white hover:bg-(--theme-primary-eight)"
                                 data-mavi-link-insert @onmousedown:preventDefault="true" @onclick="InsertLinkAsync">Insert</button>
                     </div>
@@ -158,7 +158,7 @@
         </div>
         <div class="relative pr-1">
             <button type="button" class="@ToolbarButtonCss()" title="Table"
-                    data-mavi-popover-toggle="table" @onmousedown:preventDefault="true" @onclick='() => TogglePopover("table")'>
+                    data-mavi-popover-toggle="table" @onmousedown:preventDefault="true" @onclick="ToggleTablePopover">
                 @((MarkupString)WysiwygIcons.Table)
             </button>
             @if (IsPopoverOpen("table"))

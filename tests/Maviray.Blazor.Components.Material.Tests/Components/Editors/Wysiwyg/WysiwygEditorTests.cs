@@ -278,6 +278,22 @@ public class WysiwygEditorTests : ComponentTestBase
     }
 
     [Fact]
+    public async Task Disabled_Prevents_Save()
+    {
+        JSInterop.Setup<string>("getHtml", _ => true).SetResult("<p>x</p>");
+        var saved = false;
+
+        var cut = Render<WysiwygEditor>(p => p
+            .Add(x => x.Disabled, true)
+            .Add(x => x.ShowSaveButton, true)
+            .Add(x => x.OnSave, EventCallback.Factory.Create<string>(this, _ => saved = true)));
+
+        await cut.Find("[data-mavi-wysiwyg-save]").ClickAsync(new());
+
+        saved.Should().BeFalse();
+    }
+
+    [Fact]
     public void Surface_HasDefaultAccessibleName_WhenNoTitle()
     {
         var cut = Render<WysiwygEditor>();
