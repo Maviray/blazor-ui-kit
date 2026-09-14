@@ -276,4 +276,20 @@ public class WysiwygEditorTests : ComponentTestBase
         await cut.Find("[data-mavi-cmd='bold']").ClickAsync(new());
         JSInterop.Invocations.Identifiers.Should().NotContain("exec");
     }
+
+    [Fact]
+    public void Surface_HasDefaultAccessibleName_WhenNoTitle()
+    {
+        var cut = Render<WysiwygEditor>();
+
+        cut.Find("[data-mavi-wysiwyg-surface]").GetAttribute("aria-label").Should().Be("Rich text editor");
+    }
+
+    [Fact]
+    public void Surface_UsesTitle_AsAccessibleName_WhenProvided()
+    {
+        var cut = Render<WysiwygEditor>(p => p.Add(x => x.Title, "Bio editor"));
+
+        cut.Find("[data-mavi-wysiwyg-surface]").GetAttribute("aria-label").Should().Be("Bio editor");
+    }
 }

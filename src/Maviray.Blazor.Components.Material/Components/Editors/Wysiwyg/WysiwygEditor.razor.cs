@@ -106,10 +106,17 @@ public partial class WysiwygEditor : IAsyncDisposable
     [JSInvokable]
     public void HandleOutsideClick(string clickedId)
     {
-        if (clickedId != Id)
+        try
         {
-            _openPopover = null;
-            StateHasChanged();
+            if (clickedId != Id)
+            {
+                _openPopover = null;
+                StateHasChanged();
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger?.Error(ex, ex.Message);
         }
     }
 

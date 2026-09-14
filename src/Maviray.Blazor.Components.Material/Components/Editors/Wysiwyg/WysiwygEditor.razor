@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Components.Forms
 @inherits Maviray.Blazor.Components.Core.Components.MaviComponentBase
 
-<div id="@Id" class="@GetRootCss()" style="@Style" data-context-menu-id="@Id" data-mavi-wysiwyg-root>
+<div id="@Id" class="@GetRootCss()" style="@Style" title="@Title" data-context-menu-id="@Id" data-mavi-wysiwyg-root>
 
     <div class="flex flex-wrap items-center gap-1 border-b border-(--theme-light-six) bg-(--theme-light-two) px-2 py-1.5"
          data-mavi-wysiwyg-toolbar
@@ -236,7 +236,7 @@
          contenteditable="@IsInteractive.ToString().ToLowerInvariant()"
          role="textbox"
          aria-multiline="true"
-         aria-label="@Title"
+         aria-label="@(string.IsNullOrEmpty(Title) ? "Rich text editor" : Title)"
          data-placeholder="@Placeholder"
          data-mavi-wysiwyg-surface></div>
 
