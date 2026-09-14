@@ -44,6 +44,17 @@ public partial class WysiwygEditor : IAsyncDisposable
 
     #endregion
 
+    #region Code view / fullscreen parameters
+
+    [Parameter] public bool ShowCodeViewButton { get; set; } = true;
+    [Parameter] public bool ShowFullscreenButton { get; set; } = true;
+
+    private bool _codeView;
+    private bool _fullscreen;
+    private string _codeHtml = string.Empty;
+
+    #endregion
+
     #region Font / color parameters
 
     [Parameter] public IEnumerable<string>? FontFamilies { get; set; }
@@ -179,6 +190,29 @@ public partial class WysiwygEditor : IAsyncDisposable
     }
 
     private Task HandleRefreshClickAsync() => RefreshAsync();
+
+    private async Task ToggleCodeViewAsync()
+    {
+        if (!_codeView)
+        {
+            _codeHtml = await GetContentAsync();
+            _codeView = true;
+        }
+        else
+        {
+            _codeView = false;
+            await SetContentAsync(_codeHtml);
+        }
+    }
+
+    private async Task ToggleFullscreenAsync()
+    {
+        _fullscreen = !_fullscreen;
+        if (_jsModule is not null)
+        {
+            await _jsModule.InvokeVoidAsync("toggleFullscreen", _surfaceRef, _fullscreen);
+        }
+    }
 
     private async Task ExecAsync(string command, string? value = null)
     {

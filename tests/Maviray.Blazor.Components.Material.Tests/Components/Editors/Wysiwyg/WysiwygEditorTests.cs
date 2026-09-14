@@ -226,4 +226,32 @@ public class WysiwygEditorTests : ComponentTestBase
         inv.Arguments[1].Should().Be(3); // rows
         inv.Arguments[2].Should().Be(4); // cols
     }
+
+    [Fact]
+    public async Task CodeView_Toggle_Shows_RawHtml_Textarea()
+    {
+        JSInterop.Setup<string>("getHtml", _ => true).SetResult("<p>raw</p>");
+        JSInterop.SetupVoid("setHtml", _ => true);
+        var cut = Render<WysiwygEditor>();
+
+        cut.FindAll("[data-mavi-wysiwyg-codearea]").Count.Should().Be(0);
+
+        await cut.Find("[data-mavi-wysiwyg-codeview]").ClickAsync(new());
+        var textarea = cut.Find("[data-mavi-wysiwyg-codearea]");
+        textarea.GetAttribute("value").Should().Contain("<p>raw</p>");
+
+        await cut.Find("[data-mavi-wysiwyg-codeview]").ClickAsync(new());
+        JSInterop.VerifyInvoke("setHtml");
+    }
+
+    [Fact]
+    public async Task Fullscreen_Toggle_Adds_FixedInset_Class()
+    {
+        JSInterop.SetupVoid("toggleFullscreen", _ => true);
+        var cut = Render<WysiwygEditor>();
+
+        await cut.Find("[data-mavi-wysiwyg-fullscreen]").ClickAsync(new());
+
+        cut.Find("[data-mavi-wysiwyg-root]").GetAttribute("class").Should().Contain("fixed");
+    }
 }

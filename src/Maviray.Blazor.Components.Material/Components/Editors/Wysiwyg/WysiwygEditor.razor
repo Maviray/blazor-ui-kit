@@ -206,10 +206,32 @@
                 @((MarkupString)WysiwygIcons.Save)
             </button>
         }
+        @if (ShowCodeViewButton)
+        {
+            <button type="button" class="@ToolbarButtonCss()" title="Code view"
+                    data-mavi-wysiwyg-codeview @onclick="ToggleCodeViewAsync">
+                @((MarkupString)WysiwygIcons.Code)
+            </button>
+        }
+        @if (ShowFullscreenButton)
+        {
+            <button type="button" class="@ToolbarButtonCss()" title="Fullscreen"
+                    data-mavi-wysiwyg-fullscreen @onclick="ToggleFullscreenAsync">
+                @((MarkupString)WysiwygIcons.Fullscreen)
+            </button>
+        }
     </div>
 
+    @if (_codeView)
+    {
+        <textarea class="w-full bg-(--theme-dark-nine) p-4 font-mono text-sm text-(--theme-light-two) outline-none"
+                  style="min-height:@MinHeight"
+                  value="@_codeHtml"
+                  @oninput="e => _codeHtml = e.Value?.ToString() ?? string.Empty"
+                  data-mavi-wysiwyg-codearea></textarea>
+    }
     <div @ref="_surfaceRef"
-         class="w-full overflow-auto bg-white px-4 py-3 text-(--theme-dark-nine) outline-none resize-y focus:outline-none"
+         class="w-full overflow-auto bg-white px-4 py-3 text-(--theme-dark-nine) outline-none resize-y focus:outline-none @(_codeView ? "hidden" : "")"
          style="min-height:@MinHeight"
          contenteditable="@IsInteractive.ToString().ToLowerInvariant()"
          role="textbox"
@@ -224,6 +246,10 @@
     private string GetRootCss()
     {
         var css = "rounded-md border border-(--theme-light-six) bg-white";
+        if (_fullscreen)
+        {
+            css += " fixed inset-0 z-50 rounded-none";
+        }
         if (Disabled)
         {
             css += " opacity-60 pointer-events-none";
