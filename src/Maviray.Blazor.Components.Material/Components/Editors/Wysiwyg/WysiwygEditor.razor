@@ -10,6 +10,26 @@
          aria-label="Editor toolbar"
          hidden="@ReadOnly">
         @* Toolbar groups added in later tasks *@
+        @if (ShowRefreshButton)
+        {
+            <button type="button"
+                    class="@ToolbarButtonCss()"
+                    title="Refresh"
+                    data-mavi-wysiwyg-refresh
+                    @onclick="HandleRefreshClickAsync">
+                @((MarkupString)WysiwygIcons.Refresh)
+            </button>
+        }
+        @if (ShowSaveButton)
+        {
+            <button type="button"
+                    class="@ToolbarButtonCss()"
+                    title="Save"
+                    data-mavi-wysiwyg-save
+                    @onclick="HandleSaveClickAsync">
+                @((MarkupString)WysiwygIcons.Save)
+            </button>
+        }
     </div>
 
     <div @ref="_surfaceRef"
@@ -34,4 +54,8 @@
         }
         return string.IsNullOrEmpty(Class) ? css : $"{css} {Class}";
     }
+
+    private static string ToolbarButtonCss() =>
+        "inline-flex h-8 w-8 items-center justify-center rounded text-(--theme-dark-eight) " +
+        "hover:bg-(--theme-light-four) active:bg-(--theme-light-five) transition-colors cursor-pointer";
 }

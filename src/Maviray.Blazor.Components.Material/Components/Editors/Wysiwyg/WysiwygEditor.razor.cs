@@ -26,6 +26,15 @@ public partial class WysiwygEditor : IAsyncDisposable
 
     #endregion
 
+    #region Save / Refresh parameters
+
+    [Parameter] public bool ShowSaveButton { get; set; }
+    [Parameter] public EventCallback<string> OnSave { get; set; }
+    [Parameter] public bool ShowRefreshButton { get; set; }
+    [Parameter] public Func<Task<string?>>? RefreshContentProvider { get; set; }
+
+    #endregion
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -48,6 +57,81 @@ public partial class WysiwygEditor : IAsyncDisposable
     }
 
     private bool IsInteractive => !ReadOnly && !Disabled;
+
+    #region Public API
+
+    public async Task<string> GetContentAsync()
+    {
+        if (_jsModule is null) return Content ?? string.Empty;
+        return await _jsModule.InvokeAsync<string>("getHtml", _surfaceRef);
+    }
+
+    public async Task<string> GetTextAsync()
+    {
+        if (_jsModule is null) return string.Empty;
+        return await _jsModule.InvokeAsync<string>("getText", _surfaceRef);
+    }
+
+    public async Task SetContentAsync(string? html)
+    {
+        if (_jsModule is not null)
+        {
+            await _jsModule.InvokeVoidAsync("setHtml", _surfaceRef, html ?? string.Empty);
+        }
+        await UpdateContentAsync(html ?? string.Empty);
+    }
+
+    public Task ClearAsync() => SetContentAsync(string.Empty);
+
+    public async Task FocusAsync()
+    {
+        if (_jsModule is not null)
+        {
+            await _jsModule.InvokeVoidAsync("focus", _surfaceRef);
+        }
+    }
+
+    public async Task RefreshAsync()
+    {
+        var html = RefreshContentProvider is null
+            ? string.Empty
+            : await RefreshContentProvider.Invoke() ?? string.Empty;
+
+        await SetContentAsync(html);
+    }
+
+    #endregion
+
+    #region Internal helpers
+
+    private async Task UpdateContentAsync(string? html)
+    {
+        Content = html;
+        if (ContentChanged.HasDelegate)
+        {
+            await ContentChanged.InvokeAsync(html);
+        }
+    }
+
+    [JSInvokable]
+    public async Task OnEditorBlurAsync(string html)
+    {
+        await UpdateContentAsync(html);
+    }
+
+    private async Task HandleSaveClickAsync()
+    {
+        var html = await GetContentAsync();
+        await UpdateContentAsync(html);
+        if (OnSave.HasDelegate)
+        {
+            await OnSave.InvokeAsync(html);
+        }
+    }
+
+    private Task HandleRefreshClickAsync() => RefreshAsync();
+
+    #endregion
 
     public async ValueTask DisposeAsync()
     {
