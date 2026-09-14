@@ -156,6 +156,36 @@
                            class="hidden" data-mavi-image-input />
             </label>
         </div>
+        <div class="relative pr-1">
+            <button type="button" class="@ToolbarButtonCss()" title="Table"
+                    data-mavi-popover-toggle="table" @onmousedown:preventDefault="true" @onclick='() => TogglePopover("table")'>
+                @((MarkupString)WysiwygIcons.Table)
+            </button>
+            @if (IsPopoverOpen("table"))
+            {
+                <div class="absolute left-0 top-full z-20 mt-1 rounded-md border border-(--theme-light-six) bg-white p-2 shadow-lg"
+                     data-mavi-popover="table">
+                    <div class="grid gap-0.5" style="grid-template-columns:repeat(@TableGridMax, 1rem)">
+                        @for (var r = 1; r <= TableGridMax; r++)
+                        {
+                            var row = r;
+                            @for (var c = 1; c <= TableGridMax; c++)
+                            {
+                                var col = c;
+                                var active = row <= _tableHoverRows && col <= _tableHoverCols;
+                                <button type="button"
+                                        class="@(active ? "h-4 w-4 border border-(--theme-primary-seven) bg-(--theme-primary-two)" : "h-4 w-4 border border-(--theme-light-six)")"
+                                        data-mavi-table-cell="@(row)x@(col)"
+                                        @onmousedown:preventDefault="true"
+                                        @onmouseover="() => HoverTableCell(row, col)"
+                                        @onclick="() => InsertTableAsync(row, col)"></button>
+                            }
+                        }
+                    </div>
+                    <div class="mt-1 text-center text-xs text-(--theme-dark-six)">@_tableHoverRows × @_tableHoverCols</div>
+                </div>
+            }
+        </div>
         @if (ShowRefreshButton)
         {
             <button type="button"

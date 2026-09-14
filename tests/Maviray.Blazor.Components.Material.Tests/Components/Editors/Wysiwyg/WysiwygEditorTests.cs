@@ -212,4 +212,18 @@ public class WysiwygEditorTests : ComponentTestBase
         JSInterop.Invocations["insertImage"].Last().Arguments[1]!.ToString()
             .Should().Be("data:image/png;base64,UE5HREFUQQ==");
     }
+
+    [Fact]
+    public async Task TableGrid_Insert_Invokes_insertTable_WithDimensions()
+    {
+        JSInterop.Setup<string>("insertTable", _ => true).SetResult("");
+        var cut = Render<WysiwygEditor>();
+
+        await cut.Find("[data-mavi-popover-toggle='table']").ClickAsync(new());
+        await cut.Find("[data-mavi-table-cell='3x4']").ClickAsync(new());
+
+        var inv = JSInterop.Invocations["insertTable"].Last();
+        inv.Arguments[1].Should().Be(3); // rows
+        inv.Arguments[2].Should().Be(4); // cols
+    }
 }

@@ -18,6 +18,10 @@ public partial class WysiwygEditor : IAsyncDisposable
     private string _linkUrl = string.Empty;
     private string _linkText = string.Empty;
 
+    private const int TableGridMax = 8;
+    private int _tableHoverRows;
+    private int _tableHoverCols;
+
     [Inject] private IJSRuntime? JsRuntime { get; set; }
 
     #region Content parameters
@@ -230,6 +234,20 @@ public partial class WysiwygEditor : IAsyncDisposable
         await UpdateContentAsync(html);
         _linkUrl = string.Empty;
         _linkText = string.Empty;
+    }
+
+    private void HoverTableCell(int rows, int cols)
+    {
+        _tableHoverRows = rows;
+        _tableHoverCols = cols;
+    }
+
+    private async Task InsertTableAsync(int rows, int cols)
+    {
+        _openPopover = null;
+        if (_jsModule is null || !IsInteractive) return;
+        var html = await _jsModule.InvokeAsync<string>("insertTable", _surfaceRef, rows, cols);
+        await UpdateContentAsync(html);
     }
 
     private async Task HandleImageSelectedAsync(InputFileChangeEventArgs e)
