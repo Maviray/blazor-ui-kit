@@ -254,4 +254,26 @@ public class WysiwygEditorTests : ComponentTestBase
 
         cut.Find("[data-mavi-wysiwyg-root]").GetAttribute("class").Should().Contain("fixed");
     }
+
+    [Fact]
+    public void ReadOnly_Hides_Toolbar_And_Locks_Surface()
+    {
+        var cut = Render<WysiwygEditor>(p => p.Add(x => x.ReadOnly, true));
+
+        cut.Find("[data-mavi-wysiwyg-toolbar]").HasAttribute("hidden").Should().BeTrue();
+        cut.Find("[data-mavi-wysiwyg-surface]").GetAttribute("contenteditable").Should().Be("false");
+    }
+
+    [Fact]
+    public async Task Disabled_Prevents_Exec()
+    {
+        JSInterop.Setup<string>("exec", _ => true).SetResult("");
+        var cut = Render<WysiwygEditor>(p => p.Add(x => x.Disabled, true));
+
+        // When Disabled the toolbar still renders (only ReadOnly hides it), but every
+        // command handler guards on IsInteractive, so clicking Bold must not call exec.
+        cut.Find("[data-mavi-wysiwyg-surface]").GetAttribute("contenteditable").Should().Be("false");
+        await cut.Find("[data-mavi-cmd='bold']").ClickAsync(new());
+        JSInterop.Invocations.Identifiers.Should().NotContain("exec");
+    }
 }
