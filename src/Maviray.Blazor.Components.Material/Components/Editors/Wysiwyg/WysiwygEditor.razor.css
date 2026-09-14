@@ -1,7 +1,50 @@
 /* Show the Placeholder text while the editing surface is empty.
-   Uses CSS isolation so the rule is scoped to this component. */
+   Targets the surface element itself, so it carries the component scope. */
 [data-mavi-wysiwyg-surface]:empty::before {
     content: attr(data-placeholder);
     color: var(--theme-dark-four);
     pointer-events: none;
+}
+
+/* Content typography.
+   The host app's Tailwind Preflight resets bare semantic elements
+   (h1-h6 -> inherit, ul/ol -> list-style:none, a -> color:inherit), which
+   would make block styles, lists and links visually indistinguishable inside
+   the editor. These rules restore sensible editor-content styling.
+
+   ::deep is required: the elements are inserted at runtime by execCommand and
+   therefore do NOT carry this component's CSS-isolation scope attribute, so a
+   normal scoped descendant selector would not match them. ::deep applies the
+   scope to the surface (which is component-rendered) and leaves the descendants
+   unscoped. */
+[data-mavi-wysiwyg-surface] ::deep h1 { font-size: 2em; font-weight: 700; line-height: 1.2; margin: 0.67em 0; }
+[data-mavi-wysiwyg-surface] ::deep h2 { font-size: 1.5em; font-weight: 700; line-height: 1.25; margin: 0.75em 0; }
+[data-mavi-wysiwyg-surface] ::deep h3 { font-size: 1.25em; font-weight: 700; line-height: 1.3; margin: 0.83em 0; }
+[data-mavi-wysiwyg-surface] ::deep h4 { font-size: 1.1em; font-weight: 700; margin: 1em 0; }
+[data-mavi-wysiwyg-surface] ::deep h5 { font-size: 1em; font-weight: 700; margin: 1.1em 0; }
+[data-mavi-wysiwyg-surface] ::deep h6 { font-size: 0.9em; font-weight: 700; margin: 1.2em 0; }
+
+[data-mavi-wysiwyg-surface] ::deep ul { list-style: disc; margin: 0.5em 0; padding-left: 1.5em; }
+[data-mavi-wysiwyg-surface] ::deep ol { list-style: decimal; margin: 0.5em 0; padding-left: 1.5em; }
+[data-mavi-wysiwyg-surface] ::deep li { margin: 0.15em 0; }
+
+[data-mavi-wysiwyg-surface] ::deep blockquote {
+    margin: 0.5em 0;
+    padding-left: 1em;
+    border-left: 3px solid var(--theme-light-six);
+    color: var(--theme-dark-six);
+}
+
+[data-mavi-wysiwyg-surface] ::deep pre {
+    margin: 0.5em 0;
+    padding: 0.75em 1em;
+    background: var(--theme-light-two);
+    border-radius: 0.25rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    white-space: pre-wrap;
+}
+
+[data-mavi-wysiwyg-surface] ::deep a {
+    color: var(--theme-primary-seven);
+    text-decoration: underline;
 }
