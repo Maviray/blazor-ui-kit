@@ -1,6 +1,7 @@
 using Bunit;
 using Maviray.Blazor.Components.Material.Components.Editors.Wysiwyg;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace Maviray.Blazor.Components.Material.Tests.Components.Editors.Wysiwyg;
 
@@ -195,5 +196,20 @@ public class WysiwygEditorTests : ComponentTestBase
         var inv = JSInterop.Invocations["insertLink"].Last();
         inv.Arguments[1].Should().Be("https://example.com");
         inv.Arguments[2].Should().Be("Example");
+    }
+
+    [Fact]
+    public async Task PickingImage_Embeds_Base64_Via_insertImage()
+    {
+        JSInterop.Setup<string>("insertImage", _ => true).SetResult("");
+        var cut = Render<WysiwygEditor>();
+
+        var file = InputFileContent.CreateFromText("PNGDATA", "pic.png", contentType: "image/png");
+        cut.FindComponent<InputFile>().UploadFiles(file);
+
+        cut.WaitForAssertion(() => JSInterop.Invocations.Identifiers.Should().Contain("insertImage"));
+
+        JSInterop.Invocations["insertImage"].Last().Arguments[1].ToString()!
+            .Should().StartWith("data:image/png;base64,");
     }
 }

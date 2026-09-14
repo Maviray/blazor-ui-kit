@@ -149,6 +149,13 @@
                 </div>
             }
         </div>
+        <div class="relative pr-1">
+            <label class="@ToolbarButtonCss() cursor-pointer" title="Image">
+                @((MarkupString)WysiwygIcons.Image)
+                <InputFile OnChange="HandleImageSelectedAsync" accept="image/*"
+                           class="hidden" data-mavi-image-input />
+            </label>
+        </div>
         @if (ShowRefreshButton)
         {
             <button type="button"

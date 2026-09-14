@@ -1,5 +1,6 @@
 using Maviray.Blazor.Components.Core.Constants;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 
 namespace Maviray.Blazor.Components.Material.Components.Editors.Wysiwyg;
@@ -46,6 +47,12 @@ public partial class WysiwygEditor : IAsyncDisposable
     private IEnumerable<string> EffectiveFonts => FontFamilies ?? WysiwygDefaults.Fonts;
     private IEnumerable<string> EffectiveColors => ColorPalette ?? WysiwygDefaults.Colors;
     private string _currentFont = "Helvetica";
+
+    #endregion
+
+    #region Image parameters
+
+    [Parameter] public long MaxImageBytes { get; set; } = 5 * 1024 * 1024;
 
     #endregion
 
@@ -222,6 +229,22 @@ public partial class WysiwygEditor : IAsyncDisposable
         await UpdateContentAsync(html);
         _linkUrl = string.Empty;
         _linkText = string.Empty;
+    }
+
+    private async Task HandleImageSelectedAsync(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        if (file is null || _jsModule is null || !IsInteractive) return;
+        if (file.Size > MaxImageBytes) return;
+
+        await using var stream = file.OpenReadStream(MaxImageBytes);
+        using var ms = new MemoryStream();
+        await stream.CopyToAsync(ms);
+        var base64 = Convert.ToBase64String(ms.ToArray());
+        var dataUrl = $"data:{file.ContentType};base64,{base64}";
+
+        var html = await _jsModule.InvokeAsync<string>("insertImage", _surfaceRef, dataUrl);
+        await UpdateContentAsync(html);
     }
 
     #endregion

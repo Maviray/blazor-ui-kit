@@ -80,4 +80,8 @@ internal static class WysiwygIcons
         "<svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\">" +
         "<text x=\"5\" y=\"16\" font-size=\"15\" font-weight=\"700\" fill=\"currentColor\" " +
         "font-family=\"sans-serif\">A</text><rect x=\"4\" y=\"19\" width=\"14\" height=\"3\" fill=\"#e03131\"/></svg>";
+
+    public static readonly string Image = Open +
+        "<rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\" ry=\"2\"/>" +
+        "<circle cx=\"8.5\" cy=\"8.5\" r=\"1.5\"/><polyline points=\"21 15 16 10 5 21\"/>" + Close;
 }
