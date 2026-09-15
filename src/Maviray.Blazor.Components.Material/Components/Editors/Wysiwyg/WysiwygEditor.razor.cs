@@ -59,10 +59,13 @@ public partial class WysiwygEditor : IAsyncDisposable
 
     [Parameter] public IEnumerable<string>? FontFamilies { get; set; }
     [Parameter] public IEnumerable<string>? ColorPalette { get; set; }
+    [Parameter] public IEnumerable<int>? FontSizes { get; set; }
 
     private IEnumerable<string> EffectiveFonts => FontFamilies ?? WysiwygDefaults.Fonts;
     private IEnumerable<string> EffectiveColors => ColorPalette ?? WysiwygDefaults.Colors;
+    private IEnumerable<int> EffectiveSizes => FontSizes ?? WysiwygDefaults.Sizes;
     private string _currentFont = "Helvetica";
+    private int _currentFontSize = 16;
 
     #endregion
 
@@ -270,6 +273,15 @@ public partial class WysiwygEditor : IAsyncDisposable
         _currentFont = font;
         if (_jsModule is null || !IsInteractive) return;
         var html = await _jsModule.InvokeAsync<string>("setFontName", _surfaceRef, font);
+        await UpdateContentAsync(html);
+    }
+
+    private async Task ApplyFontSizeAsync(int px)
+    {
+        _openPopover = null;
+        _currentFontSize = px;
+        if (_jsModule is null || !IsInteractive) return;
+        var html = await _jsModule.InvokeAsync<string>("setFontSize", _surfaceRef, $"{px}px");
         await UpdateContentAsync(html);
     }
 

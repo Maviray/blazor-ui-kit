@@ -28,4 +28,10 @@ public static class WysiwygDefaults
         "#000000", "#495057", "#e03131", "#d6336c", "#ae3ec9", "#7048e8", "#1971c2",
         "#0c8599", "#2f9e44", "#f08c00", "#e8590c", "#ffffff",
     ];
+
+    /// <summary>Font sizes (in px) offered by the size dropdown; 16 is the editor base.</summary>
+    public static readonly IReadOnlyList<int> Sizes =
+    [
+        10, 12, 14, 16, 18, 24, 32,
+    ];
 }

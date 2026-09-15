@@ -58,6 +58,21 @@ export function setFontName(surface, name) {
     return exec(surface, 'fontName', name);
 }
 
+export function setFontSize(surface, size) {
+    // execCommand('fontSize') only accepts the legacy 1-7 scale, so mark the
+    // selection with size 7 (styleWithCSS off guarantees a <font size="7">
+    // element), then rewrite those to the exact CSS size the caller asked for.
+    restoreSelection(surface);
+    document.execCommand('styleWithCSS', false, false);
+    document.execCommand('fontSize', false, '7');
+    surface.querySelectorAll('font[size="7"]').forEach((el) => {
+        el.removeAttribute('size');
+        el.style.fontSize = size;
+    });
+    saveSelection(surface);
+    return surface.innerHTML;
+}
+
 export function setForeColor(surface, color) {
     return exec(surface, 'foreColor', color);
 }

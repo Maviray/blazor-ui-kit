@@ -294,6 +294,26 @@ public class WysiwygEditorTests : ComponentTestBase
     }
 
     [Fact]
+    public void FontSize_Toggle_ShowsDefaultSize()
+    {
+        var cut = Render<WysiwygEditor>();
+
+        cut.Find("[data-mavi-popover-toggle='fontsize']").TextContent.Should().Contain("16px");
+    }
+
+    [Fact]
+    public async Task FontSize_Selection_Invokes_setFontSize()
+    {
+        JSInterop.Setup<string>("setFontSize", _ => true).SetResult("");
+        var cut = Render<WysiwygEditor>();
+
+        await cut.Find("[data-mavi-popover-toggle='fontsize']").ClickAsync(new());
+        await cut.Find("[data-mavi-fontsize='24']").ClickAsync(new());
+
+        JSInterop.Invocations["setFontSize"].Last().Arguments[1].Should().Be("24px");
+    }
+
+    [Fact]
     public void Surface_HasDefaultAccessibleName_WhenNoTitle()
     {
         var cut = Render<WysiwygEditor>();

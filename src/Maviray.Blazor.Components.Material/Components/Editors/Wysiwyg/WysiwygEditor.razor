@@ -94,6 +94,27 @@
             }
         </div>
         <div class="relative pr-1">
+            <button type="button"
+                    class="inline-flex h-8 items-center gap-1 rounded px-2 text-sm text-(--theme-dark-eight) hover:bg-(--theme-light-four)"
+                    title="Font size" data-mavi-popover-toggle="fontsize"
+                    @onmousedown:preventDefault="true" @onclick='() => TogglePopover("fontsize")'>
+                <span>@(_currentFontSize)px</span>@((MarkupString)WysiwygIcons.ChevronDown)
+            </button>
+            @if (IsPopoverOpen("fontsize"))
+            {
+                <div class="absolute left-0 top-full z-20 mt-1 min-w-24 rounded-md border border-(--theme-light-six) bg-white p-1 shadow-lg"
+                     data-mavi-popover="fontsize">
+                    @foreach (var size in EffectiveSizes)
+                    {
+                        <button type="button"
+                                class="block w-full rounded px-3 py-1.5 text-left text-sm hover:bg-(--theme-light-three)"
+                                data-mavi-fontsize="@size"
+                                @onmousedown:preventDefault="true" @onclick="() => ApplyFontSizeAsync(size)">@(size)px</button>
+                    }
+                </div>
+            }
+        </div>
+        <div class="relative pr-1">
             <button type="button" class="@ToolbarButtonCss()" title="Font color"
                     data-mavi-popover-toggle="color" @onmousedown:preventDefault="true" @onclick='() => TogglePopover("color")'>
                 @((MarkupString)WysiwygIcons.FontColor)
