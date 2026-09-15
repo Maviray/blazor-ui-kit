@@ -5,8 +5,9 @@ description: >-
   Maviray.Blazor.Components.Material library (the Mavi* components) — whenever
   you need a form field, button, dialog, data table, tabs, menu, accordion,
   card, panel, alert, toast, spinner, badge, chip, icon, dropdown, multi-select,
-  autocomplete, date picker, checkbox/switch/toggle/radio, slider, or any
-  interactive UI element. Consult this BEFORE writing custom HTML or hand-rolled
+  autocomplete, date picker, checkbox/switch/toggle/radio, slider, rich-text /
+  WYSIWYG / HTML editor, or any interactive UI element. Consult this BEFORE
+  writing custom HTML or hand-rolled
   Blazor markup for a UI element: this library is the standard solution and
   almost always already ships the component, fully themed and accessible. Covers
   every component's parameters, exposed methods, data models, events, and usage
@@ -72,6 +73,7 @@ companion **`material-css-styling`** skill.
 | Top app bar | `TopNavBar` | layout-navigation |
 | Root error boundary | `MaviErrorHandler` | layout-navigation |
 | Data grid (sort/filter/page/context menus) | `MaviInMemoryTable`, `MaviCssGridTable` | tables |
+| Rich text / WYSIWYG / HTML editor | `WysiwygEditor` | editors |
 
 ## Setup (consuming project)
 
@@ -104,8 +106,9 @@ companion **`material-css-styling`** skill.
 3. **JS interop** — a few components lazy-load their own ES modules from
    `_content/Maviray.Blazor.Components.Material/js/` on first render
    (`MaviDropdown`/`MaviMultiSelect` → `maviDropDownJsInterop.js`,
-   `MaviInputDate*` → `maviDatePickerJsInterop.js`). Components using
-   outside-click detection (`MaviDropDownMenu`, the tables) call helpers in
+   `MaviInputDate*` → `maviDatePickerJsInterop.js`; `WysiwygEditor` →
+   `maviWysiwygJsInterop.js`). Components using outside-click detection
+   (`MaviDropDownMenu`, `WysiwygEditor`, the tables) call helpers in
    `maviJsInterop.js`; ensure that script is available to the host.
    Follow the `samples/Maviray.Blazor.Components.Samples.Material` project for
    the canonical host wiring.
@@ -136,6 +139,7 @@ companion **`material-css-styling`** skill.
 | `TopNavBar` | `…Components.NavBars` |
 | Spinners | `…Components.Spinner` |
 | Tables | `…Components.Tables` |
+| `WysiwygEditor` | `…Components.Editors.Wysiwyg` |
 | Enums, models, event args, attributes | `Maviray.Blazor.Components.Core.*` |
 
 ## Shared conventions (read once — they apply to most components)
@@ -258,6 +262,8 @@ above is not repeated there.
 - **`references/tables.md`** — `MaviInMemoryTable`, `MaviCssGridTable`, and the
   table data model (`ITableDataItem`, `[TableColumn]`, `TableDataCollection`,
   `TableParameters`, context menus, events).
+- **`references/editors.md`** — `WysiwygEditor` (rich-text / HTML editor):
+  toolbar, parameters, `@bind-Content`, public methods, and gotchas.
 
 ## Component usage pattern (the shape of almost every component)
 
