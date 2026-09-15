@@ -4,50 +4,321 @@
 
 <PageTitle>WysiwygEditor</PageTitle>
 
-<h1 class="mb-4 text-2xl font-semibold">Wysiwyg Editor</h1>
+<div class="mx-auto max-w-7xl flex flex-col p-4 space-y-8">
 
-<div class="max-w-3xl">
-    <WysiwygEditor @ref="_editor"
-                   @bind-Content="_html"
-                   Placeholder="Start typing…"
-                   ShowSaveButton="true"
-                   ShowRefreshButton="true"
-                   OnSave="OnSave"
-                   RefreshContentProvider="LoadFromStore"
-                   MinHeight="260px" />
+    <!-- Intro -->
+    <section class="space-y-2">
+        <h1 class="text-2xl font-semibold">Wysiwyg Editor</h1>
+        <p class="text-sm text-gray-600 max-w-3xl">
+            A lightweight rich-text editor built on a native <code>contenteditable</code> surface — no jQuery or
+            Bootstrap. Bind its HTML with <code>@("@bind-Content")</code>, wire up optional Save / Refresh callbacks,
+            and drive it programmatically through <code>@("@ref")</code>. Every option below is configurable.
+        </p>
+    </section>
 
-    <div class="mt-4 flex gap-2">
-        <button class="rounded bg-(--theme-primary-seven) px-3 py-1 text-white" @onclick="ShowHtml">Show HTML</button>
-        <button class="rounded border px-3 py-1" @onclick="Clear">Clear</button>
-    </div>
+    <!-- Live demo + configuration -->
+    <section class="space-y-4">
+        <h2 class="text-lg font-semibold">Interactive demo</h2>
+        <p class="text-sm text-gray-600">Toggle the options and watch the editor react. Select text, then use the toolbar.</p>
 
-    @if (_lastSaved is not null)
-    {
-        <pre class="mt-4 overflow-auto rounded bg-(--theme-light-two) p-3 text-xs">@_lastSaved</pre>
-    }
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 rounded-md border border-(--theme-light-six) bg-(--theme-light-two) p-3 text-sm">
+            <label class="flex items-center gap-2"><input type="checkbox" @bind="_readOnly" /> ReadOnly</label>
+            <label class="flex items-center gap-2"><input type="checkbox" @bind="_disabled" /> Disabled</label>
+            <label class="flex items-center gap-2"><input type="checkbox" @bind="_showSave" /> ShowSaveButton</label>
+            <label class="flex items-center gap-2"><input type="checkbox" @bind="_showRefresh" /> ShowRefreshButton</label>
+            <label class="flex items-center gap-2"><input type="checkbox" @bind="_showCodeView" /> ShowCodeViewButton</label>
+            <label class="flex items-center gap-2"><input type="checkbox" @bind="_showFullscreen" /> ShowFullscreenButton</label>
+            <label class="flex items-center gap-2"><input type="checkbox" @bind="_customSizes" /> Custom FontSizes (12/16/20/28)</label>
+            <label class="flex items-center gap-2">MinHeight
+                <input type="text" @bind="_minHeight" class="w-24 rounded border border-(--theme-light-six) px-2 py-0.5" />
+            </label>
+        </div>
+
+        <WysiwygEditor @ref="_editor"
+                       @bind-Content="_html"
+                       Placeholder="Start typing…"
+                       MinHeight="@_minHeight"
+                       ReadOnly="_readOnly"
+                       Disabled="_disabled"
+                       ShowSaveButton="_showSave"
+                       ShowRefreshButton="_showRefresh"
+                       ShowCodeViewButton="_showCodeView"
+                       ShowFullscreenButton="_showFullscreen"
+                       FontSizes="@(_customSizes ? new[] { 12, 16, 20, 28 } : null)"
+                       OnSave="OnSave"
+                       RefreshContentProvider="LoadFromStore" />
+    </section>
+
+    <!-- Programmatic API -->
+    <section class="space-y-4">
+        <h2 class="text-lg font-semibold">Programmatic control (@("@ref"))</h2>
+        <p class="text-sm text-gray-600">Each button calls a public method on the editor instance.</p>
+
+        <div class="flex flex-wrap gap-2">
+            <button class="rounded bg-(--theme-primary-seven) px-3 py-1.5 text-sm text-white hover:bg-(--theme-primary-eight)" @onclick="GetHtml">GetContentAsync()</button>
+            <button class="rounded bg-(--theme-primary-seven) px-3 py-1.5 text-sm text-white hover:bg-(--theme-primary-eight)" @onclick="GetText">GetTextAsync()</button>
+            <button class="rounded border border-(--theme-light-six) px-3 py-1.5 text-sm hover:bg-(--theme-light-three)" @onclick="SetSample">SetContentAsync(html)</button>
+            <button class="rounded border border-(--theme-light-six) px-3 py-1.5 text-sm hover:bg-(--theme-light-three)" @onclick="RefreshEditor">RefreshAsync()</button>
+            <button class="rounded border border-(--theme-light-six) px-3 py-1.5 text-sm hover:bg-(--theme-light-three)" @onclick="FocusEditor">FocusAsync()</button>
+            <button class="rounded border border-(--theme-light-six) px-3 py-1.5 text-sm hover:bg-(--theme-light-three)" @onclick="ClearEditor">ClearAsync()</button>
+        </div>
+
+        @if (_output is not null)
+        {
+            <div class="space-y-1">
+                <div class="text-xs font-medium text-gray-500">@_outputLabel</div>
+                <pre class="overflow-auto rounded bg-(--theme-dark-nine) p-3 text-xs text-(--theme-light-two)">@_output</pre>
+            </div>
+        }
+    </section>
+
+    <!-- Usage code -->
+    <section class="space-y-4">
+        <h2 class="text-lg font-semibold">Usage</h2>
+        <p class="text-sm text-gray-600">Razor markup:</p>
+        <pre class="overflow-auto rounded bg-(--theme-dark-nine) p-4 text-xs leading-relaxed text-(--theme-light-two)"><code>@_markupSnippet</code></pre>
+        <p class="text-sm text-gray-600">Code-behind:</p>
+        <pre class="overflow-auto rounded bg-(--theme-dark-nine) p-4 text-xs leading-relaxed text-(--theme-light-two)"><code>@_codeSnippet</code></pre>
+    </section>
+
+    <!-- Configuration options -->
+    <section class="space-y-4">
+        <h2 class="text-lg font-semibold">Configuration options (parameters)</h2>
+        <div class="overflow-x-auto rounded-md border border-(--theme-light-six)">
+            <table class="w-full text-left text-sm">
+                <thead class="bg-(--theme-light-two) text-xs uppercase text-gray-500">
+                    <tr>
+                        <th class="px-3 py-2">Parameter</th>
+                        <th class="px-3 py-2">Type</th>
+                        <th class="px-3 py-2">Default</th>
+                        <th class="px-3 py-2">Description</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-(--theme-light-six)">
+                    @foreach (var p in _parameters)
+                    {
+                        <tr>
+                            <td class="px-3 py-2 font-mono text-xs text-(--theme-primary-eight) whitespace-nowrap">@p.Name</td>
+                            <td class="px-3 py-2 font-mono text-xs whitespace-nowrap">@p.Type</td>
+                            <td class="px-3 py-2 font-mono text-xs whitespace-nowrap">@p.Default</td>
+                            <td class="px-3 py-2">@p.Description</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Methods -->
+    <section class="space-y-4">
+        <h2 class="text-lg font-semibold">Programmatic methods (via @("@ref"))</h2>
+        <div class="overflow-x-auto rounded-md border border-(--theme-light-six)">
+            <table class="w-full text-left text-sm">
+                <thead class="bg-(--theme-light-two) text-xs uppercase text-gray-500">
+                    <tr>
+                        <th class="px-3 py-2">Method</th>
+                        <th class="px-3 py-2">Returns</th>
+                        <th class="px-3 py-2">Description</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-(--theme-light-six)">
+                    @foreach (var m in _methods)
+                    {
+                        <tr>
+                            <td class="px-3 py-2 font-mono text-xs text-(--theme-primary-eight) whitespace-nowrap">@m.Name</td>
+                            <td class="px-3 py-2 font-mono text-xs whitespace-nowrap">@m.Returns</td>
+                            <td class="px-3 py-2">@m.Description</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Events -->
+    <section class="space-y-4">
+        <h2 class="text-lg font-semibold">Events &amp; callbacks</h2>
+        <div class="overflow-x-auto rounded-md border border-(--theme-light-six)">
+            <table class="w-full text-left text-sm">
+                <thead class="bg-(--theme-light-two) text-xs uppercase text-gray-500">
+                    <tr>
+                        <th class="px-3 py-2">Callback</th>
+                        <th class="px-3 py-2">Signature</th>
+                        <th class="px-3 py-2">When it fires</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-(--theme-light-six)">
+                    @foreach (var e in _events)
+                    {
+                        <tr>
+                            <td class="px-3 py-2 font-mono text-xs text-(--theme-primary-eight) whitespace-nowrap">@e.Name</td>
+                            <td class="px-3 py-2 font-mono text-xs whitespace-nowrap">@e.Signature</td>
+                            <td class="px-3 py-2">@e.When</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+
 </div>
 
 @code {
     private WysiwygEditor? _editor;
-    private string? _html = "<p>Hello from <b>WysiwygEditor</b>!</p>";
-    private string? _lastSaved;
+    private string? _html = "<p>Hello from <b>WysiwygEditor</b>! Select me and try the toolbar.</p>";
 
+    // Live-demo configuration state.
+    private bool _readOnly;
+    private bool _disabled;
+    private bool _showSave = true;
+    private bool _showRefresh = true;
+    private bool _showCodeView = true;
+    private bool _showFullscreen = true;
+    private bool _customSizes;
+    private string _minHeight = "260px";
+
+    // Output panel for programmatic calls / Save.
+    private string? _output;
+    private string _outputLabel = string.Empty;
+
+    // Save button -> persist the HTML (here we just echo it).
     private Task OnSave(string html)
     {
-        _lastSaved = html;
+        Show("OnSave received", html);
         return Task.CompletedTask;
     }
 
-    private Task<string?> LoadFromStore() =>
-        Task.FromResult<string?>("<p>Loaded from the provider callback.</p>");
+    // Refresh button / RefreshAsync() -> supply content from an external source.
+    // Returning null clears the editor.
+    private Task<string?> LoadFromStore()
+        => Task.FromResult<string?>("<p><i>Loaded from the RefreshContentProvider callback.</i></p>");
 
-    private async Task ShowHtml()
+    private async Task GetHtml()
     {
-        if (_editor is not null) _lastSaved = await _editor.GetContentAsync();
+        if (_editor is null) return;
+        Show("GetContentAsync()", await _editor.GetContentAsync());
     }
 
-    private async Task Clear()
+    private async Task GetText()
     {
-        if (_editor is not null) await _editor.ClearAsync();
+        if (_editor is null) return;
+        Show("GetTextAsync()", await _editor.GetTextAsync());
     }
+
+    private async Task SetSample()
+    {
+        if (_editor is null) return;
+        await _editor.SetContentAsync("<h2>Set programmatically</h2><p>Content replaced via <b>SetContentAsync</b>.</p>");
+        Show("SetContentAsync(html)", "Editor content replaced.");
+    }
+
+    private async Task RefreshEditor()
+    {
+        if (_editor is null) return;
+        await _editor.RefreshAsync();
+        Show("RefreshAsync()", "Reloaded via RefreshContentProvider.");
+    }
+
+    private async Task FocusEditor()
+    {
+        if (_editor is null) return;
+        await _editor.FocusAsync();
+        Show("FocusAsync()", "Editor focused.");
+    }
+
+    private async Task ClearEditor()
+    {
+        if (_editor is null) return;
+        await _editor.ClearAsync();
+        Show("ClearAsync()", "Editor cleared.");
+    }
+
+    private void Show(string label, string value)
+    {
+        _outputLabel = label;
+        _output = value;
+    }
+
+    private record Param(string Name, string Type, string Default, string Description);
+    private record Method(string Name, string Returns, string Description);
+    private record Evt(string Name, string Signature, string When);
+
+    private readonly Param[] _parameters =
+    [
+        new("Content", "string?", "null", "The editor HTML. Two-way bindable with @bind-Content; also settable programmatically."),
+        new("Placeholder", "string?", "null", "Text shown while the editor is empty."),
+        new("ReadOnly", "bool", "false", "Hides the toolbar and locks the surface (view-only)."),
+        new("Disabled", "bool", "false", "Dims and disables the whole editor; commands are ignored."),
+        new("MinHeight", "string", "\"240px\"", "Minimum height of the editing surface (any CSS length)."),
+        new("ShowSaveButton", "bool", "false", "Shows the Save toolbar button (pairs with OnSave)."),
+        new("ShowRefreshButton", "bool", "false", "Shows the Refresh toolbar button (pairs with RefreshContentProvider)."),
+        new("ShowCodeViewButton", "bool", "true", "Shows the </> code-view toggle."),
+        new("ShowFullscreenButton", "bool", "true", "Shows the fullscreen toggle."),
+        new("FontFamilies", "IEnumerable<string>?", "Arial, Helvetica, …", "Options for the font-family dropdown."),
+        new("FontSizes", "IEnumerable<int>?", "10,12,14,16,18,24,32", "Px options for the font-size dropdown."),
+        new("ColorPalette", "IEnumerable<string>?", "12 defaults", "Swatches for the text/highlight color picker."),
+        new("MaxImageBytes", "long", "5 MB", "Rejects picked images larger than this (embedded as base64)."),
+        new("Id / Class / Style / Title", "string?", "—", "Standard component attributes; Title is the tooltip and accessible name."),
+    ];
+
+    private readonly Method[] _methods =
+    [
+        new("GetContentAsync()", "Task<string>", "Returns the current editor HTML."),
+        new("GetTextAsync()", "Task<string>", "Returns the current content as plain text."),
+        new("SetContentAsync(string? html)", "Task", "Replaces the editor content with the given HTML."),
+        new("ClearAsync()", "Task", "Empties the editor."),
+        new("RefreshAsync()", "Task", "Re-invokes RefreshContentProvider (or clears if it is null)."),
+        new("FocusAsync()", "Task", "Moves focus into the editing surface."),
+    ];
+
+    private readonly Evt[] _events =
+    [
+        new("ContentChanged", "EventCallback<string?>", "On blur (enables @bind-Content); not on every keystroke."),
+        new("OnSave", "EventCallback<string>", "When the Save toolbar button is clicked; receives current HTML."),
+        new("RefreshContentProvider", "Func<Task<string?>>?", "When Refresh (button or RefreshAsync) runs; return HTML to load, or null to clear."),
+    ];
+
+    private const string _markupSnippet =
+"""
+@using Maviray.Blazor.Components.Material.Components.Editors.Wysiwyg
+
+<WysiwygEditor @ref="_editor"
+               @bind-Content="_html"
+               Placeholder="Start typing…"
+               MinHeight="260px"
+               ShowSaveButton="true"
+               ShowRefreshButton="true"
+               OnSave="OnSave"
+               RefreshContentProvider="LoadFromStore" />
+""";
+
+    private const string _codeSnippet =
+"""
+@code {
+    private WysiwygEditor? _editor;
+    private string? _html = "<p>Hello <b>world</b>!</p>";
+
+    // Persist when the Save button is clicked.
+    private Task OnSave(string html)
+    {
+        // ...save `html` to your store...
+        return Task.CompletedTask;
+    }
+
+    // Supply content when Refresh runs; return null to clear the editor.
+    private Task<string?> LoadFromStore()
+        => Task.FromResult<string?>("<p>Loaded from the server.</p>");
+
+    // Drive the editor programmatically via @ref:
+    private async Task Examples()
+    {
+        string html = await _editor!.GetContentAsync();   // current HTML
+        string text = await _editor!.GetTextAsync();      // plain text
+        await _editor!.SetContentAsync("<p>New content</p>");
+        await _editor!.RefreshAsync();                    // re-invoke RefreshContentProvider
+        await _editor!.FocusAsync();
+        await _editor!.ClearAsync();
+    }
+}
+""";
 }
