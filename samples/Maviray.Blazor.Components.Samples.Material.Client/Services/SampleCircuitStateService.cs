@@ -128,6 +128,22 @@ public class SampleCircuitStateService : CircuitStateService
             },
             new MenuItemGroup
             {
+                Title = "Editors",
+                Icon = "lni lni-colour-palette-3",
+                BadgeColor = ThemeColorScheme.Primary,
+                BadgeText = "1",
+                Items =
+                [
+                    new()
+                    {
+                        Title = "Wysiwyg Editor",
+                        Icon = "lni lni-colour-palette-3",
+                        NavigateTo = "PageWysiwygEditor"
+                    }
+                ]
+            },
+            new MenuItemGroup
+            {
                 Title = "Inputs",
                 Icon = "lni lni-hand-taking-user",
                 BadgeColor = ThemeColorScheme.Default,
