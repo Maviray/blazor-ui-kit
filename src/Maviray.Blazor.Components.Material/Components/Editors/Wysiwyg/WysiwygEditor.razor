@@ -1,0 +1,284 @@
+@namespace Maviray.Blazor.Components.Material.Components.Editors.Wysiwyg
+@using Microsoft.AspNetCore.Components.Forms
+@inherits Maviray.Blazor.Components.Core.Components.MaviComponentBase
+
+<div id="@Id" class="@GetRootCss()" style="@Style" title="@Title" data-context-menu-id="@Id" data-mavi-wysiwyg-root>
+
+    <div class="flex flex-wrap items-center gap-1 border-b border-(--theme-light-six) bg-(--theme-light-two) px-2 py-1.5"
+         data-mavi-wysiwyg-toolbar
+         role="toolbar"
+         aria-label="Editor toolbar"
+         hidden="@ReadOnly">
+        <div class="relative pr-1">
+            <button type="button" class="@ToolbarButtonCss()" title="Style"
+                    data-mavi-popover-toggle="style" @onmousedown:preventDefault="true" @onclick='() => TogglePopover("style")'>
+                @((MarkupString)WysiwygIcons.Paragraph)
+            </button>
+            @if (IsPopoverOpen("style"))
+            {
+                <div class="absolute left-0 top-full z-20 mt-1 min-w-40 rounded-md border border-(--theme-light-six) bg-white p-1 shadow-lg"
+                     data-mavi-popover="style">
+                    @foreach (var style in WysiwygBlockStyle.All)
+                    {
+                        <button type="button"
+                                class="block w-full rounded px-3 py-1.5 text-left text-sm hover:bg-(--theme-light-three)"
+                                @onmousedown:preventDefault="true"
+                                @onclick="() => ApplyBlockStyleAsync(style.Tag)">
+                            @style.Label
+                        </button>
+                    }
+                </div>
+            }
+        </div>
+        <div class="flex items-center gap-0.5 pr-1" role="group" aria-label="Font style">
+            <button type="button" class="@ToolbarButtonCss()" title="Bold" data-mavi-cmd="bold"
+                    @onmousedown:preventDefault="true" @onclick='() => ExecAsync("bold")'>@((MarkupString)WysiwygIcons.Bold)</button>
+            <button type="button" class="@ToolbarButtonCss()" title="Italic" data-mavi-cmd="italic"
+                    @onmousedown:preventDefault="true" @onclick='() => ExecAsync("italic")'>@((MarkupString)WysiwygIcons.Italic)</button>
+            <button type="button" class="@ToolbarButtonCss()" title="Underline" data-mavi-cmd="underline"
+                    @onmousedown:preventDefault="true" @onclick='() => ExecAsync("underline")'>@((MarkupString)WysiwygIcons.Underline)</button>
+            <button type="button" class="@ToolbarButtonCss()" title="Strikethrough" data-mavi-cmd="strikeThrough"
+                    @onmousedown:preventDefault="true" @onclick='() => ExecAsync("strikeThrough")'>@((MarkupString)WysiwygIcons.Strikethrough)</button>
+            <button type="button" class="@ToolbarButtonCss()" title="Clear formatting" data-mavi-cmd="removeFormat"
+                    @onmousedown:preventDefault="true" @onclick='() => ExecAsync("removeFormat")'>@((MarkupString)WysiwygIcons.Eraser)</button>
+        </div>
+        <div class="flex items-center gap-0.5 pr-1" role="group" aria-label="Lists">
+            <button type="button" class="@ToolbarButtonCss()" title="Unordered list" data-mavi-cmd="insertUnorderedList"
+                    @onmousedown:preventDefault="true" @onclick='() => ExecAsync("insertUnorderedList")'>@((MarkupString)WysiwygIcons.ListUnordered)</button>
+            <button type="button" class="@ToolbarButtonCss()" title="Ordered list" data-mavi-cmd="insertOrderedList"
+                    @onmousedown:preventDefault="true" @onclick='() => ExecAsync("insertOrderedList")'>@((MarkupString)WysiwygIcons.ListOrdered)</button>
+        </div>
+        <div class="relative pr-1">
+            <button type="button" class="@ToolbarButtonCss()" title="Paragraph"
+                    data-mavi-popover-toggle="paragraph" @onmousedown:preventDefault="true" @onclick='() => TogglePopover("paragraph")'>
+                @((MarkupString)WysiwygIcons.AlignLeft)
+            </button>
+            @if (IsPopoverOpen("paragraph"))
+            {
+                <div class="absolute left-0 top-full z-20 mt-1 flex gap-0.5 rounded-md border border-(--theme-light-six) bg-white p-1 shadow-lg"
+                     data-mavi-popover="paragraph">
+                    <button type="button" class="@ToolbarButtonCss()" title="Align left" data-mavi-cmd="justifyLeft"
+                            @onmousedown:preventDefault="true" @onclick='() => ExecFromPopoverAsync("justifyLeft")'>@((MarkupString)WysiwygIcons.AlignLeft)</button>
+                    <button type="button" class="@ToolbarButtonCss()" title="Align center" data-mavi-cmd="justifyCenter"
+                            @onmousedown:preventDefault="true" @onclick='() => ExecFromPopoverAsync("justifyCenter")'>@((MarkupString)WysiwygIcons.AlignCenter)</button>
+                    <button type="button" class="@ToolbarButtonCss()" title="Align right" data-mavi-cmd="justifyRight"
+                            @onmousedown:preventDefault="true" @onclick='() => ExecFromPopoverAsync("justifyRight")'>@((MarkupString)WysiwygIcons.AlignRight)</button>
+                    <button type="button" class="@ToolbarButtonCss()" title="Justify" data-mavi-cmd="justifyFull"
+                            @onmousedown:preventDefault="true" @onclick='() => ExecFromPopoverAsync("justifyFull")'>@((MarkupString)WysiwygIcons.AlignJustify)</button>
+                    <button type="button" class="@ToolbarButtonCss()" title="Indent" data-mavi-cmd="indent"
+                            @onmousedown:preventDefault="true" @onclick='() => ExecFromPopoverAsync("indent")'>@((MarkupString)WysiwygIcons.Indent)</button>
+                    <button type="button" class="@ToolbarButtonCss()" title="Outdent" data-mavi-cmd="outdent"
+                            @onmousedown:preventDefault="true" @onclick='() => ExecFromPopoverAsync("outdent")'>@((MarkupString)WysiwygIcons.Outdent)</button>
+                </div>
+            }
+        </div>
+        <div class="relative pr-1">
+            <button type="button"
+                    class="inline-flex h-8 items-center gap-1 rounded px-2 text-sm text-(--theme-dark-eight) hover:bg-(--theme-light-four)"
+                    title="Font family" data-mavi-popover-toggle="font"
+                    @onmousedown:preventDefault="true" @onclick='() => TogglePopover("font")'>
+                <span>@_currentFont</span>@((MarkupString)WysiwygIcons.ChevronDown)
+            </button>
+            @if (IsPopoverOpen("font"))
+            {
+                <div class="absolute left-0 top-full z-20 mt-1 min-w-44 rounded-md border border-(--theme-light-six) bg-white p-1 shadow-lg"
+                     data-mavi-popover="font">
+                    @foreach (var font in EffectiveFonts)
+                    {
+                        <button type="button"
+                                class="block w-full rounded px-3 py-1.5 text-left text-sm hover:bg-(--theme-light-three)"
+                                style="font-family:@font" data-mavi-font="@font"
+                                @onmousedown:preventDefault="true" @onclick="() => ApplyFontAsync(font)">@font</button>
+                    }
+                </div>
+            }
+        </div>
+        <div class="relative pr-1">
+            <button type="button"
+                    class="inline-flex h-8 items-center gap-1 rounded px-2 text-sm text-(--theme-dark-eight) hover:bg-(--theme-light-four)"
+                    title="Font size" data-mavi-popover-toggle="fontsize"
+                    @onmousedown:preventDefault="true" @onclick='() => TogglePopover("fontsize")'>
+                <span>@(_currentFontSize)px</span>@((MarkupString)WysiwygIcons.ChevronDown)
+            </button>
+            @if (IsPopoverOpen("fontsize"))
+            {
+                <div class="absolute left-0 top-full z-20 mt-1 min-w-24 rounded-md border border-(--theme-light-six) bg-white p-1 shadow-lg"
+                     data-mavi-popover="fontsize">
+                    @foreach (var size in EffectiveSizes)
+                    {
+                        <button type="button"
+                                class="block w-full rounded px-3 py-1.5 text-left text-sm hover:bg-(--theme-light-three)"
+                                data-mavi-fontsize="@size"
+                                @onmousedown:preventDefault="true" @onclick="() => ApplyFontSizeAsync(size)">@(size)px</button>
+                    }
+                </div>
+            }
+        </div>
+        <div class="relative pr-1">
+            <button type="button" class="@ToolbarButtonCss()" title="Font color"
+                    data-mavi-popover-toggle="color" @onmousedown:preventDefault="true" @onclick='() => TogglePopover("color")'>
+                @((MarkupString)WysiwygIcons.FontColor)
+            </button>
+            @if (IsPopoverOpen("color"))
+            {
+                <div class="absolute left-0 top-full z-20 mt-1 w-56 rounded-md border border-(--theme-light-six) bg-white p-2 shadow-lg"
+                     data-mavi-popover="color">
+                    <div class="mb-1 text-xs font-medium text-(--theme-dark-six)">Text color</div>
+                    <div class="mb-2 grid grid-cols-6 gap-1">
+                        @foreach (var color in EffectiveColors)
+                        {
+                            <button type="button" class="h-6 w-6 rounded border border-(--theme-light-six)"
+                                    style="background-color:@color" title="@color" data-mavi-forecolor="@color"
+                                    @onmousedown:preventDefault="true" @onclick="() => ApplyForeColorAsync(color)"></button>
+                        }
+                    </div>
+                    <div class="mb-1 text-xs font-medium text-(--theme-dark-six)">Highlight</div>
+                    <div class="grid grid-cols-6 gap-1">
+                        @foreach (var color in EffectiveColors)
+                        {
+                            <button type="button" class="h-6 w-6 rounded border border-(--theme-light-six)"
+                                    style="background-color:@color" title="@color" data-mavi-backcolor="@color"
+                                    @onmousedown:preventDefault="true" @onclick="() => ApplyBackColorAsync(color)"></button>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="relative pr-1">
+            <button type="button" class="@ToolbarButtonCss()" title="Link"
+                    data-mavi-popover-toggle="link" @onmousedown:preventDefault="true" @onclick='() => TogglePopover("link")'>
+                @((MarkupString)WysiwygIcons.Link)
+            </button>
+            @if (IsPopoverOpen("link"))
+            {
+                <div class="absolute left-0 top-full z-20 mt-1 w-64 rounded-md border border-(--theme-light-six) bg-white p-3 shadow-lg"
+                     data-mavi-popover="link">
+                    <label class="mb-1 block text-xs font-medium text-(--theme-dark-six)">Text</label>
+                    <input type="text" value="@_linkText" @oninput="e => _linkText = e.Value?.ToString() ?? string.Empty"
+                           data-mavi-link-text
+                           class="mb-2 w-full rounded border border-(--theme-light-six) px-2 py-1 text-sm outline-none" />
+                    <label class="mb-1 block text-xs font-medium text-(--theme-dark-six)">URL</label>
+                    <input type="text" value="@_linkUrl" @oninput="e => _linkUrl = e.Value?.ToString() ?? string.Empty"
+                           data-mavi-link-url
+                           class="mb-3 w-full rounded border border-(--theme-light-six) px-2 py-1 text-sm outline-none" />
+                    <div class="flex justify-end gap-2">
+                        <button type="button" class="rounded px-3 py-1 text-sm hover:bg-(--theme-light-three)"
+                                @onmousedown:preventDefault="true" @onclick="CloseLinkPopover">Cancel</button>
+                        <button type="button" class="rounded bg-(--theme-primary-seven) px-3 py-1 text-sm text-white hover:bg-(--theme-primary-eight)"
+                                data-mavi-link-insert @onmousedown:preventDefault="true" @onclick="InsertLinkAsync">Insert</button>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="relative pr-1">
+            <label class="@ToolbarButtonCss() cursor-pointer" title="Image">
+                @((MarkupString)WysiwygIcons.Image)
+                <InputFile OnChange="HandleImageSelectedAsync" accept="image/*"
+                           class="hidden" data-mavi-image-input />
+            </label>
+        </div>
+        <div class="relative pr-1">
+            <button type="button" class="@ToolbarButtonCss()" title="Table"
+                    data-mavi-popover-toggle="table" @onmousedown:preventDefault="true" @onclick="ToggleTablePopover">
+                @((MarkupString)WysiwygIcons.Table)
+            </button>
+            @if (IsPopoverOpen("table"))
+            {
+                <div class="absolute left-0 top-full z-20 mt-1 rounded-md border border-(--theme-light-six) bg-white p-2 shadow-lg"
+                     data-mavi-popover="table">
+                    <div class="grid gap-0.5" style="grid-template-columns:repeat(@TableGridMax, 1rem)">
+                        @for (var r = 1; r <= TableGridMax; r++)
+                        {
+                            var row = r;
+                            @for (var c = 1; c <= TableGridMax; c++)
+                            {
+                                var col = c;
+                                var active = row <= _tableHoverRows && col <= _tableHoverCols;
+                                <button type="button"
+                                        class="@(active ? "h-4 w-4 border border-(--theme-primary-seven) bg-(--theme-primary-two)" : "h-4 w-4 border border-(--theme-light-six)")"
+                                        data-mavi-table-cell="@(row)x@(col)"
+                                        @onmousedown:preventDefault="true"
+                                        @onmouseover="() => HoverTableCell(row, col)"
+                                        @onclick="() => InsertTableAsync(row, col)"></button>
+                            }
+                        }
+                    </div>
+                    <div class="mt-1 text-center text-xs text-(--theme-dark-six)">@_tableHoverRows × @_tableHoverCols</div>
+                </div>
+            }
+        </div>
+        @if (ShowRefreshButton)
+        {
+            <button type="button"
+                    class="@ToolbarButtonCss()"
+                    title="Refresh"
+                    data-mavi-wysiwyg-refresh
+                    @onclick="HandleRefreshClickAsync">
+                @((MarkupString)WysiwygIcons.Refresh)
+            </button>
+        }
+        @if (ShowSaveButton)
+        {
+            <button type="button"
+                    class="@ToolbarButtonCss()"
+                    title="Save"
+                    data-mavi-wysiwyg-save
+                    @onclick="HandleSaveClickAsync">
+                @((MarkupString)WysiwygIcons.Save)
+            </button>
+        }
+        @if (ShowCodeViewButton)
+        {
+            <button type="button" class="@ToolbarButtonCss()" title="Code view"
+                    data-mavi-wysiwyg-codeview @onclick="ToggleCodeViewAsync">
+                @((MarkupString)WysiwygIcons.Code)
+            </button>
+        }
+        @if (ShowFullscreenButton)
+        {
+            <button type="button" class="@ToolbarButtonCss()" title="Fullscreen"
+                    data-mavi-wysiwyg-fullscreen @onclick="ToggleFullscreenAsync">
+                @((MarkupString)WysiwygIcons.Fullscreen)
+            </button>
+        }
+    </div>
+
+    @if (_codeView)
+    {
+        <textarea class="w-full bg-(--theme-dark-nine) p-4 font-mono text-sm text-(--theme-light-two) outline-none"
+                  style="min-height:@MinHeight"
+                  value="@_codeHtml"
+                  @oninput="e => _codeHtml = e.Value?.ToString() ?? string.Empty"
+                  data-mavi-wysiwyg-codearea></textarea>
+    }
+    <div @ref="_surfaceRef"
+         class="w-full overflow-auto bg-white px-4 py-3 text-(--theme-dark-nine) outline-none resize-y focus:outline-none @(_codeView ? "hidden" : "")"
+         style="min-height:@MinHeight"
+         contenteditable="@IsInteractive.ToString().ToLowerInvariant()"
+         role="textbox"
+         aria-multiline="true"
+         aria-label="@(string.IsNullOrEmpty(Title) ? "Rich text editor" : Title)"
+         data-placeholder="@Placeholder"
+         data-mavi-wysiwyg-surface></div>
+
+</div>
+
+@code {
+    private string GetRootCss()
+    {
+        var css = "rounded-md border border-(--theme-light-six) bg-white";
+        if (_fullscreen)
+        {
+            css += " fixed inset-0 z-50 rounded-none";
+        }
+        if (Disabled)
+        {
+            css += " opacity-60 pointer-events-none";
+        }
+        return string.IsNullOrEmpty(Class) ? css : $"{css} {Class}";
+    }
+
+    private static string ToolbarButtonCss() =>
+        "inline-flex h-8 w-8 items-center justify-center rounded text-(--theme-dark-eight) " +
+        "hover:bg-(--theme-light-four) active:bg-(--theme-light-five) transition-colors cursor-pointer";
+}
