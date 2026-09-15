@@ -4,6 +4,24 @@
 
 <PageTitle>WysiwygEditor</PageTitle>
 
+@* Content typography for the live-preview area. Inline (not a scoped .razor.css)
+   because this samples app links the library's scoped bundle but not the app's
+   own scoped-CSS bundle, so page-level .razor.css would never load. *@
+<style>
+    .mavi-wysiwyg-preview h1 { font-size: 2em; font-weight: 700; line-height: 1.2; margin: 0.67em 0; }
+    .mavi-wysiwyg-preview h2 { font-size: 1.5em; font-weight: 700; line-height: 1.25; margin: 0.75em 0; }
+    .mavi-wysiwyg-preview h3 { font-size: 1.25em; font-weight: 700; line-height: 1.3; margin: 0.83em 0; }
+    .mavi-wysiwyg-preview h4 { font-size: 1.1em; font-weight: 700; margin: 1em 0; }
+    .mavi-wysiwyg-preview h5 { font-size: 1em; font-weight: 700; margin: 1.1em 0; }
+    .mavi-wysiwyg-preview h6 { font-size: 0.9em; font-weight: 700; margin: 1.2em 0; }
+    .mavi-wysiwyg-preview ul { list-style: disc; margin: 0.5em 0; padding-left: 1.5em; }
+    .mavi-wysiwyg-preview ol { list-style: decimal; margin: 0.5em 0; padding-left: 1.5em; }
+    .mavi-wysiwyg-preview li { margin: 0.15em 0; }
+    .mavi-wysiwyg-preview blockquote { margin: 0.5em 0; padding-left: 1em; border-left: 3px solid var(--theme-light-six); color: var(--theme-dark-six); }
+    .mavi-wysiwyg-preview pre { margin: 0.5em 0; padding: 0.75em 1em; background: var(--theme-light-two); border-radius: 0.25rem; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; white-space: pre-wrap; }
+    .mavi-wysiwyg-preview a { color: var(--theme-primary-seven); text-decoration: underline; }
+</style>
+
 <div class="mx-auto max-w-7xl flex flex-col p-4 space-y-8">
 
     <!-- Intro -->
@@ -47,6 +65,24 @@
                        FontSizes="@(_customSizes ? new[] { 12, 16, 20, 28 } : null)"
                        OnSave="OnSave"
                        RefreshContentProvider="LoadFromStore" />
+    </section>
+
+    <!-- Live preview -->
+    <section class="space-y-4">
+        <h2 class="text-lg font-semibold">Live preview</h2>
+        <p class="text-sm text-gray-600">Generate content above, then render it here exactly as it will appear.</p>
+
+        <div class="flex flex-wrap gap-2">
+            <button class="rounded bg-(--theme-primary-seven) px-3 py-1.5 text-sm text-white hover:bg-(--theme-primary-eight)" @onclick="RenderPreview">Render preview</button>
+            <button class="rounded border border-(--theme-light-six) px-3 py-1.5 text-sm hover:bg-(--theme-light-three)" @onclick="() => _preview = null">Clear preview</button>
+        </div>
+
+        @if (_preview is not null)
+        {
+            <div class="mavi-wysiwyg-preview rounded-md border border-(--theme-light-six) bg-white p-4 text-(--theme-dark-nine)">
+                @((MarkupString)_preview)
+            </div>
+        }
     </section>
 
     <!-- Programmatic API -->
@@ -181,6 +217,9 @@
     private string? _output;
     private string _outputLabel = string.Empty;
 
+    // Rendered live-preview HTML.
+    private string? _preview;
+
     // Save button -> persist the HTML (here we just echo it).
     private Task OnSave(string html)
     {
@@ -192,6 +231,13 @@
     // Returning null clears the editor.
     private Task<string?> LoadFromStore()
         => Task.FromResult<string?>("<p><i>Loaded from the RefreshContentProvider callback.</i></p>");
+
+    // Grab the current editor HTML and render it live below.
+    private async Task RenderPreview()
+    {
+        if (_editor is null) return;
+        _preview = await _editor.GetContentAsync();
+    }
 
     private async Task GetHtml()
     {
