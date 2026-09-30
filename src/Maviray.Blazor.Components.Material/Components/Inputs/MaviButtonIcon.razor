@@ -1,7 +1,8 @@
 ﻿@inherits MaviButtonBase
 
 <button id="@Id" class="@GetClasses()" style="@Style" @onclick="@HandleButtonClick" disabled="@Disabled" type="@Role" role="@Role" title="@Title" @attributes="AdditionalAttributes">
-    <i class="@Icon"></i>
+    @* Flex lets the icon font's ::before glyph size the box; as a plain block it sits on the text baseline, above center *@
+    <i class="@Icon inline-flex items-center justify-center"></i>
 </button>
 
 @code {
