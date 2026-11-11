@@ -7,9 +7,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <!-- Code quality: the .NET analyzers at the latest level (default mode), and warnings fail the build. -->
+  <!--
+    Code quality: the .NET 10 analyzer rules (default mode), and warnings fail the build.
+    The level is pinned so a newer SDK can't add rules that break the build; raise it on purpose with the TFM.
+  -->
   <PropertyGroup>
-    <AnalysisLevel>latest</AnalysisLevel>
+    <AnalysisLevel>10.0</AnalysisLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <!--
       Stay warnings:
