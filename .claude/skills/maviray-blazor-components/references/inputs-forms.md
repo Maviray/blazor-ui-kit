@@ -75,7 +75,7 @@ with numeric input mode. All add:
 |-----------|------|---------|---------|
 | `Min` / `Max` | `TValue?` | — | Bounds (inferred from `[Range]`). |
 | `Step` | `TValue` | `1` (`0.01` for decimal) | Increment. |
-| `FormatCulture` | `CultureInfo?` | current UI culture | Parse/format culture. |
+| `FormatCulture` | `CultureInfo?` | `CultureInfo.CurrentCulture` | Parse/format culture (decimal separator, grouping, `FormatMask` output). |
 | `FormatMask` | `string?` | — | .NET numeric format (e.g. `"N2"`, `"C"`, `"F4"`, `"X"`). |
 | `ShowFormattedWhileFocused` | `bool` | `false` | Show formatted value even while editing (default shows raw number when focused). |
 
@@ -89,6 +89,13 @@ with numeric input mode. All add:
 | `MaviInputDouble` | `double` | |
 | `MaviInputDoubleNullable` | `double?` | |
 | `MaviInputDecimal` | `decimal` | `Step` default `0.01`; adds `DecimalPlaces` (`int?`) for rounding/format. Validates against `Min`/`Max`. |
+
+**Field type.** `MaviInputInteger`, `…IntegerNullable`, `…Long` and `…Short` render
+a native number field (`type="number"`) unless `FormatMask` needs text; the
+browser shows and sends that value culture-invariant (`-12`, no grouping), so a
+negative number displays in every culture. `MaviInputFloat`, `…Double`,
+`…DoubleNullable` and `…Decimal` are text fields that parse and format with
+`FormatCulture` (e.g. `1 234,5` in `sv-SE`).
 
 ```razor
 <MaviInputDecimal @bind-Value="_model.Price"
@@ -171,7 +178,7 @@ names).
 | `PlaceholderText` | `string` | `"Select an option..."` | Empty-state text. |
 | `ShowPlaceholderOption` | `bool` | `true` | Render a placeholder row (unless `Required`). |
 | `DropdownIcon` | `string` | `"lni lni-chevron-down"` | Arrow icon. |
-| `MaxDropdownHeight` | `string` | `"max-h-60"` | Options list max height. |
+| `MaxDropdownHeight` | `string` | `"max-h-60"` | Options list max height; longer lists scroll with a thin gray scrollbar. |
 | `OnSelectionChanged` | `EventCallback<ValueChangedCallbackParameters<TValue>>` | — | Selection change with source id. |
 
 ### MaviMultiSelect  (`@typeparam TItem, TValue`; `@bind-Value` is `List<TValue>`)
@@ -238,7 +245,7 @@ Floating-label date field that by default opens a custom calendar picker.
 | `DateInputType` | `DateInputType` | `Date` | `Date, DateTime, Time, Month, Week`. Inferred from `[DataType]`. |
 | `Min` / `Max` | `DateTime?` | — | Selectable range (inferred from `[Range]`). |
 | `DisplayFormat` | `string?` | culture default | e.g. `"dd/MM/yyyy"`, `"yyyy-MM-dd"`. |
-| `FormatCulture` | `CultureInfo?` | current UI culture | |
+| `FormatCulture` | `CultureInfo?` | `CultureInfo.CurrentCulture` | Parse/format culture of the typed and displayed date. |
 | `UseCalendarPicker` | `bool` | `true` | Use the custom calendar; `false` = plain text input with parsing. |
 
 Parses many common date formats; shows a calendar icon that toggles the picker.
@@ -251,7 +258,7 @@ The calendar popup used by the date inputs; usable on its own.
 |-----------|------|---------|
 | `Value` / `@bind-Value` | `DateTime?` | Selected date. |
 | `Min` / `Max` | `DateTime?` | Selectable range (year list spans ±100y otherwise). |
-| `Culture` | `CultureInfo?` | Month/day names, first day of week. |
+| `Culture` | `CultureInfo?` | Month/day names, first day of week. Defaults to `CultureInfo.CurrentUICulture` (the UI language). |
 | `IsOpen` / `@bind-IsOpen` | `bool` | Open state. |
 
 Renders month/year selectors, Today/Clear/OK actions.

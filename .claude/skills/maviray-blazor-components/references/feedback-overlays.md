@@ -1,9 +1,9 @@
 # Feedback & Overlays
 
 Alerts, toasts, dialogs, backdrops, skeletons, spinners. Namespaces:
-`…Components.Feedback` (`MaviAlert`, `MaviBackdrop`, `MaviDialog`),
-`…Components.DataDisplay` (`MaviToastr`, `MaviToastNotification`),
-`…Components.Spinner` (spinners). `MaviSkeleton` has no `@namespace`.
+`…Components.Feedback` (`MaviAlert`, `MaviBackdrop`, `MaviDialog`, `MaviSkeleton`),
+`…Components.DataDisplay.MaviToastr` (`MaviToastr`), `…Components.DataDisplay`
+(`MaviToastNotification`), `…Components.Spinner` (spinners).
 
 Several of these are **imperatively driven** — hold an `@ref` and call methods.
 
@@ -39,7 +39,11 @@ until shown via a method (or after `Display`).
 
 ---
 
-## MaviToastr  (`…Components.DataDisplay`, `MaviComponentBase`)
+## MaviToastr  (`…Components.DataDisplay.MaviToastr`, `MaviComponentBase`)
+
+Needs both `@using Maviray.Blazor.Components.Material.Components.DataDisplay.MaviToastr`
+(the component) and `@using Maviray.Blazor.Components.Material.Components.DataDisplay`
+(the `MaviToastNotification` record).
 
 Renders a fixed-position stack of toast notifications from a list the parent
 owns. It handles auto-dismiss timing and raises `OnClose`; **the parent removes

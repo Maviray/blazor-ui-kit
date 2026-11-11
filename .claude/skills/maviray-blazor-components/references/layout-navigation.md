@@ -82,7 +82,7 @@ Compose `MaviTabNavBar` (owns the shared `MaviTabContext`, cascaded) with
 | `InitialActiveTabId` | `string?` | — | Tab selected on first render. |
 | `ElementSize` | `ElementSize` | `Regular` | Cascaded to tabs. |
 | `ThemeColorScheme` | `ThemeColorScheme` | `Default` | Cascaded accent. |
-| `OnTabClick` | `EventCallback<TabClickEventArgs>` | — | Fires on any tab click with the selected tab id. |
+| `OnTabClick` | `EventCallback<TabClickEventArgs>` | — | Fires once per tab click with the selected tab id (parent re-renders don't add duplicate calls). |
 
 **`MaviTab`** (`MaviComponentBase`): a tab button.
 
@@ -124,6 +124,20 @@ tab is active.
 Collapsible vertical sidebar menu. Items are pulled from a delegate and may be
 flat items or expandable groups. Collapses/expands in response to a
 `CircuitStateService` button event (`ElementConstants.Button.TOGGLE_SIDE_NAV_BAR`).
+
+It injects `ICircuitStateService` (`Maviray.Blazor.Components.Core.Services`),
+which `AddMaviComponents()` does **not** register; without it rendering throws
+`Cannot provide a value for property 'CircuitStateService'`. Register it in each
+project that renders the menu:
+
+```csharp
+builder.Services.AddScoped<ICircuitStateService, CircuitStateService>();
+```
+
+To toggle the menu from a button elsewhere (e.g. a hamburger in `TopNavBar`),
+inject the same service and call
+`ReportClick(ElementConstants.Button.TOGGLE_SIDE_NAV_BAR)` (`ElementConstants` is in
+`Maviray.Blazor.Components.Core.Constants`).
 
 | Parameter | Type | Default | Purpose |
 |-----------|------|---------|---------|

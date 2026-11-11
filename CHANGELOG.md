@@ -42,7 +42,7 @@ Check these when you update an app:
 - Toastr: auto-dismiss timers are cancelled when the component is disposed.
 - Tables: enum columns show `[Display]` names; the global search refilters; filtering returns to page 1; the table
   re-renders when the parent passes new parameters; `long` values beyond the `int` range sort correctly; missing cells
-  and null values sort last.
+  and null values sort after all values when ascending (first when descending, which reverses the order).
 - Popups listen for outside clicks only while open.
 - Date inputs: trimming reports no warnings for their JavaScript callbacks.
 
