@@ -8,10 +8,20 @@
     -p:SkipTailwindBuild=true skips npm entirely and uses the committed CSS (offline builds, no Node.js).
   -->
 
+  <!-- The files Tailwind scans for class names (it skips CSS files when scanning), plus the npm setup. -->
   <ItemGroup Condition="'$(SkipTailwindBuild)' != 'true'">
-    <TailwindInput Include="**/*.razor;**/*.cs;**/*.cshtml;wwwroot/**/*.css;package.json;package-lock.json"
+    <TailwindInput Include="**/*.razor;**/*.cs;**/*.cshtml;**/*.html;**/*.js;wwwroot/**/*.css;package.json;package-lock.json"
                    Exclude="bin/**;obj/**;node_modules/**;$(TailwindCssOutput)" />
+
+    <!-- Visual Studio's fast up-to-date check: rebuild when a Tailwind input is newer than the generated CSS. -->
+    <UpToDateCheckInput Include="@(TailwindInput)" Set="Tailwind" />
+    <UpToDateCheckOutput Include="$(TailwindCssOutput)" Set="Tailwind" />
   </ItemGroup>
+
+  <!-- A separate target: TailwindBuildCss is skipped before its body runs when it has no outputs. -->
+  <Target Name="TailwindCheckSettings" Condition="'$(SkipTailwindBuild)' != 'true'">
+    <Error Condition="'$(TailwindCssOutput)' == ''" Text="Set TailwindCssOutput before importing Tailwind.targets." />
+  </Target>
 
   <!--
     Installs exactly what package-lock.json pins whenever it is newer than the last install: a fresh clone,
@@ -29,11 +39,10 @@
   <!-- Runs before the build so static web assets (and their compressed copies) see the new CSS. -->
   <Target Name="TailwindBuildCss"
           BeforeTargets="BeforeBuild"
-          DependsOnTargets="TailwindNpmInstall"
+          DependsOnTargets="TailwindCheckSettings;TailwindNpmInstall"
           Condition="'$(SkipTailwindBuild)' != 'true'"
           Inputs="@(TailwindInput)"
           Outputs="$(TailwindCssOutput)">
-    <Error Condition="'$(TailwindCssOutput)' == ''" Text="Set TailwindCssOutput before importing Tailwind.targets." />
     <Exec Command="npm run buildcss" WorkingDirectory="$(MSBuildProjectDirectory)" />
     <!-- Mark the output as up to date even when Tailwind wrote identical content. -->
     <Touch Files="$(TailwindCssOutput)" />
