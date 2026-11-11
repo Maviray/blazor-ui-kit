@@ -7,6 +7,20 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <!-- Code quality: the .NET analyzers at the latest level (default mode), and warnings fail the build. -->
+  <PropertyGroup>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <!--
+      Stay warnings: NuGet vulnerability audits (NU1901-NU1904), so a newly published advisory can't break
+      every build, and NU1507 (central package management with several package sources), which depends on
+      the machine's NuGet sources rather than this repo.
+    -->
+    <WarningsNotAsErrors>$(WarningsNotAsErrors);NU1901;NU1902;NU1903;NU1904;NU1507</WarningsNotAsErrors>
+    <!-- Lets Blazor WebAssembly apps trim these libraries, and turns on the trim analyzer here. -->
+    <IsTrimmable>true</IsTrimmable>
+  </PropertyGroup>
+
   <!-- NuGet package metadata. PackageId, Description and PackageTags stay in each project; CI sets the version. -->
   <PropertyGroup>
     <Version>1.0.0</Version>
