@@ -133,6 +133,8 @@
     private DotNetObjectReference<MaviDropdown<TItem, TValue>>? _dotNetRef;
     private IJSObjectReference? _jsModule;
     private readonly OutsideClickListener _outsideClick = new();
+    private string _optionClass = string.Empty;
+    private string _selectedOptionClass = string.Empty;
 
     #region Dropdown-Specific Parameters
 
@@ -217,6 +219,12 @@
     protected override bool ForceLabelFloating => base.ForceLabelFloating || _isOpen || HasValue;
 
     protected override bool ShowActiveState => _isOpen || IsFocused;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        BuildOptionClasses();
+    }
 
     protected override bool TryParseValueFromString(
         string? value,
@@ -538,31 +546,13 @@
             "scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100"
         );
 
-    private string GetOptionClass(bool isSelected)
-    {
-        var baseClasses = CssManager.Combine(
-            "relative px-3.5 py-2.5 cursor-pointer select-none",
-            "flex items-center justify-between",
-            "transition-colors duration-150"
-        );
+    private string GetOptionClass(bool isSelected) => isSelected ? _selectedOptionClass : _optionClass;
 
-        string stateClasses;
-        if (isSelected)
-        {
-            stateClasses = CssManager.Combine(
-                ThemeTextDarkColor,
-                "bg-black/[0.08]",
-                "font-medium"
-            );
-        }
-        else
-        {
-            stateClasses = CssManager.Combine(
-                "text-black/[0.87]",
-                "hover:bg-black/[0.04]",
-                "active:bg-black/[0.08]"
-            );
-        }
+    // Theme and size only change with parameters, so both option styles are built once here
+    // instead of once per option on every render.
+    private void BuildOptionClasses()
+    {
+        const string baseClasses = "relative px-3.5 py-2.5 cursor-pointer select-none flex items-center justify-between transition-colors duration-150";
 
         var fontSize = ElementSize switch
         {
@@ -571,7 +561,8 @@
             _ => "text-base"
         };
 
-        return CssManager.Combine(baseClasses, stateClasses, fontSize);
+        _selectedOptionClass = $"{baseClasses} {ThemeTextDarkColor} bg-black/[0.08] font-medium {fontSize}";
+        _optionClass = $"{baseClasses} text-black/[0.87] hover:bg-black/[0.04] active:bg-black/[0.08] {fontSize}";
     }
 
     private string GetCheckmarkClass() =>

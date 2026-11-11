@@ -1,4 +1,6 @@
-﻿namespace Maviray.Blazor.Components.Core.Utilities;
+﻿using System.Buffers;
+
+namespace Maviray.Blazor.Components.Core.Utilities;
 
 /// <summary>
 ///     Utility class for managing and combining CSS class strings.
@@ -11,38 +13,106 @@ public static class CssManager
     /// </summary>
     /// <param name="classes">Variable number of CSS class strings to combine.</param>
     /// <returns>A single combined CSS class string with duplicates removed.</returns>
-    public static string Combine(params string?[]? classes)
+    public static string Combine(params string?[]? classes) =>
+        classes is null ? string.Empty : Combine(classes.AsSpan());
+
+    /// <summary>
+    ///     Combines multiple CSS class strings into a single space-separated string, keeping the first
+    ///     occurrence of each class. Allocates only the result: classes are split and compared as spans.
+    /// </summary>
+    public static string Combine(params ReadOnlySpan<string?> classes)
     {
-        if (classes == null || classes.Length == 0)
+        var capacity = 0;
+
+        foreach (var cssClass in classes)
+        {
+            capacity += cssClass is null ? 0 : cssClass.Length + 1;
+        }
+
+        if (capacity == 0)
         {
             return string.Empty;
         }
 
-        var classList = new HashSet<string>(StringComparer.Ordinal);
+        char[]? rented = null;
+        var buffer = capacity <= STACK_BUFFER_LIMIT
+            ? stackalloc char[capacity]
+            : rented = ArrayPool<char>.Shared.Rent(capacity);
 
-        foreach (var cssClass in classes)
+        try
         {
-            if (string.IsNullOrWhiteSpace(cssClass))
-            {
-                continue;
-            }
+            var length = 0;
 
-            // Split by whitespace and add each class individually
-            var individualClasses = cssClass.Split(
-                [' ', '\t', '\n', '\r'],
-                StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries
-            );
-
-            foreach (var individualClass in individualClasses)
+            foreach (var cssClass in classes)
             {
-                if (!string.IsNullOrWhiteSpace(individualClass))
+                var remaining = cssClass.AsSpan();
+
+                while (true)
                 {
-                    classList.Add(individualClass);
+                    var start = remaining.IndexOfAnyExcept(ClassSeparators);
+
+                    if (start < 0)
+                    {
+                        break;
+                    }
+
+                    remaining = remaining[start..];
+                    var end = remaining.IndexOfAny(ClassSeparators);
+                    var token = end < 0 ? remaining : remaining[..end];
+                    remaining = end < 0 ? ReadOnlySpan<char>.Empty : remaining[end..];
+
+                    if (ContainsClass(buffer[..length], token))
+                    {
+                        continue;
+                    }
+
+                    if (length > 0)
+                    {
+                        buffer[length++] = ' ';
+                    }
+
+                    token.CopyTo(buffer[length..]);
+                    length += token.Length;
                 }
             }
+
+            return length == 0 ? string.Empty : new(buffer[..length]);
+        }
+        finally
+        {
+            if (rented is not null)
+            {
+                ArrayPool<char>.Shared.Return(rented);
+            }
+        }
+    }
+
+    private const int STACK_BUFFER_LIMIT = 512;
+
+    private static readonly SearchValues<char> ClassSeparators = SearchValues.Create(" \t\n\r");
+
+    // Class lists are short, so a linear scan of what was written beats a hash set's allocations.
+    private static bool ContainsClass(ReadOnlySpan<char> written, ReadOnlySpan<char> cssClass)
+    {
+        while (!written.IsEmpty)
+        {
+            var end = written.IndexOf(' ');
+            var current = end < 0 ? written : written[..end];
+
+            if (current.SequenceEqual(cssClass))
+            {
+                return true;
+            }
+
+            if (end < 0)
+            {
+                break;
+            }
+
+            written = written[(end + 1)..];
         }
 
-        return string.Join(" ", classList);
+        return false;
     }
 
     /// <summary>

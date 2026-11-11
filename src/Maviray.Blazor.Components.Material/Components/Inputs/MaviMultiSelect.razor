@@ -233,6 +233,15 @@
 
     protected override bool FloatsLabelOnValue => false;
 
+    private string _optionClass = string.Empty;
+    private string _selectedOptionClass = string.Empty;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        BuildOptionClasses();
+    }
+
     protected override bool TryParseValueFromString(
         string? value,
         [MaybeNullWhen(false)]
@@ -607,30 +616,13 @@
             "scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100"
         );
 
-    private string GetOptionClass(bool isSelected)
-    {
-        var baseClasses = CssManager.Combine(
-            "relative px-3.5 py-2.5 cursor-pointer select-none",
-            "flex items-center gap-3",
-            "transition-colors duration-150"
-        );
+    private string GetOptionClass(bool isSelected) => isSelected ? _selectedOptionClass : _optionClass;
 
-        string stateClasses;
-        if (isSelected)
-        {
-            stateClasses = CssManager.Combine(
-                ThemeTextDarkColor,
-                "bg-black/[0.04]"
-            );
-        }
-        else
-        {
-            stateClasses = CssManager.Combine(
-                "text-black/[0.87]",
-                "hover:bg-black/[0.04]",
-                "active:bg-black/[0.08]"
-            );
-        }
+    // Theme and size only change with parameters, so both option styles are built once here
+    // instead of once per option on every render.
+    private void BuildOptionClasses()
+    {
+        const string baseClasses = "relative px-3.5 py-2.5 cursor-pointer select-none flex items-center gap-3 transition-colors duration-150";
 
         var fontSize = ElementSize switch
         {
@@ -639,7 +631,8 @@
             _ => "text-base"
         };
 
-        return CssManager.Combine(baseClasses, stateClasses, fontSize);
+        _selectedOptionClass = $"{baseClasses} {ThemeTextDarkColor} bg-black/[0.04] {fontSize}";
+        _optionClass = $"{baseClasses} text-black/[0.87] hover:bg-black/[0.04] active:bg-black/[0.08] {fontSize}";
     }
 
     private string GetCheckboxClass(bool isSelected)

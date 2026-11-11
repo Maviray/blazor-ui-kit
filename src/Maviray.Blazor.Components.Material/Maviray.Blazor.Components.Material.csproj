@@ -55,4 +55,8 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\Maviray.Blazor.Components.Core\Maviray.Blazor.Components.Core.csproj" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <InternalsVisibleTo Include="Maviray.Blazor.Components.Material.Tests" />
+	</ItemGroup>
 </Project>
