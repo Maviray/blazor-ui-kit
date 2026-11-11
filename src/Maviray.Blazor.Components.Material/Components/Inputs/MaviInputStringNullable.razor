@@ -6,9 +6,10 @@
 
 <div class="@Width">
     <!-- Floating Label Input Container -->
-    <div class="@GetContainerClass()">
+    <div class="@GetContainerClass()" style="@FieldThemeStyle">
         <!-- Input Field -->
         <input value="@CurrentValue"
+               placeholder=" "
                @onchange="HandleChange"
                type="@GetInputType()"
                id="@Id"
@@ -23,8 +24,6 @@
                aria-label="@Label"
                aria-required="@Required.ToString().ToLowerInvariant()"
                data-val="@(!Disabled && !Readonly ? "true" : "false")"
-               @onfocus="OnFocus"
-               @onblur="OnBlur"
                @attributes="InputAttributes"/>
 
         <!-- Floating Label -->

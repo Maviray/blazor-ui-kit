@@ -7,9 +7,10 @@
 
 <div class="@Width">
     <!-- Floating Label Input Container -->
-    <div class="@GetContainerClass()">
+    <div class="@GetContainerClass()" style="@FieldThemeStyle">
         <!-- Input Field -->
         <input value="@GetDisplayValue()"
+               placeholder=" "
                @onchange="HandleChange"
                @onfocus="OnFocus"
                @onblur="OnBlur"

@@ -6,9 +6,10 @@
 
 <div class="@Width">
     <!-- Floating Label Input Container -->
-    <div class="@GetContainerClass()" @ref="_containerRef">
+    <div class="@GetContainerClass()" style="@FieldThemeStyle" @ref="_containerRef">
         <!-- Input Field -->
         <input value="@GetDisplayValue()"
+               placeholder=" "
                @onchange="HandleChange"
                type="text"
                id="@Id"

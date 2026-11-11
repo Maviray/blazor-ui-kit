@@ -6,9 +6,10 @@
 
 <div class="@Width">
     <!-- Floating Label Textarea Container -->
-    <div class="@GetContainerClass()">
+    <div class="@GetContainerClass()" style="@FieldThemeStyle">
         <!-- Textarea Field -->
         <textarea value="@CurrentValue"
+                  placeholder=" "
                   @onchange="HandleChange"
                   id="@Id"
                   rows="@Rows"
@@ -23,8 +24,6 @@
                   aria-label="@Label"
                   aria-required="@Required.ToString().ToLowerInvariant()"
                   data-val="@(!Disabled && !Readonly ? "true" : "false")"
-                  @onfocus="OnFocus"
-                  @onblur="OnBlur"
                   @attributes="InputAttributes"></textarea>
 
         <!-- Floating Label -->
@@ -203,7 +202,7 @@
     {
         var classes = new List<string>
         {
-            "block w-full bg-transparent border-0 outline-none rounded align-top transition-colors duration-200"
+            "peer block w-full bg-transparent border-0 outline-none rounded align-top transition-colors duration-200"
         };
 
         // Text color

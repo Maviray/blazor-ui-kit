@@ -8,9 +8,10 @@
 
 <div class="@Width relative">
     <!-- Floating Label Input Container -->
-    <div class="@GetContainerClass()" @ref="_inputContainerRef">
+    <div class="@GetContainerClass()" style="@FieldThemeStyle" @ref="_inputContainerRef">
         <!-- Input Field -->
         <input value="@GetDisplayText()"
+               placeholder=" "
                @oninput="HandleInput"
                @onchange="HandleChange"
                @onkeydown="HandleKeyDown"
@@ -31,7 +32,6 @@
                aria-autocomplete="list"
                aria-controls="@($"{Id}-listbox")"
                data-val="@(!Disabled && !Readonly ? "true" : "false")"
-               @onfocus="OnFocus"
                @onblur="OnBlur"
                @attributes="AdditionalAttributes"/>
 
