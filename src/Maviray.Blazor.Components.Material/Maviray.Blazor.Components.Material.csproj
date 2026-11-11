@@ -1,59 +1,33 @@
-﻿
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-
-	  <!-- NuGet Package Properties -->
-	  <PackageId>Maviray.Blazor.Components.Material</PackageId>
-	  <Version>1.0.0</Version>
-	  <Authors>Maviray</Authors>
-	  <Company>Maviray</Company>
-	  <Copyright>Copyright @2026 Maviray</Copyright>
-	  <Description>Blazor UI Material library</Description>
-	  <PackageTags>blazor;components;ui;material;maviray</PackageTags>
-	  <RepositoryUrl>https://github.com/Maviray/blazor-ui-kit</RepositoryUrl>
-	  <PackageProjectUrl>https://github.com/Maviray/blazor-ui-kit</PackageProjectUrl>
-	  <RepositoryType>git</RepositoryType>
-	  <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-	  <PackageReadmeFile>README.md</PackageReadmeFile>
-	  <PackageIcon>icon.png</PackageIcon>
-	  <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-	  <IsPackable>true</IsPackable>
-	  <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
+    <PackageId>Maviray.Blazor.Components.Material</PackageId>
+    <Description>Blazor UI Material library</Description>
+    <PackageTags>blazor;components;ui;material;maviray</PackageTags>
   </PropertyGroup>
 
-	<ItemGroup>
-		<None Include="..\..\icon.png" Pack="true" PackagePath="\" />
-		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
-		<None Include="..\..\LICENSE.txt" Pack="true" PackagePath="\" />
-	</ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="HtmlSanitizer" Version="11.0.26" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="10.0.15" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Forms" Version="10.0.15" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.15" />
+    <PackageReference Include="Microsoft.JSInterop" Version="10.0.15" />
+  </ItemGroup>
 
-	<ItemGroup>
-	  <PackageReference Include="HtmlSanitizer" Version="11.0.26" />
-	  <PackageReference Include="Microsoft.AspNetCore.Components" Version="10.0.15" />
-	  <PackageReference Include="Microsoft.AspNetCore.Components.Forms" Version="10.0.15" />
-	  <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.15" />
-	  <PackageReference Include="Microsoft.JSInterop" Version="10.0.15" />
-	</ItemGroup>
+  <ItemGroup>
+    <Content Remove="package-lock.json;package.json" />
+    <None Include="package-lock.json;package.json">
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
 
-	<ItemGroup>
-		<Content Remove="package-lock.json;package.json" />
-		<None Include="package-lock.json;package.json">
-			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
-		</None>
-	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Maviray.Blazor.Components.Core\Maviray.Blazor.Components.Core.csproj" />
+  </ItemGroup>
 
-	<ItemGroup>
-	  <ProjectReference Include="..\Maviray.Blazor.Components.Core\Maviray.Blazor.Components.Core.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <InternalsVisibleTo Include="Maviray.Blazor.Components.Material.Tests" />
-	</ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Maviray.Blazor.Components.Material.Tests" />
+  </ItemGroup>
 
   <PropertyGroup>
     <TailwindCssOutput>wwwroot/css/maviray.material.min.css</TailwindCssOutput>
