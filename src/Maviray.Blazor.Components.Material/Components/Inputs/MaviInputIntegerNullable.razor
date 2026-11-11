@@ -128,7 +128,7 @@
 
         var cleanValue = CleanValueForParsing(value);
 
-        if (int.TryParse(cleanValue, NumberStyles.Integer, CurrentCulture, out var parsedValue))
+        if (int.TryParse(cleanValue, NumberStyles.Integer, InputValueCulture, out var parsedValue))
         {
             result = parsedValue;
             validationErrorMessage = null;
@@ -149,7 +149,7 @@
 
         if (string.IsNullOrWhiteSpace(FormatMask))
         {
-            return value.Value.ToString(CurrentCulture);
+            return value.Value.ToString(InputValueCulture);
         }
 
         try
@@ -159,7 +159,7 @@
         catch (FormatException ex)
         {
             Logger?.LogWarning(ex, "Invalid format mask '{FormatMask}'. Falling back to default.", FormatMask);
-            return value.Value.ToString(CurrentCulture);
+            return value.Value.ToString(InputValueCulture);
         }
     }
 
@@ -167,7 +167,7 @@
     {
         if (IsFocused && !ShowFormattedWhileFocused)
         {
-            return RawInputValue ?? (CurrentValue.HasValue ? CurrentValue.Value.ToString(CurrentCulture) : string.Empty);
+            return RawInputValue ?? (CurrentValue.HasValue ? CurrentValue.Value.ToString(InputValueCulture) : string.Empty);
         }
 
         if (!CurrentValue.HasValue && string.IsNullOrWhiteSpace(RawInputValue))
@@ -186,7 +186,7 @@
 
         if (TryParseValueFromString(RawInputValue, out var parsedValue, out _))
         {
-            CurrentValue = parsedValue;
+            SetValueWhileTyping(parsedValue);
         }
 
         return Task.CompletedTask;
@@ -250,13 +250,13 @@
         if (string.IsNullOrWhiteSpace(value)) return value;
 
         var cleaned = value;
-        cleaned = cleaned.Replace(CurrentCulture.NumberFormat.CurrencySymbol, "");
-        cleaned = cleaned.Replace(CurrentCulture.NumberFormat.PercentSymbol, "");
-        cleaned = cleaned.Replace(CurrentCulture.NumberFormat.NumberGroupSeparator, "");
-        cleaned = cleaned.Replace(CurrentCulture.NumberFormat.CurrencyGroupSeparator, "");
+        cleaned = cleaned.Replace(InputValueCulture.NumberFormat.CurrencySymbol, "");
+        cleaned = cleaned.Replace(InputValueCulture.NumberFormat.PercentSymbol, "");
+        cleaned = cleaned.Replace(InputValueCulture.NumberFormat.NumberGroupSeparator, "");
+        cleaned = cleaned.Replace(InputValueCulture.NumberFormat.CurrencyGroupSeparator, "");
 
-        if (CurrentCulture.NumberFormat.NumberGroupSeparator == " " ||
-            CurrentCulture.NumberFormat.CurrencyGroupSeparator == " ")
+        if (InputValueCulture.NumberFormat.NumberGroupSeparator == " " ||
+            InputValueCulture.NumberFormat.CurrencyGroupSeparator == " ")
         {
             cleaned = cleaned.Replace(" ", "");
         }

@@ -148,7 +148,7 @@
             return Task.CompletedTask;
 
         var inputValue = e.Value?.ToString();
-        CurrentValue = string.IsNullOrWhiteSpace(inputValue) ? null : inputValue;
+        SetValueWhileTyping(string.IsNullOrWhiteSpace(inputValue) ? null : inputValue);
         // Don't trigger validation on every keystroke - just update the UI
 
         return Task.CompletedTask;

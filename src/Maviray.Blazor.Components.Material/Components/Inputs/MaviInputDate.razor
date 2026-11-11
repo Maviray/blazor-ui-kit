@@ -215,7 +215,7 @@
         // Try to parse and update the current value
         if (TryParseValueFromString(inputValue, out var parsedValue, out _))
         {
-            CurrentValue = parsedValue;
+            SetValueWhileTyping(parsedValue);
         }
 
         return Task.CompletedTask;

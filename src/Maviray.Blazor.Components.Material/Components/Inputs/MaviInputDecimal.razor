@@ -209,7 +209,7 @@
 
         if (TryParseValueFromString(RawInputValue, out var parsedValue, out _))
         {
-            CurrentValue = parsedValue;
+            SetValueWhileTyping(parsedValue);
         }
 
         return Task.CompletedTask;

@@ -3,7 +3,6 @@
 @using System.Diagnostics.CodeAnalysis
 @using System.Globalization
 @using System.Reflection
-@implements IAsyncDisposable
 
 <div class="@Width">
     <!-- Floating Label Input Container -->
@@ -227,7 +226,7 @@
         // Try to parse and update the current value
         if (TryParseValueFromString(inputValue, out var parsedValue, out _))
         {
-            CurrentValue = parsedValue;
+            SetValueWhileTyping(parsedValue);
         }
 
         return Task.CompletedTask;

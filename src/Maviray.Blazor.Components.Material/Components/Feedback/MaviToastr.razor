@@ -1,6 +1,7 @@
 ﻿@namespace Maviray.Blazor.Components.Material.Components.DataDisplay.MaviToastr
 @using Maviray.Blazor.Components.Material.Constants
 @inherits MaviComponentBase
+@implements IDisposable
 
 <div id="@Id" class="@ContainerClass" role="region" aria-live="polite" aria-relevant="additions removals">
     @foreach (var toast in VisibleToasts)
@@ -78,6 +79,9 @@
     // Track which IDs already have an auto-dismiss scheduled, to avoid re-scheduling on re-render.
     private readonly HashSet<string> _scheduled = new(StringComparer.Ordinal);
 
+    // Cancels pending auto-dismiss timers when the toaster is disposed.
+    private readonly CancellationTokenSource _disposeCts = new();
+
     private IReadOnlyList<MaviToastNotification> VisibleToasts =>
         OrderToasts(Notifications)
             .Take(MaxVisible <= 0 ? int.MaxValue : MaxVisible)
@@ -117,7 +121,7 @@
         try
         {
             // Defensive: Duration exists here
-            await Task.Delay(toast.Duration!.Value);
+            await Task.Delay(toast.Duration!.Value, _disposeCts.Token);
 
             // Item might already be removed by parent; we still fire OnClose (idempotent in parent).
             await RequestCloseAsync(toast.Id);
@@ -144,6 +148,12 @@
         {
             Logger?.LogDebugLifeCycle(Id, GetType());
         }
+    }
+
+    public void Dispose()
+    {
+        _disposeCts.Cancel();
+        _disposeCts.Dispose();
     }
 
     private static bool ShouldShowProgress(MaviToastNotification toast)

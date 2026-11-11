@@ -1,13 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Concurrent;
+using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Text;
 using Maviray.Blazor.Components.Core.Attributes;
-using Maviray.Blazor.Components.Core.Extensions;
 
 namespace Maviray.Blazor.Components.Core.Models.Tables;
 
 public class TableDataCollectionFactory
 {
+    private static readonly ConcurrentDictionary<Enum, string> EnumDisplayNames = new();
+
     public static TableDataCollection FromDataSource<T>(IEnumerable<T> items) where T : ITableDataItem
     {
         var type = typeof(T);
@@ -92,23 +94,23 @@ public class TableDataCollectionFactory
             return ((DateTime)raw).ToString(attr.DatTimeFormat);
         }
 
-        if (!type.IsEnum)
+        // A boxed nullable enum is the enum itself, so this covers both.
+        if (raw is Enum enumValue)
         {
-            return raw.ToString() ?? string.Empty;
+            return GetEnumDisplayName(enumValue);
         }
 
-        var method = typeof(EnumExtensions)
-            .GetMethod("GetDisplay", BindingFlags.Public | BindingFlags.Static)?
-            .MakeGenericMethod(type);
-
-        if (method == null)
-        {
-            return raw.ToString() ?? string.Empty;
-        }
-
-        var result = method.Invoke(null, [raw]);
-        return result?.ToString() ?? string.Empty;
+        return raw.ToString() ?? string.Empty;
     }
+
+    private static string GetEnumDisplayName(Enum value) =>
+        EnumDisplayNames.GetOrAdd(value, static v =>
+        {
+            var name = v.ToString();
+            var member = v.GetType().GetField(name, BindingFlags.Public | BindingFlags.Static);
+
+            return member?.GetCustomAttribute<DisplayAttribute>()?.GetName() ?? name;
+        });
 
     public static string ExportToCsv(TableDataCollection grid)
     {

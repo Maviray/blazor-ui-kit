@@ -131,7 +131,7 @@
         if (Disabled || Readonly)
             return Task.CompletedTask;
 
-        CurrentValue = e.Value?.ToString();
+        SetValueWhileTyping(e.Value?.ToString());
         // Don't trigger validation on every keystroke - just update the UI (label float, counter)
 
         return Task.CompletedTask;

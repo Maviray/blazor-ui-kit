@@ -5,7 +5,6 @@
 @using Maviray.Blazor.Components.Core.Constants
 @using Microsoft.Extensions.Logging
 @inherits MaviMaterialInputBase<TItem>
-@inject IJSRuntime JsRuntime
 
 <div class="@Width relative">
     <!-- Floating Label Input Container -->
@@ -99,7 +98,6 @@
     @if (_isDropdownOpen && _options != null && _options.Any())
     {
         <div class="@GetDropdownClass()"
-             style="@GetDropdownStyle()"
              id="@($"{Id}-listbox")"
              role="listbox"
              aria-label="@($"{Label} options")"
@@ -127,8 +125,7 @@
     <!-- No Results Message -->
     @if (_isDropdownOpen && _options != null && !_options.Any() && !string.IsNullOrWhiteSpace(_searchText))
     {
-        <div class="@GetDropdownClass()"
-             style="@GetDropdownStyle()">
+        <div class="@GetDropdownClass()">
             <div class="px-4 py-3 text-sm text-(--theme-default-seven)">
                 @NoResultsText
             </div>
@@ -153,7 +150,6 @@
     private TItem? _selectedItem;
     private bool _isEndIconLoading;
     private CancellationTokenSource? _debounceTokenSource;
-    private double _dropdownWidth;
 
     #region AutoComplete-Specific Parameters
 
@@ -280,11 +276,6 @@
         }
 
         await base.OnAfterRenderAsync(firstRender);
-
-        if (_isDropdownOpen && _dropdownWidth == 0)
-        {
-            await UpdateDropdownWidth();
-        }
     }
 
     #endregion
@@ -459,6 +450,10 @@
 
             var results = await OnSearch(_searchText);
 
+            // A newer search started while this one was running; its results win.
+            if (token.IsCancellationRequested)
+                return;
+
             _options = MaxDisplayItems > 0
                 ? results?.Take(MaxDisplayItems).ToList()
                 : results?.ToList();
@@ -467,7 +462,6 @@
 
             _highlightedIndex = _options.Any() ? 0 : -1;
             _isDropdownOpen = true;
-            _dropdownWidth = 0;
         }
         catch (OperationCanceledException)
         {
@@ -481,7 +475,12 @@
         }
         finally
         {
-            _isEndIconLoading = false;
+            // Leave the spinner to the newer search if one is still running.
+            if (!token.IsCancellationRequested)
+            {
+                _isEndIconLoading = false;
+            }
+
             StateHasChanged();
             Logger?.Information($"PerformSearch finally block for component ID: {Id}");
         }
@@ -507,24 +506,7 @@
     {
         _isDropdownOpen = false;
         _highlightedIndex = -1;
-        _dropdownWidth = 0;
         StateHasChanged();
-    }
-
-    private async Task UpdateDropdownWidth()
-    {
-        try
-        {
-            _dropdownWidth = await JsRuntime.InvokeAsync<double>(
-                "eval",
-                $"document.getElementById('{Id}').parentElement.offsetWidth"
-            );
-            StateHasChanged();
-        }
-        catch (Exception ex)
-        {
-            Logger?.LogWarning(ex, "Failed to get dropdown width for autocomplete {Id}", Id);
-        }
     }
 
     private string GetItemText(TItem item)
@@ -616,9 +598,8 @@
 
     #region CSS Class Builders
 
-    private static string GetDropdownClass() => "absolute z-50 mt-1 max-h-60 overflow-auto rounded bg-white shadow-lg border border-(--theme-default-three) focus:outline-none";
-
-    private string GetDropdownStyle() => _dropdownWidth > 0 ? $"width: {_dropdownWidth}px;" : string.Empty;
+    // left-0 right-0: the list spans the positioned wrapper, so it matches the field's width without measuring it.
+    private static string GetDropdownClass() => "absolute left-0 right-0 z-50 mt-1 max-h-60 overflow-auto rounded bg-white shadow-lg border border-(--theme-default-three) focus:outline-none";
 
     private string GetOptionClass(int index)
     {
@@ -640,16 +621,15 @@
 
     #region Disposal
 
-    public override void Dispose()
+    protected override void Dispose(bool disposing)
     {
-        if (EnableLifeCycleLogging)
+        if (disposing)
         {
-            Logger?.LogDebugLifeCycle(Id, GetType());
+            _debounceTokenSource?.Cancel();
+            _debounceTokenSource?.Dispose();
         }
 
-        _debounceTokenSource?.Cancel();
-        _debounceTokenSource?.Dispose();
-        base.Dispose();
+        base.Dispose(disposing);
     }
 
     #endregion

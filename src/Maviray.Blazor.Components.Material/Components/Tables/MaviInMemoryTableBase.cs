@@ -4,6 +4,7 @@ using Maviray.Blazor.Components.Core.Enums;
 using Maviray.Blazor.Components.Core.EventArgs;
 using Maviray.Blazor.Components.Core.Extensions;
 using Maviray.Blazor.Components.Core.Models.Tables;
+using Maviray.Blazor.Components.Material.Components.Interop;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
@@ -15,6 +16,7 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
     private const string HANDLE_OUTSIDE_CLICK_METHOD_TITLE = "HandleOutsideClick";
 
     private DotNetObjectReference<MaviInMemoryTableBase>? _dotNetRef;
+    private readonly OutsideClickListener _outsideClick = new();
 
     private Timer? _filterDebounceTimer;
 
@@ -84,12 +86,29 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
-        {
-            await SubscribeElements();
-        }
+        await _outsideClick.SyncAsync(() => IsAnyContextMenuOpen, SubscribeElementsAsync, UnsubscribeElementsAsync);
 
         await base.OnAfterRenderAsync(firstRender);
+    }
+
+    private bool IsAnyContextMenuOpen =>
+        ContextMenuVisible || (Collection?.GetCurrentPageRows().Any(row => row.ContextMenuVisible) ?? false);
+
+    private async ValueTask SubscribeElementsAsync() => await SubscribeElements();
+
+    private async ValueTask UnsubscribeElementsAsync()
+    {
+        try
+        {
+            if (JsRuntime != null)
+            {
+                await JsRuntime.InvokeVoidAsync(JsInteropConstants.UN_REGISTER_OUT_OF_FOCUS_CALLBACK_LISTENER, Id);
+            }
+        }
+        catch (JSException ex)
+        {
+            Logger?.Error(ex, ex.Message);
+        }
     }
 
     protected override void OnParametersSet()
@@ -97,6 +116,9 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
         base.OnParametersSet();
 
         Parameters ??= new();
+
+        // New parameters from the parent must reach the screen; ShouldRender only skips no-op event re-renders.
+        _needsRender = true;
 
         if (EnableLifeCycleLogging)
         {
@@ -306,7 +328,7 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
     {
         try
         {
-            _dotNetRef = DotNetObjectReference.Create(this);
+            _dotNetRef ??= DotNetObjectReference.Create(this);
 
             if (JsRuntime != null)
             {
@@ -314,7 +336,7 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
                     JsInteropConstants.REGISTER_OUT_OF_FOCUS_CALLBACK_LISTENER,
                     Id,
                     _dotNetRef,
-                    "HandleOutsideClick");
+                    HANDLE_OUTSIDE_CLICK_METHOD_TITLE);
             }
         }
         catch (Exception ex)
@@ -366,7 +388,7 @@ public abstract class MaviInMemoryTableBase : MaviComponentBase, IAsyncDisposabl
                 return;
             }
 
-            if (HasRendered && JsRuntime != null)
+            if (_outsideClick.IsAttached && JsRuntime != null)
             {
                 await JsRuntime.InvokeVoidAsync(
                     JsInteropConstants.UN_REGISTER_OUT_OF_FOCUS_CALLBACK_LISTENER,

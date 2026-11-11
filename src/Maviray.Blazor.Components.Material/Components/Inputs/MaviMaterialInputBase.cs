@@ -20,7 +20,7 @@ namespace Maviray.Blazor.Components.Material.Components.Inputs;
 ///     Contains all shared C# logic for validation, theming, event handling, and CSS class building.
 /// </summary>
 /// <typeparam name="TValue">The type of the input value</typeparam>
-public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDisposable
+public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IAsyncDisposable
 {
     #region Protected Properties
 
@@ -205,14 +205,36 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
         }
     }
 
-    public virtual void Dispose()
+    /// <summary>
+    ///     The single disposal entry point. Blazor calls only <see cref="DisposeAsync" /> when a component
+    ///     implements both disposal interfaces, so this also runs <see cref="InputBase{TValue}" />'s own
+    ///     <see cref="IDisposable.Dispose" />, which detaches its EditContext handler and then calls
+    ///     <see cref="Dispose(bool)" />.
+    ///     Override <see cref="DisposeAsyncCore" /> for JS cleanup and <see cref="Dispose(bool)" /> for the rest.
+    /// </summary>
+    public async ValueTask DisposeAsync()
     {
-        if (EnableLifeCycleLogging)
+        await DisposeAsyncCore();
+
+        ((IDisposable)this).Dispose();
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual ValueTask DisposeAsyncCore() => ValueTask.CompletedTask;
+
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
         {
-            Logger?.LogDebugLifeCycle(Id, GetType());
+            if (EnableLifeCycleLogging)
+            {
+                Logger?.LogDebugLifeCycle(Id, GetType());
+            }
+
+            DetachValidationStateChangedListener();
         }
 
-        DetachValidationStateChangedListener();
+        base.Dispose(disposing);
     }
 
     #endregion
@@ -244,6 +266,22 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
     ///     Handles input event - updates value for UI purposes (label float) without triggering validation
     /// </summary>
     protected abstract Task HandleInput(ChangeEventArgs e);
+
+    /// <summary>
+    ///     Updates the bound value while the user is typing. Setting <c>CurrentValue</c> would also
+    ///     notify the EditContext and validate on every keystroke; validation instead waits for
+    ///     <see cref="HandleChange" />.
+    /// </summary>
+    protected void SetValueWhileTyping(TValue? value)
+    {
+        if (EqualityComparer<TValue>.Default.Equals(value, Value))
+        {
+            return;
+        }
+
+        Value = value;
+        _ = ValueChanged.InvokeAsync(value);
+    }
 
     /// <summary>
     ///     Handles change event - triggers validation when user is done editing

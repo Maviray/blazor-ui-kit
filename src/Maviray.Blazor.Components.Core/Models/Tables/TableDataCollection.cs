@@ -18,7 +18,21 @@ public class TableDataCollection
     public int TotalRows => FilteredRows.Count;
     public int TotalPages => (TotalRows + PageSize - 1) / PageSize;
 
-    public string GlobalSearchText { get; set; } = "";
+    public string GlobalSearchText
+    {
+        get;
+        set
+        {
+            if (field == value)
+            {
+                return;
+            }
+
+            field = value;
+            _filterCacheDirty = true;
+            CurrentPage = 1;
+        }
+    } = "";
 
     public int FirstRowIndex => Rows.Count == 0 ? 0 : (CurrentPage - 1) * PageSize + 1;
 
@@ -150,6 +164,7 @@ public class TableDataCollection
         }
 
         _filterCacheDirty = true;
+        CurrentPage = 1;
     }
 
     public void SortByColumn(string columnKey)

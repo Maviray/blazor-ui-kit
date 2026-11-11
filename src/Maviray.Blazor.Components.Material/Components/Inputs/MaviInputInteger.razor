@@ -143,7 +143,7 @@
         // Remove formatting characters for parsing
         var cleanValue = CleanValueForParsing(value);
 
-        if (int.TryParse(cleanValue, NumberStyles.Integer, CurrentCulture, out var parsedValue))
+        if (int.TryParse(cleanValue, NumberStyles.Integer, InputValueCulture, out var parsedValue))
         {
             result = parsedValue;
             validationErrorMessage = null;
@@ -159,7 +159,7 @@
     {
         if (string.IsNullOrWhiteSpace(FormatMask))
         {
-            return value.ToString(CurrentCulture);
+            return value.ToString(InputValueCulture);
         }
 
         try
@@ -169,7 +169,7 @@
         catch (FormatException ex)
         {
             Logger?.LogWarning(ex, "Invalid format mask '{FormatMask}' for integer value. Falling back to default format.", FormatMask);
-            return value.ToString(CurrentCulture);
+            return value.ToString(InputValueCulture);
         }
     }
 
@@ -178,7 +178,7 @@
         // When focused and not showing formatted value, show raw input or plain number
         if (IsFocused && !ShowFormattedWhileFocused)
         {
-            return RawInputValue ?? CurrentValue.ToString(CurrentCulture);
+            return RawInputValue ?? CurrentValue.ToString(InputValueCulture);
         }
 
         // When not focused or ShowFormattedWhileFocused is true, show formatted value
@@ -201,7 +201,7 @@
         // Try to parse and update the value
         if (TryParseValueFromString(RawInputValue, out var parsedValue, out _))
         {
-            CurrentValue = parsedValue;
+            SetValueWhileTyping(parsedValue);
         }
 
         // Don't trigger validation on every keystroke - just update the UI
@@ -292,18 +292,18 @@
         var cleaned = value;
 
         // Remove currency symbols
-        cleaned = cleaned.Replace(CurrentCulture.NumberFormat.CurrencySymbol, "");
+        cleaned = cleaned.Replace(InputValueCulture.NumberFormat.CurrencySymbol, "");
 
         // Remove percent symbols
-        cleaned = cleaned.Replace(CurrentCulture.NumberFormat.PercentSymbol, "");
+        cleaned = cleaned.Replace(InputValueCulture.NumberFormat.PercentSymbol, "");
 
         // Remove group separators (thousand separators)
-        cleaned = cleaned.Replace(CurrentCulture.NumberFormat.NumberGroupSeparator, "");
-        cleaned = cleaned.Replace(CurrentCulture.NumberFormat.CurrencyGroupSeparator, "");
+        cleaned = cleaned.Replace(InputValueCulture.NumberFormat.NumberGroupSeparator, "");
+        cleaned = cleaned.Replace(InputValueCulture.NumberFormat.CurrencyGroupSeparator, "");
 
         // Remove spaces that might be used as group separators
-        if (CurrentCulture.NumberFormat.NumberGroupSeparator == " " ||
-            CurrentCulture.NumberFormat.CurrencyGroupSeparator == " ")
+        if (InputValueCulture.NumberFormat.NumberGroupSeparator == " " ||
+            InputValueCulture.NumberFormat.CurrencyGroupSeparator == " ")
         {
             cleaned = cleaned.Replace(" ", "");
         }
