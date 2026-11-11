@@ -128,9 +128,13 @@ public static class LoggerExtensions
         /// <param name="sourceLineNumber">source line number</param>
         public void LogDebugLifeCycle(string? id, Type callerType, [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
         {
-            // Format: $"[{callerType.Name}.{memberName}][{sourceLineNumber}]-[{id}];
+            // Lifecycle traces are diagnostics: Debug level, and no formatting work when Debug is off.
+            if (!logger.IsEnabled(LogLevel.Debug))
+            {
+                return;
+            }
 
-            logger.Log(LogLevel.Information, "[{Component}.{Member}][{Line}]-[{Id}]",
+            logger.Log(LogLevel.Debug, "[{Component}.{Member}][{Line}]-[{Id}]",
                 callerType.Name,
                 memberName,
                 sourceLineNumber,
@@ -147,9 +151,12 @@ public static class LoggerExtensions
         /// <param name="sourceLineNumber">source line number</param>
         public void LogDebugLifeCycle(Type callerType, string? id, string message, [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
         {
-            // Format: $"[{callerType.Name}.{memberName}][{sourceLineNumber}]-[{id}]: {message}";
+            if (!logger.IsEnabled(LogLevel.Debug))
+            {
+                return;
+            }
 
-            logger.Log(LogLevel.Information, "[{Component}.{Member}][{Line}]-[{Id}]: {Message}",
+            logger.Log(LogLevel.Debug, "[{Component}.{Member}][{Line}]-[{Id}]: {Message}",
                 callerType.Name,
                 memberName,
                 sourceLineNumber,
