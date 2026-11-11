@@ -13,10 +13,17 @@
                    Exclude="bin/**;obj/**;node_modules/**;$(TailwindCssOutput)" />
   </ItemGroup>
 
-  <!-- A fresh clone has no node_modules: install exactly what package-lock.json pins. -->
+  <!--
+    Installs exactly what package-lock.json pins whenever it is newer than the last install: a fresh clone,
+    a pulled lock-file update, or an interrupted install. npm records each install in
+    node_modules/.package-lock.json.
+  -->
   <Target Name="TailwindNpmInstall"
-          Condition="'$(SkipTailwindBuild)' != 'true' And !Exists('$(MSBuildProjectDirectory)/node_modules')">
+          Condition="'$(SkipTailwindBuild)' != 'true'"
+          Inputs="package.json;package-lock.json"
+          Outputs="node_modules/.package-lock.json">
     <Exec Command="npm ci" WorkingDirectory="$(MSBuildProjectDirectory)" />
+    <Touch Files="node_modules/.package-lock.json" />
   </Target>
 
   <!-- Runs before the build so static web assets (and their compressed copies) see the new CSS. -->
