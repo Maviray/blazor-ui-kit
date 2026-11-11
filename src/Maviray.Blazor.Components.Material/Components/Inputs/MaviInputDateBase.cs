@@ -15,8 +15,13 @@ namespace Maviray.Blazor.Components.Material.Components.Inputs;
 ///     Contains all shared logic for date parsing, formatting, and calendar picker functionality.
 /// </summary>
 /// <typeparam name="TValue">Either DateTime or DateTime?</typeparam>
-/// <typeparam name="TComponent">Deriving Type</typeparam>
-public abstract class MaviInputDateBase<TValue, TComponent> : MaviMaterialInputBase<TValue> where TComponent : MaviInputDateBase<TValue, TComponent>
+/// <typeparam name="TComponent">
+///     Deriving Type. Its public methods are kept when trimming, because JavaScript calls its [JSInvokable] methods
+///     through <see cref="DotNetObjectReference{TValue}" />.
+/// </typeparam>
+public abstract class MaviInputDateBase<TValue,
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)] TComponent>
+    : MaviMaterialInputBase<TValue> where TComponent : MaviInputDateBase<TValue, TComponent>
 {
     protected ElementReference _containerRef;
     protected DotNetObjectReference<TComponent>? _dotNetRef;

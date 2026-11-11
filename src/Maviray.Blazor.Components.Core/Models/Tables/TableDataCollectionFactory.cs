@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Text;
 using Maviray.Blazor.Components.Core.Attributes;
@@ -10,7 +11,9 @@ public class TableDataCollectionFactory
 {
     private static readonly ConcurrentDictionary<Enum, string> EnumDisplayNames = new();
 
-    public static TableDataCollection FromDataSource<T>(IEnumerable<T> items) where T : ITableDataItem
+    // The annotation tells the trimmer to keep T's public properties, which become the table's columns.
+    public static TableDataCollection FromDataSource<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(IEnumerable<T> items)
+        where T : ITableDataItem
     {
         var type = typeof(T);
         var properties = type
