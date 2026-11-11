@@ -38,11 +38,17 @@
     private bool Selected =>
         EqualityComparer<string?>.Default.Equals(Id, Context?.SelectedTabId);
 
-    protected override void OnParametersSet()
+    protected override void OnInitialized()
     {
+        base.OnInitialized();
+
+        // Subscribe once: OnParametersSet runs on every parent re-render.
         if (Context is not null)
             Context.OnTabClicked += HandleTabClicked;
+    }
 
+    protected override void OnParametersSet()
+    {
         if (EnableLifeCycleLogging)
         {
             Logger?.LogDebugLifeCycle(Id, GetType());

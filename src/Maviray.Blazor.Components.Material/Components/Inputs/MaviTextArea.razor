@@ -6,10 +6,10 @@
 
 <div class="@Width">
     <!-- Floating Label Textarea Container -->
-    <div class="@GetContainerClass()">
+    <div class="@GetContainerClass()" style="@FieldThemeStyle">
         <!-- Textarea Field -->
         <textarea value="@CurrentValue"
-                  @oninput="HandleInput"
+                  placeholder=" "
                   @onchange="HandleChange"
                   id="@Id"
                   rows="@Rows"
@@ -24,9 +24,7 @@
                   aria-label="@Label"
                   aria-required="@Required.ToString().ToLowerInvariant()"
                   data-val="@(!Disabled && !Readonly ? "true" : "false")"
-                  @onfocus="OnFocus"
-                  @onblur="OnBlur"
-                  @attributes="AdditionalAttributes"></textarea>
+                  @attributes="InputAttributes"></textarea>
 
         <!-- Floating Label -->
         @if (!string.IsNullOrEmpty(Label))
@@ -131,7 +129,7 @@
         if (Disabled || Readonly)
             return Task.CompletedTask;
 
-        CurrentValue = e.Value?.ToString();
+        SetValueWhileTyping(e.Value?.ToString());
         // Don't trigger validation on every keystroke - just update the UI (label float, counter)
 
         return Task.CompletedTask;
@@ -143,11 +141,7 @@
         if (Disabled || Readonly)
             return Task.CompletedTask;
 
-        CurrentValue = e.Value?.ToString();
-
-        // Trigger validation on change (blur)
-        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-        EditContext?.NotifyFieldChanged(FieldIdentifier);
+        CommitValue(e.Value?.ToString());
 
         return Task.CompletedTask;
     }
@@ -174,9 +168,9 @@
     #region Public API
 
     /// <summary>
-    ///     Returns the text currently entered in the textarea.
-    ///     Lets the consumer read the live content programmatically (e.g. via @ref)
-    ///     without binding to the model.
+    ///     Returns the textarea's current value, for reading it via @ref without binding to the model.
+    ///     It follows typing only when <c>Immediate</c> or <see cref="ShowCharacterCount" /> is on;
+    ///     otherwise it is the text committed when the user last left the field.
     /// </summary>
     /// <returns>The current text, or an empty string if nothing is entered.</returns>
     public string GetCurrentText() => CurrentValue ?? string.Empty;
@@ -187,6 +181,9 @@
 
     // The textarea is multi-line, so its height is driven by `rows` rather than a
     // fixed height class like the single-line inputs use.
+    // The character counter has to follow typing, so it keeps keystroke updates on.
+    protected override bool BindOnInput => Immediate || ShowCharacterCount;
+
     protected override string GetContainerClass() => "relative mt-[2px]";
 
     // Align the "label as placeholder" with the first line of the textarea
@@ -205,7 +202,7 @@
     {
         var classes = new List<string>
         {
-            "block w-full bg-transparent border-0 outline-none rounded align-top transition-colors duration-200"
+            "peer block w-full bg-transparent border-0 outline-none rounded align-top transition-colors duration-200"
         };
 
         // Text color

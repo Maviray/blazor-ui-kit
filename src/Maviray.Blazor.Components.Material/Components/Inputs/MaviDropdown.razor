@@ -1,6 +1,5 @@
 ﻿@typeparam TItem
 @typeparam TValue
-@implements IAsyncDisposable
 @using System.ComponentModel.DataAnnotations
 @using System.Diagnostics.CodeAnalysis
 @using System.Reflection
@@ -11,9 +10,10 @@
 
 <div class="@CssManager.Combine(Width, "relative")" @ref="_containerRef">
     <!-- Floating Label Dropdown Container -->
-    <div class="@GetContainerClass()">
+    <div class="@GetContainerClass()" style="@FieldThemeStyle">
         <!-- Display Input (Read-only text input that shows selected value) -->
         <input value="@GetDisplayText()"
+               placeholder=" "
                @onclick="ToggleDropdown"
                @onfocus="OnFocus"
                @onblur="OnBlur"
@@ -103,9 +103,7 @@
                              role="option"
                              aria-selected="@isSelected.ToString().ToLowerInvariant()"
                              @onclick="() => SelectItem(value)"
-                             @onclick:stopPropagation="true"
-                             @onmouseenter="() => _hoveredValue = value"
-                             @onmouseleave="() => _hoveredValue = default">
+                             @onclick:stopPropagation="true">
                             <span class="block truncate">@text</span>
                             @if (isSelected)
                             {
@@ -132,9 +130,11 @@
 @code {
     private ElementReference _containerRef;
     private bool _isOpen;
-    private TValue? _hoveredValue;
     private DotNetObjectReference<MaviDropdown<TItem, TValue>>? _dotNetRef;
     private IJSObjectReference? _jsModule;
+    private readonly OutsideClickListener _outsideClick = new();
+    private string _optionClass = string.Empty;
+    private string _selectedOptionClass = string.Empty;
 
     #region Dropdown-Specific Parameters
 
@@ -213,6 +213,17 @@
 
             return !EqualityComparer<TValue>.Default.Equals(CurrentValue, default);
         }
+    }
+
+    // Focus moves into the list while it is open, so the server keeps the label floated and accented.
+    protected override bool ForceLabelFloating => base.ForceLabelFloating || _isOpen || HasValue;
+
+    protected override bool ShowActiveState => _isOpen || IsFocused;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        BuildOptionClasses();
     }
 
     protected override bool TryParseValueFromString(
@@ -302,19 +313,18 @@
     {
         await base.OnAfterRenderAsync(firstRender);
 
-        if (firstRender)
-        {
-            _jsModule = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Maviray.Blazor.Components.Material/js/maviDropDownJsInterop.js");
-            _dotNetRef = DotNetObjectReference.Create(this);
-            await _jsModule.InvokeVoidAsync("initializeDropdown", _dotNetRef, _containerRef);
-        }
+        await _outsideClick.SyncAsync(() => _isOpen, AttachOutsideClickAsync, DetachOutsideClickAsync);
     }
 
-    public override void Dispose()
+    private async ValueTask AttachOutsideClickAsync()
     {
-        base.Dispose();
-        _dotNetRef?.Dispose();
+        _jsModule ??= await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Maviray.Blazor.Components.Material/js/maviDropDownJsInterop.js");
+        _dotNetRef ??= DotNetObjectReference.Create(this);
+        await _jsModule.InvokeVoidAsync("initializeDropdown", _dotNetRef, _containerRef);
     }
+
+    private ValueTask DetachOutsideClickAsync() =>
+        _jsModule?.InvokeVoidAsync("disposeDropdown", _containerRef) ?? ValueTask.CompletedTask;
 
     #endregion
 
@@ -407,7 +417,7 @@
         var classes = new List<string>
         {
             CssManager.Combine(
-                "block w-full h-full bg-transparent border-0 outline-none rounded",
+                "peer block w-full h-full bg-transparent border-0 outline-none rounded",
                 "transition-all duration-200",
                 "cursor-pointer"
             )
@@ -536,31 +546,13 @@
             "scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100"
         );
 
-    private string GetOptionClass(bool isSelected)
-    {
-        var baseClasses = CssManager.Combine(
-            "relative px-3.5 py-2.5 cursor-pointer select-none",
-            "flex items-center justify-between",
-            "transition-colors duration-150"
-        );
+    private string GetOptionClass(bool isSelected) => isSelected ? _selectedOptionClass : _optionClass;
 
-        string stateClasses;
-        if (isSelected)
-        {
-            stateClasses = CssManager.Combine(
-                ThemeTextDarkColor,
-                "bg-black/[0.08]",
-                "font-medium"
-            );
-        }
-        else
-        {
-            stateClasses = CssManager.Combine(
-                "text-black/[0.87]",
-                "hover:bg-black/[0.04]",
-                "active:bg-black/[0.08]"
-            );
-        }
+    // Theme and size only change with parameters, so both option styles are built once here
+    // instead of once per option on every render.
+    private void BuildOptionClasses()
+    {
+        const string baseClasses = "relative px-3.5 py-2.5 cursor-pointer select-none flex items-center justify-between transition-colors duration-150";
 
         var fontSize = ElementSize switch
         {
@@ -569,7 +561,8 @@
             _ => "text-base"
         };
 
-        return CssManager.Combine(baseClasses, stateClasses, fontSize);
+        _selectedOptionClass = $"{baseClasses} {ThemeTextDarkColor} bg-black/[0.08] font-medium {fontSize}";
+        _optionClass = $"{baseClasses} text-black/[0.87] hover:bg-black/[0.04] active:bg-black/[0.08] {fontSize}";
     }
 
     private string GetCheckmarkClass() =>
@@ -638,35 +631,28 @@
 
     #endregion
 
-    private bool _disposed;
-
-    public async ValueTask DisposeAsync()
+    protected override async ValueTask DisposeAsyncCore()
     {
-        if (_disposed)
-            return;
-
-        _disposed = true;
-
-        // Cleanup JavaScript event listeners
         if (_jsModule != null)
         {
             try
             {
-                // Call the JavaScript cleanup function to remove event listeners
-                await _jsModule.InvokeVoidAsync("disposeDropdown", _containerRef);
+                if (_outsideClick.IsAttached)
+                {
+                    await _jsModule.InvokeVoidAsync("disposeDropdown", _containerRef);
+                }
+
                 await _jsModule.DisposeAsync();
             }
-            catch (JSDisconnectedException ex)
+            catch (JSDisconnectedException)
             {
-                Logger?.Error(ex, ex.Message);
+                // The circuit is gone, so the browser has already discarded the listeners.
             }
         }
 
-        // Dispose the .NET object reference
         _dotNetRef?.Dispose();
 
-        // Call base disposal
-        base.Dispose();
+        await base.DisposeAsyncCore();
     }
 
 }

@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "samples-material",
+      "runtimeExecutable": "dotnet",
+      "runtimeArgs": ["run", "--project", "samples/Maviray.Blazor.Components.Samples.Material", "--launch-profile", "http"],
+      "port": 5089
+    }
+  ]
+}

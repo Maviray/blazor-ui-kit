@@ -1,7 +1,10 @@
 using Maviray.Blazor.Components.Core.Constants;
 using Maviray.Blazor.Components.Core.Extensions;
+using Ganss.Xss;
+using Maviray.Blazor.Components.Material.Components.Interop;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 
 namespace Maviray.Blazor.Components.Material.Components.Editors.Wysiwyg;
@@ -14,6 +17,8 @@ public partial class WysiwygEditor : IAsyncDisposable
     private ElementReference _surfaceRef;
     private IJSObjectReference? _jsModule;
     private DotNetObjectReference<WysiwygEditor>? _dotNetRef;
+    private readonly OutsideClickListener _outsideClick = new();
+    private IHtmlSanitizer _sanitizer = WysiwygHtmlSanitizer.Default;
     private string? _openPopover;
     private string _linkUrl = string.Empty;
     private string _linkText = string.Empty;
@@ -23,6 +28,8 @@ public partial class WysiwygEditor : IAsyncDisposable
     private int _tableHoverCols;
 
     [Inject] private IJSRuntime? JsRuntime { get; set; }
+
+    [Inject] private IServiceProvider ServiceProvider { get; set; } = default!;
 
     #region Content parameters
 
@@ -75,26 +82,42 @@ public partial class WysiwygEditor : IAsyncDisposable
 
     #endregion
 
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        // An app can register its own IHtmlSanitizer to change what content is allowed.
+        _sanitizer = ServiceProvider.GetService<IHtmlSanitizer>() ?? WysiwygHtmlSanitizer.Default;
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
 
-        if (!firstRender || JsRuntime is null)
+        if (JsRuntime is null)
         {
             return;
         }
 
-        _jsModule = await JsRuntime.InvokeAsync<IJSObjectReference>("import", JsModulePath);
-        _dotNetRef = DotNetObjectReference.Create(this);
-        await _jsModule.InvokeVoidAsync("initialize", _surfaceRef, _dotNetRef);
-
-        if (!string.IsNullOrEmpty(Content))
+        if (firstRender)
         {
-            await _jsModule.InvokeVoidAsync("setHtml", _surfaceRef, Content);
+            _jsModule = await JsRuntime.InvokeAsync<IJSObjectReference>("import", JsModulePath);
+            _dotNetRef = DotNetObjectReference.Create(this);
+            await _jsModule.InvokeVoidAsync("initialize", _surfaceRef, _dotNetRef);
+
+            if (!string.IsNullOrEmpty(Content))
+            {
+                await _jsModule.InvokeVoidAsync("setHtml", _surfaceRef, Sanitize(Content));
+            }
         }
 
-        await JsRuntime.InvokeVoidAsync(
-            JsInteropConstants.REGISTER_OUT_OF_FOCUS_CALLBACK_LISTENER, Id, _dotNetRef, nameof(HandleOutsideClick));
+        var jsRuntime = JsRuntime;
+
+        // Popovers close on outside clicks, so listen only while one is open.
+        await _outsideClick.SyncAsync(
+            () => _openPopover is not null,
+            () => jsRuntime.InvokeVoidAsync(JsInteropConstants.REGISTER_OUT_OF_FOCUS_CALLBACK_LISTENER, Id, _dotNetRef, nameof(HandleOutsideClick)),
+            () => jsRuntime.InvokeVoidAsync(JsInteropConstants.UN_REGISTER_OUT_OF_FOCUS_CALLBACK_LISTENER, Id));
     }
 
     private bool IsInteractive => !ReadOnly && !Disabled;
@@ -125,10 +148,11 @@ public partial class WysiwygEditor : IAsyncDisposable
 
     #region Public API
 
+    /// <summary>Returns the editor's current HTML, sanitized.</summary>
     public async Task<string> GetContentAsync()
     {
-        if (_jsModule is null) return Content ?? string.Empty;
-        return await _jsModule.InvokeAsync<string>("getHtml", _surfaceRef);
+        if (_jsModule is null) return Sanitize(Content) ?? string.Empty;
+        return Sanitize(await _jsModule.InvokeAsync<string>("getHtml", _surfaceRef)) ?? string.Empty;
     }
 
     public async Task<string> GetTextAsync()
@@ -137,13 +161,16 @@ public partial class WysiwygEditor : IAsyncDisposable
         return await _jsModule.InvokeAsync<string>("getText", _surfaceRef);
     }
 
+    /// <summary>Replaces the editor's content. The HTML is sanitized before it reaches the page.</summary>
     public async Task SetContentAsync(string? html)
     {
+        var safeHtml = Sanitize(html) ?? string.Empty;
+
         if (_jsModule is not null)
         {
-            await _jsModule.InvokeVoidAsync("setHtml", _surfaceRef, html ?? string.Empty);
+            await _jsModule.InvokeVoidAsync("setHtml", _surfaceRef, safeHtml);
         }
-        await UpdateContentAsync(html ?? string.Empty);
+        await RaiseContentChangedAsync(safeHtml);
     }
 
     public Task ClearAsync() => SetContentAsync(string.Empty);
@@ -169,7 +196,12 @@ public partial class WysiwygEditor : IAsyncDisposable
 
     #region Internal helpers
 
-    private async Task UpdateContentAsync(string? html)
+    // Content read back from the page is sanitized too, so the app never receives unsafe HTML to store.
+    private Task UpdateContentAsync(string? html) => RaiseContentChangedAsync(Sanitize(html));
+
+    private string? Sanitize(string? html) => string.IsNullOrEmpty(html) ? html : _sanitizer.Sanitize(html);
+
+    private async Task RaiseContentChangedAsync(string? html)
     {
         if (string.Equals(Content, html, StringComparison.Ordinal))
         {
@@ -194,7 +226,7 @@ public partial class WysiwygEditor : IAsyncDisposable
         if (!IsInteractive) return;
 
         var html = await GetContentAsync();
-        await UpdateContentAsync(html);
+        await RaiseContentChangedAsync(html);
         if (OnSave.HasDelegate)
         {
             await OnSave.InvokeAsync(html);
@@ -304,11 +336,39 @@ public partial class WysiwygEditor : IAsyncDisposable
     private async Task InsertLinkAsync()
     {
         _openPopover = null;
-        if (_jsModule is null || !IsInteractive || string.IsNullOrWhiteSpace(_linkUrl)) return;
+        if (_jsModule is null || !IsInteractive || string.IsNullOrWhiteSpace(_linkUrl) || !IsSafeLinkUrl(_linkUrl)) return;
         var html = await _jsModule.InvokeAsync<string>("insertLink", _surfaceRef, _linkUrl, _linkText);
         await UpdateContentAsync(html);
         _linkUrl = string.Empty;
         _linkText = string.Empty;
+    }
+
+    private static readonly string[] AllowedLinkSchemes = ["http", "https", "mailto", "tel"];
+
+    /// <summary>
+    ///     Allows http(s), mailto and tel links plus scheme-less (relative) URLs, and refuses script schemes
+    ///     such as <c>javascript:</c>. Browsers ignore whitespace and control characters inside a scheme
+    ///     ("java\tscript:"), so those are removed before the scheme is read.
+    /// </summary>
+    private static bool IsSafeLinkUrl(string url)
+    {
+        var compact = string.Concat(url.Where(c => c > ' '));
+        var colon = compact.IndexOf(':');
+
+        if (colon < 0)
+        {
+            return true;
+        }
+
+        // A colon after a path, query or fragment starts ("/a:b", "#x:y") is not a scheme.
+        var pathStart = compact.IndexOfAny(['/', '?', '#']);
+
+        if (pathStart >= 0 && pathStart < colon)
+        {
+            return true;
+        }
+
+        return AllowedLinkSchemes.Contains(compact[..colon], StringComparer.OrdinalIgnoreCase);
     }
 
     private void HoverTableCell(int rows, int cols)
@@ -354,7 +414,7 @@ public partial class WysiwygEditor : IAsyncDisposable
     {
         try
         {
-            if (JsRuntime is not null)
+            if (JsRuntime is not null && _outsideClick.IsAttached)
             {
                 await JsRuntime.InvokeVoidAsync(JsInteropConstants.UN_REGISTER_OUT_OF_FOCUS_CALLBACK_LISTENER, Id);
             }

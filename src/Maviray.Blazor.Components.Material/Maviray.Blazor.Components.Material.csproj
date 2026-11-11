@@ -38,10 +38,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Microsoft.AspNetCore.Components" Version="10.0.12" />
-	  <PackageReference Include="Microsoft.AspNetCore.Components.Forms" Version="10.0.12" />
-	  <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.12" />
-	  <PackageReference Include="Microsoft.JSInterop" Version="10.0.12" />
+	  <PackageReference Include="HtmlSanitizer" Version="11.0.26" />
+	  <PackageReference Include="Microsoft.AspNetCore.Components" Version="10.0.15" />
+	  <PackageReference Include="Microsoft.AspNetCore.Components.Forms" Version="10.0.15" />
+	  <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.15" />
+	  <PackageReference Include="Microsoft.JSInterop" Version="10.0.15" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -53,5 +54,9 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Maviray.Blazor.Components.Core\Maviray.Blazor.Components.Core.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <InternalsVisibleTo Include="Maviray.Blazor.Components.Material.Tests" />
 	</ItemGroup>
 </Project>

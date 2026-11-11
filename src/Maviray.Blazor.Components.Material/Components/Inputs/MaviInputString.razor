@@ -6,10 +6,10 @@
 
 <div class="@Width">
     <!-- Floating Label Input Container -->
-    <div class="@GetContainerClass()">
+    <div class="@GetContainerClass()" style="@FieldThemeStyle">
         <!-- Input Field -->
         <input value="@CurrentValue"
-               @oninput="HandleInput"
+               placeholder=" "
                @onchange="HandleChange"
                type="@GetInputType()"
                id="@Id"
@@ -24,9 +24,7 @@
                aria-label="@Label"
                aria-required="@Required.ToString().ToLowerInvariant()"
                data-val="@(!Disabled && !Readonly ? "true" : "false")"
-               @onfocus="OnFocus"
-               @onblur="OnBlur"
-               @attributes="AdditionalAttributes"/>
+               @attributes="InputAttributes"/>
 
         <!-- Floating Label -->
         @if (!string.IsNullOrEmpty(Label))
@@ -149,7 +147,7 @@
         if (Disabled || Readonly)
             return Task.CompletedTask;
 
-        CurrentValue = e.Value?.ToString();
+        SetValueWhileTyping(e.Value?.ToString());
         // Don't trigger validation on every keystroke - just update the UI
 
         return Task.CompletedTask;
@@ -161,11 +159,7 @@
         if (Disabled || Readonly)
             return Task.CompletedTask;
 
-        CurrentValue = e.Value?.ToString();
-
-        // Trigger validation on change (blur)
-        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-        EditContext?.NotifyFieldChanged(FieldIdentifier);
+        CommitValue(e.Value?.ToString());
 
         return Task.CompletedTask;
     }

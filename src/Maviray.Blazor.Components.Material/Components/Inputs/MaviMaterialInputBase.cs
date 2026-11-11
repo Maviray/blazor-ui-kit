@@ -20,11 +20,33 @@ namespace Maviray.Blazor.Components.Material.Components.Inputs;
 ///     Contains all shared C# logic for validation, theming, event handling, and CSS class building.
 /// </summary>
 /// <typeparam name="TValue">The type of the input value</typeparam>
-public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDisposable
+public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IAsyncDisposable
 {
     #region Protected Properties
 
-    protected bool IsLabelFloating => IsFocused || HasValue || Disabled || Readonly;
+    /// <summary>
+    ///     When true the label floats regardless of focus and content. Otherwise CSS floats it while the
+    ///     input is focused or (see <see cref="FloatsLabelOnValue" />) not empty.
+    /// </summary>
+    protected virtual bool ForceLabelFloating => Disabled || Readonly;
+
+    /// <summary>
+    ///     A server-known "active" look (accent label, 2px accent outline), for states CSS focus cannot see,
+    ///     such as an open option list.
+    /// </summary>
+    protected virtual bool ShowActiveState => false;
+
+    /// <summary>
+    ///     Whether CSS floats the label once the input has content. Requires an input or textarea with
+    ///     <c>placeholder=" "</c>, since emptiness is read from <c>:placeholder-shown</c>.
+    /// </summary>
+    protected virtual bool FloatsLabelOnValue => true;
+
+    /// <summary>
+    ///     Inline style for the field container: the theme colors as CSS custom properties, read by the
+    ///     label, icon and outline classes so those classes stay the same for every theme.
+    /// </summary>
+    protected string FieldThemeStyle { get; private set; } = string.Empty;
 
     #endregion
 
@@ -68,6 +90,15 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
             ThemeBorderDarkColor = Tailwind.Theme.Colors.Border.THEME_LIGHT_SEVEN_BORDER;
             ThemeBorderHoverColor = Tailwind.Theme.Colors.Border.Hover.THEME_LIGHT_FIVE_BORDER_HOVER;
         }
+
+        var (borderRest, borderHover, borderFocus) = ThemeColorScheme == ThemeColorScheme.Light
+            ? ("light-three", "light-five", "light-seven")
+            : ($"{colorName}-eight", $"{colorName}-nine", $"{colorName}-nine");
+
+        FieldThemeStyle =
+            $"--mavi-field-text: var(--theme-{colorName}-eight); --mavi-field-text-focus: var(--theme-{colorName}-nine); " +
+            $"--mavi-field-border: var(--theme-{borderRest}); --mavi-field-border-hover: var(--theme-{borderHover}); " +
+            $"--mavi-field-border-focus: var(--theme-{borderFocus});";
     }
 
     #endregion
@@ -145,6 +176,15 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
     [Parameter]
     public bool InferFromModelAttributes { get; set; } = true;
 
+    /// <summary>
+    ///     For text, number, date and textarea inputs: when true, the bound value updates on every keystroke
+    ///     instead of when the user commits it (leaves the field, or presses Enter in a single-line input).
+    ///     Each keystroke is then a server call in Blazor Server. Validation still waits for the commit.
+    ///     Default is false. Selection-driven inputs (dropdowns, multi-selects) ignore it.
+    /// </summary>
+    [Parameter]
+    public bool Immediate { get; set; }
+
     #endregion
 
     #region Lifecycle Methods
@@ -205,14 +245,36 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
         }
     }
 
-    public virtual void Dispose()
+    /// <summary>
+    ///     The single disposal entry point. Blazor calls only <see cref="DisposeAsync" /> when a component
+    ///     implements both disposal interfaces, so this also runs <see cref="InputBase{TValue}" />'s own
+    ///     <see cref="IDisposable.Dispose" />, which detaches its EditContext handler and then calls
+    ///     <see cref="Dispose(bool)" />.
+    ///     Override <see cref="DisposeAsyncCore" /> for JS cleanup and <see cref="Dispose(bool)" /> for the rest.
+    /// </summary>
+    public async ValueTask DisposeAsync()
     {
-        if (EnableLifeCycleLogging)
+        await DisposeAsyncCore();
+
+        ((IDisposable)this).Dispose();
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual ValueTask DisposeAsyncCore() => ValueTask.CompletedTask;
+
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
         {
-            Logger?.LogDebugLifeCycle(Id, GetType());
+            if (EnableLifeCycleLogging)
+            {
+                Logger?.LogDebugLifeCycle(Id, GetType());
+            }
+
+            DetachValidationStateChangedListener();
         }
 
-        DetachValidationStateChangedListener();
+        base.Dispose(disposing);
     }
 
     #endregion
@@ -244,6 +306,83 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
     ///     Handles input event - updates value for UI purposes (label float) without triggering validation
     /// </summary>
     protected abstract Task HandleInput(ChangeEventArgs e);
+
+    /// <summary>
+    ///     Whether keystrokes reach the component (and the bound value) before the value is committed.
+    /// </summary>
+    protected virtual bool BindOnInput => Immediate;
+
+    /// <summary>
+    ///     The attributes splatted onto the input element: <see cref="InputBase{TValue}.AdditionalAttributes" />,
+    ///     plus the <c>oninput</c> handler when <see cref="BindOnInput" />. Leaving the handler out entirely is what
+    ///     stops the browser sending keystrokes; a null delegate would still be wired up.
+    /// </summary>
+    protected IReadOnlyDictionary<string, object>? InputAttributes
+    {
+        get
+        {
+            if (!BindOnInput)
+            {
+                return AdditionalAttributes;
+            }
+
+            var attributes = AdditionalAttributes is null
+                ? new Dictionary<string, object>()
+                : new Dictionary<string, object>(AdditionalAttributes);
+
+            // An app-supplied oninput wins, as it did when the handler was declared before the splat.
+            attributes.TryAdd("oninput", EventCallback.Factory.Create<ChangeEventArgs>(this, HandleInput));
+
+            return attributes;
+        }
+    }
+
+    /// <summary>
+    ///     Commits a value from the change event and validates the field exactly once. Setting
+    ///     <c>CurrentValue</c> notifies the EditContext only when the value changes, so this notifies
+    ///     itself when typing (<see cref="Immediate" />) already applied the value.
+    /// </summary>
+    protected void CommitValue(TValue? value)
+    {
+        if (EqualityComparer<TValue>.Default.Equals(value, Value))
+        {
+            EditContext?.NotifyFieldChanged(FieldIdentifier);
+            return;
+        }
+
+        CurrentValue = value;
+    }
+
+    /// <summary>
+    ///     <see cref="CommitValue" /> for text that still needs parsing, so InputBase records parse errors.
+    /// </summary>
+    protected void CommitValueAsString(string? text)
+    {
+        var before = Value;
+        CurrentValueAsString = text;
+
+        // InputBase already notified, unless the text parsed to the value that was bound before.
+        if (EqualityComparer<TValue>.Default.Equals(before, Value) && TryParseValueFromString(text, out _, out _))
+        {
+            EditContext?.NotifyFieldChanged(FieldIdentifier);
+        }
+    }
+
+    /// <summary>
+    ///     Updates the bound value while the user is typing. Setting <c>CurrentValue</c> would also
+    ///     notify the EditContext and validate on every keystroke; validation instead waits for
+    ///     <see cref="HandleChange" />.
+    /// </summary>
+    protected void SetValueWhileTyping(TValue? value)
+    {
+        if (EqualityComparer<TValue>.Default.Equals(value, Value))
+        {
+            return;
+        }
+
+        Value = value;
+        _ = ValueChanged.InvokeAsync(value);
+    }
 
     /// <summary>
     ///     Handles change event - triggers validation when user is done editing
@@ -467,6 +606,33 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
 
     #region CSS Class Builders (Shared Across All Components)
 
+    // Tailwind only generates classes it finds written out in full, so the CSS-driven states below are
+    // literal strings. "peer" is the input; the label, icons and outline that follow it read its state.
+
+    private const string LABEL_FLOATED = "top-[4px] left-[11px] px-1 text-xs";
+    private const string LABEL_FLOATED_OUTLINED = "top-[5px] left-[11px] px-1 text-xs";
+    private const string LABEL_FLOAT_ON_FOCUS = "peer-focus:top-[4px] peer-focus:left-[11px] peer-focus:px-1 peer-focus:text-xs";
+
+    private const string LABEL_FLOAT_ON_VALUE =
+        "peer-not-placeholder-shown:top-[4px] peer-not-placeholder-shown:left-[11px] peer-not-placeholder-shown:px-1 peer-not-placeholder-shown:text-xs";
+
+    private const string LEGEND_OPEN_ON_FOCUS = "[.peer:focus~fieldset_&]:max-w-full";
+    private const string LEGEND_OPEN_ON_VALUE = "[.peer:not(:placeholder-shown)~fieldset_&]:max-w-full";
+
+    private const string FIELD_TEXT = "text-(--mavi-field-text) peer-focus:text-(--mavi-field-text-focus)";
+    private const string FIELD_TEXT_ACTIVE = "text-(--mavi-field-text-focus)";
+
+    private const string FIELD_BORDER =
+        "border-(--mavi-field-border) hover:border-(--mavi-field-border-hover) peer-focus:border-2 peer-focus:border-(--mavi-field-border-focus)";
+
+    private const string FIELD_BORDER_ACTIVE = "!border-2 border-(--mavi-field-border-focus)";
+
+    // Read-only fields can take keyboard focus, so they keep showing it: accent color, 2px accent outline, no gray fill.
+    private const string READONLY_TEXT = "text-black/[0.38] peer-focus:text-(--mavi-field-text-focus)";
+
+    private const string READONLY_BORDER =
+        "border-black/[0.23] bg-black/[0.04] peer-focus:border-2 peer-focus:border-(--mavi-field-border-focus) peer-focus:bg-transparent";
+
     protected virtual string GetContainerClass()
     {
         var heightClass = ElementSize switch
@@ -481,32 +647,15 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
 
     protected virtual string BuildInputClass()
     {
-        var classes = new List<string>
-        {
-            "block w-full h-full bg-transparent border-0 outline-none rounded transition-all duration-200"
-        };
+        // "peer" lets the label, icons and outline that follow react to this element's focus and content.
+        const string baseClass = "peer block w-full h-full bg-transparent border-0 outline-none rounded transition-all duration-200";
 
-        // Text color
-        if (Disabled)
-        {
-            classes.Add("cursor-not-allowed text-black/[0.38]");
-        }
-        else if (Readonly)
-        {
-            classes.Add("cursor-default text-black/[0.87]");
-        }
-        else
-        {
-            classes.Add("text-black/[0.87]");
-        }
+        var textColor = Disabled
+            ? "cursor-not-allowed text-black/[0.38]"
+            : Readonly
+                ? "cursor-default text-black/[0.87]"
+                : "text-black/[0.87]";
 
-        // Placeholder - should be transparent since we use floating label
-        classes.Add("placeholder:text-transparent");
-
-        // Focus
-        classes.Add("focus:outline-none focus:ring-0");
-
-        // Padding and font size for each size
         var (padding, fontSize, lineHeight) = ElementSize switch
         {
             ElementSize.Small => GetSizePadding("px-3 pt-4 pb-2", "pl-[36px] pr-3 pt-[12px] pb-2", "pr-[36px]", "pl-[36px] pr-[36px] pt-4 pb-2", "text-sm", "leading-normal"),
@@ -514,11 +663,8 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
             _ => GetSizePadding("px-3.5 pt-4.5 pb-2.5", "pl-[36px] pr-3.5 pt-[12px] pb-2.5", "pr-[40px]", "pl-[36px] pr-[40px] pt-4.5 pb-2.5", "text-base", "leading-normal")
         };
 
-        classes.Add(padding);
-        classes.Add(fontSize);
-        classes.Add(lineHeight);
-
-        return string.Join(" ", classes);
+        // The placeholder stays transparent: the floating label takes its place.
+        return $"{baseClass} {textColor} placeholder:text-transparent focus:outline-none focus:ring-0 {padding} {fontSize} {lineHeight}";
     }
 
     protected (string padding, string fontSize, string lineHeight) GetSizePadding(
@@ -545,29 +691,18 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
 
     protected virtual string BuildLabelClass()
     {
-        var classes = new List<string>
-        {
-            "absolute transition-all duration-200 pointer-events-none leading-none"
-        };
+        const string baseClass = "absolute transition-all duration-200 pointer-events-none leading-none -translate-y-1/2";
 
-        // Position based on floating state
-        if (IsLabelFloating)
-        {
-            if (Disabled || Readonly)
-            {
-                classes.Add("top-[5px]");
-            }
-            else
-            {
-                classes.Add("top-[4px]");
-            }
+        string position;
 
-            // Floating: positioned on top of the border, centered on the border
-            classes.Add("-translate-y-1/2 left-[11px] px-1 text-xs");
+        if (ForceLabelFloating)
+        {
+            // Disabled and readonly labels carry their own outline, which sits one pixel lower.
+            position = Disabled || Readonly ? LABEL_FLOATED_OUTLINED : LABEL_FLOATED;
         }
         else
         {
-            // Not floating: perfectly centered vertically and horizontally inside the field
+            // At rest the label sits inside the field like a placeholder; CSS floats it on focus or content.
             var (left, fontSize) = ElementSize switch
             {
                 ElementSize.Small => (!string.IsNullOrEmpty(StartIcon) ? "left-[37px]" : "left-3", "text-sm"),
@@ -575,49 +710,30 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
                 _ => (!string.IsNullOrEmpty(StartIcon) ? "left-[37px]" : "left-3.5", "text-base")
             };
 
-            // Perfect vertical center
-            classes.Add($"{GetLabelAsPlaceholderTopOffset()} -translate-y-1/2 {left} {fontSize}");
+            position = FloatsLabelOnValue
+                ? $"{GetLabelAsPlaceholderTopOffset()} {left} {fontSize} {LABEL_FLOAT_ON_FOCUS} {LABEL_FLOAT_ON_VALUE}"
+                : $"{GetLabelAsPlaceholderTopOffset()} {left} {fontSize} {LABEL_FLOAT_ON_FOCUS}";
         }
 
-        // Add border for disabled state when floating
-        if (Disabled)
-        {
-            classes.Add("border-black/[0.12]");
-        }
+        var outline = Disabled
+            ? "border-black/[0.12] bg-white border border-solid rounded pb-[2px] z-10"
+            : Readonly
+                ? "border-black/[0.24] bg-white border border-solid rounded pb-[2px] z-10"
+                : null;
 
-        if (Readonly)
-        {
-            classes.Add("border-black/[0.24]");
-        }
+        var color = HasError
+            ? TextAlertColor
+            : ShowActiveState
+                ? FIELD_TEXT_ACTIVE
+                : Disabled
+                    ? "text-black/[0.23]"
+                    : Readonly
+                        ? READONLY_TEXT
+                        : FIELD_TEXT;
 
-        if (Disabled || Readonly)
-        {
-            classes.Add("bg-white border border-solid rounded pb-[2px] z-10");
-        }
-
-        // Color based on state (matching border state)
-        if (HasError)
-        {
-            classes.Add(TextAlertColor);
-        }
-        else if (IsFocused)
-        {
-            classes.Add(ThemeTextDarkColor);
-        }
-        else if (Disabled)
-        {
-            classes.Add("text-black/[0.23]");
-        }
-        else if (Readonly)
-        {
-            classes.Add("text-black/[0.38]");
-        }
-        else
-        {
-            classes.Add(ThemeTextLightColor);
-        }
-
-        return string.Join(" ", classes);
+        return outline is null
+            ? $"{baseClass} {position} {color}"
+            : $"{baseClass} {position} {outline} {color}";
     }
 
     protected virtual string GetLabelAsPlaceholderTopOffset()
@@ -634,131 +750,57 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
 
     protected virtual string BuildFieldsetClass()
     {
-        var classes = new List<string>
-        {
-            "absolute inset-0 pointer-events-none rounded border border-solid m-0 p-0 transition-all duration-200"
-        };
+        const string baseClass = "absolute inset-0 pointer-events-none rounded border border-solid m-0 p-0 transition-all duration-200";
 
-        // Border width - thicker when focused or error
-        if (IsFocused || HasError)
-        {
-            classes.Add("!border-2");
-        }
+        var state = HasError
+            ? $"!border-2 {BorderAlertColor}"
+            : ShowActiveState
+                ? FIELD_BORDER_ACTIVE
+                : Disabled
+                    ? "border-black/[0.12] bg-black/[0.04]"
+                    : Readonly
+                        ? READONLY_BORDER
+                        : FIELD_BORDER;
 
-        // Border color based on state
-        if (HasError)
-        {
-            // Error state - always red
-            classes.Add(BorderAlertColor);
-        }
-        else if (IsFocused)
-        {
-            // Focused/Active state - darker primary
-            classes.Add(ThemeBorderDarkColor);
-        }
-        else if (Disabled)
-        {
-            // Disabled state
-            classes.Add("border-black/[0.12]");
-            classes.Add("bg-black/[0.04]");
-        }
-        else if (Readonly)
-        {
-            // Readonly state
-            classes.Add("border-black/[0.23]");
-            classes.Add("bg-black/[0.04]");
-        }
-        else
-        {
-            // Default state with hover
-            classes.Add(ThemeBorderLightColor);
-            classes.Add(ThemeBorderHoverColor);
-        }
-
-        return string.Join(" ", classes);
+        return $"{baseClass} {state}";
     }
 
     protected virtual string BuildLegendClass()
     {
-        var classes = new List<string>
-        {
-            "px-0 text-xs transition-all duration-200 invisible whitespace-nowrap leading-none",
-            // Show legend when label is floating to create cutout in border
-            Disabled || Readonly ? "ml-2.5" : "ml-1.5",
-            IsLabelFloating ? "max-w-full" : "max-w-0"
-        };
+        // The invisible legend widens to cut the outline where the floating label sits.
+        const string baseClass = "px-0 text-xs transition-all duration-200 invisible whitespace-nowrap leading-none";
 
-        return string.Join(" ", classes);
+        var margin = Disabled || Readonly ? "ml-2.5" : "ml-1.5";
+
+        var width = ForceLabelFloating
+            ? "max-w-full"
+            : FloatsLabelOnValue
+                ? $"max-w-0 {LEGEND_OPEN_ON_FOCUS} {LEGEND_OPEN_ON_VALUE}"
+                : $"max-w-0 {LEGEND_OPEN_ON_FOCUS}";
+
+        return $"{baseClass} {margin} {width}";
     }
 
     protected virtual string BuildRequiredAsteriskClass() => $"ml-0.5 {TextAlertColor}";
 
     protected virtual string GetStartIconClass()
     {
-        var classes = new List<string>
-        {
-            $"absolute flex {GetIconTopOffset()} -translate-y-1/2 left-3 pointer-events-none transition-colors duration-200 z-10"
-        };
+        // HasError is never set for disabled or readonly fields.
+        var color = Disabled
+            ? "text-black/[0.23]"
+            : Readonly
+                ? READONLY_TEXT
+                : GetAccentTextColor();
 
-        // Icon color based on state
-        if (HasError)
-        {
-            classes.Add(TextAlertColor);
-        }
-        else if (IsFocused)
-        {
-            classes.Add(ThemeTextDarkColor);
-        }
-        else if (Disabled)
-        {
-            classes.Add("text-black/[0.23]");
-        }
-        else if (Readonly)
-        {
-            classes.Add("text-black/[0.38]");
-        }
-        else
-        {
-            classes.Add(ThemeTextLightColor);
-        }
-
-        return string.Join(" ", classes);
+        return $"absolute flex {GetIconTopOffset()} -translate-y-1/2 left-3 pointer-events-none transition-colors duration-200 z-10 {color}";
     }
 
     protected virtual string GetEndIconClass()
     {
-        var classes = new List<string>
-        {
-            $"absolute {GetIconTopOffset()} -translate-y-1/2 right-[8px] transition-colors duration-200 z-10",
-            "flex items-center justify-center rounded-full",
-            "focus:outline-none"
-        };
+        var state = Disabled || EndIconDisabled
+            ? "cursor-not-allowed text-black/[0.38]"
+            : $"cursor-pointer hover:bg-black/[0.04] active:bg-black/[0.1] {GetAccentTextColor()}";
 
-        // Button states
-        if (Disabled || EndIconDisabled)
-        {
-            classes.Add("cursor-not-allowed text-black/[0.38]");
-        }
-        else
-        {
-            classes.Add("cursor-pointer hover:bg-black/[0.04] active:bg-black/[0.1]");
-
-            // Icon color based on state
-            if (HasError)
-            {
-                classes.Add(TextAlertColor);
-            }
-            else if (IsFocused)
-            {
-                classes.Add(ThemeTextDarkColor);
-            }
-            else
-            {
-                classes.Add(ThemeTextLightColor);
-            }
-        }
-
-        // Size based on element size
         var buttonSize = ElementSize switch
         {
             ElementSize.Small => "w-6 h-6",
@@ -766,35 +808,22 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IDi
             _ => "w-7 h-7"
         };
 
-        classes.Add(buttonSize);
-
-        return string.Join(" ", classes);
+        return $"absolute {GetIconTopOffset()} -translate-y-1/2 right-[8px] transition-colors duration-200 z-10 flex items-center justify-center rounded-full focus:outline-none {state} {buttonSize}";
     }
 
-    protected virtual string GetEndIconLoadingClass()
-    {
-        var classes = new List<string>
-        {
-            $"absolute {GetIconTopOffset()} -translate-y-1/2 right-[8px] z-10",
-            "flex items-center justify-center"
-        };
+    protected virtual string GetEndIconLoadingClass() =>
+        $"absolute {GetIconTopOffset()} -translate-y-1/2 right-[8px] z-10 flex items-center justify-center {GetAccentTextColor()}";
 
-        // Loading spinner color based on state
-        if (HasError)
-        {
-            classes.Add(TextAlertColor);
-        }
-        else if (IsFocused)
-        {
-            classes.Add(ThemeTextDarkColor);
-        }
-        else
-        {
-            classes.Add(ThemeTextLightColor);
-        }
-
-        return string.Join(" ", classes);
-    }
+    /// <summary>
+    ///     Text color for the field's label-colored parts: red with an error, the accent while active
+    ///     (from CSS focus, or from the server for open lists), otherwise the resting theme color.
+    /// </summary>
+    protected string GetAccentTextColor() =>
+        HasError
+            ? TextAlertColor
+            : ShowActiveState
+                ? FIELD_TEXT_ACTIVE
+                : FIELD_TEXT;
 
     protected virtual string GetLoadingSpinnerSize()
     {

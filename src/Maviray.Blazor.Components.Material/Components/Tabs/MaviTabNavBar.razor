@@ -31,12 +31,19 @@
     [Parameter]
     public EventCallback<TabClickEventArgs> OnTabClick { get; set; }
 
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        // Subscribe once: OnParametersSet runs on every parent re-render.
+        Context.OnTabClicked += HandleTabClicked;
+    }
+
     protected override void OnParametersSet()
     {
         Context.NavBarId = Id;
         Context.ElementSize = ElementSize;
         Context.ThemeColorScheme = ThemeColorScheme;
-        Context.OnTabClicked += HandleTabClicked;
 
         if (string.IsNullOrWhiteSpace(Context.SelectedTabId))
         {

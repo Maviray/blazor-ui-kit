@@ -102,9 +102,9 @@
             @foreach (var (row, rowIndex) in Collection.GetCurrentPageRows().Select((r, i) => (r, i)))
             {
                 <tr @key="row.Guid" class="@GetRowCss(row) border-b @Tailwind.Theme.Colors.Border.THEME_DEFAULT_TWO_BORDER @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_ONE_BG_HOVER transition-colors">
-                    @foreach (var column in Collection.Columns.Where(c => c.Visible).OrderBy(c => c.Sequence))
+                    @foreach (var column in VisibleColumns)
                     {
-                        var cell = row.Cells.FirstOrDefault(c => c.ColumnKey == column.Key);
+                        var cell = row.GetCell(column.Key);
 
                         <td class="px-6 py-4">
                             <div class="@GetCellTextCss(column) @Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT cursor-pointer truncate"
@@ -145,16 +145,19 @@
                                                         Title="@Parameters?.ContentMenuTitle"/>
 
                                         <!-- Row Context Menu Dropdown -->
-                                        <div class="@GetRowContextMenuCss(row, rowIndex)">
-                                            @foreach (var rowContextMenuButton in row.ContextActions)
-                                            {
-                                                <button class="@Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER block w-full px-4 py-2.5 text-left rounded-md transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-                                                        disabled="@rowContextMenuButton?.Disabled"
-                                                        @onclick="async e => { await RowContextMenuItemClick(e, row, rowContextMenuButton); }">
-                                                    @rowContextMenuButton?.Title
-                                                </button>
-                                            }
-                                        </div>
+                                        @if (row.ContextMenuVisible)
+                                        {
+                                            <div class="@GetRowContextMenuCss(row, rowIndex)">
+                                                @foreach (var rowContextMenuButton in row.ContextActions)
+                                                {
+                                                    <button class="@Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER block w-full px-4 py-2.5 text-left rounded-md transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                                                            disabled="@rowContextMenuButton?.Disabled"
+                                                            @onclick="async e => { await RowContextMenuItemClick(e, row, rowContextMenuButton); }">
+                                                        @rowContextMenuButton?.Title
+                                                    </button>
+                                                }
+                                            </div>
+                                        }
                                     </div>
                                 }
                             </div>

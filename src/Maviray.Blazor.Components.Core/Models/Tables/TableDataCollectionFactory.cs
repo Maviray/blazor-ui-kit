@@ -1,13 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Concurrent;
+using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Text;
 using Maviray.Blazor.Components.Core.Attributes;
-using Maviray.Blazor.Components.Core.Extensions;
 
 namespace Maviray.Blazor.Components.Core.Models.Tables;
 
 public class TableDataCollectionFactory
 {
+    private static readonly ConcurrentDictionary<Enum, string> EnumDisplayNames = new();
+
     public static TableDataCollection FromDataSource<T>(IEnumerable<T> items) where T : ITableDataItem
     {
         var type = typeof(T);
@@ -18,7 +20,8 @@ public class TableDataCollectionFactory
             {
                 Property = property,
                 Display = property.GetCustomAttribute<DisplayAttribute>()?.GetName() ?? property.Name,
-                Attribute = property.GetCustomAttribute<TableColumnAttribute>()!
+                Attribute = property.GetCustomAttribute<TableColumnAttribute>()!,
+                ColumnType = MaviTableColumn.InferColumnType(property.PropertyType)
             })
             .OrderBy(p => p.Attribute.Sequence)
             .ToList();
@@ -52,7 +55,7 @@ public class TableDataCollectionFactory
                 {
                     ColumnKey = prop.Property.Name,
                     Value = valueStr,
-                    ColumnType = MaviTableColumn.InferColumnType(prop.Property.PropertyType),
+                    ColumnType = prop.ColumnType,
                     OriginalValue = raw
                 });
             }
@@ -92,23 +95,23 @@ public class TableDataCollectionFactory
             return ((DateTime)raw).ToString(attr.DatTimeFormat);
         }
 
-        if (!type.IsEnum)
+        // A boxed nullable enum is the enum itself, so this covers both.
+        if (raw is Enum enumValue)
         {
-            return raw.ToString() ?? string.Empty;
+            return GetEnumDisplayName(enumValue);
         }
 
-        var method = typeof(EnumExtensions)
-            .GetMethod("GetDisplay", BindingFlags.Public | BindingFlags.Static)?
-            .MakeGenericMethod(type);
-
-        if (method == null)
-        {
-            return raw.ToString() ?? string.Empty;
-        }
-
-        var result = method.Invoke(null, [raw]);
-        return result?.ToString() ?? string.Empty;
+        return raw.ToString() ?? string.Empty;
     }
+
+    private static string GetEnumDisplayName(Enum value) =>
+        EnumDisplayNames.GetOrAdd(value, static v =>
+        {
+            var name = v.ToString();
+            var member = v.GetType().GetField(name, BindingFlags.Public | BindingFlags.Static);
+
+            return member?.GetCustomAttribute<DisplayAttribute>()?.GetName() ?? name;
+        });
 
     public static string ExportToCsv(TableDataCollection grid)
     {
@@ -132,7 +135,7 @@ public class TableDataCollectionFactory
             foreach (var col in columns)
             {
                 // Find cell for this column
-                var cell = row.Cells.FirstOrDefault(c => c.ColumnKey == col.Key);
+                var cell = row.GetCell(col.Key);
                 var val = cell?.Value ?? string.Empty;
                 line.Add(CsvEscape(val));
             }

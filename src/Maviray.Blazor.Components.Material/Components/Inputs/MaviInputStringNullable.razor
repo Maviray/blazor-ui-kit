@@ -6,10 +6,10 @@
 
 <div class="@Width">
     <!-- Floating Label Input Container -->
-    <div class="@GetContainerClass()">
+    <div class="@GetContainerClass()" style="@FieldThemeStyle">
         <!-- Input Field -->
         <input value="@CurrentValue"
-               @oninput="HandleInput"
+               placeholder=" "
                @onchange="HandleChange"
                type="@GetInputType()"
                id="@Id"
@@ -24,9 +24,7 @@
                aria-label="@Label"
                aria-required="@Required.ToString().ToLowerInvariant()"
                data-val="@(!Disabled && !Readonly ? "true" : "false")"
-               @onfocus="OnFocus"
-               @onblur="OnBlur"
-               @attributes="AdditionalAttributes"/>
+               @attributes="InputAttributes"/>
 
         <!-- Floating Label -->
         @if (!string.IsNullOrEmpty(Label))
@@ -148,7 +146,7 @@
             return Task.CompletedTask;
 
         var inputValue = e.Value?.ToString();
-        CurrentValue = string.IsNullOrWhiteSpace(inputValue) ? null : inputValue;
+        SetValueWhileTyping(string.IsNullOrWhiteSpace(inputValue) ? null : inputValue);
         // Don't trigger validation on every keystroke - just update the UI
 
         return Task.CompletedTask;
@@ -161,11 +159,7 @@
             return Task.CompletedTask;
 
         var inputValue = e.Value?.ToString();
-        CurrentValue = string.IsNullOrWhiteSpace(inputValue) ? null : inputValue;
-
-        // Trigger validation on change (blur)
-        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract - outside of Form context EditContext can be null
-        EditContext?.NotifyFieldChanged(FieldIdentifier);
+        CommitValue(string.IsNullOrWhiteSpace(inputValue) ? null : inputValue);
 
         return Task.CompletedTask;
     }

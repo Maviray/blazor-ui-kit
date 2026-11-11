@@ -8,7 +8,7 @@ public abstract class MaviNumericInputBase<TValue> : MaviMaterialInputBase<TValu
     protected string? RawInputValue;
 
     /// <summary>
-    ///     Culture info used for parsing and formatting numeric values. Defaults to current UI culture.
+    ///     Culture info used for parsing and formatting numeric values. Defaults to the current (formatting) culture.
     /// </summary>
     [Parameter]
     public CultureInfo? FormatCulture { get; set; }
@@ -26,7 +26,13 @@ public abstract class MaviNumericInputBase<TValue> : MaviMaterialInputBase<TValu
     [Parameter]
     public bool ShowFormattedWhileFocused { get; set; }
 
-    protected CultureInfo CurrentCulture => FormatCulture ?? CultureInfo.CurrentUICulture;
+    protected CultureInfo CurrentCulture => FormatCulture ?? CultureInfo.CurrentCulture;
+
+    /// <summary>
+    ///     Culture for the value inside the input element. A native <c>type="number"</c> input only
+    ///     accepts and sends invariant numbers ("-1.5"), whatever the page culture.
+    /// </summary>
+    protected CultureInfo InputValueCulture => GetInputType() == "number" ? CultureInfo.InvariantCulture : CurrentCulture;
 
     protected override void OnBlur()
     {

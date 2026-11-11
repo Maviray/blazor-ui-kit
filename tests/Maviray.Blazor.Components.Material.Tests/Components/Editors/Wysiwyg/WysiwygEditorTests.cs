@@ -198,6 +198,42 @@ public class WysiwygEditorTests : ComponentTestBase
         inv.Arguments[2].Should().Be("Example");
     }
 
+    [Theory]
+    [InlineData("javascript:alert(1)")]
+    [InlineData("JavaScript:alert(1)")]
+    [InlineData(" javascript:alert(1)")]
+    [InlineData("java\tscript:alert(1)")]
+    [InlineData("vbscript:msgbox(1)")]
+    [InlineData("data:text/html,<script>alert(1)</script>")]
+    public async Task LinkDialog_RefusesScriptUrls(string url)
+    {
+        JSInterop.Setup<string>("insertLink", _ => true).SetResult("");
+        var cut = Render<WysiwygEditor>();
+
+        await cut.Find("[data-mavi-popover-toggle='link']").ClickAsync(new());
+        cut.Find("[data-mavi-link-url]").Input(url);
+        await cut.Find("[data-mavi-link-insert]").ClickAsync(new());
+
+        JSInterop.Invocations.Identifiers.Should().NotContain("insertLink");
+    }
+
+    [Theory]
+    [InlineData("https://example.com")]
+    [InlineData("mailto:someone@example.com")]
+    [InlineData("/docs/page")]
+    [InlineData("#section")]
+    public async Task LinkDialog_InsertsSafeUrls(string url)
+    {
+        JSInterop.Setup<string>("insertLink", _ => true).SetResult("");
+        var cut = Render<WysiwygEditor>();
+
+        await cut.Find("[data-mavi-popover-toggle='link']").ClickAsync(new());
+        cut.Find("[data-mavi-link-url]").Input(url);
+        await cut.Find("[data-mavi-link-insert]").ClickAsync(new());
+
+        JSInterop.Invocations["insertLink"].Last().Arguments[1].Should().Be(url);
+    }
+
     [Fact]
     public async Task PickingImage_Embeds_Base64_Via_insertImage()
     {

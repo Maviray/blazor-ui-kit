@@ -7,10 +7,10 @@
 
 <div class="@Width">
     <!-- Floating Label Input Container -->
-    <div class="@GetContainerClass()">
+    <div class="@GetContainerClass()" style="@FieldThemeStyle">
         <!-- Input Field -->
         <input value="@GetDisplayValue()"
-               @oninput="HandleInput"
+               placeholder=" "
                @onchange="HandleChange"
                @onfocus="OnFocus"
                @onblur="OnBlur"
@@ -30,7 +30,7 @@
                aria-label="@Label"
                aria-required="@Required.ToString().ToLowerInvariant()"
                data-val="@(!Disabled && !Readonly ? "true" : "false")"
-               @attributes="AdditionalAttributes"/>
+               @attributes="InputAttributes"/>
 
         <!-- Floating Label -->
         @if (!string.IsNullOrEmpty(Label))
@@ -145,7 +145,7 @@
         // Remove formatting characters for parsing
         var cleanValue = CleanValueForParsing(value);
 
-        if (short.TryParse(cleanValue, NumberStyles.Integer, CurrentCulture, out var parsedValue))
+        if (short.TryParse(cleanValue, NumberStyles.Integer, InputValueCulture, out var parsedValue))
         {
             // Validate min/max constraints
             if (Min.HasValue && parsedValue < Min.Value)
@@ -176,7 +176,7 @@
     {
         if (string.IsNullOrWhiteSpace(FormatMask))
         {
-            return value.ToString(CurrentCulture);
+            return value.ToString(InputValueCulture);
         }
 
         try
@@ -186,7 +186,7 @@
         catch (FormatException ex)
         {
             Logger?.LogWarning(ex, "Invalid format mask '{FormatMask}' for short integer value. Falling back to default format.", FormatMask);
-            return value.ToString(CurrentCulture);
+            return value.ToString(InputValueCulture);
         }
     }
 
@@ -195,7 +195,7 @@
         // When focused and not showing formatted value, show raw input or plain number
         if (IsFocused && !ShowFormattedWhileFocused)
         {
-            return RawInputValue ?? CurrentValue.ToString(CurrentCulture);
+            return RawInputValue ?? CurrentValue.ToString(InputValueCulture);
         }
 
         // When not focused or ShowFormattedWhileFocused is true, show formatted value
@@ -218,7 +218,7 @@
         // Try to parse and update the value
         if (TryParseValueFromString(RawInputValue, out var parsedValue, out _))
         {
-            CurrentValue = parsedValue;
+            SetValueWhileTyping(parsedValue);
         }
 
         // Don't trigger validation on every keystroke - just update the UI
@@ -232,10 +232,7 @@
             return Task.CompletedTask;
 
         RawInputValue = e.Value?.ToString();
-        CurrentValueAsString = RawInputValue;
-
-        // Trigger validation on change (blur)
-        EditContext?.NotifyFieldChanged(FieldIdentifier);
+        CommitValueAsString(RawInputValue);
 
         return Task.CompletedTask;
     }
@@ -291,14 +288,14 @@
         var cleaned = value.Trim();
 
         // Remove common formatting characters
-        cleaned = cleaned.Replace(CurrentCulture.NumberFormat.CurrencySymbol, "");
-        cleaned = cleaned.Replace(CurrentCulture.NumberFormat.PercentSymbol, "");
-        cleaned = cleaned.Replace(CurrentCulture.NumberFormat.NumberGroupSeparator, "");
-        cleaned = cleaned.Replace(CurrentCulture.NumberFormat.CurrencyGroupSeparator, "");
+        cleaned = cleaned.Replace(InputValueCulture.NumberFormat.CurrencySymbol, "");
+        cleaned = cleaned.Replace(InputValueCulture.NumberFormat.PercentSymbol, "");
+        cleaned = cleaned.Replace(InputValueCulture.NumberFormat.NumberGroupSeparator, "");
+        cleaned = cleaned.Replace(InputValueCulture.NumberFormat.CurrencyGroupSeparator, "");
 
         // Handle cultures that use space as group separator
-        if (CurrentCulture.NumberFormat.NumberGroupSeparator == " " ||
-            CurrentCulture.NumberFormat.CurrencyGroupSeparator == " ")
+        if (InputValueCulture.NumberFormat.NumberGroupSeparator == " " ||
+            InputValueCulture.NumberFormat.CurrencyGroupSeparator == " ")
         {
             cleaned = cleaned.Replace(" ", "");
         }
