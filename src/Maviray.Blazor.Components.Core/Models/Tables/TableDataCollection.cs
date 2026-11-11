@@ -103,7 +103,7 @@ public class TableDataCollection
         {
             result = result.Where(row =>
             {
-                var cell = row.Cells.FirstOrDefault(c => c.ColumnKey == columnKey);
+                var cell = row.GetCell(columnKey);
                 return cell != null &&
                        !string.IsNullOrWhiteSpace(cell.Value) &&
                        cell.Value.Contains(text, StringComparison.OrdinalIgnoreCase);
@@ -115,12 +115,13 @@ public class TableDataCollection
             return result.ToList();
         }
 
-        // Sorting
-        var comparer = new MaviTableSorter(SortColumnKey);
+        // Sorting: the key selector finds each row's cell once, instead of twice per comparison.
+        var sortColumnKey = SortColumnKey;
+        IComparer<MaviTableCell?> comparer = new MaviTableSorter(sortColumnKey);
 
         result = SortOrder == SortOrder.Ascending
-            ? result.OrderBy(r => r, comparer)
-            : result.OrderByDescending(r => r, comparer);
+            ? result.OrderBy(r => r.GetCell(sortColumnKey), comparer)
+            : result.OrderByDescending(r => r.GetCell(sortColumnKey), comparer);
 
         return result.ToList();
     }

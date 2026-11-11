@@ -20,7 +20,8 @@ public class TableDataCollectionFactory
             {
                 Property = property,
                 Display = property.GetCustomAttribute<DisplayAttribute>()?.GetName() ?? property.Name,
-                Attribute = property.GetCustomAttribute<TableColumnAttribute>()!
+                Attribute = property.GetCustomAttribute<TableColumnAttribute>()!,
+                ColumnType = MaviTableColumn.InferColumnType(property.PropertyType)
             })
             .OrderBy(p => p.Attribute.Sequence)
             .ToList();
@@ -54,7 +55,7 @@ public class TableDataCollectionFactory
                 {
                     ColumnKey = prop.Property.Name,
                     Value = valueStr,
-                    ColumnType = MaviTableColumn.InferColumnType(prop.Property.PropertyType),
+                    ColumnType = prop.ColumnType,
                     OriginalValue = raw
                 });
             }
@@ -134,7 +135,7 @@ public class TableDataCollectionFactory
             foreach (var col in columns)
             {
                 // Find cell for this column
-                var cell = row.Cells.FirstOrDefault(c => c.ColumnKey == col.Key);
+                var cell = row.GetCell(col.Key);
                 var val = cell?.Value ?? string.Empty;
                 line.Add(CsvEscape(val));
             }
