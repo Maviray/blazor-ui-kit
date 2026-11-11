@@ -177,9 +177,10 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IAs
     public bool InferFromModelAttributes { get; set; } = true;
 
     /// <summary>
-    ///     When true, the bound value updates on every keystroke instead of when the user commits the
-    ///     value (leaves the field or presses Enter). Each keystroke is then a server call in Blazor Server.
-    ///     Default is false.
+    ///     For text, number, date and textarea inputs: when true, the bound value updates on every keystroke
+    ///     instead of when the user commits it (leaves the field, or presses Enter in a single-line input).
+    ///     Each keystroke is then a server call in Blazor Server. Validation still waits for the commit.
+    ///     Default is false. Selection-driven inputs (dropdowns, multi-selects) ignore it.
     /// </summary>
     [Parameter]
     public bool Immediate { get; set; }
@@ -626,6 +627,12 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IAs
 
     private const string FIELD_BORDER_ACTIVE = "!border-2 border-(--mavi-field-border-focus)";
 
+    // Read-only fields can take keyboard focus, so they keep showing it: accent color, 2px accent outline, no gray fill.
+    private const string READONLY_TEXT = "text-black/[0.38] peer-focus:text-(--mavi-field-text-focus)";
+
+    private const string READONLY_BORDER =
+        "border-black/[0.23] bg-black/[0.04] peer-focus:border-2 peer-focus:border-(--mavi-field-border-focus) peer-focus:bg-transparent";
+
     protected virtual string GetContainerClass()
     {
         var heightClass = ElementSize switch
@@ -721,7 +728,7 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IAs
                 : Disabled
                     ? "text-black/[0.23]"
                     : Readonly
-                        ? "text-black/[0.38]"
+                        ? READONLY_TEXT
                         : FIELD_TEXT;
 
         return outline is null
@@ -752,7 +759,7 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IAs
                 : Disabled
                     ? "border-black/[0.12] bg-black/[0.04]"
                     : Readonly
-                        ? "border-black/[0.23] bg-black/[0.04]"
+                        ? READONLY_BORDER
                         : FIELD_BORDER;
 
         return $"{baseClass} {state}";
@@ -782,7 +789,7 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IAs
         var color = Disabled
             ? "text-black/[0.23]"
             : Readonly
-                ? "text-black/[0.38]"
+                ? READONLY_TEXT
                 : GetAccentTextColor();
 
         return $"absolute flex {GetIconTopOffset()} -translate-y-1/2 left-3 pointer-events-none transition-colors duration-200 z-10 {color}";

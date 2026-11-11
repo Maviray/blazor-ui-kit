@@ -168,9 +168,9 @@
     #region Public API
 
     /// <summary>
-    ///     Returns the text currently entered in the textarea.
-    ///     Lets the consumer read the live content programmatically (e.g. via @ref)
-    ///     without binding to the model.
+    ///     Returns the textarea's current value, for reading it via @ref without binding to the model.
+    ///     It follows typing only when <c>Immediate</c> or <see cref="ShowCharacterCount" /> is on;
+    ///     otherwise it is the text committed when the user last left the field.
     /// </summary>
     /// <returns>The current text, or an empty string if nothing is entered.</returns>
     public string GetCurrentText() => CurrentValue ?? string.Empty;

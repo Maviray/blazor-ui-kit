@@ -5,9 +5,19 @@ All components here live in `Maviray.Blazor.Components.Material.Components.Input
 base surface documented in `SKILL.md` (`Label`, `HelperText`, `DisplayHelperText`,
 `Required`, `Disabled`, `Readonly`, `ThemeColorScheme`, `ElementSize`, `Width`,
 `StartIcon`, `EndIcon`, `EndIconAlternative`, `OnEndIconClick`, `EndIconDisabled`,
-`ButtonLabel`, `InferFromModelAttributes`, `Class`, `Style`, `Title`, `Id`), the
-`SetError`/`ClearError` methods, and `@bind-Value` + `EditForm` validation. Only
-the **component-specific** additions are listed below.
+`ButtonLabel`, `InferFromModelAttributes`, `Immediate`, `Class`, `Style`, `Title`,
+`Id`), the `SetError`/`ClearError` methods, and `@bind-Value` + `EditForm`
+validation. Only the **component-specific** additions are listed below.
+
+**When the bound value updates.** Text, number, date and textarea inputs update
+`@bind-Value` when the user commits the value: when they leave the field, or
+press Enter in a single-line input. This matches Blazor's built-in inputs and
+sends no server call per keystroke. Validation also runs once per commit. For
+live updates (search-as-you-type, previews), set `Immediate="true"`; each
+keystroke is then a server call in Blazor Server, still without validating.
+`MaviTextArea` updates live while `ShowCharacterCount` is on. `MaviAutoComplete`
+always searches as the user types. Dropdowns, multi-selects, checkboxes and
+other click-driven inputs update on selection and ignore `Immediate`.
 
 All render a Material floating-label outlined text field (label floats on focus /
 when it has a value; helper text below; asterisk when required; alert-colored
@@ -52,7 +62,7 @@ Multi-line text.
 | `Resizable` | `bool` | `true` | Allow vertical resize (off for disabled/readonly). |
 | `ShowCharacterCount` | `bool` | `false` | Show a `current/max` counter below the field. |
 
-**Method:** `string GetCurrentText()` — read live content via `@ref` without binding.
+**Method:** `string GetCurrentText()` — read the current value via `@ref` without binding. It reflects typing only with `Immediate="true"` or `ShowCharacterCount="true"`; otherwise it holds the last committed text.
 
 ---
 

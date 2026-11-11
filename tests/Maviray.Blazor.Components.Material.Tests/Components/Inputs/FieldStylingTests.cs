@@ -54,6 +54,21 @@ public class FieldStylingTests : ComponentTestBase
     }
 
     [Fact]
+    public void ReadonlyField_StillShowsFocus()
+    {
+        // A read-only field can be focused with the keyboard; it must still look focused (WCAG 2.4.7).
+        var cut = RenderString(p => p
+            .Add(x => x.Label, "Name")
+            .Add(x => x.Readonly, true)
+            .Add(x => x.StartIcon, "lni lni-user"));
+
+        cut.Find("label").ClassList.Should().Contain("peer-focus:text-(--mavi-field-text-focus)");
+        cut.Find("fieldset").ClassList.Should().Contain(
+            ["peer-focus:border-2", "peer-focus:border-(--mavi-field-border-focus)", "peer-focus:bg-transparent"]);
+        cut.Find("i.lni-user").ParentElement!.ClassList.Should().Contain("peer-focus:text-(--mavi-field-text-focus)");
+    }
+
+    [Fact]
     public async Task ErrorColor_IsNotOverriddenByFocus()
     {
         var model = new Model();
