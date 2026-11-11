@@ -1,6 +1,7 @@
 ﻿@import "tailwindcss";
 
 @theme {
+    --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; /* Tailwind 4.1 default, kept so 4.3 does not change page text */
     /* Screen sizes */
     --breakpoint-3xl: 112rem;
     --breakpoint-4xl: 128rem;

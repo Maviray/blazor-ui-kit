@@ -93,7 +93,7 @@
                     <div @key="row.Guid" style="display:contents" class="group">
                         @foreach (var col in VisibleColumns)
                         {
-                            var cell = row.Cells.FirstOrDefault(c => c.ColumnKey == col.Key);
+                            var cell = row.GetCell(col.Key);
                             <div class="@GetCellBoxClassWithAlignment(col, rowIndex)"
                                  title="@cell?.Value"
                                  @onclick="async () => { await RowClick(row, col); }">
@@ -132,16 +132,19 @@
                                                             Title="@Parameters?.ContentMenuTitle"/>
 
                                             <!-- Row Context Menu Dropdown -->
-                                            <div class="@GetRowContextMenuCss(row, rowIndex)" style="@GetRowContextMenuStyle(row)">
-                                                @foreach (var rowContextMenuButton in row.ContextActions)
-                                                {
-                                                    <button class="@Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER block w-full px-4 py-2.5 text-left rounded-md transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-                                                            disabled="@rowContextMenuButton?.Disabled"
-                                                            @onclick="async e => { await RowContextMenuItemClick(e, row, rowContextMenuButton); }">
-                                                        @rowContextMenuButton?.Title
-                                                    </button>
-                                                }
-                                            </div>
+                                            @if (row.ContextMenuVisible)
+                                            {
+                                                <div class="@GetRowContextMenuCss(row, rowIndex)" style="@GetRowContextMenuStyle(row)">
+                                                    @foreach (var rowContextMenuButton in row.ContextActions)
+                                                    {
+                                                        <button class="@Tailwind.Theme.Typography.BODY_MEDIUM @Tailwind.Theme.Colors.Text.THEME_DEFAULT_NINE_TEXT @Tailwind.Theme.Colors.Background.Hover.THEME_DEFAULT_TWO_BG_HOVER block w-full px-4 py-2.5 text-left rounded-md transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                                                                disabled="@rowContextMenuButton?.Disabled"
+                                                                @onclick="async e => { await RowContextMenuItemClick(e, row, rowContextMenuButton); }">
+                                                            @rowContextMenuButton?.Title
+                                                        </button>
+                                                    }
+                                                </div>
+                                            }
                                         </div>
                                     }
                                 </div>

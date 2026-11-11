@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Reflection;
 using Maviray.Blazor.Components.Core.Enums;
 using Maviray.Blazor.Components.Core.Extensions;
+using Maviray.Blazor.Components.Material.Components.Interop;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -14,18 +15,24 @@ namespace Maviray.Blazor.Components.Material.Components.Inputs;
 ///     Contains all shared logic for date parsing, formatting, and calendar picker functionality.
 /// </summary>
 /// <typeparam name="TValue">Either DateTime or DateTime?</typeparam>
-/// <typeparam name="TComponent">Deriving Type</typeparam>
-public abstract class MaviInputDateBase<TValue, TComponent> : MaviMaterialInputBase<TValue>, IAsyncDisposable where TComponent : MaviInputDateBase<TValue, TComponent>
+/// <typeparam name="TComponent">
+///     Deriving Type. Its public methods are kept when trimming, because JavaScript calls its [JSInvokable] methods
+///     through <see cref="DotNetObjectReference{TValue}" />.
+/// </typeparam>
+public abstract class MaviInputDateBase<TValue,
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)] TComponent>
+    : MaviMaterialInputBase<TValue> where TComponent : MaviInputDateBase<TValue, TComponent>
 {
     protected ElementReference _containerRef;
     protected DotNetObjectReference<TComponent>? _dotNetRef;
     protected bool _isCalendarOpen;
     protected IJSObjectReference? _jsModule;
     protected string? _rawInputValue;
+    private readonly OutsideClickListener _outsideClick = new();
 
     #region Protected Properties
 
-    protected CultureInfo CurrentCulture => FormatCulture ?? CultureInfo.CurrentUICulture;
+    protected CultureInfo CurrentCulture => FormatCulture ?? CultureInfo.CurrentCulture;
 
     #endregion
 
@@ -46,7 +53,16 @@ public abstract class MaviInputDateBase<TValue, TComponent> : MaviMaterialInputB
             }
 
             _jsModule = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Maviray.Blazor.Components.Material/js/maviDatePickerJsInterop.js");
-            await _jsModule.InvokeVoidAsync("initializeDatePicker", _containerRef, _dotNetRef);
+        }
+
+        if (_jsModule != null)
+        {
+            var module = _jsModule;
+
+            await _outsideClick.SyncAsync(
+                () => _isCalendarOpen,
+                () => module.InvokeVoidAsync("initializeDatePicker", _containerRef, _dotNetRef),
+                () => module.InvokeVoidAsync("disposeDatePicker", _containerRef));
         }
     }
 
@@ -148,20 +164,28 @@ public abstract class MaviInputDateBase<TValue, TComponent> : MaviMaterialInputB
         StateHasChanged();
     }
 
-    public async ValueTask DisposeAsync()
+    protected override async ValueTask DisposeAsyncCore()
     {
-        if (EnableLifeCycleLogging)
-        {
-            Logger?.LogDebugLifeCycle(Id, GetType());
-        }
-
         if (_jsModule != null)
         {
-            await _jsModule.InvokeVoidAsync("disposeDatePicker", _containerRef);
-            await _jsModule.DisposeAsync();
+            try
+            {
+                if (_outsideClick.IsAttached)
+                {
+                    await _jsModule.InvokeVoidAsync("disposeDatePicker", _containerRef);
+                }
+
+                await _jsModule.DisposeAsync();
+            }
+            catch (JSDisconnectedException)
+            {
+                // The circuit is gone, so the browser has already discarded the listeners.
+            }
         }
 
         _dotNetRef?.Dispose();
+
+        await base.DisposeAsyncCore();
     }
 
     #endregion
@@ -187,7 +211,7 @@ public abstract class MaviInputDateBase<TValue, TComponent> : MaviMaterialInputB
         // Try to parse and update the current value
         if (TryParseValueFromString(inputValue, out var parsedValue, out _))
         {
-            CurrentValue = parsedValue;
+            SetValueWhileTyping(parsedValue);
         }
 
         return Task.CompletedTask;

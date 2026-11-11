@@ -1,0 +1,49 @@
+<Project>
+  <!-- Settings shared by the library projects in src/. Tests and samples keep their own. -->
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <!--
+    Code quality: the .NET 10 analyzer rules (default mode), and warnings fail the build.
+    The level is pinned so a newer SDK can't add rules that break the build; raise it on purpose with the TFM.
+  -->
+  <PropertyGroup>
+    <AnalysisLevel>10.0</AnalysisLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <!--
+      Stay warnings:
+      - NuGet vulnerability audits (NU1901-NU1904), so a newly published advisory can't break every build;
+      - audit data that couldn't be fetched (NU1900, NU1905), so offline builds and unreachable feeds still build.
+    -->
+    <WarningsNotAsErrors>$(WarningsNotAsErrors);NU1900;NU1901;NU1902;NU1903;NU1904;NU1905</WarningsNotAsErrors>
+    <!-- Lets Blazor WebAssembly apps trim these libraries, and turns on the trim analyzer here. -->
+    <IsTrimmable>true</IsTrimmable>
+  </PropertyGroup>
+
+  <!-- NuGet package metadata. PackageId, Description and PackageTags stay in each project; CI sets the version. -->
+  <PropertyGroup>
+    <Version>1.0.0</Version>
+    <Authors>Maviray</Authors>
+    <Company>Maviray</Company>
+    <Copyright>Copyright @2026 Maviray</Copyright>
+    <RepositoryUrl>https://github.com/Maviray/blazor-ui-kit</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Maviray/blazor-ui-kit</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>icon.png</PackageIcon>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <IsPackable>true</IsPackable>
+    <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)..\icon.png" Pack="true" PackagePath="\" />
+    <None Include="$(MSBuildThisFileDirectory)..\README.md" Pack="true" PackagePath="\" />
+    <None Include="$(MSBuildThisFileDirectory)..\LICENSE.txt" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>

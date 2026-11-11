@@ -67,9 +67,9 @@ Block styles are `WysiwygBlockStyle.All` (Normal, Heading 1–6, Quote, Code).
 
 | Method | Purpose |
 |--------|---------|
-| `Task<string> GetContentAsync()` | Current HTML of the surface. |
+| `Task<string> GetContentAsync()` | Current HTML of the surface, sanitized. |
 | `Task<string> GetTextAsync()` | Current plain text (no markup). |
-| `Task SetContentAsync(string? html)` | Replace the HTML and raise `ContentChanged`. |
+| `Task SetContentAsync(string? html)` | Sanitize the HTML, replace the content and raise `ContentChanged`. |
 | `Task ClearAsync()` | Clear all content. |
 | `Task FocusAsync()` | Focus the editing surface. |
 | `Task RefreshAsync()` | Pull HTML from `RefreshContentProvider` and set it (host-callable even without the toolbar button). |
@@ -113,5 +113,20 @@ Read/write imperatively via `@ref` when you don't want to bind:
   externalize images if size matters.
 - **Requires the JS assets** (`maviWysiwygJsInterop.js` + `maviJsInterop.js`).
   Without JS runtime the surface renders but editing/toolbar commands are inert.
-- The content is raw HTML the user produces — **sanitize on the server** before
-  persisting or re-rendering it elsewhere (standard rich-text/XSS hygiene).
+- **HTML is sanitized in both directions** with
+  [HtmlSanitizer](https://github.com/mganss/HtmlSanitizer): `Content`,
+  `SetContentAsync` and refresh/code-view HTML are cleaned before they reach the
+  page, and `ContentChanged`, `OnSave` and `GetContentAsync` only return cleaned
+  HTML. Scripts, event handlers, `javascript:` URLs, iframes and form controls
+  are removed; everything the toolbar produces (fonts, colors, links incl.
+  `mailto:`/`tel:`, tables, `data:` images) is kept.
+- **Change the policy** by registering your own sanitizer, e.g. to allow video
+  embeds:
+  ```csharp
+  var sanitizer = new HtmlSanitizer();   // using Ganss.Xss;
+  sanitizer.AllowedTags.Add("iframe");
+  builder.Services.AddSingleton<IHtmlSanitizer>(sanitizer);
+  ```
+- **Still sanitize on the server** whatever HTML your API accepts. In
+  WebAssembly apps the editor runs in the user's browser, so a request can bypass
+  it; the editor's cleaning protects the people viewing content, not your API.

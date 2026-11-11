@@ -185,6 +185,7 @@ numeric, select, and date input:
 | `EndIconDisabled` | `bool` | `false` | Disable the end-icon button only. |
 | `ButtonLabel` | `string` | `"Action"` | Aria-label for the end-icon button. |
 | `InferFromModelAttributes` | `bool` | `true` | Infer Label/Required/type-specific attrs from the bound property's data annotations. Set `false` to disable. |
+| `Immediate` | `bool` | `false` | Text/number/date/textarea inputs: update `@bind-Value` on every keystroke instead of when the user commits (leaves the field / presses Enter). Each keystroke is a server call in Blazor Server. |
 | `Class`, `Style`, `Title`, `Id` | — | As base. |
 
 **Attribute inference** (when `InferFromModelAttributes` is true) reads the bound

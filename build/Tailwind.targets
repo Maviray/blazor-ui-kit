@@ -1,0 +1,50 @@
+<Project>
+  <!--
+    Builds a project's Tailwind CSS with its npm "buildcss" script, only when the project's sources changed.
+
+    Before importing, set TailwindCssOutput to the generated file, relative to the project
+    (the -o path in package.json's buildcss script).
+
+    -p:SkipTailwindBuild=true skips npm entirely and uses the committed CSS (offline builds, no Node.js).
+  -->
+
+  <!-- The files Tailwind scans for class names (it skips CSS files when scanning), plus the npm setup. -->
+  <ItemGroup Condition="'$(SkipTailwindBuild)' != 'true'">
+    <TailwindInput Include="**/*.razor;**/*.cs;**/*.cshtml;**/*.html;**/*.js;wwwroot/**/*.css;package.json;package-lock.json"
+                   Exclude="bin/**;obj/**;node_modules/**;$(TailwindCssOutput)" />
+
+    <!-- Visual Studio's fast up-to-date check: rebuild when a Tailwind input is newer than the generated CSS. -->
+    <UpToDateCheckInput Include="@(TailwindInput)" Set="Tailwind" />
+    <UpToDateCheckOutput Include="$(TailwindCssOutput)" Set="Tailwind" />
+  </ItemGroup>
+
+  <!-- A separate target: TailwindBuildCss is skipped before its body runs when it has no outputs. -->
+  <Target Name="TailwindCheckSettings" Condition="'$(SkipTailwindBuild)' != 'true'">
+    <Error Condition="'$(TailwindCssOutput)' == ''" Text="Set TailwindCssOutput before importing Tailwind.targets." />
+  </Target>
+
+  <!--
+    Installs exactly what package-lock.json pins whenever it is newer than the last install: a fresh clone,
+    a pulled lock-file update, or an interrupted install. npm records each install in
+    node_modules/.package-lock.json.
+  -->
+  <Target Name="TailwindNpmInstall"
+          Condition="'$(SkipTailwindBuild)' != 'true'"
+          Inputs="package.json;package-lock.json"
+          Outputs="node_modules/.package-lock.json">
+    <Exec Command="npm ci" WorkingDirectory="$(MSBuildProjectDirectory)" />
+    <Touch Files="node_modules/.package-lock.json" />
+  </Target>
+
+  <!-- Runs before the build so static web assets (and their compressed copies) see the new CSS. -->
+  <Target Name="TailwindBuildCss"
+          BeforeTargets="BeforeBuild"
+          DependsOnTargets="TailwindCheckSettings;TailwindNpmInstall"
+          Condition="'$(SkipTailwindBuild)' != 'true'"
+          Inputs="@(TailwindInput)"
+          Outputs="$(TailwindCssOutput)">
+    <Exec Command="npm run buildcss" WorkingDirectory="$(MSBuildProjectDirectory)" />
+    <!-- Mark the output as up to date even when Tailwind wrote identical content. -->
+    <Touch Files="$(TailwindCssOutput)" />
+  </Target>
+</Project>
