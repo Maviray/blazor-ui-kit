@@ -9,7 +9,6 @@
     <div class="@GetContainerClass()">
         <!-- Input Field -->
         <input value="@CurrentValue"
-               @oninput="HandleInput"
                @onchange="HandleChange"
                type="@GetInputType()"
                id="@Id"
@@ -26,7 +25,7 @@
                data-val="@(!Disabled && !Readonly ? "true" : "false")"
                @onfocus="OnFocus"
                @onblur="OnBlur"
-               @attributes="AdditionalAttributes"/>
+               @attributes="InputAttributes"/>
 
         <!-- Floating Label -->
         @if (!string.IsNullOrEmpty(Label))
@@ -161,11 +160,7 @@
         if (Disabled || Readonly)
             return Task.CompletedTask;
 
-        CurrentValue = e.Value?.ToString();
-
-        // Trigger validation on change (blur)
-        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-        EditContext?.NotifyFieldChanged(FieldIdentifier);
+        CommitValue(e.Value?.ToString());
 
         return Task.CompletedTask;
     }

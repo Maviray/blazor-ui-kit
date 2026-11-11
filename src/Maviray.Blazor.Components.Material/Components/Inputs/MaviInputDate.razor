@@ -9,7 +9,6 @@
     <div class="@GetContainerClass()" @ref="_containerRef">
         <!-- Input Field -->
         <input value="@GetDisplayValue()"
-               @oninput="HandleInput"
                @onchange="HandleChange"
                type="text"
                id="@Id"
@@ -26,7 +25,7 @@
                @onfocus="OnFocus"
                @onblur="OnBlur"
                @onclick="HandleInputClick"
-               @attributes="AdditionalAttributes"/>
+               @attributes="InputAttributes"/>
 
         <!-- Floating Label -->
         @if (!string.IsNullOrEmpty(Label))
@@ -236,11 +235,13 @@
 
         if (TryParseValueFromString(inputValue, out var parsedValue, out _))
         {
-            CurrentValue = parsedValue;
+            CommitValue(parsedValue);
         }
-
-        // Trigger validation on change (blur)
-        EditContext?.NotifyFieldChanged(FieldIdentifier);
+        else
+        {
+            // Unparsable text leaves the value as is; still validate the field once.
+            EditContext?.NotifyFieldChanged(FieldIdentifier);
+        }
 
         return Task.CompletedTask;
     }

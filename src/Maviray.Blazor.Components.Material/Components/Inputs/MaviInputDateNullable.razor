@@ -9,7 +9,6 @@
     <div class="@GetContainerClass()" @ref="_containerRef">
         <!-- Input Field -->
         <input value="@GetDisplayValue()"
-               @oninput="HandleInput"
                @onchange="HandleChange"
                type="text"
                id="@Id"
@@ -26,7 +25,7 @@
                @onfocus="OnFocus"
                @onblur="OnBlur"
                @onclick="HandleInputClick"
-               @attributes="AdditionalAttributes"/>
+               @attributes="InputAttributes"/>
 
         <!-- Floating Label -->
         @if (!string.IsNullOrEmpty(Label))
@@ -248,9 +247,8 @@
         // If empty, clear everything
         if (string.IsNullOrWhiteSpace(inputValue))
         {
-            CurrentValue = null;
             _rawInputValue = null;
-            EditContext?.NotifyFieldChanged(FieldIdentifier);
+            CommitValue(null);
             return;
         }
 
@@ -258,14 +256,14 @@
         if (TryParseValueFromString(inputValue, out var parsedValue, out _))
         {
             // Valid date - update value and clear raw input
-            CurrentValue = parsedValue;
             _rawInputValue = null;
+            CommitValue(parsedValue);
         }
         else
         {
             // Invalid date - reset both visible text and value
-            CurrentValue = null;
             _rawInputValue = null;
+            CommitValue(null);
 
             // Clear the DOM input field via JavaScript
             if (_jsModule != null)
@@ -273,9 +271,6 @@
                 await _jsModule.InvokeVoidAsync("clearInputValue", _containerRef);
             }
         }
-
-        // Trigger validation
-        EditContext?.NotifyFieldChanged(FieldIdentifier);
     }
 
     private void ClearValue()

@@ -10,7 +10,6 @@
     <div class="@GetContainerClass()">
         <!-- Input Field -->
         <input value="@GetDisplayValue()"
-               @oninput="HandleInput"
                @onchange="HandleChange"
                @onfocus="OnFocus"
                @onblur="OnBlur"
@@ -30,7 +29,7 @@
                aria-label="@Label"
                aria-required="@Required.ToString().ToLowerInvariant()"
                data-val="@(!Disabled && !Readonly ? "true" : "false")"
-               @attributes="AdditionalAttributes"/>
+               @attributes="InputAttributes"/>
 
         <!-- Floating Label -->
         @if (!string.IsNullOrEmpty(Label))
@@ -256,8 +255,7 @@
         if (Disabled || Readonly) return Task.CompletedTask;
 
         RawInputValue = e.Value?.ToString();
-        CurrentValueAsString = RawInputValue;
-        EditContext?.NotifyFieldChanged(FieldIdentifier);
+        CommitValueAsString(RawInputValue);
 
         return Task.CompletedTask;
     }

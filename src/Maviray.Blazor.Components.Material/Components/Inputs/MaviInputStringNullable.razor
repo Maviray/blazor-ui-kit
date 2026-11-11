@@ -9,7 +9,6 @@
     <div class="@GetContainerClass()">
         <!-- Input Field -->
         <input value="@CurrentValue"
-               @oninput="HandleInput"
                @onchange="HandleChange"
                type="@GetInputType()"
                id="@Id"
@@ -26,7 +25,7 @@
                data-val="@(!Disabled && !Readonly ? "true" : "false")"
                @onfocus="OnFocus"
                @onblur="OnBlur"
-               @attributes="AdditionalAttributes"/>
+               @attributes="InputAttributes"/>
 
         <!-- Floating Label -->
         @if (!string.IsNullOrEmpty(Label))
@@ -161,11 +160,7 @@
             return Task.CompletedTask;
 
         var inputValue = e.Value?.ToString();
-        CurrentValue = string.IsNullOrWhiteSpace(inputValue) ? null : inputValue;
-
-        // Trigger validation on change (blur)
-        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract - outside of Form context EditContext can be null
-        EditContext?.NotifyFieldChanged(FieldIdentifier);
+        CommitValue(string.IsNullOrWhiteSpace(inputValue) ? null : inputValue);
 
         return Task.CompletedTask;
     }

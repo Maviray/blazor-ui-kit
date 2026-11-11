@@ -145,6 +145,14 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IAs
     [Parameter]
     public bool InferFromModelAttributes { get; set; } = true;
 
+    /// <summary>
+    ///     When true, the bound value updates on every keystroke instead of when the user commits the
+    ///     value (leaves the field or presses Enter). Each keystroke is then a server call in Blazor Server.
+    ///     Default is false.
+    /// </summary>
+    [Parameter]
+    public bool Immediate { get; set; }
+
     #endregion
 
     #region Lifecycle Methods
@@ -266,6 +274,67 @@ public abstract class MaviMaterialInputBase<TValue> : MaviInputBase<TValue>, IAs
     ///     Handles input event - updates value for UI purposes (label float) without triggering validation
     /// </summary>
     protected abstract Task HandleInput(ChangeEventArgs e);
+
+    /// <summary>
+    ///     Whether keystrokes reach the component (and the bound value) before the value is committed.
+    /// </summary>
+    protected virtual bool BindOnInput => Immediate;
+
+    /// <summary>
+    ///     The attributes splatted onto the input element: <see cref="InputBase{TValue}.AdditionalAttributes" />,
+    ///     plus the <c>oninput</c> handler when <see cref="BindOnInput" />. Leaving the handler out entirely is what
+    ///     stops the browser sending keystrokes; a null delegate would still be wired up.
+    /// </summary>
+    protected IReadOnlyDictionary<string, object>? InputAttributes
+    {
+        get
+        {
+            if (!BindOnInput)
+            {
+                return AdditionalAttributes;
+            }
+
+            var attributes = AdditionalAttributes is null
+                ? new Dictionary<string, object>()
+                : new Dictionary<string, object>(AdditionalAttributes);
+
+            // An app-supplied oninput wins, as it did when the handler was declared before the splat.
+            attributes.TryAdd("oninput", EventCallback.Factory.Create<ChangeEventArgs>(this, HandleInput));
+
+            return attributes;
+        }
+    }
+
+    /// <summary>
+    ///     Commits a value from the change event and validates the field exactly once. Setting
+    ///     <c>CurrentValue</c> notifies the EditContext only when the value changes, so this notifies
+    ///     itself when typing (<see cref="Immediate" />) already applied the value.
+    /// </summary>
+    protected void CommitValue(TValue? value)
+    {
+        if (EqualityComparer<TValue>.Default.Equals(value, Value))
+        {
+            EditContext?.NotifyFieldChanged(FieldIdentifier);
+            return;
+        }
+
+        CurrentValue = value;
+    }
+
+    /// <summary>
+    ///     <see cref="CommitValue" /> for text that still needs parsing, so InputBase records parse errors.
+    /// </summary>
+    protected void CommitValueAsString(string? text)
+    {
+        var before = Value;
+        CurrentValueAsString = text;
+
+        // InputBase already notified, unless the text parsed to the value that was bound before.
+        if (EqualityComparer<TValue>.Default.Equals(before, Value) && TryParseValueFromString(text, out _, out _))
+        {
+            EditContext?.NotifyFieldChanged(FieldIdentifier);
+        }
+    }
 
     /// <summary>
     ///     Updates the bound value while the user is typing. Setting <c>CurrentValue</c> would also
