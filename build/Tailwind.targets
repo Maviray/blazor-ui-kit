@@ -1,0 +1,34 @@
+<Project>
+  <!--
+    Builds a project's Tailwind CSS with its npm "buildcss" script, only when the project's sources changed.
+
+    Before importing, set TailwindCssOutput to the generated file, relative to the project
+    (the -o path in package.json's buildcss script).
+
+    -p:SkipTailwindBuild=true skips npm entirely and uses the committed CSS (offline builds, no Node.js).
+  -->
+
+  <ItemGroup Condition="'$(SkipTailwindBuild)' != 'true'">
+    <TailwindInput Include="**/*.razor;**/*.cs;**/*.cshtml;wwwroot/**/*.css;package.json;package-lock.json"
+                   Exclude="bin/**;obj/**;node_modules/**;$(TailwindCssOutput)" />
+  </ItemGroup>
+
+  <!-- A fresh clone has no node_modules: install exactly what package-lock.json pins. -->
+  <Target Name="TailwindNpmInstall"
+          Condition="'$(SkipTailwindBuild)' != 'true' And !Exists('$(MSBuildProjectDirectory)/node_modules')">
+    <Exec Command="npm ci" WorkingDirectory="$(MSBuildProjectDirectory)" />
+  </Target>
+
+  <!-- Runs before the build so static web assets (and their compressed copies) see the new CSS. -->
+  <Target Name="TailwindBuildCss"
+          BeforeTargets="BeforeBuild"
+          DependsOnTargets="TailwindNpmInstall"
+          Condition="'$(SkipTailwindBuild)' != 'true'"
+          Inputs="@(TailwindInput)"
+          Outputs="$(TailwindCssOutput)">
+    <Error Condition="'$(TailwindCssOutput)' == ''" Text="Set TailwindCssOutput before importing Tailwind.targets." />
+    <Exec Command="npm run buildcss" WorkingDirectory="$(MSBuildProjectDirectory)" />
+    <!-- Mark the output as up to date even when Tailwind wrote identical content. -->
+    <Touch Files="$(TailwindCssOutput)" />
+  </Target>
+</Project>

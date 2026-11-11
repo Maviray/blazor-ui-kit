@@ -1,10 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<Exec Command="npm install @tailwindcss/forms" />
-		<Exec Command="npm run buildcss" />
-	</Target>
-
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -22,4 +17,9 @@
     <ProjectReference Include="..\..\src\Maviray.Blazor.Components.Material\Maviray.Blazor.Components.Material.csproj" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <TailwindCssOutput>wwwroot/css/maviray.showcase.client.min.css</TailwindCssOutput>
+  </PropertyGroup>
+
+  <Import Project="$(MSBuildThisFileDirectory)..\..\build\Tailwind.targets" />
 </Project>
