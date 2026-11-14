@@ -88,6 +88,33 @@ Example of using a component:
 <ComponentName />
 ```
 
+## Claude Code skills
+
+The `maviray-material` plugin teaches Claude Code the Mavi* components and how to style them with the library's theme
+tokens. It comes from the Maviray marketplace ([Maviray/claude-plugins](https://github.com/Maviray/claude-plugins)). To
+give your whole team the skills, commit this to your project's `.claude/settings.json`:
+
+```json
+{
+  "extraKnownMarketplaces": {
+    "maviray": { "source": { "source": "github", "repo": "Maviray/claude-plugins" } }
+  },
+  "enabledPlugins": {
+    "maviray-material@maviray": true
+  }
+}
+```
+
+Each developer then trusts the folder when Claude Code asks, and installs the plugin once in their clone:
+
+```
+claude plugin install maviray-material@maviray --scope project
+```
+
+The skills follow this repo's `main` branch, which matches the latest released package. `claude plugin update
+maviray-material@maviray` picks up a newer version. The skill sources are in
+[plugins/maviray-material](plugins/maviray-material).
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit issues or pull requests.
