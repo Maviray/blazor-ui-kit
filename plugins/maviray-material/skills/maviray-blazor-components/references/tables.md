@@ -56,7 +56,19 @@ Both show a loading backdrop+spinner while data is (re)fetched.
 (`MaviTableColumn`) and `Rows` (`MaviTableRow`), plus built-in paging/sorting/
 filtering state (`CurrentPage`, `PageSize` (default 10), `TotalPages`,
 `SortColumnKey`, `SortOrder`, `GlobalSearchText`, column filters). The table
-manages this state internally as the user interacts.
+manages this state internally as the user interacts:
+
+- **Filtering returns to page 1.** Setting `GlobalSearchText` (case-insensitive
+  contains-match over cell text) or a column filter refilters the rows and goes
+  back to page 1.
+- **Sorting** compares values of the same type by their natural order
+  (`IComparable`, so `long` and `decimal` values sort numerically, dates
+  chronologically); text, and values of mixed types, compare by display text,
+  ignoring case and accents in the current culture. Missing cells and `null`
+  values sort after all values when ascending; descending reverses the whole
+  order, so they come first.
+- **New parameters re-render the table.** Passing a new `Parameters` object
+  re-renders it without `Refresh()`; call `Refresh()` only to re-fetch data.
 
 You can build it two ways:
 
@@ -92,7 +104,10 @@ Func<Task<TableDataCollection>> fetch = () =>
 orders columns by `Sequence`, derives titles from `[Display]` (else the property
 name), infers each column's `TableColumnDataType`, and formats values
 (bool → positive/negative labels, DateTime → `DatTimeFormat`, enums →
-`[Display]` name). `ContextMenu` on each item becomes that row's actions.
+`[Display]` name). `ContextMenu` on each item becomes that row's actions. It
+keeps working in trimmed Blazor WebAssembly builds: the row type's public
+properties are preserved for the reflection, as long as you call it with the
+concrete row type.
 
 **`[TableColumn]` attribute** ctors (all take a `sequence` first):
 
@@ -114,6 +129,11 @@ Construct `TableDataCollection { Columns = [...], Rows = [...] }` yourself, wher
 `HorizontalTextAlignment`, and `MaviTableRow` has `Id`, `Guid`, `Cells`
 (`MaviTableCell { ColumnKey, Value, OriginalValue, ColumnType }`), and
 `ContextActions`.
+
+**Reading a row's cells** (e.g. in `OnRowClick`): `row.GetCell("Email")` returns
+that column's `MaviTableCell?` (`Value` is the display text), and
+`row.GetCellValue("Email")` returns its `OriginalValue`. Column keys are the
+`MaviTableColumn.Key` values; with `FromDataSource` that's the property name.
 
 ## Context-menu models
 

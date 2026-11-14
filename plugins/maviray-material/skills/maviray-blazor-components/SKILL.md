@@ -20,7 +20,13 @@ description: >-
 
 `Maviray.Blazor.Components.Material` is a Blazor component library (Mavi*
 components) providing themed, accessible, Material-Design UI building blocks. It
-targets .NET 8/9/10 and ships as a NuGet package with its own CSS + JS assets.
+targets .NET 10 (`net10.0`) and ships as a NuGet package with its own CSS + JS
+assets; it brings `Maviray.Blazor.Components.Core` (base classes, enums, models)
+and HtmlSanitizer with it.
+
+In a consuming project the library's source is **not on disk**: rely on this
+skill and IntelliSense. The installed version is in the app's `.csproj`
+(`<PackageReference Include="Maviray.Blazor.Components.Material" Version="…" />`).
 
 **Core principle for consuming projects:** reach for a `Mavi*` component first.
 Almost every common UI need — inputs, buttons, dialogs, tables, menus, tabs,
@@ -77,43 +83,70 @@ companion **`material-css-styling`** skill.
 
 ## Setup (consuming project)
 
-1. **Register services** — in `Program.cs`:
+1. **Register services** — in `Program.cs` (in a Blazor Web App with
+   WebAssembly interactivity, in both the server and the client project):
    ```csharp
    using Maviray.Blazor.Components.Core.Extensions;
+   using Maviray.Blazor.Components.Core.Services;
 
    builder.Services.AddMaviComponents();
-   // or configure options:
-   builder.Services.AddMaviComponents(o =>
-   {
-       o.ComponentLogLevel = LogLevel.Warning;   // default
-       o.EnableLifecycleLogging = false;         // default
-       o.EnablePerformanceTracking = false;      // default
-   });
-   ```
-   This registers `IMaviComponentOptions`. Components resolve it (and an
-   `ILoggerFactory`) via DI; without registration they still render but
-   lifecycle logging/options are unavailable.
+   // or: builder.Services.AddMaviComponents(o => o.EnableLifecycleLogging = true);
 
-2. **Include the CSS** — reference the packaged stylesheet from the host
-   document (`App.razor` / `index.html` / `_Host.cshtml`):
+   // Only if you use MaviMenuVertical (it injects this; AddMaviComponents doesn't register it):
+   builder.Services.AddScoped<ICircuitStateService, CircuitStateService>();
+   ```
+   `AddMaviComponents` is **required**: every component injects
+   `IMaviComponentOptions`, and without it rendering throws
+   `InvalidOperationException: Cannot provide a value for property 'ComponentOptions'`.
+   `MaviMenuVertical` throws the same way without an `ICircuitStateService`.
+   To build app-wide menu items, subclass `CircuitStateService` and override
+   `GetMenuItems()`; `ReportClick(buttonId)` raises `ButtonClicked` (see the
+   menu section of `references/layout-navigation.md`).
+
+   **Logging:** with `EnableLifecycleLogging = true`, components write lifecycle
+   traces at **Debug** level, under categories that start with `Maviray`. Show
+   them with `"Logging": { "LogLevel": { "Maviray": "Debug" } }`. Warnings and
+   errors (failed data fetches, invalid format masks, …) are logged regardless.
+   The `ComponentLogLevel` and `EnablePerformanceTracking` options currently have
+   no effect on components.
+
+2. **Host page `<head>`** (`App.razor` / `index.html`): the library stylesheet,
+   the scoped-CSS bundle (styles of `WysiwygEditor`, `MaviToastr`, `MaviSlider`,
+   `MaviSkeleton`, `MaviSpinnerEqualizer`), the outside-click script, plus the
+   fonts and icon font the theme expects:
    ```html
-   <link rel="stylesheet"
-         href="_content/Maviray.Blazor.Components.Material/css/maviray.material.min.css" />
+   <link rel="stylesheet" href="_content/Maviray.Blazor.Components.Material/css/maviray.material.min.css" />
+   <link rel="stylesheet" href="_content/Maviray.Blazor.Components.Material/Maviray.Blazor.Components.Material.bundle.scp.css" />
+   <script src="_content/Maviray.Blazor.Components.Material/js/maviJsInterop.js"></script>
    ```
-   (`maviray.material.min.css` is the compiled Tailwind 4 build of the theme +
-   component styles. See `material-css-styling` for the token system.)
+   - The `.bundle.scp.css` link can be skipped when the page already links the
+     app's own `<AppName>.styles.css`, which imports it.
+   - `maviJsInterop.js` is a plain script (not a module): `MaviDropDownMenu`,
+     `WysiwygEditor` and the tables need it to close on outside clicks. Other
+     components lazy-load their own ES modules from
+     `_content/Maviray.Blazor.Components.Material/js/` (`MaviDropdown`/
+     `MaviMultiSelect`, `MaviInputDate*`, `WysiwygEditor`); nothing to add.
+   - **Fonts are not bundled.** The theme uses Lato (UI text), Montserrat
+     (headings), Oswald (display) and Roboto Serif; load them (e.g. Google Fonts)
+     or text falls back to system fonts.
+   - **Icons:** `StartIcon`/`EndIcon`/`Icon` parameters take icon-font classes,
+     and component defaults use LineIcons 5 (`lni lni-chevron-down`,
+     `lni lni-calendar-days`, `lni lni-xmark`, …). Load the LineIcons stylesheet.
 
-3. **JS interop** — a few components lazy-load their own ES modules from
-   `_content/Maviray.Blazor.Components.Material/js/` on first render
-   (`MaviDropdown`/`MaviMultiSelect` → `maviDropDownJsInterop.js`,
-   `MaviInputDate*` → `maviDatePickerJsInterop.js`; `WysiwygEditor` →
-   `maviWysiwygJsInterop.js`). Components using outside-click detection
-   (`MaviDropDownMenu`, `WysiwygEditor`, the tables) call helpers in
-   `maviJsInterop.js`; ensure that script is available to the host.
-   Follow the `samples/Maviray.Blazor.Components.Samples.Material` project for
-   the canonical host wiring.
+   `maviray.material.min.css` is the compiled Tailwind 4 build of the theme +
+   component styles; see `material-css-styling` for the token system and for
+   building your own app's Tailwind CSS.
 
-4. **`@using` namespaces** — components live under
+3. **Render mode** — the components need an interactive render mode (they use
+   events and JS interop); under static SSR they render but don't respond. Set
+   it app-wide (e.g. `<Routes @rendermode="InteractiveWebAssembly" />` and the
+   same on `<HeadOutlet>`) or per page.
+
+4. **Trimming** — the libraries are marked trimmable, so a Blazor WebAssembly
+   Release publish trims them. They're trim-analyzer clean; nothing to
+   configure. After upgrading, click through a Release publish once.
+
+5. **`@using` namespaces** — components live under
    `Maviray.Blazor.Components.Material.Components.*` (see below). Add the
    namespaces you use to the consuming project's `_Imports.razor`, e.g.:
    ```razor
@@ -131,8 +164,10 @@ companion **`material-css-styling`** skill.
 | `MaviSwitch`, `MaviToggle` | `Maviray.Blazor.Components.Material.Components` |
 | `MaviBadge`, icons | `…Components.DataDisplay`, `…Components.DataDisplay.Icons` |
 | `MaviChip` | `…Components.Display` |
-| `MaviAlert`, `MaviBackdrop`, `MaviDialog` | `…Components.Feedback` |
-| `MaviToastr`, `MaviToastNotification` | `…Components.DataDisplay` |
+| `MaviAlert`, `MaviBackdrop`, `MaviDialog`, `MaviSkeleton` | `…Components.Feedback` |
+| `MaviToastr` | `…Components.DataDisplay.MaviToastr` |
+| `MaviToastNotification` | `…Components.DataDisplay` |
+| `MaviErrorHandler` | `…Components.ErrorHandlers` |
 | `MaviAccordion`, `MaviCard`, `MaviPanel` | `…Components.Surfaces` |
 | Tabs | `…Components.Tabs` |
 | Menus | `…Components.Menus` |
@@ -141,6 +176,7 @@ companion **`material-css-styling`** skill.
 | Tables | `…Components.Tables` |
 | `WysiwygEditor` | `…Components.Editors.Wysiwyg` |
 | Enums, models, event args, attributes | `Maviray.Blazor.Components.Core.*` |
+| `AddMaviComponents`, `ICircuitStateService` / `CircuitStateService` | `Maviray.Blazor.Components.Core.Extensions`, `…Core.Services` |
 
 ## Shared conventions (read once — they apply to most components)
 
@@ -293,9 +329,13 @@ above is not repeated there.
 - Bind data inputs with `@bind-Value`; place them in an `EditForm` for
   validation and let attribute inference fill Label/Required.
 - Hold an `@ref` to call imperative methods (`Display`/`Hide` on dialogs,
-  toasts, backdrops, alerts; `SetError`/`ClearError` on inputs; `Refresh` on
-  tables; `Reset`/`SetSelection` on autocomplete).
-- Pointers: components live in
-  `src/Maviray.Blazor.Components.Material/Components/**`; enums/models in
-  `src/Maviray.Blazor.Components.Core/**`; living examples in
-  `samples/Maviray.Blazor.Components.Samples.Material.Client/Pages/**`.
+  backdrops, alerts; `SetError`/`ClearError` on inputs; `Refresh` on tables;
+  `Reset`/`SetSelection` on autocomplete). Toasts are driven by the list you
+  pass to `MaviToastr`, not by methods.
+- Exhaustive lookups: rely on the reference files and IntelliSense over the
+  installed package. If a local checkout of the `blazor-ui-kit` repo is
+  available as an added directory, components live in
+  `src/Maviray.Blazor.Components.Material/Components/**`, enums/models in
+  `src/Maviray.Blazor.Components.Core/**`, living examples in
+  `samples/Maviray.Blazor.Components.Samples.Material.Client/Pages/**`; the
+  checkout may be a different version than the installed package.

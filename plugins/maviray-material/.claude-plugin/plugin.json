@@ -1,0 +1,13 @@
+{
+  "name": "maviray-material",
+  "displayName": "Maviray Material",
+  "description": "Teaches Claude to build UI with the Maviray.Blazor.Components.Material library: every Mavi* component's parameters and usage, and Material Design styling with the library's Tailwind 4 theme tokens.",
+  "author": {
+    "name": "Maviray",
+    "url": "https://github.com/Maviray"
+  },
+  "homepage": "https://github.com/Maviray/blazor-ui-kit",
+  "repository": "https://github.com/Maviray/blazor-ui-kit",
+  "license": "MIT",
+  "keywords": ["blazor", "material-design", "tailwind", "maviray", "dotnet"]
+}
