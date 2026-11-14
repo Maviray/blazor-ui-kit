@@ -76,8 +76,9 @@ Common parameters (all three):
                 OnClick="@(id => ...)" />
 ```
 
-> To browse the full icon lists, see the enums in
-> `src/Maviray.Blazor.Components.Core/Enums/IconMiniType.cs`,
-> `IconSolidType.cs`, `IconOnlineType.cs`. For icon **fonts** (LineIcons
-> `lni …`, `material-symbols:…`) used by other components' `StartIcon`/`EndIcon`
-> string parameters, pass the icon's CSS class string directly.
+> To browse the full icon lists, use IntelliSense on the `IconMiniType`,
+> `IconSolidType` and `IconOnlineType` enums (`Maviray.Blazor.Components.Core.Enums`).
+> Every enum value renders its icon. For icon **fonts** (LineIcons `lni …`,
+> `material-symbols:…`) used by other components' `StartIcon`/`EndIcon` string
+> parameters, pass the icon's CSS class string directly, and load that icon
+> font's stylesheet in the host page.
